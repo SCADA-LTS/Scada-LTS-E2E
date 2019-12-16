@@ -10,13 +10,11 @@ class TestResultPrinter {
     private static Logger logger = LoggerFactory.getLogger(TestResultPrinter.class);
 
     public static void printResult(Result result, String testName) {
-        logger.info("______________________________________________________________");
-        logger.info("{} - run: {}, failed: {}, ignored: {}", testName, result.getRunCount(), result.getFailureCount(),
-                result.getIgnoreCount());
+        logger.info("______________________________________________________________\n{} - run: {}, failed: {}, ignored: {}",
+                testName, result.getRunCount(), result.getFailureCount(), result.getIgnoreCount());
         if (!result.wasSuccessful()) {
             for (Failure failure: result.getFailures()) {
-                logger.info("______________________________________________________________");
-                logger.info(failure.toString());
+                logger.info("______________________________________________________________\n{}", failure.toString());
             }
         }
     }

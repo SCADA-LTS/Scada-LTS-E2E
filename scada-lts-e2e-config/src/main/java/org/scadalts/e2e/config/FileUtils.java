@@ -27,7 +27,7 @@ public class FileUtils {
         }
     }
 
-    public static InputStream getResourceAsStream(String fileName) {
+    static InputStream getResourceAsStream(String fileName) {
         try {
             return FileUtils.class.getClassLoader().getResourceAsStream(fileName);
         } catch (Exception e) {

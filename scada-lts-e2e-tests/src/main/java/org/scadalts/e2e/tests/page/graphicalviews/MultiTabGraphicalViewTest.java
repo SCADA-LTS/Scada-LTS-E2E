@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.scadalts.e2e.tests.E2e;
 import org.scadalts.e2e.pages.page.graphicalviews.EditViewPage;
 import org.scadalts.e2e.pages.page.graphicalviews.GraphicalViewsPage;
-import org.scadalts.e2e.pages.page.main.MainPage;
+import org.scadalts.e2e.pages.page.home.HomePage;
 
 import java.io.File;
 import java.util.Set;
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 public class MultiTabGraphicalViewTest extends E2e {
 
-    private GraphicalViewsPage subjectPage = getMainPage().openGraphicalViews();
+    private GraphicalViewsPage subjectPage = getHomePage().openGraphicalViews();
     private static final String viewName = "viewNameTest" + System.currentTimeMillis();
 
     @Before
@@ -54,7 +54,7 @@ public class MultiTabGraphicalViewTest extends E2e {
         subjectPage.selectViewByName(viewName);
 
         //then:
-        Set<String> tabs = MainPage.tabsOpened();
+        Set<String> tabs = HomePage.tabsOpened();
         assertEquals(6, tabs.size());
     }
 }

@@ -1,4 +1,4 @@
-package org.scadalts.e2e.pages.component;
+package org.scadalts.e2e.pages.util;
 
 import static com.codeborne.selenide.Selenide.switchTo;
 

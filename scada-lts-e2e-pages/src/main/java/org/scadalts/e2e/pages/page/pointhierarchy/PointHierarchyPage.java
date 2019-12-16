@@ -1,9 +1,9 @@
 package org.scadalts.e2e.pages.page.pointhierarchy;
 
 import com.codeborne.selenide.SelenideElement;
-import org.scadalts.e2e.pages.page.PageObjectAbstract;
+import org.scadalts.e2e.pages.page.MainPageObjectAbstract;
 
-public class PointHierarchyPage extends PageObjectAbstract<PointHierarchyPage> {
+public class PointHierarchyPage extends MainPageObjectAbstract<PointHierarchyPage> {
 
     public PointHierarchyPage(SelenideElement source) {
         super(source);

@@ -1,8 +1,8 @@
-package org.scadalts.e2e.pages.page.main;
+package org.scadalts.e2e.pages.page.home;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.pages.page.PageObjectAbstract;
 import org.scadalts.e2e.pages.page.sql.SqlPage;
 import org.scadalts.e2e.pages.page.alarms.PendingAlarmsPage;
 
@@ -24,11 +24,11 @@ import org.scadalts.e2e.pages.page.systemsettings.SystemInformationPage;
 import org.scadalts.e2e.pages.page.userprofiles.UserProfilesPage;
 import org.scadalts.e2e.pages.page.users.UsersPage;
 import org.scadalts.e2e.pages.page.watchlist.WatchListPage;
-import org.scadalts.e2e.pages.component.E2eUtils;
+import org.scadalts.e2e.pages.util.E2eUtils;
 
 import static com.codeborne.selenide.Selenide.page;
 
-class MainPageImpl implements MainPage {
+class HomePageImpl extends PageObjectAbstract implements HomePage {
 
     @FindBy(css = "a[href='logout.htm']")
     private SelenideElement logout;
@@ -219,8 +219,4 @@ class MainPageImpl implements MainPage {
         return page(new HelpPage(help));
     }
 
-    @Override
-    public void closeWindows() {
-        Selenide.closeWindow();
-    }
 }

@@ -4,15 +4,12 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.config.E2eConfig;
 import org.scadalts.e2e.config.E2eConfigKeys;
-import org.scadalts.e2e.pages.page.main.MainPage;
+import org.scadalts.e2e.pages.page.home.HomePage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.page;
 
-public class LoginPage implements Maximizable {
-
-    @FindBy(tagName = "body")
-    private SelenideElement body;
+public class LoginPage extends PageObjectAbstract {
 
     @FindBy(id = "username")
     private SelenideElement userName;
@@ -51,8 +48,8 @@ public class LoginPage implements Maximizable {
         this.password.sendKeys(password);
     }
 
-    public MainPage login() {
+    public HomePage login() {
         this.loginButton.click();
-        return page(MainPage.openPage());
+        return page(HomePage.openPage());
     }
 }

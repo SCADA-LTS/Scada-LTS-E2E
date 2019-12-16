@@ -3,7 +3,7 @@ package org.scadalts.e2e.pages.page.graphicalviews;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.pages.page.PageObjectAbstract;
+import org.scadalts.e2e.pages.page.MainPageObjectAbstract;
 
 import java.text.MessageFormat;
 
@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.page;
 
-public class GraphicalViewsPage extends PageObjectAbstract<GraphicalViewsPage> {
+public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPage> {
 
     @FindBy(css = "td select")
     private SelenideElement select;

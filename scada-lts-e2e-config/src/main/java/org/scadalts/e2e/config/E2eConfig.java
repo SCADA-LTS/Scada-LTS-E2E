@@ -14,7 +14,7 @@ public enum E2eConfig {
     private static Logger logger = LoggerFactory.getLogger(E2eConfig.class);
 
     E2eConfig() {
-        this.config = init();
+        this.config = _init();
     }
 
     public int getInt(E2eConfigKey configKey, int defaultValue) {
@@ -48,7 +48,14 @@ public enum E2eConfig {
         return this;
     }
 
-    private static Properties init() {
+    @Override
+    public String toString() {
+        return "E2eConfig{" +
+                "config=" + config +
+                '}';
+    }
+
+    private static Properties _init() {
         try {
             Properties properties = new Properties();
             properties.load(FileUtils.getResourceAsStream("e2e/config/scadalts-e2e-config.properties"));
@@ -57,12 +64,5 @@ public enum E2eConfig {
             logger.error(e.getMessage(), e);
             return new Properties();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "E2eConfig{" +
-                "config=" + config +
-                '}';
     }
 }
