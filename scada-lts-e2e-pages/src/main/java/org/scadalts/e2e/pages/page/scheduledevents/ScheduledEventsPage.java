@@ -1,9 +1,9 @@
 package org.scadalts.e2e.pages.page.scheduledevents;
 
 import com.codeborne.selenide.SelenideElement;
-import org.scadalts.e2e.pages.page.PageObjectAbstract;
+import org.scadalts.e2e.pages.page.MainPageObjectAbstract;
 
-public class ScheduledEventsPage extends PageObjectAbstract<ScheduledEventsPage> {
+public class ScheduledEventsPage extends MainPageObjectAbstract<ScheduledEventsPage> {
 
     public ScheduledEventsPage(SelenideElement source) {
         super(source);

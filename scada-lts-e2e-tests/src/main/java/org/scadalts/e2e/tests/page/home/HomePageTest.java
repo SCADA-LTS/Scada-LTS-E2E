@@ -1,4 +1,4 @@
-package org.scadalts.e2e.tests.page.main;
+package org.scadalts.e2e.tests.page.home;
 
 
 import org.junit.Test;
@@ -6,7 +6,7 @@ import org.scadalts.e2e.tests.E2e;
 import org.scadalts.e2e.pages.page.alarms.PendingAlarmsPage;
 import org.scadalts.e2e.pages.page.datasource.DataSourcesPage;
 import org.scadalts.e2e.pages.page.help.HelpPage;
-import org.scadalts.e2e.pages.page.main.MainPage;
+import org.scadalts.e2e.pages.page.home.HomePage;
 import org.scadalts.e2e.pages.page.pointlinks.PointLinksPage;
 import org.scadalts.e2e.pages.page.publishers.PublishersPage;
 import org.scadalts.e2e.pages.page.reports.ReportsPage;
@@ -28,9 +28,9 @@ import org.scadalts.e2e.pages.page.userprofiles.UserProfilesPage;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 
-public class MainPageTest extends E2e {
+public class HomePageTest extends E2e {
 
-    private MainPage subjectPage = getMainPage();
+    private HomePage subjectPage = getHomePage();
 
     @Test
     public void test_openViewGraphics() {

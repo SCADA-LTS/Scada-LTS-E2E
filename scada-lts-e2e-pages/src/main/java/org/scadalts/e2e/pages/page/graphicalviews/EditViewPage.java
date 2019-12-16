@@ -5,14 +5,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.pages.component.E2eUtils;
+import org.scadalts.e2e.pages.util.E2eUtils;
+import org.scadalts.e2e.pages.page.PageObjectAbstract;
 
 import java.io.File;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-public class EditViewPage {
+public class EditViewPage extends PageObjectAbstract {
 
     @FindBy(css = "input[name='view.name']")
     private SelenideElement viewName;

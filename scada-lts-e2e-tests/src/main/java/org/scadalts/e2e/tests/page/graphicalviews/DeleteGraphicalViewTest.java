@@ -14,7 +14,7 @@ import static org.hamcrest.core.StringContains.containsString;
 
 public class DeleteGraphicalViewTest extends E2e {
 
-    private GraphicalViewsPage subjectPage = getMainPage().openGraphicalViews();
+    private GraphicalViewsPage subjectPage = getHomePage().openGraphicalViews();
     private static final String viewName = "viewNameTest" + System.currentTimeMillis();
 
     @Before

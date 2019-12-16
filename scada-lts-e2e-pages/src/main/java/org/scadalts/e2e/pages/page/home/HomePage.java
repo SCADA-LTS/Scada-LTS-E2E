@@ -1,7 +1,6 @@
-package org.scadalts.e2e.pages.page.main;
+package org.scadalts.e2e.pages.page.home;
 
-
-import org.scadalts.e2e.pages.page.Maximizable;
+import org.scadalts.e2e.pages.type.PageObject;
 import org.scadalts.e2e.pages.page.help.HelpPage;
 import org.scadalts.e2e.pages.page.sql.SqlPage;
 import org.scadalts.e2e.pages.page.users.UsersPage;
@@ -28,7 +27,7 @@ import java.util.Set;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-public interface MainPage extends Maximizable {
+public interface HomePage extends PageObject {
 
     GraphicalViewsPage openGraphicalViews();
 
@@ -72,12 +71,10 @@ public interface MainPage extends Maximizable {
 
     void logout();
 
-    void closeWindows();
-
     String URL_REF = "/watch_list.shtm";
 
-    static MainPage openPage() {
-        return open(URL_REF, MainPageImpl.class);
+    static HomePage openPage() {
+        return open(URL_REF, HomePageImpl.class);
     }
 
     static Set<String> tabsOpened() {
