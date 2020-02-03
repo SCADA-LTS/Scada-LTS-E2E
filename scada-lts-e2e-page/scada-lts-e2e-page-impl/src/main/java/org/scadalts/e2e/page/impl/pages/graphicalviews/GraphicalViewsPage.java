@@ -8,12 +8,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
+import org.scadalts.e2e.page.core.util.StabilityUtil;
 
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 
@@ -78,6 +80,11 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
     public EditViewPage openViewCreator() {
         creator.click();
         return page(EditViewPage.class);
+    }
+
+    public GraphicalViewsPage waitOnLoadedBackground() {
+        StabilityUtil.waitWhile($(By.id("viewBackground")), not(Condition.visible));
+        return this;
     }
 
     @Override
