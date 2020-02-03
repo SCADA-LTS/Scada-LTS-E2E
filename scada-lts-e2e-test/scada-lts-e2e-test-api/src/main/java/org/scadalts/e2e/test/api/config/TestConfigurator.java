@@ -12,6 +12,7 @@ public class TestConfigurator {
 
         TestImplConfiguration.alarmListChangedAfterMs = config.getAlarmListChangedAfterMs();
         TestImplConfiguration.alarmListNoChangedAfterMs = config.getAlarmListNoChangedAfterMs();
+        TestImplConfiguration.waitingAfterSetPointValueMs = config.getWaitingAfterSetPointValueMs();
         TestImplConfiguration.graphicalViewName = config.getGraphicalViewName();
         TestImplConfiguration.dataPointToChangeXid = config.getDataPointToChangeXid();
         TestImplConfiguration.dataPointToReadXid = config.getDataPointToReadXid();

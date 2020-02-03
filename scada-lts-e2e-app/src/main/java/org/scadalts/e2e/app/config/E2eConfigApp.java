@@ -134,4 +134,9 @@ public class E2eConfigApp implements E2eConfig {
     public String getDataPointToChangeXid() {
         return runTestCommand.getDataPointToChangeXid();
     }
+
+    @Override
+    public int getWaitingAfterSetPointValueMs() {
+        return runTestCommand.getWaitingAfterSetPointValueMs();
+    }
 }

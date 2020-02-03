@@ -82,6 +82,9 @@ public class RunTestCommand extends DefaultOptions implements Runnable {
     @Option(names = {"-C", "--alarm-list-no-changed-after-ms-sca"})
     private int alarmListNoChangedAfterMs;
 
+    @Option(names = {"-w", "--waiting-after-set-point-value-ms-sca"})
+    private int waitingAfterSetPointValueMs;
+
     @Option(names = {"-g", "--graphical-view-name-sca"})
     private String graphicalViewName;
 

@@ -48,6 +48,8 @@ public interface E2eConfig {
 
     int getAlarmListNoChangedAfterMs();
 
+    int getWaitingAfterSetPointValueMs();
+
     int getProxyPort();
 
     boolean isFastSetValueEnabled();

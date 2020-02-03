@@ -54,7 +54,8 @@ public class EventDetectorCheckTest {
             assertEquals(valueExpected, resultRaw);
         }
 
-        E2eAbstractRunnable.getNavigationPage().waitOnPage(5000);
+        E2eAbstractRunnable.getNavigationPage()
+                .waitOnPage(TestImplConfiguration.waitingAfterSetPointValueMs);
 
         //then:
         try (PointValueWebServiceObject pointValueWebServiceObject = WebServiceObjectFactory.newPointValueWebServiceObject(pointValueParams)) {
