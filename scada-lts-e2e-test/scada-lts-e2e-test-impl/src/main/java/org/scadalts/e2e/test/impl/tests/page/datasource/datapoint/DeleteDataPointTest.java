@@ -43,6 +43,7 @@ public class DeleteDataPointTest extends DataPointTestsAbstract {
                 .deleteDataPoint()
                 .openDataPointEditor(dataPointCriteria2)
                 .deleteDataPoint()
+                .waitOnPage(1000)
                 .containsObject(dataPointToDeleteCriteria);
 
         if(exists)
