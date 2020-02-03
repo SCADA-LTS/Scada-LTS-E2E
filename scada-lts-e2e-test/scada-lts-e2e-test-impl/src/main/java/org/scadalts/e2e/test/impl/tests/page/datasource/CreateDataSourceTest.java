@@ -9,6 +9,7 @@ import org.scadalts.e2e.test.impl.utils.DataSourceTestsUtil;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
+import static org.scadalts.e2e.test.impl.utils.DataSourceTestsUtil.openDataSourcesPage;
 
 public class CreateDataSourceTest {
 
@@ -25,7 +26,7 @@ public class CreateDataSourceTest {
     public void test_create_data_source() {
 
         //when:
-        DataSourceTestsUtil.openDataSourcesPage().openDataSourceCreator(dataSourceType)
+        openDataSourcesPage().openDataSourceCreator(dataSourceType)
                 .selectUpdatePeriodType(UpdatePeriodType.SECOUND)
                 .setUpdatePeriods(13)
                 .setDataSourceName(dataSourceName)
@@ -33,7 +34,7 @@ public class CreateDataSourceTest {
                 .dataSourceOnOff();
 
         //then:
-        String body = DataSourceTestsUtil.openDataSourcesPage().getBodyText();
+        String body = openDataSourcesPage().getBodyText();
 
         assertThat(body, containsString(dataSourceName));
     }
