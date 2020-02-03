@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>scada-lts-e2e</artifactId>
+        <groupId>org.scadalts</groupId>
+        <version>11.0.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>scada-lts-e2e-test</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>scada-lts-e2e-test-api</module>
+        <module>scada-lts-e2e-test-impl</module>
+        <module>scada-lts-e2e-test-core</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.scadalts</groupId>
+            <artifactId>scada-lts-e2e-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.scadalts</groupId>
+            <artifactId>scada-lts-e2e-webservice-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.scadalts</groupId>
+            <artifactId>scada-lts-e2e-webservice-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.scadalts</groupId>
+            <artifactId>scada-lts-e2e-page-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.scadalts</groupId>
+            <artifactId>scada-lts-e2e-page-impl</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+    </build>
+</project>
