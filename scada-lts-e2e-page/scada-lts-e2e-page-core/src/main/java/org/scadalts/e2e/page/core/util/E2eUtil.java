@@ -14,4 +14,12 @@ public abstract class E2eUtil {
 
         }
     }
+
+    public static void dismissAlert() {
+        try {
+            switchTo().alert().dismiss();
+        } catch (Exception ex) {
+
+        }
+    }
 }

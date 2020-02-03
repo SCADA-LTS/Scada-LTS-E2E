@@ -23,6 +23,7 @@ public class ClickAllGraphicalViewCheckTest {
             //when:
             boolean selected = graphicalViewsPage
                     .selectViewByName(view.getValue())
+                    .waitOnLoadedBackground()
                     .printLoadingMeasure(MessageFormat.format("view: id: {0}, name: {1}", view.getKey(), view.getValue()))
                     .isSelectedView(view.getValue());
 
