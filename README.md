@@ -1,6 +1,11 @@
 # Scada-LTS-E2E
 Tests E2E for ScadaLTS
 
+# v11.0.0
+Documentation in preparation.
+
+# v10.0.0
+
 * Main types of E2E tests:
 1. PageObject - related to clicking after application ScadaLTS;
 2. ApiObject - related to testing of REST services;
