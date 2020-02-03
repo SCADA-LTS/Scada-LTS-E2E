@@ -392,6 +392,7 @@
                 <test.e2e.run-test.proxy-port-sel>12345</test.e2e.run-test.proxy-port-sel>
                 <test.e2e.run-test.alarm-list-changed-after-ms-sca>6000</test.e2e.run-test.alarm-list-changed-after-ms-sca>
                 <test.e2e.run-test.alarm-list-no-changed-after-ms-sca>4000</test.e2e.run-test.alarm-list-no-changed-after-ms-sca>
+                <test.e2e.run-test.waiting-after-set-point-value-ms-sca>5000</test.e2e.run-test.waiting-after-set-point-value-ms-sca>
                 <test.e2e.run-test.graphical-view-name-sca>viewNameTest1578692076627</test.e2e.run-test.graphical-view-name-sca>
                 <test.e2e.run-test.classes-test-refs>;</test.e2e.run-test.classes-test-refs>
                 <test.e2e.run-test.data-point-to-change-xid-sca></test.e2e.run-test.data-point-to-change-xid-sca>
@@ -433,6 +434,7 @@
                 <test.e2e.run-test.proxy-port-sel>12345</test.e2e.run-test.proxy-port-sel>
                 <test.e2e.run-test.alarm-list-changed-after-ms-sca>900008</test.e2e.run-test.alarm-list-changed-after-ms-sca>
                 <test.e2e.run-test.alarm-list-no-changed-after-ms-sca>4000</test.e2e.run-test.alarm-list-no-changed-after-ms-sca>
+                <test.e2e.run-test.waiting-after-set-point-value-ms-sca>5000</test.e2e.run-test.waiting-after-set-point-value-ms-sca>
                 <test.e2e.run-test.graphical-view-name-sca>viewNameTest1578692076627</test.e2e.run-test.graphical-view-name-sca>
                 <test.e2e.run-test.classes-test-refs></test.e2e.run-test.classes-test-refs>
                 <test.e2e.run-test.data-point-to-change-xid-sca>DP_400342</test.e2e.run-test.data-point-to-change-xid-sca>
@@ -475,6 +477,7 @@
                 <test.e2e.run-test.proxy-port-sel>12345</test.e2e.run-test.proxy-port-sel>
                 <test.e2e.run-test.alarm-list-changed-after-ms-sca>6000</test.e2e.run-test.alarm-list-changed-after-ms-sca>
                 <test.e2e.run-test.alarm-list-no-changed-after-ms-sca>4000</test.e2e.run-test.alarm-list-no-changed-after-ms-sca>
+                <test.e2e.run-test.waiting-after-set-point-value-ms-sca>5000</test.e2e.run-test.waiting-after-set-point-value-ms-sca>
                 <test.e2e.run-test.graphical-view-name-sca>viewNameTest2668427919630</test.e2e.run-test.graphical-view-name-sca>
                 <test.e2e.run-test.classes-test-refs></test.e2e.run-test.classes-test-refs>
                 <test.e2e.run-test.data-point-to-change-xid-sca>DP_054378</test.e2e.run-test.data-point-to-change-xid-sca>
