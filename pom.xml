@@ -408,10 +408,10 @@
                 </property>
             </activation>
             <properties>
-                <test.e2e.url-app>http://scadadev.sivec.lu:8080/ScadaBR</test.e2e.url-app>
-                <test.e2e.log-level>TRACE</test.e2e.log-level>
-                <test.e2e.user-name>sdt</test.e2e.user-name>
-                <test.e2e.password>tempotest</test.e2e.password>
+                <test.e2e.url-app>{testAppUrl}</test.e2e.url-app>
+                <test.e2e.log-level>INFO</test.e2e.log-level>
+                <test.e2e.user-name>{user}</test.e2e.user-name>
+                <test.e2e.password>{password}</test.e2e.password>
                 <test.e2e.auth-type>FORM</test.e2e.auth-type>
                 <test.e2e.project-version>${project.version}</test.e2e.project-version>
                 <test.e2e.env>${e2eEnv}</test.e2e.env>
