@@ -3,6 +3,7 @@ package org.scadalts.e2e.test.impl.tests.check.eventdetectors;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
+import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.webservice.core.services.E2eResponse;
 import org.scadalts.e2e.webservice.impl.services.CmpWebServiceObject;
 import org.scadalts.e2e.webservice.impl.services.PointValueWebServiceObject;
@@ -52,6 +53,8 @@ public class EventDetectorCheckTest {
             int resultRaw = parseIntValueFormatted(result.getValue());
             assertEquals(valueExpected, resultRaw);
         }
+
+        E2eAbstractRunnable.getNavigationPage().waitOnPage(5000);
 
         //then:
         try (PointValueWebServiceObject pointValueWebServiceObject = WebServiceObjectFactory.newPointValueWebServiceObject(pointValueParams)) {
