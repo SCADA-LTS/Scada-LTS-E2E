@@ -23,20 +23,18 @@ class E2eRunListener extends RunListener {
 
     @Override
     public void testRunStarted(Description description) throws Exception {
-        logger.info("\n{}", deko);
-        logger.info("\n\ntestRunStarted: {}\n", test.getName());
+        logger.info("\n{}\n\ntestRunStarted: {}\n", deko, test.getName());
     }
 
     @Override
     public void testRunFinished(Result result) throws Exception {
-        logger.info("\n{}", deko2);
-        logger.info("\n\ntestRunFinished \n{}\n", deko);
+        logger.info("\n{}\n\ntestRunFinished \n{}\n", deko2, deko);
         TestResultPrinter.print(new TestResult(test.getName(), result));
     }
 
     @Override
     public void testStarted(Description description) throws Exception {
-        logger.info("\n\ntestStarted: {}", description.toString());
+        logger.info("\n\ntestStarted: {}\n", description.toString());
         snapshot = System.nanoTime();
     }
 

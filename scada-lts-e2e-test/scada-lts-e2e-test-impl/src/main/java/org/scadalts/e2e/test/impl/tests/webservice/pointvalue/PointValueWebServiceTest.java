@@ -43,7 +43,8 @@ public class PointValueWebServiceTest extends DataPointTestsAbstract {
 
     @After
     public void clean() {
-        EditDataSourceWithPointListPage pointListPage = DataSourceTestsUtil.openDataSourcesPage()
+        EditDataSourceWithPointListPage pointListPage = DataSourceTestsUtil
+                .openDataSourcesPage()
                 .openDataSourceEditor(getDataSourceCriteria());
 
         pointListPage.openDataPointEditor(dataPointCriteria)
@@ -59,10 +60,12 @@ public class PointValueWebServiceTest extends DataPointTestsAbstract {
         //given:
         PointValueParams pointValueParams = new PointValueParams(dataPointXid);
 
-        try(PointValueWebServiceObject pointValueWebServiceObject = WebServiceObjectFactory.newPointValueWebServiceObject(pointValueParams)) {
+        try(PointValueWebServiceObject pointValueWebServiceObject =
+                    WebServiceObjectFactory.newPointValueWebServiceObject()) {
 
             //when:
-            Optional<E2eResponse<PointValueResponse>> responseOpt = pointValueWebServiceObject.getValue();
+            Optional<E2eResponse<PointValueResponse>> responseOpt =
+                    pointValueWebServiceObject.getValue(pointValueParams);
 
             //then:
             assertTrue(responseOpt.isPresent());
