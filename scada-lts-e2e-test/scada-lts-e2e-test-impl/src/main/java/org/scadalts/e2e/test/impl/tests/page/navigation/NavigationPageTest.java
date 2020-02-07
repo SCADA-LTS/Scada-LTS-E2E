@@ -36,6 +36,7 @@ public class NavigationPageTest {
 
         //when:
         String body = subjectPage.openGraphicalViews()
+                .waitOnLoadedBackground()
                 .printLoadingMeasure()
                 .getBodyText();
 

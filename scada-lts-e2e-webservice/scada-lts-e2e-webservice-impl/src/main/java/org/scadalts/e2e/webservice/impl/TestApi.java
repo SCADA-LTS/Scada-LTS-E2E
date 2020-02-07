@@ -23,37 +23,36 @@ public class TestApi {
 
         E2eConfiguration.baseUrl = new URL("http://localhost:8080/ScadaBR/");
 
-        LoginParams loginParams = LoginParams.builder()
-                .userName(E2eConfiguration.userName)
-                .password(E2eConfiguration.password)
-                .build();
-
         try(LoginWebServiceObject loginWebServiceObject1 =
-                    WebServiceObjectFactory.newLoginWebServiceObject(loginParams)) {
+                    WebServiceObjectFactory.newLoginWebServiceObject()) {
 
-            E2eResponse<String> response = loginWebServiceObject1.login().orElse(new E2eResponse<>());
+            LoginParams loginParams = LoginParams.builder()
+                    .userName(E2eConfiguration.userName)
+                    .password(E2eConfiguration.password)
+                    .build();
+
+            E2eResponse<String> response = loginWebServiceObject1.login(loginParams).orElse(new E2eResponse<>());
             logger.info(response);
 
-            PointValueParams pointValueParams = new PointValueParams("DP_054378");
-
             try (PointValueWebServiceObject pointValueWebService =
-                         WebServiceObjectFactory.newPointValueWebServiceObject(pointValueParams)) {
-                E2eResponse<PointValueResponse> res = pointValueWebService.getValue().orElse(new E2eResponse<>());
+                         WebServiceObjectFactory.newPointValueWebServiceObject()) {
+
+                PointValueParams pointValueParams = new PointValueParams("DP_054378");
+                E2eResponse<PointValueResponse> res = pointValueWebService.getValue(pointValueParams).orElse(new E2eResponse<>());
                 PointValueResponse response1 = res.getValue();
                 logger.info(response1);
             }
 
-            CmpParams cmpParams = CmpParams.builder()
-                    .error("")
-                    .resultOperationSave("")
-                    .xid("DP_054378")
-                    .value("12345")
-                    .build();
-
             try (CmpWebServiceObject cmpWebServiceObject =
-                         WebServiceObjectFactory.newCmpWebServiceObject(cmpParams)) {
+                         WebServiceObjectFactory.newCmpWebServiceObject()) {
 
-                E2eResponse<CmpParams> res = cmpWebServiceObject.set().orElse(new E2eResponse<>());
+                CmpParams cmpParams = CmpParams.builder()
+                        .error("")
+                        .resultOperationSave("")
+                        .xid("DP_054378")
+                        .value("12345")
+                        .build();
+                E2eResponse<CmpParams> res = cmpWebServiceObject.set(cmpParams).orElse(new E2eResponse<>());
                 CmpParams cmpParams1 = res.getValue();
                 //logger.info(res.readEntity(String.class));
                 logger.info(res);

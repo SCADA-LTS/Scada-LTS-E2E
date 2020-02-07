@@ -22,13 +22,8 @@ import java.util.Optional;
 @Builder(access = AccessLevel.PACKAGE)
 public class LoginWebServiceObject implements WebServiceObject {
 
-    private final LoginParams loginParams;
     public final URL baseUrl;
     private final Client client;
-
-    public Optional<E2eResponse<String>> login() {
-        return WebServiceObjectExecutor.execute(this::_login, loginParams);
-    }
 
     public Optional<E2eResponse<String>> login(LoginParams loginParams) {
         return WebServiceObjectExecutor.execute(this::_login, loginParams);

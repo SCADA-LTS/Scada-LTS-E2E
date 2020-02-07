@@ -26,7 +26,7 @@ public interface E2eConfig {
 
     String getPassword();
 
-    String getProxyHost();
+    String getHostProxy();
 
     String getGraphicalViewName();
 
@@ -34,9 +34,13 @@ public interface E2eConfig {
 
     String getDataPointToReadXid();
 
+    String getCronPattern();
+
     String[] getClassesTestRefs();
 
     org.apache.logging.log4j.Level getLogLevel();
+
+    org.apache.logging.log4j.Level getLogLevelApp();
 
     int getCtrlCode();
 
@@ -50,15 +54,24 @@ public interface E2eConfig {
 
     int getWaitingAfterSetPointValueMs();
 
-    int getProxyPort();
+    int getPortProxy();
 
-    boolean isFastSetValueEnabled();
+    int getPortApp();
 
-    boolean isProxyEnabled();
+    boolean isFastSetValueMode();
 
-    boolean isHeadlessModeEnabled();
+    boolean isProxyMode();
 
-    boolean isScreenshotEnabled();
+    boolean isHeadlessMode();
 
-    boolean isDriverManagerEnabled();
+    boolean isScreenshotMode();
+
+    boolean isDriverManagerMode();
+
+    boolean isSchedulingMode();
+/*
+    static E2eConfig newConfig() {
+        return new E2eConfigDefault();
+    }*/
+
 }
