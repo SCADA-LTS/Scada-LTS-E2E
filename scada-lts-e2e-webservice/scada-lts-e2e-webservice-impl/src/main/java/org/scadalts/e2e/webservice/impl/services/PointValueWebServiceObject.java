@@ -22,13 +22,8 @@ import java.util.Optional;
 @Builder(access = AccessLevel.PACKAGE)
 public class PointValueWebServiceObject implements WebServiceObject {
 
-    private final PointValueParams pointValueParams;
     private final URL baseUrl;
     private final Client client;
-
-    public Optional<E2eResponse<PointValueResponse>> getValue() {
-        return WebServiceObjectExecutor.execute(this::_getValue, pointValueParams.getXid());
-    }
 
     public Optional<E2eResponse<PointValueResponse>> getValue(PointValueParams pointValueParams) {
         return WebServiceObjectExecutor.execute(this::_getValue, pointValueParams.getXid());

@@ -19,7 +19,7 @@ public class ScadaTestClassByPlanProvider implements TestClassByPlanProvider {
         tests.put(TestPlan.CHECK, ScadaCheckTestsRunnableSuite.class);
         tests.put(TestPlan.PAGE, ScadaPageTestsRunnableSuite.class);
         tests.put(TestPlan.ALL, ScadaAllTestsRunnableSuite.class);
-        tests.put(TestPlan.WEB_SERVICE, ScadaWebServiceTestsRunnableSuite.class);
+        tests.put(TestPlan.SERVICE, ScadaWebServiceTestsRunnableSuite.class);
     }
 
     @Override

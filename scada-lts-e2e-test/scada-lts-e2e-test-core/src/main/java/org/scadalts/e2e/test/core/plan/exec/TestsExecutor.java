@@ -28,17 +28,24 @@ class TestsExecutor implements TestsExecutable {
         if(tests.isEmpty()) {
             logger.warn("Enter at least one of the parameters to run the tests: {} \n" +
                     " The following parameters have been introduced: {}", Arrays.toString(TestPlan.values()), config);
-            return true;
+            return false;
         }
+        _printTestsToExecute(tests);
+        List<TestResult> results = testRunner.runs(tests);
+        return _isSuccess(results);
+    }
+
+    private boolean _isSuccess(List<TestResult> results) {
+        return results.stream().allMatch(a -> a.getResult() != null
+                && a.getResult().wasSuccessful());
+    }
+
+    private void _printTestsToExecute(List<Class<?>> tests) {
         String testList = tests.stream()
                 .map(Class::getSimpleName)
                 .collect(Collectors.joining("\n"));
 
         logger.info("tests to run: \n\n{}\n", testList);
-
-        List<TestResult> results = testRunner.runs(tests);
-        return results.stream().allMatch(a -> a.getResult() != null
-                && a.getResult().wasSuccessful());
     }
 
 }

@@ -14,7 +14,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-//@JsonDeserialize(using = CmpParamsDeserializer.class)
 public class CmpParams implements WebServiceObjectParams {
 
     private String xid;

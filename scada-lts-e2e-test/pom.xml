@@ -39,11 +39,19 @@
         </dependency>
         <dependency>
             <groupId>org.scadalts</groupId>
+            <artifactId>scada-lts-e2e-webservice-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.scadalts</groupId>
             <artifactId>scada-lts-e2e-page-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.scadalts</groupId>
             <artifactId>scada-lts-e2e-page-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.scadalts</groupId>
+            <artifactId>scada-lts-e2e-page-core</artifactId>
         </dependency>
     </dependencies>
 

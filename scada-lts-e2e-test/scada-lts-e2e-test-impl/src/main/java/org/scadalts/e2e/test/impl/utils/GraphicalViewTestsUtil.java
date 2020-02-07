@@ -8,7 +8,7 @@ import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 
 import java.io.File;
 
-import static org.scadalts.e2e.common.util.FileUtils.createNewFileInFileSystem;
+import static org.scadalts.e2e.common.util.FileUtil.getFile;
 
 public abstract class GraphicalViewTestsUtil {
 
@@ -20,7 +20,7 @@ public abstract class GraphicalViewTestsUtil {
 
     private static File getBackgroundFile() {
         try {
-            return createNewFileInFileSystem("background-test.png");
+            return getFile("background-test.png");
         } catch (Throwable throwable) {
             logger.error(throwable.getMessage(),throwable);
             return null;
