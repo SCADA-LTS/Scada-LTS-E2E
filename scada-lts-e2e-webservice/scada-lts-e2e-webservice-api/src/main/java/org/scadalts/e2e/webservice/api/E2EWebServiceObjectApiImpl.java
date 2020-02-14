@@ -1,7 +1,7 @@
 package org.scadalts.e2e.webservice.api;
 
 import org.scadalts.e2e.common.config.E2eConfig;
-import org.scadalts.e2e.webservice.core.config.E2eWebServiceObjectConfigurator;
+import org.scadalts.e2e.webservice.core.config.WebServiceObjectConfigurator;
 
 class E2EWebServiceObjectApiImpl implements E2eWebServiceObjectApi {
 
@@ -13,6 +13,6 @@ class E2EWebServiceObjectApiImpl implements E2eWebServiceObjectApi {
 
     @Override
     public void init(E2eConfig config) {
-        E2eWebServiceObjectConfigurator.init(config, sessionId);
+        WebServiceObjectConfigurator.init(config, sessionId);
     }
 }

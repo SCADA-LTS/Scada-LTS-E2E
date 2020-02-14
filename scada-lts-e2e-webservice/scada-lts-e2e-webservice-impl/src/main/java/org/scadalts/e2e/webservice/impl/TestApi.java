@@ -4,6 +4,7 @@ package org.scadalts.e2e.webservice.impl;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.webservice.core.services.E2eResponse;
+import org.scadalts.e2e.webservice.core.exceptions.WebServiceObjectException;
 import org.scadalts.e2e.webservice.impl.services.CmpWebServiceObject;
 import org.scadalts.e2e.webservice.impl.services.LoginWebServiceObject;
 import org.scadalts.e2e.webservice.impl.services.PointValueWebServiceObject;
@@ -19,7 +20,7 @@ import java.net.URL;
 @Log4j2
 public class TestApi {
 
-    public static void main(String[] args) throws MalformedURLException {
+    public static void main(String[] args) throws MalformedURLException, WebServiceObjectException {
 
         E2eConfiguration.baseUrl = new URL("http://localhost:8080/ScadaBR/");
 

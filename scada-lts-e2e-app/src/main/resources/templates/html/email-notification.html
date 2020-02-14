@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!--th:lang="${#locale.language}"-->
+<head>
+    <title th:remove="all">Notification of failed tests</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style type="text/css">
+        #results, #summary {
+          font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        #results td, #results th, #summary td, #summary th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+
+        #results tr:nth-child(even){background-color: #f2f2f2;}
+
+        #results tr:hover {background-color: #ddd;}
+
+        #summary tr:nth-child(even){background-color: #f2f2f2;}
+
+        #summary tr:hover {background-color: #ddd;}
+
+        #results th, #summary th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #4CAF50;
+          color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div><img src="../../templates/logo.png"  th:src="|cid:logo.png|" /></div>
+    <table id="results" class="table table-bordered" >
+        <thead>
+            <tr class="bg-success">
+                <th scope="col" th:text="#{e2e.test.name}" >testName</th>
+                <th scope="col" th:text="#{e2e.test.method-name}" >methodName</th>
+                <th scope="col" th:text="#{e2e.test.message}" >testMessage</th>
+                <th scope="col" th:text="#{e2e.test.session-id}" >sessionId</th>
+            </tr>
+        </thead>
+        <th:block th:each="failure: ${summary.failures}">
+            <tr>
+                <td th:text="${failure.description.testClass.simpleName}">testName</td>
+                <td th:text="${failure.description.methodName}">method</td>
+                <td th:text="${failure.message == null ? 'No message' : failure.message}">message</td>
+                <td th:text="${failure.sessionId == null ? 'Not logged in' : failure.sessionId}">sessionId</td>
+            </tr>
+        </th:block>
+    </table>
+    <table id="summary" class="table table-bordered">
+        <thead>
+        <tr class="table-secondary">
+            <td scope="row" colspan="4" th:text="#{e2e.test.summary}" >summary</td>
+        </tr>
+        </thead>
+        <tr class="bg-success">
+            <th scope="col" th:text="#{e2e.test.run}" >run</th>
+            <th scope="col" th:text="#{e2e.test.ignored}" >ignored</th>
+            <th scope="col" th:text="#{e2e.test.failed}" >failed</th>
+            <th scope="col" th:text="#{e2e.test.runtime}" >runtime</th>
+        </tr>
+        <tr>
+            <td th:text="${summary.runCount}">runCount</td>
+            <td th:text="${summary.ignoreCount}">ignoreCount</td>
+            <td th:text="${summary.failureCount}">failureCount</td>
+            <td th:text="${runtimeFormatted}">runTime</td>
+        </tr>
+        <tr>
+            <td scope="row" colspan="4" th:text="${content}" >content</td>
+        </tr>
+        <tr class="table-secondary">
+            <td scope="row" colspan="4" ><p><span th:text="#{e2e.test.go-to-page}">go-to-page</span> <a th:href="${summary.url}">Scada-LTS</a></p></td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -4,7 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.RunListener;
-import org.scadalts.e2e.test.core.plan.exec.TestResult;
+import org.scadalts.e2e.common.config.E2eConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +19,12 @@ class E2eTestsRunner implements TestsRunnable {
     }
 
     @Override
-    public List<TestResult> runs(List<Class<?>> tests) {
-        List<TestResult> results = new ArrayList<>();
+    public List<E2eResult> run(List<Class<?>> tests) {
+        List<E2eResult> results = new ArrayList<>();
         try {
             for (Class<?> test: tests) {
                 RunListener scada = new E2eRunListener(test);
-                TestResult result = _run(test, scada);
+                E2eResult result = _run(test, scada);
                 results.add(result);
             }
         } catch (Throwable ex) {
@@ -33,10 +33,16 @@ class E2eTestsRunner implements TestsRunnable {
         return results;
     }
 
-    private TestResult _run(Class<?> test, RunListener runListener) {
+    private E2eResult _run(Class<?> test, RunListener runListener) {
         jUnitCore.addListener(runListener);
         Result result = jUnitCore.run(test);
         jUnitCore.removeListener(runListener);
-        return new TestResult(test.getName(), result);
+        return E2eResult.builder()
+                .url(E2eConfiguration.baseUrl)
+                .result(result)
+                .sessionId(E2eConfiguration.sessionId)
+                .simpleTestName(test.getSimpleName())
+                .testName(test.getName())
+                .build();
     }
 }

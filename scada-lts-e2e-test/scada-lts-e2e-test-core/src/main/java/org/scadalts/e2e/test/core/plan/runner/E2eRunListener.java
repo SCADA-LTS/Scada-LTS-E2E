@@ -5,7 +5,7 @@ import org.junit.runner.Description;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
-import org.scadalts.e2e.test.core.plan.exec.TestResult;
+import org.scadalts.e2e.common.config.E2eConfiguration;
 
 import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPrintNano;
 
@@ -29,7 +29,11 @@ class E2eRunListener extends RunListener {
     @Override
     public void testRunFinished(Result result) throws Exception {
         logger.info("\n{}\n\ntestRunFinished \n{}\n", deko2, deko);
-        TestResultPrinter.print(new TestResult(test.getName(), result));
+        TestResultPrinter.print(E2eResult.builder()
+                .result(result)
+                .sessionId(E2eConfiguration.sessionId)
+                .simpleTestName(test.getName())
+                .build());
     }
 
     @Override

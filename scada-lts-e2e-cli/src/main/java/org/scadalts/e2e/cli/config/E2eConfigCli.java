@@ -3,8 +3,8 @@ package org.scadalts.e2e.cli.config;
 import lombok.Builder;
 import lombok.ToString;
 import org.apache.logging.log4j.Level;
-import org.scadalts.e2e.cli.commands.E2eAppCommand;
 import org.scadalts.e2e.cli.commands.E2eCommand;
+import org.scadalts.e2e.cli.commands.RunAppCommand;
 import org.scadalts.e2e.cli.commands.RunTestCommand;
 import org.scadalts.e2e.common.config.E2eConfig;
 import org.scadalts.e2e.common.types.AuthType;
@@ -20,143 +20,188 @@ import java.nio.file.Path;
 @Builder
 public class E2eConfigCli implements E2eConfig {
 
-    private final RunTestCommand runTestCommand;
-    private final E2eAppCommand e2eAppCommand;
-    private final E2eCommand e2e;
+    private final RunTestCommand fromRunTest;
+    private final RunAppCommand fromRunApp;
+    private final E2eCommand fromE2e;
 
     @Override
     public BrowserRef getBrowserRef() {
-        return e2e.getBrowserRef();
+        return fromE2e.getBrowserRef();
     }
     @Override
     public int getCtrlCode() {
-        return e2e.getCtrlCode();
+        return fromE2e.getCtrlCode();
     }
     @Override
     public TestPlan getTestPlan() {
-        return e2e.getTestPlan();
+        return fromE2e.getTestPlan();
     }
     @Override
     public String getHostProxy() {
-        return e2e.getProxyHost();
+        return fromE2e.getHostProxy();
     }
     @Override
     public int getAlarmListChangedAfterMs() {
-        return e2e.getAlarmListChangedAfterMs();
+        return fromE2e.getAlarmListChangedAfterMs();
     }
     @Override
     public int getTimeoutMs() {
-        return e2e.getTimeoutMs();
+        return fromE2e.getTimeoutMs();
     }
     @Override
     public File getDriverFile() {
-        return e2e.getDriverFile();
+        return fromE2e.getDriverFile();
     }
     @Override
     public String[] getClassesTestRefs() {
-        return e2e.getClassesTestRefs();
+        return fromE2e.getClassesTestRefs();
     }
     @Override
     public boolean isHeadlessMode() {
-        return e2e.isHeadlessMode();
+        return fromE2e.isHeadlessMode();
     }
     @Override
     public int getPollingIntervalMs() {
-        return e2e.getPollingIntervalMs();
+        return fromE2e.getPollingIntervalMs();
     }
     @Override
     public boolean isDriverManagerMode() {
-        return e2e.isDriverManagerMode();
+        return fromE2e.isDriverManagerMode();
     }
     @Override
     public boolean isScreenshotMode() {
-        return e2e.isScreenshotMode();
+        return fromE2e.isScreenshotMode();
     }
     @Override
     public Path getReportsFolder() {
-        return e2e.getReportsFolder();
+        return fromE2e.getReportsFolder();
     }
     @Override
     public boolean isFastSetValueMode() {
-        return e2e.isFastSetValueMode();
+        return fromE2e.isFastSetValueMode();
     }
     @Override
     public boolean isProxyMode() {
-        return e2e.isProxyMode();
+        return fromE2e.isProxyMode();
     }
     @Override
     public PageLoadStrategy getPageLoadStrategy() {
-        return e2e.getPageLoadStrategy();
+        return fromE2e.getPageLoadStrategy();
     }
     @Override
     public int getAlarmListNoChangedAfterMs() {
-        return e2e.getAlarmListNoChangedAfterMs();
+        return fromE2e.getAlarmListNoChangedAfterMs();
     }
     @Override
     public String getGraphicalViewName() {
-        return e2e.getGraphicalViewName();
+        return fromE2e.getGraphicalViewName();
     }
     @Override
     public int getPortProxy() {
-        return e2e.getProxyPort();
+        return fromE2e.getPortProxy();
     }
     @Override
     public URL getReportsUrl() {
-        return e2e.getReportsUrl();
+        return fromE2e.getReportsUrl();
     }
     @Override
     public Level getLogLevel() {
-        return e2e.getLogLevel();
+        return fromE2e.getLogLevel();
     }
     @Override
-    public URL getBaseUrl() {
-        return e2e.getBaseUrl();
+    public URL getUrlAppBeingTested() {
+        return fromE2e.getBaseUrl();
     }
     @Override
     public String getUserName() {
-        return e2e.getUserName();
+        return fromE2e.getUserName();
     }
     @Override
     public String getPassword() {
-        return e2e.getPassword();
+        return fromE2e.getPassword();
     }
     @Override
     public AuthType getAuthType() {
-        return e2e.getAuthType();
+        return fromE2e.getAuthType();
     }
 
     @Override
     public String getDataPointToReadXid() {
-        return e2e.getDataPointToReadXid();
+        return fromE2e.getDataPointToReadXid();
     }
 
     @Override
     public String getDataPointToChangeXid() {
-        return e2e.getDataPointToChangeXid();
+        return fromE2e.getDataPointToChangeXid();
     }
 
     @Override
     public int getWaitingAfterSetPointValueMs() {
-        return e2e.getWaitingAfterSetPointValueMs();
-    }
-
-    @Override
-    public Level getLogLevelApp() {
-        return e2eAppCommand.getLogLevelApp();
+        return fromE2e.getWaitingAfterSetPointValueMs();
     }
 
     @Override
     public int getPortApp() {
-        return e2eAppCommand.getPortApp();
+        return fromRunApp.getPortApp();
     }
 
     @Override
-    public boolean isSchedulingMode() {
-        return e2eAppCommand.isSchedulingMode();
+    public boolean isContinuousMode() {
+        return fromRunApp.isContinuousMode();
     }
 
     @Override
     public String getCronPattern() {
-        return e2eAppCommand.getCronPattern();
+        return fromRunApp.getCronPattern();
+    }
+
+    @Override
+    public String getUserSmtp() {
+        return fromRunApp.getUserSmtp();
+    }
+
+    @Override
+    public String getPasswordSmtp() {
+        return fromRunApp.getPasswordSmtp();
+    }
+
+    @Override
+    public String getHostSmtp() {
+        return fromRunApp.getHostSmtp();
+    }
+
+    @Override
+    public int getPortSmtp() {
+        return fromRunApp.getPortSmtp();
+    }
+
+    @Override
+    public String[] getSendTo() {
+        return fromRunApp.getSendTo();
+    }
+
+    @Override
+    public String getSendFrom() {
+        return fromRunApp.getSendFrom();
+    }
+
+    @Override
+    public boolean isDebugEmailMode() {
+        return fromRunApp.isDebugEmailMode();
+    }
+
+    @Override
+    public boolean isNotificationEmailMode() {
+        return fromRunApp.isNotificationEmailMode();
+    }
+
+    @Override
+    public long getDeleteEmailFromSentEmailsAfterMs() {
+        return fromRunApp.getDeleteEmailFromSentEmailsAfterMs();
+    }
+
+    @Override
+    public String getTitleEmail() {
+        return fromRunApp.getTitleEmail();
     }
 }
