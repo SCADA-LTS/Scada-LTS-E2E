@@ -1,21 +1,21 @@
 package org.scadalts.e2e.test.core.plan.exec;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfig;
 import org.scadalts.e2e.common.types.TestPlan;
 import org.scadalts.e2e.test.core.plan.provider.TestClassesProvider;
+import org.scadalts.e2e.test.core.plan.runner.E2eResultSummary;
 import org.scadalts.e2e.test.core.plan.runner.TestsRunnable;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log4j2
 class TestsExecutor implements TestsExecutable {
 
     private final TestClassesProvider testsProvider;
     private final TestsRunnable testRunner;
-    private static final Logger logger = LogManager.getLogger(TestsExecutor.class);
 
     public TestsExecutor(TestClassesProvider testsProvider, TestsRunnable testRunner) {
         this.testsProvider = testsProvider;
@@ -23,24 +23,18 @@ class TestsExecutor implements TestsExecutable {
     }
 
     @Override
-    public boolean execute(E2eConfig config) {
+    public E2eResultSummary execute(E2eConfig config) {
         List<Class<?>> tests = testsProvider.getClasses(config);
         if(tests.isEmpty()) {
             logger.warn("Enter at least one of the parameters to run the tests: {} \n" +
                     " The following parameters have been introduced: {}", Arrays.toString(TestPlan.values()), config);
-            return false;
+            return E2eResultSummary.empty();
         }
-        _printTestsToExecute(tests);
-        List<TestResult> results = testRunner.runs(tests);
-        return _isSuccess(results);
+        _printClassesTestToExecute(tests);
+        return new E2eResultSummary(testRunner.run(tests));
     }
 
-    private boolean _isSuccess(List<TestResult> results) {
-        return results.stream().allMatch(a -> a.getResult() != null
-                && a.getResult().wasSuccessful());
-    }
-
-    private void _printTestsToExecute(List<Class<?>> tests) {
+    private void _printClassesTestToExecute(List<Class<?>> tests) {
         String testList = tests.stream()
                 .map(Class::getSimpleName)
                 .collect(Collectors.joining("\n"));

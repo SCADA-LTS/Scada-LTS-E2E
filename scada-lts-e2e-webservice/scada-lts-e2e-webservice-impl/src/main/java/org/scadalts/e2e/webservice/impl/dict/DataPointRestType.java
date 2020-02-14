@@ -2,7 +2,7 @@ package org.scadalts.e2e.webservice.impl.dict;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
-import org.scadalts.e2e.common.dict.E2eDictionary;
+import org.scadalts.e2e.common.dicts.E2eDictionary;
 
 import java.util.stream.Stream;
 

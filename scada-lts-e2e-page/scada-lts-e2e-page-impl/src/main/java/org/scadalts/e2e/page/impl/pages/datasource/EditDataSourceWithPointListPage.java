@@ -46,11 +46,13 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
 
     public EditDataSourceWithPointListPage dataSourceOnOff() {
         dataSourceOnOff.click();
+        acceptAlert();
         return this;
     }
 
     public EditDataSourceWithPointListPage enableAllDataPoint() {
         enableAllDataPoint.click();
+        acceptAlert();
         return this;
     }
 

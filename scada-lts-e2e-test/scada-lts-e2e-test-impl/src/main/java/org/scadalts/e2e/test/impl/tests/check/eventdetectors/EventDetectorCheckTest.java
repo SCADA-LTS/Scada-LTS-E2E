@@ -1,8 +1,10 @@
 package org.scadalts.e2e.test.impl.tests.check.eventdetectors;
 
-import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
+import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
+import org.scadalts.e2e.webservice.core.exceptions.WebServiceObjectException;
 import org.scadalts.e2e.webservice.core.services.E2eResponse;
 import org.scadalts.e2e.webservice.impl.services.CmpWebServiceObject;
 import org.scadalts.e2e.webservice.impl.services.PointValueWebServiceObject;
@@ -17,17 +19,16 @@ import java.util.Random;
 
 import static org.junit.Assert.*;
 
-@Log4j2
+@RunWith(E2eTestRunner.class)
 public class EventDetectorCheckTest {
 
     @Test
-    public void test_check_detector() throws InterruptedException {
+    public void test_check_detector() throws InterruptedException, WebServiceObjectException {
 
         //given:
         long valueExpected = new Random().nextInt(999);
         String value = String.valueOf(valueExpected);
-        PointValueParams pointValueParams =
-                new PointValueParams(TestImplConfiguration.dataPointToReadXid);
+        PointValueParams pointValueParams = new PointValueParams(TestImplConfiguration.dataPointToReadXid);
         CmpParams cmpParams = CmpParams.builder()
                 .error("")
                 .resultOperationSave("")
@@ -36,17 +37,16 @@ public class EventDetectorCheckTest {
                 .build();
 
         //when:
-        try (CmpWebServiceObject cmpWebServiceObject =
-                     WebServiceObjectFactory.newCmpWebServiceObject()) {
+        try (CmpWebServiceObject cmpWebServiceObject = WebServiceObjectFactory.newCmpWebServiceObject()) {
 
             Optional<E2eResponse<CmpParams>> responseOpt = cmpWebServiceObject.set(cmpParams);
             assertTrue(responseOpt.isPresent());
 
             E2eResponse<CmpParams> response = responseOpt.get();
             int status = response.getStatus();
-            CmpParams result = response.getValue();
-
             assertEquals(200, status);
+
+            CmpParams result = response.getValue();
             assertNotNull(result);
             assertEquals("", result.getError());
             assertEquals(TestImplConfiguration.dataPointToChangeXid, result.getXid());

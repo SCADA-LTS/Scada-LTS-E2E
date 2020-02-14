@@ -26,11 +26,11 @@ public class RunTestCommand extends DefaultOptions implements Runnable {
     @Override
     public void run() {
         E2eConfig config = E2eConfigCli.builder()
-                .runTestCommand(this)
-                .e2e(e2eCommand)
+                .fromRunTest(this)
+                .fromE2e(e2eCommand)
                 .build();
         logger.info(config);
-        E2eTestApi tests = E2eTestApi.newInstance(config);
-        boolean result = tests.run();
+        E2eTestApi tests = E2eTestApi.newInstance();
+        tests.run(config);
     }
 }

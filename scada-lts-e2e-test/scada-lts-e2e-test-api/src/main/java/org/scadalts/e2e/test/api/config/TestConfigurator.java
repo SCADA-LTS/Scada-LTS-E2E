@@ -1,20 +1,18 @@
 package org.scadalts.e2e.test.api.config;
 
 import org.scadalts.e2e.common.config.E2eConfig;
-import org.scadalts.e2e.test.core.config.TestCoreConfiguration;
-import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
+import org.scadalts.e2e.page.core.config.PageObjectConfigurator;
+import org.scadalts.e2e.test.core.config.TestCoreConfigurator;
+import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
 
 public class TestConfigurator {
 
     public static void init(E2eConfig config) {
-        TestCoreConfiguration.testPlan = config.getTestPlan();
-        TestCoreConfiguration.classesTestRefs = config.getClassesTestRefs();
-
-        TestImplConfiguration.alarmListChangedAfterMs = config.getAlarmListChangedAfterMs();
-        TestImplConfiguration.alarmListNoChangedAfterMs = config.getAlarmListNoChangedAfterMs();
-        TestImplConfiguration.waitingAfterSetPointValueMs = config.getWaitingAfterSetPointValueMs();
-        TestImplConfiguration.graphicalViewName = config.getGraphicalViewName();
-        TestImplConfiguration.dataPointToChangeXid = config.getDataPointToChangeXid();
-        TestImplConfiguration.dataPointToReadXid = config.getDataPointToReadXid();
+        if(config == null) {
+            return;
+        }
+        TestCoreConfigurator.init(config);
+        TestImplConfigurator.init(config);
+        PageObjectConfigurator.init(config);
     }
 }

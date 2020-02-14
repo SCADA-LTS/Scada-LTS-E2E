@@ -1,25 +1,29 @@
 package org.scadalts.e2e.test.impl.tests.check.graphicalviews;
 
-import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.EditViewPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
+import org.scadalts.e2e.test.core.exceptions.ConfigureTestException;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
+import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.utils.GraphicalViewTestsUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-@Log4j2
+@RunWith(E2eTestRunner.class)
 public class ChangeAlarmListCheckTest {
 
-    private static final NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
+    private final NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
+    private final GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(navigationPage);
 
     @Test
-    public void test_check_no_changed_alarmList() {
+    public void test_check_no_changed_alarmList() throws ConfigureTestException {
 
         //when:
-        EditViewPage edit = navigationPage.openGraphicalViews()
+        EditViewPage edit = testsUtil.openGraphicalViews()
                 .acceptAlertIfExists()
                 .openViewEditor(TestImplConfiguration.graphicalViewName);
 
@@ -39,10 +43,10 @@ public class ChangeAlarmListCheckTest {
     }
 
     @Test
-    public void test_check_changed_alarmList_c1Id() {
+    public void test_check_changed_alarmList_c1Id() throws ConfigureTestException {
 
         //when:
-        EditViewPage edit = navigationPage.openGraphicalViews()
+        EditViewPage edit = testsUtil.openGraphicalViews()
                 .acceptAlertIfExists()
                 .openViewEditor(TestImplConfiguration.graphicalViewName);
 

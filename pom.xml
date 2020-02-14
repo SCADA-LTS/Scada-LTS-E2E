@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>11.0.0-SNAPSHOT</version>
+    <version>12.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -44,12 +44,16 @@
         <lombok.version>1.18.10</lombok.version>
         <log4j.version>2.13.0</log4j.version>
         <jdk.version>1.8</jdk.version>
+        <maven.version>3.6.1</maven.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <picocli.version>4.1.4</picocli.version>
         <cxf.version>3.3.5</cxf.version>
         <jackson-jaxrs.version>1.9.13</jackson-jaxrs.version>
         <spring-boot.version>2.2.4.RELEASE</spring-boot.version>
         <jackson-jaxrs-json-provider.version>2.10.2</jackson-jaxrs-json-provider.version>
+        <cache-api.version>1.1.1</cache-api.version>
+        <caffeine.version>2.8.1</caffeine.version>
+        <log4j-slf4j-impl.version>2.13.0</log4j-slf4j-impl.version>
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
@@ -61,15 +65,44 @@
 
     <dependencyManagement>
         <dependencies>
+
             <dependency>
                 <groupId>com.codeborne</groupId>
                 <artifactId>selenide</artifactId>
                 <version>${selenide.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
@@ -82,50 +115,219 @@
                 <version>${log4j.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j-slf4j-impl.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>info.picocli</groupId>
                 <artifactId>picocli</artifactId>
                 <version>${picocli.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-rs-client</artifactId>
                 <version>${cxf.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-transports-http-hc</artifactId>
                 <version>${cxf.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-rs-extension-providers</artifactId>
                 <version>${cxf.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-jaxrs</artifactId>
                 <version>${jackson-jaxrs.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.jaxrs</groupId>
                 <artifactId>jackson-jaxrs-json-provider</artifactId>
                 <version>${jackson-jaxrs-json-provider.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${spring-boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                <version>${spring-boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -137,6 +339,18 @@
                         <groupId>org.junit.vintage</groupId>
                         <artifactId>junit-vintage-engine</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -145,150 +359,121 @@
                 <version>${spring-boot.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-aop</artifactId>
                 <version>${spring-boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-cache</artifactId>
+                <version>${spring-boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>javax.cache</groupId>
+                <artifactId>cache-api</artifactId>
+                <version>${cache-api.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
                 <artifactId>scada-lts-e2e-webservice</artifactId>
                 <version>${scada-lts-e2e-webservice.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-rt-transports-http-hc</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-rt-rs-extension-providers</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.codehaus.jackson</groupId>
-                        <artifactId>jackson-jaxrs</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-webservice-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-webservice-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-webservice-impl</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
                 <artifactId>scada-lts-e2e-webservice-api</artifactId>
                 <version>${scada-lts-e2e-webservice-api.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-rt-transports-http-hc</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-rt-rs-extension-providers</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.codehaus.jackson</groupId>
-                        <artifactId>jackson-jaxrs</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-webservice-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-webservice-impl</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
                 <artifactId>scada-lts-e2e-webservice-impl</artifactId>
                 <version>${scada-lts-e2e-webservice-impl.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-rt-transports-http-hc</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-rt-rs-extension-providers</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.codehaus.jackson</groupId>
-                        <artifactId>jackson-jaxrs</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-webservice-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
                 <artifactId>scada-lts-e2e-webservice-core</artifactId>
                 <version>${scada-lts-e2e-webservice-core.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-rt-transports-http-hc</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-rt-rs-extension-providers</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.codehaus.jackson</groupId>
-                        <artifactId>jackson-jaxrs</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
                 <artifactId>scada-lts-e2e-app</artifactId>
                 <version>${scada-lts-e2e-app.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-test-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-web</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-test</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
@@ -299,169 +484,41 @@
                 <groupId>org.scadalts</groupId>
                 <artifactId>scada-lts-e2e-test</artifactId>
                 <version>${scada-lts-e2e-test.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>junit</groupId>
-                        <artifactId>junit</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-test-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-test-impl</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-test-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
                 <artifactId>scada-lts-e2e-test-api</artifactId>
                 <version>${scada-lts-e2e-test-api.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>junit</groupId>
-                        <artifactId>junit</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-test-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-test-impl</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
                 <artifactId>scada-lts-e2e-test-impl</artifactId>
                 <version>${scada-lts-e2e-test-impl.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>junit</groupId>
-                        <artifactId>junit</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-test-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
                 <artifactId>scada-lts-e2e-test-core</artifactId>
                 <version>${scada-lts-e2e-test-core.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>junit</groupId>
-                        <artifactId>junit</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
                 <artifactId>scada-lts-e2e-page</artifactId>
                 <version>${scada-lts-e2e-page.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.codeborne</groupId>
-                        <artifactId>selenide</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-page-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-page-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-page-impl</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
                 <artifactId>scada-lts-e2e-page-api</artifactId>
                 <version>${scada-lts-e2e-page-api.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.codeborne</groupId>
-                        <artifactId>selenide</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-page-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-page-impl</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
                 <artifactId>scada-lts-e2e-page-impl</artifactId>
                 <version>${scada-lts-e2e-page-impl.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.codeborne</groupId>
-                        <artifactId>selenide</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-page-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
                 <artifactId>scada-lts-e2e-page-core</artifactId>
                 <version>${scada-lts-e2e-page-core.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.codeborne</groupId>
-                        <artifactId>selenide</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
@@ -471,10 +528,6 @@
                     <exclusion>
                         <groupId>info.picocli</groupId>
                         <artifactId>picocli</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.scadalts</groupId>
-                        <artifactId>scada-lts-e2e-common</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -489,6 +542,10 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -511,7 +568,7 @@
                     <configuration>
                         <fork>true</fork>
                         <mainClass>${start-class}</mainClass>
-                        <finalName>${project.artifactId}-${project.version}-${test.e2e.env}-${test.e2e.browser-ref}${e2eCustomName}</finalName>
+                        <finalName>${project.artifactId}-${project.version}-${test.e2e.env}-${test.e2e.browser-ref}${test.e2e.custom-name}</finalName>
                     </configuration>
                     <executions>
                         <execution>
@@ -529,25 +586,6 @@
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
                     </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>${maven-assembly-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>single</goal>
-                            </goals>
-                            <configuration>
-                                <descriptorRefs>
-                                    <descriptorRef>jar-with-dependencies</descriptorRef>
-                                </descriptorRefs>
-                                <appendAssemblyId>false</appendAssemblyId>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -593,10 +631,10 @@
                                         <message>Please consider using the maven-invoker-plugin (http://maven.apache.org/plugins/maven-invoker-plugin/)!</message>
                                     </bannedPlugins>
                                     <requireMavenVersion>
-                                        <version>3.6.1</version>
+                                        <version>${maven.version}</version>
                                     </requireMavenVersion>
                                     <requireJavaVersion>
-                                        <version>1.8</version>
+                                        <version>${jdk.version}</version>
                                     </requireJavaVersion>
                                 </rules>
                             </configuration>
@@ -630,7 +668,7 @@
                 </property>
             </activation>
             <properties>
-                <test.e2e.base-url>{testAppUrl}</test.e2e.base-url>
+                <test.e2e.url-app-being-tested>http://</test.e2e.url-app-being-tested>
                 <test.e2e.log-level>INFO</test.e2e.log-level>
                 <test.e2e.user-name>{user}</test.e2e.user-name>
                 <test.e2e.password>{password}</test.e2e.password>
@@ -643,28 +681,37 @@
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
-                <test.e2e.driver-manager-mode-sel>false</test.e2e.driver-manager-mode-sel>
-                <test.e2e.screenshot-mode-sel>true</test.e2e.screenshot-mode-sel>
-                <test.e2e.fast-set-value-mode-sel>true</test.e2e.fast-set-value-mode-sel>
-                <test.e2e.proxy-mode-sel>false</test.e2e.proxy-mode-sel>
-                <test.e2e.reports-url-sel>http://</test.e2e.reports-url-sel>
-                <test.e2e.reports-folder-sel>/</test.e2e.reports-folder-sel>
-                <test.e2e.page-load-strategy-sel>NORMAL</test.e2e.page-load-strategy-sel>
-                <test.e2e.polling-interval-ms-sel>200</test.e2e.polling-interval-ms-sel>
-                <test.e2e.host-proxy-sel></test.e2e.host-proxy-sel>
-                <test.e2e.port-proxy-sel>12345</test.e2e.port-proxy-sel>
-                <test.e2e.alarm-list-changed-after-ms-sca>6000</test.e2e.alarm-list-changed-after-ms-sca>
-                <test.e2e.alarm-list-no-changed-after-ms-sca>4000</test.e2e.alarm-list-no-changed-after-ms-sca>
-                <test.e2e.waiting-after-set-point-value-ms-sca>5000</test.e2e.waiting-after-set-point-value-ms-sca>
-                <test.e2e.graphical-view-name-sca>viewNameTest1578692076627</test.e2e.graphical-view-name-sca>
-                <test.e2e.classes-test-refs>;</test.e2e.classes-test-refs>
-                <test.e2e.data-point-to-change-xid-sca></test.e2e.data-point-to-change-xid-sca>
-                <test.e2e.data-point-to-read-xid-sca></test.e2e.data-point-to-read-xid-sca>
-                <test.e2e.run-app.port-app-spr>9090</test.e2e.run-app.port-app-spr>
-                <test.e2e.run-app.log-level-spr>INFO</test.e2e.run-app.log-level-spr>
-                <test.e2e.run-app.cron-pattern-spr>0/15 * * * * ?</test.e2e.run-app.cron-pattern-spr>
-                <test.e2e.run-app.scheduling-mode-spr>false</test.e2e.run-app.scheduling-mode-spr>
-                <e2eCustomName>-check</e2eCustomName>
+                <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
+                <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
+                <test.e2e.fast-set-value-mode>true</test.e2e.fast-set-value-mode>
+                <test.e2e.proxy-mode>false</test.e2e.proxy-mode>
+                <test.e2e.reports-url>http://</test.e2e.reports-url>
+                <test.e2e.reports-folder>/</test.e2e.reports-folder>
+                <test.e2e.page-load-strategy>NORMAL</test.e2e.page-load-strategy>
+                <test.e2e.polling-interval-ms>200</test.e2e.polling-interval-ms>
+                <test.e2e.host-proxy>{hostProxy}</test.e2e.host-proxy>
+                <test.e2e.port-proxy>12345</test.e2e.port-proxy>
+                <test.e2e.alarm-list-changed-after-ms>6000</test.e2e.alarm-list-changed-after-ms>
+                <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
+                <test.e2e.waiting-after-set-point-value-ms>5000</test.e2e.waiting-after-set-point-value-ms>
+                <test.e2e.graphical-view-name>viewNameTest1578692076627</test.e2e.graphical-view-name>
+                <test.e2e.classes-test-refs>{classesTestRefs}</test.e2e.classes-test-refs>
+                <test.e2e.data-point-to-change-xid>{dataPointToChangeXid}</test.e2e.data-point-to-change-xid>
+                <test.e2e.data-point-to-read-xid>{dataPointToReadXid}</test.e2e.data-point-to-read-xid>
+                <test.e2e.run-app.port-app>9090</test.e2e.run-app.port-app>
+                <test.e2e.run-app.cron-pattern>0/15 * * * * ?</test.e2e.run-app.cron-pattern>
+                <test.e2e.run-app.continuous-mode>false</test.e2e.run-app.continuous-mode>
+                <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
+                <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
+                <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
+                <test.e2e.run-app.port-smtp>1234</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
+                <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
+                <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
+                <test.e2e.run-app.notification-email-mode>false</test.e2e.run-app.notification-email-mode>
+                <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
+                <test.e2e.run-app.title-email>Notification of failed tests</test.e2e.run-app.title-email>
+                <test.e2e.custom-name>-check</test.e2e.custom-name>
             </properties>
         </profile>
         <profile>
@@ -676,7 +723,7 @@
                 </property>
             </activation>
             <properties>
-                <test.e2e.base-url>{testAppUrl}</test.e2e.base-url>
+                <test.e2e.url-app-being-tested>http:/</test.e2e.url-app-being-tested>
                 <test.e2e.log-level>INFO</test.e2e.log-level>
                 <test.e2e.user-name>{user}</test.e2e.user-name>
                 <test.e2e.password>{password}</test.e2e.password>
@@ -689,28 +736,37 @@
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
-                <test.e2e.driver-manager-mode-sel>false</test.e2e.driver-manager-mode-sel>
-                <test.e2e.screenshot-mode-sel>true</test.e2e.screenshot-mode-sel>
-                <test.e2e.fast-set-value-mode-sel>true</test.e2e.fast-set-value-mode-sel>
-                <test.e2e.proxy-mode-sel>false</test.e2e.proxy-mode-sel>
-                <test.e2e.reports-url-sel>http://</test.e2e.reports-url-sel>
-                <test.e2e.reports-folder-sel>reports/</test.e2e.reports-folder-sel>
-                <test.e2e.page-load-strategy-sel>NORMAL</test.e2e.page-load-strategy-sel>
-                <test.e2e.polling-interval-ms-sel>200</test.e2e.polling-interval-ms-sel>
-                <test.e2e.host-proxy-sel></test.e2e.host-proxy-sel>
-                <test.e2e.port-proxy-sel>12345</test.e2e.port-proxy-sel>
-                <test.e2e.alarm-list-changed-after-ms-sca>900008</test.e2e.alarm-list-changed-after-ms-sca>
-                <test.e2e.alarm-list-no-changed-after-ms-sca>4000</test.e2e.alarm-list-no-changed-after-ms-sca>
-                <test.e2e.waiting-after-set-point-value-ms-sca>5000</test.e2e.waiting-after-set-point-value-ms-sca>
-                <test.e2e.graphical-view-name-sca>viewNameTest1578692076627</test.e2e.graphical-view-name-sca>
-                <test.e2e.classes-test-refs></test.e2e.classes-test-refs>
-                <test.e2e.data-point-to-change-xid-sca>DP_400342</test.e2e.data-point-to-change-xid-sca>
-                <test.e2e.data-point-to-read-xid-sca>DP_077081</test.e2e.data-point-to-read-xid-sca>
-                <test.e2e.run-app.port-app-spr>9090</test.e2e.run-app.port-app-spr>
-                <test.e2e.run-app.log-level-spr>INFO</test.e2e.run-app.log-level-spr>
-                <test.e2e.run-app.cron-pattern-spr>0/15 * * * * ?</test.e2e.run-app.cron-pattern-spr>
-                <test.e2e.run-app.scheduling-mode-spr>false</test.e2e.run-app.scheduling-mode-spr>
-                <e2eCustomName>-all_tests</e2eCustomName>
+                <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
+                <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
+                <test.e2e.fast-set-value-mode>true</test.e2e.fast-set-value-mode>
+                <test.e2e.proxy-mode>false</test.e2e.proxy-mode>
+                <test.e2e.reports-url>http://</test.e2e.reports-url>
+                <test.e2e.reports-folder>reports/</test.e2e.reports-folder>
+                <test.e2e.page-load-strategy>NORMAL</test.e2e.page-load-strategy>
+                <test.e2e.polling-interval-ms>200</test.e2e.polling-interval-ms>
+                <test.e2e.host-proxy>{hostProxy}</test.e2e.host-proxy>
+                <test.e2e.port-proxy>12345</test.e2e.port-proxy>
+                <test.e2e.alarm-list-changed-after-ms>900008</test.e2e.alarm-list-changed-after-ms>
+                <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
+                <test.e2e.waiting-after-set-point-value-ms>5000</test.e2e.waiting-after-set-point-value-ms>
+                <test.e2e.graphical-view-name>viewNameTest1578692076627</test.e2e.graphical-view-name>
+                <test.e2e.classes-test-refs>{classesTestRefs}</test.e2e.classes-test-refs>
+                <test.e2e.data-point-to-change-xid>DP_400342</test.e2e.data-point-to-change-xid>
+                <test.e2e.data-point-to-read-xid>DP_077081</test.e2e.data-point-to-read-xid>
+                <test.e2e.run-app.port-app>9090</test.e2e.run-app.port-app>
+                <test.e2e.run-app.cron-pattern>0 0/30 * * * ?</test.e2e.run-app.cron-pattern>
+                <test.e2e.run-app.continuous-mode>true</test.e2e.run-app.continuous-mode>
+                <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
+                <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
+                <test.e2e.run-app.host-smtp>smtp.poczta.onet.pl</test.e2e.run-app.host-smtp>
+                <test.e2e.run-app.port-smtp>587</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
+                <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
+                <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
+                <test.e2e.run-app.notification-email-mode>false</test.e2e.run-app.notification-email-mode>
+                <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
+                <test.e2e.run-app.title-email>Notification of failed tests</test.e2e.run-app.title-email>
+                <test.e2e.custom-name>-all_tests</test.e2e.custom-name>
             </properties>
         </profile>
         <profile>
@@ -723,8 +779,8 @@
                 </property>
             </activation>
             <properties>
-                <test.e2e.base-url>http://localhost:8080/ScadaBR</test.e2e.base-url>
-                <test.e2e.log-level>TRACE</test.e2e.log-level>
+                <test.e2e.url-app-being-tested>http://localhost:8080/ScadaBR</test.e2e.url-app-being-tested>
+                <test.e2e.log-level>INFO</test.e2e.log-level>
                 <test.e2e.user-name>admin</test.e2e.user-name>
                 <test.e2e.password>admin</test.e2e.password>
                 <test.e2e.auth-type>FORM</test.e2e.auth-type>
@@ -736,28 +792,37 @@
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
-                <test.e2e.driver-manager-mode-sel>false</test.e2e.driver-manager-mode-sel>
-                <test.e2e.screenshot-mode-sel>true</test.e2e.screenshot-mode-sel>
-                <test.e2e.fast-set-value-mode-sel>true</test.e2e.fast-set-value-mode-sel>
-                <test.e2e.proxy-mode-sel>false</test.e2e.proxy-mode-sel>
-                <test.e2e.reports-url-sel>http://</test.e2e.reports-url-sel>
-                <test.e2e.reports-folder-sel>reports/</test.e2e.reports-folder-sel>
-                <test.e2e.page-load-strategy-sel>NORMAL</test.e2e.page-load-strategy-sel>
-                <test.e2e.polling-interval-ms-sel>200</test.e2e.polling-interval-ms-sel>
-                <test.e2e.host-proxy-sel></test.e2e.host-proxy-sel>
-                <test.e2e.port-proxy-sel>12345</test.e2e.port-proxy-sel>
-                <test.e2e.alarm-list-changed-after-ms-sca>6000</test.e2e.alarm-list-changed-after-ms-sca>
-                <test.e2e.alarm-list-no-changed-after-ms-sca>4000</test.e2e.alarm-list-no-changed-after-ms-sca>
-                <test.e2e.waiting-after-set-point-value-ms-sca>5000</test.e2e.waiting-after-set-point-value-ms-sca>
-                <test.e2e.graphical-view-name-sca>viewNameTest2668427919630</test.e2e.graphical-view-name-sca>
-                <test.e2e.classes-test-refs></test.e2e.classes-test-refs>
-                <test.e2e.data-point-to-change-xid-sca>DP_054378</test.e2e.data-point-to-change-xid-sca>
-                <test.e2e.data-point-to-read-xid-sca>DP_961456</test.e2e.data-point-to-read-xid-sca>
-                <test.e2e.run-app.port-app-spr>9090</test.e2e.run-app.port-app-spr>
-                <test.e2e.run-app.log-level-spr>INFO</test.e2e.run-app.log-level-spr>
-                <test.e2e.run-app.cron-pattern-spr>0/55 * * * * ?</test.e2e.run-app.cron-pattern-spr>
-                <test.e2e.run-app.scheduling-mode-spr>true</test.e2e.run-app.scheduling-mode-spr>
-                <e2eCustomName>-all_tests</e2eCustomName>
+                <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
+                <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
+                <test.e2e.fast-set-value-mode>true</test.e2e.fast-set-value-mode>
+                <test.e2e.proxy-mode>false</test.e2e.proxy-mode>
+                <test.e2e.reports-url>http://</test.e2e.reports-url>
+                <test.e2e.reports-folder>reports/</test.e2e.reports-folder>
+                <test.e2e.page-load-strategy>NORMAL</test.e2e.page-load-strategy>
+                <test.e2e.polling-interval-ms>200</test.e2e.polling-interval-ms>
+                <test.e2e.host-proxy>{hostProxy}</test.e2e.host-proxy>
+                <test.e2e.port-proxy>12345</test.e2e.port-proxy>
+                <test.e2e.alarm-list-changed-after-ms>6000</test.e2e.alarm-list-changed-after-ms>
+                <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
+                <test.e2e.waiting-after-set-point-value-ms>5000</test.e2e.waiting-after-set-point-value-ms>
+                <test.e2e.graphical-view-name>viewNameTest2668427919630</test.e2e.graphical-view-name>
+                <test.e2e.classes-test-refs>{classesTestRefs}</test.e2e.classes-test-refs>
+                <test.e2e.data-point-to-change-xid>DP_054378</test.e2e.data-point-to-change-xid>
+                <test.e2e.data-point-to-read-xid>DP_961456</test.e2e.data-point-to-read-xid>
+                <test.e2e.run-app.port-app>9090</test.e2e.run-app.port-app>
+                <test.e2e.run-app.cron-pattern>0 0/30 * * * ?</test.e2e.run-app.cron-pattern>
+                <test.e2e.run-app.continuous-mode>true</test.e2e.run-app.continuous-mode>
+                <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
+                <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
+                <test.e2e.run-app.host-smtp>smtp.poczta.onet.pl</test.e2e.run-app.host-smtp>
+                <test.e2e.run-app.port-smtp>587</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
+                <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
+                <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
+                <test.e2e.run-app.notification-email-mode>false</test.e2e.run-app.notification-email-mode>
+                <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
+                <test.e2e.run-app.title-email>Notification of failed tests</test.e2e.run-app.title-email>
+                <test.e2e.custom-name>-all_tests</test.e2e.custom-name>
             </properties>
         </profile>
     </profiles>
