@@ -14,7 +14,7 @@ public interface E2eConfig {
 
     TestPlan getTestPlan();
 
-    java.net.URL getBaseUrl();
+    java.net.URL getUrlAppBeingTested();
 
     java.net.URL getReportsUrl();
 
@@ -36,11 +36,21 @@ public interface E2eConfig {
 
     String getCronPattern();
 
+    String getUserSmtp();
+
+    String getPasswordSmtp();
+
+    String getHostSmtp();
+
+    String getSendFrom();
+
+    String getTitleEmail();
+
     String[] getClassesTestRefs();
 
-    org.apache.logging.log4j.Level getLogLevel();
+    String[] getSendTo();
 
-    org.apache.logging.log4j.Level getLogLevelApp();
+    org.apache.logging.log4j.Level getLogLevel();
 
     int getCtrlCode();
 
@@ -58,6 +68,10 @@ public interface E2eConfig {
 
     int getPortApp();
 
+    int getPortSmtp();
+
+    long getDeleteEmailFromSentEmailsAfterMs();
+
     boolean isFastSetValueMode();
 
     boolean isProxyMode();
@@ -68,7 +82,12 @@ public interface E2eConfig {
 
     boolean isDriverManagerMode();
 
-    boolean isSchedulingMode();
+    boolean isContinuousMode();
+
+    boolean isDebugEmailMode();
+
+    boolean isNotificationEmailMode();
+
 /*
     static E2eConfig newConfig() {
         return new E2eConfigDefault();

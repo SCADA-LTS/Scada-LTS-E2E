@@ -49,7 +49,7 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
         String backend = preparingToPrintMs(getPage().backendPerformanceMs());
         String frontend = preparingToPrintMs(getPage().frontendPerformanceMs());
 
-        String msgWithMeasure = MessageFormat.format("\n\npage: {0} \nbackend: {1} \nfrontend: {2}\n",
+        String msgWithMeasure = MessageFormat.format("page: {0}, backend: {1}, frontend: {2}\n",
                 getPage().getClass().getSimpleName(), backend, frontend);
         logger.info(msgWithMeasure);
         return getPage();
@@ -60,7 +60,7 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
         String backend = preparingToPrintMs(getPage().backendPerformanceMs());
         String frontend = preparingToPrintMs(getPage().frontendPerformanceMs());
 
-        String msgWithMeasure = MessageFormat.format("\n\npage: {0}, object: {1} \nbackend: {2} \nfrontend: {3}\n",
+        String msgWithMeasure = MessageFormat.format("\n\npage: {0}, object: {1}, backend: {2}, frontend: {3}\n",
                 getPage().getClass().getSimpleName(), object, backend, frontend);
         logger.info(msgWithMeasure);
         return getPage();

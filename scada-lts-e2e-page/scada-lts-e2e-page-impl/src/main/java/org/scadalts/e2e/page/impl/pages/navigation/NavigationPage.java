@@ -82,4 +82,23 @@ public interface NavigationPage extends PageObject<NavigationPage> {
     static Set<String> tabsOpened() {
         return getWebDriver().getWindowHandles();
     }
+
+    static String closeAllButOnePage() {
+        try {
+            Set<String> pages = getWebDriver().getWindowHandles();
+            String one = pages.iterator().next();
+            pages.remove(one);
+            for (String page : pages) {
+                getWebDriver().switchTo()
+                        .window(page)
+                        .close();
+            }
+            getWebDriver().switchTo()
+                    .window(one);
+            return one;
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            return "";
+        }
+    }
 }

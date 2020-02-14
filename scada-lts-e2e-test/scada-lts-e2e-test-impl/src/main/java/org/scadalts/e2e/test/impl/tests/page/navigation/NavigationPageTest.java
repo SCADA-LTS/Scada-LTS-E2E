@@ -1,7 +1,10 @@
 package org.scadalts.e2e.test.impl.tests.page.navigation;
 
 
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.scadalts.e2e.common.utils.ExecutorUtil;
 import org.scadalts.e2e.page.impl.pages.alarms.PendingAlarmsPage;
 import org.scadalts.e2e.page.impl.pages.compoundeventdetectors.CompoundEventDetectorsPage;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
@@ -23,13 +26,21 @@ import org.scadalts.e2e.page.impl.pages.systemsettings.SystemInformationPage;
 import org.scadalts.e2e.page.impl.pages.userprofiles.UserProfilesPage;
 import org.scadalts.e2e.page.impl.pages.users.UsersPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
+import org.scadalts.e2e.test.core.exceptions.ConfigureTestException;
+import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 
+@RunWith(E2eTestRunner.class)
 public class NavigationPageTest {
 
-    private static NavigationPage subjectPage = NavigationPage.openPage();
+    private NavigationPage subjectPage;
+
+    @Before
+    public void setup() throws ConfigureTestException {
+        subjectPage = ExecutorUtil.execute(NavigationPage::openPage, ConfigureTestException::new);
+    }
 
     @Test
     public void test_openViewGraphics() {
