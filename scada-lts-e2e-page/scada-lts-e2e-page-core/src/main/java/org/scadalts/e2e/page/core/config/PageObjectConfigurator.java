@@ -54,12 +54,12 @@ public class PageObjectConfigurator {
 
     private static void _configureWebDriver(E2eConfig config) {
         try {
-            logger.debug("web driver loading...  {}", config.getBrowserRef());
+            logger.info("web driver loading...  {}", config.getBrowserRef());
             WebDriverManualConfig manualConfig = WebDriverManualConfig.getWebDriverConfig(config);
             _setWebDriverOptions(manualConfig);
             String webDriverPath = _getWebDriverPath(config, manualConfig);
             System.setProperty(manualConfig.getWebDriverKey(), webDriverPath);
-            PageConfiguration.driverFile = FileUtil.getFile(webDriverPath);
+            PageConfiguration.driverFile = FileUtil.getFileFromJar(webDriverPath);
 
         } catch (Throwable throwable) {
             logger.error(throwable.getMessage(), throwable);

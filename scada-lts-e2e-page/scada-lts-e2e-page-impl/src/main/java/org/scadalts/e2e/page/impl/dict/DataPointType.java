@@ -8,16 +8,18 @@ import java.util.stream.Stream;
 @Getter
 public enum DataPointType implements E2eDictionary {
 
-    BINARY("Binary"),
-    MULTISTATE("Multistate"),
-    NUMERIC("Numeric"),
-    ALPHANUMERIC("Alphanumeric"),
-    NONE("none");
+    BINARY("Binary", "Boolean"),
+    MULTISTATE("Multistate", "Multistate"),
+    NUMERIC("Numeric", "Analog"),
+    ALPHANUMERIC("Alphanumeric", ""),
+    NONE("none", "");
 
-    private String typeName;
+    private final String typeName;
+    private final String id;
 
-    DataPointType(String typeName) {
+    DataPointType(String typeName, String id) {
         this.typeName = typeName;
+        this.id = id;
     }
 
     public static DataPointType getType(String typeName) {

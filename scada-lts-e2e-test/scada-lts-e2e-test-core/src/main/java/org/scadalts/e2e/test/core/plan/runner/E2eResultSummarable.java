@@ -17,4 +17,5 @@ public interface E2eResultSummarable {
     List<E2eFailure> getFailures();
 
     Set<String> getFailTestNames();
+
 }

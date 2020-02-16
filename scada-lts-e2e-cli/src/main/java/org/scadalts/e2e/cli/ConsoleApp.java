@@ -11,7 +11,7 @@ public class ConsoleApp {
 
     public static void main(String[] args) {
 
-        File defaultsFile = FileUtil.getFile("config/scadalts-e2e-config.properties");
+        File defaultsFile = FileUtil.getFileFromJar("config/scadalts-e2e-config.properties");
         PropertiesDefaultProvider propertiesDefaultProvider = new PropertiesDefaultProvider(defaultsFile);
         TestCommand test = new TestCommand();
         CommandLine testCmd = new CommandLine(test);

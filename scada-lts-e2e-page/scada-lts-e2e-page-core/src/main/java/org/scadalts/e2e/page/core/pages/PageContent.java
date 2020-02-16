@@ -13,7 +13,7 @@ interface PageContent<T extends PageObject<T>> extends GetPage<T> {
 
     default boolean containsObject(ObjectCriteria criteria) {
         String bodyText = getBodyText();
-        return bodyText.contains(criteria.getName()) &&
+        return bodyText.contains(criteria.getIdentifier()) &&
                 bodyText.contains(criteria.getType().getTypeName());
     }
     default boolean containsText(String text) {

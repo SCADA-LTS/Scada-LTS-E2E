@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.core.exceptions.ConfigureTestException;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.utils.GraphicalViewTestsUtil;
@@ -21,31 +20,21 @@ import static org.junit.Assert.assertEquals;
 public class MultiTabGraphicalViewTest {
 
     private final String viewName = "viewNameTest" + System.nanoTime();
-
-    private final NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
-    private final GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(navigationPage);
+    private GraphicalViewTestsUtil testsUtil;
     private GraphicalViewsPage graphicalViewsPageSubject;
 
     @Before
-    public void createView() throws ConfigureTestException {
+    public void createView() {
         logger.info("viewName: {}", viewName);
-        testsUtil.openGraphicalViews()
-                .openViewCreator()
-                .chooseFile(testsUtil.getBackgroundFile())
-                .uploadFile()
-                .setViewName(viewName)
-                .selectComponentByName("Alarms List")
-                .addViewComponent()
-                .dragAndDropViewComponent()
-                .save();
+        testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), viewName);
+        testsUtil.addView();
         graphicalViewsPageSubject = testsUtil.openGraphicalViews();
     }
 
     @After
-    public void clean() throws ConfigureTestException {
+    public void clean() {
         NavigationPage.closeAllButOnePage();
-        testsUtil.openGraphicalViews().openViewEditor(viewName)
-                .delete();
+        testsUtil.clean();
     }
 
     @Test

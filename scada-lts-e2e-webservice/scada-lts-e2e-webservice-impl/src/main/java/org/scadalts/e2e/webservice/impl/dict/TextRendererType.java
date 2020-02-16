@@ -9,12 +9,14 @@ import java.util.stream.Stream;
 @Getter
 public enum TextRendererType implements E2eDictionary {
 
-    PLAIN("textRendererPlain");
+    PLAIN("textRendererPlain", "textRendererPlain");
 
-    private String typeName;
+    private final String typeName;
+    private final String id;
 
-    TextRendererType(String typeName) {
+    TextRendererType(String typeName, String id) {
         this.typeName = typeName;
+        this.id = id;
     }
 
     @JsonCreator
