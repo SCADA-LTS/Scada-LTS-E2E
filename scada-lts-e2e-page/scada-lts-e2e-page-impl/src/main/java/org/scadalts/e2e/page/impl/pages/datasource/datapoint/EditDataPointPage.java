@@ -1,19 +1,22 @@
 package org.scadalts.e2e.page.impl.pages.datasource.datapoint;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
-import org.scadalts.e2e.page.impl.dict.ChangeType;
-import org.scadalts.e2e.page.impl.dict.DataPointType;
-import org.scadalts.e2e.page.impl.dict.UpdatePeriodType;
+import org.scadalts.e2e.page.impl.dict.*;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourcePage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 
+import java.text.MessageFormat;
+
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 import static javax.xml.bind.DatatypeConverter.parseBoolean;
 import static org.scadalts.e2e.page.core.util.E2eUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.util.StabilityUtil.waitWhile;
 
 public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
 
@@ -96,9 +99,11 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return changeTypes.getValue();
     }
 
-    public EditDataPointPage setStartValue(String startValue) {
-        SelenideElement selenideElement = $("td *[id*='.startValue'");
-        selenideElement.sendKeys(startValue);
+    public EditDataPointPage setStartValue(DataPointCriteria criteria, String startValue) {
+        String css = MessageFormat.format("td *[id=''{0}'']", DataPointChangeFieldType
+                .getType(criteria, ChangeTypeField.START_VALUE).getId());
+        waitWhile($(css), not(Condition.visible))
+                .sendKeys(startValue);
         return this;
     }
 
@@ -134,8 +139,11 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return ChangeType.getType(changeTypes.getSelectedText());
     }
 
-    public EditDataSourceWithPointListPage dataSourceOnOff() {
-        return editDataSourceWithPointListPage.dataSourceOnOff();
+    public EditDataSourceWithPointListPage enableDataSource() {
+        return editDataSourceWithPointListPage.enableDataSource();
+    }
+    public EditDataSourceWithPointListPage disableDataSource() {
+        return editDataSourceWithPointListPage.disableDataSource();
     }
 
     public EditDataSourceWithPointListPage enableAllDataPoint() {

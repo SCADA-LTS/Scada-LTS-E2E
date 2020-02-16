@@ -4,6 +4,6 @@ import org.scadalts.e2e.common.dicts.E2eDictionary;
 
 public interface ObjectCriteria {
 
-    String getName();
+    String getIdentifier();
     E2eDictionary getType();
 }

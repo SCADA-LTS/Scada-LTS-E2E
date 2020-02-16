@@ -13,11 +13,11 @@ import org.scadalts.e2e.webservice.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.webservice.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.webservice.impl.services.pointvalue.PointValueResponse;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Random;
 
 import static org.junit.Assert.*;
+import static org.scadalts.e2e.page.core.util.TypeParser.parseIntValueFormatted;
 
 @RunWith(E2eTestRunner.class)
 public class EventDetectorCheckTest {
@@ -76,9 +76,5 @@ public class EventDetectorCheckTest {
             int resultRaw = parseIntValueFormatted(result.getValue());
             assertEquals(valueExpected, resultRaw);
         }
-    }
-
-    private int parseIntValueFormatted(String value) {
-        return new BigDecimal(value).intValue();
     }
 }

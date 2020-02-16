@@ -21,14 +21,10 @@ class E2eTestsRunner implements TestsRunnable {
     @Override
     public List<E2eResult> run(List<Class<?>> tests) {
         List<E2eResult> results = new ArrayList<>();
-        try {
-            for (Class<?> test: tests) {
-                RunListener scada = new E2eRunListener(test);
-                E2eResult result = _run(test, scada);
-                results.add(result);
-            }
-        } catch (Throwable ex) {
-            logger.error(ex.getMessage(), ex);
+        for (Class<?> test: tests) {
+            RunListener scada = new E2eRunListener(test);
+            E2eResult result = _run(test, scada);
+            results.add(result);
         }
         return results;
     }

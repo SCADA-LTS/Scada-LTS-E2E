@@ -9,10 +9,9 @@ import org.scadalts.e2e.page.impl.dict.DataSourceType;
 import org.scadalts.e2e.page.impl.dict.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
-import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourceTestsUtil;
+import org.scadalts.e2e.test.impl.utils.DataSourcesPageTestsUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -20,24 +19,24 @@ import static org.junit.Assert.assertNotEquals;
 @RunWith(E2eTestRunner.class)
 public class EditDataSourceTest {
 
-    private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
-    private String dataSourceName = "ds_test" + System.nanoTime();
     private DataSourceCriteria criteria;
+    private DataSourcesPageTestsUtil dataSourcesPageTestsUtil;
 
-    private final NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
-    private final DataSourceTestsUtil testsUtil = new DataSourceTestsUtil(navigationPage);
+    private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
     private DataSourcesPage dataSourcesPage;
 
     @Before
-    public void createDataSource() throws Throwable {
-        dataSourcesPage = testsUtil.openDataSourcesPage();
-        criteria = new DataSourceCriteria(dataSourceName, DataSourceType.VIRTUAL_DATA_SOURCE);
-        editDataSourceWithPointListPageSubject = testsUtil.addDataSource(criteria).dataSourceOnOff();
+    public void createDataSource() {
+        String dataSourceName = "ds_test" + System.nanoTime();
+        criteria = new DataSourceCriteria(dataSourceName, DataSourceType.VIRTUAL_DATA_SOURCE, UpdatePeriodType.SECOUND);
+        dataSourcesPageTestsUtil = new DataSourcesPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
+        dataSourcesPage = dataSourcesPageTestsUtil.openDataSourcesPage();
+        editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.addDataSources();
     }
 
     @After
-    public void clean() throws Throwable {
-        testsUtil.deteleDataSource(criteria);
+    public void clean() {
+        dataSourcesPageTestsUtil.clean();
     }
 
     @Test

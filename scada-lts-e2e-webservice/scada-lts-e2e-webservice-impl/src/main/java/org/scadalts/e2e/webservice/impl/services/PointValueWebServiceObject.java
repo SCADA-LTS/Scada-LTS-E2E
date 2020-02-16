@@ -35,9 +35,9 @@ public class PointValueWebServiceObject implements WebServiceObject {
     private E2eResponse<PointValueResponse> _getValue(String dataPointXid) {
         String endpoint = baseUrl + "/api/point_value/getValue/";
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
-        logger.debug("dataPointXid: {}", dataPointXid);
-        logger.debug("endpoint: {}", endpoint);
-        logger.debug("cookie: {}", cookie);
+        logger.info("dataPointXid: {}", dataPointXid);
+        logger.info("endpoint: {}", endpoint);
+        logger.info("cookie: {}", cookie);
         Response response = client.target(endpoint)
                 .path(dataPointXid)
                 .request(MediaType.APPLICATION_JSON_TYPE)
