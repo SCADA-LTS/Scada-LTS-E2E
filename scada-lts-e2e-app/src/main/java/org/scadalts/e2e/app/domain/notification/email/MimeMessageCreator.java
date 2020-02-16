@@ -1,5 +1,6 @@
 package org.scadalts.e2e.app.domain.notification.email;
 
+import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.utils.FileUtil;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -10,11 +11,11 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 
 @Component
+@Log4j2
 class MimeMessageCreator {
 
     private final MessageTransformator transformator;
-    private static File LOGO = FileUtil.getFile("templates/logo.png");
-    private static File LOGS = FileUtil.getFile("e2e");
+    private static File LOGO = FileUtil.getFileFromJar("templates/logo.png");
 
     MimeMessageCreator(MessageTransformator transformator) {
         this.transformator = transformator;
@@ -26,9 +27,20 @@ class MimeMessageCreator {
         helper.setBcc(emailData.getTo());
         helper.setFrom(emailData.getFrom());
         helper.setSubject(emailData.getTitle());
-        helper.setText(transformator.transform(emailData, LOGO), transformator.isHtml());
+
+        String content = transformator.transform(emailData, LOGO);
+        helper.setText(content, transformator.isHtml());
         helper.addInline(LOGO.getName(), LOGO);
-        helper.addAttachment(LOGS.getName(), LOGS);
+
+        File log = FileUtil.getFileFromFileSystem("e2e_log");
+        helper.addAttachment(log.getName(), log);
+
+        for (File attachment: emailData.getAttachments()) {
+            if(attachment.exists()) {
+                helper.addAttachment(attachment.getName(), attachment);
+            }
+        }
+
         return mail;
     }
 }

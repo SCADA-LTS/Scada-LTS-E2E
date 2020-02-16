@@ -1,21 +1,18 @@
 package org.scadalts.e2e.test.impl.tests.webservice.pointvalue;
 
+import lombok.extern.log4j.Log4j2;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criteria.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.dict.ChangeType;
 import org.scadalts.e2e.page.impl.dict.DataPointType;
-import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
-import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.core.exceptions.ConfigureTestException;
+import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourceTestsUtil;
+import org.scadalts.e2e.test.impl.utils.DataSourcesPageTestsUtil;
 import org.scadalts.e2e.webservice.core.exceptions.WebServiceObjectException;
 import org.scadalts.e2e.webservice.core.services.E2eResponse;
 import org.scadalts.e2e.webservice.impl.services.PointValueWebServiceObject;
@@ -27,51 +24,33 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
+@Log4j2
 @RunWith(E2eTestRunner.class)
 public class PointValueWebServiceTest {
 
-    private static final DataPointType dataPointType = DataPointType.BINARY;
-
-    private final NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
-    private final DataSourceTestsUtil testsUtil = new DataSourceTestsUtil(navigationPage);
-
-    private DataPointCriteria dataPointCriteria;
     private String dataPointXid;
-
-    private DataSourceCriteria dataSourceCriteria;
-
-    @Rule
-    public ExpectedException invalidInputException1= ExpectedException.none();
+    private DataSourcesPageTestsUtil dataSourcesPageTestsUtil;
 
     @Before
-    public void createDataSourceAndPoint() throws ConfigureTestException {
+    public void createDataSourceAndPoint() throws InterruptedException {
 
-        dataSourceCriteria = testsUtil.createDataSourceCriteria();
-        testsUtil.addDataSource(dataSourceCriteria);
-
-        dataPointCriteria = new DataPointCriteria("dp_test" + System.nanoTime(), dataPointType);
-        EditDataPointPage pointPage = testsUtil.addDataPoint(dataSourceCriteria, dataPointCriteria,"true");
+        DataPointCriteria dataPointCriteria = new DataPointCriteria("dp_test" + System.nanoTime(), DataPointType.NUMERIC, ChangeType.NO_CHANGE);
+        dataSourcesPageTestsUtil = new DataSourcesPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataPointCriteria);
+        dataSourcesPageTestsUtil.addDataSources();
+        EditDataPointPage pointPage = dataSourcesPageTestsUtil.addDataPoints("1234");
 
         dataPointXid = pointPage.getDataPointXid();
 
-        testsUtil.openDataSourcesPage().enableDataSource(dataSourceCriteria);
-
+        Thread.sleep(TestImplConfiguration.waitingAfterSetPointValueMs);
     }
 
     @After
-    public void clean() throws ConfigureTestException {
-        EditDataSourceWithPointListPage pointListPage = testsUtil.openDataSourcesPage()
-                .openDataSourceEditor(dataSourceCriteria);
-
-        pointListPage.openDataPointEditor(dataPointCriteria)
-                .waitOnPage(500)
-                .deleteDataPoint();
-
-        testsUtil.deteleDataSource(dataSourceCriteria);
+    public void clean() {
+        dataSourcesPageTestsUtil.clean();
     }
 
     @Test
-    public void test_getValue() throws WebServiceObjectException {
+    public void test_getValue_data_point() throws WebServiceObjectException {
 
         //given:
         PointValueParams pointValueParams = new PointValueParams(dataPointXid);
@@ -88,6 +67,7 @@ public class PointValueWebServiceTest {
 
             //and:
             E2eResponse<PointValueResponse> response = responseOpt.get();
+
             assertEquals(200, response.getStatus());
 
             //and:

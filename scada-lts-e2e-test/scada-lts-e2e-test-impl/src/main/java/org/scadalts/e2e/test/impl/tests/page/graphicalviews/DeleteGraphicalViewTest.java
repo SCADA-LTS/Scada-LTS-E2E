@@ -1,11 +1,10 @@
 package org.scadalts.e2e.test.impl.tests.page.graphicalviews;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
-import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.core.exceptions.ConfigureTestException;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.utils.GraphicalViewTestsUtil;
@@ -18,23 +17,19 @@ import static org.hamcrest.core.StringContains.containsString;
 public class DeleteGraphicalViewTest {
 
     private final String viewName = "viewNameTest" + System.nanoTime();
-
-    private final NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
-    private final GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(navigationPage);
+    private GraphicalViewTestsUtil testsUtil;
     private GraphicalViewsPage graphicalViewsPageSubject;
 
     @Before
-    public void createView() throws ConfigureTestException {
-        testsUtil.openGraphicalViews()
-                .openViewCreator()
-                .chooseFile(testsUtil.getBackgroundFile())
-                .uploadFile()
-                .setViewName(viewName)
-                .selectComponentByName("Alarms List")
-                .addViewComponent()
-                .dragAndDropViewComponent()
-                .save();
+    public void createView() {
+        testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), viewName);
+        testsUtil.addView();
         graphicalViewsPageSubject = testsUtil.openGraphicalViews();
+    }
+
+    @After
+    public void clean() {
+        testsUtil.clean();
     }
 
     @Test

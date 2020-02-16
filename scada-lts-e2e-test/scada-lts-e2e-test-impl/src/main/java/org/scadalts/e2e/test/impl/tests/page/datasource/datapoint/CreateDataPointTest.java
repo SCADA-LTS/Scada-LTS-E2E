@@ -8,12 +8,11 @@ import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criteria.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.dict.ChangeType;
 import org.scadalts.e2e.page.impl.dict.DataPointType;
+import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
-import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.core.exceptions.ConfigureTestException;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourceTestsUtil;
+import org.scadalts.e2e.test.impl.utils.DataSourcesPageTestsUtil;
 
 import static org.junit.Assert.assertTrue;
 
@@ -21,46 +20,47 @@ import static org.junit.Assert.assertTrue;
 public class CreateDataPointTest {
 
     private static final DataPointType dataPointType = DataPointType.BINARY;
-    private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
+    private static final ChangeType changeType = ChangeType.ALTERNATE;
     private final String dataPointToCreateName = "dp_test" + System.nanoTime();
-    private DataPointCriteria dataPointCreatedCriteria = new DataPointCriteria(dataPointToCreateName, dataPointType);
 
-    private final NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
-    private final DataSourceTestsUtil testsUtil = new DataSourceTestsUtil(navigationPage);
-
+    private DataPointCriteria dataPointCreatedCriteria;
     private DataSourceCriteria dataSourceCriteria;
 
+    private DataSourcesPage dataSourcesPage;
+    private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
+
+    private DataSourcesPageTestsUtil dataSourcesPageTestsUtil;
+
     @Before
-    public void createDataSource() throws ConfigureTestException {
-        dataSourceCriteria = testsUtil.createDataSourceCriteria();
-        editDataSourceWithPointListPageSubject = testsUtil.addDataSource(dataSourceCriteria);
-        editDataSourceWithPointListPageSubject.dataSourceOnOff();
+    public void createDataSource() {
+        dataSourceCriteria = DataSourcesPageTestsUtil.createDataSourceCriteria();
+        dataPointCreatedCriteria = new DataPointCriteria(dataPointToCreateName, dataPointType, changeType);
+        dataSourcesPageTestsUtil = new DataSourcesPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataSourceCriteria, dataPointCreatedCriteria);
+
+        dataSourcesPage = dataSourcesPageTestsUtil.openDataSourcesPage();
+        editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.addDataSources();
     }
 
     @After
-    public void clean() throws ConfigureTestException {
-        testsUtil.openDataSourcesPage()
-                .openDataSourceEditor(dataSourceCriteria)
-                .openDataPointEditor(dataPointCreatedCriteria)
-                .deleteDataPoint();
-        testsUtil.deteleDataSource(dataSourceCriteria);
+    public void clean() {
+        dataSourcesPageTestsUtil.clean();
     }
 
     @Test
-    public void test_create_data_point() throws ConfigureTestException {
+    public void test_create_data_point() {
 
         //when:
         editDataSourceWithPointListPageSubject.addDataPoint()
                 .setDataPointName(dataPointToCreateName)
                 .enableSettable()
                 .selectDataPointType(dataPointType)
-                .selectChangeType(ChangeType.ALTERNATE)
-                .setStartValue("true")
+                .selectChangeType(changeType)
+                .setStartValue(dataPointCreatedCriteria,"true")
                 .saveDataPoint()
                 .enableDataPoint(dataPointCreatedCriteria);
 
         //then:
-        boolean result = testsUtil.openDataSourcesPage()
+        boolean result = dataSourcesPage.reopen()
                 .openDataSourceEditor(dataSourceCriteria)
                 .containsObject(dataPointCreatedCriteria);
 

@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
-import java.util.Set;
 
 @Aspect
 @Log4j2
@@ -36,26 +35,11 @@ class SendEmailAspect {
 
     @AfterReturning(value = "sendEmail()", returning = "returned")
     void reaction(Object returned) {
-
         if (returned instanceof E2eResultSummary) {
-
             @SuppressWarnings("unchecked")
             E2eResultSummary summary = (E2eResultSummary) returned;
-
             if (!summary.wasSuccessful()) {
-
-                Set<String> failTestNames = summary.getFailTestNames();
-                logger.debug("failTestNames: {}", failTestNames);
-                EmailData emailData = EmailData.builder()
-                        .content("")
-                        .title(config.getTitleEmail())
-                        .header("Scada-LTS-E2E")
-                        .from(config.getSendFrom())
-                        .to(config.getSendTo())
-                        .failTestNames(failTestNames)
-                        .summary(summary)
-                        .build();
-
+                EmailData emailData = EmailData.create(config, summary);
                 emailService.sendEmail(emailData);
             }
         }
@@ -63,16 +47,7 @@ class SendEmailAspect {
 
     @AfterThrowing(value = "sendEmail()", throwing = "throwable")
     void reaction(JoinPoint joinPoint, Throwable throwable) {
-        EmailData emailData = EmailData.builder()
-                .content(_getMessageError(joinPoint, throwable))
-                .title(config.getTitleEmail())
-                .header("Scada-LTS-E2E")
-                .summary(E2eResultSummary.empty())
-                .from(config.getSendFrom())
-                .to(config.getSendTo())
-                .failTestName(throwable.getClass().getName())
-                .build();
-
+        EmailData emailData = EmailData.create(config, _getMessageError(joinPoint, throwable), throwable);
         emailService.sendEmail(emailData);
     }
 
@@ -81,4 +56,6 @@ class SendEmailAspect {
         String error = MessageFormat.format("exception: {0}, message: {1}", throwable.getClass().getSimpleName(), throwable.getLocalizedMessage());
         return MessageFormat.format("\nrun: {0}\n\n error: {1}\n", run, error);
     }
+
+
 }

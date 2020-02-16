@@ -1,19 +1,24 @@
 package org.scadalts.e2e.page.impl.pages.datasource;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.criteria.ActionCriteria;
 import org.scadalts.e2e.page.core.criteria.RowCriteria;
+import org.scadalts.e2e.page.core.exceptions.DynamicElementException;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
 import org.scadalts.e2e.page.impl.dict.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.PropertiesDataPointPage;
 
+import static com.codeborne.selenide.Condition.not;
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
+import static org.scadalts.e2e.page.core.util.DynamicElementUtil.findAction;
 import static org.scadalts.e2e.page.core.util.E2eUtil.acceptAlert;
-import static org.scadalts.e2e.page.core.util.TableElementUtil.findAction;
+import static org.scadalts.e2e.page.core.util.StabilityUtil.waitWhile;
 
 
 public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditDataSourceWithPointListPage> {
@@ -36,6 +41,9 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     private static final By SELECTOR_ACTION_PROPERTIES_DATA_POINT_BY = By.cssSelector("img[onclick*='data_point_edit.shtm?dpid=']");
     private static final By SELECTOR_ACTION_ENABLE_DATA_POINT_BY = By.cssSelector("img[src='images/brick_stop.png']");
     private static final By SELECTOR_ACTION_DISABLE_DATA_POINT_BY = By.cssSelector("img[src='images/brick_go.png']");
+    private static final By SELECTOR_ENABLE_DATA_SOURCE_BY = By.cssSelector("img[src='images/database_go.png']");
+    private static final By SELECTOR_DISABLE_DATA_SOURCE_BY = By.cssSelector("img[src='images/database_stop.png']");
+
 
     public static final String TITLE = "Points";
 
@@ -44,9 +52,17 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         editDataSourcePage = page(EditDataSourcePage.class);
     }
 
-    public EditDataSourceWithPointListPage dataSourceOnOff() {
+    public EditDataSourceWithPointListPage enableDataSource() {
         dataSourceOnOff.click();
         acceptAlert();
+        waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
+        return this;
+    }
+
+    public EditDataSourceWithPointListPage disableDataSource() {
+        dataSourceOnOff.click();
+        acceptAlert();
+        waitWhile($(SELECTOR_DISABLE_DATA_SOURCE_BY), not(Condition.visible));
         return this;
     }
 
@@ -128,8 +144,12 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
     private SelenideElement _findAction(DataPointCriteria criteria, By selectAction) {
-        RowCriteria rowCriteria = new RowCriteria(criteria.getName(), criteria.getType());
+        RowCriteria rowCriteria = new RowCriteria(criteria.getIdentifier(), criteria.getType());
         ActionCriteria actionCriteria = new ActionCriteria(rowCriteria, selectAction);
-        return findAction(actionCriteria, dataPointsTable);
+        try {
+            return findAction(actionCriteria, dataPointsTable);
+        } catch (DynamicElementException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

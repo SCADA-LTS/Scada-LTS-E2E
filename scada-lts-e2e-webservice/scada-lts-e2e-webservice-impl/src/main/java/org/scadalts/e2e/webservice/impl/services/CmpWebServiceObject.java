@@ -39,9 +39,9 @@ public class CmpWebServiceObject implements WebServiceObject {
     private E2eResponse<CmpParams> _set(CmpParams cmpParams) {
         String endpoint = baseUrl + "/api/cmp/set/";
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
-        logger.debug("params: {}", cmpParams);
-        logger.debug("endpoint: {}", endpoint);
-        logger.debug("cookie: {}", cookie);
+        logger.info("params: {}", cmpParams);
+        logger.info("endpoint: {}", endpoint);
+        logger.info("cookie: {}", cookie);
         MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
         Response response = client
                 .target(endpoint)

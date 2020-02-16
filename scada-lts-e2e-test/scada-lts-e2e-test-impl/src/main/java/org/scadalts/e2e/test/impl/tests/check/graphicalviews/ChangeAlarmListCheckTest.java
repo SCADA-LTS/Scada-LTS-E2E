@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.EditViewPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.core.exceptions.ConfigureTestException;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
@@ -17,10 +16,10 @@ import static org.junit.Assert.assertNotEquals;
 public class ChangeAlarmListCheckTest {
 
     private final NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
-    private final GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(navigationPage);
+    private final GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(navigationPage, "");
 
     @Test
-    public void test_check_no_changed_alarmList() throws ConfigureTestException {
+    public void test_check_no_changed_alarmList() {
 
         //when:
         EditViewPage edit = testsUtil.openGraphicalViews()
@@ -43,7 +42,7 @@ public class ChangeAlarmListCheckTest {
     }
 
     @Test
-    public void test_check_changed_alarmList_c1Id() throws ConfigureTestException {
+    public void test_check_changed_alarmList_c1Id() {
 
         //when:
         EditViewPage edit = testsUtil.openGraphicalViews()

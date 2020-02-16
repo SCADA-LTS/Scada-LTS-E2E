@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.core.exceptions.ConfigureTestException;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.utils.GraphicalViewTestsUtil;
@@ -18,10 +17,10 @@ import static org.junit.Assert.assertTrue;
 public class ClickAllGraphicalViewCheckTest {
 
     private final NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
-    private final GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(navigationPage);
+    private final GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(navigationPage, "");
 
     @Test
-    public void test_click_all_graphical_view() throws ConfigureTestException {
+    public void test_click_all_graphical_view() {
         //given:
         GraphicalViewsPage graphicalViewsPage = testsUtil.openGraphicalViews();
         Map<String, String> dataViews = graphicalViewsPage.getDataAllViews();

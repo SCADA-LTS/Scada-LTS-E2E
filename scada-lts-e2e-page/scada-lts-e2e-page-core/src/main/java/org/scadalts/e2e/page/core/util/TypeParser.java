@@ -3,6 +3,8 @@ package org.scadalts.e2e.page.core.util;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.math.BigDecimal;
+
 @Log4j2
 public abstract class TypeParser {
 
@@ -26,5 +28,9 @@ public abstract class TypeParser {
 
     public boolean parseBoolean(String value) {
         return Boolean.parseBoolean(value);
+    }
+
+    public static int parseIntValueFormatted(String value) {
+        return new BigDecimal(value).intValue();
     }
 }

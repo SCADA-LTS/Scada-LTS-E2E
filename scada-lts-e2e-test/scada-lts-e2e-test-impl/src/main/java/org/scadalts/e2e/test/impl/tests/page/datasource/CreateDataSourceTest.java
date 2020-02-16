@@ -8,11 +8,9 @@ import org.scadalts.e2e.page.impl.criteria.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.dict.DataSourceType;
 import org.scadalts.e2e.page.impl.dict.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
-import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.core.exceptions.ConfigureTestException;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourceTestsUtil;
+import org.scadalts.e2e.test.impl.utils.DataSourcesPageTestsUtil;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
@@ -20,21 +18,24 @@ import static org.hamcrest.core.StringContains.containsString;
 @RunWith(E2eTestRunner.class)
 public class CreateDataSourceTest {
 
+    private static final DataSourceType dataSourceType = DataSourceType.VIRTUAL_DATA_SOURCE;
+    private static final UpdatePeriodType updatePeriodType = UpdatePeriodType.SECOUND;
     private final String dataSourceName = "ds_test" + System.nanoTime();
-    private final DataSourceType dataSourceType = DataSourceType.VIRTUAL_DATA_SOURCE;
-    private final NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
-    private final DataSourceTestsUtil testsUtil = new DataSourceTestsUtil(navigationPage);
+
+    private DataSourcesPageTestsUtil dataSourcesPageTestsUtil;
     private DataSourcesPage dataSourcesPageSubject;
 
     @Before
-    public void setup() throws ConfigureTestException {
-        dataSourcesPageSubject = testsUtil.openDataSourcesPage();
+    public void setup() {
+        DataSourceCriteria criteria = new DataSourceCriteria(dataSourceName, dataSourceType, updatePeriodType);
+        dataSourcesPageTestsUtil = new DataSourcesPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
+        dataSourcesPageTestsUtil = new DataSourcesPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
+        dataSourcesPageSubject = dataSourcesPageTestsUtil.openDataSourcesPage();
     }
 
     @After
-    public void clean() throws Throwable {
-        DataSourceCriteria criteria = new DataSourceCriteria(dataSourceName, dataSourceType);
-        testsUtil.deteleDataSource(criteria);
+    public void clean() {
+        dataSourcesPageTestsUtil.clean();
     }
 
     @Test
@@ -42,15 +43,16 @@ public class CreateDataSourceTest {
 
         //when:
         dataSourcesPageSubject.openDataSourceCreator(dataSourceType)
-                .selectUpdatePeriodType(UpdatePeriodType.SECOUND)
+                .selectUpdatePeriodType(updatePeriodType)
                 .setUpdatePeriods(13)
                 .setDataSourceName(dataSourceName)
                 .saveDataSource()
-                .dataSourceOnOff();
+                .enableDataSource();
 
-        //then:
+        //and:
         String body = dataSourcesPageSubject.reopen().getBodyText();
 
+        //then
         assertThat(body, containsString(dataSourceName));
     }
 }

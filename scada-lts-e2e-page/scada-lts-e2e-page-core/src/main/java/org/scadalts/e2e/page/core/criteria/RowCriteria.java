@@ -7,7 +7,7 @@ import org.scadalts.e2e.common.dicts.E2eDictionary;
 @Data
 public class RowCriteria implements ObjectCriteria {
 
-    private final String name;
+    private final String identifier;
     private final E2eDictionary type;
 
 }

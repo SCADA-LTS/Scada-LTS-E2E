@@ -13,18 +13,40 @@ import java.util.Objects;
 @Log4j2
 public class FileUtil {
 
-    public static File getFile(String fileName) {
+    public static File getFileFromJar(String fileName) {
         try {
+            logger.info("getFileFromJar: {}", fileName);
             Path path = Paths.get(fileName);
-            logger.debug("path: {}", path);
             if(path.toFile().exists()) {
                 return path.toFile();
             }
-            return _createNewFileInFileSystem(fileName, path);
+            return _createNewFileInFileSystem(fileName);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
             throw new IllegalStateException(e);
         }
+    }
+
+    public static File getFileFromFileSystem(Path path) {
+        try {
+            logger.info("getFileFromFileSystem: {}", path.toRealPath());
+            File file = path.toFile();
+            if(file.exists()) {
+                logger.debug("file exists: {}", file);
+                return file;
+            }
+            boolean created = file.createNewFile();
+            logger.debug("file: {}, created: {}", file, created);
+            return file;
+        } catch (Throwable e) {
+            logger.error(e.getMessage(), e);
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public static File getFileFromFileSystem(String fileName) {
+        Path path = Paths.get(fileName);
+        return getFileFromFileSystem(path);
     }
 
     public static InputStream getResourceAsStream(String fileName) {
@@ -36,18 +58,23 @@ public class FileUtil {
         }
     }
 
-    private static File _createNewFileInFileSystem(String fileName, Path path) throws IOException {
-        _createDirs(path);
-        InputStream inputStream = getResourceAsStream(fileName);
-        Files.copy(inputStream, path);
-        return path.toFile();
+    private static File _createNewFileInFileSystem(String fileName) throws IOException {
+        Path path = Paths.get(fileName);
+        boolean dirsCreated = _createDirs(path);
+        if(dirsCreated) {
+            InputStream inputStream = getResourceAsStream(fileName);
+            Files.copy(inputStream, path);
+            return path.toFile();
+        }
+        return new File("");
     }
 
-    private static void _createDirs(Path path) {
+    private static boolean _createDirs(Path path) {
         Path parent = path.getParent();
         if(Objects.nonNull(parent)) {
             File dir = path.getParent().toFile();
-            dir.mkdirs();
+            return dir.mkdirs();
         }
+        return false;
     }
 }

@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>12.0.0-SNAPSHOT</version>
+    <version>13.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -693,7 +693,7 @@
                 <test.e2e.port-proxy>12345</test.e2e.port-proxy>
                 <test.e2e.alarm-list-changed-after-ms>6000</test.e2e.alarm-list-changed-after-ms>
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
-                <test.e2e.waiting-after-set-point-value-ms>5000</test.e2e.waiting-after-set-point-value-ms>
+                <test.e2e.waiting-after-set-point-value-ms>15000</test.e2e.waiting-after-set-point-value-ms>
                 <test.e2e.graphical-view-name>viewNameTest1578692076627</test.e2e.graphical-view-name>
                 <test.e2e.classes-test-refs>{classesTestRefs}</test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>{dataPointToChangeXid}</test.e2e.data-point-to-change-xid>
@@ -710,7 +710,7 @@
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>false</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
-                <test.e2e.run-app.title-email>Notification of failed tests</test.e2e.run-app.title-email>
+                <test.e2e.run-app.title-email>[Scada-LTS-E2E] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.custom-name>-check</test.e2e.custom-name>
             </properties>
         </profile>
@@ -748,7 +748,7 @@
                 <test.e2e.port-proxy>12345</test.e2e.port-proxy>
                 <test.e2e.alarm-list-changed-after-ms>900008</test.e2e.alarm-list-changed-after-ms>
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
-                <test.e2e.waiting-after-set-point-value-ms>5000</test.e2e.waiting-after-set-point-value-ms>
+                <test.e2e.waiting-after-set-point-value-ms>15000</test.e2e.waiting-after-set-point-value-ms>
                 <test.e2e.graphical-view-name>viewNameTest1578692076627</test.e2e.graphical-view-name>
                 <test.e2e.classes-test-refs>{classesTestRefs}</test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>DP_400342</test.e2e.data-point-to-change-xid>
@@ -765,7 +765,7 @@
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>false</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
-                <test.e2e.run-app.title-email>Notification of failed tests</test.e2e.run-app.title-email>
+                <test.e2e.run-app.title-email>[Scada-LTS-E2E] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.custom-name>-all_tests</test.e2e.custom-name>
             </properties>
         </profile>
@@ -804,7 +804,7 @@
                 <test.e2e.port-proxy>12345</test.e2e.port-proxy>
                 <test.e2e.alarm-list-changed-after-ms>6000</test.e2e.alarm-list-changed-after-ms>
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
-                <test.e2e.waiting-after-set-point-value-ms>5000</test.e2e.waiting-after-set-point-value-ms>
+                <test.e2e.waiting-after-set-point-value-ms>15000</test.e2e.waiting-after-set-point-value-ms>
                 <test.e2e.graphical-view-name>viewNameTest2668427919630</test.e2e.graphical-view-name>
                 <test.e2e.classes-test-refs>{classesTestRefs}</test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>DP_054378</test.e2e.data-point-to-change-xid>
@@ -821,7 +821,7 @@
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>false</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
-                <test.e2e.run-app.title-email>Notification of failed tests</test.e2e.run-app.title-email>
+                <test.e2e.run-app.title-email>[Scada-LTS-E2E] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.custom-name>-all_tests</test.e2e.custom-name>
             </properties>
         </profile>

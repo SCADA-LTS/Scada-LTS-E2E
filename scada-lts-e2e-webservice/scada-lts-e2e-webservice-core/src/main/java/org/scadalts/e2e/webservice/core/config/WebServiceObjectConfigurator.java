@@ -7,7 +7,7 @@ import org.scadalts.e2e.common.config.E2eConfig;
 public class WebServiceObjectConfigurator {
 
     public static void init(E2eConfig config, String sessionId) {
-        logger.debug("sessionId: {}", sessionId);
+        logger.info("sessionId: {}", sessionId);
         //WebServiceObjectConfiguration.sessionId = sessionId;
     }
 }
