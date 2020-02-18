@@ -19,6 +19,8 @@ public class TestImplConfigurator {
         TestImplConfiguration.dataPointToChangeXid = config.getDataPointToChangeXid();
         TestImplConfiguration.dataPointToReadXid = config.getDataPointToReadXid();
         TestImplConfiguration.dataPointValuesToChangeTests = config.getDataPointValuesToChangeTests();
+        TestImplConfiguration.dataSourceName = config.getDataSourceName();
+        TestImplConfiguration.dataPointName = config.getDataPointName();
     }
 
     public static void init() {

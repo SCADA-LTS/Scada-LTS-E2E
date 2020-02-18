@@ -46,6 +46,10 @@ public interface E2eConfig {
 
     String getTitleEmail();
 
+    String getDataSourceName();
+
+    String getDataPointName();
+
     String[] getClassesTestRefs();
 
     String[] getSendTo();
