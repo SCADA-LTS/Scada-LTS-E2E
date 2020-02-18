@@ -848,7 +848,7 @@
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
                 <test.e2e.waiting-after-set-point-value-ms>30000</test.e2e.waiting-after-set-point-value-ms>
                 <test.e2e.graphical-view-name>viewNameTest2668427919630</test.e2e.graphical-view-name>
-                <test.e2e.classes-test-refs>org.scadalts.e2e.test.impl.tests.check.datapoint.SequencePointValueHistoryInDetailsCheckTest</test.e2e.classes-test-refs>
+                <test.e2e.classes-test-refs></test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>DP_054378</test.e2e.data-point-to-change-xid>
                 <test.e2e.data-point-to-read-xid>DP_961456</test.e2e.data-point-to-read-xid>
                 <test.e2e.data-source-name>ds_testName1234</test.e2e.data-source-name>
