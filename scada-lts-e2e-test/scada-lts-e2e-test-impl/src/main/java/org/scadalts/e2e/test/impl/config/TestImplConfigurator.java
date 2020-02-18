@@ -18,6 +18,7 @@ public class TestImplConfigurator {
         TestImplConfiguration.graphicalViewName = config.getGraphicalViewName();
         TestImplConfiguration.dataPointToChangeXid = config.getDataPointToChangeXid();
         TestImplConfiguration.dataPointToReadXid = config.getDataPointToReadXid();
+        TestImplConfiguration.dataPointValuesToChangeTests = config.getDataPointValuesToChangeTests();
     }
 
     public static void init() {

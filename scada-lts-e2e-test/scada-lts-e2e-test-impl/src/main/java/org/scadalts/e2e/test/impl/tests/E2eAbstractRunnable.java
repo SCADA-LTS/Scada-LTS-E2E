@@ -20,12 +20,9 @@ public abstract class E2eAbstractRunnable implements E2eRunnable {
     public static void setup() {
         _setup();
         _login();
-        //execute(E2eAbstractRunnable::_setup, ConfigureTestException::new);
-        //execute(E2eAbstractRunnable::_login, ConfigureTestException::new);
     }
 
     public static void close() {
-        //execute(E2eAbstractRunnable::_close, ConfigureTestException::new);
         _close();
     }
 

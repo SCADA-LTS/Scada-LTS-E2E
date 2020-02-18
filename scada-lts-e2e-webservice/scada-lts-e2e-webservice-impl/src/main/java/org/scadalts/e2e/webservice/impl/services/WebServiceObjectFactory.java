@@ -5,9 +5,9 @@ import org.scadalts.e2e.common.config.E2eConfiguration;
 
 import javax.ws.rs.client.ClientBuilder;
 
-public class WebServiceObjectFactory {
+public interface WebServiceObjectFactory {
 
-    public static CmpWebServiceObject newCmpWebServiceObject() {
+    static CmpWebServiceObject newCmpWebServiceObject() {
         return CmpWebServiceObject.builder()
                 .client(ClientBuilder.newClient()
                         .register(new JacksonJsonProvider()))
@@ -15,14 +15,14 @@ public class WebServiceObjectFactory {
                 .build();
     }
 
-    public static LoginWebServiceObject newLoginWebServiceObject() {
+    static LoginWebServiceObject newLoginWebServiceObject() {
         return LoginWebServiceObject.builder()
                 .client(ClientBuilder.newClient())
                 .baseUrl(E2eConfiguration.baseUrl)
                 .build();
     }
 
-    public static PointValueWebServiceObject newPointValueWebServiceObject() {
+    static PointValueWebServiceObject newPointValueWebServiceObject() {
         return PointValueWebServiceObject.builder()
                 .client(ClientBuilder.newClient()
                         .register(new JacksonJsonProvider()))

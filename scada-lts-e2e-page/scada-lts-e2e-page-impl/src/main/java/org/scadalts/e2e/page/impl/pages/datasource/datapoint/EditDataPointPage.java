@@ -78,24 +78,24 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
     }
 
     public EditDataPointPage selectDataPointType(DataPointType dataPointType) {
-        dataTypes.selectOption(dataPointType.getTypeName());
+        dataTypes.selectOption(dataPointType.getName());
         acceptAlert();
         return this;
     }
 
     public EditDataPointPage selectChangeType(ChangeType changeType) {
-        changeTypes.selectOption(changeType.getTypeName());
+        changeTypes.selectOption(changeType.getName());
         return this;
     }
 
     public String selectDataPointTypeValue(DataPointType dataPointType) {
-        dataTypes.selectOption(dataPointType.getTypeName());
+        dataTypes.selectOption(dataPointType.getName());
         acceptAlert();
         return dataTypes.getValue();
     }
 
     public String selectChangeTypeValue(ChangeType changeType) {
-        changeTypes.selectOption(changeType.getTypeName());
+        changeTypes.selectOption(changeType.getName());
         return changeTypes.getValue();
     }
 

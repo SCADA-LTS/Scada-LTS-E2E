@@ -3,7 +3,6 @@ package org.scadalts.e2e.page.core.config.webdriver;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.opera.OperaOptions;
 import org.scadalts.e2e.common.config.E2eConfig;
@@ -24,7 +23,7 @@ public enum WebDriverManualConfig {
         }
 
     },
-    FIREFOX("firefox", FirefoxDriver.SystemProperty.DRIVER_XPI_PROPERTY,
+    FIREFOX("firefox", "webdriver.gecko.driver",
             FirefoxDriverPathConfig.getConfig(),
             FirefoxOptions.FIREFOX_OPTIONS) {
 

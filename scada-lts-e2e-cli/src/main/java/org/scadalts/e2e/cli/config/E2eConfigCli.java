@@ -204,4 +204,9 @@ public class E2eConfigCli implements E2eConfig {
     public String getTitleEmail() {
         return fromRunApp.getTitleEmail();
     }
+
+    @Override
+    public String[] getDataPointValuesToChangeTests() {
+        return fromE2e.getDataPointValuesToChangeTests();
+    }
 }

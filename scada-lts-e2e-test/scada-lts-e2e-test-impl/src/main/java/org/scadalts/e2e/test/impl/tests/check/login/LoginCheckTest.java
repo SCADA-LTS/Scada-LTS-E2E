@@ -46,7 +46,8 @@ public class LoginCheckTest {
                 .setUserName(E2eConfiguration.userName)
                 .setPassword(E2eConfiguration.password)
                 .login()
-                .printLoadingMeasure();
+                .printLoadingMeasure()
+                .waitOnPage(500);
 
         //and:
         String userName = navigationPage.getUserName();

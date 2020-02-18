@@ -12,18 +12,18 @@ public enum DataPointRestType implements E2eDictionary {
     BINARY_VALUE("BinaryValue", "binaryValue"),
     NUMERIC_VALUE("NumericValue", "numericValue");
 
-    private final String typeName;
+    private final String name;
     private final String id;
 
-    DataPointRestType(String typeName, String id) {
-        this.typeName = typeName;
+    DataPointRestType(String name, String id) {
+        this.name = name;
         this.id = id;
     }
 
     @JsonCreator
     public static DataPointRestType fromString(String string) {
         return Stream.of(DataPointRestType.values())
-                .filter(a -> a.typeName.equals(string))
+                .filter(a -> a.name.equals(string))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(string));
     }

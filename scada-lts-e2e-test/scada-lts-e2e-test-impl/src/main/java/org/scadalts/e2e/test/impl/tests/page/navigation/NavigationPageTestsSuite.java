@@ -7,5 +7,5 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         NavigationPageTest.class
 })
-public class NavigationPageTestsSuit {
+public class NavigationPageTestsSuite {
 }

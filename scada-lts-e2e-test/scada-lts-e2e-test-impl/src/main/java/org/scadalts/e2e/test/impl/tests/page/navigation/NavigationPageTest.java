@@ -1,7 +1,7 @@
 package org.scadalts.e2e.test.impl.tests.page.navigation;
 
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.common.utils.ExecutorUtil;
@@ -35,10 +35,10 @@ import static org.hamcrest.core.StringContains.containsString;
 @RunWith(E2eTestRunner.class)
 public class NavigationPageTest {
 
-    private NavigationPage subjectPage;
+    private static NavigationPage subjectPage;
 
-    @Before
-    public void setup() throws ConfigureTestException {
+    @BeforeClass
+    public static void setup() throws ConfigureTestException {
         subjectPage = ExecutorUtil.execute(NavigationPage::openPage, ConfigureTestException::new);
     }
 

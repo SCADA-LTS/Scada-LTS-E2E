@@ -50,8 +50,8 @@ public enum DataPointChangeFieldType implements E2eDictionary {
     }
 
     @Override
-    public String getTypeName() {
-        return changeType.getTypeName() + dataPointType.getTypeName() + changeTypeField.getTypeName();
+    public String getName() {
+        return this.getName() + dataPointType.getName() + changeTypeField.getName();
     }
 
     @Override
