@@ -15,4 +15,9 @@ public class FunctionlInterfaces {
     public interface TriConsumer<T, U, S> {
         void accept(T arg1, U arg2, S arg3);
     }
+
+    @FunctionalInterface
+    public interface ConsumerThrowable<T> {
+        void accept(T arg1) throws Throwable;
+    }
 }

@@ -8,11 +8,12 @@ import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
 import org.scadalts.e2e.page.impl.dict.ChangeType;
 import org.scadalts.e2e.page.impl.dict.DataPointType;
+import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourcesPageTestsUtil;
+import org.scadalts.e2e.test.impl.utils.DataSourcesAndPointsPageTestsUtil;
 import org.scadalts.e2e.webservice.core.exceptions.WebServiceObjectException;
 import org.scadalts.e2e.webservice.core.services.E2eResponse;
 import org.scadalts.e2e.webservice.impl.services.PointValueWebServiceObject;
@@ -29,19 +30,18 @@ import static org.junit.Assert.*;
 public class PointValueWebServiceTest {
 
     private String dataPointXid;
-    private DataSourcesPageTestsUtil dataSourcesPageTestsUtil;
+    private DataPointCriteria dataPointCriteria;
+    private DataSourcesAndPointsPageTestsUtil dataSourcesPageTestsUtil;
 
     @Before
     public void createDataSourceAndPoint() throws InterruptedException {
 
-        DataPointCriteria dataPointCriteria = new DataPointCriteria("dp_test" + System.nanoTime(), DataPointType.NUMERIC, ChangeType.NO_CHANGE);
-        dataSourcesPageTestsUtil = new DataSourcesPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataPointCriteria);
-        dataSourcesPageTestsUtil.addDataSources();
-        EditDataPointPage pointPage = dataSourcesPageTestsUtil.addDataPoints("1234");
-
-        dataPointXid = pointPage.getDataPointXid();
-
+        dataPointCriteria = new DataPointCriteria("dp_test" + System.nanoTime(), DataPointType.NUMERIC, ChangeType.NO_CHANGE);
+        dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataPointCriteria);
+        EditDataSourceWithPointListPage pointPage = dataSourcesPageTestsUtil.init("1234");
         Thread.sleep(TestImplConfiguration.waitingAfterSetPointValueMs);
+        EditDataPointPage editDataPointPage = pointPage.openDataPointEditor(dataPointCriteria);
+        dataPointXid = editDataPointPage.getDataPointXid();
     }
 
     @After

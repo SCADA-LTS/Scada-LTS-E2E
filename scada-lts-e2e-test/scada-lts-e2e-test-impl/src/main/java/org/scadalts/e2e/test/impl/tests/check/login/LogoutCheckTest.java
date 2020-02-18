@@ -24,7 +24,7 @@ public class LogoutCheckTest {
             navigationPage = E2eAbstractRunnable.getNavigationPage();
             return;
         }
-        LoginPage loginPage = LoginPage.openPage(); //execute(LoginPage::openPage, ConfigureTestException::new);
+        LoginPage loginPage = LoginPage.openPage();
         loginPage.setUserName(E2eConfiguration.userName);
         loginPage.setPassword(E2eConfiguration.password);
         navigationPage = loginPage.login();

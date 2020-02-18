@@ -10,7 +10,7 @@ import org.scadalts.e2e.page.impl.dict.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourcesPageTestsUtil;
+import org.scadalts.e2e.test.impl.utils.DataSourcesAndPointsPageTestsUtil;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,14 +22,14 @@ public class DeleteDataSourceTest {
     private String dataSourceToDeleteName = "ds_test" + System.nanoTime();
     private DataSourceCriteria dataSourceToDeleteCriteria;
 
-    private DataSourcesPageTestsUtil dataSourcesPageTestsUtil;
+    private DataSourcesAndPointsPageTestsUtil dataSourcesPageTestsUtil;
     private DataSourcesPage dataSourcesPageSubject;
 
     @Before
     public void createDataSource() {
         dataSourceToDeleteCriteria = new DataSourceCriteria(dataSourceToDeleteName, DataSourceType.VIRTUAL_DATA_SOURCE,
                 UpdatePeriodType.SECOUND);
-        dataSourcesPageTestsUtil = new DataSourcesPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataSourceToDeleteCriteria);
+        dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataSourceToDeleteCriteria);
         dataSourcesPageTestsUtil.addDataSources();
         dataSourcesPageSubject = dataSourcesPageTestsUtil.openDataSourcesPage();
     }

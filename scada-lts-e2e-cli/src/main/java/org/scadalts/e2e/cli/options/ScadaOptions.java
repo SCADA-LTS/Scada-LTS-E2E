@@ -25,4 +25,7 @@ public class ScadaOptions extends TestOptions {
 
     @CommandLine.Option(names = {"-E", "--data-point-to-read-xid"})
     private String dataPointToReadXid;
+
+    @CommandLine.Option(names = {"-V", "--point-values-to-change-tests"}, split = ";", defaultValue = "")
+    private String[] dataPointValuesToChangeTests;
 }

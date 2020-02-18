@@ -8,11 +8,10 @@ import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criteria.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.dict.ChangeType;
 import org.scadalts.e2e.page.impl.dict.DataPointType;
-import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourcesPageTestsUtil;
+import org.scadalts.e2e.test.impl.utils.DataSourcesAndPointsPageTestsUtil;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -24,12 +23,12 @@ public class DeleteDataPointTest {
 
     private DataPointCriteria dataPointToDeleteCriteria;
     private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
-    private DataSourcesPageTestsUtil dataSourcesPageTestsUtil;
+    private DataSourcesAndPointsPageTestsUtil dataSourcesPageTestsUtil;
 
     @Before
     public void createDataSourceAndPoint() {
 
-        DataSourceCriteria dataSourceCriteria = DataSourcesPageTestsUtil.createDataSourceCriteria();
+        DataSourceCriteria dataSourceCriteria = DataSourcesAndPointsPageTestsUtil.createDataSourceCriteria();
 
         DataPointCriteria dataPointCriteria = new DataPointCriteria("dp_test" + System.nanoTime(), DataPointType.BINARY,
                 ChangeType.ALTERNATE);
@@ -38,14 +37,13 @@ public class DeleteDataPointTest {
         dataPointToDeleteCriteria = new DataPointCriteria(dataPointToDeleteName, DataPointType.BINARY,
                 ChangeType.ALTERNATE);
 
-        dataSourcesPageTestsUtil = new DataSourcesPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataSourceCriteria, dataPointCriteria,
+        dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataSourceCriteria, dataPointCriteria,
                 dataPointToDeleteCriteria, dataPointCriteria2);
-        dataSourcesPageTestsUtil.init("true");
+        //dataSourcesPageTestsUtil.init("true");
 
-        DataSourcesPage dataSourcesPage = dataSourcesPageTestsUtil.openDataSourcesPage();
+        //DataSourcesPage dataSourcesPage = dataSourcesPageTestsUtil.openDataSourcesPage();
 
-        editDataSourceWithPointListPageSubject = dataSourcesPage.reopen()
-                .openDataSourceEditor(dataSourceCriteria);
+        editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.init("true");
     }
 
     @After

@@ -50,8 +50,18 @@ public class ExecutorUtil {
         }
     }
 
-    public static <T, E extends Throwable> void execute(Consumer<T> consumer, T arg,
+    public static <T, E extends Throwable> void executeConsumer(Consumer<T> consumer, T arg,
                                    Function<Throwable, E> exception) throws E {
+        try {
+            consumer.accept(arg);
+        } catch (Throwable throwable) {
+            logger.error(throwable.getMessage(), throwable);
+            throw exception.apply(throwable);
+        }
+    }
+
+    public static <T, E extends Throwable> void executeConsumerThrowable(FunctionlInterfaces.ConsumerThrowable<T> consumer, T arg,
+                                                                         Function<Throwable, E> exception) throws E {
         try {
             consumer.accept(arg);
         } catch (Throwable throwable) {
@@ -69,6 +79,4 @@ public class ExecutorUtil {
             throw exception.apply(throwable);
         }
     }
-
-
 }

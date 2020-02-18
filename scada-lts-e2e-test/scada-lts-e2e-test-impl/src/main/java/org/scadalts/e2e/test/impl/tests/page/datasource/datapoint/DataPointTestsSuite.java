@@ -6,7 +6,9 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         CreateDataPointTest.class,
-        DeleteDataPointTest.class
+        DeleteDataPointTest.class,
+        ChangePointValueInDetailsPageTest.class,
+        SequencePointValueHistoryInDetailsPageTest.class
 })
 public class DataPointTestsSuite {
 }

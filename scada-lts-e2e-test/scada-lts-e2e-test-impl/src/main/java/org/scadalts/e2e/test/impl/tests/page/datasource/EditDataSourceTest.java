@@ -11,7 +11,7 @@ import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourcesPageTestsUtil;
+import org.scadalts.e2e.test.impl.utils.DataSourcesAndPointsPageTestsUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotEquals;
 public class EditDataSourceTest {
 
     private DataSourceCriteria criteria;
-    private DataSourcesPageTestsUtil dataSourcesPageTestsUtil;
+    private DataSourcesAndPointsPageTestsUtil dataSourcesPageTestsUtil;
 
     private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
     private DataSourcesPage dataSourcesPage;
@@ -29,7 +29,7 @@ public class EditDataSourceTest {
     public void createDataSource() {
         String dataSourceName = "ds_test" + System.nanoTime();
         criteria = new DataSourceCriteria(dataSourceName, DataSourceType.VIRTUAL_DATA_SOURCE, UpdatePeriodType.SECOUND);
-        dataSourcesPageTestsUtil = new DataSourcesPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
+        dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
         dataSourcesPage = dataSourcesPageTestsUtil.openDataSourcesPage();
         editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.addDataSources();
     }

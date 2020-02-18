@@ -61,12 +61,12 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
     }
 
     public EditDataSourcePage selectUpdatePeriodType(UpdatePeriodType componentName) {
-        updatePeriodType.selectOption(componentName.getTypeName());
+        updatePeriodType.selectOption(componentName.getName());
         return this;
     }
 
     public String selectUpdatePeriodTypeValue(UpdatePeriodType componentName) {
-        updatePeriodType.selectOption(componentName.getTypeName());
+        updatePeriodType.selectOption(componentName.getName());
         return updatePeriodType.getValue();
     }
 

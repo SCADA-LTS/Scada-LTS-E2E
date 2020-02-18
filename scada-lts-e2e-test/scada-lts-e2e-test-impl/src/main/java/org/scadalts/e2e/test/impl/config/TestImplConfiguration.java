@@ -8,4 +8,5 @@ public class TestImplConfiguration {
     public volatile static String graphicalViewName = "viewTest";
     public volatile static String dataPointToChangeXid = "dataPointToChangeXid";
     public volatile static String dataPointToReadXid = "dataPointToReadXid";
+    public volatile static String[] dataPointValuesToChangeTests = new String[]{};
 }

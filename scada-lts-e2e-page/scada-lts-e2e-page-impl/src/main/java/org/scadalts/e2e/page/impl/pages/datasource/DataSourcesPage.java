@@ -65,18 +65,18 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     }
 
     public DataSourcesPage selectDataSourceTypeOnPage(DataSourceType dataSourceType) {
-        dataSourceTypes.selectOption(dataSourceType.getTypeName());
+        dataSourceTypes.selectOption(dataSourceType.getName());
         return this;
     }
 
     public EditDataSourcePage openDataSourceCreator(DataSourceType dataSourceType) {
-        dataSourceTypes.selectOption(dataSourceType.getTypeName());
+        dataSourceTypes.selectOption(dataSourceType.getName());
         return _openDataSourceCreator();
     }
 
 
     public String selectDataSourceType(DataSourceType dataSourceType) {
-        dataSourceTypes.selectOption(dataSourceType.getTypeName());
+        dataSourceTypes.selectOption(dataSourceType.getName());
         return dataSourceTypes.getValue();
     }
 
