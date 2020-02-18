@@ -16,17 +16,17 @@ public enum ChangeType implements E2eDictionary {
     ATTRACTOR("Attractor", "attractor"),
     NONE("none", "");
 
-    private final String typeName;
+    private final String name;
     private final String id;
 
-    ChangeType(String typeName, String id) {
-        this.typeName = typeName;
+    ChangeType(String name, String id) {
+        this.name = name;
         this.id = id;
     }
 
     public static ChangeType getType(String typeName) {
         return Stream.of(ChangeType.values())
-                .filter(a -> a.typeName.equals(typeName))
+                .filter(a -> a.name.equals(typeName))
                 .findFirst()
                 .orElse(NONE);
     }

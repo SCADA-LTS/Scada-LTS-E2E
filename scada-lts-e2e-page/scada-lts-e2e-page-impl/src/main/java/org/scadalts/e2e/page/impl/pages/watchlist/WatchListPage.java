@@ -7,13 +7,17 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.criteria.ActionCriteria;
+import org.scadalts.e2e.page.core.criteria.ObjectCriteria;
 import org.scadalts.e2e.page.core.criteria.RowCriteria;
 import org.scadalts.e2e.page.core.exceptions.DynamicElementException;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criteria.WatchListCriteria;
+import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
 
 import static com.codeborne.selenide.Condition.not;
+import static com.codeborne.selenide.Selenide.page;
 import static org.scadalts.e2e.page.core.util.DynamicElementUtil.findAction;
+import static org.scadalts.e2e.page.core.util.E2eUtil.acceptAlert;
 import static org.scadalts.e2e.page.core.util.StabilityUtil.waitWhile;
 
 @Log4j2
@@ -37,6 +41,8 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     private static final By SELECTOR_INPUT_BY = By.cssSelector("input[id*='txtChange']");
     private static final By SELECTOR_CONFIRM_CHANGE_BY = By.cssSelector("a[onclick*='setPoint']");
     private static final By SELECTOR_GET_VALUE_BY = By.cssSelector("td[id*='Value']");
+    private static final By SELECTOR_DATA_POINT_DETAILS_BY = By.cssSelector("img[src='images/icon_comp.png']");
+    private static final By SELECTOR_DELETE_FROM_WATCH_LIST_BY = By.cssSelector("img[src='images/bullet_delete.png']");
 
     @Override
     public WatchListPage getPage() {
@@ -46,6 +52,11 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     public WatchListPage addToWatchList(WatchListCriteria criteria) {
         _findActionInSpan(criteria, SELECTOR_ACTION_ADD_TO_WATCH_BY).click();
         return this;
+    }
+
+    public String getWatchListText() {
+        return waitWhile(watchListTable, not(Condition.visible))
+                .getText();
     }
 
     public WatchListPage setDataPointValue(WatchListCriteria criteria, String value) {
@@ -72,8 +83,19 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         return this;
     }
 
+    public DataPointDetailsPage openDataPointDetails(WatchListCriteria criteria) {
+        _findActionInTBody(criteria, SELECTOR_DATA_POINT_DETAILS_BY).click();
+        return page(DataPointDetailsPage.class);
+    }
+
     public WatchListPage closeEditorDataPointValue(WatchListCriteria criteria) {
         _findActionInTBody(criteria, SELECTOR_ACTION_CLOSE_EDIT_BY).doubleClick();
+        return this;
+    }
+
+    public WatchListPage deleteFromWatchList(WatchListCriteria criteria) {
+        _findActionInTBody(criteria, SELECTOR_DELETE_FROM_WATCH_LIST_BY).click();
+        acceptAlert();
         return this;
     }
 
@@ -95,5 +117,10 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         } catch (DynamicElementException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public boolean containsObject(ObjectCriteria criteria) {
+        return getWatchListText().contains(criteria.getIdentifier());
     }
 }

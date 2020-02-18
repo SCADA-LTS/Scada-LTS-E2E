@@ -15,14 +15,14 @@ import org.scadalts.e2e.test.core.exceptions.ConfigureTestException;
 
 import java.util.Objects;
 
-public class DataSourcesPageTestsUtil {
+public class DataSourcesAndPointsPageTestsUtil {
 
     @Getter
     private DataSourcesPage dataSourcesPage;
     private DataSourceCriteria[] dataSourceCriteria;
     private DataPointCriteria[] dataPointCriteria;
 
-    public DataSourcesPageTestsUtil(NavigationPage navigationPage, DataSourceCriteria dataSourceCriteria, DataPointCriteria... dataPointCriteria) {
+    public DataSourcesAndPointsPageTestsUtil(NavigationPage navigationPage, DataSourceCriteria dataSourceCriteria, DataPointCriteria... dataPointCriteria) {
         if(Objects.isNull(navigationPage))
             throw new RuntimeException(new ConfigureTestException());
         this.dataSourcesPage = navigationPage.openDataSources();
@@ -30,7 +30,7 @@ public class DataSourcesPageTestsUtil {
         this.dataPointCriteria = dataPointCriteria;
     }
 
-    public DataSourcesPageTestsUtil(NavigationPage navigationPage, DataSourceCriteria[] dataSourceCriteria, DataPointCriteria... dataPointCriteria) {
+    public DataSourcesAndPointsPageTestsUtil(NavigationPage navigationPage, DataSourceCriteria[] dataSourceCriteria, DataPointCriteria... dataPointCriteria) {
         if(Objects.isNull(navigationPage))
             throw new RuntimeException(new ConfigureTestException());
         this.dataSourcesPage = navigationPage.openDataSources();
@@ -38,7 +38,7 @@ public class DataSourcesPageTestsUtil {
         this.dataPointCriteria = dataPointCriteria;
     }
 
-    public DataSourcesPageTestsUtil(NavigationPage navigationPage, DataPointCriteria... dataPointCriteria) {
+    public DataSourcesAndPointsPageTestsUtil(NavigationPage navigationPage, DataPointCriteria... dataPointCriteria) {
         if(Objects.isNull(navigationPage))
             throw new RuntimeException(new ConfigureTestException());
         this.dataSourcesPage = navigationPage.openDataSources();
@@ -46,7 +46,7 @@ public class DataSourcesPageTestsUtil {
         this.dataPointCriteria = dataPointCriteria;
     }
 
-    public DataSourcesPageTestsUtil(NavigationPage navigationPage) {
+    public DataSourcesAndPointsPageTestsUtil(NavigationPage navigationPage) {
         if(Objects.isNull(navigationPage))
             throw new RuntimeException(new ConfigureTestException());
         this.dataSourcesPage = navigationPage.openDataSources();
@@ -54,9 +54,8 @@ public class DataSourcesPageTestsUtil {
         this.dataPointCriteria = new DataPointCriteria[] {createDataPointCriteria()};
     }
 
-    public void init(String dataPointStartValue) {
-        addDataSources();
-        addDataPoints(dataPointStartValue);
+    public EditDataSourceWithPointListPage init(String dataPointStartValue) {
+        return _addDataSourcesAndPoints(dataPointStartValue);
     }
 
     public void clean() {
@@ -72,14 +71,16 @@ public class DataSourcesPageTestsUtil {
         return page;
     }
 
-    public EditDataPointPage addDataPoints(String startValue) {
+    public EditDataSourceWithPointListPage addDataPoints(String startValue) {
         EditDataPointPage page = new EditDataPointPage();
         for (DataSourceCriteria dataSourceParam : dataSourceCriteria) {
+            EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.reopen()
+                    .openDataSourceEditor(dataSourceParam);
             for (DataPointCriteria dataPointParam : dataPointCriteria) {
-                page = _addDataPoint(dataSourceParam, dataPointParam, startValue);
+                page = _addDataPoint(editDataSourceWithPointListPage, dataPointParam, startValue);
             }
         }
-        return page;
+        return page.enableAllDataPoint();
     }
 
     public static DataSourceCriteria createDataSourceCriteria() {
@@ -107,13 +108,10 @@ public class DataSourcesPageTestsUtil {
     public void deleteDataPoints() {
         DataSourcesPage page = dataSourcesPage.reopen();
         for (DataSourceCriteria dataSourceParam : dataSourceCriteria) {
-
             if(page.containsObject(dataSourceParam)) {
                 EditDataSourceWithPointListPage editDataSourcePage = page
                         .openDataSourceEditor(dataSourceParam);
-
                 for (DataPointCriteria dataPointParam : dataPointCriteria) {
-
                     if (editDataSourcePage.containsObject(dataPointParam))
                         editDataSourcePage.openDataPointEditor(dataPointParam)
                                 .deleteDataPoint();
@@ -126,17 +124,14 @@ public class DataSourcesPageTestsUtil {
         return dataSourcesPage.reopen();
     }
 
-    private EditDataPointPage _addDataPoint(DataSourceCriteria sourceParams, DataPointCriteria pointParams, String value) {
-        return dataSourcesPage.reopen()
-                .openDataSourceEditor(sourceParams)
-                .addDataPoint()
+    private EditDataPointPage _addDataPoint(EditDataSourceWithPointListPage page, DataPointCriteria pointParams, String startValue) {
+        return page.addDataPoint()
                 .setDataPointName(pointParams.getIdentifier())
                 .selectDataPointType(pointParams.getType())
                 .enableSettable()
                 .selectChangeType(pointParams.getChangeType())
-                .setStartValue(pointParams, value)
+                .setStartValue(pointParams, startValue)
                 .saveDataPoint()
-                .enableDataPoint(pointParams)
                 .openDataPointEditor(pointParams);
     }
 
@@ -150,4 +145,15 @@ public class DataSourcesPageTestsUtil {
                 .enableDataSource();
     }
 
+    private EditDataSourceWithPointListPage _addDataSourcesAndPoints(String startValue) {
+        EditDataPointPage editDataPointPage = new EditDataPointPage();
+        for (DataSourceCriteria dataSourceParams : dataSourceCriteria) {
+            EditDataSourceWithPointListPage editDataSourceWithPointListPage = _addDataSource(dataSourceParams);
+            for (DataPointCriteria pointParams : dataPointCriteria) {
+                editDataPointPage = _addDataPoint(editDataSourceWithPointListPage, pointParams, startValue);
+            }
+
+        }
+        return editDataPointPage.enableAllDataPoint();
+    }
 }

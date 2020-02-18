@@ -11,18 +11,18 @@ public enum TextRendererType implements E2eDictionary {
 
     PLAIN("textRendererPlain", "textRendererPlain");
 
-    private final String typeName;
+    private final String name;
     private final String id;
 
-    TextRendererType(String typeName, String id) {
-        this.typeName = typeName;
+    TextRendererType(String name, String id) {
+        this.name = name;
         this.id = id;
     }
 
     @JsonCreator
     public static TextRendererType fromString(String string) {
         return Stream.of(TextRendererType.values())
-                .filter(a -> a.typeName.equals(string))
+                .filter(a -> a.name.equals(string))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(string));
     }

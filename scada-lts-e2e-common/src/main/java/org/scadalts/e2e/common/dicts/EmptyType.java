@@ -4,7 +4,7 @@ public enum EmptyType implements E2eDictionary {
     ANY;
 
     @Override
-    public String getTypeName() {
+    public String getName() {
         return "";
     }
 

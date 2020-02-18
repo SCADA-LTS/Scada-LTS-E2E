@@ -50,6 +50,8 @@ public interface E2eConfig {
 
     String[] getSendTo();
 
+    String[] getDataPointValuesToChangeTests();
+
     org.apache.logging.log4j.Level getLogLevel();
 
     int getCtrlCode();

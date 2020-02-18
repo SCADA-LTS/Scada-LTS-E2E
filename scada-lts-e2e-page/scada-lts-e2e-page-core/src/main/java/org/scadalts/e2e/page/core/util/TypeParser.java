@@ -31,6 +31,11 @@ public abstract class TypeParser {
     }
 
     public static int parseIntValueFormatted(String value) {
-        return new BigDecimal(value).intValue();
+        try {
+            return new BigDecimal(value).intValue();
+        } catch (Exception throwable) {
+            logger.warn(throwable.getMessage(), throwable);
+            throw throwable;
+        }
     }
 }

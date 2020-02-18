@@ -53,7 +53,7 @@ public class GraphicalViewTestsUtil {
 
     private static File _getBackgroundFile() {
         try {
-            return getFileFromJar("background-test.png");
+            return getFileFromJar("image/background-test.png");
         } catch (Throwable throwable) {
             logger.error(throwable.getMessage(),throwable);
             return new File("");

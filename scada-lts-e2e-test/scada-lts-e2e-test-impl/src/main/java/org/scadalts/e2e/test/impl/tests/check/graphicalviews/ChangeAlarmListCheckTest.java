@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.impl.tests.check.graphicalviews;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.EditViewPage;
@@ -19,6 +20,7 @@ public class ChangeAlarmListCheckTest {
     private final GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(navigationPage, "");
 
     @Test
+    @Ignore
     public void test_check_no_changed_alarmList() {
 
         //when:

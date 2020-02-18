@@ -1,6 +1,9 @@
 package org.scadalts.e2e.common.logo;
 
-public class AsciiHeaders {
+public final class AsciiHeaders {
+
+    private AsciiHeaders() {}
+
     public static final String MAIN_HEADER_WITH_VERSION = "\n\n" +
                                         "___________________________________________________________________\n" +
                                         "__  ___/___________ ______  /_____ _      ___  ____/_|__ \\__  ____/\n" +

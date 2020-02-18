@@ -1,5 +1,6 @@
 package org.scadalts.e2e.page.impl.pages.navigation;
 
+import com.codeborne.selenide.Selenide;
 import org.scadalts.e2e.page.core.pages.PageObject;
 import org.scadalts.e2e.page.impl.pages.alarms.PendingAlarmsPage;
 import org.scadalts.e2e.page.impl.pages.compoundeventdetectors.CompoundEventDetectorsPage;
@@ -100,5 +101,10 @@ public interface NavigationPage extends PageObject<NavigationPage> {
             throwable.printStackTrace();
             return "";
         }
+    }
+
+    static void kill() {
+        Selenide.closeWindow();
+        Selenide.closeWebDriver();
     }
 }

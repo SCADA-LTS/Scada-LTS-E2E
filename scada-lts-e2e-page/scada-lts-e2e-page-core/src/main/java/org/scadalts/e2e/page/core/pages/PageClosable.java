@@ -2,8 +2,15 @@ package org.scadalts.e2e.page.core.pages;
 
 import com.codeborne.selenide.Selenide;
 
-interface PageClosable {
+import java.io.Closeable;
+
+interface PageClosable extends Closeable {
     default void closeWindows() {
         Selenide.closeWebDriver();
+    }
+
+    @Override
+    default void close() {
+        closeWindows();
     }
 }

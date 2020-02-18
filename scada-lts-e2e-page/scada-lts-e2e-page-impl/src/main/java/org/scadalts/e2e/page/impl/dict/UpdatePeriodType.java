@@ -14,17 +14,17 @@ public enum UpdatePeriodType implements E2eDictionary {
     HOUR("hour(s)", "3"),
     NONE("none", "");
 
-    private final String typeName;
+    private final String name;
     private final String id;
 
-    UpdatePeriodType(String typeName, String id) {
-        this.typeName = typeName;
+    UpdatePeriodType(String name, String id) {
+        this.name = name;
         this.id = id;
     }
 
     public static UpdatePeriodType getType(String typeName) {
         return Stream.of(UpdatePeriodType.values())
-                .filter(a -> a.typeName.equals(typeName))
+                .filter(a -> a.name.equals(typeName))
                 .findFirst()
                 .orElse(NONE);
     }

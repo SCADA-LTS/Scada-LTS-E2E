@@ -1,11 +1,9 @@
 package org.scadalts.e2e.test.impl.tests.page.watchlist;
 
-import lombok.extern.log4j.Log4j2;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criteria.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criteria.WatchListCriteria;
@@ -13,33 +11,17 @@ import org.scadalts.e2e.page.impl.dict.ChangeType;
 import org.scadalts.e2e.page.impl.dict.DataPointType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
+import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.utils.DataSourcesAndPointsPageTestsUtil;
 import org.scadalts.e2e.test.impl.utils.WatchListTestsUtil;
 
-import java.util.Collection;
-
 import static org.junit.Assert.*;
-import static org.scadalts.e2e.page.core.util.TypeParser.parseIntValueFormatted;
 
-@Log4j2
-@RunWith(E2eTestParameterizedRunner.class)
-public class ChangePointValueOnWatchListPageTest {
-
-    @Parameterized.Parameters(name = "{index}:{0}")
-    public static Collection<String> data() {
-        return WatchListTestsUtil.paramsToTests();
-    }
-
-    private final String valueExpected;
-
-    public ChangePointValueOnWatchListPageTest(String valueExpected) {
-        this.valueExpected = valueExpected;
-    }
+@RunWith(E2eTestRunner.class)
+public class DeleteWatchListPageTest {
 
     private static DataSourcesAndPointsPageTestsUtil dataSourcesPageTestsUtil;
-    private static WatchListTestsUtil watchListTestsUtil;
     private static WatchListCriteria watchListCriteria;
     private static WatchListPage watchListPageSubject;
 
@@ -54,38 +36,32 @@ public class ChangePointValueOnWatchListPageTest {
         dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(navigationPage, dataSourceCriteria, dataPointCriteria);
         dataSourcesPageTestsUtil.init("123");
 
-        watchListTestsUtil = new WatchListTestsUtil(navigationPage, watchListCriteria);
+        WatchListTestsUtil watchListTestsUtil = new WatchListTestsUtil(navigationPage, watchListCriteria);
         watchListPageSubject = watchListTestsUtil.openWatchListPage();
         watchListPageSubject.addToWatchList(watchListCriteria);
     }
 
     @AfterClass
     public static void clean() {
-        watchListTestsUtil.clean();
         dataSourcesPageTestsUtil.clean();
     }
 
     @Test
-    public void test_change_point_value_on_watch_list() {
+    public void test_delete_watch_list() {
 
-         //when:
-        watchListPageSubject.openEditorDataPointValue(watchListCriteria)
-                 .setDataPointValue(watchListCriteria, valueExpected)
-                 .confirmDataPointValue(watchListCriteria)
-                 .closeEditorDataPointValue(watchListCriteria);
+        //when:
+        boolean existsBeforeDelete = watchListPageSubject.containsObject(watchListCriteria);
 
-         //and:
-         String result = watchListPageSubject.reopen()
-                 .getDataPointValue(watchListCriteria);
+        //then:
+        assertEquals(true, existsBeforeDelete);
 
-         //then:
-         assertNotNull(result);
-         assertNotEquals("", result);
+        //and when:
+        watchListPageSubject.deleteFromWatchList(watchListCriteria);
 
-         result = String.valueOf(parseIntValueFormatted(result));
+        //and:
+        boolean result = watchListPageSubject.reopen().containsObject(watchListCriteria);
 
-         //then:
-         assertEquals(valueExpected, result);
+        //then:
+        assertEquals(false, result);
     }
-
 }

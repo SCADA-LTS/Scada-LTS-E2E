@@ -15,11 +15,11 @@ public enum ChangeTypeField implements E2eDictionary {
     VOLATILITY("Volatility", "volatility"),
     ATTRACTION_POINT("Attraction point", "attractionPointId");
 
-    private final String typeName;
+    private final String name;
     private final String id;
 
-    ChangeTypeField(String typeName, String id) {
-        this.typeName = typeName;
+    ChangeTypeField(String name, String id) {
+        this.name = name;
         this.id = id;
     }
 
