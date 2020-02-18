@@ -63,4 +63,7 @@ class E2eConfigDefault implements E2eConfig {
     private AuthType authType;
 
     private String titleEmail;
+    private String dataSourceName;
+    private String dataPointName;
+
 }

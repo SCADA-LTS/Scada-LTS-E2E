@@ -9,4 +9,6 @@ public class TestImplConfiguration {
     public volatile static String dataPointToChangeXid = "dataPointToChangeXid";
     public volatile static String dataPointToReadXid = "dataPointToReadXid";
     public volatile static String[] dataPointValuesToChangeTests = new String[]{};
+    public volatile static String dataSourceName = "dataSourceName";
+    public volatile static String dataPointName = "dataPointName";
 }

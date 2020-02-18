@@ -28,4 +28,11 @@ public class ScadaOptions extends TestOptions {
 
     @CommandLine.Option(names = {"-V", "--point-values-to-change-tests"}, split = ";", defaultValue = "")
     private String[] dataPointValuesToChangeTests;
+
+    @CommandLine.Option(names = {"-Y", "--data-source-name"})
+    private String dataSourceName;
+
+    @CommandLine.Option(names = {"-y", "--data-point-name"})
+    private String dataPointName;
+
 }
