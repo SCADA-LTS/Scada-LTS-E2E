@@ -209,4 +209,14 @@ public class E2eConfigCli implements E2eConfig {
     public String[] getDataPointValuesToChangeTests() {
         return fromE2e.getDataPointValuesToChangeTests();
     }
+
+    @Override
+    public String getDataSourceName() {
+        return fromE2e.getDataSourceName();
+    }
+
+    @Override
+    public String getDataPointName() {
+        return fromE2e.getDataPointName();
+    }
 }

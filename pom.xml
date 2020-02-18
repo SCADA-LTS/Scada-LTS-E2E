@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>13.1.0-SNAPSHOT</version>
+    <version>13.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -670,7 +670,7 @@
                 <test.e2e.env>prod</test.e2e.env>
                 <test.e2e.test-plan>CHECK</test.e2e.test-plan>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>6000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>12000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
@@ -691,6 +691,8 @@
                 <test.e2e.classes-test-refs>{classesTestRefs}</test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>{dataPointToChangeXid}</test.e2e.data-point-to-change-xid>
                 <test.e2e.data-point-to-read-xid>{dataPointToReadXid}</test.e2e.data-point-to-read-xid>
+                <test.e2e.data-source-name></test.e2e.data-source-name>
+                <test.e2e.data-point-name></test.e2e.data-point-name>
                 <test.e2e.point-values-to-change-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-change-tests>
                 <test.e2e.run-app.port-app>9090</test.e2e.run-app.port-app>
                 <test.e2e.run-app.cron-pattern>0/15 * * * * ?</test.e2e.run-app.cron-pattern>
@@ -720,7 +722,7 @@
                 <test.e2e.env>test</test.e2e.env>
                 <test.e2e.test-plan>CHECK</test.e2e.test-plan>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>6000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>12000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
@@ -741,6 +743,8 @@
                 <test.e2e.classes-test-refs>{classesTestRefs}</test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>{dataPointToChangeXid}</test.e2e.data-point-to-change-xid>
                 <test.e2e.data-point-to-read-xid>{dataPointToReadXid}</test.e2e.data-point-to-read-xid>
+                <test.e2e.data-source-name>ds_testName1234</test.e2e.data-source-name>
+                <test.e2e.data-point-name>dp_testName1234</test.e2e.data-point-name>
                 <test.e2e.point-values-to-change-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-change-tests>
                 <test.e2e.run-app.port-app>9090</test.e2e.run-app.port-app>
                 <test.e2e.run-app.cron-pattern>0/15 * * * * ?</test.e2e.run-app.cron-pattern>
@@ -770,7 +774,7 @@
                 <test.e2e.env>dev</test.e2e.env>
                 <test.e2e.test-plan>ALL</test.e2e.test-plan>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>6000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>12000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
@@ -792,6 +796,8 @@
                 <!--ds_test1368284530530-->
                 <test.e2e.data-point-to-change-xid>DP_400342</test.e2e.data-point-to-change-xid>
                 <test.e2e.data-point-to-read-xid>DP_077081</test.e2e.data-point-to-read-xid>
+                <test.e2e.data-source-name>ds_testName1234</test.e2e.data-source-name>
+                <test.e2e.data-point-name>dp_testName1234</test.e2e.data-point-name>
                 <test.e2e.point-values-to-change-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-change-tests>
                 <test.e2e.run-app.port-app>9091</test.e2e.run-app.port-app>
                 <test.e2e.run-app.cron-pattern>0/30 * * * * ?</test.e2e.run-app.cron-pattern>
@@ -824,10 +830,10 @@
                 <test.e2e.env>dev-local</test.e2e.env>
                 <test.e2e.test-plan>ALL</test.e2e.test-plan>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>6000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>12000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
-                <test.e2e.headless-mode>true</test.e2e.headless-mode>
+                <test.e2e.headless-mode>false</test.e2e.headless-mode>
                 <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
                 <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
                 <test.e2e.fast-set-value-mode>true</test.e2e.fast-set-value-mode>
@@ -845,7 +851,9 @@
                 <test.e2e.classes-test-refs></test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>DP_054378</test.e2e.data-point-to-change-xid>
                 <test.e2e.data-point-to-read-xid>DP_961456</test.e2e.data-point-to-read-xid>
-                <test.e2e.point-values-to-change-tests>23;23;3;335;565;76;6763;4353;5365;687</test.e2e.point-values-to-change-tests>
+                <test.e2e.data-source-name>ds_testName1234</test.e2e.data-source-name>
+                <test.e2e.data-point-name>dp_testName1234</test.e2e.data-point-name>
+                <test.e2e.point-values-to-change-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-change-tests>
                 <test.e2e.run-app.port-app>9090</test.e2e.run-app.port-app>
                 <test.e2e.run-app.cron-pattern>0/30 * * * * ?</test.e2e.run-app.cron-pattern>
                 <test.e2e.run-app.continuous-mode>true</test.e2e.run-app.continuous-mode>
@@ -856,7 +864,7 @@
                 <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
-                <test.e2e.run-app.notification-email-mode>false</test.e2e.run-app.notification-email-mode>
+                <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.custom-name>-all-test-plan</test.e2e.custom-name>

@@ -75,8 +75,7 @@ public class ChangePointValueOnWatchListPageTest {
                  .closeEditorDataPointValue(watchListCriteria);
 
          //and:
-         String result = watchListPageSubject.reopen()
-                 .getDataPointValue(watchListCriteria);
+         String result = watchListPageSubject.getDataPointValue(watchListCriteria);
 
          //then:
          assertNotNull(result);
