@@ -16,7 +16,9 @@ import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.utils.DataSourcesAndPointsPageTestsUtil;
 import org.scadalts.e2e.test.impl.utils.WatchListTestsUtil;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
 
 @RunWith(E2eTestRunner.class)
 public class DeleteWatchListPageTest {
@@ -37,8 +39,8 @@ public class DeleteWatchListPageTest {
         dataSourcesPageTestsUtil.init("123");
 
         WatchListTestsUtil watchListTestsUtil = new WatchListTestsUtil(navigationPage, watchListCriteria);
-        watchListPageSubject = watchListTestsUtil.openWatchListPage();
-        watchListPageSubject.addToWatchList(watchListCriteria);
+        watchListPageSubject = watchListTestsUtil.getWatchListPage()
+                .addToWatchList(watchListCriteria);
     }
 
     @AfterClass
@@ -50,18 +52,18 @@ public class DeleteWatchListPageTest {
     public void test_delete_watch_list() {
 
         //when:
-        boolean existsBeforeDelete = watchListPageSubject.containsObject(watchListCriteria);
+        String watchListBeforeDelete = watchListPageSubject.getWatchListText();
 
         //then:
-        assertEquals(true, existsBeforeDelete);
+        assertThat(watchListBeforeDelete, containsString(watchListCriteria.getIdentifier()));
 
         //and when:
         watchListPageSubject.deleteFromWatchList(watchListCriteria);
 
         //and:
-        boolean result = watchListPageSubject.reopen().containsObject(watchListCriteria);
+        String watchListAfterDelete = watchListPageSubject.reopen().getWatchListText();
 
         //then:
-        assertEquals(false, result);
+        assertThat(watchListAfterDelete, not(containsString(watchListCriteria.getIdentifier())));
     }
 }

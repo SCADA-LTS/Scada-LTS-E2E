@@ -30,7 +30,7 @@ public class EditDataSourceTest {
         String dataSourceName = "ds_test" + System.nanoTime();
         criteria = new DataSourceCriteria(dataSourceName, DataSourceType.VIRTUAL_DATA_SOURCE, UpdatePeriodType.SECOUND);
         dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
-        dataSourcesPage = dataSourcesPageTestsUtil.openDataSourcesPage();
+        dataSourcesPage = dataSourcesPageTestsUtil.getDataSourcesPage();
         editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.addDataSources();
     }
 

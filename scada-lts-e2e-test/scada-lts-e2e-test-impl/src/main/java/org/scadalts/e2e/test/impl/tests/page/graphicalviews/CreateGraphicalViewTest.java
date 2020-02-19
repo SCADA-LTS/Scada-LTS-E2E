@@ -26,7 +26,7 @@ public class CreateGraphicalViewTest {
     public void setup() {
         testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), viewName);
         background = testsUtil.getBackgroundFile();
-        graphicalViewsPageSubject = testsUtil.openGraphicalViews();
+        graphicalViewsPageSubject = testsUtil.getGraphicalViewsPage();
     }
 
     @After

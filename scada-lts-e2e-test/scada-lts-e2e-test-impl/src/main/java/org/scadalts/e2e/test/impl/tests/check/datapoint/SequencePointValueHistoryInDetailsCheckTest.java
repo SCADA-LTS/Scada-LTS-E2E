@@ -55,7 +55,7 @@ public class SequencePointValueHistoryInDetailsCheckTest {
         NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
 
         WatchListTestsUtil watchListTestsUtil = new WatchListTestsUtil(navigationPage, watchListCriteria);
-        dataPointDetailsPageSubject = watchListTestsUtil.openWatchListPage()
+        dataPointDetailsPageSubject = watchListTestsUtil.getWatchListPage()
                 .openDataPointDetails(watchListCriteria);
         int limit = dataPointDetailsPageSubject.getHistoryLimit();
         List<String> result = dataPointDetailsPageSubject.getValuesFromHistory();

@@ -14,7 +14,8 @@ import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.utils.DataSourcesAndPointsPageTestsUtil;
 
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertThat;
 
 @RunWith(E2eTestRunner.class)
 public class CreateDataPointTest {
@@ -37,7 +38,7 @@ public class CreateDataPointTest {
         dataPointCreatedCriteria = new DataPointCriteria(dataPointToCreateName, dataPointType, changeType);
         dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataSourceCriteria, dataPointCreatedCriteria);
 
-        dataSourcesPage = dataSourcesPageTestsUtil.openDataSourcesPage();
+        dataSourcesPage = dataSourcesPageTestsUtil.getDataSourcesPage();
         editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.addDataSources();
     }
 
@@ -59,12 +60,13 @@ public class CreateDataPointTest {
                 .saveDataPoint()
                 .enableDataPoint(dataPointCreatedCriteria);
 
-        //then:
-        boolean result = dataSourcesPage.reopen()
+        //and:
+        String body = dataSourcesPage.reopen()
                 .openDataSourceEditor(dataSourceCriteria)
-                .containsObject(dataPointCreatedCriteria);
+                .getBodyText();
 
-        assertTrue(result);
+        //then:
+        assertThat(body, containsString(dataPointToCreateName));
     }
 
 

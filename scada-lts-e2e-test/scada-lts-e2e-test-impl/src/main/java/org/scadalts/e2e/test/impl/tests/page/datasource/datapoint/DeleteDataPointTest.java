@@ -13,8 +13,9 @@ import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.utils.DataSourcesAndPointsPageTestsUtil;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
 
 @RunWith(E2eTestRunner.class)
 public class DeleteDataPointTest {
@@ -39,10 +40,6 @@ public class DeleteDataPointTest {
 
         dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataSourceCriteria, dataPointCriteria,
                 dataPointToDeleteCriteria, dataPointCriteria2);
-        //dataSourcesPageTestsUtil.init("true");
-
-        //DataSourcesPage dataSourcesPage = dataSourcesPageTestsUtil.openDataSourcesPage();
-
         editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.init("true");
     }
 
@@ -55,19 +52,19 @@ public class DeleteDataPointTest {
     public void test_delete_data_point() {
 
         //when:
-        boolean before = editDataSourceWithPointListPageSubject.containsObject(dataPointToDeleteCriteria);
+        String bodyBeforeDelete = editDataSourceWithPointListPageSubject.getBodyText();
 
         //then:
-        assertTrue(before);
+        assertThat(bodyBeforeDelete, containsString(dataPointToDeleteName));
 
         //and when:
-        boolean result = editDataSourceWithPointListPageSubject
+        String bodyAfterDelete = editDataSourceWithPointListPageSubject
                 .openDataPointEditor(dataPointToDeleteCriteria)
                 .deleteDataPoint()
                 .waitOnPage(1000)
-                .containsObject(dataPointToDeleteCriteria);
+                .getBodyText();
 
         //then:
-        assertFalse(result);
+        assertThat(bodyAfterDelete, not(containsString(dataPointToDeleteName)));
     }
 }
