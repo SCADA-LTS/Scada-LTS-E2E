@@ -13,6 +13,7 @@ import org.scadalts.e2e.test.impl.utils.GraphicalViewTestsUtil;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+@Ignore
 @RunWith(E2eTestRunner.class)
 public class ChangeAlarmListCheckTest {
 
@@ -20,7 +21,6 @@ public class ChangeAlarmListCheckTest {
     private final GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(navigationPage, "");
 
     @Test
-    @Ignore
     public void test_check_no_changed_alarmList() {
 
         //when:
