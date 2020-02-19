@@ -55,8 +55,8 @@ public class ChangePointValueOnWatchListPageTest {
         dataSourcesPageTestsUtil.init("123");
 
         watchListTestsUtil = new WatchListTestsUtil(navigationPage, watchListCriteria);
-        watchListPageSubject = watchListTestsUtil.openWatchListPage();
-        watchListPageSubject.addToWatchList(watchListCriteria);
+        watchListPageSubject = watchListTestsUtil.getWatchListPage()
+                .addToWatchList(watchListCriteria);
     }
 
     @AfterClass

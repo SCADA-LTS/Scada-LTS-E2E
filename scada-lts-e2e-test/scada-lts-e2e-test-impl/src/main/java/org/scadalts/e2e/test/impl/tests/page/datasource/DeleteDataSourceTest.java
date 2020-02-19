@@ -43,18 +43,18 @@ public class DeleteDataSourceTest {
     public void test_delete_data_source() {
 
         //given
-        String body = dataSourcesPageSubject.getBodyText();
+        String bodyBeforeDelete = dataSourcesPageSubject.getBodyText();
 
         //then:
-        assertThat(body, containsString(dataSourceToDeleteName));
+        assertThat(bodyBeforeDelete, containsString(dataSourceToDeleteName));
 
         //when:
-        body = dataSourcesPageSubject
+        String bodyAfterDelete = dataSourcesPageSubject
                 .deleteDataSource(dataSourceToDeleteCriteria)
                 .reopen()
                 .getBodyText();
 
         //then:
-        assertThat(body, not(containsString(dataSourceToDeleteName)));
+        assertThat(bodyAfterDelete, not(containsString(dataSourceToDeleteName)));
     }
 }

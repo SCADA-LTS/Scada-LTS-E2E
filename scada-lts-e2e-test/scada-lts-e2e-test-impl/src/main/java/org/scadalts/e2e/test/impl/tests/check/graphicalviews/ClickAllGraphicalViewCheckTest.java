@@ -22,7 +22,7 @@ public class ClickAllGraphicalViewCheckTest {
     @Test
     public void test_click_all_graphical_view() {
         //given:
-        GraphicalViewsPage graphicalViewsPage = testsUtil.openGraphicalViews();
+        GraphicalViewsPage graphicalViewsPage = testsUtil.getGraphicalViewsPage();
         Map<String, String> dataViews = graphicalViewsPage.getDataAllViews();
 
         for (Map.Entry<String, String> view : dataViews.entrySet()) {

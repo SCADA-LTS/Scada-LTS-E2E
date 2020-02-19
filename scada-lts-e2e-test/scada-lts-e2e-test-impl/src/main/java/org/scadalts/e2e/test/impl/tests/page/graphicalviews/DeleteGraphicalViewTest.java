@@ -24,7 +24,7 @@ public class DeleteGraphicalViewTest {
     public void createView() {
         testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), viewName);
         testsUtil.addView();
-        graphicalViewsPageSubject = testsUtil.openGraphicalViews();
+        graphicalViewsPageSubject = testsUtil.getGraphicalViewsPage();
     }
 
     @After

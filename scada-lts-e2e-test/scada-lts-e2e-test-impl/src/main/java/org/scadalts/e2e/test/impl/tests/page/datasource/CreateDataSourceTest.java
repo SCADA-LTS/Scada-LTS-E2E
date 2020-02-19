@@ -29,8 +29,7 @@ public class CreateDataSourceTest {
     public void setup() {
         DataSourceCriteria criteria = new DataSourceCriteria(dataSourceName, dataSourceType, updatePeriodType);
         dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
-        dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
-        dataSourcesPageSubject = dataSourcesPageTestsUtil.openDataSourcesPage();
+        dataSourcesPageSubject = dataSourcesPageTestsUtil.getDataSourcesPage();
     }
 
     @After

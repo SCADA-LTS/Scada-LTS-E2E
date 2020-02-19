@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.impl.utils;
 
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.EditViewPage;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
@@ -14,6 +15,7 @@ import static org.scadalts.e2e.common.utils.FileUtil.getFileFromJar;
 @Log4j2
 public class GraphicalViewTestsUtil {
 
+    @Getter
     private final GraphicalViewsPage graphicalViewsPage;
     private final String viewName;
     private static File BACKGROUND_FILE = _getBackgroundFile();

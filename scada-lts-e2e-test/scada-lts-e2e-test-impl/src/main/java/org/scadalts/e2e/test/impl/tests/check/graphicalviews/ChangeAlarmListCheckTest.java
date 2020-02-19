@@ -24,7 +24,7 @@ public class ChangeAlarmListCheckTest {
     public void test_check_no_changed_alarmList() {
 
         //when:
-        EditViewPage edit = testsUtil.openGraphicalViews()
+        EditViewPage edit = testsUtil.getGraphicalViewsPage()
                 .acceptAlertIfExists()
                 .openViewEditor(TestImplConfiguration.graphicalViewName);
 

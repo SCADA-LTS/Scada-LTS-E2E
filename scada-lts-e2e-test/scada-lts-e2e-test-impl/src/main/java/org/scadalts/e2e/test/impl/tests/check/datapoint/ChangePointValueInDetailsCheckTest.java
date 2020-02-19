@@ -51,7 +51,7 @@ public class ChangePointValueInDetailsCheckTest {
         NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
 
         WatchListTestsUtil watchListTestsUtil = new WatchListTestsUtil(navigationPage, watchListCriteria);
-        dataPointDetailsPageSubject = watchListTestsUtil.openWatchListPage()
+        dataPointDetailsPageSubject = watchListTestsUtil.getWatchListPage()
                 .openDataPointDetails(watchListCriteria);
     }
 
