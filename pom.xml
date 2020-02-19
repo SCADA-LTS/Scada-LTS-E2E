@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>13.3.0-SNAPSHOT</version>
+    <version>13.3.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>

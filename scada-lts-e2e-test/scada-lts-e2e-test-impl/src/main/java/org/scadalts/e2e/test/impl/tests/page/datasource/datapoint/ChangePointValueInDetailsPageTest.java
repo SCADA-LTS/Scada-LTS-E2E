@@ -4,7 +4,6 @@ package org.scadalts.e2e.test.impl.tests.page.datasource.datapoint;
 import lombok.extern.log4j.Log4j2;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -25,7 +24,6 @@ import java.util.Collection;
 import static org.junit.Assert.*;
 import static org.scadalts.e2e.page.core.util.TypeParser.parseIntValueFormatted;
 
-@Ignore
 @Log4j2
 @RunWith(E2eTestParameterizedRunner.class)
 public class ChangePointValueInDetailsPageTest {
