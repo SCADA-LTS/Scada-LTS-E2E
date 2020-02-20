@@ -5,9 +5,9 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        CreateDataSourceTest.class,
-        DeleteDataSourceTest.class,
-        EditDataSourceTest.class
+        CreateDataSourcePageTest.class,
+        DeleteDataSourcePageTest.class,
+        EditDataSourcePageTest.class
 })
-public class DataSourceTestsSuite {
+public class DataSourcePageTestsSuite {
 }

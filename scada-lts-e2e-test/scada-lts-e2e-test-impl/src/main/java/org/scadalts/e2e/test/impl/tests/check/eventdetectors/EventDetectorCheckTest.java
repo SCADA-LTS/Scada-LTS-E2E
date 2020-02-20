@@ -2,8 +2,10 @@ package org.scadalts.e2e.test.impl.tests.check.eventdetectors;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
-import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
+import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
+import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.webservice.core.exceptions.WebServiceObjectException;
 import org.scadalts.e2e.webservice.core.services.E2eResponse;
 import org.scadalts.e2e.webservice.impl.services.CmpWebServiceObject;
@@ -13,20 +15,31 @@ import org.scadalts.e2e.webservice.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.webservice.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.webservice.impl.services.pointvalue.PointValueResponse;
 
+import java.util.Collection;
 import java.util.Optional;
-import java.util.Random;
 
 import static org.junit.Assert.*;
 import static org.scadalts.e2e.page.core.util.TypeParser.parseIntValueFormatted;
 
-@RunWith(E2eTestRunner.class)
+@RunWith(E2eTestParameterizedRunner.class)
 public class EventDetectorCheckTest {
+
+    @Parameterized.Parameters(name = "{index}:{0}")
+    public static Collection<String> data() {
+        return ChangePointValuesProvider.paramsToTests();
+    }
+
+    private final String valueExpected;
+
+    public EventDetectorCheckTest(String valueExpected) {
+        this.valueExpected = valueExpected;
+    }
 
     @Test
     public void test_check_detector() throws InterruptedException, WebServiceObjectException {
 
         //given:
-        long valueExpected = new Random().nextInt(999);
+        long valueExpected = parseIntValueFormatted(this.valueExpected);
         String value = String.valueOf(valueExpected);
         PointValueParams pointValueParams = new PointValueParams(TestImplConfiguration.dataPointToReadXid);
         CmpParams cmpParams = CmpParams.builder()

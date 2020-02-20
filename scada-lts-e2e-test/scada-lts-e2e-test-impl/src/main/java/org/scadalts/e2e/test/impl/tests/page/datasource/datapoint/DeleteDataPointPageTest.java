@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
 @RunWith(E2eTestRunner.class)
-public class DeleteDataPointTest {
+public class DeleteDataPointPageTest {
 
     private final String dataPointToDeleteName = "dp_test_to_delete_" + System.nanoTime();
 

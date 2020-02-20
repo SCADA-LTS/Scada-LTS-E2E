@@ -5,10 +5,10 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        CreateDataPointTest.class,
-        DeleteDataPointTest.class,
+        CreateDataPointPageTest.class,
+        DeleteDataPointPageTest.class,
         ChangePointValueInDetailsPageTest.class,
         SequencePointValueHistoryInDetailsPageTest.class
 })
-public class DataPointTestsSuite {
+public class DataPointPageTestsSuite {
 }

@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 @Log4j2
 @RunWith(E2eTestRunner.class)
-public class MultiTabGraphicalViewTest {
+public class MultiTabGraphicalViewPageTest {
 
     private final String viewName = "viewNameTest" + System.nanoTime();
     private GraphicalViewTestsUtil testsUtil;

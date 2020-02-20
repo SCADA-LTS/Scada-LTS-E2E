@@ -16,6 +16,7 @@ import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPag
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.DataSourcesAndPointsPageTestsUtil;
 import org.scadalts.e2e.test.impl.utils.WatchListTestsUtil;
 
@@ -30,7 +31,7 @@ public class ChangePointValueInDetailsPageTest {
 
     @Parameterized.Parameters(name = "{index}:{0}")
     public static Collection<?> data() {
-        return WatchListTestsUtil.paramsToTests();
+        return ChangePointValuesProvider.paramsToTests();
     }
 
     private final String valueExpected;
