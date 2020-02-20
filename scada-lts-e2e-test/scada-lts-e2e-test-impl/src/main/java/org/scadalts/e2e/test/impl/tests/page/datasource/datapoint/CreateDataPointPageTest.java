@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 
 @RunWith(E2eTestRunner.class)
-public class CreateDataPointTest {
+public class CreateDataPointPageTest {
 
     private static final DataPointType dataPointType = DataPointType.BINARY;
     private static final ChangeType changeType = ChangeType.ALTERNATE;

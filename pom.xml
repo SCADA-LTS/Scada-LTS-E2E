@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>13.3.1-SNAPSHOT</version>
+    <version>13.3.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -58,7 +58,6 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
         <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
-        <maven-shade-plugin.version>2.4.3</maven-shade-plugin.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -588,11 +587,6 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>${maven-shade-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
                     <version>${maven-dependency-plugin.version}</version>
                     <executions>
@@ -833,7 +827,7 @@
                 <test.e2e.timeout-ms>12000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
-                <test.e2e.headless-mode>false</test.e2e.headless-mode>
+                <test.e2e.headless-mode>true</test.e2e.headless-mode>
                 <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
                 <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
                 <test.e2e.fast-set-value-mode>true</test.e2e.fast-set-value-mode>
@@ -846,7 +840,7 @@
                 <test.e2e.port-proxy>12345</test.e2e.port-proxy>
                 <test.e2e.alarm-list-changed-after-ms>6000</test.e2e.alarm-list-changed-after-ms>
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
-                <test.e2e.waiting-after-set-point-value-ms>30000</test.e2e.waiting-after-set-point-value-ms>
+                <test.e2e.waiting-after-set-point-value-ms>15000</test.e2e.waiting-after-set-point-value-ms>
                 <test.e2e.graphical-view-name>viewNameTest2668427919630</test.e2e.graphical-view-name>
                 <test.e2e.classes-test-refs></test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>DP_054378</test.e2e.data-point-to-change-xid>

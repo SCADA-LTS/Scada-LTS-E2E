@@ -14,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 
 @RunWith(E2eTestRunner.class)
-public class DeleteGraphicalViewTest {
+public class DeleteGraphicalViewPageTest {
 
     private final String viewName = "viewNameTest" + System.nanoTime();
     private GraphicalViewTestsUtil testsUtil;

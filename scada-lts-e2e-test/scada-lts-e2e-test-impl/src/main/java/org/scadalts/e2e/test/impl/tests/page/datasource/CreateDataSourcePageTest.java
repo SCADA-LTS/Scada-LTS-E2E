@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 
 @RunWith(E2eTestRunner.class)
-public class CreateDataSourceTest {
+public class CreateDataSourcePageTest {
 
     private static final DataSourceType dataSourceType = DataSourceType.VIRTUAL_DATA_SOURCE;
     private static final UpdatePeriodType updatePeriodType = UpdatePeriodType.SECOUND;

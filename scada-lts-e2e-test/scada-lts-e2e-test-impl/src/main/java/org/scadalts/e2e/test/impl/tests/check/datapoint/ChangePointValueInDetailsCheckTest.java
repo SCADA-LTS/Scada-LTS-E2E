@@ -18,6 +18,7 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.WatchListTestsUtil;
 
 import java.util.Collection;
@@ -30,8 +31,8 @@ import static org.scadalts.e2e.page.core.util.TypeParser.parseIntValueFormatted;
 public class ChangePointValueInDetailsCheckTest {
 
     @Parameterized.Parameters(name = "{index}:{0}")
-    public static Collection<?> data() {
-        return WatchListTestsUtil.paramsToTests();
+    public static Collection<String> data() {
+        return ChangePointValuesProvider.paramsToTests();
     }
 
     private final String valueExpected;

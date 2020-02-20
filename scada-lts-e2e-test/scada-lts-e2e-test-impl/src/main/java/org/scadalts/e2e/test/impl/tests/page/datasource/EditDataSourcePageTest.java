@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 @RunWith(E2eTestRunner.class)
-public class EditDataSourceTest {
+public class EditDataSourcePageTest {
 
     private DataSourceCriteria criteria;
     private DataSourcesAndPointsPageTestsUtil dataSourcesPageTestsUtil;

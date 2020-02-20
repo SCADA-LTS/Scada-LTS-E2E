@@ -5,9 +5,9 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        CreateGraphicalViewTest.class,
-        MultiTabGraphicalViewTest.class,
-        DeleteGraphicalViewTest.class
+        CreateGraphicalViewPageTest.class,
+        MultiTabGraphicalViewPageTest.class,
+        DeleteGraphicalViewPageTest.class
 })
-public class GraphicalViewTestsSuite {
+public class GraphicalViewPageTestsSuite {
 }
