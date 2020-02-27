@@ -7,7 +7,7 @@ import org.junit.runner.notification.Failure;
 import java.io.File;
 import java.util.Optional;
 
-import static org.scadalts.e2e.test.core.utils.RegexUtil.getDataFromMessage;
+import static org.scadalts.e2e.test.core.utils.RegexUtil.getFilesFromMessage;
 
 @Log4j2
 public class E2eFailure {
@@ -50,12 +50,11 @@ public class E2eFailure {
         return failure.toString();
     }
 
-
     public Optional<File> getSourcePageHtml() {
-        return getDataFromMessage(getMessage(),HTML_REGEX);
+        return getFilesFromMessage(getMessage(),HTML_REGEX);
     }
 
     public Optional<File> getScreenshotPng() {
-        return getDataFromMessage(getMessage(),PNG_REGEX);
+        return getFilesFromMessage(getMessage(),PNG_REGEX);
     }
 }

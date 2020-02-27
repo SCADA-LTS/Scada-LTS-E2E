@@ -6,4 +6,5 @@ public interface ObjectCriteria {
 
     String getIdentifier();
     E2eDictionary getType();
+    String getXpath();
 }

@@ -34,11 +34,17 @@ public class CreateDataPointPageTest {
 
     @Before
     public void createDataSource() {
-        dataSourceCriteria = DataSourcesAndPointsPageTestsUtil.createDataSourceCriteria();
-        dataPointCreatedCriteria = new DataPointCriteria(dataPointToCreateName, dataPointType, changeType);
+        dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecound();
+        dataPointCreatedCriteria = DataPointCriteria.builder()
+                .identifier(dataPointToCreateName)
+                .type(dataPointType)
+                .changeType(changeType)
+                .startValue("123")
+                .build();
+
         dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataSourceCriteria, dataPointCreatedCriteria);
 
-        dataSourcesPage = dataSourcesPageTestsUtil.getDataSourcesPage();
+        dataSourcesPage = dataSourcesPageTestsUtil.openDataSourcesPage();
         editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.addDataSources();
     }
 
@@ -56,7 +62,7 @@ public class CreateDataPointPageTest {
                 .enableSettable()
                 .selectDataPointType(dataPointType)
                 .selectChangeType(changeType)
-                .setStartValue(dataPointCreatedCriteria,"true")
+                .setStartValue(dataPointCreatedCriteria)
                 .saveDataPoint()
                 .enableDataPoint(dataPointCreatedCriteria);
 

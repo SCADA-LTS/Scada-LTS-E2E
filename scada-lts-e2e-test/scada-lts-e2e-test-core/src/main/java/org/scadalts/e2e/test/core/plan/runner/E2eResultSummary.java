@@ -1,10 +1,13 @@
 package org.scadalts.e2e.test.core.plan.runner;
 
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPrintMs;
 
 public class E2eResultSummary implements E2eResultSummarable {
 
@@ -59,5 +62,12 @@ public class E2eResultSummary implements E2eResultSummarable {
 
     public String getUrl() {
         return results.stream().map(E2eResult::getUrl).map(URL::toString).findFirst().orElse("");
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("\n{0} - run: {1}, failed: {2}, ignored: {3}\n\nruntime: {4}\n",
+                "Summary", getRunCount(), getFailureCount(), getIgnoreCount(),
+                preparingToPrintMs(getRunTime()));
     }
 }

@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.scadalts.e2e.page.impl.criteria.GraphicalViewCriteria;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
@@ -26,9 +27,10 @@ public class MultiTabGraphicalViewPageTest {
     @Before
     public void createView() {
         logger.info("viewName: {}", viewName);
-        testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), viewName);
+        GraphicalViewCriteria criteria = new GraphicalViewCriteria(viewName);
+        testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
         testsUtil.addView();
-        graphicalViewsPageSubject = testsUtil.getGraphicalViewsPage();
+        graphicalViewsPageSubject = testsUtil.openGraphicalViews();
     }
 
     @After

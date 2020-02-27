@@ -4,9 +4,6 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criteria.ActionCriteria;
-import org.scadalts.e2e.page.core.criteria.RowCriteria;
-import org.scadalts.e2e.page.core.exceptions.DynamicElementException;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
 import org.scadalts.e2e.page.impl.dict.UpdatePeriodType;
@@ -144,12 +141,6 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
     private SelenideElement _findAction(DataPointCriteria criteria, By selectAction) {
-        RowCriteria rowCriteria = new RowCriteria(criteria.getIdentifier(), criteria.getType());
-        ActionCriteria actionCriteria = new ActionCriteria(rowCriteria, selectAction);
-        try {
-            return findAction(actionCriteria, dataPointsTable);
-        } catch (DynamicElementException e) {
-            throw new RuntimeException(e);
-        }
+        return findAction(criteria, selectAction, dataPointsTable);
     }
 }

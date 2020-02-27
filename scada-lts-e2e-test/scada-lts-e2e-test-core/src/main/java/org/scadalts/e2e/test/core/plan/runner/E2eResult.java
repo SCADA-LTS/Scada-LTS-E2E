@@ -2,15 +2,16 @@ package org.scadalts.e2e.test.core.plan.runner;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 import org.junit.runner.Result;
 
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@ToString
+import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPrintMs;
+
 @Builder
 public class E2eResult implements E2eResultSummarable {
 
@@ -63,5 +64,12 @@ public class E2eResult implements E2eResultSummarable {
     @Override
     public boolean wasSuccessful() {
         return result.wasSuccessful();
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("\n{0} - run: {1}, failed: {2}, ignored: {3}\n\nruntime: {4}\n",
+                getSimpleTestName(), getRunCount(), getFailureCount(), getIgnoreCount(),
+                preparingToPrintMs(getRunTime()));
     }
 }

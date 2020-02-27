@@ -6,12 +6,10 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.ObjectUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criteria.ActionCriteria;
 import org.scadalts.e2e.page.core.criteria.ObjectCriteria;
 import org.scadalts.e2e.page.core.criteria.RowCriteria;
-import org.scadalts.e2e.page.core.exceptions.DynamicElementException;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
-import org.scadalts.e2e.page.impl.criteria.WatchListCriteria;
+import org.scadalts.e2e.page.impl.criteria.SourcePointCriteria;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
 
 import static com.codeborne.selenide.Condition.not;
@@ -49,7 +47,7 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         return this;
     }
 
-    public WatchListPage addToWatchList(WatchListCriteria criteria) {
+    public WatchListPage addToWatchList(SourcePointCriteria criteria) {
         _findActionInSpan(criteria, SELECTOR_ACTION_ADD_TO_WATCH_BY).click();
         return this;
     }
@@ -59,12 +57,12 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
                 .getText();
     }
 
-    public WatchListPage setDataPointValue(WatchListCriteria criteria, String value) {
+    public WatchListPage setDataPointValue(SourcePointCriteria criteria, String value) {
         waitWhile(_findActionInTBody(criteria, SELECTOR_INPUT_BY), not(Condition.exist)).sendKeys(value);
         return this;
     }
 
-    public String getDataPointValue(WatchListCriteria criteria) {
+    public String getDataPointValue(SourcePointCriteria criteria) {
         SelenideElement text = _findActionInTBody(criteria, SELECTOR_GET_VALUE_BY);
         String value = text.getText();
         if(ObjectUtils.isEmpty(value)) {
@@ -73,50 +71,39 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         return text.getText();
     }
 
-    public WatchListPage confirmDataPointValue(WatchListCriteria criteria) {
+    public WatchListPage confirmDataPointValue(SourcePointCriteria criteria) {
         _findActionInTBody(criteria, SELECTOR_CONFIRM_CHANGE_BY).click();
         return this;
     }
 
-    public WatchListPage openEditorDataPointValue(WatchListCriteria criteria) {
+    public WatchListPage openDataPointValueEditor(SourcePointCriteria criteria) {
         _findActionInTBody(criteria, SELECTOR_ACTION_EDIT_DATA_POINT_VALUE_BY).click();
         return this;
     }
 
-    public DataPointDetailsPage openDataPointDetails(WatchListCriteria criteria) {
+    public DataPointDetailsPage openDataPointDetails(SourcePointCriteria criteria) {
         _findActionInTBody(criteria, SELECTOR_DATA_POINT_DETAILS_BY).click();
         return page(DataPointDetailsPage.class);
     }
 
-    public WatchListPage closeEditorDataPointValue(WatchListCriteria criteria) {
+    public WatchListPage closeEditorDataPointValue(SourcePointCriteria criteria) {
         _findActionInTBody(criteria, SELECTOR_ACTION_CLOSE_EDIT_BY).doubleClick();
         return this;
     }
 
-    public WatchListPage deleteFromWatchList(WatchListCriteria criteria) {
+    public WatchListPage deleteFromWatchList(SourcePointCriteria criteria) {
         _findActionInTBody(criteria, SELECTOR_DELETE_FROM_WATCH_LIST_BY).click();
         acceptAlert();
         return this;
     }
 
-    private SelenideElement _findActionInSpan(WatchListCriteria criteria, By selectAction) {
-        RowCriteria rowCriteria = new RowCriteria(criteria.getIdentifier(), criteria.getType());
-        ActionCriteria actionCriteria = new ActionCriteria(rowCriteria, selectAction);
-        try {
-            return findAction(actionCriteria, treeDiv, "span");
-        } catch (DynamicElementException e) {
-            throw new RuntimeException(e);
-        }
+    private SelenideElement _findActionInSpan(SourcePointCriteria criteria, By selectAction) {
+        RowCriteria rowCriteria = new RowCriteria(criteria.getIdentifier(), criteria.getType(), "span");
+        return findAction(rowCriteria, selectAction, treeDiv);
     }
 
-    private SelenideElement _findActionInTBody(WatchListCriteria criteria, By selectAction) {
-        RowCriteria rowCriteria = new RowCriteria(criteria.getIdentifier(), criteria.getType());
-        ActionCriteria actionCriteria = new ActionCriteria(rowCriteria, selectAction);
-        try {
-            return findAction(actionCriteria, watchListTable, "tbody");
-        } catch (DynamicElementException e) {
-            throw new RuntimeException(e);
-        }
+    private SelenideElement _findActionInTBody(SourcePointCriteria criteria, By selectAction) {
+        return findAction(criteria, selectAction, watchListTable);
     }
 
     @Override

@@ -8,13 +8,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criteria.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criteria.WatchListCriteria;
-import org.scadalts.e2e.page.impl.dict.ChangeType;
-import org.scadalts.e2e.page.impl.dict.DataPointType;
+import org.scadalts.e2e.page.impl.criteria.SourcePointCriteria;
 import org.scadalts.e2e.page.impl.dict.DataSourceType;
 import org.scadalts.e2e.page.impl.dict.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
-import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
@@ -47,13 +44,13 @@ public class ChangePointValueInDetailsCheckTest {
     public static void createDataSourceAndPoint() {
 
         DataSourceCriteria dataSourceCriteria = new DataSourceCriteria(TestImplConfiguration.dataSourceName, DataSourceType.NONE, UpdatePeriodType.NONE);
-        DataPointCriteria dataPointCriteria = new DataPointCriteria(TestImplConfiguration.dataPointName, DataPointType.NUMERIC, ChangeType.NO_CHANGE);
-        WatchListCriteria watchListCriteria = new WatchListCriteria(dataSourceCriteria, dataPointCriteria);
-        NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
+        DataPointCriteria dataPointCriteria = DataPointCriteria.numericNoChange(TestImplConfiguration.dataPointName);
+        SourcePointCriteria sourcePointCriteria = new SourcePointCriteria(dataSourceCriteria, dataPointCriteria);
 
-        WatchListTestsUtil watchListTestsUtil = new WatchListTestsUtil(navigationPage, watchListCriteria);
-        dataPointDetailsPageSubject = watchListTestsUtil.getWatchListPage()
-                .openDataPointDetails(watchListCriteria);
+        WatchListTestsUtil watchListTestsUtil = new WatchListTestsUtil(E2eAbstractRunnable.getNavigationPage(),
+                sourcePointCriteria);
+        dataPointDetailsPageSubject = watchListTestsUtil.openWatchListPage()
+                .openDataPointDetails(sourcePointCriteria);
     }
 
     @Test

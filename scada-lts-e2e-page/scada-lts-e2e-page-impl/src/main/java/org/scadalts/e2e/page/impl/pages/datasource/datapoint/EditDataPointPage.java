@@ -99,11 +99,11 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return changeTypes.getValue();
     }
 
-    public EditDataPointPage setStartValue(DataPointCriteria criteria, String startValue) {
+    public EditDataPointPage setStartValue(DataPointCriteria criteria) {
         String css = MessageFormat.format("td *[id=''{0}'']", DataPointChangeFieldType
                 .getType(criteria, ChangeTypeField.START_VALUE).getId());
         waitWhile($(css), not(Condition.visible))
-                .sendKeys(startValue);
+                .sendKeys(criteria.getStartValue());
         return this;
     }
 

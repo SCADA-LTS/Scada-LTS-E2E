@@ -1,9 +1,12 @@
 package org.scadalts.e2e.test.impl.tests.check.graphicalviews;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.scadalts.e2e.page.impl.criteria.GraphicalViewCriteria;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.EditViewPage;
+import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
@@ -18,15 +21,20 @@ import static org.junit.Assert.assertNotEquals;
 public class ChangeAlarmListCheckTest {
 
     private final NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
-    private final GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(navigationPage, "");
+    private final GraphicalViewCriteria criteria = new GraphicalViewCriteria(TestImplConfiguration.graphicalViewName);
+    private final GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(navigationPage, criteria);
+    private GraphicalViewsPage editViewPageSubject;
+
+    @Before
+    public void setup() {
+        editViewPageSubject = testsUtil.openGraphicalViews().acceptAlertIfExists();
+    }
 
     @Test
     public void test_check_no_changed_alarmList() {
 
         //when:
-        EditViewPage edit = testsUtil.getGraphicalViewsPage()
-                .acceptAlertIfExists()
-                .openViewEditor(TestImplConfiguration.graphicalViewName);
+        EditViewPage edit = editViewPageSubject.openViewEditor(criteria);
 
         //and:
         String alarmList = edit.getFirstAlarmListText();
@@ -47,9 +55,7 @@ public class ChangeAlarmListCheckTest {
     public void test_check_changed_alarmList_c1Id() {
 
         //when:
-        EditViewPage edit = testsUtil.openGraphicalViews()
-                .acceptAlertIfExists()
-                .openViewEditor(TestImplConfiguration.graphicalViewName);
+        EditViewPage edit = editViewPageSubject.openViewEditor(criteria);
 
         //and:
         String alarmList = edit.getFirstAlarmListText();

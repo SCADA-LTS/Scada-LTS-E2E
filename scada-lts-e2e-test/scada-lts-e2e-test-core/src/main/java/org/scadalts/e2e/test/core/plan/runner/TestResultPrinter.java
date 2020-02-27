@@ -4,8 +4,6 @@ import lombok.extern.log4j.Log4j2;
 
 import java.text.MessageFormat;
 
-import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPrintMs;
-
 @Log4j2
 public class TestResultPrinter {
 
@@ -15,7 +13,7 @@ public class TestResultPrinter {
     public static void print(E2eResult testResult) {
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(result(testResult));
+        stringBuilder.append(testResult.toString());
 
         if (!testResult.wasSuccessful()) {
             stringBuilder.append(failures(testResult));
@@ -24,11 +22,21 @@ public class TestResultPrinter {
         logger.info("\n\n{}\n{}\n{}\n\n", deko, stringBuilder.toString(), deko);
     }
 
+    public static void print(E2eResultSummarable summary) {
+        logger.info("\n\n{}\n{}\n{}\n\n", deko, summary.toString(), deko);
+    }
+/*
     public static String result(E2eResult result) {
         return MessageFormat.format("\n{0} - run: {1}, failed: {2}, ignored: {3}\n\nruntime: {4}\n",
                 result.getSimpleTestName(), result.getRunCount(), result.getFailureCount(), result.getIgnoreCount(),
                 preparingToPrintMs(result.getRunTime()));
     }
+
+    public static String summary(E2eResultSummarable result) {
+        return MessageFormat.format("\n{0} - run: {1}, failed: {2}, ignored: {3}\n\nruntime: {4}\n",
+                "Summary", result.getRunCount(), result.getFailureCount(), result.getIgnoreCount(),
+                preparingToPrintMs(result.getRunTime()));
+    }*/
 
     public static String failures(E2eResult result) {
         StringBuilder stringBuilder = new StringBuilder();

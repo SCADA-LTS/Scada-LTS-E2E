@@ -9,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.core.util.StabilityUtil;
+import org.scadalts.e2e.page.impl.criteria.GraphicalViewCriteria;
 
 import java.text.MessageFormat;
 import java.util.Map;
@@ -33,8 +34,8 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
         super(source, TITLE);
     }
 
-    public EditViewPage openViewEditor(String viewName) {
-        return _openViewEditor(_selectViewAndGetIdByName(viewName));
+    public EditViewPage openViewEditor(GraphicalViewCriteria criteria) {
+        return _openViewEditor(_selectViewAndGetIdByName(criteria.getIdentifier()));
     }
 
     public int getNumberOfViews() {

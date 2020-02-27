@@ -1,10 +1,11 @@
 package org.scadalts.e2e.test.impl.tests.check.graphicalviews;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.scadalts.e2e.page.impl.criteria.GraphicalViewCriteria;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.utils.GraphicalViewTestsUtil;
 
@@ -14,15 +15,16 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertTrue;
 
-@RunWith(E2eTestParameterizedRunner.class)
+@RunWith(Parameterized.class)
 public class ClickAllGraphicalViewCheckTest {
 
     @Parameterized.Parameters(name = "{index}: id: {0}, viewName: {1}")
     public static List<String[]> data() {
         if(!E2eAbstractRunnable.isLogged())
             E2eAbstractRunnable.setup();
-        GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), "");
-        graphicalViewsPage = testsUtil.getGraphicalViewsPage();
+        GraphicalViewCriteria criteria = new GraphicalViewCriteria("123");
+        GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
+        graphicalViewsPage = testsUtil.openGraphicalViews();
         return graphicalViewsPage.getDataAllViews()
                 .entrySet()
                 .stream()
@@ -37,6 +39,11 @@ public class ClickAllGraphicalViewCheckTest {
     public ClickAllGraphicalViewCheckTest(String id, String viewName) {
         this.id = id;
         this.viewName = viewName;
+    }
+
+    @BeforeClass
+    public static void setup() {
+        graphicalViewsPage.reopen();
     }
 
     @Test

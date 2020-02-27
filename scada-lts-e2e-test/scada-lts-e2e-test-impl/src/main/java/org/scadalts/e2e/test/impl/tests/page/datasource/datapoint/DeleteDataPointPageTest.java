@@ -29,18 +29,20 @@ public class DeleteDataPointPageTest {
     @Before
     public void createDataSourceAndPoint() {
 
-        DataSourceCriteria dataSourceCriteria = DataSourcesAndPointsPageTestsUtil.createDataSourceCriteria();
+        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecound();
+        DataPointCriteria dataPointCriteria = DataPointCriteria.binaryAlternate();
+        DataPointCriteria dataPointCriteria2 = DataPointCriteria.binaryAlternate();
 
-        DataPointCriteria dataPointCriteria = new DataPointCriteria("dp_test" + System.nanoTime(), DataPointType.BINARY,
-                ChangeType.ALTERNATE);
-        DataPointCriteria dataPointCriteria2 = new DataPointCriteria("dp_test" + System.nanoTime(), DataPointType.BINARY,
-                ChangeType.ALTERNATE);
-        dataPointToDeleteCriteria = new DataPointCriteria(dataPointToDeleteName, DataPointType.BINARY,
-                ChangeType.ALTERNATE);
+        dataPointToDeleteCriteria = DataPointCriteria.builder()
+                .type(DataPointType.BINARY)
+                .identifier(dataPointToDeleteName)
+                .changeType(ChangeType.ALTERNATE)
+                .startValue("true")
+                .build();
 
         dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataSourceCriteria, dataPointCriteria,
                 dataPointToDeleteCriteria, dataPointCriteria2);
-        editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.init("true");
+        editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.init();
     }
 
     @After

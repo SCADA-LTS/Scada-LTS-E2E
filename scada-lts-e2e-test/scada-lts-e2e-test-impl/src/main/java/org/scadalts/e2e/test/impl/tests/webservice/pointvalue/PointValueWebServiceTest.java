@@ -6,8 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
-import org.scadalts.e2e.page.impl.dict.ChangeType;
-import org.scadalts.e2e.page.impl.dict.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
@@ -24,6 +22,7 @@ import org.scadalts.e2e.webservice.impl.services.pointvalue.PointValueResponse;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
+import static org.scadalts.e2e.page.core.util.TypeParser.parseIntValueFormatted;
 
 @Log4j2
 @RunWith(E2eTestRunner.class)
@@ -31,14 +30,16 @@ public class PointValueWebServiceTest {
 
     private String dataPointXid;
     private DataPointCriteria dataPointCriteria;
+    private int dataPointStartValue;
     private DataSourcesAndPointsPageTestsUtil dataSourcesPageTestsUtil;
 
     @Before
     public void createDataSourceAndPoint() throws InterruptedException {
-
-        dataPointCriteria = new DataPointCriteria("dp_test" + System.nanoTime(), DataPointType.NUMERIC, ChangeType.NO_CHANGE);
-        dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataPointCriteria);
-        EditDataSourceWithPointListPage pointPage = dataSourcesPageTestsUtil.init("1234");
+        dataPointStartValue = 1223;
+        dataPointCriteria = DataPointCriteria.numericNoChange(dataPointStartValue);
+        dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(),
+                dataPointCriteria);
+        EditDataSourceWithPointListPage pointPage = dataSourcesPageTestsUtil.init();
         Thread.sleep(TestImplConfiguration.waitingAfterSetPointValueMs);
         EditDataPointPage editDataPointPage = pointPage.openDataPointEditor(dataPointCriteria);
         dataPointXid = editDataPointPage.getDataPointXid();
@@ -74,6 +75,9 @@ public class PointValueWebServiceTest {
             PointValueResponse result = response.getValue();
             assertNotNull(result);
             assertEquals(dataPointXid, result.getXid());
+
+            int resultRaw = parseIntValueFormatted(result.getValue());
+            assertEquals(dataPointStartValue, resultRaw);
         }
     }
 

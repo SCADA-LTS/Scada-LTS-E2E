@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 @Log4j2
 public class RegexUtil {
 
-    public static Optional<File> getDataFromMessage(String message, String regex) {
+    public static Optional<File> getFilesFromMessage(String message, String regex) {
         logger.debug("message: {}", message);
         if(!Objects.isNull(message)) {
             Pattern pattern = Pattern.compile(regex);

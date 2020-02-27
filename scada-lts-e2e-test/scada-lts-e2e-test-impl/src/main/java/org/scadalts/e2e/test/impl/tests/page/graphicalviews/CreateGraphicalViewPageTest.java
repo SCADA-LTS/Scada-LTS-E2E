@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.scadalts.e2e.page.impl.criteria.GraphicalViewCriteria;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
@@ -24,9 +25,10 @@ public class CreateGraphicalViewPageTest {
 
     @Before
     public void setup() {
-        testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), viewName);
+        GraphicalViewCriteria criteria = new GraphicalViewCriteria(viewName);
+        testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
         background = testsUtil.getBackgroundFile();
-        graphicalViewsPageSubject = testsUtil.getGraphicalViewsPage();
+        graphicalViewsPageSubject = testsUtil.openGraphicalViews();
     }
 
     @After

@@ -9,11 +9,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criteria.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criteria.WatchListCriteria;
-import org.scadalts.e2e.page.impl.dict.ChangeType;
+import org.scadalts.e2e.page.impl.criteria.SourcePointCriteria;
 import org.scadalts.e2e.page.impl.dict.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
-import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
@@ -50,18 +48,18 @@ public class SequencePointValueHistoryInDetailsPageTest {
     @BeforeClass
     public static void createDataSourceAndPoint() {
 
-        DataSourceCriteria dataSourceCriteria = DataSourcesAndPointsPageTestsUtil.createDataSourceCriteria();
-        DataPointCriteria dataPointCriteria = new DataPointCriteria("dp_test" + System.nanoTime(), DataPointType.NUMERIC, ChangeType.NO_CHANGE);
-        WatchListCriteria watchListCriteria = new WatchListCriteria(dataSourceCriteria, dataPointCriteria);
-        NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
         String dataPointStartValue = "123";
-        dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(navigationPage, dataSourceCriteria, dataPointCriteria);
-        dataSourcesPageTestsUtil.init(dataPointStartValue);
 
-        watchListTestsUtil = new WatchListTestsUtil(navigationPage, watchListCriteria);
-        dataPointDetailsPageSubject = watchListTestsUtil.getWatchListPage()
-                .addToWatchList(watchListCriteria)
-                .openDataPointDetails(watchListCriteria);
+        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecound();
+        DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(DataPointType.NUMERIC, dataPointStartValue);
+
+        SourcePointCriteria sourcePointCriteria = new SourcePointCriteria(dataSourceCriteria, dataPointCriteria);
+
+        watchListTestsUtil = new WatchListTestsUtil(E2eAbstractRunnable.getNavigationPage(), sourcePointCriteria);
+        watchListTestsUtil.init();
+
+        dataPointDetailsPageSubject = watchListTestsUtil.addWatchLists()
+                .openDataPointDetails(sourcePointCriteria);
         int limit = dataPointDetailsPageSubject.getHistoryLimit();
         listExcepted = new ListLimitedOnlyMethodAddSupported<>(limit);
         listExcepted.add(dataPointStartValue);
@@ -70,7 +68,6 @@ public class SequencePointValueHistoryInDetailsPageTest {
     @AfterClass
     public static void clean() {
         watchListTestsUtil.clean();
-        dataSourcesPageTestsUtil.clean();
         listExcepted.clear();
     }
 

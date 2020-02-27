@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.scadalts.e2e.page.impl.criteria.GraphicalViewCriteria;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
@@ -17,14 +18,17 @@ import static org.hamcrest.core.StringContains.containsString;
 public class DeleteGraphicalViewPageTest {
 
     private final String viewName = "viewNameTest" + System.nanoTime();
+
+    private GraphicalViewCriteria criteria;
     private GraphicalViewTestsUtil testsUtil;
     private GraphicalViewsPage graphicalViewsPageSubject;
 
     @Before
     public void createView() {
-        testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), viewName);
+        criteria = new GraphicalViewCriteria(viewName);
+        testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
         testsUtil.addView();
-        graphicalViewsPageSubject = testsUtil.getGraphicalViewsPage();
+        graphicalViewsPageSubject = testsUtil.openGraphicalViews();
     }
 
     @After
@@ -37,7 +41,7 @@ public class DeleteGraphicalViewPageTest {
 
         //when:
         graphicalViewsPageSubject
-                .openViewEditor(viewName)
+                .openViewEditor(criteria)
                 .delete();
 
         //then:
