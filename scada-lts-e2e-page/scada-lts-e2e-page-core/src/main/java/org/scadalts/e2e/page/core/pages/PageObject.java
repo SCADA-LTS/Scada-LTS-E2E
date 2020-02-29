@@ -4,5 +4,4 @@ public interface PageObject<T extends PageObject<T>> extends Maximizable<T>, Wai
         Refreshable<T>, PageLoadingTimeMeasurable<T>, PageContent<T>, GetCookie,
         GetUrl {
 
-
 }

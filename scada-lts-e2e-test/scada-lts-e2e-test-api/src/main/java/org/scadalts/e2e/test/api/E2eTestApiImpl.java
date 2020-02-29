@@ -4,9 +4,9 @@ import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfig;
 import org.scadalts.e2e.common.config.E2eConfigurator;
 import org.scadalts.e2e.test.api.config.TestConfigurator;
-import org.scadalts.e2e.test.core.plan.exec.TestsExecutable;
-import org.scadalts.e2e.test.core.plan.runner.E2eResultSummary;
-import org.scadalts.e2e.test.core.plan.runner.TestResultPrinter;
+import org.scadalts.e2e.test.core.plans.exec.TestsExecutable;
+import org.scadalts.e2e.test.core.plans.runner.E2eResultSummary;
+import org.scadalts.e2e.test.core.plans.runner.TestResultPrinter;
 
 @Log4j2
 class E2eTestApiImpl implements E2eTestApi {

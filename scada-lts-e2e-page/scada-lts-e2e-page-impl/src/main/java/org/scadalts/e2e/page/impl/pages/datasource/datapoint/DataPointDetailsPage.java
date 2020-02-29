@@ -6,17 +6,19 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.common.utils.FormatUtil;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
-import org.scadalts.e2e.page.core.util.TypeParser;
-import org.scadalts.e2e.page.core.util.XpathFactory;
+import org.scadalts.e2e.page.core.utils.XpathFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Condition.not;
-import static org.scadalts.e2e.page.core.util.StabilityUtil.refreshWhile;
-import static org.scadalts.e2e.page.core.util.StabilityUtil.waitWhile;
-import static org.scadalts.e2e.page.core.util.TypeParser.parseIntValueFormatted;
+import static com.codeborne.selenide.Condition.or;
+import static org.scadalts.e2e.common.utils.FormatUtil.unformat;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.refreshWhile;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
+import static org.scadalts.e2e.page.core.utils.TypeParser.parseIntValueFormatted;
 
 @Log4j2
 public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPage> {
@@ -63,6 +65,13 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
         return refreshWhile(valueField, Condition.empty).getText();
     }
 
+    public String getDataPointValue(String expectedValue) {
+        String value = unformat(expectedValue);
+        SelenideElement field = refreshWhile(valueField, or("is not text: " + expectedValue, not(Condition.exactText(value))));
+        String text = field.getText();
+        return unformat(text);
+    }
+
     public List<String> getValuesFromHistory() {
 
         String xpath = XpathFactory.xpathEveryXElementFirst(3, "td");
@@ -74,8 +83,7 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
 
         return elements.stream()
                 .map(SelenideElement::getText)
-                .map(TypeParser::parseIntValueFormatted)
-                .map(String::valueOf)
+                .map(FormatUtil::unformat)
                 .collect(Collectors.toList());
     }
 

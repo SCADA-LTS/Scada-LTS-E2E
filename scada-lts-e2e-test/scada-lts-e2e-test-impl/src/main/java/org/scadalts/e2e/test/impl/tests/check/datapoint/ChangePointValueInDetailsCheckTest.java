@@ -6,22 +6,16 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criteria.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criteria.SourcePointCriteria;
-import org.scadalts.e2e.page.impl.dict.DataSourceType;
-import org.scadalts.e2e.page.impl.dict.UpdatePeriodType;
+import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
-import org.scadalts.e2e.test.impl.utils.WatchListTestsUtil;
 
 import java.util.Collection;
 
 import static org.junit.Assert.*;
-import static org.scadalts.e2e.page.core.util.TypeParser.parseIntValueFormatted;
 
 @Log4j2
 @RunWith(E2eTestParameterizedRunner.class)
@@ -43,14 +37,12 @@ public class ChangePointValueInDetailsCheckTest {
     @BeforeClass
     public static void createDataSourceAndPoint() {
 
-        DataSourceCriteria dataSourceCriteria = new DataSourceCriteria(TestImplConfiguration.dataSourceName, DataSourceType.NONE, UpdatePeriodType.NONE);
-        DataPointCriteria dataPointCriteria = DataPointCriteria.numericNoChange(TestImplConfiguration.dataPointName);
-        SourcePointCriteria sourcePointCriteria = new SourcePointCriteria(dataSourceCriteria, dataPointCriteria);
+        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond(new DataSourceIdentifier(TestImplConfiguration.dataSourceName));
+        DataPointCriteria dataPointCriteria = DataPointCriteria.numericNoChange(new DataPointIdentifier(TestImplConfiguration.dataPointName));
+        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
 
-        WatchListTestsUtil watchListTestsUtil = new WatchListTestsUtil(E2eAbstractRunnable.getNavigationPage(),
-                sourcePointCriteria);
-        dataPointDetailsPageSubject = watchListTestsUtil.openWatchListPage()
-                .openDataPointDetails(sourcePointCriteria);
+        dataPointDetailsPageSubject = E2eAbstractRunnable.getNavigationPage().openWatchList()
+                .openDataPointDetails(dataSourcePointCriteria);
     }
 
     @Test
@@ -62,13 +54,11 @@ public class ChangePointValueInDetailsCheckTest {
                 .confirmDataPointValue();
 
         //and:
-        String result = dataPointDetailsPageSubject.refreshPage().getDataPointValue();
+        String result = dataPointDetailsPageSubject.refreshPage().getDataPointValue(valueExpected);
 
         //then:
         assertNotNull(result);
         assertNotEquals("", result);
-
-        result = String.valueOf(parseIntValueFormatted(result));
 
         //then:
         assertEquals(valueExpected, result);

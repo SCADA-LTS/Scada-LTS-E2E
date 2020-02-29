@@ -4,10 +4,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criteria.GraphicalViewCriteria;
+import org.scadalts.e2e.page.impl.criterias.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.GraphicalViewTestsUtil;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -22,9 +21,8 @@ public class ClickAllGraphicalViewCheckTest {
     public static List<String[]> data() {
         if(!E2eAbstractRunnable.isLogged())
             E2eAbstractRunnable.setup();
-        GraphicalViewCriteria criteria = new GraphicalViewCriteria("123");
-        GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
-        graphicalViewsPage = testsUtil.openGraphicalViews();
+        graphicalViewsPage = E2eAbstractRunnable.getNavigationPage()
+                .openGraphicalViews();
         return graphicalViewsPage.getDataAllViews()
                 .entrySet()
                 .stream()
@@ -34,11 +32,11 @@ public class ClickAllGraphicalViewCheckTest {
 
     private static GraphicalViewsPage graphicalViewsPage;
     private final String id;
-    private final String viewName;
+    private final GraphicalViewIdentifier viewName;
 
     public ClickAllGraphicalViewCheckTest(String id, String viewName) {
         this.id = id;
-        this.viewName = viewName;
+        this.viewName = new GraphicalViewIdentifier(viewName);
     }
 
     @BeforeClass

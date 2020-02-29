@@ -3,9 +3,10 @@ package org.scadalts.e2e.page.impl.pages.pointlinks;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.page.core.criterias.IdentifierObject;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
-import org.scadalts.e2e.page.impl.criteria.PointLinkCriteria;
-import org.scadalts.e2e.page.impl.dict.EventType;
+import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
+import org.scadalts.e2e.page.impl.dicts.EventType;
 
 public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsPage> {
 
@@ -40,8 +41,10 @@ public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsP
     }
 
     public PointLinksDetailsPage setPoints(PointLinkCriteria criteria) {
-        this.sourcePointId.selectOption(criteria.getSource().getIdentifier());
-        this.targetPointId.selectOption(criteria.getTarget().getIdentifier());
+        IdentifierObject source = criteria.getSource().getIdentifier();
+        IdentifierObject target = criteria.getTarget().getIdentifier();
+        this.sourcePointId.selectOption(source.getValue());
+        this.targetPointId.selectOption(target.getValue());
         return this;
     }
 

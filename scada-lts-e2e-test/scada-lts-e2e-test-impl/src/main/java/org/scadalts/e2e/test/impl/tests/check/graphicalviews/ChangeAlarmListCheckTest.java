@@ -4,14 +4,15 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.scadalts.e2e.page.impl.criteria.GraphicalViewCriteria;
+import org.scadalts.e2e.page.impl.criterias.GraphicalViewCriteria;
+import org.scadalts.e2e.page.impl.criterias.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.EditViewPage;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.GraphicalViewTestsUtil;
+import org.scadalts.e2e.test.impl.utils.GraphicalViewTestObjectsUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -21,13 +22,13 @@ import static org.junit.Assert.assertNotEquals;
 public class ChangeAlarmListCheckTest {
 
     private final NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
-    private final GraphicalViewCriteria criteria = new GraphicalViewCriteria(TestImplConfiguration.graphicalViewName);
-    private final GraphicalViewTestsUtil testsUtil = new GraphicalViewTestsUtil(navigationPage, criteria);
+    private final GraphicalViewCriteria criteria = new GraphicalViewCriteria(new GraphicalViewIdentifier(TestImplConfiguration.graphicalViewName));
+    private final GraphicalViewTestObjectsUtil testsUtil = new GraphicalViewTestObjectsUtil(navigationPage, criteria);
     private GraphicalViewsPage editViewPageSubject;
 
     @Before
     public void setup() {
-        editViewPageSubject = testsUtil.openGraphicalViews().acceptAlertIfExists();
+        editViewPageSubject = testsUtil.openPage().acceptAlertIfExists();
     }
 
     @Test

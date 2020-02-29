@@ -47,7 +47,7 @@ class E2eConfigDefault implements E2eConfig {
     private int portProxy;
     private String hostProxy;
     private String[] classesTestRefs;
-    private String[] dataPointValuesToChangeTests;
+    private String[] dataPointValuesToTests;
     private int alarmListChangedAfterMs;
     private int alarmListNoChangedAfterMs;
     private int waitingAfterSetPointValueMs;
@@ -65,5 +65,8 @@ class E2eConfigDefault implements E2eConfig {
     private String titleEmail;
     private String dataSourceName;
     private String dataPointName;
+
+    private String dataPointTargetXid;
+    private String dataPointSourceXid;
 
 }

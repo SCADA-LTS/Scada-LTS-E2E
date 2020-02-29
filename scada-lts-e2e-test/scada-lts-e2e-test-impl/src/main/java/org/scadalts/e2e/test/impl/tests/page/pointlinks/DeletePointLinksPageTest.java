@@ -1,19 +1,21 @@
 package org.scadalts.e2e.test.impl.tests.page.pointlinks;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.dict.EventType;
+import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
+import org.scadalts.e2e.page.impl.dicts.EventType;
+import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
+import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.utils.AllObjectsForPointLinkTestsUtil;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 
 @RunWith(E2eTestParameterizedRunner.class)
-public class DeletePointLinksPageTest extends AbstractPointLinksPageTest {
-
+public class DeletePointLinksPageTest {
 
     @Parameterized.Parameters(name = "{index}: script: {0}, {1}")
     public static Object[][] data() { return new Object[][] {
@@ -32,34 +34,56 @@ public class DeletePointLinksPageTest extends AbstractPointLinksPageTest {
         this.eventTypeExpected = eventTypeExpected;
     }
 
+    private static AllObjectsForPointLinkTestsUtil allObjectsForPointLinkTestsUtil;
+    private static PointLinksPage pointLinksPageSubject;
+    private static PointLinkCriteria criteria;
+
+    @BeforeClass
+    public static void setup() {
+        allObjectsForPointLinkTestsUtil = new AllObjectsForPointLinkTestsUtil(E2eAbstractRunnable.getNavigationPage());
+        allObjectsForPointLinkTestsUtil.getDataSourcesAndPointsPageTestsUtil().createObjects();
+        pointLinksPageSubject = allObjectsForPointLinkTestsUtil.openPage();
+        criteria = allObjectsForPointLinkTestsUtil.getCriteria();
+    }
+
+    @AfterClass
+    public static void clean() {
+        allObjectsForPointLinkTestsUtil.deleteObjects();
+    }
+
     @Before
     public void createPointLink() {
-        getPointLinksPage().openPointLinkCreator()
-                .setPoints(getCriteria())
+        pointLinksPageSubject.reopen()
+                .openPointLinkCreator()
+                .setPoints(criteria)
                 .setScript(scriptExpected)
                 .setEventType(eventTypeExpected)
                 .savePointLink();
+    }
+
+    @After
+    public void deletePointLink() {
+        allObjectsForPointLinkTestsUtil.getPointLinksTestsUtil().deleteObjects();
     }
 
     @Test
     public void test_delete_point_link() {
 
         //when:
-        String pointLinksTableBeforeDelete = getPointLinksPage().reopen()
+        String pointLinksTableBeforeDelete = pointLinksPageSubject
                 .getPointLinksTableText();
 
         //then:
-        assertThat(pointLinksTableBeforeDelete, containsString(getCriteria().getIdentifier()));
+        assertThat(pointLinksTableBeforeDelete, containsString(criteria.getIdentifier().getValue()));
 
         //and when:
-        getPointLinksPage().openPointLinkEditor(getCriteria())
+        pointLinksPageSubject.openPointLinkEditor(criteria)
                 .deletePointLink();
 
         //and:
-        String pointLinksTableAfterDelete = getPointLinksPage().reopen()
-                .getPointLinksTableText();
+        String pointLinksTableAfterDelete = pointLinksPageSubject.getPointLinksTableText();
 
         //then:
-        assertThat(pointLinksTableAfterDelete, not(containsString(getCriteria().getIdentifier())));
+        assertThat(pointLinksTableAfterDelete, not(containsString(criteria.getIdentifier().getValue())));
     }
 }

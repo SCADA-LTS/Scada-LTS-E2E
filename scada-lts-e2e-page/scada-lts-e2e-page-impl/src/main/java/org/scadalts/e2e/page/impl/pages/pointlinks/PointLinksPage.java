@@ -6,18 +6,14 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criteria.ObjectCriteria;
+import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
-import org.scadalts.e2e.page.core.util.RegexFactory;
-import org.scadalts.e2e.page.impl.criteria.PointLinkCriteria;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.page;
-import static org.scadalts.e2e.page.core.util.StabilityUtil.reloadElement;
-import static org.scadalts.e2e.page.core.util.StabilityUtil.waitWhile;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.reloadElement;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 @Log4j2
 public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
@@ -35,7 +31,7 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
     }
 
     public PointLinksDetailsPage openPointLinkCreator() {
-        addPointLink.click();
+        waitWhile(addPointLink, not(Condition.visible)).click();
         return page(new PointLinksDetailsPage(this));
     }
 
@@ -62,13 +58,9 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
     }
 
     @Override
-    public boolean containsObject(ObjectCriteria criteria) {
+    public boolean containsObject(CriteriaObject criteria) {
         String bodyText = getPointLinksTableText();
-        String regex = RegexFactory.all(criteria);
-        logger.info("regex: {}", regex);
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(bodyText);
-        return matcher.find();
+        return bodyText.contains(criteria.getIdentifier().getValue());
     }
 
     private SelenideElement _findAction(PointLinkCriteria pointLinkCriteria) {

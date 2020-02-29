@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.scadalts.e2e.app.infrastructure.metrics.Logging;
 import org.scadalts.e2e.common.config.E2eConfig;
-import org.scadalts.e2e.test.core.plan.runner.E2eResultSummary;
+import org.scadalts.e2e.test.core.plans.runner.E2eResultSummary;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 

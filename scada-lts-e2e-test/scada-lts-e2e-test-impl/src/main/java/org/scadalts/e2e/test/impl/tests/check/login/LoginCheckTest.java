@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.page.impl.pages.LoginPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.core.exceptions.ConfigureTestException;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -20,7 +19,7 @@ public class LoginCheckTest {
     private LoginPage loginPage;
 
     @Before
-    public void setup() throws ConfigureTestException {
+    public void setup() {
         if(E2eAbstractRunnable.isLogged()) {
             navigationPage = E2eAbstractRunnable.getNavigationPage();
             navigationPage.logout();
@@ -31,7 +30,7 @@ public class LoginCheckTest {
     @After
     public void setNavigationPage() {
         if(navigationPage != null) {
-            E2eAbstractRunnable.setNavigationPage(navigationPage);
+            E2eAbstractRunnable.init(navigationPage);
         }
     }
 

@@ -5,17 +5,19 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
-import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
-import org.scadalts.e2e.page.impl.dict.UpdatePeriodType;
+import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.PropertiesDataPointPage;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
-import static org.scadalts.e2e.page.core.util.DynamicElementUtil.findAction;
-import static org.scadalts.e2e.page.core.util.E2eUtil.acceptAlert;
-import static org.scadalts.e2e.page.core.util.StabilityUtil.waitWhile;
+import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
+import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 
 public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditDataSourceWithPointListPage> {
@@ -100,11 +102,11 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return this;
     }
 
-    public EditDataSourcePage setDataSourceName(String dataSourceName) {
+    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceName) {
         return editDataSourcePage.setDataSourceName(dataSourceName);
     }
 
-    public EditDataSourcePage setDataSourceXid(String dataSourceXid) {
+    public EditDataSourcePage setDataSourceXid(Xid dataSourceXid) {
         return editDataSourcePage.setDataSourceXid(dataSourceXid);
     }
 

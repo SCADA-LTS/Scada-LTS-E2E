@@ -4,11 +4,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.scadalts.e2e.page.impl.criteria.GraphicalViewCriteria;
+import org.scadalts.e2e.page.impl.criterias.GraphicalViewCriteria;
+import org.scadalts.e2e.page.impl.criterias.GraphicalViewIdentifier;
+import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.GraphicalViewTestsUtil;
+import org.scadalts.e2e.test.impl.utils.GraphicalViewTestObjectsUtil;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,23 +19,23 @@ import static org.hamcrest.core.StringContains.containsString;
 @RunWith(E2eTestRunner.class)
 public class DeleteGraphicalViewPageTest {
 
-    private final String viewName = "viewNameTest" + System.nanoTime();
+    private final GraphicalViewIdentifier viewName = IdentifierObjectFactory.viewName();
 
     private GraphicalViewCriteria criteria;
-    private GraphicalViewTestsUtil testsUtil;
+    private GraphicalViewTestObjectsUtil graphicalViewTestsUtil;
     private GraphicalViewsPage graphicalViewsPageSubject;
 
     @Before
     public void createView() {
         criteria = new GraphicalViewCriteria(viewName);
-        testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
-        testsUtil.addView();
-        graphicalViewsPageSubject = testsUtil.openGraphicalViews();
+        graphicalViewTestsUtil = new GraphicalViewTestObjectsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
+        graphicalViewTestsUtil.createObjects();
+        graphicalViewsPageSubject = graphicalViewTestsUtil.openPage();
     }
 
     @After
     public void clean() {
-        testsUtil.clean();
+        graphicalViewTestsUtil.deleteObjects();
     }
 
     @Test
@@ -47,6 +49,6 @@ public class DeleteGraphicalViewPageTest {
         //then:
         String body = graphicalViewsPageSubject.reopen().getBodyText();
 
-        assertThat(body, not(containsString(viewName)));
+        assertThat(body, not(containsString(viewName.getValue())));
     }
 }

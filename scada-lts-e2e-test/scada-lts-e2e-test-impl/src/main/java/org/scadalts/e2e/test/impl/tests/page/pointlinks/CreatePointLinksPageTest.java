@@ -2,20 +2,25 @@ package org.scadalts.e2e.test.impl.tests.page.pointlinks;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.dict.EventType;
+import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
+import org.scadalts.e2e.page.impl.dicts.EventType;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksDetailsPage;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
+import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.utils.AllObjectsForPointLinkTestsUtil;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @Log4j2
 @RunWith(E2eTestParameterizedRunner.class)
-public class CreatePointLinksPageTest extends AbstractPointLinksPageTest {
+public class CreatePointLinksPageTest {
 
     @Parameterized.Parameters(name = "{index}: script: {0}, {1}")
     public static Object[][] data() { return new Object[][] {
@@ -34,30 +39,48 @@ public class CreatePointLinksPageTest extends AbstractPointLinksPageTest {
         this.eventTypeExpected = eventTypeExpected;
     }
 
+    private static AllObjectsForPointLinkTestsUtil allObjectsForPointLinkTestsUtil;
+    private static PointLinksPage pointLinksPageSubject;
+    private static PointLinkCriteria criteria;
+
+    @BeforeClass
+    public static void setup() {
+        allObjectsForPointLinkTestsUtil = new AllObjectsForPointLinkTestsUtil(E2eAbstractRunnable.getNavigationPage());
+        allObjectsForPointLinkTestsUtil.getDataSourcesAndPointsPageTestsUtil().createObjects();
+        pointLinksPageSubject = allObjectsForPointLinkTestsUtil.openPage();
+        criteria = allObjectsForPointLinkTestsUtil.getCriteria();
+    }
+
+    @AfterClass
+    public static void clean() {
+        allObjectsForPointLinkTestsUtil.deleteObjects();
+    }
+
     @After
-    public void cleanAfterTest() {
-        getPointLinksTestsUtil().cleanPointLink();
+    public void deletePointLink() {
+        allObjectsForPointLinkTestsUtil.getPointLinksTestsUtil()
+                .deleteObjects();
     }
 
     @Test
     public void test_create_point_link() {
 
         //when:
-        PointLinksPage pointLinksPage = getPointLinksPage().reopen()
+        pointLinksPageSubject.reopen()
                 .openPointLinkCreator()
-                .setPoints(getCriteria())
+                .setPoints(criteria)
                 .setScript(scriptExpected)
                 .setEventType(eventTypeExpected)
                 .savePointLink();
 
         //and:
-        String pointLinksTable = pointLinksPage.getPointLinksTableText();
+        String pointLinksTable = pointLinksPageSubject.getPointLinksTableText();
 
         //then:
-        assertThat(pointLinksTable, containsString(getCriteria().getIdentifier()));
+        assertThat(pointLinksTable, containsString(criteria.getIdentifier().getValue()));
 
         //and when:
-        PointLinksDetailsPage page = pointLinksPage.openPointLinkEditor(getCriteria());
+        PointLinksDetailsPage page = pointLinksPageSubject.openPointLinkEditor(criteria);
 /*
         //then:
         assertEquals(scriptExpected, page.getScript());

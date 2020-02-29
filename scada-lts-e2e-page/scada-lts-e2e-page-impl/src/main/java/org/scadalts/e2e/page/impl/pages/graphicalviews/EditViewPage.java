@@ -7,13 +7,14 @@ import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
+import org.scadalts.e2e.page.impl.criterias.GraphicalViewIdentifier;
 
 import java.io.File;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static org.scadalts.e2e.page.core.util.E2eUtil.acceptAlert;
-import static org.scadalts.e2e.page.core.util.StabilityUtil.reloadElement;
+import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.reloadElement;
 
 public class EditViewPage extends PageObjectAbstract<EditViewPage> {
 
@@ -52,9 +53,9 @@ public class EditViewPage extends PageObjectAbstract<EditViewPage> {
         return this;
     }
 
-    public EditViewPage setViewName(String viewName) {
+    public EditViewPage setViewName(GraphicalViewIdentifier viewName) {
         this.viewName.clear();
-        this.viewName.sendKeys(viewName);
+        this.viewName.sendKeys(viewName.getValue());
         return this;
     }
 
