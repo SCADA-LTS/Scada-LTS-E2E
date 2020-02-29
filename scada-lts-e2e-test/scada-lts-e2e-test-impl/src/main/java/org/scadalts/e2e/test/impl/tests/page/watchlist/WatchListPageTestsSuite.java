@@ -6,7 +6,11 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         DeleteWatchListPageTest.class,
-        ChangePointValueOnWatchListPageTest.class
+        ChangePointValueOnWatchListPageTest.class,
+        ChangePointValueViaPointLinksOneDataSourcePageTest.class,
+        ChangePointValueViaPointLinksTwoDataSourcePageTest.class,
+        UpdatePointValueViaPointLinksOneDataSourcePageTest.class,
+        UpdatePointValueViaPointLinksTwoDataSourcePageTest.class
 })
 public class WatchListPageTestsSuite {
 }

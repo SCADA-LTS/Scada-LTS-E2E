@@ -7,21 +7,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criteria.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criteria.WatchListCriteria;
-import org.scadalts.e2e.page.impl.dict.ChangeType;
-import org.scadalts.e2e.page.impl.dict.DataPointType;
-import org.scadalts.e2e.page.impl.dict.DataSourceType;
-import org.scadalts.e2e.page.impl.dict.UpdatePeriodType;
+import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
-import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.ListLimitedOnlyMethodAddSupported;
-import org.scadalts.e2e.test.impl.utils.WatchListTestsUtil;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -50,14 +42,14 @@ public class SequencePointValueHistoryInDetailsCheckTest {
     @BeforeClass
     public static void createDataSourceAndPoint() {
 
-        DataSourceCriteria dataSourceCriteria = new DataSourceCriteria(TestImplConfiguration.dataSourceName, DataSourceType.NONE, UpdatePeriodType.NONE);
-        DataPointCriteria dataPointCriteria = new DataPointCriteria(TestImplConfiguration.dataPointName, DataPointType.NUMERIC, ChangeType.NO_CHANGE);
-        WatchListCriteria watchListCriteria = new WatchListCriteria(dataSourceCriteria, dataPointCriteria);
-        NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
+        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond(new DataSourceIdentifier(TestImplConfiguration.dataSourceName));
+        DataPointCriteria dataPointCriteria = DataPointCriteria.numericNoChange(new DataPointIdentifier(TestImplConfiguration.dataPointName));
+        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria
+                .criteria(dataSourceCriteria, dataPointCriteria);
 
-        WatchListTestsUtil watchListTestsUtil = new WatchListTestsUtil(navigationPage, watchListCriteria);
-        dataPointDetailsPageSubject = watchListTestsUtil.getWatchListPage()
-                .openDataPointDetails(watchListCriteria);
+        dataPointDetailsPageSubject = E2eAbstractRunnable.getNavigationPage().openWatchList()
+                .openDataPointDetails(dataSourcePointCriteria);
+
         int limit = dataPointDetailsPageSubject.getHistoryLimit();
         List<String> result = dataPointDetailsPageSubject.getValuesFromHistory();
 
@@ -79,7 +71,8 @@ public class SequencePointValueHistoryInDetailsCheckTest {
         //when:
         dataPointDetailsPageSubject
                 .setDataPointValue(valueExpected)
-                .confirmDataPointValue();
+                .confirmDataPointValue()
+                .getDataPointValue(valueExpected);
 
         //and:
         List<String> result = dataPointDetailsPageSubject.refreshPage().getValuesFromHistory();

@@ -4,7 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 
 import static com.codeborne.selenide.Selenide.$;
-import static org.scadalts.e2e.page.core.util.StabilityUtil.reloadElement;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.reloadElement;
 
 public class UserProfilesPage extends MainPageObjectAbstract<UserProfilesPage> {
 

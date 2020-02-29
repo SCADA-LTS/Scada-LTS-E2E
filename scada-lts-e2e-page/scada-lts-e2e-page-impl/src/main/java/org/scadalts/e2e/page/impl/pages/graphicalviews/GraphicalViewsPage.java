@@ -8,7 +8,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
-import org.scadalts.e2e.page.core.util.StabilityUtil;
+import org.scadalts.e2e.page.core.utils.PageStabilityUtil;
+import org.scadalts.e2e.page.impl.criterias.GraphicalViewCriteria;
+import org.scadalts.e2e.page.impl.criterias.GraphicalViewIdentifier;
 
 import java.text.MessageFormat;
 import java.util.Map;
@@ -33,8 +35,8 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
         super(source, TITLE);
     }
 
-    public EditViewPage openViewEditor(String viewName) {
-        return _openViewEditor(_selectViewAndGetIdByName(viewName));
+    public EditViewPage openViewEditor(GraphicalViewCriteria criteria) {
+        return _openViewEditor(_selectViewAndGetIdByName(criteria.getIdentifier()));
     }
 
     public int getNumberOfViews() {
@@ -68,13 +70,13 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
                 .collect(Collectors.toMap(SelenideElement::getValue, SelenideElement::getText));
     }
 
-    public GraphicalViewsPage selectViewByName(String viewName) {
+    public GraphicalViewsPage selectViewByName(GraphicalViewIdentifier viewName) {
         _selectViewAndGetIdByName(viewName);
         return this;
     }
 
-    public boolean isSelectedView(String viewName) {
-        return select.getSelectedOption().has(Condition.text(viewName));
+    public boolean isSelectedView(GraphicalViewIdentifier viewName) {
+        return select.getSelectedOption().has(Condition.text(viewName.getValue()));
     }
 
     public EditViewPage openViewCreator() {
@@ -83,7 +85,7 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
     }
 
     public GraphicalViewsPage waitOnLoadedBackground() {
-        StabilityUtil.waitWhile($(By.id("viewBackground")), not(Condition.visible));
+        PageStabilityUtil.waitWhile($(By.id("viewBackground")), not(Condition.visible));
         return this;
     }
 
@@ -92,8 +94,8 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
         return this;
     }
 
-    private String _selectViewAndGetIdByName(String viewName) {
-        select.selectOption(viewName);
+    private String _selectViewAndGetIdByName(GraphicalViewIdentifier viewName) {
+        select.selectOption(viewName.getValue());
         return select.getValue();
     }
 

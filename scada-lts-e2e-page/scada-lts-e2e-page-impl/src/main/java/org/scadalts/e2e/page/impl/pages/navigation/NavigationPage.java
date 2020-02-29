@@ -1,6 +1,7 @@
 package org.scadalts.e2e.page.impl.pages.navigation;
 
 import com.codeborne.selenide.Selenide;
+import org.scadalts.e2e.page.core.pages.PageClosable;
 import org.scadalts.e2e.page.core.pages.PageObject;
 import org.scadalts.e2e.page.impl.pages.alarms.PendingAlarmsPage;
 import org.scadalts.e2e.page.impl.pages.compoundeventdetectors.CompoundEventDetectorsPage;
@@ -28,7 +29,7 @@ import java.util.Set;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-public interface NavigationPage extends PageObject<NavigationPage> {
+public interface NavigationPage extends PageObject<NavigationPage>, PageClosable {
 
     GraphicalViewsPage openGraphicalViews();
 

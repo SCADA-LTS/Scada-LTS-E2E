@@ -4,8 +4,9 @@ import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfig;
 import org.scadalts.e2e.common.config.E2eConfigurator;
 import org.scadalts.e2e.test.api.config.TestConfigurator;
-import org.scadalts.e2e.test.core.plan.exec.TestsExecutable;
-import org.scadalts.e2e.test.core.plan.runner.E2eResultSummary;
+import org.scadalts.e2e.test.core.plans.exec.TestsExecutable;
+import org.scadalts.e2e.test.core.plans.runner.E2eResultSummary;
+import org.scadalts.e2e.test.core.plans.runner.TestResultPrinter;
 
 @Log4j2
 class E2eTestApiImpl implements E2eTestApi {
@@ -20,7 +21,9 @@ class E2eTestApiImpl implements E2eTestApi {
     public E2eResultSummary run(E2eConfig config) {
         E2eConfigurator.init(config);
         TestConfigurator.init(config);
-        return _execute(executor, config);
+        E2eResultSummary summary = _execute(executor, config);
+        TestResultPrinter.print(summary);
+        return summary;
     }
 
     private static E2eResultSummary _execute(TestsExecutable executor, E2eConfig config) {

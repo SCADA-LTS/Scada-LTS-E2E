@@ -4,15 +4,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criteria.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.dict.ChangeType;
-import org.scadalts.e2e.page.impl.dict.DataPointType;
+import org.scadalts.e2e.page.impl.criterias.DataPointIdentifier;
+import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.dicts.ChangeType;
+import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
+import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourcesAndPointsPageTestsUtil;
+import org.scadalts.e2e.test.impl.utils.DataSourcePointTestObjectsUtil;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
@@ -22,7 +24,7 @@ public class CreateDataPointPageTest {
 
     private static final DataPointType dataPointType = DataPointType.BINARY;
     private static final ChangeType changeType = ChangeType.ALTERNATE;
-    private final String dataPointToCreateName = "dp_test" + System.nanoTime();
+    private final DataPointIdentifier dataPointToCreateName = IdentifierObjectFactory.dataPointName();
 
     private DataPointCriteria dataPointCreatedCriteria;
     private DataSourceCriteria dataSourceCriteria;
@@ -30,21 +32,27 @@ public class CreateDataPointPageTest {
     private DataSourcesPage dataSourcesPage;
     private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
 
-    private DataSourcesAndPointsPageTestsUtil dataSourcesPageTestsUtil;
+    private DataSourcePointTestObjectsUtil dataSourcesPageTestsUtil;
 
     @Before
     public void createDataSource() {
-        dataSourceCriteria = DataSourcesAndPointsPageTestsUtil.createDataSourceCriteria();
-        dataPointCreatedCriteria = new DataPointCriteria(dataPointToCreateName, dataPointType, changeType);
-        dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), dataSourceCriteria, dataPointCreatedCriteria);
+        dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
+        dataPointCreatedCriteria = DataPointCriteria.builder()
+                .identifier(dataPointToCreateName)
+                .type(dataPointType)
+                .changeType(changeType)
+                .startValue("true")
+                .build();
 
-        dataSourcesPage = dataSourcesPageTestsUtil.getDataSourcesPage();
-        editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.addDataSources();
+        dataSourcesPageTestsUtil = new DataSourcePointTestObjectsUtil(E2eAbstractRunnable.getNavigationPage(), dataSourceCriteria, dataPointCreatedCriteria);
+
+        dataSourcesPage = dataSourcesPageTestsUtil.openPage();
+        editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.createDataSources();
     }
 
     @After
     public void clean() {
-        dataSourcesPageTestsUtil.clean();
+        dataSourcesPageTestsUtil.deleteObjects();
     }
 
     @Test
@@ -56,7 +64,7 @@ public class CreateDataPointPageTest {
                 .enableSettable()
                 .selectDataPointType(dataPointType)
                 .selectChangeType(changeType)
-                .setStartValue(dataPointCreatedCriteria,"true")
+                .setStartValue(dataPointCreatedCriteria)
                 .saveDataPoint()
                 .enableDataPoint(dataPointCreatedCriteria);
 
@@ -66,7 +74,7 @@ public class CreateDataPointPageTest {
                 .getBodyText();
 
         //then:
-        assertThat(body, containsString(dataPointToCreateName));
+        assertThat(body, containsString(dataPointToCreateName.getValue()));
     }
 
 

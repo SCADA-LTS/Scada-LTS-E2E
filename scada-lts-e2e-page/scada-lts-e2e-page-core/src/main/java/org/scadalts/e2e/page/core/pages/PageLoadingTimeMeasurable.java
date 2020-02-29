@@ -1,7 +1,7 @@
 package org.scadalts.e2e.page.core.pages;
 
-import org.scadalts.e2e.page.core.javascript.JavascriptExecutable;
-import org.scadalts.e2e.page.core.javascript.JavascriptsTiming;
+import org.scadalts.e2e.page.core.javascripts.JavascriptExecutable;
+import org.scadalts.e2e.page.core.javascripts.JavascriptsTiming;
 
 interface PageLoadingTimeMeasurable<T extends PageObject<T>> extends JavascriptExecutable {
 

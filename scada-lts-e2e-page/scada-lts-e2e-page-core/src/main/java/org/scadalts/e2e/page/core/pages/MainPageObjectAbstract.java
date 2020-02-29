@@ -1,9 +1,8 @@
 package org.scadalts.e2e.page.core.pages;
 
 import com.codeborne.selenide.SelenideElement;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.scadalts.e2e.page.core.component.E2eWebElement;
-import org.scadalts.e2e.page.core.util.E2eWebDriverProvider;
+import org.scadalts.e2e.page.core.components.E2eWebElement;
+import org.scadalts.e2e.page.core.utils.E2eWebDriverProvider;
 
 public abstract class MainPageObjectAbstract<T extends MainPageObject<T>> extends PageObjectAbstract<T>
         implements MainPageObject<T> {

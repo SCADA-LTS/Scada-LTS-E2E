@@ -7,6 +7,7 @@ import org.scadalts.e2e.test.impl.tests.page.datasource.DataSourcePageTestsSuite
 import org.scadalts.e2e.test.impl.tests.page.datasource.datapoint.DataPointPageTestsSuite;
 import org.scadalts.e2e.test.impl.tests.page.graphicalviews.GraphicalViewPageTestsSuite;
 import org.scadalts.e2e.test.impl.tests.page.navigation.NavigationPageTestsSuite;
+import org.scadalts.e2e.test.impl.tests.page.pointlinks.PointLinksPageTestsSuite;
 import org.scadalts.e2e.test.impl.tests.page.watchlist.WatchListPageTestsSuite;
 
 @RunWith(Suite.class)
@@ -15,7 +16,8 @@ import org.scadalts.e2e.test.impl.tests.page.watchlist.WatchListPageTestsSuite;
         DataSourcePageTestsSuite.class,
         DataPointPageTestsSuite.class,
         GraphicalViewPageTestsSuite.class,
-        WatchListPageTestsSuite.class
+        WatchListPageTestsSuite.class,
+        PointLinksPageTestsSuite.class
 })
 public class ScadaPageTestsSuite {
 

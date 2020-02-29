@@ -6,8 +6,8 @@ import lombok.Singular;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfig;
-import org.scadalts.e2e.test.core.plan.runner.E2eResultSummarable;
-import org.scadalts.e2e.test.core.plan.runner.E2eResultSummary;
+import org.scadalts.e2e.test.core.plans.runner.E2eResultSummarable;
+import org.scadalts.e2e.test.core.plans.runner.E2eResultSummary;
 
 import java.io.File;
 import java.util.Collections;

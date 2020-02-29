@@ -4,10 +4,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.scadalts.e2e.page.impl.criterias.GraphicalViewCriteria;
+import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
+import org.scadalts.e2e.page.impl.criterias.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.GraphicalViewTestsUtil;
+import org.scadalts.e2e.test.impl.utils.GraphicalViewTestObjectsUtil;
 
 import java.io.File;
 
@@ -17,21 +20,22 @@ import static org.hamcrest.core.StringContains.containsString;
 @RunWith(E2eTestRunner.class)
 public class CreateGraphicalViewPageTest {
 
-    private final String viewName = "viewNameTest" + System.nanoTime();
-    private GraphicalViewTestsUtil testsUtil;
+    private final GraphicalViewIdentifier viewName = IdentifierObjectFactory.viewName();
+    private GraphicalViewTestObjectsUtil graphicalViewTestsUtil;
     private GraphicalViewsPage graphicalViewsPageSubject;
     private File background;
 
     @Before
     public void setup() {
-        testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), viewName);
-        background = testsUtil.getBackgroundFile();
-        graphicalViewsPageSubject = testsUtil.getGraphicalViewsPage();
+        GraphicalViewCriteria criteria = new GraphicalViewCriteria(viewName);
+        graphicalViewTestsUtil = new GraphicalViewTestObjectsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
+        background = graphicalViewTestsUtil.getBackgroundFile();
+        graphicalViewsPageSubject = graphicalViewTestsUtil.openPage();
     }
 
     @After
     public void clean() {
-        testsUtil.clean();
+        graphicalViewTestsUtil.deleteObjects();
     }
 
     @Test
@@ -49,6 +53,6 @@ public class CreateGraphicalViewPageTest {
         //then:
         String body = graphicalViewsPageSubject.reopen().getBodyText();
 
-        assertThat(body, containsString(viewName));
+        assertThat(body, containsString(viewName.getValue()));
     }
 }

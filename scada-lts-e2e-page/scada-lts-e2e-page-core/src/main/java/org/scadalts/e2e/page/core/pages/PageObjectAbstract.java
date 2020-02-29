@@ -4,7 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.util.StabilityUtil;
+import org.scadalts.e2e.page.core.utils.PageStabilityUtil;
 
 import java.text.MessageFormat;
 
@@ -40,7 +40,7 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
         String bodyText = body.getText();
         if(bodyText.contains(title))
            return bodyText;
-        SelenideElement element = StabilityUtil.waitWhile(body, Condition.exactTextCaseSensitive(title));
+        SelenideElement element = PageStabilityUtil.waitWhile(body, Condition.exactTextCaseSensitive(title));
         return element.getText();
     }
 

@@ -3,11 +3,14 @@ package org.scadalts.e2e.page.impl.pages.datasource.datapoint;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.page.impl.criterias.DataPointIdentifier;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
-import org.scadalts.e2e.page.impl.criteria.DataPointCriteria;
-import org.scadalts.e2e.page.impl.dict.*;
+import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.dicts.*;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourcePage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
+import org.scadalts.e2e.page.impl.criterias.Xid;
 
 import java.text.MessageFormat;
 
@@ -15,8 +18,8 @@ import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 import static javax.xml.bind.DatatypeConverter.parseBoolean;
-import static org.scadalts.e2e.page.core.util.E2eUtil.acceptAlert;
-import static org.scadalts.e2e.page.core.util.StabilityUtil.waitWhile;
+import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
 
@@ -55,15 +58,15 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return this;
     }
 
-    public EditDataPointPage setDataPointName(String dataPointName) {
+    public EditDataPointPage setDataPointName(DataPointIdentifier dataPointName) {
         this.dataPointName.clear();
-        this.dataPointName.sendKeys(dataPointName);
+        this.dataPointName.sendKeys(dataPointName.getValue());
         return this;
     }
 
-    public EditDataPointPage setDataPointXid(String dataPointXid) {
+    public EditDataPointPage setDataPointXid(Xid dataPointXid) {
         this.dataPointXid.clear();
-        this.dataPointXid.sendKeys(dataPointXid);
+        this.dataPointXid.sendKeys(dataPointXid.getValue());
         return this;
     }
 
@@ -99,11 +102,11 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return changeTypes.getValue();
     }
 
-    public EditDataPointPage setStartValue(DataPointCriteria criteria, String startValue) {
+    public EditDataPointPage setStartValue(DataPointCriteria criteria) {
         String css = MessageFormat.format("td *[id=''{0}'']", DataPointChangeFieldType
                 .getType(criteria, ChangeTypeField.START_VALUE).getId());
         waitWhile($(css), not(Condition.visible))
-                .sendKeys(startValue);
+                .sendKeys(criteria.getStartValue());
         return this;
     }
 
@@ -170,11 +173,11 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return editDataSourceWithPointListPage.disableDataPoint(criteria);
     }
 
-    public EditDataSourcePage setDataSourceName(String dataSourceName) {
+    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceName) {
         return editDataSourceWithPointListPage.setDataSourceName(dataSourceName);
     }
 
-    public EditDataSourcePage setDataSourceXid(String dataSourceXid) {
+    public EditDataSourcePage setDataSourceXid(Xid dataSourceXid) {
         return editDataSourceWithPointListPage.setDataSourceXid(dataSourceXid);
     }
 
