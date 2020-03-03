@@ -1,6 +1,9 @@
 # Scada-LTS-E2E
 Tests E2E for ScadaLTS
 
+# v15.0.0
+The project is under development.
+
 # v11.0.0
 Documentation in preparation.
 
