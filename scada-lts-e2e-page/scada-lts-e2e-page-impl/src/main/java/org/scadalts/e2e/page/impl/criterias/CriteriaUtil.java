@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public class CriteriaUtil {
 
-    public static Map<DataSourceCriteria, List<DataPointCriteria>> createCriteriaStructure(DataSourcePointCriteria[] criteria) {
+    public static Map<DataSourceCriteria, List<DataPointCriteria>> createCriteriaStructure(DataSourcePointCriteria... criteria) {
         return Stream.of(criteria)
                 .collect(Collectors.groupingBy(DataSourcePointCriteria::getDataSource,
                         Collectors.mapping(DataSourcePointCriteria::getDataPoint, Collectors.toList())));

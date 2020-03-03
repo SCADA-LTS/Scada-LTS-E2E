@@ -4,17 +4,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.scadalts.e2e.page.impl.criterias.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.ChangeType;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
-import org.scadalts.e2e.test.core.utils.TestObjectsUtilible;
+import org.scadalts.e2e.test.core.creators.CreatorObject;
+import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourcePointTestObjectsUtil;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
@@ -27,7 +28,7 @@ public class DeleteDataPointPageTest {
 
     private DataPointCriteria dataPointToDeleteCriteria;
     private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
-    private TestObjectsUtilible<DataSourcesPage, EditDataSourceWithPointListPage> dataSourcesPageTestsUtil;
+    private CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcesPageTestsUtil;
 
     @Before
     public void createDataSourceAndPoint() {
@@ -37,15 +38,16 @@ public class DeleteDataPointPageTest {
         DataPointCriteria dataPointCriteria2 = DataPointCriteria.binaryAlternate();
 
         dataPointToDeleteCriteria = DataPointCriteria.builder()
+                .xid(Xid.xidForDataPoint())
                 .type(DataPointType.BINARY)
                 .identifier(dataPointToDeleteName)
                 .changeType(ChangeType.ALTERNATE)
                 .startValue("true")
                 .build();
 
-        dataSourcesPageTestsUtil = new DataSourcePointTestObjectsUtil(E2eAbstractRunnable.getNavigationPage(), dataSourceCriteria, dataPointCriteria,
+        dataSourcesPageTestsUtil = new DataSourcePointObjectsCreator(E2eAbstractRunnable.getNavigationPage(), dataSourceCriteria, dataPointCriteria,
                 dataPointToDeleteCriteria, dataPointCriteria2);
-        editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.createObjects();
+        editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.createObjects().openDataSourceEditor(dataSourceCriteria);
     }
 
     @After

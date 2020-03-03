@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.core.criterias.RowCriteria;
+import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
@@ -55,8 +56,7 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     }
 
     public String getWatchListText() {
-        return waitWhile(watchListTable, not(Condition.visible))
-                .getText();
+        return waitWhile(watchListTable, not(Condition.visible)).getText();
     }
 
     public WatchListPage setDataPointValue(DataSourcePointCriteria criteria, String value) {
@@ -117,11 +117,12 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     }
 
     private SelenideElement _findActionInSpan(DataSourcePointCriteria criteria, By selectAction) {
-        RowCriteria rowCriteria = new RowCriteria(criteria.getIdentifier(), criteria.getType(), "span");
+        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.span());
         return findAction(rowCriteria, selectAction, treeDiv);
     }
 
     private SelenideElement _findActionInTBody(DataSourcePointCriteria criteria, By selectAction) {
-        return findAction(criteria, selectAction, watchListTable);
+        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tbody());
+        return findAction(rowCriteria, selectAction, watchListTable);
     }
 }

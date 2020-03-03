@@ -1,10 +1,10 @@
 package org.scadalts.e2e.page.impl.dicts;
 
-import org.scadalts.e2e.common.dicts.E2eDictionary;
+import org.scadalts.e2e.common.dicts.DictionaryObject;
 
 import java.util.stream.Stream;
 
-public enum EventType implements E2eDictionary {
+public enum EventType implements DictionaryObject {
     CHANGE("Change", "2"),
     UPDATE("Update", "1"),
     NONE("", "");

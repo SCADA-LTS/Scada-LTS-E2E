@@ -5,14 +5,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourcePointTestObjectsUtil;
+import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
@@ -24,17 +24,13 @@ public class CreateDataSourcePageTest {
     private static final UpdatePeriodType updatePeriodType = UpdatePeriodType.SECOND;
     private final DataSourceIdentifier dataSourceName = IdentifierObjectFactory.dataSourceName();
 
-    private DataSourcePointTestObjectsUtil dataSourcesPageTestsUtil;
+    private DataSourcePointObjectsCreator dataSourcesPageTestsUtil;
     private DataSourcesPage dataSourcesPageSubject;
 
     @Before
     public void setup() {
-        DataSourceCriteria criteria = DataSourceCriteria.builder()
-                    .identifier(dataSourceName)
-                    .type(dataSourceType)
-                    .updatePeriodType(updatePeriodType)
-                    .build();
-        dataSourcesPageTestsUtil = new DataSourcePointTestObjectsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
+        DataSourceCriteria criteria = DataSourceCriteria.criteria(dataSourceName,updatePeriodType,dataSourceType);
+        dataSourcesPageTestsUtil = new DataSourcePointObjectsCreator(E2eAbstractRunnable.getNavigationPage(), criteria);
         dataSourcesPageSubject = dataSourcesPageTestsUtil.openPage();
     }
 
@@ -52,7 +48,7 @@ public class CreateDataSourcePageTest {
                 .setUpdatePeriods(13)
                 .setDataSourceName(dataSourceName)
                 .saveDataSource()
-                .enableDataSource();
+                .enableDataSource(true);
 
         //and:
         String body = dataSourcesPageSubject.reopen().getBodyText();

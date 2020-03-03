@@ -23,6 +23,8 @@ public class TestImplConfigurator {
         TestImplConfiguration.dataPointName = config.getDataPointName();
         TestImplConfiguration.dataPointSourceXid = config.getDataPointSourceXid();
         TestImplConfiguration.dataPointTargetXid = config.getDataPointTargetXid();
+        TestImplConfiguration.testPlan = config.getTestPlan();
+        TestImplConfiguration.timeout = config.getTimeoutMs();
     }
 
     public static void init() {

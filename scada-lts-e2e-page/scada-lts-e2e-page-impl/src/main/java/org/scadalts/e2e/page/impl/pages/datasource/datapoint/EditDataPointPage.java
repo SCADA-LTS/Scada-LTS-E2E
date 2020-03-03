@@ -3,10 +3,10 @@ package org.scadalts.e2e.page.impl.pages.datasource.datapoint;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.impl.criterias.DataPointIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.*;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourcePage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
@@ -70,6 +70,11 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return this;
     }
 
+    public EditDataPointPage setSettable(boolean settable) {
+        return settable ? enableSettable() : this;
+    }
+
+
     public EditDataPointPage enableSettable() {
         this.settableCheckbox.click();
         return this;
@@ -131,7 +136,7 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
     }
 
     public boolean isSettable() {
-        return parseBoolean(settableCheckbox.getValue());
+        return parseBoolean(settableCheckbox.getAttribute("selected"));
     }
 
     public DataPointType getDataTypes() {
@@ -142,11 +147,8 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return ChangeType.getType(changeTypes.getSelectedText());
     }
 
-    public EditDataSourceWithPointListPage enableDataSource() {
-        return editDataSourceWithPointListPage.enableDataSource();
-    }
-    public EditDataSourceWithPointListPage disableDataSource() {
-        return editDataSourceWithPointListPage.disableDataSource();
+    public EditDataSourceWithPointListPage enableDataSource(boolean enable) {
+        return editDataSourceWithPointListPage.enableDataSource(enable);
     }
 
     public EditDataSourceWithPointListPage enableAllDataPoint() {

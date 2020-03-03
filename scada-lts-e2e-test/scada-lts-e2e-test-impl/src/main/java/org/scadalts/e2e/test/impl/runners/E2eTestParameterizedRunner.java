@@ -18,6 +18,7 @@ public class E2eTestParameterizedRunner extends Parameterized {
         try {
             if (!E2eAbstractRunnable.isLogged()) {
                 E2eAbstractRunnable.setup();
+                E2eAbstractRunnable.login();
             }
         } catch (Throwable throwable) {
             NavigationPage.kill();

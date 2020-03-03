@@ -1,12 +1,12 @@
 package org.scadalts.e2e.page.impl.dicts;
 
 import lombok.Getter;
-import org.scadalts.e2e.common.dicts.E2eDictionary;
+import org.scadalts.e2e.common.dicts.DictionaryObject;
 
 import java.util.stream.Stream;
 
 @Getter
-public enum DataSourceType implements E2eDictionary {
+public enum DataSourceType implements DictionaryObject {
 
     VIRTUAL_DATA_SOURCE("Virtual Data Source", "1"),
     NONE("none", "");

@@ -10,9 +10,9 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
+import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
+import org.scadalts.e2e.test.impl.runners.E2eServiceTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.AllObjectsForPointLinkTestsUtil;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.ServiceTestsUtil;
 
@@ -21,7 +21,7 @@ import java.util.Collection;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(E2eTestParameterizedRunner.class)
+@RunWith(E2eServiceTestParameterizedRunner.class)
 public class ChangePointValueViaPointLinksTwoDataSourceServiceTest {
 
     @Parameterized.Parameters(name = "{index}: value:{0}")
@@ -35,7 +35,7 @@ public class ChangePointValueViaPointLinksTwoDataSourceServiceTest {
         this.expectedValue = expectedValue;
     }
 
-    private static AllObjectsForPointLinkTestsUtil allObjectsForPointLinkTestsUtil;
+    private static AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
     private static DataPointCriteria source;
     private static DataPointCriteria target;
 
@@ -52,14 +52,14 @@ public class ChangePointValueViaPointLinksTwoDataSourceServiceTest {
         source = sourcePointSource.getDataPoint();
         target = sourcePointTarget.getDataPoint();
 
-        allObjectsForPointLinkTestsUtil = new AllObjectsForPointLinkTestsUtil(E2eAbstractRunnable.getNavigationPage(),
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(E2eAbstractRunnable.getNavigationPage(),
                 criteria);
-        allObjectsForPointLinkTestsUtil.createObjects();
+        allObjectsForPointLinkTestCreator.createObjects();
     }
 
     @AfterClass
     public static void clean() {
-        allObjectsForPointLinkTestsUtil.deleteObjects();
+        allObjectsForPointLinkTestCreator.deleteObjects();
     }
 
     @Test

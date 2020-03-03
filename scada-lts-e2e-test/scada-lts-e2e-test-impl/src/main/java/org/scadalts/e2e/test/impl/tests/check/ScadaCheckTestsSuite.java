@@ -5,10 +5,12 @@ import org.junit.runners.Suite;
 import org.scadalts.e2e.test.impl.tests.check.datapoint.DataPointDetailsCheckTestsSuite;
 import org.scadalts.e2e.test.impl.tests.check.eventdetectors.EventDetectorCheckTest;
 import org.scadalts.e2e.test.impl.tests.check.graphicalviews.GraphicalViewsCheckTestsSuite;
+import org.scadalts.e2e.test.impl.tests.check.login.LoginCheckTest;
 import org.scadalts.e2e.test.impl.tests.check.pointlinks.ChangePointValueViaPointLinksCheckTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+        LoginCheckTest.class,
         EventDetectorCheckTest.class,
         GraphicalViewsCheckTestsSuite.class,
         DataPointDetailsCheckTestsSuite.class,

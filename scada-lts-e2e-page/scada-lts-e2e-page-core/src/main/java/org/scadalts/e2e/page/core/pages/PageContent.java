@@ -13,6 +13,7 @@ interface PageContent<T extends PageObject<T>> extends GetPage<T> {
 
     String getHeadHtml();
     String getBodyText();
+    String getBodyHtml();
     String getTitle();
 
     default boolean containsObject(CriteriaObject criteria) {

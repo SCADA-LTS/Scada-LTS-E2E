@@ -8,7 +8,7 @@ import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
+import org.scadalts.e2e.test.impl.runners.E2eServiceTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.ServiceTestsUtil;
 
@@ -17,7 +17,7 @@ import java.util.Collection;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(E2eTestParameterizedRunner.class)
+@RunWith(E2eServiceTestParameterizedRunner.class)
 public class EventDetectorCheckTest {
 
     @Parameterized.Parameters(name = "{index}:{0}")

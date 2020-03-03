@@ -6,15 +6,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.*;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.EventType;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
+import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
+import org.scadalts.e2e.test.impl.runners.E2eServiceTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.AllObjectsForPointLinkTestsUtil;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.ServiceTestsUtil;
 
@@ -23,7 +24,7 @@ import java.util.Collection;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(E2eTestParameterizedRunner.class)
+@RunWith(E2eServiceTestParameterizedRunner.class)
 public class ChangePointValueViaPointLinksServiceTest {
 
     @Parameterized.Parameters(name = "{index}: {0} updatePeriodValue: {1}, {2}")
@@ -59,7 +60,7 @@ public class ChangePointValueViaPointLinksServiceTest {
         this.eventType = eventType;
     }
 
-    private AllObjectsForPointLinkTestsUtil allObjectsForPointLinkTestsUtil;
+    private AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
     private DataPointCriteria source;
     private DataPointCriteria target;
     private final static Collection<String> values = ChangePointValuesProvider.paramsToTests();
@@ -78,14 +79,14 @@ public class ChangePointValueViaPointLinksServiceTest {
         target = sourcePointTargetCriteria.getDataPoint();
 
         PointLinkCriteria criteria = PointLinkCriteria.change(sourcePointSourceCriteria, sourcePointTargetCriteria);
-        allObjectsForPointLinkTestsUtil = new AllObjectsForPointLinkTestsUtil(E2eAbstractRunnable.getNavigationPage(),
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(E2eAbstractRunnable.getNavigationPage(),
                 criteria);
-        allObjectsForPointLinkTestsUtil.createObjects();
+        allObjectsForPointLinkTestCreator.createObjects();
     }
 
     @After
     public void clean() {
-        allObjectsForPointLinkTestsUtil.deleteObjects();
+        allObjectsForPointLinkTestCreator.deleteObjects();
     }
 
     @Test

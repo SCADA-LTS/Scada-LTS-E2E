@@ -9,15 +9,14 @@ import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
-import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
-import org.scadalts.e2e.test.core.utils.TestObjectsUtilible;
+import org.scadalts.e2e.test.core.creators.CreatorObject;
+import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
-import org.scadalts.e2e.test.impl.utils.DataSourcePointTestObjectsUtil;
-import org.scadalts.e2e.test.impl.utils.WatchListTestObjectsUtil;
 
 import java.util.Collection;
 
@@ -37,8 +36,8 @@ public class ChangePointValueOnWatchListPageTest {
         this.valueExpected = valueExpected;
     }
 
-    private static TestObjectsUtilible<WatchListPage, WatchListPage> watchListTestsUtil;
-    private static TestObjectsUtilible<DataSourcesPage, EditDataSourceWithPointListPage> dataSourcesAndPointsPageTestsUtil;
+    private static CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
+    private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcesAndPointsPageTestsUtil;
     private static DataSourcePointCriteria dataSourcePointCriteria;
     private static WatchListPage watchListPageSubject;
 
@@ -51,10 +50,10 @@ public class ChangePointValueOnWatchListPageTest {
         dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
         NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
 
-        dataSourcesAndPointsPageTestsUtil = new DataSourcePointTestObjectsUtil(navigationPage, dataSourcePointCriteria);
+        dataSourcesAndPointsPageTestsUtil = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcesAndPointsPageTestsUtil.createObjects();
 
-        watchListTestsUtil = new WatchListTestObjectsUtil(navigationPage, dataSourcePointCriteria);
+        watchListTestsUtil = new WatchListObjectsCreator(navigationPage, dataSourcePointCriteria);
         watchListPageSubject = watchListTestsUtil.createObjects();
     }
 

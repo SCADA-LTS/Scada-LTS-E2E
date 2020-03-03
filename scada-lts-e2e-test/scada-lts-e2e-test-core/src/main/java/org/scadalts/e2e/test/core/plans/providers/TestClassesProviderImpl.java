@@ -24,16 +24,16 @@ class TestClassesProviderImpl implements TestClassesProvider {
     }
 
     private List<Class<?>> _getTestClassesFromConsole(E2eConfig config) {
-        List<Class<?>> result = _getTestClasses(config);
+        List<Class<?>> result = new ArrayList<>();
         if(config.getClassesTestRefs().length > 0)
             result.addAll(_getTestClassesByRef(config));
+        result.addAll(_getTestClasses(config));
         result.add(plans.getPlan(TestPlan.LOGOUT));
         return result;
     }
 
     private List<Class<?>> _getTestClasses(E2eConfig config) {
         List<Class<?>> result = new ArrayList<>();
-        result.add(plans.getPlan(TestPlan.LOGIN));
         if(plans.containsPlan(config.getTestPlan()))
             result.add(plans.getPlan(config.getTestPlan()));
         return result;

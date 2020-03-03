@@ -8,7 +8,7 @@ import org.scadalts.e2e.page.impl.dicts.EventType;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.AllObjectsForPointLinkTestsUtil;
+import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,21 +34,21 @@ public class DeletePointLinksPageTest {
         this.eventTypeExpected = eventTypeExpected;
     }
 
-    private static AllObjectsForPointLinkTestsUtil allObjectsForPointLinkTestsUtil;
+    private static AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
     private static PointLinksPage pointLinksPageSubject;
     private static PointLinkCriteria criteria;
 
     @BeforeClass
     public static void setup() {
-        allObjectsForPointLinkTestsUtil = new AllObjectsForPointLinkTestsUtil(E2eAbstractRunnable.getNavigationPage());
-        allObjectsForPointLinkTestsUtil.getDataSourcesAndPointsPageTestsUtil().createObjects();
-        pointLinksPageSubject = allObjectsForPointLinkTestsUtil.openPage();
-        criteria = allObjectsForPointLinkTestsUtil.getCriteria();
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(E2eAbstractRunnable.getNavigationPage());
+        allObjectsForPointLinkTestCreator.getDataSourcesAndPointsPageTestsCreator().createObjects();
+        pointLinksPageSubject = allObjectsForPointLinkTestCreator.openPage();
+        criteria = allObjectsForPointLinkTestCreator.getCriteria();
     }
 
     @AfterClass
     public static void clean() {
-        allObjectsForPointLinkTestsUtil.deleteObjects();
+        allObjectsForPointLinkTestCreator.deleteObjects();
     }
 
     @Before
@@ -63,7 +63,7 @@ public class DeletePointLinksPageTest {
 
     @After
     public void deletePointLink() {
-        allObjectsForPointLinkTestsUtil.getPointLinksTestsUtil().deleteObjects();
+        allObjectsForPointLinkTestCreator.getPointLinksTestsCreator().deleteObjects();
     }
 
     @Test

@@ -8,9 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
-import org.scadalts.e2e.page.core.utils.PageStabilityUtil;
 import org.scadalts.e2e.page.impl.criterias.GraphicalViewCriteria;
-import org.scadalts.e2e.page.impl.criterias.GraphicalViewIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 
 import java.text.MessageFormat;
 import java.util.Map;
@@ -20,6 +19,7 @@ import java.util.stream.Collectors;
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPage> {
 
@@ -35,7 +35,7 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
         super(source, TITLE);
     }
 
-    public EditViewPage openViewEditor(GraphicalViewCriteria criteria) {
+    public EditGraphicalViewPage openViewEditor(GraphicalViewCriteria criteria) {
         return _openViewEditor(_selectViewAndGetIdByName(criteria.getIdentifier()));
     }
 
@@ -79,13 +79,13 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
         return select.getSelectedOption().has(Condition.text(viewName.getValue()));
     }
 
-    public EditViewPage openViewCreator() {
-        creator.click();
-        return page(EditViewPage.class);
+    public EditGraphicalViewPage openViewCreator() {
+        waitWhile(creator, not(Condition.visible)).click();
+        return page(new EditGraphicalViewPage(this));
     }
 
     public GraphicalViewsPage waitOnLoadedBackground() {
-        PageStabilityUtil.waitWhile($(By.id("viewBackground")), not(Condition.visible));
+        waitWhile($(By.id("viewBackground")), not(Condition.visible));
         return this;
     }
 
@@ -99,9 +99,9 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
         return select.getValue();
     }
 
-    private EditViewPage _openViewEditor(String viewId) {
+    private EditGraphicalViewPage _openViewEditor(String viewId) {
         String query = MessageFormat.format("a[href=''view_edit.shtm?viewId={0}'']", viewId);
         $(By.cssSelector(query)).click();
-        return page(EditViewPage.class);
+        return page(new EditGraphicalViewPage(this));
     }
 }
