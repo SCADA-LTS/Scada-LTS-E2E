@@ -4,14 +4,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.scadalts.e2e.page.impl.criteria.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.dict.DataSourceType;
-import org.scadalts.e2e.page.impl.dict.UpdatePeriodType;
+import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
+import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourcesAndPointsPageTestsUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -20,23 +19,22 @@ import static org.junit.Assert.assertNotEquals;
 public class EditDataSourcePageTest {
 
     private DataSourceCriteria criteria;
-    private DataSourcesAndPointsPageTestsUtil dataSourcesPageTestsUtil;
+    private DataSourcePointObjectsCreator dataSourcesPageTestsUtil;
 
     private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
     private DataSourcesPage dataSourcesPage;
 
     @Before
     public void createDataSource() {
-        String dataSourceName = "ds_test" + System.nanoTime();
-        criteria = new DataSourceCriteria(dataSourceName, DataSourceType.VIRTUAL_DATA_SOURCE, UpdatePeriodType.SECOUND);
-        dataSourcesPageTestsUtil = new DataSourcesAndPointsPageTestsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
-        dataSourcesPage = dataSourcesPageTestsUtil.getDataSourcesPage();
-        editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.addDataSources();
+        criteria = DataSourceCriteria.virtualDataSource(UpdatePeriodType.SECOND, 13);
+        dataSourcesPageTestsUtil = new DataSourcePointObjectsCreator(E2eAbstractRunnable.getNavigationPage(), criteria);
+        dataSourcesPage = dataSourcesPageTestsUtil.openPage();
+        editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.createDataSources();
     }
 
     @After
     public void clean() {
-        dataSourcesPageTestsUtil.clean();
+        dataSourcesPageTestsUtil.deleteObjects();
     }
 
     @Test

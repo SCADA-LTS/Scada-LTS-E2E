@@ -4,7 +4,7 @@ import com.codeborne.selenide.Selenide;
 
 import java.io.Closeable;
 
-interface PageClosable extends Closeable {
+public interface PageClosable extends Closeable {
     default void closeWindows() {
         Selenide.closeWebDriver();
     }

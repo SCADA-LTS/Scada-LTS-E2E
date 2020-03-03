@@ -5,11 +5,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.scadalts.e2e.page.impl.criterias.GraphicalViewCriteria;
+import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
+import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.GraphicalViewTestsUtil;
+import org.scadalts.e2e.test.impl.creators.GraphicalViewObjectsCreator;
 
 import java.util.Set;
 
@@ -19,22 +22,22 @@ import static org.junit.Assert.assertEquals;
 @RunWith(E2eTestRunner.class)
 public class MultiTabGraphicalViewPageTest {
 
-    private final String viewName = "viewNameTest" + System.nanoTime();
-    private GraphicalViewTestsUtil testsUtil;
+    private final GraphicalViewIdentifier viewName = IdentifierObjectFactory.viewName();
+    private GraphicalViewObjectsCreator graphicalViewTestsUtil;
     private GraphicalViewsPage graphicalViewsPageSubject;
 
     @Before
     public void createView() {
-        logger.info("viewName: {}", viewName);
-        testsUtil = new GraphicalViewTestsUtil(E2eAbstractRunnable.getNavigationPage(), viewName);
-        testsUtil.addView();
-        graphicalViewsPageSubject = testsUtil.getGraphicalViewsPage();
+        logger.info("viewName: {}", viewName.getValue());
+        GraphicalViewCriteria criteria = GraphicalViewCriteria.criteria(viewName);
+        graphicalViewTestsUtil = new GraphicalViewObjectsCreator(E2eAbstractRunnable.getNavigationPage(), criteria);
+        graphicalViewsPageSubject = graphicalViewTestsUtil.createObjects();
     }
 
     @After
     public void clean() {
         NavigationPage.closeAllButOnePage();
-        testsUtil.clean();
+        graphicalViewTestsUtil.deleteObjects();
     }
 
     @Test

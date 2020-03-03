@@ -4,13 +4,17 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.scadalts.e2e.test.impl.tests.check.datapoint.DataPointDetailsCheckTestsSuite;
 import org.scadalts.e2e.test.impl.tests.check.eventdetectors.EventDetectorCheckTest;
-import org.scadalts.e2e.test.impl.tests.page.graphicalviews.GraphicalViewPageTestsSuite;
+import org.scadalts.e2e.test.impl.tests.check.graphicalviews.GraphicalViewsCheckTestsSuite;
+import org.scadalts.e2e.test.impl.tests.check.login.LoginCheckTest;
+import org.scadalts.e2e.test.impl.tests.check.pointlinks.ChangePointValueViaPointLinksCheckTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+        LoginCheckTest.class,
         EventDetectorCheckTest.class,
-        GraphicalViewPageTestsSuite.class,
-        DataPointDetailsCheckTestsSuite.class
+        GraphicalViewsCheckTestsSuite.class,
+        DataPointDetailsCheckTestsSuite.class,
+        ChangePointValueViaPointLinksCheckTest.class
 })
 public class ScadaCheckTestsSuite {
 }

@@ -50,11 +50,15 @@ public interface E2eConfig {
 
     String getDataPointName();
 
+    String getDataPointSourceXid();
+
+    String getDataPointTargetXid();
+
     String[] getClassesTestRefs();
 
     String[] getSendTo();
 
-    String[] getDataPointValuesToChangeTests();
+    String[] getDataPointValuesToTests();
 
     org.apache.logging.log4j.Level getLogLevel();
 
@@ -93,10 +97,5 @@ public interface E2eConfig {
     boolean isDebugEmailMode();
 
     boolean isNotificationEmailMode();
-
-/*
-    static E2eConfig newConfig() {
-        return new E2eConfigDefault();
-    }*/
 
 }

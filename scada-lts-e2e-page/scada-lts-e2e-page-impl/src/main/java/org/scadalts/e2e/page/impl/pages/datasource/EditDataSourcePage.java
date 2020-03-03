@@ -4,10 +4,12 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
-import org.scadalts.e2e.page.impl.dict.UpdatePeriodType;
+import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 
 import static javax.xml.bind.DatatypeConverter.parseInt;
-import static org.scadalts.e2e.page.core.util.E2eUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
 
 public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
 
@@ -41,15 +43,15 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
         return this;
     }
 
-    public EditDataSourcePage setDataSourceName(String dataSourceName) {
+    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceName) {
         this.dataSourceName.clear();
-        this.dataSourceName.sendKeys(dataSourceName);
+        this.dataSourceName.sendKeys(dataSourceName.getValue());
         return this;
     }
 
-    public EditDataSourcePage setDataSourceXid(String dataSourceXid) {
+    public EditDataSourcePage setDataSourceXid(Xid dataSourceXid) {
         this.dataSourceXid.clear();
-        this.dataSourceXid.sendKeys(dataSourceXid);
+        this.dataSourceXid.sendKeys(dataSourceXid.getValue());
         return this;
     }
 

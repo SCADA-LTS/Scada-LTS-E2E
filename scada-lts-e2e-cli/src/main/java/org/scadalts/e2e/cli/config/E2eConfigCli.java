@@ -206,8 +206,8 @@ public class E2eConfigCli implements E2eConfig {
     }
 
     @Override
-    public String[] getDataPointValuesToChangeTests() {
-        return fromE2e.getDataPointValuesToChangeTests();
+    public String[] getDataPointValuesToTests() {
+        return fromE2e.getDataPointValuesToTests();
     }
 
     @Override
@@ -218,5 +218,15 @@ public class E2eConfigCli implements E2eConfig {
     @Override
     public String getDataPointName() {
         return fromE2e.getDataPointName();
+    }
+
+    @Override
+    public String getDataPointTargetXid() {
+        return fromE2e.getDataPointTargetXid();
+    }
+
+    @Override
+    public String getDataPointSourceXid() {
+        return fromE2e.getDataPointSourceXid();
     }
 }

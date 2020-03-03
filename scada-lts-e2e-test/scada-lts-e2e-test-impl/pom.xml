@@ -5,7 +5,7 @@
     <parent>
         <artifactId>scada-lts-e2e-test</artifactId>
         <groupId>org.scadalts</groupId>
-        <version>13.3.2-SNAPSHOT</version>
+        <version>15.0.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -24,15 +24,15 @@
         </dependency>
         <dependency>
             <groupId>org.scadalts</groupId>
-            <artifactId>scada-lts-e2e-webservice-api</artifactId>
+            <artifactId>scada-lts-e2e-service-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.scadalts</groupId>
-            <artifactId>scada-lts-e2e-webservice-impl</artifactId>
+            <artifactId>scada-lts-e2e-service-impl</artifactId>
         </dependency>
         <dependency>
             <groupId>org.scadalts</groupId>
-            <artifactId>scada-lts-e2e-webservice-core</artifactId>
+            <artifactId>scada-lts-e2e-service-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.scadalts</groupId>
@@ -42,54 +42,5 @@
             <groupId>org.scadalts</groupId>
             <artifactId>scada-lts-e2e-page-impl</artifactId>
         </dependency>
-        <!--dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-rs-client</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http-hc</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-rs-extension-providers</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.jaxrs</groupId>
-            <artifactId>jackson-jaxrs-json-provider</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.codeborne</groupId>
-            <artifactId>selenide</artifactId>
-            <scope>runtime</scope>
-        </dependency-->
-
-        <!--dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.21</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.21</version>
-        </dependency-->
     </dependencies>
 </project>

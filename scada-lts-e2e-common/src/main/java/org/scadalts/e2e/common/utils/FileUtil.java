@@ -61,12 +61,9 @@ public class FileUtil {
     private static File _createNewFileInFileSystem(String fileName) throws IOException {
         Path path = Paths.get(fileName);
         boolean dirsCreated = _createDirs(path);
-        if(dirsCreated) {
-            InputStream inputStream = getResourceAsStream(fileName);
-            Files.copy(inputStream, path);
-            return path.toFile();
-        }
-        return new File("");
+        InputStream inputStream = getResourceAsStream(fileName);
+        Files.copy(inputStream, path);
+        return path.toFile();
     }
 
     private static boolean _createDirs(Path path) {

@@ -1,6 +1,6 @@
 package org.scadalts.e2e.common.dicts;
 
-public enum EmptyType implements E2eDictionary {
+public enum EmptyType implements DictionaryObject {
     ANY;
 
     @Override

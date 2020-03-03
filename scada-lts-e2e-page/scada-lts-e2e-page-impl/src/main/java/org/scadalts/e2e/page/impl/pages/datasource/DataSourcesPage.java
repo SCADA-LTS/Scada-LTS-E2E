@@ -3,16 +3,16 @@ package org.scadalts.e2e.page.impl.pages.datasource;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criteria.ActionCriteria;
-import org.scadalts.e2e.page.core.criteria.RowCriteria;
-import org.scadalts.e2e.page.core.exceptions.DynamicElementException;
+import org.scadalts.e2e.page.core.criterias.CssClass;
+import org.scadalts.e2e.page.core.criterias.RowCriteria;
+import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
-import org.scadalts.e2e.page.impl.criteria.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.dict.DataSourceType;
+import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 
 import static com.codeborne.selenide.Selenide.page;
-import static org.scadalts.e2e.page.core.util.DynamicElementUtil.findActionByClassCss;
-import static org.scadalts.e2e.page.core.util.E2eUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
+import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
 
 public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
 
@@ -22,7 +22,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     @FindBy(css = "img[onclick='addDataSource()']")
     private SelenideElement addDataSource;
 
-    @FindBy(css = "table .dataSourcesTable")
+    @FindBy(css = "table table .dataSourcesTable")
     private SelenideElement dataSourcesTable;
 
     private static final By SELECTOR_ACTION_EDIT_DATA_SOURCE_BY = By.cssSelector("a[href*='data_source_edit.shtm?dsid=']");
@@ -80,17 +80,10 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         return dataSourceTypes.getValue();
     }
 
-    private SelenideElement _findAction(DataSourceCriteria dataSourceParams, By selectAction) {
-        RowCriteria rowCriteria = new RowCriteria(dataSourceParams.getIdentifier(),
-                dataSourceParams.getType());
-        ActionCriteria actionCriteria = new ActionCriteria(rowCriteria, selectAction);
-        try {
-            return findActionByClassCss(actionCriteria, "row", dataSourcesTable);
-        } catch (DynamicElementException e) {
-            throw new RuntimeException(e);
-        }
+    private SelenideElement _findAction(DataSourceCriteria criteria, By selectAction) {
+        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr(), new CssClass("row"));
+        return findAction(rowCriteria, selectAction, dataSourcesTable);
     }
-
 
     private EditDataSourcePage _openDataSourceCreator() {
         addDataSource.click();

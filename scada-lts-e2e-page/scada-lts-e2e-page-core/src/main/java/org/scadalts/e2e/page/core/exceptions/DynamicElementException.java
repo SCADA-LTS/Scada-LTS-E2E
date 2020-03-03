@@ -1,6 +1,6 @@
 package org.scadalts.e2e.page.core.exceptions;
 
-public class DynamicElementException extends Exception {
+public class DynamicElementException extends RuntimeException {
 
     public DynamicElementException() {
     }

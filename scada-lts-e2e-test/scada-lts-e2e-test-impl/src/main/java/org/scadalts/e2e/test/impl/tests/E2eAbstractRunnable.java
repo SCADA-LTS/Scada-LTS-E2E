@@ -1,6 +1,5 @@
 package org.scadalts.e2e.test.impl.tests;
 
-import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.page.core.config.PageObjectConfigurator;
@@ -9,16 +8,20 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.config.TestCoreConfigurator;
 import org.scadalts.e2e.test.core.tests.E2eRunnable;
 import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
-import org.scadalts.e2e.webservice.core.config.WebServiceObjectConfigurator;
+import org.scadalts.e2e.test.impl.utils.ServiceTestsUtil;
+
+import java.util.Optional;
 
 @Log4j2
 public abstract class E2eAbstractRunnable implements E2eRunnable {
 
-    @Setter
     private static NavigationPage navigationPage;
 
     public static void setup() {
         _setup();
+    }
+
+    public static void login() {
         _login();
     }
 
@@ -26,17 +29,35 @@ public abstract class E2eAbstractRunnable implements E2eRunnable {
         _close();
     }
 
+    public static boolean isLogged() {
+        if(navigationPage == null)
+            return false;
+        Optional<String> sessionIdOpt = navigationPage.getSessionId();
+        if(!sessionIdOpt.isPresent() || sessionIdOpt.get().isEmpty())
+            return false;
+        return ServiceTestsUtil.isLogged();
+    }
+
+    public static NavigationPage getNavigationPage() {
+        return navigationPage;
+    }
+
+    public static void init(NavigationPage navigationPage) {
+        E2eAbstractRunnable.navigationPage = navigationPage;
+        logger.info("cookies: {}", navigationPage.getCookies());
+        E2eConfiguration.sessionId = navigationPage.getSessionId().orElse("");
+    }
+
     private static void _login() {
-        logger.debug("login...");
-        navigationPage = LoginPage.openPage()
+        logger.info("login...");
+        NavigationPage navigationPage = LoginPage.openPage()
                 .maximize()
                 .printLoadingMeasure()
                 .setUserName(E2eConfiguration.userName)
                 .setPassword(E2eConfiguration.password)
                 .login()
                 .printLoadingMeasure();
-        E2eConfiguration.sessionId = navigationPage.getSessionId().orElse("");
-        WebServiceObjectConfigurator.init(null, E2eConfiguration.sessionId);
+        init(navigationPage);
     }
 
     private static void _setup() {
@@ -47,19 +68,9 @@ public abstract class E2eAbstractRunnable implements E2eRunnable {
 
     private static void _close() {
         if(navigationPage != null) {
-            logger.debug("close...");
-            navigationPage.closeWindows();
+            logger.info("close...");
+            NavigationPage.kill();
             navigationPage = null;
         }
     }
-
-    public static boolean isLogged() {
-        return navigationPage != null;
-    }
-
-    public static NavigationPage getNavigationPage() {
-        return navigationPage;
-    }
-
-
 }

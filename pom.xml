@@ -7,16 +7,16 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>13.3.2-SNAPSHOT</version>
+    <version>15.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>scada-lts-e2e-common</module>
         <module>scada-lts-e2e-page</module>
         <module>scada-lts-e2e-test</module>
-        <module>scada-lts-e2e-webservice</module>
         <module>scada-lts-e2e-app</module>
         <module>scada-lts-e2e-cli</module>
+        <module>scada-lts-e2e-service</module>
     </modules>
 
     <properties>
@@ -34,10 +34,10 @@
         <scada-lts-e2e-page-impl.version>${project.version}</scada-lts-e2e-page-impl.version>
         <scada-lts-e2e-page-core.version>${project.version}</scada-lts-e2e-page-core.version>
 
-        <scada-lts-e2e-webservice.version>${project.version}</scada-lts-e2e-webservice.version>
-        <scada-lts-e2e-webservice-api.version>${project.version}</scada-lts-e2e-webservice-api.version>
-        <scada-lts-e2e-webservice-impl.version>${project.version}</scada-lts-e2e-webservice-impl.version>
-        <scada-lts-e2e-webservice-core.version>${project.version}</scada-lts-e2e-webservice-core.version>
+        <scada-lts-e2e-service.version>${project.version}</scada-lts-e2e-service.version>
+        <scada-lts-e2e-service-api.version>${project.version}</scada-lts-e2e-service-api.version>
+        <scada-lts-e2e-service-impl.version>${project.version}</scada-lts-e2e-service-impl.version>
+        <scada-lts-e2e-service-core.version>${project.version}</scada-lts-e2e-service-core.version>
 
         <selenide.version>5.5.1</selenide.version>
         <junit.version>4.12</junit.version>
@@ -54,6 +54,7 @@
         <cache-api.version>1.1.1</cache-api.version>
         <caffeine.version>2.8.1</caffeine.version>
         <log4j-slf4j-impl.version>2.13.0</log4j-slf4j-impl.version>
+        <validation-api.version>2.0.1.Final</validation-api.version>
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
@@ -449,24 +450,29 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>org.scadalts</groupId>
-                <artifactId>scada-lts-e2e-webservice</artifactId>
-                <version>${scada-lts-e2e-webservice.version}</version>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
-                <artifactId>scada-lts-e2e-webservice-api</artifactId>
-                <version>${scada-lts-e2e-webservice-api.version}</version>
+                <artifactId>scada-lts-e2e-service</artifactId>
+                <version>${scada-lts-e2e-service.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
-                <artifactId>scada-lts-e2e-webservice-impl</artifactId>
-                <version>${scada-lts-e2e-webservice-impl.version}</version>
+                <artifactId>scada-lts-e2e-service-api</artifactId>
+                <version>${scada-lts-e2e-service-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
-                <artifactId>scada-lts-e2e-webservice-core</artifactId>
-                <version>${scada-lts-e2e-webservice-core.version}</version>
+                <artifactId>scada-lts-e2e-service-impl</artifactId>
+                <version>${scada-lts-e2e-service-impl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scadalts</groupId>
+                <artifactId>scada-lts-e2e-service-core</artifactId>
+                <version>${scada-lts-e2e-service-core.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.scadalts</groupId>
@@ -552,6 +558,10 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
         </dependency>
     </dependencies>
 
@@ -681,13 +691,15 @@
                 <test.e2e.alarm-list-changed-after-ms>6000</test.e2e.alarm-list-changed-after-ms>
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
                 <test.e2e.waiting-after-set-point-value-ms>15000</test.e2e.waiting-after-set-point-value-ms>
-                <test.e2e.graphical-view-name>viewNameTest1578692076627</test.e2e.graphical-view-name>
+                <test.e2e.graphical-view-name>graphicalview_change_alarm_list_test</test.e2e.graphical-view-name>
                 <test.e2e.classes-test-refs>{classesTestRefs}</test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>{dataPointToChangeXid}</test.e2e.data-point-to-change-xid>
                 <test.e2e.data-point-to-read-xid>{dataPointToReadXid}</test.e2e.data-point-to-read-xid>
-                <test.e2e.data-source-name></test.e2e.data-source-name>
-                <test.e2e.data-point-name></test.e2e.data-point-name>
-                <test.e2e.point-values-to-change-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-change-tests>
+                <test.e2e.data-source-name>datasource_change_point_in_details_test</test.e2e.data-source-name>
+                <test.e2e.data-point-name>datapoint_change_point_in_details_test</test.e2e.data-point-name>
+                <test.e2e.point-values-to-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-tests>
+                <test.e2e.data-point-to-change-xid>DP_400342</test.e2e.data-point-to-change-xid>
+                <test.e2e.data-point-to-read-xid>DP_077081</test.e2e.data-point-to-read-xid>
                 <test.e2e.run-app.port-app>9090</test.e2e.run-app.port-app>
                 <test.e2e.run-app.cron-pattern>0/15 * * * * ?</test.e2e.run-app.cron-pattern>
                 <test.e2e.run-app.continuous-mode>false</test.e2e.run-app.continuous-mode>
@@ -700,7 +712,7 @@
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>false</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
-                <test.e2e.run-app.title-email>[Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
+                <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.custom-name>-only-check-test-plan</test.e2e.custom-name>
             </properties>
         </profile>
@@ -733,13 +745,15 @@
                 <test.e2e.alarm-list-changed-after-ms>6000</test.e2e.alarm-list-changed-after-ms>
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
                 <test.e2e.waiting-after-set-point-value-ms>15000</test.e2e.waiting-after-set-point-value-ms>
-                <test.e2e.graphical-view-name>viewNameTest1578692076627</test.e2e.graphical-view-name>
+                <test.e2e.graphical-view-name>graphicalview_change_alarm_list_test</test.e2e.graphical-view-name>
                 <test.e2e.classes-test-refs>{classesTestRefs}</test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>{dataPointToChangeXid}</test.e2e.data-point-to-change-xid>
                 <test.e2e.data-point-to-read-xid>{dataPointToReadXid}</test.e2e.data-point-to-read-xid>
-                <test.e2e.data-source-name>ds_testName1234</test.e2e.data-source-name>
-                <test.e2e.data-point-name>dp_testName1234</test.e2e.data-point-name>
-                <test.e2e.point-values-to-change-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-change-tests>
+                <test.e2e.data-source-name>datasource_change_point_in_details_test</test.e2e.data-source-name>
+                <test.e2e.data-point-name>datapoint_change_point_in_details_test</test.e2e.data-point-name>
+                <test.e2e.point-values-to-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-tests>
+                <test.e2e.data-point-to-change-xid>DP_400342</test.e2e.data-point-to-change-xid>
+                <test.e2e.data-point-to-read-xid>DP_077081</test.e2e.data-point-to-read-xid>
                 <test.e2e.run-app.port-app>9090</test.e2e.run-app.port-app>
                 <test.e2e.run-app.cron-pattern>0/15 * * * * ?</test.e2e.run-app.cron-pattern>
                 <test.e2e.run-app.continuous-mode>false</test.e2e.run-app.continuous-mode>
@@ -752,7 +766,7 @@
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>false</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
-                <test.e2e.run-app.title-email>[Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
+                <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.custom-name>-check-test-plan</test.e2e.custom-name>
             </properties>
         </profile>
@@ -784,15 +798,17 @@
                 <test.e2e.port-proxy>12345</test.e2e.port-proxy>
                 <test.e2e.alarm-list-changed-after-ms>900008</test.e2e.alarm-list-changed-after-ms>
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
-                <test.e2e.waiting-after-set-point-value-ms>15000</test.e2e.waiting-after-set-point-value-ms>
-                <test.e2e.graphical-view-name>viewNameTest1578692076627</test.e2e.graphical-view-name>
-                <test.e2e.classes-test-refs>{classesTestRefs}</test.e2e.classes-test-refs>
+                <test.e2e.waiting-after-set-point-value-ms>30000</test.e2e.waiting-after-set-point-value-ms>
+                <test.e2e.graphical-view-name>graphicalview_change_alarm_list_test</test.e2e.graphical-view-name>
+                <test.e2e.classes-test-refs>org.scadalts.e2e.test.impl.config.PerformAutomaticConfiguration</test.e2e.classes-test-refs>
                 <!--ds_test1368284530530-->
-                <test.e2e.data-point-to-change-xid>DP_400342</test.e2e.data-point-to-change-xid>
-                <test.e2e.data-point-to-read-xid>DP_077081</test.e2e.data-point-to-read-xid>
-                <test.e2e.data-source-name>ds_testName1234</test.e2e.data-source-name>
-                <test.e2e.data-point-name>dp_testName1234</test.e2e.data-point-name>
-                <test.e2e.point-values-to-change-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-change-tests>
+                <test.e2e.data-point-to-change-xid>DP_400343</test.e2e.data-point-to-change-xid>
+                <test.e2e.data-point-to-read-xid>DP_077082</test.e2e.data-point-to-read-xid>
+                <test.e2e.data-source-name>datasource_change_point_in_details_test</test.e2e.data-source-name>
+                <test.e2e.data-point-name>datapoint_change_point_in_details_test</test.e2e.data-point-name>
+                <test.e2e.point-values-to-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-tests>
+                <test.e2e.data-point-source-xid>DP_234567</test.e2e.data-point-source-xid>
+                <test.e2e.data-point-target-xid>DP_234568</test.e2e.data-point-target-xid>
                 <test.e2e.run-app.port-app>9091</test.e2e.run-app.port-app>
                 <test.e2e.run-app.cron-pattern>0/30 * * * * ?</test.e2e.run-app.cron-pattern>
                 <test.e2e.run-app.continuous-mode>true</test.e2e.run-app.continuous-mode>
@@ -805,7 +821,7 @@
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
-                <test.e2e.run-app.title-email>[Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
+                <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.custom-name>-all-test-plan</test.e2e.custom-name>
             </properties>
         </profile>
@@ -840,14 +856,16 @@
                 <test.e2e.port-proxy>12345</test.e2e.port-proxy>
                 <test.e2e.alarm-list-changed-after-ms>6000</test.e2e.alarm-list-changed-after-ms>
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
-                <test.e2e.waiting-after-set-point-value-ms>15000</test.e2e.waiting-after-set-point-value-ms>
-                <test.e2e.graphical-view-name>viewNameTest2668427919630</test.e2e.graphical-view-name>
-                <test.e2e.classes-test-refs></test.e2e.classes-test-refs>
+                <test.e2e.waiting-after-set-point-value-ms>30000</test.e2e.waiting-after-set-point-value-ms>
+                <test.e2e.graphical-view-name>graphicalview_change_alarm_list_test</test.e2e.graphical-view-name>
+                <test.e2e.classes-test-refs>org.scadalts.e2e.test.impl.config.PerformAutomaticConfiguration</test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>DP_054378</test.e2e.data-point-to-change-xid>
                 <test.e2e.data-point-to-read-xid>DP_961456</test.e2e.data-point-to-read-xid>
-                <test.e2e.data-source-name>ds_testName1234</test.e2e.data-source-name>
-                <test.e2e.data-point-name>dp_testName1234</test.e2e.data-point-name>
-                <test.e2e.point-values-to-change-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-change-tests>
+                <test.e2e.data-source-name>datasource_change_point_in_details_test</test.e2e.data-source-name>
+                <test.e2e.data-point-name>datapoint_change_point_in_details_test</test.e2e.data-point-name>
+                <test.e2e.point-values-to-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-tests>
+                <test.e2e.data-point-source-xid>DP_851488</test.e2e.data-point-source-xid>
+                <test.e2e.data-point-target-xid>DP_261408</test.e2e.data-point-target-xid>
                 <test.e2e.run-app.port-app>9090</test.e2e.run-app.port-app>
                 <test.e2e.run-app.cron-pattern>0/30 * * * * ?</test.e2e.run-app.cron-pattern>
                 <test.e2e.run-app.continuous-mode>true</test.e2e.run-app.continuous-mode>
@@ -860,7 +878,7 @@
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
-                <test.e2e.run-app.title-email>[Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
+                <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.custom-name>-all-test-plan</test.e2e.custom-name>
             </properties>
         </profile>
