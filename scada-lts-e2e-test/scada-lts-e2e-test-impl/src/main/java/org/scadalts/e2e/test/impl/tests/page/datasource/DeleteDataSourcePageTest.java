@@ -52,7 +52,6 @@ public class DeleteDataSourcePageTest {
         //when:
         String bodyAfterDelete = dataSourcesPageSubject
                 .deleteDataSource(dataSourceToDeleteCriteria)
-                .reopen()
                 .getBodyText();
 
         //then:

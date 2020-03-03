@@ -49,6 +49,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     public DataSourcesPage deleteDataSource(DataSourceCriteria dataSourceParams) {
         _findAction(dataSourceParams,SELECTOR_ACTION_DELETE_DATA_SOURCE_BY).click();
         acceptAlert();
+        waitOnPage(500);
         return this;
     }
 
