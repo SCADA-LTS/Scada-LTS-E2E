@@ -3,7 +3,7 @@ package org.scadalts.e2e.page.impl.pages.pointlinks;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criterias.IdentifierObject;
+import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 import org.scadalts.e2e.page.impl.dicts.EventType;

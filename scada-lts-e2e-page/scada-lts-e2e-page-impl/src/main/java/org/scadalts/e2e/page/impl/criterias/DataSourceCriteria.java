@@ -2,41 +2,48 @@ package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.*;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.utils.XpathFactory;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 
-@Getter
-@Builder
+import javax.validation.constraints.Min;
+import java.util.Objects;
+
+@Data
+@Builder(access = AccessLevel.PRIVATE)
 @ToString
 @EqualsAndHashCode
-public class DataSourceCriteria implements CriteriaObject {
+public class DataSourceCriteria implements CriteriaObject, GetXid {
 
+    @Deprecated
     private final @NonNull Xid xid;
     private final @NonNull DataSourceIdentifier identifier;
     private final @NonNull DataSourceType type;
     private final @NonNull UpdatePeriodType updatePeriodType;
-    private final int updatePeriodValue;
+    private final @Min(1) int updatePeriodValue;
+    private final boolean enabled;
 
-    private DataSourceCriteria(Xid xid, DataSourceIdentifier identifier, DataSourceType type, UpdatePeriodType updatePeriodType, int updatePeriodValue) {
-        this.xid = xid == null ? Xid.xidDataSource() : xid;
+    private DataSourceCriteria(@NonNull Xid xid, @NonNull DataSourceIdentifier identifier, @NonNull DataSourceType type, @NonNull UpdatePeriodType updatePeriodType, @Min(1) int updatePeriodValue, boolean enabled) {
+        this.xid = xid;
         this.identifier = identifier;
         this.type = type;
         this.updatePeriodType = updatePeriodType;
-        this.updatePeriodValue = updatePeriodValue < 1 ? 1 : updatePeriodValue;
+        this.updatePeriodValue = updatePeriodValue;
+        this.enabled = enabled;
     }
 
     public static DataSourceCriteria virtualDataSourceSecond() {
         String dataSourceName = "ds_test" + System.nanoTime();
         DataSourceType dataSourceType = DataSourceType.VIRTUAL_DATA_SOURCE;
         UpdatePeriodType updatePeriodType = UpdatePeriodType.SECOND;
-        Xid xid = Xid.xidDataSource();
+        Xid xid = Xid.xidForDataSource();
         int updatePeriodValue = 2;
         return DataSourceCriteria.builder()
                 .identifier(new DataSourceIdentifier(dataSourceName))
                 .type(dataSourceType)
                 .updatePeriodType(updatePeriodType)
                 .xid(xid)
+                .enabled(true)
                 .updatePeriodValue(updatePeriodValue)
                 .build();
     }
@@ -44,13 +51,14 @@ public class DataSourceCriteria implements CriteriaObject {
     public static DataSourceCriteria virtualDataSourceSecond(DataSourceIdentifier identifier) {
         DataSourceType dataSourceType = DataSourceType.VIRTUAL_DATA_SOURCE;
         UpdatePeriodType updatePeriodType = UpdatePeriodType.SECOND;
-        Xid xid = Xid.xidDataSource();
+        Xid xid = Xid.xidForDataSource();
         int updatePeriodValue = 2;
         return DataSourceCriteria.builder()
                 .identifier(identifier)
                 .type(dataSourceType)
                 .updatePeriodType(updatePeriodType)
                 .xid(xid)
+                .enabled(true)
                 .updatePeriodValue(updatePeriodValue)
                 .build();
     }
@@ -58,13 +66,41 @@ public class DataSourceCriteria implements CriteriaObject {
     public static DataSourceCriteria virtualDataSource(DataSourceIdentifier identifier, UpdatePeriodType updatePeriodType,
                                                        int updatePeriodValue) {
         DataSourceType dataSourceType = DataSourceType.VIRTUAL_DATA_SOURCE;
-        Xid xid = Xid.xidDataSource();
+        Xid xid = Xid.xidForDataSource();
         return DataSourceCriteria.builder()
                 .identifier(identifier)
                 .type(dataSourceType)
                 .updatePeriodType(updatePeriodType)
                 .xid(xid)
+                .enabled(true)
                 .updatePeriodValue(updatePeriodValue)
+                .build();
+    }
+
+    public static DataSourceCriteria virtualDataSource(UpdatePeriodType updatePeriodType,
+                                                       int updatePeriodValue) {
+        DataSourceType dataSourceType = DataSourceType.VIRTUAL_DATA_SOURCE;
+        Xid xid = Xid.xidForDataSource();
+        return DataSourceCriteria.builder()
+                .identifier(IdentifierObjectFactory.dataSourceName())
+                .type(dataSourceType)
+                .updatePeriodType(updatePeriodType)
+                .xid(xid)
+                .enabled(true)
+                .updatePeriodValue(updatePeriodValue)
+                .build();
+    }
+
+    public static DataSourceCriteria criteria(DataSourceIdentifier identifier, UpdatePeriodType updatePeriodType,
+                                              DataSourceType dataSourceType) {
+        Xid xid = Xid.xidForDataSource();
+        return DataSourceCriteria.builder()
+                .identifier(identifier)
+                .type(dataSourceType)
+                .updatePeriodType(updatePeriodType)
+                .xid(xid)
+                .enabled(true)
+                .updatePeriodValue(2)
                 .build();
     }
 
@@ -78,12 +114,22 @@ public class DataSourceCriteria implements CriteriaObject {
                 .type(dataSourceType)
                 .updatePeriodType(updatePeriodType)
                 .xid(xid)
+                .enabled(true)
                 .updatePeriodValue(updatePeriodValue)
                 .build();
     }
 
     @Override
-    public String getXpath() {
-        return XpathFactory.xpath("tr", "row", identifier.getValue(), type.getName());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DataSourceCriteria)) return false;
+        DataSourceCriteria that = (DataSourceCriteria) o;
+        return Objects.equals(getIdentifier(), that.getIdentifier());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getIdentifier());
     }
 }

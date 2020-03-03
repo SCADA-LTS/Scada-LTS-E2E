@@ -1,24 +1,23 @@
 package org.scadalts.e2e.page.impl.criterias;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-import org.scadalts.e2e.common.dicts.E2eDictionary;
+import lombok.*;
+import org.scadalts.e2e.common.dicts.DictionaryObject;
 import org.scadalts.e2e.common.dicts.EmptyType;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.criterias.IdentifierObject;
-import org.scadalts.e2e.page.core.utils.XpathFactory;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 
-@Getter
-@Builder
+import java.util.Objects;
+
+@Data
 @ToString
 @EqualsAndHashCode
 public class DataSourcePointCriteria implements CriteriaObject {
 
-    private final DataSourceCriteria dataSource;
-    private final DataPointCriteria dataPoint;
+    private final @NonNull DataSourceCriteria dataSource;
+    private final @NonNull DataPointCriteria dataPoint;
 
     private DataSourcePointCriteria(DataSourceCriteria dataSource, DataPointCriteria dataPoint) {
         this.dataSource = dataSource;
@@ -55,17 +54,27 @@ public class DataSourcePointCriteria implements CriteriaObject {
     }
 
     @Override
-    public IdentifierObject getIdentifier() {
+    public DataSourcePointIdentifier getIdentifier() {
         return new DataSourcePointIdentifier(dataSource.getIdentifier().getValue() + " - " + dataPoint.getIdentifier().getValue());
     }
 
     @Override
-    public E2eDictionary getType() {
+    public DictionaryObject getType() {
         return EmptyType.ANY;
     }
 
     @Override
-    public String getXpath() {
-        return XpathFactory.xpath("tbody", getIdentifier().getValue());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DataSourcePointCriteria)) return false;
+        DataSourcePointCriteria that = (DataSourcePointCriteria) o;
+        return Objects.equals(getDataSource(), that.getDataSource()) &&
+                Objects.equals(getDataPoint(), that.getDataPoint());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getDataSource(), getDataPoint());
     }
 }

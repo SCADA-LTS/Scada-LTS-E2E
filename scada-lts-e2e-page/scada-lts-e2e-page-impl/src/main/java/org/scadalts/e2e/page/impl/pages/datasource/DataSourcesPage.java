@@ -3,6 +3,9 @@ package org.scadalts.e2e.page.impl.pages.datasource;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.page.core.criterias.CssClass;
+import org.scadalts.e2e.page.core.criterias.RowCriteria;
+import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
@@ -19,7 +22,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     @FindBy(css = "img[onclick='addDataSource()']")
     private SelenideElement addDataSource;
 
-    @FindBy(css = "table .dataSourcesTable")
+    @FindBy(css = "table table .dataSourcesTable")
     private SelenideElement dataSourcesTable;
 
     private static final By SELECTOR_ACTION_EDIT_DATA_SOURCE_BY = By.cssSelector("a[href*='data_source_edit.shtm?dsid=']");
@@ -77,10 +80,10 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         return dataSourceTypes.getValue();
     }
 
-    private SelenideElement _findAction(DataSourceCriteria dataSourceParams, By selectAction) {
-        return findAction(dataSourceParams, selectAction, dataSourcesTable);
+    private SelenideElement _findAction(DataSourceCriteria criteria, By selectAction) {
+        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr(), new CssClass("row"));
+        return findAction(rowCriteria, selectAction, dataSourcesTable);
     }
-
 
     private EditDataSourcePage _openDataSourceCreator() {
         addDataSource.click();

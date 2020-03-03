@@ -28,9 +28,9 @@ public class LoginCheckTest {
     }
 
     @After
-    public void setNavigationPage() {
+    public void logout() {
         if(navigationPage != null) {
-            E2eAbstractRunnable.init(navigationPage);
+            navigationPage.logout();
         }
     }
 

@@ -19,6 +19,7 @@ public class E2eTestRunner extends BlockJUnit4ClassRunner {
         try {
             if (!E2eAbstractRunnable.isLogged()) {
                 E2eAbstractRunnable.setup();
+                E2eAbstractRunnable.login();
             }
         } catch (Throwable throwable) {
             NavigationPage.kill();

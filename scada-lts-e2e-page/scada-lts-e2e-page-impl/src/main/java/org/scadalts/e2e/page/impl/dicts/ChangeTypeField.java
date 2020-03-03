@@ -1,10 +1,10 @@
 package org.scadalts.e2e.page.impl.dicts;
 
 import lombok.Getter;
-import org.scadalts.e2e.common.dicts.E2eDictionary;
+import org.scadalts.e2e.common.dicts.DictionaryObject;
 
 @Getter
-public enum ChangeTypeField implements E2eDictionary {
+public enum ChangeTypeField implements DictionaryObject {
 
     START_VALUE("Start value", "startValue"),
     ROLL("Roll", "roll"),

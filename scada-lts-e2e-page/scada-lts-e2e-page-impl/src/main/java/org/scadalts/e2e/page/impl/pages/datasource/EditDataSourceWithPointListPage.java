@@ -4,10 +4,12 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.page.core.criterias.RowCriteria;
+import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.PropertiesDataPointPage;
@@ -51,18 +53,26 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         editDataSourcePage = page(EditDataSourcePage.class);
     }
 
-    public EditDataSourceWithPointListPage enableDataSource() {
-        dataSourceOnOff.click();
-        acceptAlert();
-        waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
+    public EditDataSourceWithPointListPage enableDataSource(boolean enable) {
+        if(enable) {
+            dataSourceOnOff.click();
+            acceptAlert();
+            waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
+        } else {
+            dataSourceOnOff.click();
+            acceptAlert();
+            waitWhile($(SELECTOR_DISABLE_DATA_SOURCE_BY), not(Condition.visible));
+        }
         return this;
     }
 
-    public EditDataSourceWithPointListPage disableDataSource() {
-        dataSourceOnOff.click();
-        acceptAlert();
-        waitWhile($(SELECTOR_DISABLE_DATA_SOURCE_BY), not(Condition.visible));
-        return this;
+    public boolean isEnableDataSource() {
+        return $(SELECTOR_ENABLE_DATA_SOURCE_BY).is(Condition.visible);
+    }
+
+    public boolean isEnableDataPoint(DataPointCriteria criteria) {
+        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr());
+        return findAction(rowCriteria,SELECTOR_ACTION_ENABLE_DATA_POINT_BY,dataPointsTable).is(Condition.visible);
     }
 
     public EditDataSourceWithPointListPage enableAllDataPoint() {
@@ -84,12 +94,13 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
 
     public EditDataPointPage openDataPointEditor(DataPointCriteria criteria) {
         _findAction(criteria, SELECTOR_ACTION_EDIT_DATA_POINT_BY).click();
+        acceptAlert();
         return page(EditDataPointPage.class);
     }
 
     public PropertiesDataPointPage openDataPointProperties(DataPointCriteria criteria) {
         _findAction(criteria, SELECTOR_ACTION_PROPERTIES_DATA_POINT_BY).click();
-        return page(PropertiesDataPointPage.class);
+        return page(new PropertiesDataPointPage(this));
     }
 
     public EditDataSourceWithPointListPage enableDataPoint(DataPointCriteria criteria) {
@@ -143,6 +154,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
     private SelenideElement _findAction(DataPointCriteria criteria, By selectAction) {
-        return findAction(criteria, selectAction, dataPointsTable);
+        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr());
+        return findAction(rowCriteria, selectAction, dataPointsTable);
     }
 }

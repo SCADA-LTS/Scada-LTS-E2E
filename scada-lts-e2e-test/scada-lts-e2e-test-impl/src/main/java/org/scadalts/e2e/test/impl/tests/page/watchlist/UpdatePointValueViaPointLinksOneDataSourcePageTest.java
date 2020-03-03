@@ -5,14 +5,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.AllObjectsForPointLinkTestsUtil;
+import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 
 import java.util.Collection;
@@ -33,7 +33,7 @@ public class UpdatePointValueViaPointLinksOneDataSourcePageTest {
         this.expectedValue = expectedValue;
     }
 
-    private static AllObjectsForPointLinkTestsUtil allObjectsForPointLinkTestsUtil;
+    private static AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
     private static WatchListPage watchListPageSubject;
     private static DataSourcePointCriteria source;
     private static DataSourcePointCriteria target;
@@ -47,14 +47,14 @@ public class UpdatePointValueViaPointLinksOneDataSourcePageTest {
         target = DataSourcePointCriteria.criteria(dataSourceName, IdentifierObjectFactory.dataPointTargetName());
 
         PointLinkCriteria criteria = PointLinkCriteria.update(source, target);
-        allObjectsForPointLinkTestsUtil = new AllObjectsForPointLinkTestsUtil(E2eAbstractRunnable.getNavigationPage(),
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(E2eAbstractRunnable.getNavigationPage(),
                 criteria);
-        watchListPageSubject = allObjectsForPointLinkTestsUtil.createObjects();
+        watchListPageSubject = allObjectsForPointLinkTestCreator.createObjects();
     }
 
     @AfterClass
     public static void clean() {
-        allObjectsForPointLinkTestsUtil.deleteObjects();
+        allObjectsForPointLinkTestCreator.deleteObjects();
     }
 
     @Test

@@ -5,14 +5,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
-import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
+import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourcePointTestObjectsUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -21,19 +19,15 @@ import static org.junit.Assert.assertNotEquals;
 public class EditDataSourcePageTest {
 
     private DataSourceCriteria criteria;
-    private DataSourcePointTestObjectsUtil dataSourcesPageTestsUtil;
+    private DataSourcePointObjectsCreator dataSourcesPageTestsUtil;
 
     private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
     private DataSourcesPage dataSourcesPage;
 
     @Before
     public void createDataSource() {
-        criteria = DataSourceCriteria.builder()
-                        .identifier(IdentifierObjectFactory.dataSourceName())
-                        .type(DataSourceType.VIRTUAL_DATA_SOURCE)
-                        .updatePeriodType(UpdatePeriodType.SECOND)
-                        .build();
-        dataSourcesPageTestsUtil = new DataSourcePointTestObjectsUtil(E2eAbstractRunnable.getNavigationPage(), criteria);
+        criteria = DataSourceCriteria.virtualDataSource(UpdatePeriodType.SECOND, 13);
+        dataSourcesPageTestsUtil = new DataSourcePointObjectsCreator(E2eAbstractRunnable.getNavigationPage(), criteria);
         dataSourcesPage = dataSourcesPageTestsUtil.openPage();
         editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.createDataSources();
     }

@@ -3,25 +3,17 @@ package org.scadalts.e2e.page.core.utils;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverRunner;
 import lombok.extern.log4j.Log4j2;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.refresh;
 import static org.scadalts.e2e.common.utils.StabilityUtil.*;
 
 @Log4j2
 public abstract class PageStabilityUtil {
 
-    public static SelenideElement reloadElement(SelenideElement webElement) {
-        WebDriver webDriver = WebDriverRunner.getAndCheckWebDriver();
-        WebElement reloaded = new WebDriverWait(webDriver, Configuration.timeout)
-                .until(ExpectedConditions.visibilityOf(webElement));
-        return $(reloaded);
+    public static SelenideElement waitWhileNotVisible(SelenideElement webElement) {
+        return waitWhile(webElement, not(Condition.visible));
     }
 
     public static SelenideElement waitWhile(SelenideElement element, Condition condition) {

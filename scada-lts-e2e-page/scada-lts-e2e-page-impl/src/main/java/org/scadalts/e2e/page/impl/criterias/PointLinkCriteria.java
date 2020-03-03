@@ -1,24 +1,24 @@
 package org.scadalts.e2e.page.impl.criterias;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.criterias.IdentifierObject;
-import org.scadalts.e2e.page.core.utils.XpathFactory;
+import org.scadalts.e2e.page.impl.criterias.identifiers.PointLinkIdentifier;
 import org.scadalts.e2e.page.impl.dicts.EventType;
 
-@Getter
+import java.util.Objects;
+
+@Data
 @Builder
 @ToString
 @EqualsAndHashCode
-public class PointLinkCriteria implements CriteriaObject {
+public class PointLinkCriteria implements CriteriaObject, GetXid {
 
-    private final DataSourcePointCriteria source;
-    private final DataSourcePointCriteria target;
-    private final EventType type;
-    private final String script;
+    @Deprecated
+    private final @NonNull Xid xid;
+    private final @NonNull @Getter DataSourcePointCriteria source;
+    private final @NonNull @Getter DataSourcePointCriteria target;
+    private final @NonNull EventType type;
+    private final @NonNull String script;
 
     public static PointLinkCriteria change() {
         return PointLinkCriteria.builder()
@@ -26,6 +26,7 @@ public class PointLinkCriteria implements CriteriaObject {
                 .script("return source.value;")
                 .source(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
                 .target(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
+                .xid(Xid.xidForPointLink())
                 .build();
     }
 
@@ -35,6 +36,7 @@ public class PointLinkCriteria implements CriteriaObject {
                 .script("return source.value;")
                 .source(source)
                 .target(target)
+                .xid(Xid.xidForPointLink())
                 .build();
     }
 
@@ -44,6 +46,7 @@ public class PointLinkCriteria implements CriteriaObject {
                 .script("return source.value;")
                 .source(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
                 .target(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
+                .xid(Xid.xidForPointLink())
                 .build();
     }
 
@@ -53,6 +56,7 @@ public class PointLinkCriteria implements CriteriaObject {
                 .script("return source.value;")
                 .source(source)
                 .target(target)
+                .xid(Xid.xidForPointLink())
                 .build();
     }
 
@@ -62,6 +66,7 @@ public class PointLinkCriteria implements CriteriaObject {
                 .script("return source.value;")
                 .source(source)
                 .target(target)
+                .xid(Xid.xidForPointLink())
                 .build();
     }
 
@@ -71,16 +76,27 @@ public class PointLinkCriteria implements CriteriaObject {
                 .script(script)
                 .source(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
                 .target(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
+                .xid(Xid.xidForPointLink())
                 .build();
     }
 
     @Override
-    public IdentifierObject getIdentifier() {
+    public PointLinkIdentifier getIdentifier() {
         return new PointLinkIdentifier(source.getIdentifier().getValue() + " " + target.getIdentifier().getValue());
     }
 
     @Override
-    public String getXpath() {
-        return XpathFactory.xpath("tbody", source.getIdentifier().getValue(), target.getIdentifier().getValue());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PointLinkCriteria)) return false;
+        PointLinkCriteria that = (PointLinkCriteria) o;
+        return Objects.equals(getSource(), that.getSource()) &&
+                Objects.equals(getTarget(), that.getTarget());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getSource(), getTarget());
     }
 }

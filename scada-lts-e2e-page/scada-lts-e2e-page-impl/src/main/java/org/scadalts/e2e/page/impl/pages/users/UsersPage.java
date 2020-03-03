@@ -4,7 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 
 import static com.codeborne.selenide.Selenide.$;
-import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.reloadElement;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 
 public class UsersPage extends MainPageObjectAbstract<UsersPage> {
 
@@ -28,7 +28,7 @@ public class UsersPage extends MainPageObjectAbstract<UsersPage> {
     public String getBodyText() {
         String bodyText = super.getBodyText();
         if(!bodyText.contains(getTitle())) {
-            SelenideElement selenideElement = reloadElement($(".smallTitle"));
+            SelenideElement selenideElement = waitWhileNotVisible($(".smallTitle"));
             return selenideElement.getText();
         }
         return bodyText;

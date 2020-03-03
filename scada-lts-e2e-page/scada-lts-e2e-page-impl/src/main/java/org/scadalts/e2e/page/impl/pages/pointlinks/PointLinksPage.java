@@ -4,15 +4,17 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
+import org.scadalts.e2e.page.core.criterias.RowCriteria;
+import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.page;
-import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.reloadElement;
+import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 @Log4j2
@@ -39,7 +41,7 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
         waitWhile(pointLinksTable, not(Condition.visible));
         String text = pointLinksTable.getText();
         if(StringUtils.isBlank(text))
-            reloadElement(pointLinksTable);
+            waitWhileNotVisible(pointLinksTable);
         return pointLinksTable.getText();
     }
 
@@ -63,10 +65,8 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
         return bodyText.contains(criteria.getIdentifier().getValue());
     }
 
-    private SelenideElement _findAction(PointLinkCriteria pointLinkCriteria) {
-        String xpath = pointLinkCriteria.getXpath();
-        logger.info("xpath: {}", xpath);
-        return pointLinksTable.$(By.xpath(xpath));
+    private SelenideElement _findAction(PointLinkCriteria criteria) {
+        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getSource().getIdentifier(), criteria.getSource().getIdentifier(), Tag.tbody());
+        return findObject(rowCriteria, pointLinksTable);
     }
-
 }

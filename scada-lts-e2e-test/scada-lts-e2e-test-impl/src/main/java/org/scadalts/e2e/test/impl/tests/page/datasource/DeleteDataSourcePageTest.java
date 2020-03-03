@@ -5,13 +5,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.DataSourcePointTestObjectsUtil;
+import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,17 +23,14 @@ public class DeleteDataSourcePageTest {
     private DataSourceIdentifier dataSourceToDeleteName = new DataSourceIdentifier("ds_test_delete" + System.nanoTime());
     private DataSourceCriteria dataSourceToDeleteCriteria;
 
-    private DataSourcePointTestObjectsUtil dataSourcesPageTestsUtil;
+    private DataSourcePointObjectsCreator dataSourcesPageTestsUtil;
     private DataSourcesPage dataSourcesPageSubject;
 
     @Before
     public void createDataSource() {
-        dataSourceToDeleteCriteria = DataSourceCriteria.builder()
-                    .identifier(dataSourceToDeleteName)
-                    .type(DataSourceType.VIRTUAL_DATA_SOURCE)
-                    .updatePeriodType(UpdatePeriodType.SECOND)
-                    .build();
-        dataSourcesPageTestsUtil = new DataSourcePointTestObjectsUtil(E2eAbstractRunnable.getNavigationPage(), dataSourceToDeleteCriteria);
+        dataSourceToDeleteCriteria = DataSourceCriteria.criteria(dataSourceToDeleteName,
+                UpdatePeriodType.SECOND, DataSourceType.VIRTUAL_DATA_SOURCE);
+        dataSourcesPageTestsUtil = new DataSourcePointObjectsCreator(E2eAbstractRunnable.getNavigationPage(), dataSourceToDeleteCriteria);
         dataSourcesPageTestsUtil.createDataSources();
         dataSourcesPageSubject = dataSourcesPageTestsUtil.openPage();
     }

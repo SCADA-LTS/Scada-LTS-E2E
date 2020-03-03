@@ -57,4 +57,5 @@ public class E2eFailure {
     public Optional<File> getScreenshotPng() {
         return getFilesFromMessage(getMessage(),PNG_REGEX);
     }
+
 }

@@ -1,12 +1,12 @@
 package org.scadalts.e2e.page.impl.dicts;
 
-import org.scadalts.e2e.common.dicts.E2eDictionary;
+import org.scadalts.e2e.common.dicts.DictionaryObject;
 import org.scadalts.e2e.common.dicts.EmptyType;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 
 import java.util.stream.Stream;
 
-public enum DataPointChangeFieldType implements E2eDictionary {
+public enum DataPointChangeFieldType implements DictionaryObject {
 
     BINARY_ALTERNATE_START_VALUE(DataPointType.BINARY, ChangeType.ALTERNATE, ChangeTypeField.START_VALUE),
     BINARY_NO_CHANGE_START_VALUE(EmptyType.ANY, ChangeType.NO_CHANGE, ChangeTypeField.START_VALUE),
@@ -39,11 +39,11 @@ public enum DataPointChangeFieldType implements E2eDictionary {
 
     NO_CHANGE_START_VALUE(EmptyType.ANY, ChangeType.NO_CHANGE, ChangeTypeField.START_VALUE);
 
-    private final E2eDictionary dataPointType;
+    private final DictionaryObject dataPointType;
     private final ChangeType changeType;
-    private final E2eDictionary changeTypeField;
+    private final DictionaryObject changeTypeField;
 
-    DataPointChangeFieldType(E2eDictionary dataPointType, ChangeType changeType, E2eDictionary changeTypeField) {
+    DataPointChangeFieldType(DictionaryObject dataPointType, ChangeType changeType, DictionaryObject changeTypeField) {
         this.dataPointType = dataPointType;
         this.changeType = changeType;
         this.changeTypeField = changeTypeField;

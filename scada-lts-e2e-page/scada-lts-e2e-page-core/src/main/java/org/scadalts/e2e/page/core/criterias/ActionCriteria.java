@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 @Data
 public class ActionCriteria {
 
-    private final CriteriaObject criteria;
+    private final RowCriteria criteria;
     private final By selectAction;
 
 }

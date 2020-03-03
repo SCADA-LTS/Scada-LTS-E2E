@@ -1,20 +1,14 @@
 package org.scadalts.e2e.test.impl.tests;
 
-import com.codeborne.selenide.Configuration;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.page.core.config.PageObjectConfigurator;
 import org.scadalts.e2e.page.impl.pages.LoginPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.service.core.services.E2eResponse;
-import org.scadalts.e2e.service.impl.services.PointValueServiceObject;
-import org.scadalts.e2e.service.impl.services.ServiceObjectFactory;
-import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
-import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 import org.scadalts.e2e.test.core.config.TestCoreConfigurator;
 import org.scadalts.e2e.test.core.tests.E2eRunnable;
-import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
+import org.scadalts.e2e.test.impl.utils.ServiceTestsUtil;
 
 import java.util.Optional;
 
@@ -25,6 +19,9 @@ public abstract class E2eAbstractRunnable implements E2eRunnable {
 
     public static void setup() {
         _setup();
+    }
+
+    public static void login() {
         _login();
     }
 
@@ -36,9 +33,9 @@ public abstract class E2eAbstractRunnable implements E2eRunnable {
         if(navigationPage == null)
             return false;
         Optional<String> sessionIdOpt = navigationPage.getSessionId();
-        if(!sessionIdOpt.isPresent() || sessionIdOpt.get().isEmpty() || sessionIdOpt.get().equals("500"))
+        if(!sessionIdOpt.isPresent() || sessionIdOpt.get().isEmpty())
             return false;
-        return _isLogged();
+        return ServiceTestsUtil.isLogged();
     }
 
     public static NavigationPage getNavigationPage() {
@@ -74,18 +71,6 @@ public abstract class E2eAbstractRunnable implements E2eRunnable {
             logger.info("close...");
             NavigationPage.kill();
             navigationPage = null;
-        }
-    }
-
-    private static boolean _isLogged() {
-        try(PointValueServiceObject serviceObject = ServiceObjectFactory.newPointValueServiceObject()) {
-            PointValueParams pointValueParams = new PointValueParams(TestImplConfiguration.dataPointToReadXid);
-            Optional<E2eResponse<PointValueResponse>> response = serviceObject.getValue(pointValueParams, Configuration.timeout);
-            logger.info("response: {}", response);
-            return response.isPresent() && response.get().getStatus() != 401;
-        } catch (Exception e) {
-            logger.warn(e.getMessage(), e);
-            return false;
         }
     }
 }

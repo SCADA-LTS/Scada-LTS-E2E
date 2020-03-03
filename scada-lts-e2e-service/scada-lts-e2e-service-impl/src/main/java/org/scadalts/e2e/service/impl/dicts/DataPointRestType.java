@@ -2,12 +2,12 @@ package org.scadalts.e2e.service.impl.dicts;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
-import org.scadalts.e2e.common.dicts.E2eDictionary;
+import org.scadalts.e2e.common.dicts.DictionaryObject;
 
 import java.util.stream.Stream;
 
 @Getter
-public enum DataPointRestType implements E2eDictionary {
+public enum DataPointRestType implements DictionaryObject {
 
     BINARY_VALUE("BinaryValue", "binaryValue"),
     NUMERIC_VALUE("NumericValue", "numericValue");
