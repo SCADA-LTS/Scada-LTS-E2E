@@ -7,7 +7,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.criterias.RowCriteria;
+import org.scadalts.e2e.page.core.criterias.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
@@ -59,8 +59,12 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         return waitWhile(watchListTable, not(Condition.visible)).getText();
     }
 
+    public boolean isVisibleWatchList() {
+        return watchListTable.is(Condition.visible);
+    }
+
     public WatchListPage setDataPointValue(DataSourcePointCriteria criteria, String value) {
-        waitWhile(_findActionInTBody(criteria, SELECTOR_INPUT_BY), not(Condition.exist)).sendKeys(value);
+        waitWhile(_findActionInTBody(criteria, SELECTOR_INPUT_BY), not(Condition.exist)).setValue(value);
         return this;
     }
 
@@ -117,12 +121,12 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     }
 
     private SelenideElement _findActionInSpan(DataSourcePointCriteria criteria, By selectAction) {
-        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.span());
-        return findAction(rowCriteria, selectAction, treeDiv);
+        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.span());
+        return findAction(nodeCriteria, selectAction, treeDiv);
     }
 
     private SelenideElement _findActionInTBody(DataSourcePointCriteria criteria, By selectAction) {
-        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tbody());
-        return findAction(rowCriteria, selectAction, watchListTable);
+        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tbody());
+        return findAction(nodeCriteria, selectAction, watchListTable);
     }
 }

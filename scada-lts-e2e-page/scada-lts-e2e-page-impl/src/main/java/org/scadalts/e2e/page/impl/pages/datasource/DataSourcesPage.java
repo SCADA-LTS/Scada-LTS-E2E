@@ -4,7 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.criterias.CssClass;
-import org.scadalts.e2e.page.core.criterias.RowCriteria;
+import org.scadalts.e2e.page.core.criterias.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
@@ -82,8 +82,8 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     }
 
     private SelenideElement _findAction(DataSourceCriteria criteria, By selectAction) {
-        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr(), new CssClass("row"));
-        return findAction(rowCriteria, selectAction, dataSourcesTable);
+        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr(), new CssClass("row"));
+        return findAction(nodeCriteria, selectAction, dataSourcesTable);
     }
 
     private EditDataSourcePage _openDataSourceCreator() {

@@ -20,15 +20,25 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
 
     @Override
     public EventHandlersPage deleteObjects() {
-        return null;
+        EventHandlersPage eventHandlersPage = openPage();
+        for (EventHandlerCriteria criteria: eventHandlerCriterias) {
+            if(eventHandlersPage.containsObject(criteria)) {
+                logger.debug("delete object: {}, type: {}", criteria.getIdentifier().getValue(), criteria.getType());
+                eventHandlersPage.reopen()
+                        .openEventHandlerEditor(criteria)
+                        .deleteEventHandler();
+            }
+        }
+        return eventHandlersPage;
     }
 
     @Override
     public EventHandlersPage createObjects() {
         EventHandlersPage eventHandlersPage = openPage();
         for (EventHandlerCriteria criteria: eventHandlerCriterias) {
-            eventHandlersPage.doubleClickPlus(criteria.getEventDetectorCriteria());
             if(!eventHandlersPage.containsObject(criteria)) {
+                logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
+                        criteria.getType(), criteria.getXid().getValue());
                 eventHandlersPage.openEventHandlerCreator(criteria.getEventDetectorCriteria())
                         .setEventHandlerType(criteria.getType())
                         .setXid(criteria.getXid())
@@ -37,6 +47,7 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
                         .setActiveScriptCommand(criteria.getActiveScript())
                         .saveEventHandler();
             }
+            eventHandlersPage.reopen();
         }
         return eventHandlersPage;
     }

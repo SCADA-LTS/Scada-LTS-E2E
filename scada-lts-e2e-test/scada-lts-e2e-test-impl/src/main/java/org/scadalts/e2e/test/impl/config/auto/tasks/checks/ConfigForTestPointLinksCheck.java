@@ -29,17 +29,12 @@ public class ConfigForTestPointLinksCheck implements Check<ChangePointValueViaPo
         CriteriaRegister register = creatorObjectByTestAggregator.getRegister(getClassTarget());
 
         Set<DataSourcePointCriteria> dataSourcePointCriterias = register.get(DataSourcePointCriteria.class);
-        for (DataSourcePointCriteria dataSourcePointCriteria : dataSourcePointCriterias) {
-            ConfigDataSourcePointSubCheck checkConfigDataSourcePointSubTask = new ConfigDataSourcePointSubCheck(navigationPage,
-                    dataSourcePointCriteria);
-            checkConfigDataSourcePointSubTask.execute();
-        }
+        ConfigDataSourcePointSubCheck checkConfigDataSourcePointSubTask = new ConfigDataSourcePointSubCheck(navigationPage, dataSourcePointCriterias);
+        checkConfigDataSourcePointSubTask.check();
 
         Set<PointLinkCriteria> pointLinkCriterias = register.get(PointLinkCriteria.class);
-        for (PointLinkCriteria pointLinkCriteria : pointLinkCriterias) {
-            ConfigPointLinkSubCheck checkPointLinkSubTask = new ConfigPointLinkSubCheck(navigationPage, pointLinkCriteria);
-            checkPointLinkSubTask.execute();
-        }
+        ConfigPointLinkSubCheck checkPointLinkSubTask = new ConfigPointLinkSubCheck(navigationPage, pointLinkCriterias);
+        checkPointLinkSubTask.check();
     }
 
     @Override

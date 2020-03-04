@@ -47,6 +47,10 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
     private final static String INPUT_ALIAS = "input[id*='''-'{0}'Alias''']";
     private final static String INPUT_XID = "input[id*='''-'{0}'Xid''']";
 
+    private final static String GET_FIRST_SELECT_ALARM_LIST = "select[id*='AlarmLevel']";
+    private final static String GET_FIRST_INPUT_ALIAS = "input[id*='Alias']";
+    private final static String GET_FIRST_INPUT_XID = "input[id*='Xid']";
+
     public PropertiesDataPointPage(EditDataSourceWithPointListPage editDataSourceWithPointListPage) {
         super(TITLE);
         this.editDataSourceWithPointListPage = editDataSourceWithPointListPage;
@@ -85,6 +89,21 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
         String css = format(SELECT_ALARM_LIST, detectorPosition);
         $(By.cssSelector(css)).selectOption(alarmLevel.getName());
         return this;
+    }
+
+    public AlarmLevel getAlarmLevel() {
+        String value = $(By.cssSelector(GET_FIRST_SELECT_ALARM_LIST)).getText();
+        return AlarmLevel.getType(value);
+    }
+
+    public Xid getXid() {
+        String value = $(By.cssSelector(GET_FIRST_INPUT_XID)).getValue();
+        return new Xid(value);
+    }
+
+    public EventDetectorIdentifier getAlias() {
+        String value = $(By.cssSelector(GET_FIRST_INPUT_ALIAS)).getValue();
+        return new EventDetectorIdentifier(value);
     }
 
     public PropertiesDataPointPage saveDataPoint() {
@@ -130,6 +149,10 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
     public PropertiesDataPointPage waitOnEventDetectorTable() {
         waitWhileNotVisible(eventDetectorTable);
         return this;
+    }
+
+    public String getEventDetectorTableHtml() {
+        return waitWhileNotVisible(eventDetectorTable).innerHtml();
     }
 
     @Override

@@ -60,7 +60,7 @@ public class LoginServiceObject implements WebServiceObject {
 
     private E2eResponse<String> _login(LoginParams loginParams) {
         String endpoint = baseUrl + "/login.htm";
-        logger.info("endpoint: {}", endpoint);
+        logger.debug("endpoint: {}", endpoint);
         Response response = ClientBuilder.newClient()
                 .target(endpoint)
                 .queryParam("username", loginParams.getUserName())
@@ -76,8 +76,8 @@ public class LoginServiceObject implements WebServiceObject {
     private E2eResponse<String> _logout() {
         String endpoint = baseUrl +"/logout.htm";
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
-        logger.info("endpoint: {}", endpoint);
-        logger.info("cookie: {}", cookie);
+        logger.debug("endpoint: {}", endpoint);
+        logger.debug("cookie: {}", cookie);
         Response response = client.target(endpoint)
                 .request(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
                 .cookie(cookie)

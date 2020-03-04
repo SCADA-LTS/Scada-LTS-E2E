@@ -4,7 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criterias.RowCriteria;
+import org.scadalts.e2e.page.core.criterias.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
@@ -71,8 +71,8 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
     public boolean isEnableDataPoint(DataPointCriteria criteria) {
-        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr());
-        return findAction(rowCriteria,SELECTOR_ACTION_ENABLE_DATA_POINT_BY,dataPointsTable).is(Condition.visible);
+        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr());
+        return findAction(nodeCriteria,SELECTOR_ACTION_ENABLE_DATA_POINT_BY,dataPointsTable).is(Condition.visible);
     }
 
     public EditDataSourceWithPointListPage enableAllDataPoint() {
@@ -154,7 +154,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
     private SelenideElement _findAction(DataPointCriteria criteria, By selectAction) {
-        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr());
-        return findAction(rowCriteria, selectAction, dataPointsTable);
+        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr());
+        return findAction(nodeCriteria, selectAction, dataPointsTable);
     }
 }

@@ -11,6 +11,8 @@ import org.scadalts.e2e.page.impl.pages.eventhandlers.EditEventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 
+import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
 import static org.scadalts.e2e.test.core.asserts.E2eAssert.assertExists;
 
@@ -18,26 +20,28 @@ import static org.scadalts.e2e.test.core.asserts.E2eAssert.assertExists;
 public class ConfigEventHandlerSubCheck implements SubCheck {
 
     private final @NonNull NavigationPage navigationPage;
-    private final @NonNull EventHandlerCriteria eventHandlerCriteria;
+    private final @NonNull Set<EventHandlerCriteria> eventHandlerCriterias;
 
     @Override
-    public void execute() {
+    public void check() {
         EventHandlersPage eventHandlersPage = navigationPage.openEventHandlers();
-        EditEventHandlersPage editEventHandlersPage = eventHandlersPage.openEventHandlerEditor(eventHandlerCriteria);
-        ScriptIdentifier activeScriptCommand = editEventHandlersPage.getActiveScriptCommand();
-        ScriptIdentifier inactiveScriptCommand = editEventHandlersPage.getInactiveScriptCommand();
-        EventHandlerType eventHandlerType = editEventHandlersPage.getEventHandlerType();
-        boolean disabled = editEventHandlersPage.isDisabled();
-        EventHandlerIdentifier eventHandlerIdentifier = editEventHandlersPage.getAlias();
+        for(EventHandlerCriteria eventHandlerCriteria: eventHandlerCriterias) {
+            EditEventHandlersPage editEventHandlersPage = eventHandlersPage.openEventHandlerEditor(eventHandlerCriteria);
+            ScriptIdentifier activeScriptCommand = editEventHandlersPage.getActiveScriptCommand();
+            ScriptIdentifier inactiveScriptCommand = editEventHandlersPage.getInactiveScriptCommand();
+            EventHandlerType eventHandlerType = editEventHandlersPage.getEventHandlerType();
+            boolean disabled = editEventHandlersPage.isDisabled();
+            EventHandlerIdentifier eventHandlerIdentifier = editEventHandlersPage.getAlias();
 
-        ScriptCriteria activeScript = eventHandlerCriteria.getActiveScript();
-        ScriptCriteria inactiveScript = eventHandlerCriteria.getInactiveScript();
+            ScriptCriteria activeScript = eventHandlerCriteria.getActiveScript();
+            ScriptCriteria inactiveScript = eventHandlerCriteria.getInactiveScript();
 
-        assertExists(eventHandlersPage, eventHandlerCriteria);
-        assertEquals(activeScript.getIdentifier(), activeScriptCommand);
-        assertEquals(inactiveScript.getIdentifier(), inactiveScriptCommand);
-        assertEquals(eventHandlerCriteria.isDisabled(), disabled);
-        assertEquals(eventHandlerCriteria.getType(), eventHandlerType);
-        assertEquals(eventHandlerCriteria.getIdentifier(), eventHandlerIdentifier);
+            assertExists(eventHandlersPage, eventHandlerCriteria);
+            assertEquals(activeScript.getIdentifier(), activeScriptCommand);
+            assertEquals(inactiveScript.getIdentifier(), inactiveScriptCommand);
+            assertEquals(eventHandlerCriteria.isDisabled(), disabled);
+            assertEquals(eventHandlerCriteria.getType(), eventHandlerType);
+            assertEquals(eventHandlerCriteria.getIdentifier(), eventHandlerIdentifier);
+        }
     }
 }

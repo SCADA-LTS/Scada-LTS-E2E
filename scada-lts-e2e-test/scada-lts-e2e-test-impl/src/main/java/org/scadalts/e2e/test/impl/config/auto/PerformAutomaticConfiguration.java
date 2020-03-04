@@ -6,21 +6,19 @@ import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.auto.tasks.*;
 import org.scadalts.e2e.test.impl.config.auto.tasks.checks.ConfigForTestDataPointDetailsCheck;
-import org.scadalts.e2e.test.impl.config.auto.tasks.checks.ConfigForTestGraphicalViewsCheck;
 import org.scadalts.e2e.test.impl.config.auto.tasks.checks.ConfigForTestEventDetectorCheck;
+import org.scadalts.e2e.test.impl.config.auto.tasks.checks.ConfigForTestGraphicalViewsCheck;
 import org.scadalts.e2e.test.impl.config.auto.tasks.checks.ConfigForTestPointLinksCheck;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 
-@RunWith(E2eTestParameterizedRunner.class)
+import static org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable.preparingPageTest;
+
+@RunWith(Parameterized.class)
 public class PerformAutomaticConfiguration {
 
     @Parameterized.Parameters(name = "{index}: {0}")
     public static Task<?>[] data() {
-        if(!E2eAbstractRunnable.isLogged()) {
-            E2eAbstractRunnable.setup();
-            E2eAbstractRunnable.login();
-        }
+        preparingPageTest();
         NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
         return new Task<?>[] {
                 new ConfigureTestEventDetectorCommand(navigationPage),

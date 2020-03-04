@@ -7,15 +7,19 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.scripts.ScriptsPage;
 import org.scadalts.e2e.test.core.asserts.E2eAssert;
 
+import java.util.Set;
+
 @Data
 public class ConfigScriptSubCheck implements SubCheck {
 
     private final @NonNull NavigationPage navigationPage;
-    private final @NonNull ScriptCriteria scriptCriteria;
+    private final @NonNull Set<ScriptCriteria> scriptCriterias;
 
     @Override
-    public void execute() {
+    public void check() {
         ScriptsPage scriptsPage = navigationPage.openScripts();
-        E2eAssert.assertExists(scriptsPage, scriptCriteria);
+        for (ScriptCriteria scriptCriteria: scriptCriterias) {
+            E2eAssert.assertExists(scriptsPage, scriptCriteria);
+        }
     }
 }

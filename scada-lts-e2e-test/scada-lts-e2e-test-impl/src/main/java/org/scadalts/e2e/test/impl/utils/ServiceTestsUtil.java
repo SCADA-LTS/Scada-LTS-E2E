@@ -2,6 +2,8 @@ package org.scadalts.e2e.test.impl.utils;
 
 import com.codeborne.selenide.Configuration;
 import lombok.extern.log4j.Log4j2;
+import org.scadalts.e2e.common.config.E2eConfiguration;
+import org.scadalts.e2e.page.core.config.PageObjectConfigurator;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.CmpServiceObject;
 import org.scadalts.e2e.service.impl.services.LoginServiceObject;
@@ -11,12 +13,25 @@ import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.login.LoginParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
+import org.scadalts.e2e.test.core.config.TestCoreConfigurator;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
+import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
 
 import java.util.Optional;
 
 @Log4j2
 public class ServiceTestsUtil {
+
+    public static void preparingServiceTest() {
+        if (!ServiceTestsUtil.isLogged()) {
+            _setup();
+            LoginParams loginParams = LoginParams.builder()
+                    .userName(E2eConfiguration.userName)
+                    .password(E2eConfiguration.password)
+                    .build();
+            E2eConfiguration.sessionId = ServiceTestsUtil.login(loginParams).getSessionId();
+        }
+    }
 
     public static boolean isLogged() {
         try(PointValueServiceObject serviceObject = ServiceObjectFactory.newPointValueServiceObject()) {
@@ -61,5 +76,11 @@ public class ServiceTestsUtil {
                     TestImplConfiguration.waitingAfterSetPointValueMs);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
+    }
+
+    private static void _setup() {
+        TestCoreConfigurator.init();
+        TestImplConfigurator.init();
+        PageObjectConfigurator.init();
     }
 }

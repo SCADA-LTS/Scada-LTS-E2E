@@ -8,15 +8,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.EventType;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksDetailsPage;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
+import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
 import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
 import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 @Log4j2
 @RunWith(E2eTestParameterizedRunner.class)
@@ -42,6 +44,8 @@ public class CreatePointLinksPageTest {
     private static AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
     private static PointLinksPage pointLinksPageSubject;
     private static PointLinkCriteria criteria;
+    private static DataSourcePointIdentifier sourceIdentifier;
+    private static DataSourcePointIdentifier targetIdentifier;
 
     @BeforeClass
     public static void setup() {
@@ -49,6 +53,8 @@ public class CreatePointLinksPageTest {
         allObjectsForPointLinkTestCreator.getDataSourcesAndPointsPageTestsCreator().createObjects();
         pointLinksPageSubject = allObjectsForPointLinkTestCreator.openPage();
         criteria = allObjectsForPointLinkTestCreator.getCriteria();
+        sourceIdentifier = criteria.getSource().getIdentifier();
+        targetIdentifier = criteria.getTarget().getIdentifier();
     }
 
     @AfterClass
@@ -81,11 +87,11 @@ public class CreatePointLinksPageTest {
 
         //and when:
         PointLinksDetailsPage page = pointLinksPageSubject.openPointLinkEditor(criteria);
-/*
+
         //then:
         assertEquals(scriptExpected, page.getScript());
         assertEquals(eventTypeExpected, page.getEvent());
-        assertEquals(getSource().getIdentifier(), page.getSourcePointIdText());
-        assertEquals(getTarget().getIdentifier(), page.getTargetPointIdText());*/
+        assertEquals(sourceIdentifier.getValue(), page.getSourcePointIdText());
+        assertEquals(targetIdentifier.getValue(), page.getTargetPointIdText());
     }
 }

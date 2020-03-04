@@ -10,23 +10,27 @@ import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPa
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.PropertiesDataPointPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 
+import java.util.Set;
+
 import static org.scadalts.e2e.test.core.asserts.E2eAssert.assertExists;
 
 @Data
 public class ConfigEventDetectorSubCheck implements SubCheck {
 
     private final @NonNull NavigationPage navigationPage;
-    private final @NonNull EventDetectorCriteria eventDetectorCriteria;
+    private final @NonNull Set<EventDetectorCriteria> eventDetectorCriterias;
 
     @Override
-    public void execute() {
+    public void check() {
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
-        DataSourceCriteria dataSourceCriteria = eventDetectorCriteria.getDataSourcePointCriteria().getDataSource();
-        DataPointCriteria dataPointCriteria = eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint();
+        for (EventDetectorCriteria eventDetectorCriteria : eventDetectorCriterias) {
+            DataSourceCriteria dataSourceCriteria = eventDetectorCriteria.getDataSourcePointCriteria().getDataSource();
+            DataPointCriteria dataPointCriteria = eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint();
 
-        EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.openDataSourceEditor(dataSourceCriteria);
-        PropertiesDataPointPage propertiesDataPointPage = editDataSourceWithPointListPage.openDataPointProperties(dataPointCriteria);
-        propertiesDataPointPage.waitOnEventDetectorTable();
-        assertExists(propertiesDataPointPage,eventDetectorCriteria);
+            EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.openDataSourceEditor(dataSourceCriteria);
+            PropertiesDataPointPage propertiesDataPointPage = editDataSourceWithPointListPage.openDataPointProperties(dataPointCriteria);
+            propertiesDataPointPage.waitOnEventDetectorTable();
+            assertExists(propertiesDataPointPage, eventDetectorCriteria);
+        }
     }
 }

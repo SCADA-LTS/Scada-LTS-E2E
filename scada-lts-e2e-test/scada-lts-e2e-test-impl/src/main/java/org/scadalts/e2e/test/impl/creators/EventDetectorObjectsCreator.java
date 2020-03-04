@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.impl.creators;
 
+import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
@@ -7,22 +8,25 @@ import org.scadalts.e2e.page.impl.pages.datasource.datapoint.PropertiesDataPoint
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 
+@Log4j2
 public class EventDetectorObjectsCreator implements CreatorObject<PropertiesDataPointPage, PropertiesDataPointPage> {
 
     private final NavigationPage navigationPage;
     private DataSourcesPage dataSourcesPage;
-    private final EventDetectorCriteria eventHandlerCriteria;
+    private final EventDetectorCriteria eventDetectorCriteria;
 
-    public EventDetectorObjectsCreator(NavigationPage navigationPage, EventDetectorCriteria eventHandlerCriteria) {
+    public EventDetectorObjectsCreator(NavigationPage navigationPage, EventDetectorCriteria eventDetectorCriteria) {
         this.navigationPage = navigationPage;
-        this.eventHandlerCriteria = eventHandlerCriteria;
+        this.eventDetectorCriteria = eventDetectorCriteria;
     }
 
     @Override
     public PropertiesDataPointPage deleteObjects() {
         PropertiesDataPointPage propertiesDataPointPage = openPage();
-        if(propertiesDataPointPage.containsObject(eventHandlerCriteria)) {
-            propertiesDataPointPage.deleteEventDetector(eventHandlerCriteria)
+        if(propertiesDataPointPage.containsObject(eventDetectorCriteria)) {
+            logger.debug("delete object: {}, type: {}, xid: {}", eventDetectorCriteria.getIdentifier().getValue(),
+                    eventDetectorCriteria.getType(), eventDetectorCriteria.getXid().getValue());
+            propertiesDataPointPage.deleteEventDetector(eventDetectorCriteria)
                     .saveDataPoint();
         }
         return propertiesDataPointPage;
@@ -31,12 +35,14 @@ public class EventDetectorObjectsCreator implements CreatorObject<PropertiesData
     @Override
     public PropertiesDataPointPage createObjects() {
         PropertiesDataPointPage propertiesDataPointPage = openPage();
-        if(!propertiesDataPointPage.containsObject(eventHandlerCriteria)) {
-            propertiesDataPointPage.selectEventDetectorType(eventHandlerCriteria.getType())
+        if(!propertiesDataPointPage.containsObject(eventDetectorCriteria)) {
+            logger.info("create object: {}, type: {}, xid: {}", eventDetectorCriteria.getIdentifier().getValue(),
+                    eventDetectorCriteria.getType(), eventDetectorCriteria.getXid().getValue());
+            propertiesDataPointPage.selectEventDetectorType(eventDetectorCriteria.getType())
                     .addEventDetector()
-                    .setAlias(eventHandlerCriteria.getIdentifier())
-                    .setXid(eventHandlerCriteria.getXid())
-                    .selectAlarmLevel(eventHandlerCriteria.getAlarmLevel())
+                    .setAlias(eventDetectorCriteria.getIdentifier())
+                    .setXid(eventDetectorCriteria.getXid())
+                    .selectAlarmLevel(eventDetectorCriteria.getAlarmLevel())
                     .saveDataPoint();
         }
         return propertiesDataPointPage;
@@ -44,7 +50,7 @@ public class EventDetectorObjectsCreator implements CreatorObject<PropertiesData
 
     @Override
     public PropertiesDataPointPage openPage() {
-        DataSourcePointCriteria dataSourcePointCriteria = eventHandlerCriteria.getDataSourcePointCriteria();
+        DataSourcePointCriteria dataSourcePointCriteria = eventDetectorCriteria.getDataSourcePointCriteria();
         if(dataSourcesPage == null) {
             dataSourcesPage = navigationPage.openDataSources();
             return dataSourcesPage.openDataSourceEditor(dataSourcePointCriteria.getDataSource())

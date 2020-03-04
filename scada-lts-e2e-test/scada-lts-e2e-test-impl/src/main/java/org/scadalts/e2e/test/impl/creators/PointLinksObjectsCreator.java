@@ -11,13 +11,13 @@ import org.scadalts.e2e.test.core.creators.CreatorObject;
 public class PointLinksObjectsCreator implements CreatorObject<PointLinksPage, PointLinksPage> {
 
     private final NavigationPage navigationPage;
-    private final PointLinkCriteria pointLinkCriteria;
+    private final PointLinkCriteria criteria;
 
     @Getter
     private PointLinksPage pointLinksPage;
 
-    public PointLinksObjectsCreator(NavigationPage navigationPage, PointLinkCriteria pointLinkCriteria) {
-        this.pointLinkCriteria = pointLinkCriteria;
+    public PointLinksObjectsCreator(NavigationPage navigationPage, PointLinkCriteria criteria) {
+        this.criteria = criteria;
         this.navigationPage = navigationPage;
     }
 
@@ -33,11 +33,13 @@ public class PointLinksObjectsCreator implements CreatorObject<PointLinksPage, P
     @Override
     public PointLinksPage createObjects() {
         PointLinksPage pointLinksPage = openPage();
-        if(!pointLinksPage.containsObject(pointLinkCriteria)) {
+        if(!pointLinksPage.containsObject(criteria)) {
+            logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
+                    criteria.getType(), criteria.getXid().getValue());
             return openPage().openPointLinkCreator()
-                    .setPoints(pointLinkCriteria)
-                    .setScript(pointLinkCriteria.getScript())
-                    .setEventType(pointLinkCriteria.getType())
+                    .setPoints(criteria)
+                    .setScript(criteria.getScript())
+                    .setEventType(criteria.getType())
                     .savePointLink();
         }
         return pointLinksPage;
@@ -46,8 +48,10 @@ public class PointLinksObjectsCreator implements CreatorObject<PointLinksPage, P
     @Override
     public PointLinksPage deleteObjects() {
         PointLinksPage pointLinksPage = openPage();
-        if(pointLinksPage.containsObject(pointLinkCriteria)) {
-            pointLinksPage.openPointLinkEditor(pointLinkCriteria)
+        if(pointLinksPage.containsObject(criteria)) {
+            logger.debug("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
+                    criteria.getType(), criteria.getXid().getValue());
+            pointLinksPage.openPointLinkEditor(criteria)
                     .deletePointLink();
         }
         return pointLinksPage;

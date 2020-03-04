@@ -68,6 +68,8 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
 
         CriteriaRegister creatorObjectRegister = new CriteriaRegister();
         creatorObjectRegister.register(DataSourceCriteria.class, dataSourceCriteria);
+        creatorObjectRegister.register(DataSourcePointCriteria.class, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointToChange));
+        creatorObjectRegister.register(DataSourcePointCriteria.class, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointToRead));
         creatorObjectRegister.register(EventHandlerCriteria.class, eventHandlerCriteria);
         creatorObjectRegister.register(EventDetectorCriteria.class, eventDetectorCriteria);
         creatorObjectRegister.register(ScriptCriteria.class, scriptCriteria);

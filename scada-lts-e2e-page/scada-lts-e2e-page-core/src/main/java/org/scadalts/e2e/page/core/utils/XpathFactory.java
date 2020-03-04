@@ -30,4 +30,9 @@ public interface XpathFactory {
     static String xpathEveryXElementFirst(int every, Tag tag) {
         return MessageFormat.format(".//{0}[position() mod {1} = 1]", tag.getValue(), String.valueOf(every));
     }
+
+    static String xpathTagCssClassArg(Tag tag, CssClass cssClass, String arg1) {
+        return MessageFormat.format(".//{0}[contains(@class, ''{1}'') and contains(., ''{2}'')]",
+                tag.getValue(), cssClass.getValue(), arg1);
+    }
 }

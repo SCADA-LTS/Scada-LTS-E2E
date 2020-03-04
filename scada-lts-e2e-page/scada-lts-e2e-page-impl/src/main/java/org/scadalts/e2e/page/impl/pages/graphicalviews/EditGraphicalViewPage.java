@@ -58,7 +58,7 @@ public class EditGraphicalViewPage extends PageObjectAbstract<EditGraphicalViewP
 
     public EditGraphicalViewPage setViewName(GraphicalViewIdentifier viewName) {
         this.viewName.clear();
-        this.viewName.sendKeys(viewName.getValue());
+        this.viewName.setValue(viewName.getValue());
         return this;
     }
 

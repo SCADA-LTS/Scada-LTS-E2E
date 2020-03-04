@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>15.0.0-SNAPSHOT</version>
+    <version>15.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -876,7 +876,7 @@
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
-                <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
+                <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.custom-name>-all-test-plan</test.e2e.custom-name>
             </properties>

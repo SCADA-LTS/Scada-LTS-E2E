@@ -17,14 +17,6 @@ public abstract class E2eAbstractRunnable implements E2eRunnable {
 
     private static NavigationPage navigationPage;
 
-    public static void setup() {
-        _setup();
-    }
-
-    public static void login() {
-        _login();
-    }
-
     public static void close() {
         _close();
     }
@@ -42,10 +34,12 @@ public abstract class E2eAbstractRunnable implements E2eRunnable {
         return navigationPage;
     }
 
-    public static void init(NavigationPage navigationPage) {
-        E2eAbstractRunnable.navigationPage = navigationPage;
-        logger.info("cookies: {}", navigationPage.getCookies());
-        E2eConfiguration.sessionId = navigationPage.getSessionId().orElse("");
+    public static void preparingPageTest() {
+        if (!isLogged()) {
+            _setup();
+            _login();
+        }
+        NavigationPage.openPage();
     }
 
     private static void _login() {
@@ -57,7 +51,9 @@ public abstract class E2eAbstractRunnable implements E2eRunnable {
                 .setPassword(E2eConfiguration.password)
                 .login()
                 .printLoadingMeasure();
-        init(navigationPage);
+        E2eAbstractRunnable.navigationPage = navigationPage;
+        logger.info("cookies: {}", navigationPage.getCookies());
+        E2eConfiguration.sessionId = navigationPage.getSessionId().orElse("");
     }
 
     private static void _setup() {

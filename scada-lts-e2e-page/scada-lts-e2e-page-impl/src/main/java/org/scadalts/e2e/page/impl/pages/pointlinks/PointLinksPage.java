@@ -6,7 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.criterias.RowCriteria;
+import org.scadalts.e2e.page.core.criterias.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
@@ -66,7 +66,7 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
     }
 
     private SelenideElement _findAction(PointLinkCriteria criteria) {
-        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getSource().getIdentifier(), criteria.getSource().getIdentifier(), Tag.tbody());
-        return findObject(rowCriteria, pointLinksTable);
+        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getSource().getIdentifier(), criteria.getSource().getIdentifier(), Tag.tbody());
+        return findObject(nodeCriteria, pointLinksTable);
     }
 }

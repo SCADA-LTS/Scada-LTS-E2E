@@ -30,9 +30,12 @@ public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViews
     @Override
     public GraphicalViewsPage deleteObjects() {
         GraphicalViewsPage page = openPage();
-        if(page.containsObject(criteria))
+        if(page.containsObject(criteria)) {
+            logger.debug("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
+                    criteria.getType(), criteria.getXid().getValue());
             page.openViewEditor(criteria)
                     .delete();
+        }
         return page;
     }
 
@@ -40,6 +43,7 @@ public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViews
     public GraphicalViewsPage createObjects() {
         GraphicalViewsPage page = openPage();
         if(!page.containsObject(criteria)) {
+            logger.info("create object: {}, type: {}", criteria.getIdentifier().getValue(), criteria.getType());
             page.openViewCreator()
                     .chooseFile(BACKGROUND_FILE)
                     .uploadFile()

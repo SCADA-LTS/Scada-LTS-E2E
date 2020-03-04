@@ -27,11 +27,6 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
     }
 
     @Override
-    public String getTitle() {
-        return title;
-    }
-
-    @Override
     public String getHeadHtml() {
         return head.innerHtml();
     }

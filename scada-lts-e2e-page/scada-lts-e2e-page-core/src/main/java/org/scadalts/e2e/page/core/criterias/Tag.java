@@ -3,12 +3,11 @@ package org.scadalts.e2e.page.core.criterias;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 
 @Data
 @ToString
 @EqualsAndHashCode
-public class Tag implements IdentifierObject {
+public class Tag {
     private final String value;
 
     private Tag(String value) {

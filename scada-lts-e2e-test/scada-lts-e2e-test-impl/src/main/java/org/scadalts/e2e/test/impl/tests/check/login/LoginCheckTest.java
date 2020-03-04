@@ -1,6 +1,5 @@
 package org.scadalts.e2e.test.impl.tests.check.login;
 
-import lombok.extern.log4j.Log4j2;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +11,6 @@ import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@Log4j2
 public class LoginCheckTest {
 
     private NavigationPage navigationPage;

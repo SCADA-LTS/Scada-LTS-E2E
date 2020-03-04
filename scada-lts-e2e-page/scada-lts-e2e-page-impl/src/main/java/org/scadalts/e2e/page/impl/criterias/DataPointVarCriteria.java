@@ -15,6 +15,10 @@ public class DataPointVarCriteria implements CriteriaObject {
     private final DataPointCriteria dataPointCriteria;
     private final VarCriteria varCriteria;
 
+    public static DataPointVarCriteria criteria(DataPointCriteria criteria) {
+        return new DataPointVarCriteria(criteria, VarCriteria.empty());
+    }
+
     @Override
     public IdentifierObject getIdentifier() {
         return new DataPointVarIdentifier(dataPointCriteria.getIdentifier().getValue() + " - " + varCriteria.getIdentifier().getValue());

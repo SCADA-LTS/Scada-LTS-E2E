@@ -14,6 +14,7 @@ import java.util.Objects;
 @EqualsAndHashCode
 public class GraphicalViewCriteria implements CriteriaObject, GetXid {
 
+    @Deprecated
     private final @NonNull Xid xid;
     private final @NonNull GraphicalViewIdentifier identifier;
 

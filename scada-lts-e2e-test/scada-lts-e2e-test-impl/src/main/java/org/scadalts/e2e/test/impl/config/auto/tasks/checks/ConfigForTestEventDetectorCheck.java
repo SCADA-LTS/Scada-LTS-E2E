@@ -3,6 +3,7 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks;
 import lombok.Data;
 import lombok.NonNull;
 import org.junit.Before;
+import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventHandlerCriteria;
 import org.scadalts.e2e.page.impl.criterias.ScriptCriteria;
@@ -34,28 +35,21 @@ public class ConfigForTestEventDetectorCheck implements Check<EventDetectorCheck
 
         CriteriaRegister register = creatorObjectByTestAggregator.getRegister(getClassTarget());
 
+        Set<DataSourcePointCriteria> dataSourcePointCriterias = register.get(DataSourcePointCriteria.class);
+        ConfigDataSourcePointSubCheck checkConfigDataSourcePointSubTask = new ConfigDataSourcePointSubCheck(navigationPage, dataSourcePointCriterias);
+        checkConfigDataSourcePointSubTask.check();
+
         Set<EventDetectorCriteria> eventDetectorCriterias = register.get(EventDetectorCriteria.class);
-        for (EventDetectorCriteria eventDetectorCriteria : eventDetectorCriterias) {
-
-            ConfigEventDetectorSubCheck checkEventDetectorSubTask = new ConfigEventDetectorSubCheck(navigationPage, eventDetectorCriteria);
-            checkEventDetectorSubTask.execute();
-
-            ConfigDataSourcePointSubCheck checkConfigDataSourcePointSubTask = new ConfigDataSourcePointSubCheck(navigationPage,
-                    eventDetectorCriteria.getDataSourcePointCriteria());
-            checkConfigDataSourcePointSubTask.execute();
-        }
+        ConfigEventDetectorSubCheck checkEventDetectorSubTask = new ConfigEventDetectorSubCheck(navigationPage, eventDetectorCriterias);
+        checkEventDetectorSubTask.check();
 
         Set<ScriptCriteria> scriptCriterias = register.get(ScriptCriteria.class);
-        for(ScriptCriteria criteria: scriptCriterias) {
-            ConfigScriptSubCheck checkScriptSubTask = new ConfigScriptSubCheck(navigationPage, criteria);
-            checkScriptSubTask.execute();
-        }
+        ConfigScriptSubCheck checkScriptSubTask = new ConfigScriptSubCheck(navigationPage, scriptCriterias);
+        checkScriptSubTask.check();
 
         Set<EventHandlerCriteria> eventHandlerCriterias = register.get(EventHandlerCriteria.class);
-        for(EventHandlerCriteria eventHandlerCriteria : eventHandlerCriterias) {
-            ConfigEventHandlerSubCheck checkEventHandlerSubTask = new ConfigEventHandlerSubCheck(navigationPage,eventHandlerCriteria);
-            checkEventHandlerSubTask.execute();
-        }
+        ConfigEventHandlerSubCheck checkEventHandlerSubTask = new ConfigEventHandlerSubCheck(navigationPage,eventHandlerCriterias);
+        checkEventHandlerSubTask.check();
     }
 
     @Override

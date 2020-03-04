@@ -36,6 +36,7 @@
 </head>
 <body>
     <div><img src="../../templates/logo.png"  th:src="|cid:logo.png|" /></div>
+    <div>#{test.e2e.run-app.title-email}</div>
     <table id="results" class="table table-bordered" >
         <thead>
             <tr class="bg-success">
@@ -49,8 +50,8 @@
             <tr>
                 <td th:text="${failure.description.testClass.simpleName}">testName</td>
                 <td th:text="${failure.description.methodName == null ? 'staticInizalizationError' : failure.description.methodName}">method</td>
-                <td th:text="${failure.message == null ? 'No message' : failure.message}">message</td>
-                <td th:text="${failure.sessionId == null ? 'Not logged in' : failure.sessionId}">sessionId</td>
+                <td th:text="${failure.message == null ? 'No message' : T(org.apache.commons.lang3.StringUtils).abbreviate(failure.message, 500)}">message</td>
+                <td th:text="${failure.sessionId == null or failure.sessionId == '' ? 'Not logged in' : failure.sessionId}">sessionId</td>
             </tr>
         </th:block>
     </table>

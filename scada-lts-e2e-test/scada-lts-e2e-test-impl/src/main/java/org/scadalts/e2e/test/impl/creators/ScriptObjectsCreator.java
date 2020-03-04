@@ -25,6 +25,7 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, EditScri
         ScriptsPage scriptsPage = openPage();
         for (ScriptCriteria criteria: scriptCriteria) {
             if(scriptsPage.containsObject(criteria)) {
+                logger.debug("delete object: {}, type: {}", criteria.getIdentifier().getValue(), criteria.getType());
                 scriptsPage.openScriptEditor(criteria)
                         .deleteScript();
             }
@@ -38,8 +39,12 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, EditScri
         EditScriptsPage editScriptsPage = scriptsPage.openScriptCreator();
         for (ScriptCriteria criteria: scriptCriteria) {
             if(!scriptsPage.containsObject(criteria)) {
-                editScriptsPage.setName(criteria.getIdentifier())
-                        .setXid(criteria.getXid()).setDataPointCommands(criteria.isEnableDataPointCommands())
+                logger.info("create object: {}, type: {}", criteria.getIdentifier().getValue(), criteria.getType());
+                editScriptsPage = scriptsPage.openScriptCreator()
+                        .setName(criteria.getIdentifier())
+                        .waitOnPage(500)
+                        .setXid(criteria.getXid())
+                        .setDataPointCommands(criteria.isEnableDataPointCommands())
                         .setDataSourceCommands(criteria.isEnableDataSourceCommands())
                         .setScript(criteria.getScript());
                 for (DataPointVarCriteria var : criteria.getDataPointVarCriterias()) {
@@ -47,7 +52,6 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, EditScri
                             .setVarName(var);
                 }
                 editScriptsPage.saveScript();
-
             }
         }
         return editScriptsPage;

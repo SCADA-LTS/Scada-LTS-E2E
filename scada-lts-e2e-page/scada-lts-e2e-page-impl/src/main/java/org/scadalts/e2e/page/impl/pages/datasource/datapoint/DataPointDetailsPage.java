@@ -50,7 +50,7 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
     public DataPointDetailsPage setDataPointValue(String value) {
         refreshWhile(valueInput, not(Condition.visible));
         valueInput.clear();
-        valueInput.sendKeys(value);
+        valueInput.setValue(value);
         return this;
     }
 
@@ -71,7 +71,7 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
     }
 
     public List<String> getValuesFromHistory() {
-        return findObjects(historyTableData).stream()
+        return findObjects(3, historyTableData).stream()
                 .map(SelenideElement::getText)
                 .map(FormatUtil::unformat)
                 .collect(Collectors.toList());

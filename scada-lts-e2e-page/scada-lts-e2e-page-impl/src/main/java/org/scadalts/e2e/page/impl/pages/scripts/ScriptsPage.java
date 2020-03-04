@@ -3,7 +3,7 @@ package org.scadalts.e2e.page.impl.pages.scripts;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criterias.RowCriteria;
+import org.scadalts.e2e.page.core.criterias.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.ScriptCriteria;
@@ -33,8 +33,8 @@ public class ScriptsPage extends MainPageObjectAbstract<ScriptsPage> {
     }
 
     public EditScriptsPage openScriptEditor(ScriptCriteria criteria) {
-        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getIdentifier(), Tag.tbody());
-        findObject(rowCriteria, scriptsTable).click();
+        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), Tag.tbody());
+        findObject(nodeCriteria, scriptsTable).click();
         return page(EditScriptsPage.class);
     }
 

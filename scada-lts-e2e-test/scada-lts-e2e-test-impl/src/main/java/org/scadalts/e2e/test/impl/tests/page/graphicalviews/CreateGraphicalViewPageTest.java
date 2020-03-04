@@ -66,12 +66,13 @@ public class CreateGraphicalViewPageTest {
                 .selectComponentByName("Alarms List")
                 .addViewComponent()
                 .dragAndDropViewComponent()
+                .dragAndDropViewComponent()
+                .dragAndDropViewComponent()
                 .save()
                 .waitOnLoadedBackground();
 
         //then:
-        String body = graphicalViewsPageSubject.reopen()
-                .getBodyText();
+        String body = graphicalViewsPageSubject.getBodyText();
 
         assertThat(body, containsString(identifier.getValue()));
     }

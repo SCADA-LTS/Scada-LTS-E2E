@@ -7,7 +7,6 @@ import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
-import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 
@@ -71,41 +70,34 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
 
     private DataSourcesPage _deleteDataPointsAndDataSources(Map<DataSourceCriteria, DataPointObjectsCreator> criteriaMap) {
         DataSourcesPage page = openPage();
-        for (DataSourceCriteria dataSourceParam : criteriaMap.keySet()) {
-            if(page.containsObject(dataSourceParam)) {
-                page.deleteDataSource(dataSourceParam);
+        for (DataSourceCriteria criteria : criteriaMap.keySet()) {
+            if(page.containsObject(criteria)) {
+                logger.debug("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
+                        criteria.getType(), criteria.getXid().getValue());
+                page.deleteDataSource(criteria);
             }
         }
         return page;
     }
 
-    private EditDataPointPage _createDataPoint(EditDataSourceWithPointListPage page, DataPointCriteria pointParams) {
-        return page.addDataPoint()
-                .setDataPointName(pointParams.getIdentifier())
-                .selectDataPointType(pointParams.getType())
-                .setSettable(pointParams.isSettable())
-                .selectChangeType(pointParams.getChangeType())
-                .setDataPointXid(pointParams.getXid())
-                .setStartValue(pointParams)
-                .saveDataPoint();
-    }
-
-    private EditDataSourceWithPointListPage _createDataSource(DataSourcesPage page, DataSourceCriteria params) {
-        return page.openDataSourceCreator(params.getType())
-                .selectUpdatePeriodType(params.getUpdatePeriodType())
-                .setUpdatePeriods(params.getUpdatePeriodValue())
-                .setDataSourceName(params.getIdentifier())
-                .setDataSourceXid(params.getXid())
+    private EditDataSourceWithPointListPage _createDataSource(DataSourcesPage page, DataSourceCriteria criteria) {
+        logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(), criteria.getType(),
+                criteria.getXid().getValue());
+        return page.openDataSourceCreator(criteria.getType())
+                .selectUpdatePeriodType(criteria.getUpdatePeriodType())
+                .setUpdatePeriods(criteria.getUpdatePeriodValue())
+                .setDataSourceName(criteria.getIdentifier())
+                .setDataSourceXid(criteria.getXid())
                 .saveDataSource()
                 .enableDataSource(true);
     }
 
     private DataSourcesPage _createDataSourcesAndPoints() {
         DataSourcesPage dataSourcesPage = openPage();
-        for (DataSourceCriteria dataSourceParams : dataSources.keySet()) {
-            if(!dataSourcesPage.containsObject(dataSourceParams)) {
-                EditDataSourceWithPointListPage editDataSourceWithPointListPage = _createDataSource(dataSourcesPage, dataSourceParams);
-                DataPointObjectsCreator creator = dataSources.get(dataSourceParams);
+        for (DataSourceCriteria criteria : dataSources.keySet()) {
+            if(!dataSourcesPage.containsObject(criteria)) {
+                EditDataSourceWithPointListPage editDataSourceWithPointListPage = _createDataSource(dataSourcesPage, criteria);
+                DataPointObjectsCreator creator = dataSources.get(criteria);
                 creator.createObjects(editDataSourceWithPointListPage);
                 dataSourcesPage.reopen();
             }

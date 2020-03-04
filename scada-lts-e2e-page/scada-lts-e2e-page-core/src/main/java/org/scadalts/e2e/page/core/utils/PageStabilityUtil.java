@@ -22,7 +22,7 @@ public abstract class PageStabilityUtil {
 
     public static SelenideElement refreshWhile(SelenideElement element, Condition condition) {
         long time = System.currentTimeMillis();
-        Timeout timeout = new Timeout(2 * Configuration.timeout);
+        Timeout timeout = new Timeout(3 * Configuration.timeout);
         int i = 0;
         refresh();
         while(element.is(condition)

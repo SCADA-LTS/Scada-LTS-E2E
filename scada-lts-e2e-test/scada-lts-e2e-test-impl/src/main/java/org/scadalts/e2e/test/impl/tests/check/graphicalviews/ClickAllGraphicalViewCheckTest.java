@@ -13,16 +13,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertTrue;
+import static org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable.preparingPageTest;
 
 @RunWith(Parameterized.class)
 public class ClickAllGraphicalViewCheckTest {
 
     @Parameterized.Parameters(name = "{index}: id: {0}, viewName: {1}")
     public static List<String[]> data() {
-        if(!E2eAbstractRunnable.isLogged()) {
-            E2eAbstractRunnable.setup();
-            E2eAbstractRunnable.login();
-        }
+        preparingPageTest();
         graphicalViewsPage = E2eAbstractRunnable.getNavigationPage()
                 .openGraphicalViews();
         return graphicalViewsPage.getDataAllViews()

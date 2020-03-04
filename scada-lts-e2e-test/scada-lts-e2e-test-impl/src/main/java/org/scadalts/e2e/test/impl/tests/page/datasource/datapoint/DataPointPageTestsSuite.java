@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
         CreateDataPointPageTest.class,
         DeleteDataPointPageTest.class,
         ChangePointValueInDetailsPageTest.class,
-        SequencePointValueHistoryInDetailsPageTest.class
+        SequencePointValueHistoryInDetailsPageTest.class,
+        CreateEventDetectorPageTest.class
 })
 public class DataPointPageTestsSuite {
 }

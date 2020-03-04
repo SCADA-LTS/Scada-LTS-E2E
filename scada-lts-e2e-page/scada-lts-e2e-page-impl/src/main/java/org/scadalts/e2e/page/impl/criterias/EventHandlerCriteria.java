@@ -43,12 +43,38 @@ public class EventHandlerCriteria implements CriteriaObject, GetXid {
                 .build();
     }
 
-    public static EventHandlerCriteria script(EventDetectorCriteria eventDetectorCriteria, ScriptCriteria scriptCriteria) {
+    public static EventHandlerCriteria script(EventDetectorCriteria eventDetectorCriteria, ScriptCriteria activeScript) {
         return EventHandlerCriteria.builder()
                 .eventDetectorCriteria(eventDetectorCriteria)
-                .activeScript(scriptCriteria)
+                .activeScript(activeScript)
                 .inactiveScript(ScriptCriteria.empty())
                 .identifier(IdentifierObjectFactory.eventHandlerName())
+                .type(EventHandlerType.SCRIPT)
+                .xid(Xid.xidForEventHandler())
+                .build();
+    }
+
+    public static EventHandlerCriteria script(EventDetectorCriteria eventDetectorCriteria, ScriptCriteria activeScript,
+                                              ScriptCriteria inactiveScript) {
+        return EventHandlerCriteria.builder()
+                .eventDetectorCriteria(eventDetectorCriteria)
+                .activeScript(activeScript)
+                .inactiveScript(inactiveScript)
+                .identifier(IdentifierObjectFactory.eventHandlerName())
+                .type(EventHandlerType.SCRIPT)
+                .xid(Xid.xidForEventHandler())
+                .build();
+    }
+
+    public static EventHandlerCriteria script(EventHandlerIdentifier eventHandlerIdentifier,
+                                              EventDetectorCriteria eventDetectorCriteria,
+                                              ScriptCriteria activeScript,
+                                              ScriptCriteria inactiveScript) {
+        return EventHandlerCriteria.builder()
+                .eventDetectorCriteria(eventDetectorCriteria)
+                .activeScript(activeScript)
+                .inactiveScript(inactiveScript)
+                .identifier(eventHandlerIdentifier)
                 .type(EventHandlerType.SCRIPT)
                 .xid(Xid.xidForEventHandler())
                 .build();

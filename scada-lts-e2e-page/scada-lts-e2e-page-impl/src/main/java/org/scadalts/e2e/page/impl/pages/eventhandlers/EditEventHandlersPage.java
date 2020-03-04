@@ -33,10 +33,16 @@ public class EditEventHandlersPage extends PageObjectAbstract<EditEventHandlersP
     @FindBy(css = "img[onclick*='saveHandler']")
     private SelenideElement saveHandler;
 
+    @FindBy(id = "deleteImg")
+    private SelenideElement delete;
+
+    private EventHandlersPage eventHandlersPage;
+
     public final static String TITLE = "Event handler";
 
-    public EditEventHandlersPage() {
+    public EditEventHandlersPage(EventHandlersPage eventHandlersPage) {
         super(TITLE);
+        this.eventHandlersPage = eventHandlersPage;
     }
 
     @Override
@@ -111,5 +117,10 @@ public class EditEventHandlersPage extends PageObjectAbstract<EditEventHandlersP
         acceptAlert();
         acceptAlert();
         return this;
+    }
+
+    public EventHandlersPage deleteEventHandler() {
+        waitWhile(saveHandler, not(Condition.visible)).click();
+        return eventHandlersPage;
     }
 }

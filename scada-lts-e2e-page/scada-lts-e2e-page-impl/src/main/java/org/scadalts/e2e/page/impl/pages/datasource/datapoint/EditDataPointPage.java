@@ -20,6 +20,7 @@ import static com.codeborne.selenide.Selenide.page;
 import static javax.xml.bind.DatatypeConverter.parseBoolean;
 import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 
 public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
 
@@ -60,13 +61,13 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
 
     public EditDataPointPage setDataPointName(DataPointIdentifier dataPointName) {
         this.dataPointName.clear();
-        this.dataPointName.sendKeys(dataPointName.getValue());
+        this.dataPointName.setValue(dataPointName.getValue());
         return this;
     }
 
     public EditDataPointPage setDataPointXid(Xid dataPointXid) {
         this.dataPointXid.clear();
-        this.dataPointXid.sendKeys(dataPointXid.getValue());
+        this.dataPointXid.setValue(dataPointXid.getValue());
         return this;
     }
 
@@ -111,7 +112,7 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         String css = MessageFormat.format("td *[id=''{0}'']", DataPointChangeFieldType
                 .getType(criteria, ChangeTypeField.START_VALUE).getId());
         waitWhile($(css), not(Condition.visible))
-                .sendKeys(criteria.getStartValue());
+                .setValue(criteria.getStartValue());
         return this;
     }
 
@@ -125,6 +126,11 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         deleteDataPoint.click();
         acceptAlert();
         return page(EditDataSourceWithPointListPage.class);
+    }
+
+    public EditDataPointPage waitOnSettableCheckBox() {
+        waitWhileNotVisible(settableCheckbox);
+        return this;
     }
 
     public String getDataPointName() {

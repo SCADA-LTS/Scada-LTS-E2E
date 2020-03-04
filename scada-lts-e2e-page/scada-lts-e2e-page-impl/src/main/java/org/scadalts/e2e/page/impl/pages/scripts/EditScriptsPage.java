@@ -4,7 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criterias.RowCriteria;
+import org.scadalts.e2e.page.core.criterias.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
@@ -97,8 +97,8 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
     }
 
     public EditScriptsPage setVarName(DataPointVarCriteria criteria) {
-        RowCriteria rowCriteria = RowCriteria.criteria(criteria.getDataPointCriteria().getIdentifier(), Tag.tr());
-        findAction(rowCriteria, INPUT_VAL_NAME, contextContainer).setValue(criteria.getVarCriteria().getIdentifier().getValue());
+        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getDataPointCriteria().getIdentifier(), Tag.tr());
+        findAction(nodeCriteria, INPUT_VAL_NAME, contextContainer).setValue(criteria.getVarCriteria().getIdentifier().getValue());
         return this;
     }
 
@@ -119,8 +119,8 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
 
     private EditScriptsPage _selectPoint(DataPointCriteria dataPointName) {
         waitWhile(allPointsListChosen, not(Condition.visible)).click();
-        RowCriteria rowCriteria = RowCriteria.criteria(dataPointName.getIdentifier(), Tag.li());
-        findObject(rowCriteria, $(By.cssSelector(".chosen-results"))).click();
+        NodeCriteria nodeCriteria = NodeCriteria.criteria(dataPointName.getIdentifier(), Tag.li());
+        findObject(nodeCriteria, $(By.cssSelector(".chosen-results"))).click();
         return this;
     }
 }

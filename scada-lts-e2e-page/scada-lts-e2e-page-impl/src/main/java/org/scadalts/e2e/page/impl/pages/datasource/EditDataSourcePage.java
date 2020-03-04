@@ -45,20 +45,20 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
 
     public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceName) {
         this.dataSourceName.clear();
-        this.dataSourceName.sendKeys(dataSourceName.getValue());
+        this.dataSourceName.setValue(dataSourceName.getValue());
         return this;
     }
 
     public EditDataSourcePage setDataSourceXid(Xid dataSourceXid) {
         this.dataSourceXid.clear();
-        this.dataSourceXid.sendKeys(dataSourceXid.getValue());
+        this.dataSourceXid.setValue(dataSourceXid.getValue());
         return this;
     }
 
     public EditDataSourcePage setUpdatePeriods(int updatePeriods) {
         this.updatePeriods.clear();
         String value = String.valueOf(updatePeriods);
-        this.updatePeriods.sendKeys(value);
+        this.updatePeriods.setValue(value);
         return this;
     }
 

@@ -13,7 +13,7 @@ import org.scadalts.e2e.page.core.utils.XpathFactory;
 @Data
 @ToString
 @EqualsAndHashCode
-public class RowCriteria implements CriteriaObject {
+public class NodeCriteria implements CriteriaObject {
 
     private final IdentifierObject identifier1;
     private final IdentifierObject identifier2;
@@ -21,8 +21,7 @@ public class RowCriteria implements CriteriaObject {
     private final Tag tag;
     private final CssClass cssClass;
 
-    private RowCriteria(IdentifierObject identifier1, IdentifierObject identifier2, DictionaryObject type, Tag tag,
-                       CssClass cssClass) {
+    public NodeCriteria(IdentifierObject identifier1, IdentifierObject identifier2, DictionaryObject type, Tag tag, CssClass cssClass) {
         this.identifier1 = identifier1;
         this.identifier2 = identifier2;
         this.type = type;
@@ -35,34 +34,41 @@ public class RowCriteria implements CriteriaObject {
         return new RowIdentifier(identifier1.getValue() + " " + identifier2.getValue());
     }
 
-    public static RowCriteria criteria(IdentifierObject identifier, DictionaryObject type,
-                                            Tag tag) {
-        return new RowCriteria(identifier, identifier, type, tag, CssClass.empty());
+    public static NodeCriteria criteria(IdentifierObject identifier, DictionaryObject type,
+                                        Tag tag) {
+        return new NodeCriteria(identifier, identifier, type, tag, CssClass.empty());
     }
 
-    public static RowCriteria criteria(IdentifierObject identifier, DictionaryObject type,
-                                       Tag tag, CssClass classCss) {
-        return new RowCriteria(identifier, identifier, type, tag, classCss);
+    public static NodeCriteria criteria(IdentifierObject identifier, DictionaryObject type,
+                                        Tag tag, CssClass classCss) {
+        return new NodeCriteria(identifier, identifier, type, tag, classCss);
     }
 
-    public static RowCriteria criteria(IdentifierObject identifier, Tag tag) {
-        return new RowCriteria(identifier, identifier, EmptyType.ANY, tag, CssClass.empty());
+    public static NodeCriteria criteria(IdentifierObject identifier,
+                                        Tag tag, CssClass classCss) {
+        return new NodeCriteria(identifier, identifier, EmptyType.ANY, tag, classCss);
     }
 
-    public static RowCriteria criteria(IdentifierObject identifier1, IdentifierObject identifier2, Tag tag) {
-        return new RowCriteria(identifier1, identifier2, EmptyType.ANY, tag, CssClass.empty());
+    public static NodeCriteria criteria(IdentifierObject identifier, Tag tag) {
+        return new NodeCriteria(identifier, identifier, EmptyType.ANY, tag, CssClass.empty());
+    }
+
+    public static NodeCriteria criteria(IdentifierObject identifier1, IdentifierObject identifier2, Tag tag) {
+        return new NodeCriteria(identifier1, identifier2, EmptyType.ANY, tag, CssClass.empty());
     }
 
     public String getXpath() {
+        if(identifier2.equals(identifier1) && type == EmptyType.ANY && !CssClass.empty().equals(cssClass))
+            return XpathFactory.xpathTagCssClassArg(tag,cssClass,identifier1.getValue());
         if(!identifier2.equals(identifier1))
-            return cssClass.equals(CssClass.empty()) ?
+            return CssClass.empty().equals(cssClass) ?
                     XpathFactory.xpath(tag, identifier1.getValue(), identifier2.getValue()) :
                     XpathFactory.xpath(tag, cssClass, identifier1.getValue(), identifier2.getValue());
         if (type == EmptyType.ANY)
-            return cssClass.equals(CssClass.empty()) ?
+            return CssClass.empty().equals(cssClass) ?
                     XpathFactory.xpath(tag, identifier1.getValue()) :
                     XpathFactory.xpath(tag, cssClass, identifier1.getValue());
-        return cssClass.equals(CssClass.empty()) ?
+        return CssClass.empty().equals(cssClass) ?
                 XpathFactory.xpath(tag, identifier1.getValue(), type.getName()) :
                 XpathFactory.xpath(tag, cssClass, identifier1.getValue(), type.getName());
     }
