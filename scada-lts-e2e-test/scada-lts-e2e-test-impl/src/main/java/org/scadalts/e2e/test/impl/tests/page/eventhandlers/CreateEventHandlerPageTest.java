@@ -49,7 +49,6 @@ public class CreateEventHandlerPageTest {
     public static void createDataSourcePointEventDetectorScripts() {
         navigationPage = E2eAbstractRunnable.getNavigationPage();
 
-
         dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         dataPointCriteria = DataPointCriteria.binaryAlternate();
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);

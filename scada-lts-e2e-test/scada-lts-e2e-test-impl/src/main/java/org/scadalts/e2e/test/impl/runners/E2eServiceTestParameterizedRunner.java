@@ -20,7 +20,6 @@ public class E2eServiceTestParameterizedRunner extends Parameterized {
             preparingServiceTest();
         } catch (Throwable throwable) {
             NavigationPage.kill();
-            throw throwable;
         }
         super.run(notifier);
     }

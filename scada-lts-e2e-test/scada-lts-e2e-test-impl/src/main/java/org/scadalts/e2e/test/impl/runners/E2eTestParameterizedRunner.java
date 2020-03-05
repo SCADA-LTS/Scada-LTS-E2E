@@ -20,7 +20,6 @@ public class E2eTestParameterizedRunner extends Parameterized {
             preparingPageTest();
         } catch (Throwable throwable) {
             NavigationPage.kill();
-            throw throwable;
         }
         super.run(notifier);
     }

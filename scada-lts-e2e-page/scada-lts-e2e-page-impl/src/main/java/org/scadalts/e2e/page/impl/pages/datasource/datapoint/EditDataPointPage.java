@@ -77,12 +77,12 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
 
 
     public EditDataPointPage enableSettable() {
-        this.settableCheckbox.click();
+        settableCheckbox.click();
         return this;
     }
 
     public EditDataPointPage disableSettable() {
-        this.settableCheckbox.clear();
+        settableCheckbox.clear();
         return this;
     }
 

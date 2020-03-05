@@ -21,7 +21,6 @@ public class E2eServiceTestRunner extends BlockJUnit4ClassRunner {
             preparingServiceTest();
         } catch (Throwable throwable) {
             NavigationPage.kill();
-            throw throwable;
         }
         super.run(notifier);
     }

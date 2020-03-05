@@ -43,7 +43,8 @@ public class EventDetectorObjectsCreator implements CreatorObject<PropertiesData
                     .setAlias(eventDetectorCriteria.getIdentifier())
                     .setXid(eventDetectorCriteria.getXid())
                     .selectAlarmLevel(eventDetectorCriteria.getAlarmLevel())
-                    .saveDataPoint();
+                    .saveDataPoint()
+                    .waitOnEventDetectorTable();
         }
         return propertiesDataPointPage;
     }

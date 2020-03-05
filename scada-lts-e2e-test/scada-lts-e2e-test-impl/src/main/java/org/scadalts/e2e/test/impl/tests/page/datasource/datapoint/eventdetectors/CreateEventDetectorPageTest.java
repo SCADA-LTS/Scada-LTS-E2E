@@ -1,4 +1,4 @@
-package org.scadalts.e2e.test.impl.tests.page.datasource.datapoint;
+package org.scadalts.e2e.test.impl.tests.page.datasource.datapoint.eventdetectors;
 
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -32,18 +32,15 @@ public class CreateEventDetectorPageTest {
     private static EventDetectorCriteria eventDetectorCriteria;
     private static DataSourcePointCriteria dataSourcePointCriteria;
 
-
     @BeforeClass
     public static void createDataSourcePoint() {
         navigationPage = E2eAbstractRunnable.getNavigationPage();
-        dataSourcesPage = navigationPage.openDataSources();
-
         dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         dataPointCriteria = DataPointCriteria.binaryAlternate();
         dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
 
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
-        dataSourcePointObjectsCreator.createObjects();
+        dataSourcesPage = dataSourcePointObjectsCreator.createObjects();
     }
 
     @After
@@ -64,7 +61,7 @@ public class CreateEventDetectorPageTest {
         eventDetectorCriteria = EventDetectorCriteria.criteria(eventDetectorIdentifierExpected,
                 eventDetectorTypeExpected,alarmLevelExpected,dataSourcePointCriteria);
 
-        PropertiesDataPointPage page = dataSourcesPage.reopen()
+        PropertiesDataPointPage page = dataSourcesPage
                 .openDataSourceEditor(dataSourceCriteria)
                 .openDataPointProperties(dataPointCriteria);
 
@@ -82,9 +79,9 @@ public class CreateEventDetectorPageTest {
         page = editDataSourcePage
                 .openDataPointProperties(dataPointCriteria);
 
-        AlarmLevel alarmLevel = page.getAlarmLevel();
-        Xid xid = page.getXid();
-        EventDetectorIdentifier eventDetectorIdentifier = page.getAlias();
+        AlarmLevel alarmLevel = page.getAlarmLevelFirst();
+        Xid xid = page.getXidFirst();
+        EventDetectorIdentifier eventDetectorIdentifier = page.getAliasFirst();
 
         //then:
         assertThat(true, equalTo(page.containsObject(eventDetectorCriteria)));

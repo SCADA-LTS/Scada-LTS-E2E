@@ -15,8 +15,7 @@ import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.PropertiesDataPointPage;
 
 import static com.codeborne.selenide.Condition.not;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.*;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
 import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
@@ -59,7 +58,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
             acceptAlert();
             waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
         } else {
-            dataSourceOnOff.click();
+            dataSourceOnOff.clear();
             acceptAlert();
             waitWhile($(SELECTOR_DISABLE_DATA_SOURCE_BY), not(Condition.visible));
         }

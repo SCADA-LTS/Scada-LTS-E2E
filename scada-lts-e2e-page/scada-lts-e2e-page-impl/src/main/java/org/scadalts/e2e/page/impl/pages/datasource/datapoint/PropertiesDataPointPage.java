@@ -18,6 +18,7 @@ import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPa
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static java.text.MessageFormat.format;
+import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 
@@ -27,7 +28,7 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
     @FindBy(id = "eventDetectorSelect")
     private SelenideElement eventDetectorSelect;
 
-    @FindBy(css = "a[href*='data_source_edit.shtm?dsid']")
+    @FindBy(css = "a[href*='data_source_edit.shtm']")
     private SelenideElement editDataSource;
 
     @FindBy(css = "input[onclick*=\"doSave('save')\"]")
@@ -91,17 +92,17 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
         return this;
     }
 
-    public AlarmLevel getAlarmLevel() {
+    public AlarmLevel getAlarmLevelFirst() {
         String value = $(By.cssSelector(GET_FIRST_SELECT_ALARM_LIST)).getText();
         return AlarmLevel.getType(value);
     }
 
-    public Xid getXid() {
+    public Xid getXidFirst() {
         String value = $(By.cssSelector(GET_FIRST_INPUT_XID)).getValue();
         return new Xid(value);
     }
 
-    public EventDetectorIdentifier getAlias() {
+    public EventDetectorIdentifier getAliasFirst() {
         String value = $(By.cssSelector(GET_FIRST_INPUT_ALIAS)).getValue();
         return new EventDetectorIdentifier(value);
     }
@@ -113,6 +114,7 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
 
     public EditDataSourceWithPointListPage editDataSource() {
         editDataSource.click();
+        acceptAlert();
         return editDataSourceWithPointListPage;
     }
 

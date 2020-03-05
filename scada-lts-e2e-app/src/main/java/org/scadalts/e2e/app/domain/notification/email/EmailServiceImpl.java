@@ -28,6 +28,7 @@ class EmailServiceImpl implements EmailService {
             key=SentEmailsCacheConfig.EMAIL_CACHE_KEY, unless = "#result == false")
     public boolean sendEmail(EmailData emailData) {
         try {
+            logger.info("sending email...");
             MimeMessage mail = mimeMessageCreator.create(emailData, javaMailSender);
             javaMailSender.send(mail);
             return true;

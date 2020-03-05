@@ -7,6 +7,7 @@ import org.junit.runner.Result;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -52,6 +53,7 @@ public class E2eResult implements E2eResultSummarable {
     public Set<String> getFailTestNames() {
         return getFailures().stream()
                 .map(E2eFailure::getDescription)
+                .filter(a -> Objects.nonNull(a) && Objects.nonNull(a.getTestClass()))
                 .map(a -> a.getTestClass().getSimpleName() + "." + a.getMethodName())
                 .collect(Collectors.toSet());
     }

@@ -79,10 +79,10 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
                 criteria.getXid().getValue());
         return page.addDataPoint()
                 .setDataPointName(criteria.getIdentifier())
-                .selectDataPointType(criteria.getType())
-                .setSettable(criteria.isSettable())
-                .selectChangeType(criteria.getChangeType())
                 .setDataPointXid(criteria.getXid())
+                .setSettable(criteria.isSettable())
+                .selectDataPointType(criteria.getType())
+                .selectChangeType(criteria.getChangeType())
                 .setStartValue(criteria)
                 .saveDataPoint();
     }
