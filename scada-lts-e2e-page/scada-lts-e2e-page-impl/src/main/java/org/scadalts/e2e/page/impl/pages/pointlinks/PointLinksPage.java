@@ -33,11 +33,13 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
     }
 
     public PointLinksDetailsPage openPointLinkCreator() {
+        delay();
         waitWhile(addPointLink, not(Condition.visible)).click();
         return page(new PointLinksDetailsPage(this));
     }
 
     public String getPointLinksTableText() {
+        delay();
         waitWhile(pointLinksTable, not(Condition.visible));
         String text = pointLinksTable.getText();
         if(StringUtils.isBlank(text))
@@ -46,6 +48,7 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
     }
 
     public String getPointLinksTableHtml() {
+        delay();
         return pointLinksTable.innerHtml();
     }
 
@@ -61,11 +64,13 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
 
     @Override
     public boolean containsObject(CriteriaObject criteria) {
+        delay();
         String bodyText = getPointLinksTableText();
         return bodyText.contains(criteria.getIdentifier().getValue());
     }
 
     private SelenideElement _findAction(PointLinkCriteria criteria) {
+        delay();
         NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getSource().getIdentifier(), criteria.getSource().getIdentifier(), Tag.tbody());
         return findObject(nodeCriteria, pointLinksTable);
     }

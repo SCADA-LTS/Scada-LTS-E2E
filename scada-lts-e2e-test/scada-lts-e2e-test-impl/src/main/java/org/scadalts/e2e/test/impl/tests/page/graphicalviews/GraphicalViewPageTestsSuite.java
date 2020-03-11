@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         CreateGraphicalViewPageTest.class,
         MultiTabGraphicalViewPageTest.class,
-        DeleteGraphicalViewPageTest.class
+        DeleteGraphicalViewPageTest.class,
+
 })
 public class GraphicalViewPageTestsSuite {
 }

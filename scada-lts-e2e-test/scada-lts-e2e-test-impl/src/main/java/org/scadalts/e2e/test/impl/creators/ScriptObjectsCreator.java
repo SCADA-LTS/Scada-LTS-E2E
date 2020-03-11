@@ -25,7 +25,8 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, EditScri
         ScriptsPage scriptsPage = openPage();
         for (ScriptCriteria criteria: scriptCriteria) {
             if(scriptsPage.containsObject(criteria)) {
-                logger.debug("delete object: {}, type: {}", criteria.getIdentifier().getValue(), criteria.getType());
+                logger.info("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
+                        criteria.getType(), criteria.getXid().getValue());
                 scriptsPage.openScriptEditor(criteria)
                         .deleteScript();
             }
@@ -39,7 +40,8 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, EditScri
         EditScriptsPage editScriptsPage = scriptsPage.openScriptCreator();
         for (ScriptCriteria criteria: scriptCriteria) {
             if(!scriptsPage.containsObject(criteria)) {
-                logger.info("create object: {}, type: {}", criteria.getIdentifier().getValue(), criteria.getType());
+                logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
+                        criteria.getType(), criteria.getXid().getValue());
                 editScriptsPage = scriptsPage.openScriptCreator()
                         .setName(criteria.getIdentifier())
                         .waitOnPage(500)
@@ -51,7 +53,8 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, EditScri
                     editScriptsPage.addPointToContext(var.getDataPointCriteria())
                             .setVarName(var);
                 }
-                editScriptsPage.saveScript();
+                editScriptsPage.saveScript()
+                        .containsObject(criteria);
             }
         }
         return editScriptsPage;

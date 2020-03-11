@@ -13,29 +13,28 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.E2eServiceTestRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
-import org.scadalts.e2e.test.impl.utils.ServiceTestsUtil;
+import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(E2eServiceTestRunner.class)
+@RunWith(TestWithPageRunner.class)
 public class PointValueServiceTest {
 
     private String dataPointXid;
-    private DataPointCriteria dataPointCriteria;
     private String dataPointStartValue;
-    private DataSourcePointObjectsCreator dataSourcesPageTestsUtil;
+    private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
 
     @Before
     public void createDataSourceAndPoint() {
         dataPointStartValue = "1223.0";
-        dataPointCriteria = DataPointCriteria.noChange(DataPointType.NUMERIC, dataPointStartValue);
+        DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(DataPointType.NUMERIC, dataPointStartValue);
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-        dataSourcesPageTestsUtil = new DataSourcePointObjectsCreator(E2eAbstractRunnable.getNavigationPage(),
+        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(),
                 dataSourceCriteria, dataPointCriteria);
-        EditDataSourceWithPointListPage pointPage = dataSourcesPageTestsUtil.createObjects()
+        EditDataSourceWithPointListPage pointPage = dataSourcePointObjectsCreator.createObjects()
                 .openDataSourceEditor(dataSourceCriteria);
         EditDataPointPage editDataPointPage = pointPage.openDataPointEditor(dataPointCriteria);
         dataPointXid = editDataPointPage.getDataPointXid();
@@ -43,7 +42,7 @@ public class PointValueServiceTest {
 
     @After
     public void clean() {
-        dataSourcesPageTestsUtil.deleteObjects();
+        dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test
@@ -53,7 +52,7 @@ public class PointValueServiceTest {
         PointValueParams pointValueParams = new PointValueParams(dataPointXid);
 
         //when:
-        E2eResponse<PointValueResponse> getResponse = ServiceTestsUtil.getValue(pointValueParams);
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams);
 
         //then:
         assertEquals(200, getResponse.getStatus());
@@ -66,7 +65,7 @@ public class PointValueServiceTest {
         PointValueParams pointValueParams = new PointValueParams(dataPointXid);
 
         //when:
-        E2eResponse<PointValueResponse> getResponse = ServiceTestsUtil.getValue(pointValueParams);
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams);
         PointValueResponse getResult = getResponse.getValue();
 
         //then:
@@ -81,7 +80,7 @@ public class PointValueServiceTest {
         PointValueParams pointValueParams = new PointValueParams(dataPointXid);
 
         //when:
-        E2eResponse<PointValueResponse> getResponse = ServiceTestsUtil.getValue(pointValueParams, dataPointStartValue);
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams, dataPointStartValue);
         PointValueResponse getResult = getResponse.getValue();
 
         //then:

@@ -5,11 +5,9 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.utils.PageStabilityUtil;
+import org.scadalts.e2e.page.core.utils.MeasurePrinter;
 
-import java.text.MessageFormat;
-
-import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPrintMs;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 @Log4j2
 public abstract class PageObjectAbstract<T extends PageObject<T>> implements PageObject<T> {
@@ -36,7 +34,7 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
         String bodyText = body.getText();
         if(StringUtils.isNotBlank(bodyText) && bodyText.contains(title))
             return bodyText;
-        SelenideElement element = PageStabilityUtil.waitWhile(body, Condition.exactTextCaseSensitive(title));
+        SelenideElement element = waitWhile(body, Condition.exactTextCaseSensitive(title));
         return element.getText();
     }
 
@@ -45,29 +43,21 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
         String innerHtml = body.innerHtml();
         if(innerHtml.contains(title))
             return innerHtml;
-        SelenideElement element = PageStabilityUtil.waitWhile(body, Condition.exactTextCaseSensitive(title));
+        SelenideElement element = waitWhile(body, Condition.exactTextCaseSensitive(title));
         return element.innerHtml();
     }
 
     @Override
     public T printLoadingMeasure() {
-        String backend = preparingToPrintMs(getPage().backendPerformanceMs());
-        String frontend = preparingToPrintMs(getPage().frontendPerformanceMs());
-
-        String msgWithMeasure = MessageFormat.format("page: {0}, backend: {1}, frontend: {2}\n",
-                getPage().getClass().getSimpleName(), backend, frontend);
-        logger.info(msgWithMeasure);
+        MeasurePrinter.print(getPage());
         return getPage();
     }
 
     @Override
     public T printLoadingMeasure(String object) {
-        String backend = preparingToPrintMs(getPage().backendPerformanceMs());
-        String frontend = preparingToPrintMs(getPage().frontendPerformanceMs());
-
-        String msgWithMeasure = MessageFormat.format("\n\npage: {0}, object: {1}, backend: {2}, frontend: {3}\n",
-                getPage().getClass().getSimpleName(), object, backend, frontend);
-        logger.info(msgWithMeasure);
+        MeasurePrinter.print(getPage(), object);
         return getPage();
     }
+
+
 }

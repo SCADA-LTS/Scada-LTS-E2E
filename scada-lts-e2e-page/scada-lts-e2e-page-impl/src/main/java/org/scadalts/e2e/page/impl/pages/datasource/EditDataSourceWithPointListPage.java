@@ -15,9 +15,12 @@ import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.PropertiesDataPointPage;
 
 import static com.codeborne.selenide.Condition.not;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.page;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfter;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
-import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 
@@ -35,14 +38,17 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     @FindBy(css = "tbody #pointsList")
     private SelenideElement dataPointsTable;
 
+    @FindBy(id = "dataSourceProperties")
+    private SelenideElement dataSourceProperties;
+
     private EditDataSourcePage editDataSourcePage;
 
     private static final By SELECTOR_ACTION_EDIT_DATA_POINT_BY = By.cssSelector("img[onclick*='editPoint(']");
     private static final By SELECTOR_ACTION_PROPERTIES_DATA_POINT_BY = By.cssSelector("img[onclick*='data_point_edit.shtm?dpid=']");
-    private static final By SELECTOR_ACTION_ENABLE_DATA_POINT_BY = By.cssSelector("img[src='images/brick_stop.png']");
-    private static final By SELECTOR_ACTION_DISABLE_DATA_POINT_BY = By.cssSelector("img[src='images/brick_go.png']");
-    private static final By SELECTOR_ENABLE_DATA_SOURCE_BY = By.cssSelector("img[src='images/database_go.png']");
+    private static final By SELECTOR_ACTION_ENABLE_DATA_POINT_BY = By.cssSelector("img[src='images/brick_go.png']");
+    private static final By SELECTOR_ACTION_DISABLE_DATA_POINT_BY = By.cssSelector("img[src='images/brick_stop.png']");
     private static final By SELECTOR_DISABLE_DATA_SOURCE_BY = By.cssSelector("img[src='images/database_stop.png']");
+    private static final By SELECTOR_ENABLE_DATA_SOURCE_BY = By.cssSelector("img[src='images/database_go.png']");
 
 
     public static final String TITLE = "Points";
@@ -53,30 +59,36 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
     public EditDataSourceWithPointListPage enableDataSource(boolean enable) {
+        delay();
         if(enable) {
-            dataSourceOnOff.click();
-            acceptAlert();
+            acceptAlertAfterClick(dataSourceOnOff);
             waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
         } else {
-            dataSourceOnOff.clear();
-            acceptAlert();
+            acceptAlertAfter(dataSourceOnOff::clear);
             waitWhile($(SELECTOR_DISABLE_DATA_SOURCE_BY), not(Condition.visible));
         }
         return this;
     }
 
+    public EditDataSourceWithPointListPage waitOnImgEabledDataSource() {
+        delay();
+        waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
+        return this;
+    }
+
     public boolean isEnableDataSource() {
+        delay();
         return $(SELECTOR_ENABLE_DATA_SOURCE_BY).is(Condition.visible);
     }
 
     public boolean isEnableDataPoint(DataPointCriteria criteria) {
-        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr());
-        return findAction(nodeCriteria,SELECTOR_ACTION_ENABLE_DATA_POINT_BY,dataPointsTable).is(Condition.visible);
+        return _findAction(criteria,SELECTOR_ACTION_ENABLE_DATA_POINT_BY).is(Condition.visible);
     }
 
     public EditDataSourceWithPointListPage enableAllDataPoint() {
-        enableAllDataPoint.click();
-        acceptAlert();
+        delay();
+        acceptAlertAfterClick(enableAllDataPoint);
+        waitWhile($(SELECTOR_ACTION_ENABLE_DATA_POINT_BY), not(Condition.visible));
         return this;
     }
 
@@ -86,14 +98,13 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
     public EditDataPointPage addDataPoint() {
-        addDataPoint.click();
-        acceptAlert();
+        delay();
+        acceptAlertAfterClick(addDataPoint);
         return page(EditDataPointPage.class);
     }
 
     public EditDataPointPage openDataPointEditor(DataPointCriteria criteria) {
-        _findAction(criteria, SELECTOR_ACTION_EDIT_DATA_POINT_BY).click();
-        acceptAlert();
+        acceptAlertAfterClick(_findAction(criteria, SELECTOR_ACTION_EDIT_DATA_POINT_BY));
         return page(EditDataPointPage.class);
     }
 
@@ -103,12 +114,14 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
     public EditDataSourceWithPointListPage enableDataPoint(DataPointCriteria criteria) {
-        _findAction(criteria, SELECTOR_ACTION_ENABLE_DATA_POINT_BY).click();
+        _findAction(criteria, SELECTOR_ACTION_DISABLE_DATA_POINT_BY).click();
+        waitWhile(_findAction(criteria, SELECTOR_ACTION_ENABLE_DATA_POINT_BY), not(Condition.visible));
         return this;
     }
 
     public EditDataSourceWithPointListPage disableDataPoint(DataPointCriteria criteria) {
-        _findAction(criteria, SELECTOR_ACTION_DISABLE_DATA_POINT_BY).click();
+        _findAction(criteria, SELECTOR_ACTION_ENABLE_DATA_POINT_BY).click();
+        waitWhile($(_findAction(criteria, SELECTOR_ACTION_DISABLE_DATA_POINT_BY)), not(Condition.visible));
         return this;
     }
 
@@ -152,8 +165,20 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return editDataSourcePage.getUpdatePeriodType();
     }
 
+    public EditDataSourceWithPointListPage waitOnPageWhileVisibleObject(DataPointCriteria dataPointCriteria) {
+        waitWhile(_findObject(dataPointCriteria), Condition.visible);
+        return this;
+    }
+
     private SelenideElement _findAction(DataPointCriteria criteria, By selectAction) {
+        delay();
         NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr());
         return findAction(nodeCriteria, selectAction, dataPointsTable);
+    }
+
+    private SelenideElement _findObject(DataPointCriteria criteria) {
+        delay();
+        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr());
+        return findObject(nodeCriteria, dataPointsTable);
     }
 }

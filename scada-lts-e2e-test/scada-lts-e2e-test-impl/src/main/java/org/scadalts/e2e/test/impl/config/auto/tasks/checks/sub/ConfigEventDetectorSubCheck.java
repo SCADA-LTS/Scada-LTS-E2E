@@ -2,6 +2,7 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.sub;
 
 import lombok.Data;
 import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
@@ -12,9 +13,11 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 
 import java.util.Set;
 
-import static org.scadalts.e2e.test.core.asserts.E2eAssert.assertExists;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.scadalts.e2e.test.impl.matchers.ContainsObject.containsObject;
 
 @Data
+@Log4j2
 public class ConfigEventDetectorSubCheck implements SubCheck {
 
     private final @NonNull NavigationPage navigationPage;
@@ -22,6 +25,7 @@ public class ConfigEventDetectorSubCheck implements SubCheck {
 
     @Override
     public void check() {
+        logger.info("run... {}", this.getClass().getSimpleName());
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
         for (EventDetectorCriteria eventDetectorCriteria : eventDetectorCriterias) {
             DataSourceCriteria dataSourceCriteria = eventDetectorCriteria.getDataSourcePointCriteria().getDataSource();
@@ -30,7 +34,7 @@ public class ConfigEventDetectorSubCheck implements SubCheck {
             EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.openDataSourceEditor(dataSourceCriteria);
             PropertiesDataPointPage propertiesDataPointPage = editDataSourceWithPointListPage.openDataPointProperties(dataPointCriteria);
             propertiesDataPointPage.waitOnEventDetectorTable();
-            assertExists(propertiesDataPointPage, eventDetectorCriteria);
+            assertThat(propertiesDataPointPage, containsObject(eventDetectorCriteria));
         }
     }
 }

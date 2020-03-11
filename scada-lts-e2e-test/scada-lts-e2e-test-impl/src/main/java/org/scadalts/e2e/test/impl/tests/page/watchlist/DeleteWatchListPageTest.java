@@ -13,14 +13,14 @@ import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
-@RunWith(E2eTestRunner.class)
+@RunWith(TestWithPageRunner.class)
 public class DeleteWatchListPageTest {
 
     private static CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
@@ -36,7 +36,7 @@ public class DeleteWatchListPageTest {
         DataPointCriteria dataPointCriteria = DataPointCriteria.numericNoChange(123);
 
         watchListToDeleteCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
-        NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
 
         dataSourcesAndPointsPageTestsUtil = new DataSourcePointObjectsCreator(navigationPage, watchListToDeleteCriteria);
         dataSourcesAndPointsPageTestsUtil.createObjects();

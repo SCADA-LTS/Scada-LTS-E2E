@@ -1,7 +1,7 @@
 package org.scadalts.e2e.test.core.asserts;
 
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.test.core.exceptions.ObjectNotExistsAssertionError;
+import org.scadalts.e2e.page.core.exceptions.ObjectNotExistsAssertionError;
 import org.scadalts.e2e.page.core.pages.PageObject;
 
 import java.util.Set;

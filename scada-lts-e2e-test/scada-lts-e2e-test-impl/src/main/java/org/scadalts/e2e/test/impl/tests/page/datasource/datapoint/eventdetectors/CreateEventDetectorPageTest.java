@@ -14,13 +14,14 @@ import org.scadalts.e2e.page.impl.pages.datasource.datapoint.PropertiesDataPoint
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.scadalts.e2e.test.impl.matchers.ContainsObject.containsObject;
 
-@RunWith(E2eTestRunner.class)
+@RunWith(TestWithPageRunner.class)
 public class CreateEventDetectorPageTest {
 
     private static DataSourcesPage dataSourcesPage;
@@ -34,7 +35,7 @@ public class CreateEventDetectorPageTest {
 
     @BeforeClass
     public static void createDataSourcePoint() {
-        navigationPage = E2eAbstractRunnable.getNavigationPage();
+        navigationPage = TestWithPageUtil.getNavigationPage();
         dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         dataPointCriteria = DataPointCriteria.binaryAlternate();
         dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
@@ -72,7 +73,7 @@ public class CreateEventDetectorPageTest {
                 .setXid(xidExpected)
                 .selectAlarmLevel(alarmLevelExpected)
                 .saveDataPoint()
-                .waitOnEventDetectorTable()
+                .waitOnPageWhileNotVisible(eventDetectorCriteria)
                 .editDataSource();
 
         //and:
@@ -84,7 +85,7 @@ public class CreateEventDetectorPageTest {
         EventDetectorIdentifier eventDetectorIdentifier = page.getAliasFirst();
 
         //then:
-        assertThat(true, equalTo(page.containsObject(eventDetectorCriteria)));
+        assertThat(page, containsObject(eventDetectorCriteria));
         assertThat(alarmLevel, equalTo(alarmLevelExpected));
         assertThat(xid, equalTo(xidExpected));
         assertThat(eventDetectorIdentifier, equalTo(eventDetectorIdentifierExpected));

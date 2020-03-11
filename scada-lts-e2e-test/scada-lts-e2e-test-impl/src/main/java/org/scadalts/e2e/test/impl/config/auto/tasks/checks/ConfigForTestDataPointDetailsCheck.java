@@ -2,17 +2,15 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
-import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
-import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
-import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
-import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
-import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
+import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegister;
+import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.ConfigureTestDataPointDetailsCommand;
+import org.scadalts.e2e.test.impl.config.auto.tasks.checks.sub.ConfigDataSourcePointSubCheck;
+import org.scadalts.e2e.test.impl.config.auto.tasks.checks.sub.ConfigWatchListSubCheck;
 import org.scadalts.e2e.test.impl.tests.check.datapoint.DataPointDetailsCheckTestsSuite;
+
+import java.util.Set;
 
 @Data
 public class ConfigForTestDataPointDetailsCheck implements Check<DataPointDetailsCheckTestsSuite> {
@@ -22,21 +20,18 @@ public class ConfigForTestDataPointDetailsCheck implements Check<DataPointDetail
     @Override
     public void execute() {
 
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond(new DataSourceIdentifier(TestImplConfiguration.dataSourceName));
-        DataPointCriteria dataPointCriteria = DataPointCriteria.numericNoChange(new DataPointIdentifier(TestImplConfiguration.dataPointName));
-        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
+        CriteriaRegister register = CriteriaRegister.getRegister(getClassTest(), new ConfigureTestDataPointDetailsCommand(navigationPage));
 
-        DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
-        EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.openDataSourceEditor(dataSourceCriteria);
+        Set<DataSourcePointCriteria> dataSourcePointCriterias = register.get(DataSourcePointCriteria.class);
+        ConfigDataSourcePointSubCheck checkConfigDataSourcePointSubTask = new ConfigDataSourcePointSubCheck(navigationPage, dataSourcePointCriterias);
+        checkConfigDataSourcePointSubTask.check();
 
-        editDataSourceWithPointListPage.openDataPointEditor(dataPointCriteria);
-
-        WatchListPage watchListPage = navigationPage.openWatchList();
-        watchListPage.addToWatchList(dataSourcePointCriteria);
+        ConfigWatchListSubCheck configWatchListSubCheck = new ConfigWatchListSubCheck(navigationPage, dataSourcePointCriterias);
+        configWatchListSubCheck.check();
     }
 
     @Override
-    public Class<DataPointDetailsCheckTestsSuite> getClassTarget() {
+    public Class<DataPointDetailsCheckTestsSuite> getClassTest() {
         return DataPointDetailsCheckTestsSuite.class;
     }
 

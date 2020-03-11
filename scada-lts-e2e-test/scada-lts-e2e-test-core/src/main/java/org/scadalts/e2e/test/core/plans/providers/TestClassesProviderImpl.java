@@ -25,6 +25,7 @@ class TestClassesProviderImpl implements TestClassesProvider {
 
     private List<Class<?>> _getTestClassesFromConsole(E2eConfig config) {
         List<Class<?>> result = new ArrayList<>();
+        result.add(plans.getPlan(TestPlan.LOGIN));
         if(config.getClassesTestRefs().length > 0)
             result.addAll(_getTestClassesByRef(config));
         result.addAll(_getTestClasses(config));

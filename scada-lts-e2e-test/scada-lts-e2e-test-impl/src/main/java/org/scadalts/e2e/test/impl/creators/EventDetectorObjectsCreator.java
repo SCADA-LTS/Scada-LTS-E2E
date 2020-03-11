@@ -24,7 +24,7 @@ public class EventDetectorObjectsCreator implements CreatorObject<PropertiesData
     public PropertiesDataPointPage deleteObjects() {
         PropertiesDataPointPage propertiesDataPointPage = openPage();
         if(propertiesDataPointPage.containsObject(eventDetectorCriteria)) {
-            logger.debug("delete object: {}, type: {}, xid: {}", eventDetectorCriteria.getIdentifier().getValue(),
+            logger.info("delete object: {}, type: {}, xid: {}", eventDetectorCriteria.getIdentifier().getValue(),
                     eventDetectorCriteria.getType(), eventDetectorCriteria.getXid().getValue());
             propertiesDataPointPage.deleteEventDetector(eventDetectorCriteria)
                     .saveDataPoint();
@@ -43,8 +43,9 @@ public class EventDetectorObjectsCreator implements CreatorObject<PropertiesData
                     .setAlias(eventDetectorCriteria.getIdentifier())
                     .setXid(eventDetectorCriteria.getXid())
                     .selectAlarmLevel(eventDetectorCriteria.getAlarmLevel())
-                    .saveDataPoint()
-                    .waitOnEventDetectorTable();
+                    .waitOnEventDetectorTable()
+                    .saveDataPoint();
+
         }
         return propertiesDataPointPage;
     }

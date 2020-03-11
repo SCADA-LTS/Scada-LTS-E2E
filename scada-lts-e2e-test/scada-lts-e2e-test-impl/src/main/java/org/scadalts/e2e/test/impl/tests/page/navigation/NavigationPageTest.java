@@ -27,12 +27,12 @@ import org.scadalts.e2e.page.impl.pages.userprofiles.UserProfilesPage;
 import org.scadalts.e2e.page.impl.pages.users.UsersPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.core.exceptions.ConfigureTestException;
-import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
+import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 
-@RunWith(E2eTestRunner.class)
+@RunWith(TestWithPageRunner.class)
 public class NavigationPageTest {
 
     private static NavigationPage subjectPage;

@@ -18,19 +18,20 @@ import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.ListLimitedOnlyMethodAddSupported;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.*;
 
 @Log4j2
-@RunWith(E2eTestParameterizedRunner.class)
+@RunWith(TestParameterizedWithPageRunner.class)
 public class SequencePointValueHistoryInDetailsPageTest {
 
     @Parameterized.Parameters(name = "{index}: value:{0}")
@@ -47,12 +48,12 @@ public class SequencePointValueHistoryInDetailsPageTest {
     private static CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
     private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcesAndPointsPageTestsUtil;
     private static DataPointDetailsPage dataPointDetailsPageSubject;
-    private static ListLimitedOnlyMethodAddSupported<String> listExcepted;
+    private static ListLimitedOnlyMethodAddSupported<String> listExpected;
 
     @BeforeClass
     public static void createDataSourceAndPoint() {
 
-        NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
 
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(DataPointType.NUMERIC, "123.0");
@@ -62,29 +63,31 @@ public class SequencePointValueHistoryInDetailsPageTest {
         dataSourcesAndPointsPageTestsUtil = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcesAndPointsPageTestsUtil.createObjects();
 
-        watchListTestsUtil = new WatchListObjectsCreator(E2eAbstractRunnable.getNavigationPage(), dataSourcePointCriteria);
+        watchListTestsUtil = new WatchListObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataPointDetailsPageSubject = watchListTestsUtil.createObjects()
                 .openDataPointDetails(dataSourcePointCriteria);
 
         int limit = dataPointDetailsPageSubject.getHistoryLimit();
         List<String> result = dataPointDetailsPageSubject.getValuesFromHistory();
 
-        listExcepted = new ListLimitedOnlyMethodAddSupported<>(limit);
-        listExcepted.addAll(result);
+        listExpected = new ListLimitedOnlyMethodAddSupported<>(limit);
+        listExpected.addAll(result);
     }
 
     @AfterClass
     public static void clean() {
-        watchListTestsUtil.deleteObjects();
-        dataSourcesAndPointsPageTestsUtil.deleteObjects();
-        listExcepted.clear();
+        if(Objects.nonNull(watchListTestsUtil))
+            watchListTestsUtil.deleteObjects();
+        if(Objects.nonNull(dataSourcesAndPointsPageTestsUtil))
+            dataSourcesAndPointsPageTestsUtil.deleteObjects();
+        listExpected.clear();
     }
 
     @Test
     public void test_sequence_history_change_point_value() {
 
         //given:
-        listExcepted.add(valueExpected);
+        listExpected.add(valueExpected);
 
         //when:
         dataPointDetailsPageSubject
@@ -97,7 +100,7 @@ public class SequencePointValueHistoryInDetailsPageTest {
         //then:
         assertNotNull(result);
         assertNotEquals(Collections.emptyList(), result);
-        assertEquals(listExcepted, result);
+        assertEquals(listExpected, result);
     }
 
 }

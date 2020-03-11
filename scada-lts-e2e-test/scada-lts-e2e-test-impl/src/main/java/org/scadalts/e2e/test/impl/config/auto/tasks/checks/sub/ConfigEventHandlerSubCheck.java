@@ -2,6 +2,7 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.sub;
 
 import lombok.Data;
 import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.EventHandlerCriteria;
 import org.scadalts.e2e.page.impl.criterias.ScriptCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventHandlerIdentifier;
@@ -13,10 +14,12 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 
 import java.util.Set;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.scadalts.e2e.test.core.asserts.E2eAssert.assertExists;
+import static org.scadalts.e2e.test.impl.matchers.ContainsObject.containsObject;
 
 @Data
+@Log4j2
 public class ConfigEventHandlerSubCheck implements SubCheck {
 
     private final @NonNull NavigationPage navigationPage;
@@ -24,6 +27,7 @@ public class ConfigEventHandlerSubCheck implements SubCheck {
 
     @Override
     public void check() {
+        logger.info("run... {}", this.getClass().getSimpleName());
         EventHandlersPage eventHandlersPage = navigationPage.openEventHandlers();
         for(EventHandlerCriteria eventHandlerCriteria: eventHandlerCriterias) {
             EditEventHandlersPage editEventHandlersPage = eventHandlersPage.openEventHandlerEditor(eventHandlerCriteria);
@@ -36,7 +40,7 @@ public class ConfigEventHandlerSubCheck implements SubCheck {
             ScriptCriteria activeScript = eventHandlerCriteria.getActiveScript();
             ScriptCriteria inactiveScript = eventHandlerCriteria.getInactiveScript();
 
-            assertExists(eventHandlersPage, eventHandlerCriteria);
+            assertThat(eventHandlersPage, containsObject(eventHandlerCriteria));
             assertEquals(activeScript.getIdentifier(), activeScriptCommand);
             assertEquals(inactiveScript.getIdentifier(), inactiveScriptCommand);
             assertEquals(eventHandlerCriteria.isDisabled(), disabled);

@@ -70,13 +70,53 @@ public class ExecutorUtil {
         }
     }
 
-    public static <E extends Throwable> void execute(FunctionlInterfaces.Executable executor,
-                               Function<Throwable, E> exception) throws E {
+    public static <E extends Throwable, K> void executeConsumer(FunctionlInterfaces.Executable executor,
+                                                                     Consumer<K> execueIfException, K arg,
+                                                                     Function<Throwable, E> exception) throws E {
         try {
             executor.execute();
         } catch (Throwable throwable) {
-            logger.error(throwable.getMessage(), throwable);
+            execueIfException.accept(arg);
             throw exception.apply(throwable);
+        }
+    }
+
+    public static <E extends Throwable, K> void execute(FunctionlInterfaces.Executable executor,
+                                                                Function<Throwable, E> exception) throws E {
+        try {
+            executor.execute();
+        } catch (Throwable throwable) {
+            throw exception.apply(throwable);
+        }
+    }
+
+    public static <E extends Throwable, K, R> void executeFunction(FunctionlInterfaces.Executable executor,
+                                                        Function<K, R> executeIfException, K arg,
+                                                        Function<Throwable, E> exception) throws E {
+        try {
+            executor.execute();
+        } catch (Throwable throwable) {
+            try {
+                executeIfException.apply(arg);
+            } catch (Throwable throwable1) {
+                logger.error(throwable1.getMessage(), throwable1);
+            }
+            throw exception.apply(throwable);
+        }
+    }
+
+    public static <E extends Throwable, K, R> void executeBiFunction(FunctionlInterfaces.Executable executor,
+                                                                     Function<K, R> executeIfException, K arg,
+                                                                     BiFunction<String, Throwable, E> exception) throws E {
+        try {
+            executor.execute();
+        } catch (Throwable throwable) {
+            try {
+                executeIfException.apply(arg);
+            } catch (Throwable throwable1) {
+                throw exception.apply(throwable1.getMessage(), throwable1);
+            }
+            throw exception.apply(throwable.getMessage(), throwable);
         }
     }
 }

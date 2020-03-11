@@ -2,6 +2,7 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.sub;
 
 import lombok.Data;
 import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
@@ -16,6 +17,7 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 
 @Data
+@Log4j2
 public class ConfigDataSourcePointSubCheck implements SubCheck {
 
     private final @NonNull NavigationPage navigationPage;
@@ -34,6 +36,7 @@ public class ConfigDataSourcePointSubCheck implements SubCheck {
 
     @Override
     public void check() {
+        logger.info("run... {}", this.getClass().getSimpleName());
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
 
         for (DataSourcePointCriteria dataSourcePointCriteria : dataSourcePointCriterias) {
@@ -41,7 +44,8 @@ public class ConfigDataSourcePointSubCheck implements SubCheck {
             DataPointCriteria dataPointCriteria = dataSourcePointCriteria.getDataPoint();
 
             EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.reopen()
-                    .openDataSourceEditor(dataSourceCriteria);
+                    .openDataSourceEditor(dataSourceCriteria)
+                    .waitOnImgEabledDataSource();
 
             boolean dataSourceEnabled = editDataSourceWithPointListPage.isEnableDataSource();
             boolean dataPointEnabled = editDataSourceWithPointListPage.isEnableDataPoint(dataPointCriteria);

@@ -17,15 +17,16 @@ import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.EventHandlerObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.ScriptObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 @Log4j2
-@RunWith(E2eTestRunner.class)
+@RunWith(TestWithPageRunner.class)
 public class CreateEventHandlerPageTest {
+
     private static EventHandlersPage eventHandlersPage;
     private static NavigationPage navigationPage;
     private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
@@ -47,7 +48,7 @@ public class CreateEventHandlerPageTest {
 
     @BeforeClass
     public static void createDataSourcePointEventDetectorScripts() {
-        navigationPage = E2eAbstractRunnable.getNavigationPage();
+        navigationPage = TestWithPageUtil.getNavigationPage();
 
         dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         dataPointCriteria = DataPointCriteria.binaryAlternate();
@@ -91,16 +92,16 @@ public class CreateEventHandlerPageTest {
         EventHandlerObjectsCreator eventHandlerObjectsCreator = new EventHandlerObjectsCreator(navigationPage, eventHandlerCriteria);
         eventHandlerObjectsCreator.deleteObjects();
         scriptObjectsCreator.deleteObjects();
-        eventDetectorObjectsCreator.deleteObjects();
+        /*eventDetectorObjectsCreator.deleteObjects();
         eventDetectorObjectsCreator2.deleteObjects();
         eventDetectorObjectsCreator3.deleteObjects();
         eventDetectorObjectsCreator4.deleteObjects();
-        eventDetectorObjectsCreator5.deleteObjects();
+        eventDetectorObjectsCreator5.deleteObjects();*/
         dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test
-    public void test_create_event_detector() {
+    public void test_create_event_handler() {
 
         //given:
         EventHandlerIdentifier eventHandlerIdentifierExpected = new EventHandlerIdentifier("eventhandler_test_create");
@@ -129,17 +130,17 @@ public class CreateEventHandlerPageTest {
         EditEventHandlersPage page = eventHandlersPage.openEventHandlerEditor(eventHandlerCriteria);
 
         //and:
-        ScriptIdentifier scriptActiveIdentifier = page.getActiveScriptCommand();
-        ScriptIdentifier scriptInactiveIdentifier = page.getInactiveScriptCommand();
+        ScriptIdentifier scriptActiveIdentifierResult = page.getActiveScriptCommand();
+        ScriptIdentifier scriptInactiveIdentifierResult = page.getInactiveScriptCommand();
         Xid xidResult = page.getXid();
-        EventHandlerIdentifier eventHandlerIdentifier = page.getAlias();
-        boolean disabled = page.isDisabled();
+        EventHandlerIdentifier eventHandlerIdentifierResult = page.getAlias();
+        boolean disabledResult = page.isDisabled();
 
         //then:
-        assertThat(eventHandlerIdentifier, equalTo(eventHandlerIdentifierExpected));
-        assertThat(disabled, equalTo(disabled));
-        assertThat(scriptActiveIdentifier, equalTo(scriptActive.getIdentifier()));
-        assertThat(xidResult, equalTo(xidExpected));
-        assertThat(scriptInactiveIdentifier, equalTo(scriptInactive.getIdentifier()));
+        assertThat(eventHandlerIdentifierResult, equalTo(eventHandlerCriteria.getIdentifier()));
+        assertThat(disabledResult, equalTo(eventHandlerCriteria.isDisabled()));
+        assertThat(scriptActiveIdentifierResult, equalTo(scriptActive.getIdentifier()));
+        assertThat(scriptInactiveIdentifierResult, equalTo(scriptInactive.getIdentifier()));
+        assertThat(xidResult, equalTo(eventHandlerCriteria.getXid()));
     }
 }

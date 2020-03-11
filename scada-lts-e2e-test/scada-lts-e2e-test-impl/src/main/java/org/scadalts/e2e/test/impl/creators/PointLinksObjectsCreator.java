@@ -11,13 +11,13 @@ import org.scadalts.e2e.test.core.creators.CreatorObject;
 public class PointLinksObjectsCreator implements CreatorObject<PointLinksPage, PointLinksPage> {
 
     private final NavigationPage navigationPage;
-    private final PointLinkCriteria criteria;
+    private final PointLinkCriteria[] pointLinkCriterias;
 
     @Getter
     private PointLinksPage pointLinksPage;
 
-    public PointLinksObjectsCreator(NavigationPage navigationPage, PointLinkCriteria criteria) {
-        this.criteria = criteria;
+    public PointLinksObjectsCreator(NavigationPage navigationPage, PointLinkCriteria... pointLinkCriterias) {
+        this.pointLinkCriterias = pointLinkCriterias;
         this.navigationPage = navigationPage;
     }
 
@@ -33,26 +33,35 @@ public class PointLinksObjectsCreator implements CreatorObject<PointLinksPage, P
     @Override
     public PointLinksPage createObjects() {
         PointLinksPage pointLinksPage = openPage();
-        if(!pointLinksPage.containsObject(criteria)) {
-            logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
-                    criteria.getType(), criteria.getXid().getValue());
-            return openPage().openPointLinkCreator()
-                    .setPoints(criteria)
-                    .setScript(criteria.getScript())
-                    .setEventType(criteria.getType())
-                    .savePointLink();
+        for (PointLinkCriteria criteria : pointLinkCriterias) {
+            if(!pointLinksPage.containsObject(criteria)) {
+                logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
+                        criteria.getType(), criteria.getXid().getValue());
+                pointLinksPage.openPointLinkCreator()
+                        .setPoints(criteria)
+                        .setScript(criteria.getScript())
+                        .setEventType(criteria.getType())
+                        .savePointLink();
+                if(pointLinkCriterias.length != 1) {
+                    pointLinksPage.reopen();
+                }
+            }
         }
+
         return pointLinksPage;
     }
 
     @Override
     public PointLinksPage deleteObjects() {
         PointLinksPage pointLinksPage = openPage();
-        if(pointLinksPage.containsObject(criteria)) {
-            logger.debug("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
-                    criteria.getType(), criteria.getXid().getValue());
-            pointLinksPage.openPointLinkEditor(criteria)
-                    .deletePointLink();
+        for (PointLinkCriteria criteria : pointLinkCriterias) {
+            if (pointLinksPage.containsObject(criteria)) {
+                logger.info("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
+                        criteria.getType(), criteria.getXid().getValue());
+                pointLinksPage.openPointLinkEditor(criteria)
+                        .deletePointLink()
+                        .reopen();
+            }
         }
         return pointLinksPage;
     }

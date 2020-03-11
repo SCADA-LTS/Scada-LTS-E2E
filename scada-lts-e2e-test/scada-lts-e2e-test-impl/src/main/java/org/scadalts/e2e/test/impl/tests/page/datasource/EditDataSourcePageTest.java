@@ -9,13 +9,13 @@ import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-@RunWith(E2eTestRunner.class)
+@RunWith(TestWithPageRunner.class)
 public class EditDataSourcePageTest {
 
     private DataSourceCriteria criteria;
@@ -27,7 +27,7 @@ public class EditDataSourcePageTest {
     @Before
     public void createDataSource() {
         criteria = DataSourceCriteria.virtualDataSource(UpdatePeriodType.SECOND, 13);
-        dataSourcesPageTestsUtil = new DataSourcePointObjectsCreator(E2eAbstractRunnable.getNavigationPage(), criteria);
+        dataSourcesPageTestsUtil = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(), criteria);
         dataSourcesPage = dataSourcesPageTestsUtil.openPage();
         editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.createDataSources();
     }

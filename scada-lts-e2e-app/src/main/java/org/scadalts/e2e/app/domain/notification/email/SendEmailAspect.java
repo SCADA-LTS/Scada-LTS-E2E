@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.scadalts.e2e.app.infrastructure.metrics.Logging;
 import org.scadalts.e2e.common.config.E2eConfig;
-import org.scadalts.e2e.test.core.plans.runner.E2eResultSummary;
+import org.scadalts.e2e.test.core.plans.engine.E2eSummarable;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
@@ -35,9 +35,9 @@ class SendEmailAspect {
 
     @AfterReturning(value = "sendEmail()", returning = "returned")
     void reaction(Object returned) {
-        if (returned instanceof E2eResultSummary) {
+        if (returned instanceof E2eSummarable) {
             @SuppressWarnings("unchecked")
-            E2eResultSummary summary = (E2eResultSummary) returned;
+            E2eSummarable summary = (E2eSummarable) returned;
             if (!summary.wasSuccessful()) {
                 EmailData emailData = EmailData.create(config, summary);
                 emailService.sendEmail(emailData);

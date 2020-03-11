@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.extern.log4j.Log4j2;
 import org.apache.cxf.jaxrs.utils.HttpUtils;
 import org.scadalts.e2e.common.config.E2eConfiguration;
+import org.scadalts.e2e.common.utils.StabilityUtil;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
@@ -33,7 +34,7 @@ public class CmpServiceObject implements WebServiceObject {
 
     public Optional<E2eResponse<CmpParams>> set(CmpParams cmpParams, long timeout) {
         try {
-            E2eResponse<CmpParams> response = applyWhile(this::_set, cmpParams, timeout);
+            E2eResponse<CmpParams> response = applyWhile(this::_set, cmpParams, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);

@@ -1,12 +1,11 @@
 package org.scadalts.e2e.test.impl.tests.check.login;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.page.impl.pages.LoginPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,18 +17,11 @@ public class LoginCheckTest {
 
     @Before
     public void setup() {
-        if(E2eAbstractRunnable.isLogged()) {
-            navigationPage = E2eAbstractRunnable.getNavigationPage();
+        if(TestWithPageUtil.isLogged()) {
+            navigationPage = TestWithPageUtil.getNavigationPage();
             navigationPage.logout();
         }
         loginPage = LoginPage.openPage();
-    }
-
-    @After
-    public void logout() {
-        if(navigationPage != null) {
-            navigationPage.logout();
-        }
     }
 
     @Test

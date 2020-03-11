@@ -18,7 +18,7 @@ import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPa
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static java.text.MessageFormat.format;
-import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 
@@ -58,6 +58,7 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
     }
 
     public PropertiesDataPointPage selectEventDetectorType(EventDetectorType eventDetectorType) {
+        delay();
         eventDetectorSelect.selectOption(eventDetectorType.getName());
         return this;
     }
@@ -75,55 +76,64 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
     }
 
     public PropertiesDataPointPage setAlias(EventDetectorIdentifier eventDetectorName, int detectorPosition) {
+        delay();
         String css = format(INPUT_ALIAS, detectorPosition);
         $(By.cssSelector(css)).setValue(eventDetectorName.getValue());
         return this;
     }
 
     public PropertiesDataPointPage setXid(Xid eventDetectorXid, int detectorPosition) {
+        delay();
         String css = format(INPUT_XID, detectorPosition);
         $(By.cssSelector(css)).setValue(eventDetectorXid.getValue());
         return this;
     }
 
     public PropertiesDataPointPage selectAlarmLevel(AlarmLevel alarmLevel, int detectorPosition) {
+        delay();
         String css = format(SELECT_ALARM_LIST, detectorPosition);
         $(By.cssSelector(css)).selectOption(alarmLevel.getName());
         return this;
     }
 
     public AlarmLevel getAlarmLevelFirst() {
+        delay();
         String value = $(By.cssSelector(GET_FIRST_SELECT_ALARM_LIST)).getText();
         return AlarmLevel.getType(value);
     }
 
     public Xid getXidFirst() {
+        delay();
         String value = $(By.cssSelector(GET_FIRST_INPUT_XID)).getValue();
         return new Xid(value);
     }
 
     public EventDetectorIdentifier getAliasFirst() {
+        delay();
         String value = $(By.cssSelector(GET_FIRST_INPUT_ALIAS)).getValue();
         return new EventDetectorIdentifier(value);
     }
 
     public PropertiesDataPointPage saveDataPoint() {
+        delay();
         saveDataPoint.click();
         return this;
     }
 
     public EditDataSourceWithPointListPage editDataSource() {
-        editDataSource.click();
-        acceptAlert();
+        delay();
+        acceptAlertAfterClick(editDataSource);
         return editDataSourceWithPointListPage;
     }
 
     public PropertiesDataPointPage addEventDetector() {
+        delay();
         addEventDetector.click();
         return this;
     }
 
     public PropertiesDataPointPage deleteEventDetector(EventDetectorCriteria criteria) {
+        delay();
         ElementsCollection elements = waitWhile(eventDetectorTable, not(Condition.visible)).$$(By.tagName("tbody"));
         for (SelenideElement element: elements) {
             ElementsCollection inputs = element.$$(By.tagName("input"));
@@ -139,8 +149,11 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
 
     @Override
     public boolean containsObject(CriteriaObject criteria) {
+        delay();
         ElementsCollection elements = waitWhile(eventDetectorTable, not(Condition.visible)).$$(By.tagName("input"));
+        logger.info("number detectors: {}", elements.size()/2);
         for (SelenideElement element: elements) {
+            logger.debug("element: {}", element);
             String value = element.getValue();
             if(value != null && value.equals(criteria.getIdentifier().getValue()))
                 return true;
@@ -148,12 +161,19 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
         return false;
     }
 
+    public PropertiesDataPointPage waitOnPageWhileNotVisible(EventDetectorCriteria eventDetectorCriteria) {
+        waitWhile(a -> !this.containsObject(a), eventDetectorCriteria);
+        return this;
+    }
+
     public PropertiesDataPointPage waitOnEventDetectorTable() {
+        delay();
         waitWhileNotVisible(eventDetectorTable);
         return this;
     }
 
     public String getEventDetectorTableHtml() {
+        delay();
         return waitWhileNotVisible(eventDetectorTable).innerHtml();
     }
 

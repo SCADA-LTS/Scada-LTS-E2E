@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.impl.tests.check.pointlinks;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -8,16 +9,17 @@ import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
+import org.scadalts.e2e.test.impl.runners.TestParameterizedWithoutPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
-import org.scadalts.e2e.test.impl.utils.ServiceTestsUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(E2eTestParameterizedRunner.class)
+@Ignore
+@RunWith(TestParameterizedWithoutPageRunner.class)
 public class ChangePointValueViaPointLinksCheckTest {
 
     @Parameterized.Parameters(name = "{index}: value:{0}")
@@ -44,7 +46,7 @@ public class ChangePointValueViaPointLinksCheckTest {
                 .build();
 
         //when:
-        E2eResponse<CmpParams> setResponse = ServiceTestsUtil.setValue(cmpParams);
+        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
         CmpParams setResult = setResponse.getValue();
 
         //then:
@@ -55,7 +57,7 @@ public class ChangePointValueViaPointLinksCheckTest {
         assertEquals(expectedValue, setResult.getValue());
 
         //and when:
-        E2eResponse<PointValueResponse> getResponse = ServiceTestsUtil.getValue(pointValueParams, expectedValue);
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams, expectedValue);
         PointValueResponse getResult = getResponse.getValue();
 
         //then:

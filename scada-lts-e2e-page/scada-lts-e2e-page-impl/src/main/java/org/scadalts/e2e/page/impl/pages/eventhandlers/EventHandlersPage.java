@@ -8,7 +8,6 @@ import org.scadalts.e2e.page.core.criterias.CssClass;
 import org.scadalts.e2e.page.core.criterias.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
-import org.scadalts.e2e.page.core.utils.DynamicElementUtil;
 import org.scadalts.e2e.page.core.utils.RegexFactory;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventHandlerCriteria;
@@ -17,7 +16,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.codeborne.selenide.Selenide.page;
-import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
+import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findActionInNodeInTree;
 
 
 public class EventHandlersPage extends MainPageObjectAbstract<EventHandlersPage> {
@@ -34,27 +34,28 @@ public class EventHandlersPage extends MainPageObjectAbstract<EventHandlersPage>
     }
 
     public EditEventHandlersPage openEventHandlerCreator(EventDetectorCriteria criteria) {
+        delay();
         NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getDataSourcePointCriteria().getIdentifier(), Tag.div(), new CssClass("dojoTreeNode"));
         NodeCriteria nodeCriteria2 = NodeCriteria.criteria(criteria.getIdentifier(), Tag.div());
-        DynamicElementUtil.findActionInNodeInTree(tree, SELECT_NODE_PLUS_BY, nodeCriteria,nodeCriteria2).click();
-        acceptAlert();
-        acceptAlert();
+        SelenideElement selenideElement = findActionInNodeInTree(this, tree, SELECT_NODE_PLUS_BY, nodeCriteria,nodeCriteria2);
+        acceptAlertAfterClick(selenideElement);
         return page(new EditEventHandlersPage(this));
     }
 
     public EditEventHandlersPage openEventHandlerEditor(EventHandlerCriteria criteria) {
+        delay();
         NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getEventDetectorCriteria()
                 .getDataSourcePointCriteria().getIdentifier(), Tag.div(), new CssClass("dojoTreeNode"));
         NodeCriteria nodeCriteria2 = NodeCriteria.criteria(criteria.getEventDetectorCriteria().getIdentifier(), Tag.div());
         NodeCriteria nodeCriteria3 = NodeCriteria.criteria(criteria.getIdentifier(), Tag.span());
-        DynamicElementUtil.findActionInNodeInTree(tree,SELECT_NODE_PLUS_BY,nodeCriteria,nodeCriteria2,nodeCriteria3).click();
-        acceptAlert();
-        acceptAlert();
+        SelenideElement selenideElement = findActionInNodeInTree(this, tree,SELECT_NODE_PLUS_BY,nodeCriteria,nodeCriteria2,nodeCriteria3);
+        acceptAlertAfterClick(selenideElement);
         return page(new EditEventHandlersPage(this));
     }
 
     @Override
     public boolean containsObject(CriteriaObject criteria) {
+        delay();
         String bodyText = getBodyHtml();
         Pattern pattern = Pattern.compile(RegexFactory.identifier(criteria.getIdentifier()));
         Matcher matcher = pattern.matcher(bodyText);

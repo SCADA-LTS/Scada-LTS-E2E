@@ -3,7 +3,7 @@ package org.scadalts.e2e.page.impl.pages.watchlist;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
@@ -17,8 +17,8 @@ import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.or;
 import static com.codeborne.selenide.Selenide.page;
 import static org.scadalts.e2e.common.utils.FormatUtil.unformat;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
-import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 @Log4j2
@@ -36,7 +36,7 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         super(source, TITLE);
     }
 
-    private static final By SELECTOR_ACTION_ADD_TO_WATCH_BY = By.cssSelector("span[class='dojoTreeNodeLabelTitle']");
+    private static final By SELECTOR_ACTION_ADD_TO_WATCH_LIST_BY = By.cssSelector("span[class='dojoTreeNodeLabelTitle']");
     private static final By SELECTOR_ACTION_EDIT_DATA_POINT_VALUE_BY = By.cssSelector("td[onclick*='showChange']");
     private static final By SELECTOR_ACTION_CLOSE_EDIT_BY = By.cssSelector("div[ondblclick='hideLayer(this);']");
     private static final By SELECTOR_INPUT_BY = By.cssSelector("input[id*='txtChange']");
@@ -51,15 +51,17 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     }
 
     public WatchListPage addToWatchList(DataSourcePointCriteria criteria) {
-        _findActionInSpan(criteria, SELECTOR_ACTION_ADD_TO_WATCH_BY).click();
+        _findActionInSpan(criteria, SELECTOR_ACTION_ADD_TO_WATCH_LIST_BY).click();
         return this;
     }
 
     public String getWatchListText() {
+        delay();
         return waitWhile(watchListTable, not(Condition.visible)).getText();
     }
 
     public boolean isVisibleWatchList() {
+        delay();
         return watchListTable.is(Condition.visible);
     }
 
@@ -69,9 +71,10 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     }
 
     public String getDataPointValue(DataSourcePointCriteria criteria) {
+        delay();
         SelenideElement value = _findActionInTBody(criteria, SELECTOR_GET_VALUE_BY);
         String textValue = value.getText();
-        if(ObjectUtils.isEmpty(textValue)) {
+        if(StringUtils.isBlank(textValue)) {
             value = waitWhile(value, Condition.empty);
         }
         String text = value.getText();
@@ -79,10 +82,11 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     }
 
     public String getDataPointValue(DataSourcePointCriteria criteria, String expectedValue) {
+        delay();
         SelenideElement value = _findActionInTBody(criteria, SELECTOR_GET_VALUE_BY);
         String textValue = value.getText();
         String unformattedValue = unformat(expectedValue);
-        if(ObjectUtils.isEmpty(textValue) || !textValue.equals(unformattedValue)) {
+        if(StringUtils.isBlank(textValue) || !textValue.equals(unformattedValue)) {
             value = waitWhile(value, or("is not text: " + expectedValue, not(Condition.exactText(unformattedValue))));
         }
         String text = value.getText();
@@ -110,8 +114,9 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     }
 
     public WatchListPage deleteFromWatchList(DataSourcePointCriteria criteria) {
-        _findActionInTBody(criteria, SELECTOR_DELETE_FROM_WATCH_LIST_BY).click();
-        acceptAlert();
+        delay();
+        SelenideElement selenideElement = _findActionInTBody(criteria, SELECTOR_DELETE_FROM_WATCH_LIST_BY);
+        acceptAlertAfterClick(selenideElement);
         return this;
     }
 
@@ -121,11 +126,13 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     }
 
     private SelenideElement _findActionInSpan(DataSourcePointCriteria criteria, By selectAction) {
+        delay();
         NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.span());
         return findAction(nodeCriteria, selectAction, treeDiv);
     }
 
     private SelenideElement _findActionInTBody(DataSourcePointCriteria criteria, By selectAction) {
+        delay();
         NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tbody());
         return findAction(nodeCriteria, selectAction, watchListTable);
     }

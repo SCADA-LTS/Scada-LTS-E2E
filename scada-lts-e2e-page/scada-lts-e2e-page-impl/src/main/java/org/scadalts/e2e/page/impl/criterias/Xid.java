@@ -36,7 +36,7 @@ public class Xid {
     }
 
     public static Xid xidForPointLink() {
-        return new Xid(GRAPHICAL_VIEW_PREFIX + _generate());
+        return new Xid(POINT_LINK_PREFIX + _generate());
     }
 
     public static Xid xidForEventDetector() {

@@ -40,12 +40,14 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
     }
 
     public int getNumberOfViews() {
+        delay();
         return new Select(select)
                 .getOptions()
                 .size();
     }
 
     public Set<String> getViewNames() {
+        delay();
         return new Select(select)
                 .getOptions()
                 .stream()
@@ -54,6 +56,7 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
     }
 
     public Set<String> getViewIdentifiers() {
+        delay();
         return new Select(select)
                 .getOptions()
                 .stream()
@@ -63,6 +66,7 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
     }
 
     public Map<String, String> getDataAllViews() {
+        delay();
         return new Select(select)
                 .getOptions()
                 .stream()
@@ -71,20 +75,24 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
     }
 
     public GraphicalViewsPage selectViewByName(GraphicalViewIdentifier viewName) {
+        delay();
         _selectViewAndGetIdByName(viewName);
         return this;
     }
 
     public boolean isSelectedView(GraphicalViewIdentifier viewName) {
+        delay();
         return select.getSelectedOption().has(Condition.text(viewName.getValue()));
     }
 
     public EditGraphicalViewPage openViewCreator() {
+        delay();
         waitWhile(creator, not(Condition.visible)).click();
         return page(new EditGraphicalViewPage(this));
     }
 
     public GraphicalViewsPage waitOnLoadedBackground() {
+        delay();
         waitWhile($(By.id("viewBackground")), not(Condition.visible));
         return this;
     }
@@ -100,6 +108,7 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
     }
 
     private EditGraphicalViewPage _openViewEditor(String viewId) {
+        delay();
         String query = MessageFormat.format("a[href=''view_edit.shtm?viewId={0}'']", viewId);
         $(By.cssSelector(query)).click();
         return page(new EditGraphicalViewPage(this));

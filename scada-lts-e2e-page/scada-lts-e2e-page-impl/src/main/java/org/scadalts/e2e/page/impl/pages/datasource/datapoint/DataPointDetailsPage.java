@@ -48,6 +48,7 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
     }
 
     public DataPointDetailsPage setDataPointValue(String value) {
+        delay();
         refreshWhile(valueInput, not(Condition.visible));
         valueInput.clear();
         valueInput.setValue(value);
@@ -55,6 +56,7 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
     }
 
     public DataPointDetailsPage confirmDataPointValue() {
+        delay();
         setButton.click();
         return this;
     }
@@ -64,6 +66,7 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
     }
 
     public String getDataPointValue(String expectedValue) {
+        delay();
         String value = unformat(expectedValue);
         SelenideElement field = refreshWhile(valueField, or("is not text: " + expectedValue, not(Condition.exactText(value))));
         String text = field.getText();
@@ -71,6 +74,7 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
     }
 
     public List<String> getValuesFromHistory() {
+        delay();
         return findObjects(3, historyTableData).stream()
                 .map(SelenideElement::getText)
                 .map(FormatUtil::unformat)
@@ -78,6 +82,7 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
     }
 
     public int getHistoryLimit() {
+        delay();
         return parseIntValueFormatted(waitWhile(historyLimit, Condition.empty).getValue());
     }
 }

@@ -2,7 +2,6 @@ package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.*;
 import org.scadalts.e2e.common.dicts.DictionaryObject;
-import org.scadalts.e2e.common.dicts.EmptyType;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 
@@ -30,7 +29,7 @@ public class GraphicalViewCriteria implements CriteriaObject, GetXid {
 
     @Override
     public DictionaryObject getType() {
-        return EmptyType.ANY;
+        return DictionaryObject.ANY;
     }
 
     @Override

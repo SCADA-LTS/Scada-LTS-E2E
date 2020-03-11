@@ -1,12 +1,16 @@
 package org.scadalts.e2e.page.impl.pages.pointlinks;
 
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 import org.scadalts.e2e.page.impl.dicts.EventType;
+
+import static com.codeborne.selenide.Condition.not;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsPage> {
 
@@ -41,56 +45,67 @@ public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsP
     }
 
     public PointLinksDetailsPage setPoints(PointLinkCriteria criteria) {
+        delay();
         IdentifierObject source = criteria.getSource().getIdentifier();
         IdentifierObject target = criteria.getTarget().getIdentifier();
-        this.sourcePointId.selectOption(source.getValue());
-        this.targetPointId.selectOption(target.getValue());
+        waitWhile(sourcePointId, not(Condition.visible)).selectOption(source.getValue());
+        waitWhile(targetPointId, not(Condition.visible)).selectOption(target.getValue());
         return this;
     }
 
     public PointLinksDetailsPage setScript(String script) {
+        delay();
         this.script.clear();
         this.script.setValue(script);
         return this;
     }
 
     public PointLinksDetailsPage setEventType(EventType eventType) {
+        delay();
         this.event.selectOption(eventType.getName());
         return this;
     }
 
     public PointLinksDetailsPage disabled() {
+        delay();
         this.disabled.click();
         return this;
     }
 
     public PointLinksPage deletePointLink() {
+        delay();
         deletePointLink.click();
         return pointLinksPage;
     }
 
     public PointLinksPage savePointLink() {
+        delay();
         savePointLink.click();
         return pointLinksPage;
     }
 
     public String getSourcePointIdText() {
+        delay();
         return sourcePointId.getText();
     }
 
     public String getTargetPointIdText() {
+        delay();
         return targetPointId.getText();
     }
 
     public String getScript() {
+        delay();
         return script.getValue();
     }
 
-    public EventType getEvent() {
+    public EventType getEventType() {
+        delay();
         return EventType.getType(event.getText());
     }
 
     public boolean isDisabled() {
+        delay();
         return disabled.isEnabled();
     }
 

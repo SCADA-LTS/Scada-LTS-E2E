@@ -15,26 +15,29 @@ import static org.scadalts.e2e.common.utils.FileUtil.getFileFromJar;
 public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViewsPage, GraphicalViewsPage> {
 
     private final NavigationPage navigationPage;
-    private final GraphicalViewCriteria criteria;
+    private final GraphicalViewCriteria[] graphicalViewCriterias;
     private final static File BACKGROUND_FILE = _getBackgroundFile("image/background-test.png");
     private final static File BACKGROUND_SMALL_FILE = _getBackgroundFile("image/background-small-test.png");
 
     @Getter
     private GraphicalViewsPage graphicalViewsPage;
 
-    public GraphicalViewObjectsCreator(NavigationPage navigationPage, GraphicalViewCriteria criteria) {
+    public GraphicalViewObjectsCreator(NavigationPage navigationPage, GraphicalViewCriteria... graphicalViewCriterias) {
         this.navigationPage = navigationPage;
-        this.criteria = criteria;
+        this.graphicalViewCriterias = graphicalViewCriterias;
     }
 
     @Override
     public GraphicalViewsPage deleteObjects() {
         GraphicalViewsPage page = openPage();
-        if(page.containsObject(criteria)) {
-            logger.debug("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
-                    criteria.getType(), criteria.getXid().getValue());
-            page.openViewEditor(criteria)
-                    .delete();
+        for (GraphicalViewCriteria criteria : graphicalViewCriterias) {
+            if(page.containsObject(criteria)) {
+                logger.info("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
+                        criteria.getType(), criteria.getXid().getValue());
+                page.openViewEditor(criteria)
+                        .delete()
+                        .reopen();
+            }
         }
         return page;
     }
@@ -42,16 +45,19 @@ public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViews
     @Override
     public GraphicalViewsPage createObjects() {
         GraphicalViewsPage page = openPage();
-        if(!page.containsObject(criteria)) {
-            logger.info("create object: {}, type: {}", criteria.getIdentifier().getValue(), criteria.getType());
-            page.openViewCreator()
-                    .chooseFile(BACKGROUND_FILE)
-                    .uploadFile()
-                    .setViewName(criteria.getIdentifier())
-                    .selectComponentByName("Alarms List")
-                    .addViewComponent()
-                    .dragAndDropViewComponent()
-                    .save();
+        for (GraphicalViewCriteria criteria : graphicalViewCriterias) {
+            if (!page.containsObject(criteria)) {
+                logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
+                        criteria.getType(), criteria.getXid().getValue());
+                page.openViewCreator()
+                        .chooseFile(BACKGROUND_FILE)
+                        .uploadFile()
+                        .setViewName(criteria.getIdentifier())
+                        .selectComponentByName("Alarms List")
+                        .addViewComponent()
+                        .dragAndDropViewComponent()
+                        .save();
+            }
         }
         return page;
     }

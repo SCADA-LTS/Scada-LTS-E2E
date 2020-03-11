@@ -9,8 +9,7 @@ import org.scadalts.e2e.page.impl.criterias.EventHandlerCriteria;
 import org.scadalts.e2e.page.impl.criterias.ScriptCriteria;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegister;
-import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegisterAggregator;
-import org.scadalts.e2e.test.impl.config.auto.tasks.ConfigureTestEventDetectorCommand;
+import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.ConfigureTestEventDetectorCommand;
 import org.scadalts.e2e.test.impl.config.auto.tasks.checks.sub.ConfigDataSourcePointSubCheck;
 import org.scadalts.e2e.test.impl.config.auto.tasks.checks.sub.ConfigEventDetectorSubCheck;
 import org.scadalts.e2e.test.impl.config.auto.tasks.checks.sub.ConfigEventHandlerSubCheck;
@@ -26,14 +25,8 @@ public class ConfigForTestEventDetectorCheck implements Check<EventDetectorCheck
 
     @Before
     public void execute() {
-        CriteriaRegisterAggregator creatorObjectByTestAggregator = CriteriaRegisterAggregator.INSTANCE;
 
-        if(!creatorObjectByTestAggregator.containsRegister(getClassTarget())) {
-            ConfigureTestEventDetectorCommand configureTestEventDetectorCommand = new ConfigureTestEventDetectorCommand(navigationPage);
-            configureTestEventDetectorCommand.execute();
-        }
-
-        CriteriaRegister register = creatorObjectByTestAggregator.getRegister(getClassTarget());
+        CriteriaRegister register = CriteriaRegister.getRegister(getClassTest(), new ConfigureTestEventDetectorCommand(navigationPage));
 
         Set<DataSourcePointCriteria> dataSourcePointCriterias = register.get(DataSourcePointCriteria.class);
         ConfigDataSourcePointSubCheck checkConfigDataSourcePointSubTask = new ConfigDataSourcePointSubCheck(navigationPage, dataSourcePointCriterias);
@@ -48,12 +41,13 @@ public class ConfigForTestEventDetectorCheck implements Check<EventDetectorCheck
         checkScriptSubTask.check();
 
         Set<EventHandlerCriteria> eventHandlerCriterias = register.get(EventHandlerCriteria.class);
-        ConfigEventHandlerSubCheck checkEventHandlerSubTask = new ConfigEventHandlerSubCheck(navigationPage,eventHandlerCriterias);
+        ConfigEventHandlerSubCheck checkEventHandlerSubTask = new ConfigEventHandlerSubCheck(navigationPage, eventHandlerCriterias);
         checkEventHandlerSubTask.check();
+
     }
 
     @Override
-    public Class<EventDetectorCheckTest> getClassTarget() {
+    public Class<EventDetectorCheckTest> getClassTest() {
         return EventDetectorCheckTest.class;
     }
 

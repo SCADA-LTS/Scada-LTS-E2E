@@ -6,15 +6,15 @@ import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 import org.scadalts.e2e.page.impl.dicts.EventType;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
+import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 
-@RunWith(E2eTestParameterizedRunner.class)
+@RunWith(TestParameterizedWithPageRunner.class)
 public class DeletePointLinksPageTest {
 
     @Parameterized.Parameters(name = "{index}: script: {0}, {1}")
@@ -40,7 +40,7 @@ public class DeletePointLinksPageTest {
 
     @BeforeClass
     public static void setup() {
-        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(E2eAbstractRunnable.getNavigationPage());
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage());
         allObjectsForPointLinkTestCreator.getDataSourcesAndPointsPageTestsCreator().createObjects();
         pointLinksPageSubject = allObjectsForPointLinkTestCreator.openPage();
         criteria = allObjectsForPointLinkTestCreator.getCriteria();

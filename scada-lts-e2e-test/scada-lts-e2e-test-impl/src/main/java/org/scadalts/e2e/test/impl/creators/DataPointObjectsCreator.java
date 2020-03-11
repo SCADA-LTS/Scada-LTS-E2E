@@ -88,7 +88,7 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
     }
 
     private EditDataSourceWithPointListPage _deleteDataPoint(EditDataSourceWithPointListPage page, DataPointCriteria criteria) {
-        logger.debug("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(), criteria.getType(),
+        logger.info("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(), criteria.getType(),
                 criteria.getXid().getValue());
         return page.openDataPointEditor(criteria)
                 .deleteDataPoint();

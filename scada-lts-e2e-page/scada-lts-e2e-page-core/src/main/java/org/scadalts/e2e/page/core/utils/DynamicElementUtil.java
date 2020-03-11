@@ -9,38 +9,54 @@ import org.scadalts.e2e.page.core.criterias.ActionCriteria;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.core.criterias.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
-import org.scadalts.e2e.page.core.exceptions.DynamicElementException;
+import org.scadalts.e2e.page.core.pages.MainPageObject;
 
 import static com.codeborne.selenide.Condition.not;
-import static org.scadalts.e2e.common.utils.ExecutorUtil.execute;
-import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.refreshWhile;
-import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.*;
 
 @Log4j2
 public abstract class DynamicElementUtil {
 
-    public static SelenideElement findAction(NodeCriteria criteria, By selectAction, SelenideElement source) throws DynamicElementException {
+    public static SelenideElement findAction(NodeCriteria criteria, By selectAction, SelenideElement source) {
         ActionCriteria actionCriteria = new ActionCriteria(criteria, selectAction);
-        return execute(DynamicElementUtil::_findAction, actionCriteria, source, DynamicElementException::new);
+        return _findAction(actionCriteria,source);
     }
 
-    public static SelenideElement findObject(NodeCriteria criteria, SelenideElement source) throws DynamicElementException {
-        return execute(DynamicElementUtil::_findAction, criteria, source, DynamicElementException::new);
+    public static SelenideElement findObject(NodeCriteria criteria, SelenideElement source) {
+        return _findObject(criteria, source);
     }
 
-    public static SelenideElement findActionInNodeInTree(SelenideElement source, By selectAction, NodeCriteria... nodeCriterias) throws DynamicElementException {
+    public static SelenideElement findActionInNodeInTree(SelenideElement source, By selectAction,
+                                                         NodeCriteria... nodeCriterias) {
         if(nodeCriterias.length == 0)
             throw new IllegalArgumentException();
-        return execute(DynamicElementUtil::_findActionInNodeInTree, source, selectAction, nodeCriterias, DynamicElementException::new);
+        return _findActionInNodeInTree(source, selectAction, nodeCriterias);
     }
 
-    public static SelenideElement findNodeClickableInTree(SelenideElement source, NodeCriteria... nodeCriterias) throws DynamicElementException {
+    public static <T extends MainPageObject<T>> SelenideElement findActionInNodeInTree(MainPageObject<T> page,
+                                                                                       SelenideElement source,
+                                                                                       By selectAction,
+                                                                                       NodeCriteria... nodeCriterias) {
         if(nodeCriterias.length == 0)
             throw new IllegalArgumentException();
-        return execute(DynamicElementUtil::_findNodeClickableInTree, source, nodeCriterias, DynamicElementException::new);
+        return _findActionInNodeInTreeReopen(page, source, selectAction, nodeCriterias);
     }
 
-    public static ElementsCollection findObjects(int every, SelenideElement source) throws DynamicElementException {
+    public static SelenideElement findNodeClickableInTree(SelenideElement source, NodeCriteria... nodeCriterias)  {
+        if(nodeCriterias.length == 0)
+            throw new IllegalArgumentException();
+        return _findNodeClickableInTree(source, nodeCriterias);
+    }
+
+    public static <T extends MainPageObject<T>> SelenideElement findNodeClickableInTree(MainPageObject<T> page,
+                                                                                        SelenideElement source,
+                                                                                        NodeCriteria... nodeCriterias)  {
+        if(nodeCriterias.length == 0)
+            throw new IllegalArgumentException();
+        return _findNodeClickableInTreeReopen(page, source, nodeCriterias);
+    }
+
+    public static ElementsCollection findObjects(int every, SelenideElement source) {
         String xpath = XpathFactory.xpathEveryXElementFirst(every, Tag.td());
         logger.info("xpath: {}", xpath);
 
@@ -50,7 +66,7 @@ public abstract class DynamicElementUtil {
         return elements;
     }
 
-    private static SelenideElement _findAction(NodeCriteria criteria, SelenideElement source) {
+    private static SelenideElement _findObject(NodeCriteria criteria, SelenideElement source) {
         SelenideElement reloadedElement = _prepareSource(criteria, source);
         return _findObjectWithActions(criteria, reloadedElement);
     }
@@ -92,8 +108,41 @@ public abstract class DynamicElementUtil {
         return elementParent;
     }
 
+    private static <T extends MainPageObject<T>> SelenideElement _findActionInNodeInTreeReopen(MainPageObject<T> page,
+                                                                                               SelenideElement source,
+                                                                                               By selectAction,
+                                                                                               NodeCriteria[] nodeCriterias) {
+        SelenideElement elementParent = reopenWhile(page, findObject(nodeCriterias[0], source), not(Condition.visible));
+        waitWhile(elementParent.$(selectAction), not(Condition.visible)).click();
+        for (NodeCriteria nodeCriteria : nodeCriterias) {
+            if(!nodeCriterias[0].equals(nodeCriteria)) {
+                elementParent = waitWhile(findObject(nodeCriteria, elementParent), not(Condition.visible));
+                if(!nodeCriterias[nodeCriterias.length - 1].equals(nodeCriteria)) {
+                    waitWhile(elementParent.$(selectAction), not(Condition.visible)).click();
+                }
+            }
+        }
+        return elementParent;
+    }
+
     private static SelenideElement _findNodeClickableInTree(SelenideElement source, NodeCriteria[] nodeCriterias) {
         SelenideElement elementParent = refreshWhile(findObject(nodeCriterias[0], source), not(Condition.visible));
+        elementParent.click();
+        for (NodeCriteria nodeCriteria : nodeCriterias) {
+            if(!nodeCriterias[0].equals(nodeCriteria)) {
+                elementParent = waitWhile(findObject(nodeCriteria, elementParent), not(Condition.visible));
+                if(!nodeCriterias[nodeCriterias.length - 1].equals(nodeCriteria)) {
+                    elementParent.click();
+                }
+            }
+        }
+        return elementParent;
+    }
+
+    private static <T extends MainPageObject<T>> SelenideElement _findNodeClickableInTreeReopen(MainPageObject<T> page,
+                                                                  SelenideElement source,
+                                                                  NodeCriteria[] nodeCriterias) {
+        SelenideElement elementParent = reopenWhile(page, findObject(nodeCriterias[0], source), not(Condition.visible));
         elementParent.click();
         for (NodeCriteria nodeCriteria : nodeCriterias) {
             if(!nodeCriterias[0].equals(nodeCriteria)) {

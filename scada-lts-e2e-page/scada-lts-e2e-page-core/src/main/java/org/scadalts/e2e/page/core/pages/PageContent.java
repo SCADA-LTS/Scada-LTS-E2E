@@ -7,8 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.codeborne.selenide.Selenide.$;
-import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
-import static org.scadalts.e2e.page.core.utils.E2eUtil.dismissAlert;
+import static com.codeborne.selenide.Selenide.switchTo;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 
 interface PageContent<T extends PageObject<T>> extends GetPage<T> {
@@ -39,13 +38,21 @@ interface PageContent<T extends PageObject<T>> extends GetPage<T> {
         return getBodyText().contains(text);
     }
 
-    default T acceptAlertIfExists() {
-        acceptAlert();
+    default T acceptAlertOnPage() {
+        try {
+            switchTo().alert().accept();
+        } catch (Exception ex) {
+
+        }
         return getPage();
     }
 
-    default T dismissAlertIfExists() {
-        dismissAlert();
+    default T dismissAlertOnPage() {
+        try {
+            switchTo().alert().dismiss();
+        } catch (Exception ex) {
+
+        }
         return getPage();
     }
 }

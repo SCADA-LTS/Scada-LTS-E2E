@@ -116,6 +116,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
                 .identifier(identifier)
                 .startValue(String.valueOf(startValue))
                 .settable(true)
+                .enabled(true)
                 .xid(xid)
                 .build();
     }

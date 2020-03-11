@@ -9,7 +9,7 @@ import org.scadalts.e2e.service.impl.services.LoginServiceObject;
 import org.scadalts.e2e.service.impl.services.ServiceObjectFactory;
 import org.scadalts.e2e.service.impl.services.login.LoginParams;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
-import org.scadalts.e2e.test.impl.utils.ServiceTestsUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.Optional;
 
@@ -24,7 +24,7 @@ public class LoginServiceTest {
     @Before
     public void setup() {
         loginServiceObject = ServiceObjectFactory.newLoginServiceObject();
-        if(ServiceTestsUtil.isLogged()) {
+        if(TestWithoutPageUtil.isLogged()) {
             loginServiceObject.logout(TestImplConfiguration.timeout);
         }
     }

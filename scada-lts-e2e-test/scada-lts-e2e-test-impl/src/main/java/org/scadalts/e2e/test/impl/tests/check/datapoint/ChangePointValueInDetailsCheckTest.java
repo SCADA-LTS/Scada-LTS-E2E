@@ -6,21 +6,23 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.*;
+import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.util.Collection;
 
 import static org.junit.Assert.*;
 
 @Log4j2
-@RunWith(E2eTestParameterizedRunner.class)
+@RunWith(TestParameterizedWithPageRunner.class)
 public class ChangePointValueInDetailsCheckTest {
 
     @Parameterized.Parameters(name = "{index}:{0}")
@@ -43,7 +45,7 @@ public class ChangePointValueInDetailsCheckTest {
         DataPointCriteria dataPointCriteria = DataPointCriteria.numericNoChange(new DataPointIdentifier(TestImplConfiguration.dataPointName));
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
 
-        dataPointDetailsPageSubject = E2eAbstractRunnable.getNavigationPage().openWatchList()
+        dataPointDetailsPageSubject = TestWithPageUtil.getNavigationPage().openWatchList()
                 .openDataPointDetails(dataSourcePointCriteria);
     }
 

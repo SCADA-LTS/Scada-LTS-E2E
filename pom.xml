@@ -782,7 +782,7 @@
                 <test.e2e.env>dev</test.e2e.env>
                 <test.e2e.test-plan>ALL</test.e2e.test-plan>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>12000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
@@ -839,7 +839,7 @@
                 <test.e2e.env>dev-local</test.e2e.env>
                 <test.e2e.test-plan>ALL</test.e2e.test-plan>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>12000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>

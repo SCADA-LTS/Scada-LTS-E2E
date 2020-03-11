@@ -10,15 +10,15 @@ import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.test.impl.creators.GraphicalViewObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.io.File;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 
-@RunWith(E2eTestParameterizedRunner.class)
+@RunWith(TestParameterizedWithPageRunner.class)
 public class CreateGraphicalViewPageTest {
 
     @Parameterized.Parameters(name = "{index}: {0} {1}")
@@ -29,7 +29,7 @@ public class CreateGraphicalViewPageTest {
 
         return new Object[][] {
                 {IdentifierObjectFactory.viewName(), background},
-                {IdentifierObjectFactory.viewName(), backgroundSmall}
+//                {IdentifierObjectFactory.viewName(), backgroundSmall}
         };
     }
 
@@ -47,7 +47,7 @@ public class CreateGraphicalViewPageTest {
     @Before
     public void setup() {
         GraphicalViewCriteria criteria = GraphicalViewCriteria.criteria(identifier);
-        graphicalViewObjectsCreator = new GraphicalViewObjectsCreator(E2eAbstractRunnable.getNavigationPage(), criteria);
+        graphicalViewObjectsCreator = new GraphicalViewObjectsCreator(TestWithPageUtil.getNavigationPage(), criteria);
         graphicalViewsPageSubject = graphicalViewObjectsCreator.openPage();
     }
 

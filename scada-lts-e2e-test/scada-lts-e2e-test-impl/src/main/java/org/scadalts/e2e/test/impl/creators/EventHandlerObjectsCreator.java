@@ -23,10 +23,12 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
         EventHandlersPage eventHandlersPage = openPage();
         for (EventHandlerCriteria criteria: eventHandlerCriterias) {
             if(eventHandlersPage.containsObject(criteria)) {
-                logger.debug("delete object: {}, type: {}", criteria.getIdentifier().getValue(), criteria.getType());
-                eventHandlersPage.reopen()
+                logger.info("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
+                        criteria.getType(), criteria.getXid().getValue());
+                eventHandlersPage
                         .openEventHandlerEditor(criteria)
-                        .deleteEventHandler();
+                        .deleteEventHandler()
+                        .reopen();
             }
         }
         return eventHandlersPage;

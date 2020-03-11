@@ -1,8 +1,10 @@
 package org.scadalts.e2e.page.impl.criterias;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.ToString;
 import org.scadalts.e2e.common.dicts.DictionaryObject;
-import org.scadalts.e2e.common.dicts.EmptyType;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
@@ -60,7 +62,7 @@ public class DataSourcePointCriteria implements CriteriaObject {
 
     @Override
     public DictionaryObject getType() {
-        return EmptyType.ANY;
+        return DictionaryObject.ANY;
     }
 
     @Override

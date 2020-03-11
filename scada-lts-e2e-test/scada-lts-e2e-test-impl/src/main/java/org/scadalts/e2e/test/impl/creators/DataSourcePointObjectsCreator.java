@@ -72,7 +72,7 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
         DataSourcesPage page = openPage();
         for (DataSourceCriteria criteria : criteriaMap.keySet()) {
             if(page.containsObject(criteria)) {
-                logger.debug("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
+                logger.info("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
                         criteria.getType(), criteria.getXid().getValue());
                 page.deleteDataSource(criteria);
             }

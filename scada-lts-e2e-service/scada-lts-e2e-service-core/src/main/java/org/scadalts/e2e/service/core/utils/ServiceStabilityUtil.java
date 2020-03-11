@@ -18,64 +18,33 @@ import static org.scadalts.e2e.common.utils.StabilityUtil.*;
 @Log4j2
 public class ServiceStabilityUtil {
 
-    public static <T, R> E2eResponse<R> applyWhile(Function<T, E2eResponse<R>> function, T arg, long timeout) {
+    public static <T, R> E2eResponse<R> applyWhile(Function<T, E2eResponse<R>> function,
+                                                   T arg, Timeout timeout) {
 
-        long time = System.currentTimeMillis();
-        int i = 0;
-        E2eResponse<R> response = function.apply(arg);
-        logger.debug("response: {}", response);
-        while(_is(timeout, time, i, response)) {
-            logger.info("i: {}", ++i);
-            sleep();
-            response = function.apply(arg);
-        }
-        return response;
+        return StabilityUtil.applyWhile(ServiceStabilityUtil::_is, function, arg, timeout);
     }
 
-    public static <T, R extends GetValueResponse & GetFormattedValueResponse> E2eResponse<R> applyWhile(Function<T, E2eResponse<R>> function,
-                                                                                                        T arg, long timeout, Object expectedValue) {
-        long time = System.currentTimeMillis();
-        int i = 0;
-        E2eResponse<R> response = function.apply(arg);
-        logger.debug("response: {}", response);
-        while(_is(timeout, expectedValue, time, i, response)) {
-            i++;
-            logger.info("i: {}", i);
-            sleep();
-            response = function.apply(arg);
-        }
-        return response;
+    public static <T, R extends GetValueResponse
+            & GetFormattedValueResponse> E2eResponse<R> applyWhile(Function<T, E2eResponse<R>> function,
+                                                                   T arg, Timeout timeout,
+                                                                    Object expectedValue) {
+        return StabilityUtil.applyWhileBi(ServiceStabilityUtil::_is, function,arg,expectedValue,timeout);
     }
 
-    public static <R> E2eResponse<R> applyWhile(Supplier<E2eResponse<R>> function, long timeout) {
-
-        long time = System.currentTimeMillis();
-        int i = 0;
-        E2eResponse<R> response = function.get();
-        logger.debug("response: {}", response);
-        while(_is(timeout, time, i, response)) {
-            i++;
-            logger.info("i: {}", i);
-            sleep();
-            response = function.get();
-        }
-        return response;
+    public static <R> E2eResponse<R> executeWhile(Supplier<E2eResponse<R>> function, Timeout timeout) {
+        return StabilityUtil.executeWhile(ServiceStabilityUtil::_is,function,timeout);
     }
 
-    private static <R extends GetValueResponse & GetFormattedValueResponse> boolean _is(long timeout, Object valueExpected, long time, int i,
-                                                            E2eResponse<R> response) {
+    private static <R> boolean _is(E2eResponse<R> response) {
+        return !_isStatusUnauth(response)
+                && !_isStatusOk(response);
+    }
+
+    private static <R extends GetValueResponse
+            & GetFormattedValueResponse> boolean _is(E2eResponse<R> response, Object valueExpected) {
         return !_isStatusUnauth(response)
                 && !(_isStatusOk(response)
-                && _isValueExpected(response, valueExpected))
-                && !isExceededTimeout(new StabilityUtil.Timeout(timeout), time)
-                && !isExceededLimit(i);
-    }
-
-    private static <R> boolean _is(long timeout, long time, int i, E2eResponse<R> response) {
-        return !_isStatusUnauth(response)
-                && !_isStatusOk(response)
-                && !isExceededTimeout(new StabilityUtil.Timeout(timeout), time)
-                && !isExceededLimit(i);
+                && _isValueExpected(response, valueExpected));
     }
 
     private static <R> boolean _isStatusOk(E2eResponse<R> response) {
@@ -86,7 +55,9 @@ public class ServiceStabilityUtil {
         return response != null && response.getStatus() == 401;
     }
 
-    private static <R extends GetValueResponse & GetFormattedValueResponse> boolean _isValueExpected(E2eResponse<R> response, Object expectedValue) {
+    private static <R extends GetValueResponse
+            & GetFormattedValueResponse> boolean _isValueExpected(E2eResponse<R> response,
+                                                                  Object expectedValue) {
         if(isNull(response))
             return false;
         R result = response.getValue();
@@ -95,12 +66,14 @@ public class ServiceStabilityUtil {
         return _isValueExpected(result, expectedValue) || _isFormattedValueExpected(result, expectedValue);
     }
 
-    private static <R extends GetValueResponse & GetFormattedValueResponse> boolean _isFormattedValueExpected(R result, Object expectedValue) {
+    private static <R extends GetValueResponse
+            & GetFormattedValueResponse> boolean _isFormattedValueExpected(R result, Object expectedValue) {
         return isNotBlank(result.getFormattedValue())
                 && Objects.equals(unformat(result.getFormattedValue()), unformat(expectedValue));
     }
 
     private static <R extends GetValueResponse> boolean _isValueExpected(R result, Object expectedValue) {
-        return isNotBlank(result.getValue()) && Objects.equals(unformat(result.getValue()),  unformat(expectedValue));
+        return isNotBlank(result.getValue())
+                && Objects.equals(unformat(result.getValue()),  unformat(expectedValue));
     }
 }

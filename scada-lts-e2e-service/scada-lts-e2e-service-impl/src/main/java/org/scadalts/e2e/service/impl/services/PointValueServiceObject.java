@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfiguration;
+import org.scadalts.e2e.common.utils.StabilityUtil;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
@@ -29,7 +30,7 @@ public class PointValueServiceObject implements WebServiceObject {
 
     public Optional<E2eResponse<PointValueResponse>> getValue(PointValueParams pointValueParams, long timeout) {
         try {
-            E2eResponse<PointValueResponse> response = applyWhile(this::_getValue, pointValueParams, timeout);
+            E2eResponse<PointValueResponse> response = applyWhile(this::_getValue, pointValueParams, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -39,7 +40,7 @@ public class PointValueServiceObject implements WebServiceObject {
 
     public Optional<E2eResponse<PointValueResponse>> getValue(PointValueParams pointValueParams, long timeout, Object valueExpected) {
         try {
-            E2eResponse<PointValueResponse> response = applyWhile(this::_getValue, pointValueParams, timeout, valueExpected);
+            E2eResponse<PointValueResponse> response = applyWhile(this::_getValue, pointValueParams, new StabilityUtil.Timeout(timeout), valueExpected);
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);

@@ -12,17 +12,17 @@ import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
-import org.scadalts.e2e.test.impl.runners.E2eServiceTestParameterizedRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
-import org.scadalts.e2e.test.impl.utils.ServiceTestsUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(E2eServiceTestParameterizedRunner.class)
+@RunWith(TestParameterizedWithPageRunner.class)
 public class UpdatePointValueViaPointLinksOneDataSourceServiceTest {
 
     @Parameterized.Parameters(name = "{index}: value:{0}")
@@ -54,7 +54,7 @@ public class UpdatePointValueViaPointLinksOneDataSourceServiceTest {
         target = sourcePointTargetCriteria.getDataPoint();
 
         PointLinkCriteria criteria = PointLinkCriteria.update(sourcePointSourceCriteria, sourcePointTargetCriteria);
-        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(E2eAbstractRunnable.getNavigationPage(),
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
                 criteria);
         allObjectsForPointLinkTestCreator.createObjects();
     }
@@ -80,10 +80,10 @@ public class UpdatePointValueViaPointLinksOneDataSourceServiceTest {
                 .build();
 
         //when:
-        ServiceTestsUtil.setValue(cmpParams);
+        TestWithoutPageUtil.setValue(cmpParams);
 
         //and when:
-        E2eResponse<PointValueResponse> getResponse = ServiceTestsUtil.getValue(pointTarget, expectedValue);
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointTarget, expectedValue);
         PointValueResponse getResult = getResponse.getValue();
 
         //then:

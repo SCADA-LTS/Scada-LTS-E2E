@@ -2,7 +2,6 @@ package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.Data;
 import org.scadalts.e2e.common.dicts.DictionaryObject;
-import org.scadalts.e2e.common.dicts.EmptyType;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointVarIdentifier;
@@ -26,7 +25,7 @@ public class DataPointVarCriteria implements CriteriaObject {
 
     @Override
     public DictionaryObject getType() {
-        return EmptyType.ANY;
+        return DictionaryObject.ANY;
     }
 
     @Override

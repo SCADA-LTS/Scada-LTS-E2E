@@ -28,11 +28,13 @@ public class ScriptsPage extends MainPageObjectAbstract<ScriptsPage> {
     }
 
     public EditScriptsPage openScriptCreator() {
+        delay();
         waitWhile(addScript, not(Condition.visible)).click();
         return page(EditScriptsPage.class);
     }
 
     public EditScriptsPage openScriptEditor(ScriptCriteria criteria) {
+        delay();
         NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), Tag.tbody());
         findObject(nodeCriteria, scriptsTable).click();
         return page(EditScriptsPage.class);
