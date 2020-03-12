@@ -23,21 +23,21 @@ public class DeleteDataSourcePageTest {
     private DataSourceIdentifier dataSourceToDeleteName = new DataSourceIdentifier("ds_test_delete" + System.nanoTime());
     private DataSourceCriteria dataSourceToDeleteCriteria;
 
-    private DataSourcePointObjectsCreator dataSourcesPageTestsUtil;
+    private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private DataSourcesPage dataSourcesPageSubject;
 
     @Before
     public void createDataSource() {
         dataSourceToDeleteCriteria = DataSourceCriteria.criteria(dataSourceToDeleteName,
                 UpdatePeriodType.SECOND, DataSourceType.VIRTUAL_DATA_SOURCE);
-        dataSourcesPageTestsUtil = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(), dataSourceToDeleteCriteria);
-        dataSourcesPageTestsUtil.createDataSources();
-        dataSourcesPageSubject = dataSourcesPageTestsUtil.openPage();
+        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(), dataSourceToDeleteCriteria);
+        dataSourcePointObjectsCreator.createDataSources();
+        dataSourcesPageSubject = dataSourcePointObjectsCreator.openPage();
     }
 
     @After
     public void clean() {
-        dataSourcesPageTestsUtil.deleteObjects();
+        dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test

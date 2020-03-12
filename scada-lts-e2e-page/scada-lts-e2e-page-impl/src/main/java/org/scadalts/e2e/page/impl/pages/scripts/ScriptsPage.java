@@ -35,7 +35,7 @@ public class ScriptsPage extends MainPageObjectAbstract<ScriptsPage> {
 
     public EditScriptsPage openScriptEditor(ScriptCriteria criteria) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), Tag.tbody());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getIdentifier(), Tag.tbody());
         findObject(nodeCriteria, scriptsTable).click();
         return page(EditScriptsPage.class);
     }

@@ -9,7 +9,7 @@ import org.scadalts.e2e.page.impl.pages.scripts.ScriptsPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 
 @Log4j2
-public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, EditScriptsPage> {
+public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsPage> {
 
     private final NavigationPage navigationPage;
     private final ScriptCriteria[] scriptCriteria;
@@ -35,14 +35,13 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, EditScri
     }
 
     @Override
-    public EditScriptsPage createObjects() {
+    public ScriptsPage createObjects() {
         ScriptsPage scriptsPage = openPage();
-        EditScriptsPage editScriptsPage = scriptsPage.openScriptCreator();
         for (ScriptCriteria criteria: scriptCriteria) {
-            if(!scriptsPage.containsObject(criteria)) {
+            if(!scriptsPage.containsObjectWithoutType(criteria)) {
                 logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
                         criteria.getType(), criteria.getXid().getValue());
-                editScriptsPage = scriptsPage.openScriptCreator()
+                EditScriptsPage editScriptsPage = scriptsPage.openScriptCreator()
                         .setName(criteria.getIdentifier())
                         .waitOnPage(500)
                         .setXid(criteria.getXid())
@@ -57,7 +56,7 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, EditScri
                         .containsObject(criteria);
             }
         }
-        return editScriptsPage;
+        return scriptsPage.reopen();
     }
 
     @Override

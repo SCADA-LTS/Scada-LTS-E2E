@@ -24,7 +24,7 @@ import static org.junit.Assert.assertThat;
 public class DeleteWatchListPageTest {
 
     private static CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
-    private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcesAndPointsPageTestsUtil;
+    private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcePointObjectsCreator;
 
     private static DataSourcePointCriteria watchListToDeleteCriteria;
     private static WatchListPage watchListPageSubject;
@@ -38,8 +38,8 @@ public class DeleteWatchListPageTest {
         watchListToDeleteCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
 
-        dataSourcesAndPointsPageTestsUtil = new DataSourcePointObjectsCreator(navigationPage, watchListToDeleteCriteria);
-        dataSourcesAndPointsPageTestsUtil.createObjects();
+        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, watchListToDeleteCriteria);
+        dataSourcePointObjectsCreator.createObjects();
 
         watchListTestsUtil = new WatchListObjectsCreator(navigationPage, watchListToDeleteCriteria);
         watchListPageSubject = watchListTestsUtil.createObjects();
@@ -48,7 +48,7 @@ public class DeleteWatchListPageTest {
     @AfterClass
     public static void clean() {
         watchListTestsUtil.deleteObjects();
-        dataSourcesAndPointsPageTestsUtil.deleteObjects();
+        dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test

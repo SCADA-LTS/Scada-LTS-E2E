@@ -127,13 +127,13 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
 
     private SelenideElement _findActionInSpan(DataSourcePointCriteria criteria, By selectAction) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.span());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getIdentifier(), criteria.getType(), Tag.span());
         return findAction(nodeCriteria, selectAction, treeDiv);
     }
 
     private SelenideElement _findActionInTBody(DataSourcePointCriteria criteria, By selectAction) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tbody());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getIdentifier(), criteria.getType(), Tag.tbody());
         return findAction(nodeCriteria, selectAction, watchListTable);
     }
 }

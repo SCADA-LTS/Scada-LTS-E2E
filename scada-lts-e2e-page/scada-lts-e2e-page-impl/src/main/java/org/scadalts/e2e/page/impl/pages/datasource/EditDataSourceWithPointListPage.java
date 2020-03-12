@@ -172,13 +172,13 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
 
     private SelenideElement _findAction(DataPointCriteria criteria, By selectAction) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getIdentifier(), criteria.getType(), Tag.tr());
         return findAction(nodeCriteria, selectAction, dataPointsTable);
     }
 
     private SelenideElement _findObject(DataPointCriteria criteria) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getIdentifier(), criteria.getType(), Tag.tr());
         return findObject(nodeCriteria, dataPointsTable);
     }
 }

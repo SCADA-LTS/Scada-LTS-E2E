@@ -12,7 +12,8 @@ import java.util.function.Predicate;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.refresh;
-import static org.scadalts.e2e.common.utils.StabilityUtil.*;
+import static org.scadalts.e2e.common.utils.StabilityUtil.Timeout;
+import static org.scadalts.e2e.common.utils.StabilityUtil.executeWhile;
 
 @Log4j2
 public abstract class PageStabilityUtil {
@@ -42,6 +43,13 @@ public abstract class PageStabilityUtil {
 
     public static <T extends MainPageObject<T>> SelenideElement reopenWhile(MainPageObject<T> page, SelenideElement element, Condition condition) {
         executeWhile(element::is, condition, page::reopen,
+                new Timeout(3 * Configuration.timeout));
+        waitWhile(element, condition);
+        return element;
+    }
+
+    public static <T extends MainPageObject<T>> SelenideElement openPageWhile(MainPageObject<T> page, SelenideElement element, Condition condition) {
+        executeWhile(element::is, condition, page::openPage,
                 new Timeout(3 * Configuration.timeout));
         waitWhile(element, condition);
         return element;

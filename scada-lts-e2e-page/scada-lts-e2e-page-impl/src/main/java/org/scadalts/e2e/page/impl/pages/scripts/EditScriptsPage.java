@@ -103,7 +103,7 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
 
     public EditScriptsPage setVarName(DataPointVarCriteria criteria) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getDataPointCriteria().getIdentifier(), Tag.tr());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getDataPointCriteria().getIdentifier(), Tag.tr());
         findAction(nodeCriteria, INPUT_VAL_NAME, contextContainer).setValue(criteria.getVarCriteria().getIdentifier().getValue());
         return this;
     }
@@ -128,7 +128,7 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
     private EditScriptsPage _selectPoint(DataPointCriteria dataPointName) {
         delay();
         waitWhile(allPointsListChosen, not(Condition.visible)).click();
-        NodeCriteria nodeCriteria = NodeCriteria.criteria(dataPointName.getIdentifier(), Tag.li());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(dataPointName.getIdentifier(), Tag.li());
         findObject(nodeCriteria, $(By.cssSelector(".chosen-results"))).click();
         return this;
     }

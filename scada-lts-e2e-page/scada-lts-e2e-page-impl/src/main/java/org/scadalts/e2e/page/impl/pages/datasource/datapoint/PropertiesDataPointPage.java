@@ -16,6 +16,7 @@ import org.scadalts.e2e.page.impl.dicts.EventDetectorType;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 
 import static com.codeborne.selenide.Condition.not;
+import static com.codeborne.selenide.Condition.or;
 import static com.codeborne.selenide.Selenide.$;
 import static java.text.MessageFormat.format;
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
@@ -98,7 +99,7 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
 
     public AlarmLevel getAlarmLevelFirst() {
         delay();
-        String value = $(By.cssSelector(GET_FIRST_SELECT_ALARM_LIST)).getText();
+        String value = waitWhile($(By.cssSelector(GET_FIRST_SELECT_ALARM_LIST)), not(Condition.visible)).getSelectedText();
         return AlarmLevel.getType(value);
     }
 
@@ -116,7 +117,9 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
 
     public PropertiesDataPointPage saveDataPoint() {
         delay();
-        saveDataPoint.click();
+        waitWhile(saveDataPoint, not(Condition.visible)).click();
+        waitWhile($(By.cssSelector(".content > table tbody tr td > table .formError")), or(" empty or not visible", Condition.empty, not(Condition.visible)));
+        waitOnPage(3000);
         return this;
     }
 

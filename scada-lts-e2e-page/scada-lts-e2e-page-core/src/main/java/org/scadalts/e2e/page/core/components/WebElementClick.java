@@ -1,13 +1,16 @@
 package org.scadalts.e2e.page.core.components;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
 import org.scadalts.e2e.page.core.config.PageConfiguration;
 
 import java.util.Set;
 
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.switchTo;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 class WebElementClick implements E2eWebElement {
 
@@ -20,6 +23,16 @@ class WebElementClick implements E2eWebElement {
     @Override
     public void click() {
         webElement.click();
+    }
+
+    @Override
+    public void waitWhileVisible() {
+        waitWhile(webElement, Condition.visible);
+    }
+
+    @Override
+    public void waitWhileNotVisible() {
+        waitWhile(webElement, not(Condition.visible));
     }
 
     @Override

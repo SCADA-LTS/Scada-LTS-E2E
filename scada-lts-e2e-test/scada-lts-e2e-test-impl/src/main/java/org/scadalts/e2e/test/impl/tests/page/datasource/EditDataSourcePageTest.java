@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNotEquals;
 public class EditDataSourcePageTest {
 
     private DataSourceCriteria criteria;
-    private DataSourcePointObjectsCreator dataSourcesPageTestsUtil;
+    private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
 
     private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
     private DataSourcesPage dataSourcesPage;
@@ -27,14 +27,14 @@ public class EditDataSourcePageTest {
     @Before
     public void createDataSource() {
         criteria = DataSourceCriteria.virtualDataSource(UpdatePeriodType.SECOND, 13);
-        dataSourcesPageTestsUtil = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(), criteria);
-        dataSourcesPage = dataSourcesPageTestsUtil.openPage();
-        editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.createDataSources();
+        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(), criteria);
+        dataSourcesPage = dataSourcePointObjectsCreator.openPage();
+        editDataSourceWithPointListPageSubject = dataSourcePointObjectsCreator.createDataSources();
     }
 
     @After
     public void clean() {
-        dataSourcesPageTestsUtil.deleteObjects();
+        dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test

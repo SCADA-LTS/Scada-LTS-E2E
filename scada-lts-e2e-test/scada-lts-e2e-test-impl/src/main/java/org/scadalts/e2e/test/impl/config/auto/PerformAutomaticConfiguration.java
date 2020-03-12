@@ -24,6 +24,9 @@ public class PerformAutomaticConfiguration {
     public static Task[] data() {
         NavigationPage navigationPage = TestWithPageUtil.preparingTest();
         return new Task[] {
+                /*new DeletAllDataSourcesForTestTask(navigationPage),
+                new DeleteAllGraphicalViewsForTestTask(navigationPage),*/
+
                 new ConfigureTestEventDetectorCommand(navigationPage),
                 new ConfigureTestDataPointDetailsCommand(navigationPage),
                 new ConfigureTestGraphicalViewsCommand(navigationPage),

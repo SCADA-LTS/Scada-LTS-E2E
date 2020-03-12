@@ -52,13 +52,6 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
 
         createOneDataSourceTwoPointsSubCommand.execute();
 
-        CreateScriptSubCommand createScriptSubCommand = CreateScriptSubCommand.builder()
-                .dataPointCriteria(dataPointToChangeCriteria)
-                .navigationPage(navigationPage)
-                .build();
-
-        ScriptCriteria scriptCriteria = createScriptSubCommand.execute();
-
         CreateEventDetectorSubCommand createEventDetectorSubCommand = CreateEventDetectorSubCommand.builder()
                 .dataPointCriteria(dataPointToChangeCriteria)
                 .dataSourceCriteria(dataSourceCriteria)
@@ -66,6 +59,13 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
                 .build();
 
         EventDetectorCriteria eventDetectorCriteria = createEventDetectorSubCommand.execute();
+
+        CreateScriptSubCommand createScriptSubCommand = CreateScriptSubCommand.builder()
+                .dataPointCriteria(dataPointToChangeCriteria)
+                .navigationPage(navigationPage)
+                .build();
+
+        ScriptCriteria scriptCriteria = createScriptSubCommand.execute();
 
         CreateEventHandlerSubCommand createEventHandlerSubCommand = CreateEventHandlerSubCommand.builder()
                 .navigationPage(navigationPage)

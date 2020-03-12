@@ -39,6 +39,10 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
         return _openViewEditor(_selectViewAndGetIdByName(criteria.getIdentifier()));
     }
 
+    public EditGraphicalViewPage openViewEditorFirst(GraphicalViewCriteria criteria) {
+        return _openViewEditor(_selectViewAndGetIdByNameFirst(criteria.getIdentifier()));
+    }
+
     public int getNumberOfViews() {
         delay();
         return new Select(select)
@@ -104,6 +108,11 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
 
     private String _selectViewAndGetIdByName(GraphicalViewIdentifier viewName) {
         select.selectOption(viewName.getValue());
+        return select.getValue();
+    }
+
+    private String _selectViewAndGetIdByNameFirst(GraphicalViewIdentifier viewName) {
+        select.selectOptionContainingText(viewName.getValue());
         return select.getValue();
     }
 

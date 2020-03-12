@@ -76,6 +76,22 @@ public class StabilityUtil {
         return result;
     }
 
+    public static <T, R, S> R applyWhile(Predicate<S> predicate, S predicateArg, Function<T, R> fun, T arg,
+                                      Timeout timeout) {
+        long time = System.currentTimeMillis();
+        int i = 0;
+        R result = fun.apply(arg);
+        while(predicate.test(predicateArg)
+                && !_isExceededTimeout(timeout, time)
+                && !_isExceededLimit(i)) {
+            i++;
+            logger.info("try: {}", i);
+            _sleep();
+            result = fun.apply(arg);
+        }
+        return result;
+    }
+
     public static <T, R, S> R applyWhileBi(BiPredicate<R, S> predicate, Function<T, R> fun, T arg,
                                         S expectedValue, Timeout timeout) {
         long time = System.currentTimeMillis();

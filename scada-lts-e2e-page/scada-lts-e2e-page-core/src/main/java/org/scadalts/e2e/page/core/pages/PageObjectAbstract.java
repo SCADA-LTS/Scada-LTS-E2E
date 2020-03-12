@@ -5,6 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.page.core.components.E2eWebElement;
 import org.scadalts.e2e.page.core.utils.MeasurePrinter;
 
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
@@ -59,5 +60,8 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
         return getPage();
     }
 
-
+    @Override
+    public E2eWebElement getTarget() {
+        return E2eWebElement.newInstance(body);
+    }
 }

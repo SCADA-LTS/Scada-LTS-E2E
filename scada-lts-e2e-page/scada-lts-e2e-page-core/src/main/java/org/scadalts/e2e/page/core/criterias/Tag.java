@@ -34,6 +34,10 @@ public class Tag {
         return new Tag("span");
     }
 
+    public static Tag each() {
+        return new Tag("*");
+    }
+
     public static Tag div() {
         return new Tag("div");
     }

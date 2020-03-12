@@ -8,8 +8,10 @@ import org.openqa.selenium.By;
 import org.scadalts.e2e.page.core.criterias.ActionCriteria;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.core.criterias.NodeCriteria;
-import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.MainPageObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.codeborne.selenide.Condition.not;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.*;
@@ -56,8 +58,17 @@ public abstract class DynamicElementUtil {
         return _findNodeClickableInTreeReopen(page, source, nodeCriterias);
     }
 
-    public static ElementsCollection findObjects(int every, SelenideElement source) {
-        String xpath = XpathFactory.xpathEveryXElementFirst(every, Tag.td());
+    public static ElementsCollection findObjects(NodeCriteria nodeCriteria, SelenideElement source) {
+        return _findObjects(nodeCriteria, source);
+    }
+
+    public static List<SelenideElement> findActions(NodeCriteria criteria, By selectAction, SelenideElement source) {
+        ActionCriteria actionCriteria = new ActionCriteria(criteria, selectAction);
+        return _findActions(actionCriteria,source);
+    }
+
+    private static ElementsCollection _findObjects(NodeCriteria nodeCriteria, SelenideElement source) {
+        String xpath = nodeCriteria.getXpath();
         logger.info("xpath: {}", xpath);
 
         ElementsCollection elements = waitWhile(source, not(Condition.visible))
@@ -77,14 +88,36 @@ public abstract class DynamicElementUtil {
         return objectWithActions.$(criteria.getSelectAction());
     }
 
+    private static List<SelenideElement> _findActions(ActionCriteria criteria, SelenideElement source) {
+        SelenideElement reloadedElement = _prepareSource(criteria.getCriteria(), source);
+        ElementsCollection objectsWithActions = _findObjectsWithActions(criteria, reloadedElement);
+        List<SelenideElement> elements = new ArrayList<>();
+        for (SelenideElement objectWithActions :
+                objectsWithActions) {
+            elements.add(objectWithActions.$(criteria.getSelectAction()));
+        }
+        return elements;
+    }
+
     private static SelenideElement _findObjectWithActions(ActionCriteria criteria, SelenideElement source) {
         return _findObjectWithActions(criteria.getCriteria(), source);
+    }
+
+    private static ElementsCollection _findObjectsWithActions(ActionCriteria criteria, SelenideElement source) {
+        return _findObjectsWithActions(criteria.getCriteria(), source);
     }
 
     private static SelenideElement _findObjectWithActions(NodeCriteria criteria, SelenideElement source) {
             String xpath = criteria.getXpath();
         logger.info("xpath: {}", xpath);
         SelenideElement selenideElement = source.$(By.xpath(xpath));
+        return selenideElement;
+    }
+
+    private static ElementsCollection _findObjectsWithActions(NodeCriteria criteria, SelenideElement source) {
+        String xpath = criteria.getXpath();
+        logger.info("xpath: {}", xpath);
+        ElementsCollection selenideElement = source.$$(By.xpath(xpath));
         return selenideElement;
     }
 
@@ -109,9 +142,9 @@ public abstract class DynamicElementUtil {
     }
 
     private static <T extends MainPageObject<T>> SelenideElement _findActionInNodeInTreeReopen(MainPageObject<T> page,
-                                                                                               SelenideElement source,
-                                                                                               By selectAction,
-                                                                                               NodeCriteria[] nodeCriterias) {
+                                                                                                 SelenideElement source,
+                                                                                                 By selectAction,
+                                                                                                 NodeCriteria[] nodeCriterias) {
         SelenideElement elementParent = reopenWhile(page, findObject(nodeCriterias[0], source), not(Condition.visible));
         waitWhile(elementParent.$(selectAction), not(Condition.visible)).click();
         for (NodeCriteria nodeCriteria : nodeCriterias) {

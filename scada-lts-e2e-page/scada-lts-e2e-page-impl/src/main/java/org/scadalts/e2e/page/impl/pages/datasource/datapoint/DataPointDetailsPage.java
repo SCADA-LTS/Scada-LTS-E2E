@@ -5,6 +5,8 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.common.utils.FormatUtil;
+import org.scadalts.e2e.page.core.criterias.NodeCriteria;
+import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 
 import java.util.List;
@@ -75,7 +77,8 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
 
     public List<String> getValuesFromHistory() {
         delay();
-        return findObjects(3, historyTableData).stream()
+        NodeCriteria nodeCriteria = NodeCriteria.every(3, Tag.td());
+        return findObjects(nodeCriteria, historyTableData).stream()
                 .map(SelenideElement::getText)
                 .map(FormatUtil::unformat)
                 .collect(Collectors.toList());

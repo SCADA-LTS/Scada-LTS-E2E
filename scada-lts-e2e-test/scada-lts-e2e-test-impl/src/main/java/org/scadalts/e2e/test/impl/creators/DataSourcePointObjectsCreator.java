@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -66,6 +67,13 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
             page = _createDataSource(dataSourcesPage, criteria);
         }
         return page;
+    }
+
+    public static DataSourcesPage deleteAllDataSourcesTest(NavigationPage navigationPage) {
+        DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
+        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond(new DataSourceIdentifier("ds_test"));
+        dataSourcesPage.deleteAllDataSourcesMatching(dataSourceCriteria);
+        return dataSourcesPage;
     }
 
     private DataSourcesPage _deleteDataPointsAndDataSources(Map<DataSourceCriteria, DataPointObjectsCreator> criteriaMap) {

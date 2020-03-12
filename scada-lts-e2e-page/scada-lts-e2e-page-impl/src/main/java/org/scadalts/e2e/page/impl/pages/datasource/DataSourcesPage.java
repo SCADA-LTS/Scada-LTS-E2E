@@ -1,20 +1,20 @@
 package org.scadalts.e2e.page.impl.pages.datasource;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criterias.CssClass;
-import org.scadalts.e2e.page.core.criterias.NodeCriteria;
-import org.scadalts.e2e.page.core.criterias.Tag;
+import org.scadalts.e2e.page.core.criterias.*;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 
+import java.util.List;
+
 import static com.codeborne.selenide.Selenide.page;
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
-import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
-import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
+import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.*;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
@@ -55,6 +55,16 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         return this;
     }
 
+    public DataSourcesPage deleteAllDataSourcesMatching(DataSourceCriteria dataSourceCriteria) {
+        List<SelenideElement> dataSourcesToDelete = _findActions(dataSourceCriteria,SELECTOR_ACTION_DELETE_DATA_SOURCE_BY);
+        for (SelenideElement dataSourceToDelete: dataSourcesToDelete) {
+            delay();
+            acceptAlertAfterClick(dataSourceToDelete);
+            waitWhile(dataSourceToDelete, Condition.visible);
+        }
+        return this;
+    }
+
     public DataSourcesPage enableDataSource(DataSourceCriteria dataSourceCriteria) {
         SelenideElement selenideElement = _findAction(dataSourceCriteria,SELECTOR_ACTION_ENABLE_DATA_SOURCE_BY);
         acceptAlertAfterClick(selenideElement);
@@ -87,14 +97,25 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
 
     private SelenideElement _findAction(DataSourceCriteria criteria, By selectAction) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr(), new CssClass("row"));
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getIdentifier(), criteria.getType(), Tag.tr(), new CssClass("row"));
         return findAction(nodeCriteria, selectAction, dataSourcesTable);
     }
 
     private SelenideElement _findObject(DataSourceCriteria criteria) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getIdentifier(), criteria.getType(), Tag.tr(), new CssClass("row"));
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getIdentifier(), criteria.getType(), Tag.tr(), new CssClass("row"));
         return findObject(nodeCriteria, dataSourcesTable);
+    }
+
+    private ElementsCollection _findObjects(DataSourceCriteria criteria) {
+        delay();
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getIdentifier(), criteria.getType(), Tag.tr(), new CssClass("row"));
+        return findObjects(nodeCriteria, dataSourcesTable);
+    }
+
+    private List<SelenideElement> _findActions(DataSourceCriteria dataSourceCriteria, By selectAction) {
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(dataSourceCriteria.getIdentifier(), dataSourceCriteria.getType(), Tag.tr(), new CssClass("row"));
+        return findActions(nodeCriteria,selectAction,dataSourcesTable);
     }
 
     private EditDataSourcePage _openDataSourceCreator() {

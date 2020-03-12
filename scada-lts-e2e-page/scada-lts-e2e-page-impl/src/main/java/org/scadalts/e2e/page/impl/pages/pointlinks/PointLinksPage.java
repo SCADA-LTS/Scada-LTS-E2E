@@ -14,8 +14,8 @@ import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.page;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
-import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 
 @Log4j2
 public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
@@ -71,7 +71,7 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
 
     private SelenideElement _findAction(PointLinkCriteria criteria) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.criteria(criteria.getSource().getIdentifier(), criteria.getSource().getIdentifier(), Tag.tbody());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getSource().getIdentifier(), criteria.getSource().getIdentifier(), Tag.tbody());
         return findObject(nodeCriteria, pointLinksTable);
     }
 }

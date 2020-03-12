@@ -11,6 +11,7 @@ import org.scadalts.e2e.test.core.config.TestCoreConfigurator;
 import org.scadalts.e2e.test.core.exceptions.ApplicationTooHighLoadException;
 import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.scadalts.e2e.page.core.utils.MeasurePrinter.print;
@@ -21,7 +22,7 @@ public class TestWithPageUtil {
     private static NavigationPage navigationPage;
 
     public static boolean isLogged() {
-        if(navigationPage == null)
+        if(Objects.isNull(navigationPage))
             return false;
         Optional<String> sessionIdOpt = navigationPage.getSessionId();
         if(!sessionIdOpt.isPresent() || sessionIdOpt.get().isEmpty())
@@ -31,6 +32,11 @@ public class TestWithPageUtil {
 
     public static NavigationPage getNavigationPage() {
         return navigationPage;
+    }
+
+    public static void initNavigationPage(NavigationPage navigationPage) {
+        TestWithPageUtil.navigationPage = navigationPage;
+        E2eConfiguration.sessionId = navigationPage.getSessionId().orElse("");
     }
 
     public static NavigationPage preparingTest() {

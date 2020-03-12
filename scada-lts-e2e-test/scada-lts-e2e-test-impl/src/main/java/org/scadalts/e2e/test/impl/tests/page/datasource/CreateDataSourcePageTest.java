@@ -24,19 +24,19 @@ public class CreateDataSourcePageTest {
     private static final UpdatePeriodType updatePeriodType = UpdatePeriodType.SECOND;
     private final DataSourceIdentifier dataSourceName = IdentifierObjectFactory.dataSourceName();
 
-    private DataSourcePointObjectsCreator dataSourcesPageTestsUtil;
+    private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private DataSourcesPage dataSourcesPageSubject;
 
     @Before
     public void setup() {
         DataSourceCriteria criteria = DataSourceCriteria.criteria(dataSourceName,updatePeriodType,dataSourceType);
-        dataSourcesPageTestsUtil = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(), criteria);
-        dataSourcesPageSubject = dataSourcesPageTestsUtil.openPage();
+        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(), criteria);
+        dataSourcesPageSubject = dataSourcePointObjectsCreator.openPage();
     }
 
     @After
     public void clean() {
-        dataSourcesPageTestsUtil.deleteObjects();
+        dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test

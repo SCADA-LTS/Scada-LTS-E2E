@@ -3,6 +3,7 @@ package org.scadalts.e2e.test.impl.creators;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.GraphicalViewCriteria;
+import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
@@ -77,6 +78,17 @@ public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViews
 
     public static File getBackgroundSmallFile() {
         return BACKGROUND_SMALL_FILE;
+    }
+
+    public static GraphicalViewsPage deleteAllGraphicalViewsTest(NavigationPage navigationPage) {
+        GraphicalViewsPage graphicalViewsPage = navigationPage.openGraphicalViews();
+        GraphicalViewCriteria graphicalViewCriteria = GraphicalViewCriteria.criteria(new GraphicalViewIdentifier("view_test"));
+        while(graphicalViewsPage.containsObject(graphicalViewCriteria)) {
+            graphicalViewsPage.openViewEditorFirst(graphicalViewCriteria)
+                    .delete();
+            graphicalViewsPage.reopen();
+        }
+        return graphicalViewsPage;
     }
 
     private static File _getBackgroundFile(String relativePath) {

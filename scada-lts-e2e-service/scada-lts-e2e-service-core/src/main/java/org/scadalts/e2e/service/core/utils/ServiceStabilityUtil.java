@@ -28,11 +28,11 @@ public class ServiceStabilityUtil {
             & GetFormattedValueResponse> E2eResponse<R> applyWhile(Function<T, E2eResponse<R>> function,
                                                                    T arg, Timeout timeout,
                                                                     Object expectedValue) {
-        return StabilityUtil.applyWhileBi(ServiceStabilityUtil::_is, function,arg,expectedValue,timeout);
+        return StabilityUtil.applyWhileBi(ServiceStabilityUtil::_is, function, arg, expectedValue, timeout);
     }
 
     public static <R> E2eResponse<R> executeWhile(Supplier<E2eResponse<R>> function, Timeout timeout) {
-        return StabilityUtil.executeWhile(ServiceStabilityUtil::_is,function,timeout);
+        return StabilityUtil.executeWhile(ServiceStabilityUtil::_is, function, timeout);
     }
 
     private static <R> boolean _is(E2eResponse<R> response) {
