@@ -1,8 +1,9 @@
-package org.scadalts.e2e.test.impl.config.auto.tasks;
+package org.scadalts.e2e.test.impl.config.auto.tasks.cleaners;
 
 import lombok.Data;
 import lombok.NonNull;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
+import org.scadalts.e2e.test.impl.config.auto.tasks.Task;
 import org.scadalts.e2e.test.impl.creators.GraphicalViewObjectsCreator;
 
 @Data

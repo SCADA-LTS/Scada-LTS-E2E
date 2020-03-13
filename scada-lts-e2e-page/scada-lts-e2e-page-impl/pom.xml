@@ -18,5 +18,9 @@
             <groupId>org.scadalts</groupId>
             <artifactId>scada-lts-e2e-page-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+        </dependency>
     </dependencies>
 </project>

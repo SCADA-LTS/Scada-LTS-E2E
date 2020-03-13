@@ -29,7 +29,29 @@ public interface NodeCriteria extends CriteriaObject {
         return new NodeCriteriaExactly(identifier1, identifier2, DictionaryObject.ANY, tag, CssClass.empty());
     }
 
-    static NodeCriteria every(int every, Tag tag) {
-        return new NodeCriteriaEvery(every, tag);
+    static NodeCriteria everyInParent(int sectionSize, int everyoneInPosition, Tag tag, CssClass cssClassParent) {
+        return NodeCriteriaEvery.builder()
+                .sectionSize(sectionSize)
+                .everyoneInPosition(everyoneInPosition)
+                .tag(tag)
+                .cssClassParent(cssClassParent)
+                .build();
+    }
+
+    static NodeCriteria every(int sectionSize, int everyoneInPosition, Tag tag, CssClass cssClass) {
+        return NodeCriteriaEvery.builder()
+                .sectionSize(sectionSize)
+                .everyoneInPosition(everyoneInPosition)
+                .tag(tag)
+                .cssClass(cssClass)
+                .build();
+    }
+
+    static NodeCriteria every(int sectionSize, int everyoneInPosition, Tag tag) {
+        return NodeCriteriaEvery.builder()
+                .sectionSize(sectionSize)
+                .everyoneInPosition(everyoneInPosition)
+                .tag(tag)
+                .build();
     }
 }

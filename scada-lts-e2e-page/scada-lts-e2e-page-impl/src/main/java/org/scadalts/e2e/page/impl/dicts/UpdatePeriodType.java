@@ -12,7 +12,8 @@ public enum UpdatePeriodType implements DictionaryObject {
     SECOND("second(s)", "1"),
     MINUTE("minute(s)", "2"),
     HOUR("hour(s)", "3"),
-    NONE("none", "");
+    NONE("none", ""),
+    ANY("","");
 
     private final String name;
     private final String id;

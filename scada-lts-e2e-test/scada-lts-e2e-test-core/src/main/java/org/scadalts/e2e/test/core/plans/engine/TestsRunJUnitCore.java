@@ -1,7 +1,6 @@
 package org.scadalts.e2e.test.core.plans.engine;
 
 import lombok.extern.log4j.Log4j2;
-import org.junit.runner.Computer;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.RunListener;
@@ -32,7 +31,7 @@ class TestsRunJUnitCore implements TestsRunEngine {
 
     private E2eResult _run(Class<?> test, RunListener runListener) {
         jUnitCore.addListener(runListener);
-        Result result = jUnitCore.run(Computer.serial(), test);
+        Result result = jUnitCore.run(test);
         jUnitCore.removeListener(runListener);
         return E2eResult.builder()
                 .url(E2eConfiguration.baseUrl)

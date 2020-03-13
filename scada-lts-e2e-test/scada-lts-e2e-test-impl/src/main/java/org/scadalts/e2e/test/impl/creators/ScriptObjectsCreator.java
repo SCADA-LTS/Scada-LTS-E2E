@@ -24,7 +24,7 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsP
     public ScriptsPage deleteObjects() {
         ScriptsPage scriptsPage = openPage();
         for (ScriptCriteria criteria: scriptCriteria) {
-            if(scriptsPage.containsObject(criteria)) {
+            if(scriptsPage.containsObjectWithoutType(criteria)) {
                 logger.info("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
                         criteria.getType(), criteria.getXid().getValue());
                 scriptsPage.openScriptEditor(criteria)

@@ -94,7 +94,9 @@ public abstract class DynamicElementUtil {
         List<SelenideElement> elements = new ArrayList<>();
         for (SelenideElement objectWithActions :
                 objectsWithActions) {
-            elements.add(objectWithActions.$(criteria.getSelectAction()));
+            SelenideElement element = objectWithActions.$(criteria.getSelectAction());
+            if(element.is(Condition.visible))
+                elements.add(element);
         }
         return elements;
     }

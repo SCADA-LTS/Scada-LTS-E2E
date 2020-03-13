@@ -67,7 +67,7 @@ public class EventHandlersPage extends MainPageObjectAbstract<EventHandlersPage>
     @Override
     public boolean containsObject(CriteriaObject criteria) {
         delay();
-        String bodyText = getBodyHtml();
+        String bodyText = getBodyText();
         Pattern pattern = Pattern.compile(RegexFactory.identifier(criteria.getIdentifier()));
         Matcher matcher = pattern.matcher(bodyText);
         return matcher.find();

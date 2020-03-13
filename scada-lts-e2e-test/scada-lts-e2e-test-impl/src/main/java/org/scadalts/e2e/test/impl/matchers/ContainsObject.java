@@ -24,7 +24,7 @@ public class ContainsObject extends TypeSafeMatcher<PageObject<?>> {
 
     @Override
     public void describeTo(Description description) {
-        String msg = MessageFormat.format("object: {0}, not exists on page: {1}",
+        String msg = MessageFormat.format("object: {0}, exists on page: {1}",
                 criteria.getIdentifier().getValue(),
                 page.getClass().getSimpleName());
         description.appendText(msg);

@@ -5,10 +5,13 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criterias.*;
+import org.scadalts.e2e.page.core.criterias.CssClass;
+import org.scadalts.e2e.page.core.criterias.NodeCriteria;
+import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
+import org.scadalts.e2e.page.impl.export.ExportDataSourcesUtil;
 
 import java.util.List;
 
@@ -55,20 +58,49 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         return this;
     }
 
-    public DataSourcesPage deleteAllDataSourcesMatching(DataSourceCriteria dataSourceCriteria) {
-        List<SelenideElement> dataSourcesToDelete = _findActions(dataSourceCriteria,SELECTOR_ACTION_DELETE_DATA_SOURCE_BY);
-        for (SelenideElement dataSourceToDelete: dataSourcesToDelete) {
+    public DataSourcesPage deleteAllDataSourcesMatching(NodeCriteria nodeCriteria) {
+        List<SelenideElement> deleteActions = findActions(nodeCriteria,SELECTOR_ACTION_DELETE_DATA_SOURCE_BY,dataSourcesTable);
+        for (SelenideElement deleteAction: deleteActions) {
             delay();
-            acceptAlertAfterClick(dataSourceToDelete);
-            waitWhile(dataSourceToDelete, Condition.visible);
+            acceptAlertAfterClick(deleteAction);
+            waitWhile(deleteAction, Condition.visible);
         }
         return this;
+    }
+
+    public DataSourcesPage disableAllDataSourcesMatching(NodeCriteria nodeCriteria) {
+        List<SelenideElement> disableActions = findActions(nodeCriteria,SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY,dataSourcesTable);
+        for (SelenideElement disableAction: disableActions) {
+            delay();
+            acceptAlertAfterClick(disableAction);
+            waitWhile(disableAction, Condition.visible);
+        }
+        return this;
+    }
+
+    public DataSourcesPage enableAllDataSourcesMatching(NodeCriteria nodeCriteria) {
+        List<SelenideElement> enableActions = findActions(nodeCriteria,SELECTOR_ACTION_ENABLE_DATA_SOURCE_BY,dataSourcesTable);
+        for (SelenideElement enableAction: enableActions) {
+            delay();
+            acceptAlertAfterClick(enableAction);
+            waitWhile(enableAction, Condition.visible);
+        }
+        return this;
+    }
+
+    public List<DataSourceCriteria> dataSourcesTable() {
+        return ExportDataSourcesUtil.dataSourcesTable(SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY,dataSourcesTable);
     }
 
     public DataSourcesPage enableDataSource(DataSourceCriteria dataSourceCriteria) {
         SelenideElement selenideElement = _findAction(dataSourceCriteria,SELECTOR_ACTION_ENABLE_DATA_SOURCE_BY);
         acceptAlertAfterClick(selenideElement);
         return this;
+    }
+
+    public boolean isEnabledDataSource(DataSourceCriteria dataSourceCriteria) {
+        SelenideElement selenideElement = _findObject(dataSourceCriteria).$(SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY);
+        return selenideElement.is(Condition.visible);
     }
 
     public DataSourcesPage disableDataSource(DataSourceCriteria dataSourceCriteria) {

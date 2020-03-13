@@ -24,8 +24,6 @@ public class PerformAutomaticConfiguration {
     public static Task[] data() {
         NavigationPage navigationPage = TestWithPageUtil.preparingTest();
         return new Task[] {
-                /*new DeletAllDataSourcesForTestTask(navigationPage),
-                new DeleteAllGraphicalViewsForTestTask(navigationPage),*/
 
                 new ConfigureTestEventDetectorCommand(navigationPage),
                 new ConfigureTestDataPointDetailsCommand(navigationPage),
@@ -46,7 +44,7 @@ public class PerformAutomaticConfiguration {
     }
 
     @BeforeClass
-    public static void clean() {
+    public static void clear() {
         CriteriaRegisterAggregator.INSTANCE.clear();
     }
 

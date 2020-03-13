@@ -32,6 +32,7 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
 
     @Override
     public String getBodyText() {
+        getTarget().waitWhileNotVisible();
         String bodyText = body.getText();
         if(StringUtils.isNotBlank(bodyText) && bodyText.contains(title))
             return bodyText;
@@ -41,6 +42,7 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
 
     @Override
     public String getBodyHtml() {
+        getTarget().waitWhileNotVisible();
         String innerHtml = body.innerHtml();
         if(innerHtml.contains(title))
             return innerHtml;
@@ -63,5 +65,10 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
     @Override
     public E2eWebElement getTarget() {
         return E2eWebElement.newInstance(body);
+    }
+
+    @Override
+    public String toString() {
+        return getBodyText();
     }
 }

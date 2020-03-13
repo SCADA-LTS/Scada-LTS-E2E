@@ -28,66 +28,50 @@ public class StabilityUtil {
     }
 
     public static <T> T executeWhile(Predicate<T> predicate, T arg,
-                                     FunctionlInterfaces.Executable fun,
+                                     FunctionlInterfaces.Executable executor,
                                      Timeout timeout) {
         long time = System.currentTimeMillis();
         int i = 0;
-        fun.execute();
+        executor.execute();
         while(predicate.test(arg)
                 && !_isExceededTimeout(timeout, time)
                 && !_isExceededLimit(i)) {
             i++;
             logger.info("try: {}", i);
             _sleep();
-            fun.execute();
+            executor.execute();
         }
         return arg;
     }
 
-    public static <T> T executeWhile(Predicate<T> predicate, Supplier<T> fun,
+    public static <T> T executeWhile(Predicate<T> predicate, Supplier<T> supplier,
                                      Timeout timeout) {
         long time = System.currentTimeMillis();
         int i = 0;
-        T result = fun.get();
+        T result = supplier.get();
         while(predicate.test(result)
                 && !_isExceededTimeout(timeout, time)
                 && !_isExceededLimit(i)) {
             i++;
             logger.info("try: {}", i);
             _sleep();
-            result = fun.get();
+            result = supplier.get();
         }
         return result;
     }
 
-    public static <T, R> R applyWhile(Predicate<R> predicate, Function<T, R> fun, T arg,
+    public static <T, R> R applyWhile(Predicate<R> predicate, Function<T, R> function, T arg,
                                      Timeout timeout) {
         long time = System.currentTimeMillis();
         int i = 0;
-        R result = fun.apply(arg);
+        R result = function.apply(arg);
         while(predicate.test(result)
                 && !_isExceededTimeout(timeout, time)
                 && !_isExceededLimit(i)) {
             i++;
             logger.info("try: {}", i);
             _sleep();
-            result = fun.apply(arg);
-        }
-        return result;
-    }
-
-    public static <T, R, S> R applyWhile(Predicate<S> predicate, S predicateArg, Function<T, R> fun, T arg,
-                                      Timeout timeout) {
-        long time = System.currentTimeMillis();
-        int i = 0;
-        R result = fun.apply(arg);
-        while(predicate.test(predicateArg)
-                && !_isExceededTimeout(timeout, time)
-                && !_isExceededLimit(i)) {
-            i++;
-            logger.info("try: {}", i);
-            _sleep();
-            result = fun.apply(arg);
+            result = function.apply(arg);
         }
         return result;
     }
