@@ -5,9 +5,9 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.components.E2eWebElement;
 import org.scadalts.e2e.page.core.utils.MeasurePrinter;
 
+import static com.codeborne.selenide.Condition.not;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 @Log4j2
@@ -32,7 +32,7 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
 
     @Override
     public String getBodyText() {
-        getTarget().waitWhileNotVisible();
+        waitForCompleteLoad();
         String bodyText = body.getText();
         if(StringUtils.isNotBlank(bodyText) && bodyText.contains(title))
             return bodyText;
@@ -42,7 +42,7 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
 
     @Override
     public String getBodyHtml() {
-        getTarget().waitWhileNotVisible();
+        waitForCompleteLoad();
         String innerHtml = body.innerHtml();
         if(innerHtml.contains(title))
             return innerHtml;
@@ -63,8 +63,9 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
     }
 
     @Override
-    public E2eWebElement getTarget() {
-        return E2eWebElement.newInstance(body);
+    public T waitForCompleteLoad() {
+        waitWhile(body, not(Condition.visible));
+        return getPage();
     }
 
     @Override

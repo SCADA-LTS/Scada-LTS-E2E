@@ -24,7 +24,8 @@ interface Waitable<T extends PageObject<T>> extends GetPage<T> {
     }
 
     default T waitForObject(CriteriaObject criteriaObject) {
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteriaObject.getIdentifier(), criteriaObject.getType(), Tag.each());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteriaObject.getIdentifier(),
+                criteriaObject.getType(), Tag.each());
         return waitForObject(nodeCriteria);
     }
 

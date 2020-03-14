@@ -32,7 +32,11 @@ public class VarCriteria implements CriteriaObject {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(getIdentifier());
+    }
+
+    @Override
+    public String toString() {
+        return identifier.getValue();
     }
 }

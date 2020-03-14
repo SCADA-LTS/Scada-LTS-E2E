@@ -9,28 +9,33 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.creators.ScriptObjectsCreator;
 
 @Builder
-public class CreateScriptSubCommand implements SubCommand<ScriptCriteria> {
+public class CreateScriptRewritingValueFromToPointSubCommand implements SubCommand<ScriptCriteria> {
 
     private final @NonNull NavigationPage navigationPage;
-    private final @NonNull DataPointCriteria dataPointCriteria;
+    private final @NonNull DataPointCriteria dataPointFromCriteria;
+    private final @NonNull DataPointCriteria dataPointToCriteria;
 
     @Override
     public ScriptCriteria execute() {
 
         VarCriteria varCriteria = new VarCriteria(new VarIdentifier("p66"));
-        DataPointVarCriteria dataPointVarCriteria = new DataPointVarCriteria(dataPointCriteria, varCriteria);
+        DataPointVarCriteria dataPointVarCriteria = new DataPointVarCriteria(dataPointFromCriteria, varCriteria);
 
-        Script script = new Script("toSave = ''DP_961456''\n" +
-                " \n" +
-                " val_2.writeDataPoint(toSave, {0}.value);", varCriteria);
+        Script script = new Script(_getScriptPattern(), dataPointToCriteria.getXid(), varCriteria);
 
         ScriptCriteria scriptCriteria = ScriptCriteria
-                .dataPointCommandsEnabled(new ScriptIdentifier("sc_event_detector_test"),
+                .dataPointCommandsEnabled(new ScriptIdentifier("script_event_detector_test"),
                         script, dataPointVarCriteria);
 
         ScriptObjectsCreator scriptObjectsCreator = new ScriptObjectsCreator(navigationPage, scriptCriteria);
         scriptObjectsCreator.createObjects();
         return scriptCriteria;
+    }
+
+    private String _getScriptPattern() {
+        return "toSave = ''{0}''\n" +
+                " \n" +
+                " val_2.writeDataPoint(toSave, {1}.value);";
     }
 
     @Override

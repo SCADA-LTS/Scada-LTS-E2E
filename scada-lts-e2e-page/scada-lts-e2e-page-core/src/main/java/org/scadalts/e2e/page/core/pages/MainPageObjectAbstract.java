@@ -15,11 +15,6 @@ public abstract class MainPageObjectAbstract<T extends MainPageObject<T>> extend
     }
 
     @Override
-    public E2eWebElement getTarget() {
-        return E2eWebElement.newInstance(source);
-    }
-
-    @Override
     public E2eWebElement getSource() {
         return E2eWebElement.newInstance(source);
     }

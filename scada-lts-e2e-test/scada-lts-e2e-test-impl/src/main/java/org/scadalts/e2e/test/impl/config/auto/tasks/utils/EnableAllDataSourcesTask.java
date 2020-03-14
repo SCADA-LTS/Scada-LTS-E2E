@@ -13,6 +13,6 @@ public class EnableAllDataSourcesTask implements Task {
 
     @Override
     public void execute() {
-        DataSourcePointObjectsCreator.enableAllDataSourcesTest(navigationPage);
+        DataSourcePointObjectsCreator.enableAllDataSources(navigationPage);
     }
 }

@@ -104,7 +104,19 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
                 .build();
     }
 
-    public static DataSourceCriteria criteria(DataSourceIdentifier identifier, DataSourceType dataSourceType, boolean enabled) {
+    public static DataSourceCriteria criteriaSecond(DataSourceIdentifier identifier, DataSourceType dataSourceType, boolean enabled) {
+        Xid xid = Xid.xidForDataSource();
+        return DataSourceCriteria.builder()
+                .identifier(identifier)
+                .type(dataSourceType)
+                .updatePeriodType(UpdatePeriodType.SECOND)
+                .xid(xid)
+                .enabled(enabled)
+                .updatePeriodValue(2)
+                .build();
+    }
+
+    public static DataSourceCriteria criteriaPeriodTypeAny(DataSourceIdentifier identifier, DataSourceType dataSourceType, boolean enabled) {
         Xid xid = Xid.xidForDataSource();
         return DataSourceCriteria.builder()
                 .identifier(identifier)
@@ -115,7 +127,6 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
                 .updatePeriodValue(2)
                 .build();
     }
-
 
     public static DataSourceCriteria virtualDataSourceSecond(Xid xid) {
         String dataSourceName = "ds_test" + System.nanoTime();

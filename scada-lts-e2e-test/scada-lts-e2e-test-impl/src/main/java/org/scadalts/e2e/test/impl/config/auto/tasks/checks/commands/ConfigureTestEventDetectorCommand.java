@@ -12,7 +12,7 @@ import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegisterAggregat
 import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.sub.CreateEventDetectorSubCommand;
 import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.sub.CreateEventHandlerSubCommand;
 import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.sub.CreateOneDataSourceTwoPointsSubCommand;
-import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.sub.CreateScriptSubCommand;
+import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.sub.CreateScriptRewritingValueFromToPointSubCommand;
 import org.scadalts.e2e.test.impl.tests.check.eventdetectors.EventDetectorCheckTest;
 
 import static org.scadalts.e2e.common.utils.ExecutorUtil.executeBiFunction;
@@ -42,7 +42,6 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
         DataSourceIdentifier eventDetectorIdentifier = new DataSourceIdentifier("datasource_event_detector_test");
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond(eventDetectorIdentifier);
 
-
         CreateOneDataSourceTwoPointsSubCommand createOneDataSourceTwoPointsSubCommand = CreateOneDataSourceTwoPointsSubCommand.builder()
                 .dataPoint1(dataPointToChangeCriteria)
                 .dataPoint2(dataPointToReadCriteria)
@@ -60,12 +59,13 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
 
         EventDetectorCriteria eventDetectorCriteria = createEventDetectorSubCommand.execute();
 
-        CreateScriptSubCommand createScriptSubCommand = CreateScriptSubCommand.builder()
-                .dataPointCriteria(dataPointToChangeCriteria)
+        CreateScriptRewritingValueFromToPointSubCommand createScriptRewritingValueFromToPointSubCommand = CreateScriptRewritingValueFromToPointSubCommand.builder()
+                .dataPointFromCriteria(dataPointToChangeCriteria)
+                .dataPointToCriteria(dataPointToReadCriteria)
                 .navigationPage(navigationPage)
                 .build();
 
-        ScriptCriteria scriptCriteria = createScriptSubCommand.execute();
+        ScriptCriteria scriptCriteria = createScriptRewritingValueFromToPointSubCommand.execute();
 
         CreateEventHandlerSubCommand createEventHandlerSubCommand = CreateEventHandlerSubCommand.builder()
                 .navigationPage(navigationPage)

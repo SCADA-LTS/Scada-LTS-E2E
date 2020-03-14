@@ -30,7 +30,7 @@ public class DataSourceCriteriaJson implements CriteriaObject {
     }
 
     public DataSourceCriteria toCriteria() {
-        return DataSourceCriteria.criteria(new DataSourceIdentifier(identifier.getValue()),
+        return DataSourceCriteria.criteriaSecond(new DataSourceIdentifier(identifier.getValue()),
                 DataSourceType.valueOf(type),enabled);
     }
 

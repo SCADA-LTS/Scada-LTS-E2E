@@ -3,7 +3,6 @@ package org.scadalts.e2e.page.impl.pages.scripts;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.components.E2eWebElement;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.core.criterias.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
@@ -27,6 +26,9 @@ public class ScriptsPage extends MainPageObjectAbstract<ScriptsPage> {
     @FindBy(id = "scriptsTable")
     private SelenideElement scriptsTable;
 
+    @FindBy(id = "loader")
+    private SelenideElement loader;
+
     public static final String TITLE = "Scripts";
 
     public ScriptsPage(SelenideElement source) {
@@ -34,8 +36,10 @@ public class ScriptsPage extends MainPageObjectAbstract<ScriptsPage> {
     }
 
     @Override
-    public E2eWebElement getTarget() {
-        return E2eWebElement.newInstance(scriptsTable);
+    public ScriptsPage waitForCompleteLoad() {
+        waitWhile(loader, not(Condition.visible));
+        waitWhile(loader, Condition.visible);
+        return this;
     }
 
     public EditScriptsPage openScriptCreator() {

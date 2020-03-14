@@ -147,17 +147,17 @@ public abstract class DynamicElementUtil {
                                                                                                  SelenideElement source,
                                                                                                  By selectAction,
                                                                                                  NodeCriteria[] nodeCriterias) {
-        SelenideElement elementParent = reopenWhile(page, findObject(nodeCriterias[0], source), not(Condition.visible));
-        waitWhile(elementParent.$(selectAction), not(Condition.visible)).click();
+        SelenideElement element = reopenWaitWhile(page, findObject(nodeCriterias[0], source), not(Condition.visible));
+        waitWhile(element.$(selectAction), not(Condition.visible)).click();
         for (NodeCriteria nodeCriteria : nodeCriterias) {
             if(!nodeCriterias[0].equals(nodeCriteria)) {
-                elementParent = waitWhile(findObject(nodeCriteria, elementParent), not(Condition.visible));
+                element = waitWhile(findObject(nodeCriteria, element), not(Condition.visible));
                 if(!nodeCriterias[nodeCriterias.length - 1].equals(nodeCriteria)) {
-                    waitWhile(elementParent.$(selectAction), not(Condition.visible)).click();
+                    waitWhile(element.$(selectAction), not(Condition.visible)).click();
                 }
             }
         }
-        return elementParent;
+        return element;
     }
 
     private static SelenideElement _findNodeClickableInTree(SelenideElement source, NodeCriteria[] nodeCriterias) {
@@ -177,7 +177,7 @@ public abstract class DynamicElementUtil {
     private static <T extends MainPageObject<T>> SelenideElement _findNodeClickableInTreeReopen(MainPageObject<T> page,
                                                                   SelenideElement source,
                                                                   NodeCriteria[] nodeCriterias) {
-        SelenideElement elementParent = reopenWhile(page, findObject(nodeCriterias[0], source), not(Condition.visible));
+        SelenideElement elementParent = reopenWaitWhile(page, findObject(nodeCriterias[0], source), not(Condition.visible));
         elementParent.click();
         for (NodeCriteria nodeCriteria : nodeCriterias) {
             if(!nodeCriterias[0].equals(nodeCriteria)) {

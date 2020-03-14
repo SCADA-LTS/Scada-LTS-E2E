@@ -18,6 +18,8 @@ import static org.scadalts.e2e.common.utils.StabilityUtil.executeWhile;
 @Log4j2
 public abstract class PageStabilityUtil {
 
+    private static Timeout timeout = new Timeout(3 * Configuration.timeout);
+
     public static SelenideElement waitWhileNotVisible(SelenideElement webElement) {
         return waitWhile(webElement, not(Condition.visible));
     }
@@ -27,12 +29,11 @@ public abstract class PageStabilityUtil {
     }
 
     public static <T> void waitWhile(Predicate<T> condition, T arg) {
-        StabilityUtil.waitWhile(condition, arg, new Timeout(Configuration.timeout));
+        StabilityUtil.waitWhile(condition, arg, timeout);
     }
 
     public static <T> T refreshWhile(Predicate<T> condition, T arg) {
-        return StabilityUtil.executeWhile(condition, arg,
-                Selenide::refresh, new Timeout(3 * Configuration.timeout));
+        return executeWhile(condition, arg, Selenide::refresh, timeout);
     }
 
     public static SelenideElement refreshWhile(SelenideElement element, Condition condition) {
@@ -41,16 +42,32 @@ public abstract class PageStabilityUtil {
         return element;
     }
 
-    public static <T extends MainPageObject<T>> SelenideElement reopenWhile(MainPageObject<T> page, SelenideElement element, Condition condition) {
-        executeWhile(element::is, condition, page::reopen,
-                new Timeout(3 * Configuration.timeout));
+    public static <T extends MainPageObject<T>> SelenideElement reopenWaitWhile(MainPageObject<T> page,
+                                                                                SelenideElement element,
+                                                                                Condition condition) {
+        executeWhile(element::is, condition, page::reopen, timeout);
         waitWhile(element, condition);
         return element;
     }
 
-    public static <T extends MainPageObject<T>> SelenideElement openPageWhile(MainPageObject<T> page, SelenideElement element, Condition condition) {
-        executeWhile(element::is, condition, page::openPage,
-                new Timeout(3 * Configuration.timeout));
+    public static <T extends MainPageObject<T>> SelenideElement reopenWhile(MainPageObject<T> page,
+                                                                            SelenideElement element,
+                                                                            Condition condition) {
+        executeWhile(element::is, condition, page::reopen, timeout);
+        return element;
+    }
+
+    public static <T extends MainPageObject<T>> SelenideElement openPageWhile(MainPageObject<T> page,
+                                                                              SelenideElement element,
+                                                                              Condition condition) {
+        executeWhile(element::is, condition, page::openPage, timeout);
+        return element;
+    }
+
+    public static <T extends MainPageObject<T>> SelenideElement openPageWaitWhile(MainPageObject<T> page,
+                                                                                  SelenideElement element,
+                                                                                  Condition condition) {
+        executeWhile(element::is, condition, page::openPage, timeout);
         waitWhile(element, condition);
         return element;
     }

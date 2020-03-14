@@ -20,22 +20,23 @@ import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObjects;
 @Log4j2
 public class ExportDataSourcesUtil {
 
-    public static List<DataSourceCriteria> dataSourcesTable(By selectAction, SelenideElement source) {
-        NodeCriteria trNode = NodeCriteria.every(1, 0, Tag.tr(), new CssClass("row"));
+    public static List<DataSourceCriteria> dataSourcesTableToCriterias(By selectEnableAction, SelenideElement source) {
+        NodeCriteria rowCriteria = NodeCriteria.every(1, 0, Tag.tr(), new CssClass("row"));
 
-        List<SelenideElement> trObjects = findObjects(trNode,source);
+        List<SelenideElement> rows = findObjects(rowCriteria,source);
+
+        NodeCriteria nameCriteria = NodeCriteria.every(6, 1,Tag.td());
+        NodeCriteria typeCriteria = NodeCriteria.every(6, 2,Tag.td());
+        NodeCriteria enabledCriteria = NodeCriteria.every(6, 4,Tag.td());
+
         List<DataSourceCriteria> criterias = new ArrayList<>();
-        for (SelenideElement tr: trObjects) {
-            logger.info("element: {}", tr);
-            NodeCriteria name = NodeCriteria.every(6, 1,Tag.td());
-            String nameText = findObject(name,tr).getText();
-            NodeCriteria type = NodeCriteria.every(6, 2,Tag.td());
-            String typeText = findObject(type,tr).getText();
-            NodeCriteria enabled = NodeCriteria.every(6, 4,Tag.td());
-
-            boolean enabledValue = findObject(enabled, tr).$(selectAction).is(Condition.visible);
+        for (SelenideElement row: rows) {
+            logger.info("element: {}", row);
+            String nameText = findObject(nameCriteria,row).getText();
+            String typeText = findObject(typeCriteria,row).getText();
+            boolean enabledValue = findObject(enabledCriteria, row).$(selectEnableAction).is(Condition.visible);
             logger.info("nameText: {}, typeText: {}, enabledValue: {}", nameText, typeText, enabledValue);
-            DataSourceCriteria criteria = DataSourceCriteria.criteria(new DataSourceIdentifier(nameText),DataSourceType.getType(typeText),enabledValue);
+            DataSourceCriteria criteria = DataSourceCriteria.criteriaPeriodTypeAny(new DataSourceIdentifier(nameText),DataSourceType.getType(typeText),enabledValue);
             criterias.add(criteria);
         }
         return criterias;

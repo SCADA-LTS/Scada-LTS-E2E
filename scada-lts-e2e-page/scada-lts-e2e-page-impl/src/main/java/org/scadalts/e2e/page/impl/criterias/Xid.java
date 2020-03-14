@@ -58,4 +58,9 @@ public class Xid {
     private static String _generate() {
         return generateString(6, "0123456789");
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

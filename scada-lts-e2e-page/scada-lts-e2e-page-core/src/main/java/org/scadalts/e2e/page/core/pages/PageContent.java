@@ -27,13 +27,6 @@ interface PageContent<T extends PageObject<T>> extends GetPage<T> {
         return matcher.find();
     }
 
-    default boolean containsObjectWithoutType(CriteriaObject criteria) {
-        String bodyText = getBodyText();
-        Pattern pattern = Pattern.compile(RegexFactory.identifier(criteria.getIdentifier()));
-        Matcher matcher = pattern.matcher(bodyText);
-        return matcher.find();
-    }
-
     default boolean containsText(String text) {
         return getBodyText().contains(text);
     }

@@ -5,21 +5,21 @@ import org.scadalts.e2e.page.core.components.E2eWebElement;
 
 import static com.codeborne.selenide.Selenide.page;
 
-interface Navigable<T extends MainPageObject<T>> extends GetPage<T>, GetTarget {
+interface Navigable<T extends MainPageObject<T>> extends GetPage<T> {
 
     E2eWebElement getSource();
 
     default T openInNewTab() {
         getSource().openInNewTab();
         T page = getPage();
-        page.getTarget().waitWhileNotVisible();
+        page.waitForCompleteLoad();
         return page;
     }
 
     default T reopen() {
         getSource().click();
         T page = getPage();
-        page.getTarget().waitWhileNotVisible();
+        page.waitForCompleteLoad();
         return page;
     }
 
@@ -27,5 +27,4 @@ interface Navigable<T extends MainPageObject<T>> extends GetPage<T>, GetTarget {
         getSource().click();
         return page(getPage());
     }
-
 }

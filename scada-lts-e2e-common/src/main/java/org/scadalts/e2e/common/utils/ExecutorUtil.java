@@ -114,7 +114,7 @@ public class ExecutorUtil {
             try {
                 executeIfException.apply(arg);
             } catch (Throwable throwable1) {
-                throw exception.apply(throwable1.getMessage(), throwable1);
+                logger.error(throwable1.getMessage(), throwable1);
             }
             throw exception.apply(throwable.getMessage(), throwable);
         }

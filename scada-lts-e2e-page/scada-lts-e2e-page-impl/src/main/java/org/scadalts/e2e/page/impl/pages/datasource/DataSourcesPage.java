@@ -59,6 +59,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     }
 
     public DataSourcesPage deleteAllDataSourcesMatching(NodeCriteria nodeCriteria) {
+        waitWhile(dataSourcesTable, Condition.empty);
         List<SelenideElement> deleteActions = findActions(nodeCriteria,SELECTOR_ACTION_DELETE_DATA_SOURCE_BY,dataSourcesTable);
         for (SelenideElement deleteAction: deleteActions) {
             delay();
@@ -69,6 +70,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     }
 
     public DataSourcesPage disableAllDataSourcesMatching(NodeCriteria nodeCriteria) {
+        waitWhile(dataSourcesTable, Condition.empty);
         List<SelenideElement> disableActions = findActions(nodeCriteria,SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY,dataSourcesTable);
         for (SelenideElement disableAction: disableActions) {
             delay();
@@ -79,6 +81,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     }
 
     public DataSourcesPage enableAllDataSourcesMatching(NodeCriteria nodeCriteria) {
+        waitWhile(dataSourcesTable, Condition.empty);
         List<SelenideElement> enableActions = findActions(nodeCriteria,SELECTOR_ACTION_ENABLE_DATA_SOURCE_BY,dataSourcesTable);
         for (SelenideElement enableAction: enableActions) {
             delay();
@@ -89,7 +92,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     }
 
     public List<DataSourceCriteria> dataSourcesTable() {
-        return ExportDataSourcesUtil.dataSourcesTable(SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY,dataSourcesTable);
+        return ExportDataSourcesUtil.dataSourcesTableToCriterias(SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY,dataSourcesTable);
     }
 
     public DataSourcesPage enableDataSource(DataSourceCriteria dataSourceCriteria) {

@@ -24,6 +24,7 @@ public class ConfigPointLinkSubCheck implements SubCheck {
         logger.info("run... {}", this.getClass().getSimpleName());
         PointLinksPage pointLinksPage = navigationPage.openPointLinks();
         for(PointLinkCriteria pointLinkCriteria: pointLinkCriterias) {
+            pointLinksPage.waitForObject(pointLinkCriteria);
             assertThat(pointLinksPage, containsObject(pointLinkCriteria));
         }
     }

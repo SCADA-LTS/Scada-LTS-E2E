@@ -81,27 +81,19 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
         return dataSourcesPage;
     }
 
-    public static DataSourcesPage disableAllDataSourcesTest(NavigationPage navigationPage) {
+    public static DataSourcesPage disableAllDataSources(NavigationPage navigationPage) {
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
         NodeCriteria nodeCriteria = NodeCriteria.every(1, 0, Tag.tr(), new CssClass("row"));
         dataSourcesPage.disableAllDataSourcesMatching(nodeCriteria);
         return dataSourcesPage;
     }
 
-    public static DataSourcesPage enableAllDataSourcesTest(NavigationPage navigationPage) {
+    public static DataSourcesPage enableAllDataSources(NavigationPage navigationPage) {
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
         NodeCriteria nodeCriteria = NodeCriteria.every(1, 0, Tag.tr(), new CssClass("row"));
         dataSourcesPage.enableAllDataSourcesMatching(nodeCriteria);
         return dataSourcesPage;
     }
-
-    public static DataSourcesPage getDataSourcesTable(NavigationPage navigationPage) {
-        DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
-        NodeCriteria nodeCriteria = NodeCriteria.every(1, 0, Tag.tr(), new CssClass("row"));
-        dataSourcesPage.enableAllDataSourcesMatching(nodeCriteria);
-        return dataSourcesPage;
-    }
-
 
     private DataSourcesPage _deleteDataPointsAndDataSources(Map<DataSourceCriteria, DataPointObjectsCreator> criteriaMap) {
         DataSourcesPage page = openPage();
