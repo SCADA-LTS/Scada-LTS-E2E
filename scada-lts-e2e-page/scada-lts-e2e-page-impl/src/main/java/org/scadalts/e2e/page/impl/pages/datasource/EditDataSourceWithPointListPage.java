@@ -4,11 +4,9 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criterias.NodeCriteria;
-import org.scadalts.e2e.page.core.criterias.Tag;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
@@ -81,8 +79,8 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return $(SELECTOR_ENABLE_DATA_SOURCE_BY).is(Condition.visible);
     }
 
-    public boolean isEnableDataPoint(DataPointCriteria criteria) {
-        return _findAction(criteria,SELECTOR_ACTION_ENABLE_DATA_POINT_BY).is(Condition.visible);
+    public boolean isEnableDataPoint(DataPointIdentifier dataPointIdentifier) {
+        return _findAction(dataPointIdentifier,SELECTOR_ACTION_ENABLE_DATA_POINT_BY).is(Condition.visible);
     }
 
     public EditDataSourceWithPointListPage enableAllDataPoint() {
@@ -103,30 +101,30 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return page(EditDataPointPage.class);
     }
 
-    public EditDataPointPage openDataPointEditor(DataPointCriteria criteria) {
-        acceptAlertAfterClick(_findAction(criteria, SELECTOR_ACTION_EDIT_DATA_POINT_BY));
+    public EditDataPointPage openDataPointEditor(DataPointIdentifier dataPointIdentifier) {
+        acceptAlertAfterClick(_findAction(dataPointIdentifier, SELECTOR_ACTION_EDIT_DATA_POINT_BY));
         return page(EditDataPointPage.class);
     }
 
-    public PropertiesDataPointPage openDataPointProperties(DataPointCriteria criteria) {
-        _findAction(criteria, SELECTOR_ACTION_PROPERTIES_DATA_POINT_BY).click();
+    public PropertiesDataPointPage openDataPointProperties(DataPointIdentifier dataPointIdentifier) {
+        _findAction(dataPointIdentifier, SELECTOR_ACTION_PROPERTIES_DATA_POINT_BY).click();
         return page(new PropertiesDataPointPage(this));
     }
 
-    public EditDataSourceWithPointListPage enableDataPoint(DataPointCriteria criteria) {
-        _findAction(criteria, SELECTOR_ACTION_DISABLE_DATA_POINT_BY).click();
-        waitWhile(_findAction(criteria, SELECTOR_ACTION_ENABLE_DATA_POINT_BY), not(Condition.visible));
+    public EditDataSourceWithPointListPage enableDataPoint(DataPointIdentifier dataPointIdentifier) {
+        _findAction(dataPointIdentifier, SELECTOR_ACTION_DISABLE_DATA_POINT_BY).click();
+        waitWhile(_findAction(dataPointIdentifier, SELECTOR_ACTION_ENABLE_DATA_POINT_BY), not(Condition.visible));
         return this;
     }
 
-    public EditDataSourceWithPointListPage disableDataPoint(DataPointCriteria criteria) {
-        _findAction(criteria, SELECTOR_ACTION_ENABLE_DATA_POINT_BY).click();
-        waitWhile($(_findAction(criteria, SELECTOR_ACTION_DISABLE_DATA_POINT_BY)), not(Condition.visible));
+    public EditDataSourceWithPointListPage disableDataPoint(DataPointIdentifier dataPointIdentifier) {
+        _findAction(dataPointIdentifier, SELECTOR_ACTION_ENABLE_DATA_POINT_BY).click();
+        waitWhile($(_findAction(dataPointIdentifier, SELECTOR_ACTION_DISABLE_DATA_POINT_BY)), not(Condition.visible));
         return this;
     }
 
-    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceName) {
-        return editDataSourcePage.setDataSourceName(dataSourceName);
+    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceIdentifier) {
+        return editDataSourcePage.setDataSourceName(dataSourceIdentifier);
     }
 
     public EditDataSourcePage setDataSourceXid(Xid dataSourceXid) {
@@ -137,12 +135,12 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return editDataSourcePage.setUpdatePeriods(updatePeriods);
     }
 
-    public EditDataSourcePage selectUpdatePeriodType(UpdatePeriodType componentName) {
-        return editDataSourcePage.selectUpdatePeriodType(componentName);
+    public EditDataSourcePage selectUpdatePeriodType(UpdatePeriodType updatePeriodType) {
+        return editDataSourcePage.selectUpdatePeriodType(updatePeriodType);
     }
 
-    public String selectUpdatePeriodTypeValue(UpdatePeriodType componentName) {
-        return editDataSourcePage.selectUpdatePeriodTypeValue(componentName);
+    public String selectUpdatePeriodTypeValue(UpdatePeriodType updatePeriodType) {
+        return editDataSourcePage.selectUpdatePeriodTypeValue(updatePeriodType);
     }
 
     public EditDataSourceWithPointListPage saveDataSource() {
@@ -165,20 +163,18 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return editDataSourcePage.getUpdatePeriodType();
     }
 
-    public EditDataSourceWithPointListPage waitOnPageWhileVisibleObject(DataPointCriteria dataPointCriteria) {
-        waitWhile(_findObject(dataPointCriteria), Condition.visible);
+    public EditDataSourceWithPointListPage waitOnPageWhileVisibleObject(DataPointIdentifier identifier) {
+        waitWhile(_findObject(identifier), Condition.visible);
         return this;
     }
 
-    private SelenideElement _findAction(DataPointCriteria criteria, By selectAction) {
+    private SelenideElement _findAction(DataPointIdentifier identifier, By selectAction) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getIdentifier(), criteria.getType(), Tag.tr());
-        return findAction(nodeCriteria, selectAction, dataPointsTable);
+        return findAction(identifier.getNodeCriteria(), selectAction, dataPointsTable);
     }
 
-    private SelenideElement _findObject(DataPointCriteria criteria) {
+    private SelenideElement _findObject(DataPointIdentifier identifier) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getIdentifier(), criteria.getType(), Tag.tr());
-        return findObject(nodeCriteria, dataPointsTable);
+        return findObject(identifier.getNodeCriteria(), dataPointsTable);
     }
 }

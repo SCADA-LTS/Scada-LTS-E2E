@@ -3,15 +3,11 @@ package org.scadalts.e2e.page.impl.pages.scripts;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.criterias.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
+import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
+import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
-import org.scadalts.e2e.page.core.utils.RegexFactory;
 import org.scadalts.e2e.page.impl.criterias.ScriptCriteria;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.page;
@@ -37,8 +33,8 @@ public class ScriptsPage extends MainPageObjectAbstract<ScriptsPage> {
 
     @Override
     public ScriptsPage waitForCompleteLoad() {
-        waitWhile(loader, not(Condition.visible));
-        waitWhile(loader, Condition.visible);
+        if(loader.is(Condition.visible))
+            waitWhile(loader, Condition.visible);
         return this;
     }
 
@@ -56,11 +52,10 @@ public class ScriptsPage extends MainPageObjectAbstract<ScriptsPage> {
     }
 
     @Override
-    public boolean containsObject(CriteriaObject criteria) {
-        String bodyText = getBodyText();
-        Pattern pattern = Pattern.compile(RegexFactory.identifier(criteria.getIdentifier()));
-        Matcher matcher = pattern.matcher(bodyText);
-        return matcher.find();
+    public boolean containsObject(IdentifierObject identifier) {
+        waitForCompleteLoad();
+        waitWhile(scriptsTable, not(Condition.visible));
+        return findObject(identifier.getNodeCriteria(),scriptsTable).is(Condition.visible);
     }
 
     @Override

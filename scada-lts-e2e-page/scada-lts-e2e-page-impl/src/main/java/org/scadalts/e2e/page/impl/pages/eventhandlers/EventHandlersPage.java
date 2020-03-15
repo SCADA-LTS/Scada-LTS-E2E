@@ -4,10 +4,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.criterias.CssClass;
-import org.scadalts.e2e.page.core.criterias.NodeCriteria;
-import org.scadalts.e2e.page.core.criterias.Tag;
+import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
+import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
@@ -15,11 +13,14 @@ import org.scadalts.e2e.page.impl.criterias.EventHandlerCriteria;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.page;
+import static org.scadalts.e2e.page.core.criterias.Tag.div;
+import static org.scadalts.e2e.page.core.criterias.Tag.span;
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findActionInNodeInTree;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.reopenWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
+import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.clazz;
 
 
 public class EventHandlersPage extends MainPageObjectAbstract<EventHandlersPage> {
@@ -56,10 +57,9 @@ public class EventHandlersPage extends MainPageObjectAbstract<EventHandlersPage>
     }
 
     @Override
-    public boolean containsObject(CriteriaObject criteria) {
+    public boolean containsObject(IdentifierObject identifier) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getIdentifier(), Tag.span());
-        return reopenWhile(this,findObject(nodeCriteria,tree),not(Condition.exist)).is(Condition.exist);
+        return reopenWhile(this,findObject(identifier.getNodeCriteria(),tree),not(Condition.exist)).is(Condition.exist);
     }
 
     @Override
@@ -69,17 +69,17 @@ public class EventHandlersPage extends MainPageObjectAbstract<EventHandlersPage>
 
     private SelenideElement _findActionInTree(EventDetectorCriteria criteria) {
         DataSourcePointCriteria dataSourcePointCriteria = criteria.getDataSourcePointCriteria();
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(dataSourcePointCriteria.getIdentifier(), Tag.div(), new CssClass("dojoTreeNode"));
-        NodeCriteria nodeCriteria2 = NodeCriteria.exactly(criteria.getIdentifier(), Tag.span());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(dataSourcePointCriteria.getIdentifier(), div(), clazz("dojoTreeNode"));
+        NodeCriteria nodeCriteria2 = NodeCriteria.exactlyTypeAny(criteria.getIdentifier(), span());
         return findActionInNodeInTree(this, tree, SELECT_NODE_PLUS_BY, nodeCriteria,nodeCriteria2);
     }
 
     private SelenideElement _findActionInTree(EventHandlerCriteria criteria) {
         EventDetectorCriteria eventDetectorCriteria = criteria.getEventDetectorCriteria();
         DataSourcePointCriteria dataSourcePointCriteria = eventDetectorCriteria.getDataSourcePointCriteria();
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(dataSourcePointCriteria.getIdentifier(), Tag.div(), new CssClass("dojoTreeNode"));
-        NodeCriteria nodeCriteria2 = NodeCriteria.exactly(eventDetectorCriteria.getIdentifier(), Tag.div());
-        NodeCriteria nodeCriteria3 = NodeCriteria.exactly(criteria.getIdentifier(), Tag.span());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(dataSourcePointCriteria.getIdentifier(), div(), clazz("dojoTreeNode"));
+        NodeCriteria nodeCriteria2 = NodeCriteria.exactlyTypeAny(eventDetectorCriteria.getIdentifier(), div());
+        NodeCriteria nodeCriteria3 = NodeCriteria.exactlyTypeAny(criteria.getIdentifier(), span());
         return findActionInNodeInTree(this, tree,SELECT_NODE_PLUS_BY,nodeCriteria,nodeCriteria2,nodeCriteria3);
     }
 }

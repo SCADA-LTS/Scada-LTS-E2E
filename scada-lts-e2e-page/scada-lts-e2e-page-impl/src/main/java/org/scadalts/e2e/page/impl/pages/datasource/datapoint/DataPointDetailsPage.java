@@ -5,9 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.common.utils.FormatUtil;
-import org.scadalts.e2e.page.core.criterias.CssClass;
-import org.scadalts.e2e.page.core.criterias.NodeCriteria;
-import org.scadalts.e2e.page.core.criterias.Tag;
+import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 
 import java.util.List;
@@ -16,10 +14,12 @@ import java.util.stream.Collectors;
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.or;
 import static org.scadalts.e2e.common.utils.FormatUtil.unformat;
+import static org.scadalts.e2e.page.core.criterias.Tag.td;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObjects;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.refreshWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 import static org.scadalts.e2e.page.core.utils.TypeParser.parseIntValueFormatted;
+import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.clazz;
 
 @Log4j2
 public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPage> {
@@ -54,7 +54,14 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
         delay();
         refreshWhile(valueInput, not(Condition.visible));
         valueInput.clear();
+        delay();
         valueInput.setValue(value);
+        return this;
+    }
+
+    public DataPointDetailsPage waitDataPointValue(String value) {
+        delay();
+        getDataPointValue(value);
         return this;
     }
 
@@ -78,7 +85,7 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
 
     public List<String> getValuesFromHistory() {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.everyInParent(3, 1, Tag.td(), new CssClass("row"));
+        NodeCriteria nodeCriteria = NodeCriteria.everyInParent(3, 1, td(), clazz("row"));
 
         return findObjects(nodeCriteria, historyTableData).stream()
                 .map(SelenideElement::getText)

@@ -2,10 +2,8 @@ package org.scadalts.e2e.page.core.criterias;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 @Data
-@ToString
 @EqualsAndHashCode
 public class Tag {
     private final String value;
@@ -44,5 +42,14 @@ public class Tag {
 
     public static Tag li() {
         return new Tag("li");
+    }
+
+    public static Tag img() {
+        return new Tag("img");
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }

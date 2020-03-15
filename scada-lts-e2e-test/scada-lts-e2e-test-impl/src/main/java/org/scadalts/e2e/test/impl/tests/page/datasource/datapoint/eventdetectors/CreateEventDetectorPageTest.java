@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventDetectorIdentifier;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
@@ -56,15 +57,15 @@ public class CreateEventDetectorPageTest {
 
         //given:
         EventDetectorType eventDetectorTypeExpected = EventDetectorType.CHANGE;
-        EventDetectorIdentifier eventDetectorIdentifierExpected = new EventDetectorIdentifier("eventdetector_test_create");
+        EventDetectorIdentifier eventDetectorIdentifierExpected = new EventDetectorIdentifier("eventdetector_test_create",eventDetectorTypeExpected);
         Xid xidExpected = Xid.xidForEventDetector();
         AlarmLevel alarmLevelExpected = AlarmLevel.INFORMATION;
         eventDetectorCriteria = EventDetectorCriteria.criteria(eventDetectorIdentifierExpected,
-                eventDetectorTypeExpected,alarmLevelExpected,dataSourcePointCriteria);
+                alarmLevelExpected,dataSourcePointCriteria);
 
         PropertiesDataPointPage page = dataSourcesPage
-                .openDataSourceEditor(dataSourceCriteria)
-                .openDataPointProperties(dataPointCriteria);
+                .openDataSourceEditor(dataSourceCriteria.getIdentifier())
+                .openDataPointProperties(dataPointCriteria.getIdentifier());
 
         //when:
         EditDataSourceWithPointListPage editDataSourcePage = page.selectEventDetectorType(eventDetectorTypeExpected)
@@ -73,19 +74,19 @@ public class CreateEventDetectorPageTest {
                 .setXid(xidExpected)
                 .selectAlarmLevel(alarmLevelExpected)
                 .saveDataPoint()
-                .waitOnPageWhileNotVisible(eventDetectorCriteria)
+                .waitOnPageWhileNotVisible(eventDetectorCriteria.getIdentifier())
                 .editDataSource();
 
         //and:
         page = editDataSourcePage
-                .openDataPointProperties(dataPointCriteria);
+                .openDataPointProperties(dataPointCriteria.getIdentifier());
 
         AlarmLevel alarmLevel = page.getAlarmLevelFirst();
         Xid xid = page.getXidFirst();
         EventDetectorIdentifier eventDetectorIdentifier = page.getAliasFirst();
 
         //then:
-        assertThat(page, containsObject(eventDetectorCriteria));
+        assertThat(page, containsObject(eventDetectorCriteria.getIdentifier()));
         assertThat(alarmLevel, equalTo(alarmLevelExpected));
         assertThat(xid, equalTo(xidExpected));
         assertThat(eventDetectorIdentifier, equalTo(eventDetectorIdentifierExpected));

@@ -1,7 +1,6 @@
 package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.Data;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.impl.criterias.identifiers.VarIdentifier;
 
@@ -15,11 +14,6 @@ public class VarCriteria implements CriteriaObject {
 
     public static VarCriteria empty() {
         return EMPTY;
-    }
-
-    @Override
-    public DictionaryObject getType() {
-        return DictionaryObject.ANY;
     }
 
     @Override

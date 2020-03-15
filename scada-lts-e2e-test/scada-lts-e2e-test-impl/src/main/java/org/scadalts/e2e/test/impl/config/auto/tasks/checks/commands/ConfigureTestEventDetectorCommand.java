@@ -2,9 +2,12 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands;
 
 import lombok.Data;
 import lombok.NonNull;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.dicts.DataPointType;
+import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegister;
@@ -33,14 +36,15 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
         Xid dataPointToChangeXid = new Xid(TestImplConfiguration.dataPointToChangeXid);
         Xid dataPointToReadXid = new Xid(TestImplConfiguration.dataPointToReadXid);
 
-        DataPointCriteria dataPointToChangeCriteria = DataPointCriteria.numericNoChange(dataPointToChangeXid,
-                new DataPointIdentifier("datapoint_to_change"), 123);
+        DataPointCriteria dataPointToChangeCriteria = DataPointCriteria.noChange(dataPointToChangeXid,
+                new DataPointIdentifier("datapoint_to_change", DataPointType.NUMERIC), "123");
 
-        DataPointCriteria dataPointToReadCriteria = DataPointCriteria.numericNoChange(dataPointToReadXid,
-                new DataPointIdentifier("datapoint_to_read"), 12345);
+        DataPointCriteria dataPointToReadCriteria = DataPointCriteria.noChange(dataPointToReadXid,
+                new DataPointIdentifier("datapoint_to_read", DataPointType.NUMERIC), "12345");
 
-        DataSourceIdentifier eventDetectorIdentifier = new DataSourceIdentifier("datasource_event_detector_test");
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond(eventDetectorIdentifier);
+        DataSourceIdentifier eventDetectorIdentifier = new DataSourceIdentifier(TestImplConfiguration.dataSourceNameEventDetectorTest,
+                DataSourceType.VIRTUAL_DATA_SOURCE);
+        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.criteriaSecond(eventDetectorIdentifier);
 
         CreateOneDataSourceTwoPointsSubCommand createOneDataSourceTwoPointsSubCommand = CreateOneDataSourceTwoPointsSubCommand.builder()
                 .dataPoint1(dataPointToChangeCriteria)

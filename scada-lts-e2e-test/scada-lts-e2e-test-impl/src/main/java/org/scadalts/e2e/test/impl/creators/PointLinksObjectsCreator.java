@@ -34,13 +34,13 @@ public class PointLinksObjectsCreator implements CreatorObject<PointLinksPage, P
     public PointLinksPage createObjects() {
         PointLinksPage pointLinksPage = openPage();
         for (PointLinkCriteria criteria : pointLinkCriterias) {
-            if(!pointLinksPage.containsObject(criteria)) {
-                logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
-                        criteria.getType(), criteria.getXid().getValue());
+            if(!pointLinksPage.containsObject(criteria.getIdentifier())) {
+                logger.info("create object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
                 pointLinksPage.openPointLinkCreator()
                         .setPoints(criteria)
                         .setScript(criteria.getScript())
-                        .setEventType(criteria.getType())
+                        .setEventType(criteria.getIdentifier().getType())
                         .savePointLink();
                 if(pointLinkCriterias.length != 1) {
                     pointLinksPage.reopen();
@@ -55,9 +55,9 @@ public class PointLinksObjectsCreator implements CreatorObject<PointLinksPage, P
     public PointLinksPage deleteObjects() {
         PointLinksPage pointLinksPage = openPage();
         for (PointLinkCriteria criteria : pointLinkCriterias) {
-            if (pointLinksPage.containsObject(criteria)) {
-                logger.info("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
-                        criteria.getType(), criteria.getXid().getValue());
+            if (pointLinksPage.containsObject(criteria.getIdentifier())) {
+                logger.info("delete object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
                 pointLinksPage.openPointLinkEditor(criteria)
                         .deletePointLink()
                         .reopen();

@@ -24,9 +24,9 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsP
     public ScriptsPage deleteObjects() {
         ScriptsPage scriptsPage = openPage();
         for (ScriptCriteria criteria: scriptCriteria) {
-            if(scriptsPage.containsObject(criteria)) {
-                logger.info("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
-                        criteria.getType(), criteria.getXid().getValue());
+            if(scriptsPage.containsObject(criteria.getIdentifier())) {
+                logger.info("delete object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
                 scriptsPage.openScriptEditor(criteria)
                         .deleteScript();
             }
@@ -38,9 +38,9 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsP
     public ScriptsPage createObjects() {
         ScriptsPage scriptsPage = openPage();
         for (ScriptCriteria criteria: scriptCriteria) {
-            if(!scriptsPage.containsObject(criteria)) {
-                logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
-                        criteria.getType(), criteria.getXid().getValue());
+            if(!scriptsPage.containsObject(criteria.getIdentifier())) {
+                logger.info("create object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
                 EditScriptsPage editScriptsPage = scriptsPage.openScriptCreator()
                         .setName(criteria.getIdentifier())
                         .waitOnPage(500)
@@ -53,7 +53,7 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsP
                             .setVarName(var);
                 }
                 editScriptsPage.saveScript()
-                        .containsObject(criteria);
+                        .containsObject(criteria.getIdentifier());
             }
         }
         return scriptsPage.reopen();

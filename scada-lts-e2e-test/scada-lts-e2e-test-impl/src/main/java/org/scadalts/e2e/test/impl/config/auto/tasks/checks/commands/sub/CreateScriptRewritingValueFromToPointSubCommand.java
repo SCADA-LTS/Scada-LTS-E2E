@@ -2,6 +2,7 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.sub;
 
 import lombok.Builder;
 import lombok.NonNull;
+import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.ScriptIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.VarIdentifier;

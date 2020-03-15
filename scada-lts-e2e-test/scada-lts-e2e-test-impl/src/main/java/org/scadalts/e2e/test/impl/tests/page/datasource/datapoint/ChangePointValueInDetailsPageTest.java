@@ -60,7 +60,7 @@ public class ChangePointValueInDetailsPageTest {
 
         watchListTestsUtil = new WatchListObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataPointDetailsPageSubject = watchListTestsUtil.createObjects()
-                .openDataPointDetails(dataSourcePointCriteria);
+                .openDataPointDetails(dataSourcePointCriteria.getIdentifier());
     }
 
     @AfterClass

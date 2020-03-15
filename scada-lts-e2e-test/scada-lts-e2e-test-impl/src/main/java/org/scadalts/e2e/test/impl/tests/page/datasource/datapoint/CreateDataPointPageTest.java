@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
-import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.ChangeType;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
@@ -25,7 +25,7 @@ public class CreateDataPointPageTest {
 
     private static final DataPointType dataPointType = DataPointType.BINARY;
     private static final ChangeType changeType = ChangeType.ALTERNATE;
-    private final DataPointIdentifier dataPointToCreateName = IdentifierObjectFactory.dataPointName();
+    private final DataPointIdentifier dataPointToCreateName = IdentifierObjectFactory.dataPointName(dataPointType);
 
     private DataPointCriteria dataPointCreatedCriteria;
     private DataSourceCriteria dataSourceCriteria;
@@ -41,7 +41,6 @@ public class CreateDataPointPageTest {
         dataPointCreatedCriteria = DataPointCriteria.builder()
                 .xid(Xid.xidForDataPoint())
                 .identifier(dataPointToCreateName)
-                .type(dataPointType)
                 .changeType(changeType)
                 .startValue("true")
                 .build();
@@ -68,11 +67,11 @@ public class CreateDataPointPageTest {
                 .selectChangeType(changeType)
                 .setStartValue(dataPointCreatedCriteria)
                 .saveDataPoint()
-                .enableDataPoint(dataPointCreatedCriteria);
+                .enableDataPoint(dataPointCreatedCriteria.getIdentifier());
 
         //and:
         String body = dataSourcesPage.reopen()
-                .openDataSourceEditor(dataSourceCriteria)
+                .openDataSourceEditor(dataSourceCriteria.getIdentifier())
                 .getBodyText();
 
         //then:

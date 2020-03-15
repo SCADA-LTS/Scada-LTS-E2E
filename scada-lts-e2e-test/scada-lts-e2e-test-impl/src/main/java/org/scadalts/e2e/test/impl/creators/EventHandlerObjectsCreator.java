@@ -22,9 +22,10 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
     public EventHandlersPage deleteObjects() {
         EventHandlersPage eventHandlersPage = openPage();
         for (EventHandlerCriteria criteria: eventHandlerCriterias) {
-            if(eventHandlersPage.containsObject(criteria)) {
-                logger.info("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
-                        criteria.getType(), criteria.getXid().getValue());
+            if(eventHandlersPage.containsObject(criteria.getIdentifier())) {
+                logger.info("delete object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getIdentifier().getType(), criteria.getXid().getValue(),
+                        criteria.getClass().getSimpleName());
                 eventHandlersPage
                         .openEventHandlerEditor(criteria)
                         .deleteEventHandler()
@@ -38,11 +39,12 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
     public EventHandlersPage createObjects() {
         EventHandlersPage eventHandlersPage = openPage();
         for (EventHandlerCriteria criteria: eventHandlerCriterias) {
-            if(!eventHandlersPage.containsObject(criteria)) {
-                logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
-                        criteria.getType(), criteria.getXid().getValue());
+            if(!eventHandlersPage.containsObject(criteria.getIdentifier())) {
+                logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getIdentifier().getType(), criteria.getXid().getValue(),
+                        criteria.getClass().getSimpleName());
                 eventHandlersPage.openEventHandlerCreator(criteria.getEventDetectorCriteria())
-                        .setEventHandlerType(criteria.getType())
+                        .setEventHandlerType(criteria.getIdentifier().getType())
                         .setXid(criteria.getXid())
                         .setAlisas(criteria.getIdentifier())
                         .setDisabled(criteria.isDisabled())

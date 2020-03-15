@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.ChangeType;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
@@ -24,7 +24,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(TestWithPageRunner.class)
 public class DeleteDataPointPageTest {
 
-    private final DataPointIdentifier dataPointToDeleteName = new DataPointIdentifier("dp_test_to_delete_" + System.nanoTime());
+    private final DataPointIdentifier dataPointToDeleteName = new DataPointIdentifier("dp_test_to_delete_" + System.nanoTime(),DataPointType.BINARY);
 
     private DataPointCriteria dataPointToDeleteCriteria;
     private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
@@ -39,7 +39,6 @@ public class DeleteDataPointPageTest {
 
         dataPointToDeleteCriteria = DataPointCriteria.builder()
                 .xid(Xid.xidForDataPoint())
-                .type(DataPointType.BINARY)
                 .identifier(dataPointToDeleteName)
                 .changeType(ChangeType.ALTERNATE)
                 .startValue("true")
@@ -48,7 +47,7 @@ public class DeleteDataPointPageTest {
         dataSourcesPageCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(), dataSourceCriteria, dataPointCriteria,
                 dataPointToDeleteCriteria, dataPointCriteria2);
         editDataSourceWithPointListPageSubject = dataSourcesPageCreator.createObjects()
-                .openDataSourceEditor(dataSourceCriteria)
+                .openDataSourceEditor(dataSourceCriteria.getIdentifier())
                 .acceptAlertOnPage();
     }
 
@@ -68,9 +67,9 @@ public class DeleteDataPointPageTest {
 
         //and when:
         String bodyAfterDelete = editDataSourceWithPointListPageSubject
-                .openDataPointEditor(dataPointToDeleteCriteria)
+                .openDataPointEditor(dataPointToDeleteCriteria.getIdentifier())
                 .deleteDataPoint()
-                .waitOnPageWhileVisibleObject(dataPointToDeleteCriteria)
+                .waitOnPageWhileVisibleObject(dataPointToDeleteCriteria.getIdentifier())
                 .getBodyText();
 
         //then:

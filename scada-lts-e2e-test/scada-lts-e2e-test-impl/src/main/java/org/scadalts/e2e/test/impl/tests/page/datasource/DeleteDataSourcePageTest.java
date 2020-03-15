@@ -20,7 +20,8 @@ import static org.hamcrest.core.StringContains.containsString;
 @RunWith(TestWithPageRunner.class)
 public class DeleteDataSourcePageTest {
 
-    private DataSourceIdentifier dataSourceToDeleteName = new DataSourceIdentifier("ds_test_delete" + System.nanoTime());
+    private DataSourceIdentifier dataSourceToDeleteName = new DataSourceIdentifier("ds_test_delete" + System.nanoTime(),
+            DataSourceType.VIRTUAL_DATA_SOURCE);
     private DataSourceCriteria dataSourceToDeleteCriteria;
 
     private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
@@ -29,7 +30,7 @@ public class DeleteDataSourcePageTest {
     @Before
     public void createDataSource() {
         dataSourceToDeleteCriteria = DataSourceCriteria.criteria(dataSourceToDeleteName,
-                UpdatePeriodType.SECOND, DataSourceType.VIRTUAL_DATA_SOURCE);
+                UpdatePeriodType.SECOND);
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(), dataSourceToDeleteCriteria);
         dataSourcePointObjectsCreator.createDataSources();
         dataSourcesPageSubject = dataSourcePointObjectsCreator.openPage();
@@ -51,7 +52,7 @@ public class DeleteDataSourcePageTest {
 
         //when:
         String bodyAfterDelete = dataSourcesPageSubject
-                .deleteDataSource(dataSourceToDeleteCriteria)
+                .deleteDataSource(dataSourceToDeleteCriteria.getIdentifier())
                 .getBodyText();
 
         //then:

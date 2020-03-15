@@ -5,7 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.*;
@@ -168,24 +168,24 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return editDataSourceWithPointListPage.addDataPoint();
     }
 
-    public EditDataPointPage openDataPointEditor(DataPointCriteria criteria) {
-        return editDataSourceWithPointListPage.openDataPointEditor(criteria);
+    public EditDataPointPage openDataPointEditor(DataPointIdentifier dataPointIdentifier) {
+        return editDataSourceWithPointListPage.openDataPointEditor(dataPointIdentifier);
     }
 
-    public PropertiesDataPointPage openDataPointProperties(DataPointCriteria criteria) {
-        return editDataSourceWithPointListPage.openDataPointProperties(criteria);
+    public PropertiesDataPointPage openDataPointProperties(DataPointIdentifier dataPointIdentifier) {
+        return editDataSourceWithPointListPage.openDataPointProperties(dataPointIdentifier);
     }
 
-    public EditDataSourceWithPointListPage enableDataPoint(DataPointCriteria criteria) {
-        return editDataSourceWithPointListPage.enableDataPoint(criteria);
+    public EditDataSourceWithPointListPage enableDataPoint(DataPointIdentifier dataPointIdentifier) {
+        return editDataSourceWithPointListPage.enableDataPoint(dataPointIdentifier);
     }
 
-    public EditDataSourceWithPointListPage disableDataPoint(DataPointCriteria criteria) {
-        return editDataSourceWithPointListPage.disableDataPoint(criteria);
+    public EditDataSourceWithPointListPage disableDataPoint(DataPointIdentifier dataPointIdentifier) {
+        return editDataSourceWithPointListPage.disableDataPoint(dataPointIdentifier);
     }
 
-    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceName) {
-        return editDataSourceWithPointListPage.setDataSourceName(dataSourceName);
+    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceIdentifier) {
+        return editDataSourceWithPointListPage.setDataSourceName(dataSourceIdentifier);
     }
 
     public EditDataSourcePage setDataSourceXid(Xid dataSourceXid) {
@@ -196,12 +196,12 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return editDataSourceWithPointListPage.setUpdatePeriods(updatePeriods);
     }
 
-    public EditDataSourcePage selectUpdatePeriodType(UpdatePeriodType componentName) {
-        return editDataSourceWithPointListPage.selectUpdatePeriodType(componentName);
+    public EditDataSourcePage selectUpdatePeriodType(UpdatePeriodType updatePeriodType) {
+        return editDataSourceWithPointListPage.selectUpdatePeriodType(updatePeriodType);
     }
 
-    public String selectUpdatePeriodTypeValue(UpdatePeriodType componentName) {
-        return editDataSourceWithPointListPage.selectUpdatePeriodTypeValue(componentName);
+    public String selectUpdatePeriodTypeValue(UpdatePeriodType updatePeriodType) {
+        return editDataSourceWithPointListPage.selectUpdatePeriodTypeValue(updatePeriodType);
     }
 
     public EditDataSourceWithPointListPage saveDataSource() {

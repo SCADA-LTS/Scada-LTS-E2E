@@ -2,6 +2,8 @@ package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.*;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
+import org.scadalts.e2e.page.core.criterias.identifiers.GetXid;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventHandlerIdentifier;
 import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
 
@@ -19,26 +21,25 @@ public class EventHandlerCriteria implements CriteriaObject, GetXid {
     private final @NonNull ScriptCriteria activeScript;
     private final @NonNull ScriptCriteria inactiveScript;
     private final @NonNull EventDetectorCriteria eventDetectorCriteria;
-    private final @NonNull EventHandlerType type;
     private final boolean disabled;
 
-    private EventHandlerCriteria(@NonNull Xid xid, @NonNull EventHandlerIdentifier identifier, ScriptCriteria activeScript, ScriptCriteria inactiveScript, @NonNull EventDetectorCriteria eventDetectorCriteria, @NonNull EventHandlerType type, boolean disabled) {
+    private EventHandlerCriteria(@NonNull Xid xid, @NonNull EventHandlerIdentifier identifier,
+                                 @NonNull ScriptCriteria activeScript, @NonNull ScriptCriteria inactiveScript,
+                                 @NonNull EventDetectorCriteria eventDetectorCriteria, boolean disabled) {
         this.xid = xid;
         this.identifier = identifier;
         this.activeScript = activeScript;
         this.inactiveScript = inactiveScript;
         this.eventDetectorCriteria = eventDetectorCriteria;
-        this.type = type;
         this.disabled = disabled;
     }
 
-    public static EventHandlerCriteria script(EventHandlerIdentifier identifier, EventDetectorCriteria eventDetectorCriteria, ScriptCriteria scriptCriteria) {
+    public static EventHandlerCriteria activeScript(EventHandlerIdentifier identifier, EventDetectorCriteria eventDetectorCriteria, ScriptCriteria scriptCriteria) {
         return EventHandlerCriteria.builder()
                 .eventDetectorCriteria(eventDetectorCriteria)
                 .activeScript(scriptCriteria)
                 .inactiveScript(ScriptCriteria.empty())
                 .identifier(identifier)
-                .type(EventHandlerType.SCRIPT)
                 .xid(Xid.xidForEventHandler())
                 .build();
     }
@@ -48,8 +49,7 @@ public class EventHandlerCriteria implements CriteriaObject, GetXid {
                 .eventDetectorCriteria(eventDetectorCriteria)
                 .activeScript(activeScript)
                 .inactiveScript(ScriptCriteria.empty())
-                .identifier(IdentifierObjectFactory.eventHandlerName())
-                .type(EventHandlerType.SCRIPT)
+                .identifier(IdentifierObjectFactory.eventHandlerName(EventHandlerType.SCRIPT))
                 .xid(Xid.xidForEventHandler())
                 .build();
     }
@@ -60,8 +60,7 @@ public class EventHandlerCriteria implements CriteriaObject, GetXid {
                 .eventDetectorCriteria(eventDetectorCriteria)
                 .activeScript(activeScript)
                 .inactiveScript(inactiveScript)
-                .identifier(IdentifierObjectFactory.eventHandlerName())
-                .type(EventHandlerType.SCRIPT)
+                .identifier(IdentifierObjectFactory.eventHandlerName(EventHandlerType.SCRIPT))
                 .xid(Xid.xidForEventHandler())
                 .build();
     }
@@ -75,7 +74,6 @@ public class EventHandlerCriteria implements CriteriaObject, GetXid {
                 .activeScript(activeScript)
                 .inactiveScript(inactiveScript)
                 .identifier(eventHandlerIdentifier)
-                .type(EventHandlerType.SCRIPT)
                 .xid(Xid.xidForEventHandler())
                 .build();
     }

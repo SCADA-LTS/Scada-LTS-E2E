@@ -1,6 +1,8 @@
 package org.scadalts.e2e.test.impl.creators;
 
 import lombok.extern.log4j.Log4j2;
+import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
@@ -23,9 +25,10 @@ public class EventDetectorObjectsCreator implements CreatorObject<PropertiesData
     @Override
     public PropertiesDataPointPage deleteObjects() {
         PropertiesDataPointPage propertiesDataPointPage = openPage();
-        if(propertiesDataPointPage.containsObject(eventDetectorCriteria)) {
-            logger.info("delete object: {}, type: {}, xid: {}", eventDetectorCriteria.getIdentifier().getValue(),
-                    eventDetectorCriteria.getType(), eventDetectorCriteria.getXid().getValue());
+        if(propertiesDataPointPage.containsObject(eventDetectorCriteria.getIdentifier())) {
+            logger.info("delete object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
+                    eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
+                    eventDetectorCriteria.getClass().getSimpleName());
             propertiesDataPointPage.deleteEventDetector(eventDetectorCriteria)
                     .saveDataPoint();
         }
@@ -35,10 +38,11 @@ public class EventDetectorObjectsCreator implements CreatorObject<PropertiesData
     @Override
     public PropertiesDataPointPage createObjects() {
         PropertiesDataPointPage propertiesDataPointPage = openPage();
-        if(!propertiesDataPointPage.containsObject(eventDetectorCriteria)) {
-            logger.info("create object: {}, type: {}, xid: {}", eventDetectorCriteria.getIdentifier().getValue(),
-                    eventDetectorCriteria.getType(), eventDetectorCriteria.getXid().getValue());
-            propertiesDataPointPage.selectEventDetectorType(eventDetectorCriteria.getType())
+        if(!propertiesDataPointPage.containsObject(eventDetectorCriteria.getIdentifier())) {
+            logger.info("create object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
+                    eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
+                    eventDetectorCriteria.getClass().getSimpleName());
+            propertiesDataPointPage.selectEventDetectorType(eventDetectorCriteria.getIdentifier().getType())
                     .addEventDetector()
                     .setAlias(eventDetectorCriteria.getIdentifier())
                     .setXid(eventDetectorCriteria.getXid())
@@ -52,13 +56,15 @@ public class EventDetectorObjectsCreator implements CreatorObject<PropertiesData
     @Override
     public PropertiesDataPointPage openPage() {
         DataSourcePointCriteria dataSourcePointCriteria = eventDetectorCriteria.getDataSourcePointCriteria();
+        DataSourceCriteria dataSourceCriteria = dataSourcePointCriteria.getDataSource();
+        DataPointCriteria dataPointCriteria = dataSourcePointCriteria.getDataPoint();
         if(dataSourcesPage == null) {
             dataSourcesPage = navigationPage.openDataSources();
-            return dataSourcesPage.openDataSourceEditor(dataSourcePointCriteria.getDataSource())
-                    .openDataPointProperties(dataSourcePointCriteria.getDataPoint());
+            return dataSourcesPage.openDataSourceEditor(dataSourceCriteria.getIdentifier())
+                    .openDataPointProperties(dataPointCriteria.getIdentifier());
         }
         return dataSourcesPage.reopen()
-                .openDataSourceEditor(dataSourcePointCriteria.getDataSource())
-                .openDataPointProperties(dataSourcePointCriteria.getDataPoint());
+                .openDataSourceEditor(dataSourceCriteria.getIdentifier())
+                .openDataPointProperties(dataPointCriteria.getIdentifier());
     }
 }

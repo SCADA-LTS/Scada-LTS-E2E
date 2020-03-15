@@ -61,7 +61,7 @@ public class DeleteWatchListPageTest {
         assertThat(watchListBeforeDelete, containsString(watchListToDeleteCriteria.getIdentifier().getValue()));
 
         //and when:
-        watchListPageSubject.deleteFromWatchList(watchListToDeleteCriteria);
+        watchListPageSubject.deleteFromWatchList(watchListToDeleteCriteria.getIdentifier());
 
         //and:
         String watchListAfterDelete = watchListPageSubject.getWatchListText();

@@ -25,7 +25,7 @@ public class CreateEventDetectorSubCommand implements SubCommand<EventDetectorCr
     public EventDetectorCriteria execute() {
 
         EventDetectorCriteria eventDetectorCriteria = EventDetectorCriteria
-                .criteria(new EventDetectorIdentifier("ed_event_detector_test"), EventDetectorType.CHANGE
+                .criteria(new EventDetectorIdentifier("ed_event_detector_test",EventDetectorType.CHANGE)
                         , AlarmLevel.NONE, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
         EventDetectorObjectsCreator eventDetectorObjectsCreator = new EventDetectorObjectsCreator(navigationPage,eventDetectorCriteria);
         eventDetectorObjectsCreator.createObjects();

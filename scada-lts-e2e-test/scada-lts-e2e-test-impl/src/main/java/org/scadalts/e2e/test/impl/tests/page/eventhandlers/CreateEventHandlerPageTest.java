@@ -5,6 +5,8 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.scadalts.e2e.page.core.criterias.Script;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventHandlerIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.ScriptIdentifier;
@@ -104,13 +106,13 @@ public class CreateEventHandlerPageTest {
     public void test_create_event_handler() {
 
         //given:
-        EventHandlerIdentifier eventHandlerIdentifierExpected = new EventHandlerIdentifier("eventhandler_test_create");
         Xid xidExpected = Xid.xidForEventHandler();
         EventHandlerType eventHandlerTypeExpected = EventHandlerType.SCRIPT;
+        EventHandlerIdentifier eventHandlerIdentifierExpected = new EventHandlerIdentifier("eventhandler_test_create",eventHandlerTypeExpected);
+
         eventHandlerCriteria = EventHandlerCriteria.builder()
                 .identifier(eventHandlerIdentifierExpected)
                 .xid(xidExpected)
-                .type(eventHandlerTypeExpected)
                 .activeScript(scriptActive)
                 .inactiveScript(scriptInactive)
                 .eventDetectorCriteria(eventDetectorCriteria)

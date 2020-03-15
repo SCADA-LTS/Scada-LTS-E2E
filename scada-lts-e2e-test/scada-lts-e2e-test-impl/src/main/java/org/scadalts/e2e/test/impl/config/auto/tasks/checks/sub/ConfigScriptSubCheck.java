@@ -24,7 +24,7 @@ public class ConfigScriptSubCheck implements SubCheck {
         logger.info("run... {}", this.getClass().getSimpleName());
         ScriptsPage scriptsPage = navigationPage.openScripts();
         for (ScriptCriteria scriptCriteria: scriptCriterias) {
-            assertThat(scriptsPage, containsObject(scriptCriteria));
+            assertThat(scriptsPage, containsObject(scriptCriteria.getIdentifier()));
         }
     }
 }

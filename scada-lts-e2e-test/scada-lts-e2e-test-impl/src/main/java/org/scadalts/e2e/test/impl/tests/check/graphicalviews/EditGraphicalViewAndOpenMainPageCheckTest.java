@@ -3,7 +3,6 @@ package org.scadalts.e2e.test.impl.tests.check.graphicalviews;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.scadalts.e2e.page.impl.criterias.GraphicalViewCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -19,20 +18,20 @@ public class EditGraphicalViewAndOpenMainPageCheckTest {
 
     private static NavigationPage navigationPage;
     private static GraphicalViewsPage graphicalViewsPageSubject;
-    private static GraphicalViewCriteria graphicalViewCriteria;
+    private static GraphicalViewIdentifier graphicalViewIdentifier;
 
     @BeforeClass
     public static void setup() {
         navigationPage = TestWithPageUtil.getNavigationPage();
         graphicalViewsPageSubject = navigationPage.openGraphicalViews();
-        graphicalViewCriteria = GraphicalViewCriteria.criteria(new GraphicalViewIdentifier(TestImplConfiguration.graphicalViewName));
+        graphicalViewIdentifier = new GraphicalViewIdentifier(TestImplConfiguration.graphicalViewName);
     }
 
     @Test
     public void test_when_edit_graphical_view_and_open_other_page_then_this_page() {
 
         //when:
-        graphicalViewsPageSubject.openViewEditor(graphicalViewCriteria)
+        graphicalViewsPageSubject.openViewEditor(graphicalViewIdentifier)
                 .clickCheckboxDelete();
 
         //and:

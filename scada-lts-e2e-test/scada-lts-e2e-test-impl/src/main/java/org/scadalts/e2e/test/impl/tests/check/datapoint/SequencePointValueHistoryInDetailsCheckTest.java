@@ -12,6 +12,8 @@ import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.dicts.DataPointType;
+import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
@@ -46,13 +48,13 @@ public class SequencePointValueHistoryInDetailsCheckTest {
     @BeforeClass
     public static void createDataSourceAndPoint() {
 
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond(new DataSourceIdentifier(TestImplConfiguration.dataSourceName));
-        DataPointCriteria dataPointCriteria = DataPointCriteria.numericNoChange(new DataPointIdentifier(TestImplConfiguration.dataPointName));
+        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.criteriaSecond(new DataSourceIdentifier(TestImplConfiguration.dataSourceName, DataSourceType.VIRTUAL_DATA_SOURCE));
+        DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(new DataPointIdentifier(TestImplConfiguration.dataPointName, DataPointType.NUMERIC));
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria
                 .criteria(dataSourceCriteria, dataPointCriteria);
 
         dataPointDetailsPageSubject = TestWithPageUtil.getNavigationPage().openWatchList()
-                .openDataPointDetails(dataSourcePointCriteria);
+                .openDataPointDetails(dataSourcePointCriteria.getIdentifier());
 
         int limit = dataPointDetailsPageSubject.getHistoryLimit();
         List<String> result = dataPointDetailsPageSubject.getValuesFromHistory();

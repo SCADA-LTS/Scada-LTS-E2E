@@ -34,10 +34,10 @@ public class WatchListObjectsCreator implements CreatorObject<WatchListPage, Wat
     public WatchListPage createObjects() {
         WatchListPage page = openPage();
         for (DataSourcePointCriteria criteria : criterias) {
-            if(!page.isVisibleWatchList() || !page.containsObject(criteria)) {
-                logger.info("create object: {}, type: {}", criteria.getIdentifier().getValue(),
-                        criteria.getType());
-                page.addToWatchList(criteria);
+            if(!page.isVisibleWatchList() || !page.containsObject(criteria.getIdentifier())) {
+                logger.info("create object: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getClass().getSimpleName());
+                page.addToWatchList(criteria.getIdentifier());
             }
         }
         return page;
@@ -47,10 +47,10 @@ public class WatchListObjectsCreator implements CreatorObject<WatchListPage, Wat
     public WatchListPage deleteObjects() {
         WatchListPage page = openPage();
         for (DataSourcePointCriteria criteria : criterias) {
-            if(page.containsObject(criteria)) {
-                logger.info("delete object: {}, type: {}", criteria.getIdentifier().getValue(),
-                        criteria.getType());
-                page.deleteFromWatchList(criteria);
+            if(page.containsObject(criteria.getIdentifier())) {
+                logger.info("delete object: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getClass().getSimpleName());
+                page.deleteFromWatchList(criteria.getIdentifier());
             }
         }
         return page;

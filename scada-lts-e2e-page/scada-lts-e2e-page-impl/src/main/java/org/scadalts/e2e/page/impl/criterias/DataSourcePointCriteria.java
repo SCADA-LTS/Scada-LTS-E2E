@@ -1,10 +1,9 @@
 package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
@@ -14,8 +13,8 @@ import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import java.util.Objects;
 
 @Data
+@Getter
 @ToString
-@EqualsAndHashCode
 public class DataSourcePointCriteria implements CriteriaObject {
 
     private final @NonNull DataSourceCriteria dataSource;
@@ -43,26 +42,21 @@ public class DataSourcePointCriteria implements CriteriaObject {
 
     public static DataSourcePointCriteria criteria(DataSourceIdentifier dataSourceIdentifier, DataPointIdentifier dataPointIdentifier) {
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria
-                .virtualDataSourceSecond(dataSourceIdentifier);
+                .criteriaSecond(dataSourceIdentifier);
         DataPointCriteria dataPointCriteria = DataPointCriteria
-                .numericNoChange(dataPointIdentifier);
+                .noChange(dataPointIdentifier);
         return new DataSourcePointCriteria(dataSourceCriteria, dataPointCriteria);
     }
 
     public static DataSourcePointCriteria criteria(DataSourceCriteria dataSourceCriteria, DataPointIdentifier dataPointIdentifier) {
         DataPointCriteria dataPointCriteria = DataPointCriteria
-                .numericNoChange(dataPointIdentifier);
+                .noChange(dataPointIdentifier);
         return new DataSourcePointCriteria(dataSourceCriteria, dataPointCriteria);
     }
 
     @Override
     public DataSourcePointIdentifier getIdentifier() {
-        return new DataSourcePointIdentifier(dataSource.getIdentifier().getValue() + " - " + dataPoint.getIdentifier().getValue());
-    }
-
-    @Override
-    public DictionaryObject getType() {
-        return DictionaryObject.ANY;
+        return new DataSourcePointIdentifier(dataSource.getIdentifier(), dataPoint.getIdentifier());
     }
 
     @Override

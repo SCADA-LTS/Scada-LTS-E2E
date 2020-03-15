@@ -42,7 +42,7 @@ public class DeleteGraphicalViewPageTest {
 
         //when:
         graphicalViewsPageSubject
-                .openViewEditor(criteria)
+                .openViewEditor(criteria.getIdentifier())
                 .delete();
 
         //then:

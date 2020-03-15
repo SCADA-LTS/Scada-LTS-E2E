@@ -1,10 +1,10 @@
-package org.scadalts.e2e.page.impl.criterias;
+package org.scadalts.e2e.page.core.criterias.identifiers;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import static org.scadalts.e2e.page.impl.criterias.XidUtil.generateString;
+import static org.scadalts.e2e.page.core.criterias.identifiers.XidUtil.generateString;
 
 @Data
 @ToString

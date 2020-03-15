@@ -65,7 +65,7 @@ public class SequencePointValueHistoryInDetailsPageTest {
 
         watchListTestsUtil = new WatchListObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataPointDetailsPageSubject = watchListTestsUtil.createObjects()
-                .openDataPointDetails(dataSourcePointCriteria);
+                .openDataPointDetails(dataSourcePointCriteria.getIdentifier());
 
         int limit = dataPointDetailsPageSubject.getHistoryLimit();
         List<String> result = dataPointDetailsPageSubject.getValuesFromHistory();
@@ -92,7 +92,8 @@ public class SequencePointValueHistoryInDetailsPageTest {
         //when:
         dataPointDetailsPageSubject
                 .setDataPointValue(valueExpected)
-                .confirmDataPointValue();
+                .confirmDataPointValue()
+                .waitDataPointValue(valueExpected);
 
         //and:
         List<String> result = dataPointDetailsPageSubject.refreshPage().getValuesFromHistory();

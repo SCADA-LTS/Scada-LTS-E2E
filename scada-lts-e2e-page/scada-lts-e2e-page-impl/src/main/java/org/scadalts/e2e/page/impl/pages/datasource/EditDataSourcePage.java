@@ -4,7 +4,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
-import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 
@@ -45,10 +45,10 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
     }
 
 
-    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceName) {
+    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceIdentifier) {
         delay();
         this.dataSourceName.clear();
-        this.dataSourceName.setValue(dataSourceName.getValue());
+        this.dataSourceName.setValue(dataSourceIdentifier.getValue());
         return this;
     }
 
@@ -67,16 +67,16 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
         return this;
     }
 
-    public EditDataSourcePage selectUpdatePeriodType(UpdatePeriodType componentName) {
+    public EditDataSourcePage selectUpdatePeriodType(UpdatePeriodType updatePeriodType) {
         delay();
-        updatePeriodType.selectOption(componentName.getName());
+        this.updatePeriodType.selectOption(updatePeriodType.getName());
         return this;
     }
 
-    public String selectUpdatePeriodTypeValue(UpdatePeriodType componentName) {
+    public String selectUpdatePeriodTypeValue(UpdatePeriodType updatePeriodType) {
         delay();
-        updatePeriodType.selectOption(componentName.getName());
-        return updatePeriodType.getValue();
+        this.updatePeriodType.selectOption(updatePeriodType.getName());
+        return this.updatePeriodType.getValue();
     }
 
     public EditDataSourceWithPointListPage saveDataSource() {

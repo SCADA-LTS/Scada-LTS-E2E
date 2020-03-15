@@ -1,8 +1,10 @@
 package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.*;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
+import org.scadalts.e2e.page.core.criterias.identifiers.GetXid;
+import org.scadalts.e2e.page.core.criterias.Script;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.ScriptIdentifier;
 
 import java.util.Arrays;
@@ -55,11 +57,6 @@ public class ScriptCriteria implements CriteriaObject, GetXid {
                 .script(Script.empty())
                 .identifier(new ScriptIdentifier(""))
                 .build();
-    }
-
-    @Override
-    public DictionaryObject getType() {
-        return DictionaryObject.ANY;
     }
 
     @Override

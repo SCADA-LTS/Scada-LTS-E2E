@@ -5,8 +5,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.dicts.DataPointType;
+import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.EventType;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.service.core.services.E2eResponse;
@@ -68,12 +71,12 @@ public class ChangePointValueViaPointLinksServiceTest {
     @Before
     public void setup() {
 
-        DataSourceIdentifier dataSourceName = IdentifierObjectFactory.dataSourceName();
+        DataSourceIdentifier dataSourceName = IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE);
 
         DataSourcePointCriteria sourcePointSourceCriteria = DataSourcePointCriteria.criteria(dataSourceName,
-                IdentifierObjectFactory.dataPointSourceName());
+                IdentifierObjectFactory.dataPointSourceName(DataPointType.NUMERIC));
         DataSourcePointCriteria sourcePointTargetCriteria = DataSourcePointCriteria.criteria(dataSourceName,
-                IdentifierObjectFactory.dataPointTargetName());
+                IdentifierObjectFactory.dataPointTargetName(DataPointType.NUMERIC));
 
         source = sourcePointSourceCriteria.getDataPoint();
         target = sourcePointTargetCriteria.getDataPoint();

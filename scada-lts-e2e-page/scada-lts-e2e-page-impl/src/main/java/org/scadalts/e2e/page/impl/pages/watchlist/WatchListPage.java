@@ -6,11 +6,11 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.criterias.NodeCriteria;
+import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
+import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
 
 import static com.codeborne.selenide.Condition.not;
@@ -50,8 +50,8 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         return this;
     }
 
-    public WatchListPage addToWatchList(DataSourcePointCriteria criteria) {
-        _findActionInSpan(criteria, SELECTOR_ACTION_ADD_TO_WATCH_LIST_BY).click();
+    public WatchListPage addToWatchList(DataSourcePointIdentifier identifier) {
+        _findActionInSpan(identifier, SELECTOR_ACTION_ADD_TO_WATCH_LIST_BY).click();
         return this;
     }
 
@@ -65,14 +65,14 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         return watchListTable.is(Condition.visible);
     }
 
-    public WatchListPage setDataPointValue(DataSourcePointCriteria criteria, String value) {
-        waitWhile(_findActionInTBody(criteria, SELECTOR_INPUT_BY), not(Condition.exist)).setValue(value);
+    public WatchListPage setDataPointValue(DataSourcePointIdentifier identifier, String value) {
+        waitWhile(_findActionInTBody(identifier, SELECTOR_INPUT_BY), not(Condition.exist)).setValue(value);
         return this;
     }
 
-    public String getDataPointValue(DataSourcePointCriteria criteria) {
+    public String getDataPointValue(DataSourcePointIdentifier identifier) {
         delay();
-        SelenideElement value = _findActionInTBody(criteria, SELECTOR_GET_VALUE_BY);
+        SelenideElement value = _findActionInTBody(identifier, SELECTOR_GET_VALUE_BY);
         String textValue = value.getText();
         if(StringUtils.isBlank(textValue)) {
             value = waitWhile(value, Condition.empty);
@@ -81,9 +81,9 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         return unformat(text);
     }
 
-    public String getDataPointValue(DataSourcePointCriteria criteria, String expectedValue) {
+    public String getDataPointValue(DataSourcePointIdentifier identifier, String expectedValue) {
         delay();
-        SelenideElement value = _findActionInTBody(criteria, SELECTOR_GET_VALUE_BY);
+        SelenideElement value = _findActionInTBody(identifier, SELECTOR_GET_VALUE_BY);
         String textValue = value.getText();
         String unformattedValue = unformat(expectedValue);
         if(StringUtils.isBlank(textValue) || !textValue.equals(unformattedValue)) {
@@ -93,47 +93,47 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         return unformat(text);
     }
 
-    public WatchListPage confirmDataPointValue(DataSourcePointCriteria criteria) {
-        _findActionInTBody(criteria, SELECTOR_CONFIRM_CHANGE_BY).click();
+    public WatchListPage confirmDataPointValue(DataSourcePointIdentifier identifier) {
+        _findActionInTBody(identifier, SELECTOR_CONFIRM_CHANGE_BY).click();
         return this;
     }
 
-    public WatchListPage openDataPointValueEditor(DataSourcePointCriteria criteria) {
-        _findActionInTBody(criteria, SELECTOR_ACTION_EDIT_DATA_POINT_VALUE_BY).click();
+    public WatchListPage openDataPointValueEditor(DataSourcePointIdentifier identifier) {
+        _findActionInTBody(identifier, SELECTOR_ACTION_EDIT_DATA_POINT_VALUE_BY).click();
         return this;
     }
 
-    public DataPointDetailsPage openDataPointDetails(DataSourcePointCriteria criteria) {
-        _findActionInTBody(criteria, SELECTOR_DATA_POINT_DETAILS_BY).click();
+    public DataPointDetailsPage openDataPointDetails(DataSourcePointIdentifier identifier) {
+        _findActionInTBody(identifier, SELECTOR_DATA_POINT_DETAILS_BY).click();
         return page(DataPointDetailsPage.class);
     }
 
-    public WatchListPage closeEditorDataPointValue(DataSourcePointCriteria criteria) {
-        _findActionInTBody(criteria, SELECTOR_ACTION_CLOSE_EDIT_BY).doubleClick();
+    public WatchListPage closeEditorDataPointValue(DataSourcePointIdentifier identifier) {
+        _findActionInTBody(identifier, SELECTOR_ACTION_CLOSE_EDIT_BY).doubleClick();
         return this;
     }
 
-    public WatchListPage deleteFromWatchList(DataSourcePointCriteria criteria) {
+    public WatchListPage deleteFromWatchList(DataSourcePointIdentifier identifier) {
         delay();
-        SelenideElement selenideElement = _findActionInTBody(criteria, SELECTOR_DELETE_FROM_WATCH_LIST_BY);
+        SelenideElement selenideElement = _findActionInTBody(identifier, SELECTOR_DELETE_FROM_WATCH_LIST_BY);
         acceptAlertAfterClick(selenideElement);
         return this;
     }
 
     @Override
-    public boolean containsObject(CriteriaObject criteria) {
-        return getWatchListText().contains(criteria.getIdentifier().getValue());
+    public boolean containsObject(IdentifierObject identifier) {
+        return getWatchListText().contains(identifier.getValue());
     }
 
-    private SelenideElement _findActionInSpan(DataSourcePointCriteria criteria, By selectAction) {
+    private SelenideElement _findActionInSpan(DataSourcePointIdentifier identifier, By selectAction) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getIdentifier(), criteria.getType(), Tag.span());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(identifier, Tag.span());
         return findAction(nodeCriteria, selectAction, treeDiv);
     }
 
-    private SelenideElement _findActionInTBody(DataSourcePointCriteria criteria, By selectAction) {
+    private SelenideElement _findActionInTBody(DataSourcePointIdentifier identifier, By selectAction) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getIdentifier(), criteria.getType(), Tag.tbody());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(identifier, Tag.tbody());
         return findAction(nodeCriteria, selectAction, watchListTable);
     }
 }

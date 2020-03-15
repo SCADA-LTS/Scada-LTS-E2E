@@ -4,13 +4,13 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criterias.NodeCriteria;
+import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataPointVarCriteria;
-import org.scadalts.e2e.page.impl.criterias.Script;
-import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.core.criterias.Script;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.ScriptIdentifier;
 
 import static com.codeborne.selenide.Condition.not;
@@ -103,7 +103,7 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
 
     public EditScriptsPage setVarName(DataPointVarCriteria criteria) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getDataPointCriteria().getIdentifier(), Tag.tr());
+        NodeCriteria nodeCriteria = NodeCriteria.exactlyTypeAny(criteria.getDataPointCriteria().getIdentifier(), Tag.tr());
         findAction(nodeCriteria, INPUT_VAL_NAME, contextContainer).setValue(criteria.getVarCriteria().getIdentifier().getValue());
         return this;
     }
@@ -128,7 +128,7 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
     private EditScriptsPage _selectPoint(DataPointCriteria dataPointName) {
         delay();
         waitWhile(allPointsListChosen, not(Condition.visible)).click();
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(dataPointName.getIdentifier(), Tag.li());
+        NodeCriteria nodeCriteria = NodeCriteria.exactlyTypeAny(dataPointName.getIdentifier(), Tag.li());
         findObject(nodeCriteria, $(By.cssSelector(".chosen-results"))).click();
         return this;
     }

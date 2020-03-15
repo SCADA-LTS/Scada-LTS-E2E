@@ -31,10 +31,10 @@ public class ConfigEventDetectorSubCheck implements SubCheck {
             DataSourceCriteria dataSourceCriteria = eventDetectorCriteria.getDataSourcePointCriteria().getDataSource();
             DataPointCriteria dataPointCriteria = eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint();
 
-            EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.openDataSourceEditor(dataSourceCriteria);
-            PropertiesDataPointPage propertiesDataPointPage = editDataSourceWithPointListPage.openDataPointProperties(dataPointCriteria);
+            EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.openDataSourceEditor(dataSourceCriteria.getIdentifier());
+            PropertiesDataPointPage propertiesDataPointPage = editDataSourceWithPointListPage.openDataPointProperties(dataPointCriteria.getIdentifier());
             propertiesDataPointPage.waitOnEventDetectorTable();
-            assertThat(propertiesDataPointPage, containsObject(eventDetectorCriteria));
+            assertThat(propertiesDataPointPage, containsObject(eventDetectorCriteria.getIdentifier()));
         }
     }
 }

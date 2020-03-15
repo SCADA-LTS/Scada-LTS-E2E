@@ -40,11 +40,11 @@ public class ConfigEventHandlerSubCheck implements SubCheck {
             ScriptCriteria activeScript = eventHandlerCriteria.getActiveScript();
             ScriptCriteria inactiveScript = eventHandlerCriteria.getInactiveScript();
 
-            assertThat(eventHandlersPage, containsObject(eventHandlerCriteria));
+            assertThat(eventHandlersPage, containsObject(eventHandlerCriteria.getIdentifier()));
             assertEquals(activeScript.getIdentifier(), activeScriptCommand);
             assertEquals(inactiveScript.getIdentifier(), inactiveScriptCommand);
             assertEquals(eventHandlerCriteria.isDisabled(), disabled);
-            assertEquals(eventHandlerCriteria.getType(), eventHandlerType);
+            assertEquals(eventHandlerCriteria.getIdentifier().getType(), eventHandlerType);
             assertEquals(eventHandlerCriteria.getIdentifier(), eventHandlerIdentifier);
         }
     }

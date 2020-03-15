@@ -35,7 +35,7 @@ public class ChangeAlarmListCheckTest {
     public void test_check_no_changed_alarmList() {
 
         //when:
-        EditGraphicalViewPage edit = editViewPageSubject.openViewEditor(criteria);
+        EditGraphicalViewPage edit = editViewPageSubject.openViewEditor(criteria.getIdentifier());
 
         //and:
         String alarmList = edit.getFirstAlarmListText();
@@ -56,7 +56,7 @@ public class ChangeAlarmListCheckTest {
     public void test_check_changed_alarmList_c1Id() {
 
         //when:
-        EditGraphicalViewPage edit = editViewPageSubject.openViewEditor(criteria);
+        EditGraphicalViewPage edit = editViewPageSubject.openViewEditor(criteria.getIdentifier());
 
         //and:
         String alarmList = edit.getFirstAlarmListText();

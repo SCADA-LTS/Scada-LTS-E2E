@@ -5,7 +5,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.*;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
+import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
+import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
+import org.scadalts.e2e.page.impl.dicts.DataPointType;
+import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
@@ -36,21 +42,21 @@ public class ChangePointValueViaPointLinksTwoDataSourceServiceTest {
     }
 
     private static AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
-    private static DataPointCriteria source;
-    private static DataPointCriteria target;
+    private static DataPointCriteria dataPointSource;
+    private static DataPointCriteria dataPointTarget;
 
     @BeforeClass
     public static void setup() {
 
-        DataSourcePointCriteria sourcePointSource = DataSourcePointCriteria.criteria(IdentifierObjectFactory.dataSourceSourceName(),
-                IdentifierObjectFactory.dataPointSourceName());
-        DataSourcePointCriteria sourcePointTarget = DataSourcePointCriteria.criteria(IdentifierObjectFactory.dataSourceTargetName(),
-                IdentifierObjectFactory.dataPointTargetName());
+        DataSourcePointCriteria source = DataSourcePointCriteria.criteria(IdentifierObjectFactory.dataSourceSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                IdentifierObjectFactory.dataPointSourceName(DataPointType.NUMERIC));
+        DataSourcePointCriteria target = DataSourcePointCriteria.criteria(IdentifierObjectFactory.dataSourceTargetName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                IdentifierObjectFactory.dataPointTargetName(DataPointType.NUMERIC));
 
-        PointLinkCriteria criteria = PointLinkCriteria.change(sourcePointSource, sourcePointTarget);
+        PointLinkCriteria criteria = PointLinkCriteria.change(source, target);
 
-        source = sourcePointSource.getDataPoint();
-        target = sourcePointTarget.getDataPoint();
+        dataPointSource = source.getDataPoint();
+        dataPointTarget = target.getDataPoint();
 
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
                 criteria);
@@ -66,8 +72,8 @@ public class ChangePointValueViaPointLinksTwoDataSourceServiceTest {
     public void test_point_links() {
 
         //given:
-        Xid sourceXid = source.getXid();
-        Xid targetXid = target.getXid();
+        Xid sourceXid = dataPointSource.getXid();
+        Xid targetXid = dataPointTarget.getXid();
 
         PointValueParams pointTarget = new PointValueParams(targetXid.getValue());
         CmpParams cmpParams = CmpParams.builder()

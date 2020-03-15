@@ -60,7 +60,7 @@ public enum DataPointChangeFieldType implements DictionaryObject {
 
     public static DataPointChangeFieldType getType(DataPointCriteria criteria, ChangeTypeField changeTypeField) {
         return Stream.of(DataPointChangeFieldType.values())
-                .filter(a -> a.dataPointType == criteria.getType())
+                .filter(a -> a.dataPointType == criteria.getIdentifier().getType())
                 .filter(a -> a.changeType == criteria.getChangeType())
                 .filter(a -> a.changeTypeField == changeTypeField)
                 .findFirst()

@@ -44,17 +44,17 @@ public class ConfigDataSourcePointSubCheck implements SubCheck {
             DataPointCriteria dataPointCriteria = dataSourcePointCriteria.getDataPoint();
 
             EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.reopen()
-                    .openDataSourceEditor(dataSourceCriteria)
+                    .openDataSourceEditor(dataSourceCriteria.getIdentifier())
                     .waitOnImgEabledDataSource();
 
             boolean dataSourceEnabled = editDataSourceWithPointListPage.isEnableDataSource();
-            boolean dataPointEnabled = editDataSourceWithPointListPage.isEnableDataPoint(dataPointCriteria);
+            boolean dataPointEnabled = editDataSourceWithPointListPage.isEnableDataPoint(dataPointCriteria.getIdentifier());
 
             assertEquals(dataSourceCriteria.isEnabled(), dataSourceEnabled);
             assertEquals(dataPointCriteria.isEnabled(), dataPointEnabled);
 
             EditDataPointPage editDataPointPage = editDataSourceWithPointListPage
-                    .openDataPointEditor(dataPointCriteria)
+                    .openDataPointEditor(dataPointCriteria.getIdentifier())
                     .waitOnSettableCheckBox();
 
             boolean settable = editDataPointPage.isSettable();

@@ -32,10 +32,10 @@ public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViews
     public GraphicalViewsPage deleteObjects() {
         GraphicalViewsPage page = openPage();
         for (GraphicalViewCriteria criteria : graphicalViewCriterias) {
-            if(page.containsObject(criteria)) {
-                logger.info("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
-                        criteria.getType(), criteria.getXid().getValue());
-                page.openViewEditor(criteria)
+            if(page.containsObject(criteria.getIdentifier())) {
+                logger.info("delete object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+                page.openViewEditor(criteria.getIdentifier())
                         .delete()
                         .reopen();
             }
@@ -47,9 +47,9 @@ public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViews
     public GraphicalViewsPage createObjects() {
         GraphicalViewsPage page = openPage();
         for (GraphicalViewCriteria criteria : graphicalViewCriterias) {
-            if (!page.containsObject(criteria)) {
-                logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
-                        criteria.getType(), criteria.getXid().getValue());
+            if (!page.containsObject(criteria.getIdentifier())) {
+                logger.info("create object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
                 page.openViewCreator()
                         .chooseFile(BACKGROUND_FILE)
                         .uploadFile()
@@ -83,8 +83,8 @@ public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViews
     public static GraphicalViewsPage deleteAllGraphicalViewsTest(NavigationPage navigationPage) {
         GraphicalViewsPage graphicalViewsPage = navigationPage.openGraphicalViews();
         GraphicalViewCriteria graphicalViewCriteria = GraphicalViewCriteria.criteria(new GraphicalViewIdentifier("view_test"));
-        while(graphicalViewsPage.containsObject(graphicalViewCriteria)) {
-            graphicalViewsPage.openViewEditorFirst(graphicalViewCriteria)
+        while(graphicalViewsPage.containsObject(graphicalViewCriteria.getIdentifier())) {
+            graphicalViewsPage.openViewEditorFirst(graphicalViewCriteria.getIdentifier())
                     .delete();
             graphicalViewsPage.reopen();
         }

@@ -1,13 +1,12 @@
 package org.scadalts.e2e.page.core.pages;
 
-import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.utils.RegexFactory;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.codeborne.selenide.Condition;
+import org.openqa.selenium.By;
+import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.switchTo;
+import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 
 interface PageContent<T extends PageObject<T>> extends GetPage<T> {
@@ -20,11 +19,8 @@ interface PageContent<T extends PageObject<T>> extends GetPage<T> {
         return waitWhileNotVisible($(".smallTitle")).getText();
     }
 
-    default boolean containsObject(CriteriaObject criteria) {
-        String bodyText = getBodyText();
-        Pattern pattern = Pattern.compile(RegexFactory.betweenIdentifierType(criteria));
-        Matcher matcher = pattern.matcher(bodyText);
-        return matcher.find();
+    default boolean containsObject(IdentifierObject identifier) {
+        return findObject(identifier.getNodeCriteria(), $(By.tagName("body"))).is(Condition.visible);
     }
 
     default boolean containsText(String text) {

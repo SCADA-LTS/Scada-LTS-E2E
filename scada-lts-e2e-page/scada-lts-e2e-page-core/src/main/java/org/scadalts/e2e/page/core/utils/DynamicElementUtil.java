@@ -6,14 +6,14 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.scadalts.e2e.page.core.criterias.ActionCriteria;
-import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.criterias.NodeCriteria;
+import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.pages.MainPageObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.codeborne.selenide.Condition.not;
+import static com.codeborne.selenide.Selenide.$;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.*;
 
 @Log4j2
@@ -123,10 +123,8 @@ public abstract class DynamicElementUtil {
         return selenideElement;
     }
 
-    private static SelenideElement _prepareSource(CriteriaObject criteria, SelenideElement source) {
-        String text = source.getText();
-        String objectName = criteria.getIdentifier().getValue();
-        return text.contains(objectName) ? source : waitWhile(source, not(Condition.visible));
+    private static SelenideElement _prepareSource(NodeCriteria criteria, SelenideElement source) {
+        return $(By.xpath(criteria.getXpath())).is(Condition.visible) ? source : waitWhile(source, not(Condition.visible));
     }
 
     private static SelenideElement _findActionInNodeInTree(SelenideElement source, By selectAction, NodeCriteria[] nodeCriterias) {

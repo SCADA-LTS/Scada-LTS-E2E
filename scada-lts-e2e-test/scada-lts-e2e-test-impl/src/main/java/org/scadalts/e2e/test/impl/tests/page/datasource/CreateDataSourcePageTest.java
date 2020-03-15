@@ -22,14 +22,14 @@ public class CreateDataSourcePageTest {
 
     private static final DataSourceType dataSourceType = DataSourceType.VIRTUAL_DATA_SOURCE;
     private static final UpdatePeriodType updatePeriodType = UpdatePeriodType.SECOND;
-    private final DataSourceIdentifier dataSourceName = IdentifierObjectFactory.dataSourceName();
+    private final DataSourceIdentifier dataSourceIdentifier = IdentifierObjectFactory.dataSourceName(dataSourceType);
 
     private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private DataSourcesPage dataSourcesPageSubject;
 
     @Before
     public void setup() {
-        DataSourceCriteria criteria = DataSourceCriteria.criteria(dataSourceName,updatePeriodType,dataSourceType);
+        DataSourceCriteria criteria = DataSourceCriteria.criteria(dataSourceIdentifier,updatePeriodType);
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(), criteria);
         dataSourcesPageSubject = dataSourcePointObjectsCreator.openPage();
     }
@@ -46,7 +46,7 @@ public class CreateDataSourcePageTest {
         dataSourcesPageSubject.openDataSourceCreator(dataSourceType)
                 .selectUpdatePeriodType(updatePeriodType)
                 .setUpdatePeriods(13)
-                .setDataSourceName(dataSourceName)
+                .setDataSourceName(dataSourceIdentifier)
                 .saveDataSource()
                 .enableDataSource(true);
 
@@ -54,6 +54,6 @@ public class CreateDataSourcePageTest {
         String body = dataSourcesPageSubject.reopen().getBodyText();
 
         //then
-        assertThat(body, containsString(dataSourceName.getValue()));
+        assertThat(body, containsString(dataSourceIdentifier.getValue()));
     }
 }

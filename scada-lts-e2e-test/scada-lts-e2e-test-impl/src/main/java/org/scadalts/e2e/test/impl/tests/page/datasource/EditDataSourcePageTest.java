@@ -57,7 +57,7 @@ public class EditDataSourcePageTest {
 
         //then:
         int updatePeriods = dataSourcesPage.reopen()
-                .openDataSourceEditor(criteria)
+                .openDataSourceEditor(criteria.getIdentifier())
                 .getUpdatePeriods();
 
         assertEquals(updatePeriodsExp, updatePeriods);
@@ -84,7 +84,7 @@ public class EditDataSourcePageTest {
 
         //then:
         UpdatePeriodType updatePeriodType = dataSourcesPage.reopen()
-                .openDataSourceEditor(criteria)
+                .openDataSourceEditor(criteria.getIdentifier())
                 .getUpdatePeriodType();
 
         assertEquals(updatePeriodsTypeExp, updatePeriodType);

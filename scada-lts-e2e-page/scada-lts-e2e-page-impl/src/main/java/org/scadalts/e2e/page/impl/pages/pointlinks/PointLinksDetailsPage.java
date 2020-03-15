@@ -48,8 +48,10 @@ public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsP
         delay();
         IdentifierObject source = criteria.getSource().getIdentifier();
         IdentifierObject target = criteria.getTarget().getIdentifier();
-        waitWhile(sourcePointId, not(Condition.visible)).selectOption(source.getValue());
+
         waitWhile(targetPointId, not(Condition.visible)).selectOption(target.getValue());
+        waitWhile(sourcePointId, not(Condition.visible)).selectOption(source.getValue());
+
         return this;
     }
 

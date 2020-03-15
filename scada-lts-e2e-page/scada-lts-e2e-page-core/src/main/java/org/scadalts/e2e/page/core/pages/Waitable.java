@@ -3,9 +3,9 @@ package org.scadalts.e2e.page.core.pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import org.openqa.selenium.By;
-import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.criterias.NodeCriteria;
+import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
+import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
@@ -23,9 +23,8 @@ interface Waitable<T extends PageObject<T>> extends GetPage<T> {
         return getPage();
     }
 
-    default T waitForObject(CriteriaObject criteriaObject) {
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteriaObject.getIdentifier(),
-                criteriaObject.getType(), Tag.each());
+    default T waitForObject(IdentifierObject identifier) {
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(identifier, Tag.each());
         return waitForObject(nodeCriteria);
     }
 

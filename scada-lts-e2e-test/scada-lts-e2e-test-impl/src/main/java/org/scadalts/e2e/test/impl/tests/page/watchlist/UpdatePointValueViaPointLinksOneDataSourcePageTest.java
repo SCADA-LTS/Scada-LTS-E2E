@@ -10,6 +10,9 @@ import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
+import org.scadalts.e2e.page.impl.dicts.DataPointType;
+import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
@@ -37,16 +40,18 @@ public class UpdatePointValueViaPointLinksOneDataSourcePageTest {
 
     private static AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
     private static WatchListPage watchListPageSubject;
-    private static DataSourcePointCriteria source;
-    private static DataSourcePointCriteria target;
+    private static DataSourcePointIdentifier sourceIdentifier;
+    private static DataSourcePointIdentifier targetIdentifier;
 
     @BeforeClass
     public static void setup() {
+        DataSourceIdentifier dataSourceName = IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE);
 
-        DataSourceIdentifier dataSourceName = IdentifierObjectFactory.dataSourceName();
+        DataSourcePointCriteria source = DataSourcePointCriteria.criteria(dataSourceName, IdentifierObjectFactory.dataPointSourceName(DataPointType.NUMERIC));
+        DataSourcePointCriteria target = DataSourcePointCriteria.criteria(dataSourceName, IdentifierObjectFactory.dataPointTargetName(DataPointType.NUMERIC));
 
-        source = DataSourcePointCriteria.criteria(dataSourceName, IdentifierObjectFactory.dataPointSourceName());
-        target = DataSourcePointCriteria.criteria(dataSourceName, IdentifierObjectFactory.dataPointTargetName());
+        sourceIdentifier = source.getIdentifier();
+        targetIdentifier = target.getIdentifier();
 
         PointLinkCriteria criteria = PointLinkCriteria.update(source, target);
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
@@ -63,12 +68,12 @@ public class UpdatePointValueViaPointLinksOneDataSourcePageTest {
     public void test_point_links() {
 
         //when:
-        watchListPageSubject.openDataPointValueEditor(source)
-                .setDataPointValue(source, expectedValue)
-                .confirmDataPointValue(source)
-                .closeEditorDataPointValue(source);
+        watchListPageSubject.openDataPointValueEditor(sourceIdentifier)
+                .setDataPointValue(sourceIdentifier, expectedValue)
+                .confirmDataPointValue(sourceIdentifier)
+                .closeEditorDataPointValue(sourceIdentifier);
 
-        String result = watchListPageSubject.getDataPointValue(target, expectedValue);
+        String result = watchListPageSubject.getDataPointValue(targetIdentifier, expectedValue);
 
         //then:
         assertEquals(expectedValue, result);

@@ -1,4 +1,4 @@
-package org.scadalts.e2e.test.impl.config.auto;
+package org.scadalts.e2e.test.impl.config;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

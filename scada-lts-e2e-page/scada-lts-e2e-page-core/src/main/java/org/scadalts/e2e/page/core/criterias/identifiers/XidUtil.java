@@ -1,4 +1,4 @@
-package org.scadalts.e2e.page.impl.criterias;
+package org.scadalts.e2e.page.core.criterias.identifiers;
 
 import java.util.Random;
 

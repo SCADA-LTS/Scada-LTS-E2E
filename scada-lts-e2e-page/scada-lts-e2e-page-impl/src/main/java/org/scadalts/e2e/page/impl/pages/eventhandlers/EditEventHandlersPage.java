@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.ScriptCriteria;
-import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventHandlerIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.ScriptIdentifier;
 import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
@@ -109,7 +109,8 @@ public class EditEventHandlersPage extends PageObjectAbstract<EditEventHandlersP
     public EventHandlerIdentifier getAlias() {
         delay();
         String value = alias.getValue();
-        return new EventHandlerIdentifier(value);
+        EventHandlerType type = getEventHandlerType();
+        return new EventHandlerIdentifier(value, type);
     }
 
     public Xid getXid() {

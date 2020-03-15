@@ -8,6 +8,7 @@ import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
@@ -38,7 +39,7 @@ public class ChangePointValueOnWatchListPageTest {
 
     private static CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
     private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcesAndPointsPageTestsUtil;
-    private static DataSourcePointCriteria dataSourcePointCriteria;
+    private static DataSourcePointIdentifier dataSourcePointIdentifier;
     private static WatchListPage watchListPageSubject;
 
     @BeforeClass
@@ -47,7 +48,8 @@ public class ChangePointValueOnWatchListPageTest {
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         DataPointCriteria dataPointCriteria = DataPointCriteria.numericNoChange(123);
 
-        dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
+        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
+        dataSourcePointIdentifier = dataSourcePointCriteria.getIdentifier();
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
 
         dataSourcesAndPointsPageTestsUtil = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
@@ -67,14 +69,14 @@ public class ChangePointValueOnWatchListPageTest {
     public void test_change_point_value_on_watch_list() {
 
          //when:
-        watchListPageSubject.openDataPointValueEditor(dataSourcePointCriteria)
-                 .setDataPointValue(dataSourcePointCriteria, valueExpected)
-                 .confirmDataPointValue(dataSourcePointCriteria)
-                 .closeEditorDataPointValue(dataSourcePointCriteria);
+        watchListPageSubject.openDataPointValueEditor(dataSourcePointIdentifier)
+                 .setDataPointValue(dataSourcePointIdentifier, valueExpected)
+                 .confirmDataPointValue(dataSourcePointIdentifier)
+                 .closeEditorDataPointValue(dataSourcePointIdentifier);
 
          //and:
          String result = watchListPageSubject.waitOnPage(500)
-                 .getDataPointValue(dataSourcePointCriteria, valueExpected);
+                 .getDataPointValue(dataSourcePointIdentifier, valueExpected);
 
          //then:
          assertNotNull(result);

@@ -2,23 +2,25 @@ package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.*;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
+import org.scadalts.e2e.page.core.criterias.identifiers.GetXid;
+import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.PointLinkIdentifier;
 import org.scadalts.e2e.page.impl.dicts.EventType;
 
 import java.util.Objects;
 
-@Data
 @Builder
 @ToString
 @EqualsAndHashCode
 public class PointLinkCriteria implements CriteriaObject, GetXid {
 
     @Deprecated
-    private final @NonNull Xid xid;
+    private final @NonNull @Getter
+    Xid xid;
     private final @NonNull @Getter DataSourcePointCriteria source;
     private final @NonNull @Getter DataSourcePointCriteria target;
     private final @NonNull EventType type;
-    private final @NonNull String script;
+    private final @NonNull @Getter String script;
 
     public static PointLinkCriteria change() {
         return PointLinkCriteria.builder()
@@ -82,7 +84,11 @@ public class PointLinkCriteria implements CriteriaObject, GetXid {
 
     @Override
     public PointLinkIdentifier getIdentifier() {
-        return new PointLinkIdentifier(source.getIdentifier().getValue() + " " + target.getIdentifier().getValue());
+        return PointLinkIdentifier.builder()
+        .source(source.getIdentifier())
+        .target(target.getIdentifier())
+        .type(type)
+        .build();
     }
 
     @Override

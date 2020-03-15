@@ -7,6 +7,7 @@ import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventHandlerCriteria;
 import org.scadalts.e2e.page.impl.criterias.ScriptCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventHandlerIdentifier;
+import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.creators.EventHandlerObjectsCreator;
 
@@ -29,7 +30,7 @@ public class CreateEventHandlerSubCommand implements SubCommand<EventHandlerCrit
     @Override
     public EventHandlerCriteria execute() {
 
-        EventHandlerCriteria eventHandlerCriteria = EventHandlerCriteria.script(new EventHandlerIdentifier("eh_event_detector_test"),
+        EventHandlerCriteria eventHandlerCriteria = EventHandlerCriteria.activeScript(new EventHandlerIdentifier("eh_event_detector_test", EventHandlerType.SCRIPT),
                 eventDetectorCriteria, scriptCriteria);
 
         EventHandlerObjectsCreator eventHandlerObjectsCreator = new EventHandlerObjectsCreator(navigationPage, eventHandlerCriteria);

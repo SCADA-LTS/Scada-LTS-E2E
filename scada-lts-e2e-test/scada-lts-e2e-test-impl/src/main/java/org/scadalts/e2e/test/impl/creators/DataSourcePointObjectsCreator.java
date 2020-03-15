@@ -2,9 +2,7 @@ package org.scadalts.e2e.test.impl.creators;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.page.core.criterias.CssClass;
-import org.scadalts.e2e.page.core.criterias.NodeCriteria;
-import org.scadalts.e2e.page.core.criterias.Tag;
+import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
@@ -19,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.scadalts.e2e.page.core.criterias.Tag.tr;
+import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.clazz;
 import static org.scadalts.e2e.page.impl.criterias.CriteriaUtil.createCriteriaStructure;
 
 @Log4j2
@@ -26,6 +26,8 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
 
     private final NavigationPage navigationPage;
     private final Map<DataSourceCriteria, DataPointObjectsCreator> dataSources;
+
+    private static final NodeCriteria ALL_DATA_SOURCES = NodeCriteria.every(1, 0, tr(), clazz("row"));
 
     @Getter
     private DataSourcesPage dataSourcesPage;
@@ -75,42 +77,44 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
 
     public static DataSourcesPage deleteAllDataSourcesTest(NavigationPage navigationPage) {
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(new DataSourceIdentifier("ds_test"),
-                DataSourceType.VIRTUAL_DATA_SOURCE, Tag.tr(), new CssClass("row"));
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(new DataSourceIdentifier("ds_test",
+                DataSourceType.VIRTUAL_DATA_SOURCE), tr(), clazz("row"));
         dataSourcesPage.deleteAllDataSourcesMatching(nodeCriteria);
         return dataSourcesPage;
     }
 
     public static DataSourcesPage disableAllDataSources(NavigationPage navigationPage) {
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
-        NodeCriteria nodeCriteria = NodeCriteria.every(1, 0, Tag.tr(), new CssClass("row"));
-        dataSourcesPage.disableAllDataSourcesMatching(nodeCriteria);
+        dataSourcesPage.disableAllDataSourcesMatching(ALL_DATA_SOURCES);
         return dataSourcesPage;
     }
 
     public static DataSourcesPage enableAllDataSources(NavigationPage navigationPage) {
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
-        NodeCriteria nodeCriteria = NodeCriteria.every(1, 0, Tag.tr(), new CssClass("row"));
-        dataSourcesPage.enableAllDataSourcesMatching(nodeCriteria);
+        dataSourcesPage.enableAllDataSourcesMatching(ALL_DATA_SOURCES);
         return dataSourcesPage;
     }
 
     private DataSourcesPage _deleteDataPointsAndDataSources(Map<DataSourceCriteria, DataPointObjectsCreator> criteriaMap) {
         DataSourcesPage page = openPage();
         for (DataSourceCriteria criteria : criteriaMap.keySet()) {
-            if(page.containsObject(criteria)) {
-                logger.info("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(),
-                        criteria.getType(), criteria.getXid().getValue());
-                page.deleteDataSource(criteria);
+            if(page.containsObject(criteria.getIdentifier())) {
+
+                logger.info("delete object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getIdentifier().getType(), criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+
+                page.deleteDataSource(criteria.getIdentifier());
             }
         }
         return page;
     }
 
     private EditDataSourceWithPointListPage _createDataSource(DataSourcesPage page, DataSourceCriteria criteria) {
-        logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(), criteria.getType(),
-                criteria.getXid().getValue());
-        return page.openDataSourceCreator(criteria.getType())
+
+        logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                criteria.getIdentifier().getType(), criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+
+        return page.openDataSourceCreator(criteria.getIdentifier().getType())
                 .selectUpdatePeriodType(criteria.getUpdatePeriodType())
                 .setUpdatePeriods(criteria.getUpdatePeriodValue())
                 .setDataSourceName(criteria.getIdentifier())
@@ -122,7 +126,7 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
     private DataSourcesPage _createDataSourcesAndPoints() {
         DataSourcesPage dataSourcesPage = openPage();
         for (DataSourceCriteria criteria : dataSources.keySet()) {
-            if(!dataSourcesPage.containsObject(criteria)) {
+            if(!dataSourcesPage.containsObject(criteria.getIdentifier())) {
                 EditDataSourceWithPointListPage editDataSourceWithPointListPage = _createDataSource(dataSourcesPage, criteria);
                 DataPointObjectsCreator creator = dataSources.get(criteria);
                 creator.createObjects(editDataSourceWithPointListPage);

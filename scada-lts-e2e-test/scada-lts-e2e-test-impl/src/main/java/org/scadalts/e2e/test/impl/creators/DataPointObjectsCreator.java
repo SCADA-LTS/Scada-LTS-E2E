@@ -42,7 +42,7 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
     public EditDataSourceWithPointListPage deleteObjects() {
         EditDataSourceWithPointListPage editDataSourceWithPointListPage = openPage();
         for (DataPointCriteria dataPointCriteria : dataPointCriterias) {
-            if(editDataSourceWithPointListPage.containsObject(dataPointCriteria)) {
+            if(editDataSourceWithPointListPage.containsObject(dataPointCriteria.getIdentifier())) {
                 _deleteDataPoint(editDataSourceWithPointListPage, dataPointCriteria);
             }
         }
@@ -57,7 +57,7 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
 
     public EditDataSourceWithPointListPage createObjects(EditDataSourceWithPointListPage editDataSourceWithPointListPage) {
         for (DataPointCriteria dataPointCriteria : dataPointCriterias) {
-            if(!editDataSourceWithPointListPage.containsObject(dataPointCriteria)) {
+            if(!editDataSourceWithPointListPage.containsObject(dataPointCriteria.getIdentifier())) {
                 _createDataPoint(editDataSourceWithPointListPage, dataPointCriteria);
             }
         }
@@ -68,29 +68,29 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
     public EditDataSourceWithPointListPage openPage() {
         if(dataSourcesPage == null) {
             dataSourcesPage = navigationPage.openDataSources();
-            return dataSourcesPage.openDataSourceEditor(dataSourceCriteria);
+            return dataSourcesPage.openDataSourceEditor(dataSourceCriteria.getIdentifier());
         }
         return dataSourcesPage.reopen()
-                .openDataSourceEditor(dataSourceCriteria);
+                .openDataSourceEditor(dataSourceCriteria.getIdentifier());
     }
 
     private EditDataPointPage _createDataPoint(EditDataSourceWithPointListPage page, DataPointCriteria criteria) {
-        logger.info("create object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(), criteria.getType(),
-                criteria.getXid().getValue());
+        logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(), criteria.getIdentifier().getType(),
+                criteria.getXid().getValue(), criteria.getClass().getSimpleName());
         return page.addDataPoint()
                 .setDataPointName(criteria.getIdentifier())
                 .setDataPointXid(criteria.getXid())
                 .setSettable(criteria.isSettable())
-                .selectDataPointType(criteria.getType())
+                .selectDataPointType(criteria.getIdentifier().getType())
                 .selectChangeType(criteria.getChangeType())
                 .setStartValue(criteria)
                 .saveDataPoint();
     }
 
     private EditDataSourceWithPointListPage _deleteDataPoint(EditDataSourceWithPointListPage page, DataPointCriteria criteria) {
-        logger.info("delete object: {}, type: {}, xid: {}", criteria.getIdentifier().getValue(), criteria.getType(),
-                criteria.getXid().getValue());
-        return page.openDataPointEditor(criteria)
+        logger.info("delete object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(), criteria.getIdentifier().getType(),
+                criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+        return page.openDataPointEditor(criteria.getIdentifier())
                 .deleteDataPoint();
     }
 }
