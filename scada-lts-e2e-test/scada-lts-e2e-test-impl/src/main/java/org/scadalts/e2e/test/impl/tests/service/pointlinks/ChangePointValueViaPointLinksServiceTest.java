@@ -5,9 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.*;
-import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.EventType;
@@ -30,36 +28,50 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(TestParameterizedWithPageRunner.class)
 public class ChangePointValueViaPointLinksServiceTest {
 
-    @Parameterized.Parameters(name = "{index}: {0} updatePeriodValue: {1}, {2}")
-    public static Object[][] data() { return new Object[][]{
-                {UpdatePeriodType.SECOND, 1, EventType.CHANGE},
-                {UpdatePeriodType.SECOND, 5, EventType.CHANGE},
-                {UpdatePeriodType.SECOND, 10, EventType.CHANGE},
-                {UpdatePeriodType.SECOND, 30, EventType.CHANGE},
-                {UpdatePeriodType.MILLISECOUND, 100, EventType.CHANGE},
-                {UpdatePeriodType.MILLISECOUND, 1000, EventType.CHANGE},
-                {UpdatePeriodType.MILLISECOUND, 3000, EventType.CHANGE},
-                {UpdatePeriodType.MINUTE, 1, EventType.CHANGE},
-                {UpdatePeriodType.MINUTE, 10, EventType.CHANGE},
-                {UpdatePeriodType.SECOND, 1, EventType.UPDATE},
-                {UpdatePeriodType.SECOND, 5, EventType.UPDATE},
-                {UpdatePeriodType.SECOND, 10, EventType.UPDATE},
-                {UpdatePeriodType.SECOND, 30, EventType.UPDATE},
-                {UpdatePeriodType.MILLISECOUND, 100, EventType.UPDATE},
-                {UpdatePeriodType.MILLISECOUND, 1000, EventType.UPDATE},
-                {UpdatePeriodType.MILLISECOUND, 3000, EventType.UPDATE},
-                {UpdatePeriodType.MINUTE, 1, EventType.UPDATE},
-                {UpdatePeriodType.MINUTE, 10, EventType.UPDATE},
+    @Parameterized.Parameters(name = "{index}: datasource: {0}, point link type: {1}")
+    public static Object[][] data() { return new Object[][] {
+
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.SECOND, 1), EventType.CHANGE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.SECOND, 5), EventType.CHANGE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.SECOND, 10), EventType.CHANGE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.MILLISECOUND, 100), EventType.CHANGE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.MILLISECOUND, 1000), EventType.CHANGE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.MILLISECOUND, 3000), EventType.CHANGE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.MILLISECOUND, 10000), EventType.CHANGE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.MINUTE, 1), EventType.CHANGE},
+
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.SECOND, 1), EventType.UPDATE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.SECOND, 5), EventType.UPDATE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.SECOND, 10), EventType.UPDATE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.MILLISECOUND, 100), EventType.UPDATE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.MILLISECOUND, 1000), EventType.UPDATE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.MILLISECOUND, 3000), EventType.UPDATE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.MILLISECOUND, 10000), EventType.UPDATE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.MINUTE, 1), EventType.UPDATE}
         };
     }
 
-    private final UpdatePeriodType updatePeriodType;
-    private final int updatePeriodValue;
+    private final DataSourceCriteria dataSourceCriteria;
     private final EventType eventType;
 
-    public ChangePointValueViaPointLinksServiceTest(UpdatePeriodType updatePeriodType, int updatePeriodValue, EventType eventType) {
-        this.updatePeriodType = updatePeriodType;
-        this.updatePeriodValue = updatePeriodValue;
+    public ChangePointValueViaPointLinksServiceTest(DataSourceCriteria dataSourceCriteria, EventType eventType) {
+        this.dataSourceCriteria = dataSourceCriteria;
         this.eventType = eventType;
     }
 
@@ -71,17 +83,15 @@ public class ChangePointValueViaPointLinksServiceTest {
     @Before
     public void setup() {
 
-        DataSourceIdentifier dataSourceName = IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE);
-
-        DataSourcePointCriteria sourcePointSourceCriteria = DataSourcePointCriteria.criteria(dataSourceName,
+        DataSourcePointCriteria sourcePointSourceCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria,
                 IdentifierObjectFactory.dataPointSourceName(DataPointType.NUMERIC));
-        DataSourcePointCriteria sourcePointTargetCriteria = DataSourcePointCriteria.criteria(dataSourceName,
+        DataSourcePointCriteria sourcePointTargetCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria,
                 IdentifierObjectFactory.dataPointTargetName(DataPointType.NUMERIC));
 
         source = sourcePointSourceCriteria.getDataPoint();
         target = sourcePointTargetCriteria.getDataPoint();
 
-        PointLinkCriteria criteria = PointLinkCriteria.change(sourcePointSourceCriteria, sourcePointTargetCriteria);
+        PointLinkCriteria criteria = PointLinkCriteria.criteria(sourcePointSourceCriteria, sourcePointTargetCriteria, eventType);
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
                 criteria);
         allObjectsForPointLinkTestCreator.createObjects();

@@ -62,6 +62,7 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
 
     public boolean isVisibleWatchList() {
         delay();
+        waitWhile(a -> watchListTable.is(not(Condition.visible)), null);
         return watchListTable.is(Condition.visible);
     }
 

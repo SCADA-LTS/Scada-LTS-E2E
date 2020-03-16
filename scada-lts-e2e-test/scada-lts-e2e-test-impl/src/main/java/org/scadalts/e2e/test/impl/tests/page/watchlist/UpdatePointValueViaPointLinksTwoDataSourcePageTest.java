@@ -2,7 +2,6 @@ package org.scadalts.e2e.test.impl.tests.page.watchlist;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -22,11 +21,10 @@ import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 
-@Ignore
 @RunWith(TestParameterizedWithPageRunner.class)
 public class UpdatePointValueViaPointLinksTwoDataSourcePageTest {
 
-    @Parameterized.Parameters(name = "{index}: value:{0}")
+    @Parameterized.Parameters(name = "{index}: expected:{0}")
     public static Collection<String> data() {
         return ChangePointValuesProvider.paramsToTests();
     }

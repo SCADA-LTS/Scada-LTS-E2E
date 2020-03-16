@@ -19,7 +19,7 @@ class NodeCriteriaEvery implements NodeCriteria {
     private final XpathAttribute attribute;
     private final XpathAttribute parentAttribute;
 
-    public NodeCriteriaEvery(int sectionSize, int everyoneInPosition, Tag tag, XpathAttribute attribute, XpathAttribute parentAttribute) {
+    NodeCriteriaEvery(int sectionSize, int everyoneInPosition, Tag tag, XpathAttribute attribute, XpathAttribute parentAttribute) {
         this.sectionSize = sectionSize;
         this.everyoneInPosition = everyoneInPosition;
         this.tag = tag;

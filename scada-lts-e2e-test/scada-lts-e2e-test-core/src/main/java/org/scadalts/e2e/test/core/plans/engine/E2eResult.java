@@ -3,6 +3,7 @@ package org.scadalts.e2e.test.core.plans.engine;
 import lombok.Builder;
 import lombok.Getter;
 import org.junit.runner.Result;
+import org.scadalts.e2e.test.core.utils.TestResultPrinter;
 
 import java.net.URL;
 import java.text.MessageFormat;
@@ -12,9 +13,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPrintMs;
+import static org.scadalts.e2e.test.core.utils.TestResultPrinter.failures;
 
 @Builder
-public class E2eResult implements E2eSummarable {
+public class E2eResult {
 
     @Getter
     private final String testName;
@@ -26,30 +28,24 @@ public class E2eResult implements E2eSummarable {
     private final URL url;
     private final Result result;
 
-
-    @Override
     public int getRunCount() {
         return result.getRunCount();
     }
 
-    @Override
     public int getFailureCount() {
         return result.getFailureCount();
     }
 
-    @Override
     public long getRunTime() {
         return result.getRunTime();
     }
 
-    @Override
     public List<E2eFailure> getFailures() {
         return result.getFailures().stream()
                 .map(a -> new E2eFailure(a, sessionId))
                 .collect(Collectors.toList());
     }
 
-    @Override
     public Set<String> getFailTestNames() {
         return getFailures().stream()
                 .map(E2eFailure::getDescription)
@@ -58,23 +54,24 @@ public class E2eResult implements E2eSummarable {
                 .collect(Collectors.toSet());
     }
 
-    @Override
     public int getIgnoreCount() {
         return result.getIgnoreCount();
     }
 
-    @Override
     public boolean wasSuccessful() {
         return result.wasSuccessful();
     }
 
-    @Override
     public String getUrl() {
         return url.toString();
     }
 
-    @Override
     public String toString() {
+        return MessageFormat.format("\n\n{0}\n{1}\n{2}\n{3}\n\n", TestResultPrinter.DECORATION_MAIN,
+                failures(getFailures()), _measure(), TestResultPrinter.DECORATION_MAIN);
+    }
+
+    private String _measure() {
         return MessageFormat.format("\n{0} - run: {1}, failed: {2}, ignored: {3}\n\nruntime: {4}\n",
                 getSimpleTestName(), getRunCount(), getFailureCount(), getIgnoreCount(),
                 preparingToPrintMs(getRunTime()));

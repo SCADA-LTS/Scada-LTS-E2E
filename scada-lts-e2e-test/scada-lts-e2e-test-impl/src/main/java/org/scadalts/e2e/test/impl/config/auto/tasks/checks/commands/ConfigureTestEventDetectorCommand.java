@@ -2,7 +2,8 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
+import org.scadalts.e2e.common.exceptions.ConfigureTestException;
+import org.scadalts.e2e.common.utils.ExecutorUtil;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
@@ -18,8 +19,6 @@ import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.sub.CreateOn
 import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.sub.CreateScriptRewritingValueFromToPointSubCommand;
 import org.scadalts.e2e.test.impl.tests.check.eventdetectors.EventDetectorCheckTest;
 
-import static org.scadalts.e2e.common.utils.ExecutorUtil.executeBiFunction;
-
 @Data
 public class ConfigureTestEventDetectorCommand implements Command<EventDetectorCheckTest> {
 
@@ -27,9 +26,9 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
 
     @Override
     public void execute() {
-        executeBiFunction(this::_execute,
+        ExecutorUtil.execute(this::_execute,
                 CriteriaRegisterAggregator.INSTANCE::removeRegister,
-                getClassTest(), RuntimeException::new);
+                getClassTest(), ConfigureTestException::new);
     }
 
     private void _execute() {
@@ -49,7 +48,7 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
         CreateOneDataSourceTwoPointsSubCommand createOneDataSourceTwoPointsSubCommand = CreateOneDataSourceTwoPointsSubCommand.builder()
                 .dataPoint1(dataPointToChangeCriteria)
                 .dataPoint2(dataPointToReadCriteria)
-                .dataSourceCriteria(dataSourceCriteria)
+                .dataSource(dataSourceCriteria)
                 .navigationPage(navigationPage)
                 .build();
 

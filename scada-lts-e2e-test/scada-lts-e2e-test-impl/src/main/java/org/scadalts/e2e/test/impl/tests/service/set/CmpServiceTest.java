@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
+import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
@@ -23,7 +23,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(TestParameterizedWithPageRunner.class)
 public class CmpServiceTest {
 
-    @Parameterized.Parameters(name = "{index}: value:{0}")
+    @Parameterized.Parameters(name = "{index}: expected:{0}")
     public static Collection<String> data() {
         return ChangePointValuesProvider.paramsToTests();
     }

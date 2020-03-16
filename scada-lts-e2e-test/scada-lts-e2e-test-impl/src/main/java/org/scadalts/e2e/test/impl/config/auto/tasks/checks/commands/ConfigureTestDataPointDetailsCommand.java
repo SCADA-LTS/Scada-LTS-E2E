@@ -2,6 +2,8 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands;
 
 import lombok.Data;
 import lombok.NonNull;
+import org.scadalts.e2e.common.exceptions.ConfigureTestException;
+import org.scadalts.e2e.common.utils.ExecutorUtil;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
@@ -18,8 +20,6 @@ import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
 import org.scadalts.e2e.test.impl.tests.check.datapoint.DataPointDetailsCheckTestsSuite;
 
-import static org.scadalts.e2e.common.utils.ExecutorUtil.executeBiFunction;
-
 @Data
 public class ConfigureTestDataPointDetailsCommand implements Command<DataPointDetailsCheckTestsSuite> {
 
@@ -27,9 +27,9 @@ public class ConfigureTestDataPointDetailsCommand implements Command<DataPointDe
 
     @Override
     public void execute() {
-        executeBiFunction(this::_execute,
+        ExecutorUtil.execute(this::_execute,
                 CriteriaRegisterAggregator.INSTANCE::removeRegister,
-                getClassTest(), RuntimeException::new);
+                getClassTest(), ConfigureTestException::new);
 
     }
 

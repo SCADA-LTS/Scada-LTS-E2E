@@ -20,7 +20,7 @@ public class DataSourcePointCriteria implements CriteriaObject {
     private final @NonNull DataSourceCriteria dataSource;
     private final @NonNull DataPointCriteria dataPoint;
 
-    private DataSourcePointCriteria(DataSourceCriteria dataSource, DataPointCriteria dataPoint) {
+    private DataSourcePointCriteria(@NonNull DataSourceCriteria dataSource, @NonNull DataPointCriteria dataPoint) {
         this.dataSource = dataSource;
         this.dataPoint = dataPoint;
     }

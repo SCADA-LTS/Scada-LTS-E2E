@@ -3,8 +3,10 @@ package org.scadalts.e2e.test.core.plans.engine;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.junit.runner.notification.Failure;
+import org.scadalts.e2e.test.core.utils.TestResultPrinter;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.Optional;
 
 import static org.scadalts.e2e.test.core.utils.RegexUtil.getFilesFromMessage;
@@ -47,7 +49,7 @@ public class E2eFailure {
 
     @Override
     public String toString() {
-        return failure.toString();
+        return MessageFormat.format("\n\n{0}\n\n{1}\n\n{2}\n\n", TestResultPrinter.DECORATION, failure.toString(), TestResultPrinter.DECORATION);
     }
 
     public Optional<File> getSourcePageHtml() {

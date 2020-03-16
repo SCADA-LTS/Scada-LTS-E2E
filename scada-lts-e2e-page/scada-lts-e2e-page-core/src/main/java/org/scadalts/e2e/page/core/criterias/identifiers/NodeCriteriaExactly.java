@@ -22,14 +22,14 @@ class NodeCriteriaExactly implements NodeCriteria {
     private final IdentifierObject identifier2;
     private final DictionaryObject type;
     private final Tag tag;
-    private final XpathAttribute cssClass;
+    private final XpathAttribute xpathAttribute;
 
-    public NodeCriteriaExactly(IdentifierObject identifier1, IdentifierObject identifier2, DictionaryObject type, Tag tag, XpathAttribute cssClass) {
+    NodeCriteriaExactly(IdentifierObject identifier1, IdentifierObject identifier2, DictionaryObject type, Tag tag, XpathAttribute xpathAttribute) {
         this.identifier1 = identifier1;
         this.identifier2 = identifier2;
         this.type = type;
         this.tag = tag;
-        this.cssClass = cssClass;
+        this.xpathAttribute = xpathAttribute;
     }
 
     @Override
@@ -39,8 +39,8 @@ class NodeCriteriaExactly implements NodeCriteria {
             xpathOperation = xpathOperation.and(contains(text(identifier2.getValue())));
         if(type != DictionaryObject.any())
             xpathOperation = xpathOperation.and(contains(text(type.getName())));
-        if(!cssClass.isEmpty())
-            xpathOperation = xpathOperation.and(contains(cssClass));
+        if(!xpathAttribute.isEmpty())
+            xpathOperation = xpathOperation.and(contains(xpathAttribute));
         return xpath(tag, xpathOperation).expression();
     }
 }

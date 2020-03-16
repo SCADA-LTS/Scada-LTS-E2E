@@ -1,6 +1,8 @@
 package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.Data;
+import lombok.NonNull;
+import lombok.ToString;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointVarIdentifier;
@@ -8,12 +10,13 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointVarIdentifier;
 import java.util.Objects;
 
 @Data
+@ToString
 public class DataPointVarCriteria implements CriteriaObject {
 
-    private final DataPointCriteria dataPointCriteria;
-    private final VarCriteria varCriteria;
+    private final @NonNull DataPointCriteria dataPointCriteria;
+    private final @NonNull VarCriteria varCriteria;
 
-    public static DataPointVarCriteria criteria(DataPointCriteria criteria) {
+    public static DataPointVarCriteria criteria(@NonNull DataPointCriteria criteria) {
         return new DataPointVarCriteria(criteria, VarCriteria.empty());
     }
 

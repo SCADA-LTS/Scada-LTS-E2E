@@ -1,6 +1,7 @@
 package org.scadalts.e2e.common.utils;
 
 import lombok.extern.log4j.Log4j2;
+import org.scadalts.e2e.common.config.E2eConfig;
 import org.scadalts.e2e.common.logo.AsciiHeaders;
 
 import java.io.IOException;
@@ -41,5 +42,13 @@ public abstract class E2eSystemInfoUtil {
                     system.getProperty("os.name", ""),
                     system.getProperty("os.version", ""),
                     system.getProperty("os.arch", ""));
+    }
+
+    public static void printHeaderWithConfig(E2eConfig config) {
+        logger.info("-----------------------------------------------------1");
+        logger.info("{}\n", E2eSystemInfoUtil.getInfo());
+        logger.info("-----------------------------------------------------2");
+        logger.info(config);
+        logger.info("-----------------------------------------------------3");
     }
 }

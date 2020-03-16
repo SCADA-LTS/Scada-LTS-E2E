@@ -10,7 +10,7 @@ import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataPointVarCriteria;
 import org.scadalts.e2e.page.core.criterias.Script;
-import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
+import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.ScriptIdentifier;
 
 import static com.codeborne.selenide.Condition.not;

@@ -20,6 +20,7 @@ interface PageContent<T extends PageObject<T>> extends GetPage<T> {
     }
 
     default boolean containsObject(IdentifierObject identifier) {
+        getBodyText();
         return findObject(identifier.getNodeCriteria(), $(By.tagName("body"))).is(Condition.visible);
     }
 

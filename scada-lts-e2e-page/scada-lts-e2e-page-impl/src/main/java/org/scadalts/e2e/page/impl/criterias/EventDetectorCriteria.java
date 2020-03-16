@@ -2,8 +2,6 @@ package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.*;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.criterias.identifiers.GetXid;
-import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventDetectorIdentifier;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
 import org.scadalts.e2e.page.impl.dicts.EventDetectorType;
@@ -15,10 +13,8 @@ import java.util.Objects;
 @Data
 @Builder
 @ToString
-@EqualsAndHashCode
 public class EventDetectorCriteria implements CriteriaObject, GetXid {
 
-    @Deprecated
     private final @NonNull Xid xid;
     private final @NonNull EventDetectorIdentifier identifier;
     private final @NonNull AlarmLevel alarmLevel;

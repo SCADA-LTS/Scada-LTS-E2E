@@ -1,13 +1,16 @@
 package org.scadalts.e2e.test.core.plans.engine;
 
+import org.scadalts.e2e.test.core.utils.TestResultPrinter;
+
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPrintMs;
+import static org.scadalts.e2e.test.core.utils.TestResultPrinter.failures;
 
-class E2eSummary implements E2eSummarable {
+public class E2eSummary implements E2eSummarable {
 
     private final List<E2eResult> results;
 
@@ -57,8 +60,15 @@ class E2eSummary implements E2eSummarable {
 
     @Override
     public String toString() {
+        return MessageFormat.format("\n\n{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n\n", TestResultPrinter.DECORATION_MAIN,
+                TestResultPrinter.DECORATION_MAIN, failures(getFailures()), _measure(), TestResultPrinter.DECORATION_MAIN,
+                TestResultPrinter.DECORATION_MAIN);
+    }
+
+    private String _measure() {
         return MessageFormat.format("\n{0} - run: {1}, failed: {2}, ignored: {3}\n\nruntime: {4}\n",
                 "Summary", getRunCount(), getFailureCount(), getIgnoreCount(),
                 preparingToPrintMs(getRunTime()));
     }
+
 }

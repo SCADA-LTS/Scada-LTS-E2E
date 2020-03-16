@@ -34,7 +34,7 @@ import static org.junit.Assert.*;
 @RunWith(TestParameterizedWithPageRunner.class)
 public class SequencePointValueHistoryInDetailsPageTest {
 
-    @Parameterized.Parameters(name = "{index}: value:{0}")
+    @Parameterized.Parameters(name = "{index}: expected:{0}")
     public static Collection<String> data() {
         return ChangePointValuesProvider.paramsToTests();
     }

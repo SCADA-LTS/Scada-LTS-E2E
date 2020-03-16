@@ -4,6 +4,8 @@ import com.codeborne.selenide.Configuration;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.common.config.E2eConfigurator;
+import org.scadalts.e2e.common.exceptions.ApplicationIsNotAvailableException;
+import org.scadalts.e2e.common.exceptions.E2eAuthenticationException;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.CmpServiceObject;
 import org.scadalts.e2e.service.impl.services.LoginServiceObject;
@@ -14,31 +16,25 @@ import org.scadalts.e2e.service.impl.services.login.LoginParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 import org.scadalts.e2e.test.core.config.TestCoreConfigurator;
-import org.scadalts.e2e.test.core.exceptions.E2eAuthenticationException;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
 
 import java.util.Optional;
 
+import static org.scadalts.e2e.common.utils.ExecutorUtil.executeFunction;
+
 @Log4j2
 public class TestWithoutPageUtil {
-
-    private static LoginServiceObject loginServiceObject;
 
     public static void preparingTest() {
         if(!isLogged()) {
             _setup();
-            LoginParams loginParams = LoginParams.builder()
-                    .userName(E2eConfiguration.userName)
-                    .password(E2eConfiguration.password)
-                    .build();
-            loginServiceObject = ServiceObjectFactory.newLoginServiceObject();
-            E2eResponse<String> response = login(loginParams);
-            E2eConfiguration.sessionId = response.getSessionId();
-            if(!_isLogged(response)) {
-                throw new E2eAuthenticationException(E2eConfiguration.userName);
-            }
+            _login();
         }
+    }
+
+    public static void close() {
+        logout();
     }
 
     public static boolean isLogged() {
@@ -56,9 +52,17 @@ public class TestWithoutPageUtil {
     }
 
     public static E2eResponse<String> login(LoginParams cmpParams) {
-        loginServiceObject = ServiceObjectFactory.newLoginServiceObject();
-        Optional<E2eResponse<String>> responseOpt = loginServiceObject.login(cmpParams, Configuration.timeout);
-        return responseOpt.orElseGet(E2eResponse::empty);
+        try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
+            Optional<E2eResponse<String>> responseOpt = loginServiceObject.login(cmpParams, Configuration.timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<String> logout() {
+        try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
+            Optional<E2eResponse<String>> responseOpt = loginServiceObject.logout(Configuration.timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
     }
 
     public static E2eResponse<CmpParams> setValue(CmpParams cmpParams) {
@@ -96,9 +100,17 @@ public class TestWithoutPageUtil {
         TestImplConfigurator.init();
     }
 
-    public static void close() {
-        if(loginServiceObject != null) {
-            loginServiceObject.close();
+    private static void _login() {
+        LoginParams loginParams = LoginParams.builder()
+                .userName(E2eConfiguration.userName)
+                .password(E2eConfiguration.password)
+                .build();
+
+        E2eResponse<String> response = executeFunction(TestWithoutPageUtil::login,loginParams,ApplicationIsNotAvailableException::new);
+
+        E2eConfiguration.sessionId = response.getSessionId();
+        if(!_isLogged(response)) {
+            throw new E2eAuthenticationException(E2eConfiguration.userName);
         }
     }
 }

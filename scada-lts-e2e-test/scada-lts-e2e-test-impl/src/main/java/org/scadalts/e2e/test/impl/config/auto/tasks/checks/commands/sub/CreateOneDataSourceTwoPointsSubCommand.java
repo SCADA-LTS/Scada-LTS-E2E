@@ -13,16 +13,16 @@ import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 public class CreateOneDataSourceTwoPointsSubCommand implements SubCommand<DataSourceCriteria> {
 
     private final @NonNull NavigationPage navigationPage;
-    private final @NonNull DataSourceCriteria dataSourceCriteria;
+    private final @NonNull DataSourceCriteria dataSource;
     private final @NonNull DataPointCriteria dataPoint1;
     private final @NonNull DataPointCriteria dataPoint2;
 
     private CreateOneDataSourceTwoPointsSubCommand(@NonNull NavigationPage navigationPage,
-                                                   @NonNull DataSourceCriteria dataSourceCriteria,
+                                                   @NonNull DataSourceCriteria dataSource,
                                                    @NonNull DataPointCriteria dataPoint1,
                                                    @NonNull DataPointCriteria dataPoint2) {
         this.navigationPage = navigationPage;
-        this.dataSourceCriteria = dataSourceCriteria;
+        this.dataSource = dataSource;
         this.dataPoint1 = dataPoint1;
         this.dataPoint2 = dataPoint2;
     }
@@ -31,9 +31,9 @@ public class CreateOneDataSourceTwoPointsSubCommand implements SubCommand<DataSo
     public DataSourceCriteria execute() {
 
         DataSourcePointCriteria dataSourcePoint1 = DataSourcePointCriteria
-                .criteria(dataSourceCriteria, dataPoint1);
+                .criteria(dataSource, dataPoint1);
         DataSourcePointCriteria dataSourcePoint2 = DataSourcePointCriteria
-                .criteria(dataSourceCriteria, dataPoint2);
+                .criteria(dataSource, dataPoint2);
 
         DataSourcePointObjectsCreator dataSourcePointObjectsCreator =
                 new DataSourcePointObjectsCreator(navigationPage, dataSourcePoint1,
@@ -42,10 +42,10 @@ public class CreateOneDataSourceTwoPointsSubCommand implements SubCommand<DataSo
         dataSourcePointObjectsCreator.createObjects();
 
         DataPointObjectsCreator dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage,
-                dataSourceCriteria, dataPoint1, dataPoint2);
+                dataSource, dataPoint1, dataPoint2);
         dataPointObjectsCreator.createObjects();
 
-        return dataSourceCriteria;
+        return dataSource;
     }
 
     @Override

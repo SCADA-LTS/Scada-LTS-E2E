@@ -31,6 +31,7 @@ public class ScadaTestClassByPlanProvider implements TestClassByPlanProvider {
         tests.put(TestPlan.LOGIN, LoginCheckTest.class);
         tests.put(TestPlan.LOGOUT, LogoutCheckTest.class);
         tests.put(TestPlan.AUTO_CONFIG, PerformAutomaticConfiguration.class);
+        tests.put(TestPlan.CONFIG_AUTO, PerformAutomaticConfiguration.class);
         tests.put(TestPlan.EXPORT, Exporter.class);
         tests.put(TestPlan.IMPORT, Importer.class);
         tests.put(TestPlan.CLEAN, Cleaner.class);

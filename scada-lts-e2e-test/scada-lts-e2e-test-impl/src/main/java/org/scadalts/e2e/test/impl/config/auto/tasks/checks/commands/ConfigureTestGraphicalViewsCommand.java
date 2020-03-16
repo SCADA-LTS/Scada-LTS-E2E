@@ -2,6 +2,8 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands;
 
 import lombok.Data;
 import lombok.NonNull;
+import org.scadalts.e2e.common.exceptions.ConfigureTestException;
+import org.scadalts.e2e.common.utils.ExecutorUtil;
 import org.scadalts.e2e.page.impl.criterias.GraphicalViewCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -11,8 +13,6 @@ import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegisterAggregat
 import org.scadalts.e2e.test.impl.creators.GraphicalViewObjectsCreator;
 import org.scadalts.e2e.test.impl.tests.check.graphicalviews.GraphicalViewsCheckTestsSuite;
 
-import static org.scadalts.e2e.common.utils.ExecutorUtil.executeBiFunction;
-
 @Data
 public class ConfigureTestGraphicalViewsCommand implements Command<GraphicalViewsCheckTestsSuite> {
 
@@ -20,9 +20,9 @@ public class ConfigureTestGraphicalViewsCommand implements Command<GraphicalView
 
     @Override
     public void execute() {
-        executeBiFunction(this::_execute,
+        ExecutorUtil.execute(this::_execute,
                 CriteriaRegisterAggregator.INSTANCE::removeRegister,
-                getClassTest(), RuntimeException::new);
+                getClassTest(), ConfigureTestException::new);
     }
 
     private void _execute() {

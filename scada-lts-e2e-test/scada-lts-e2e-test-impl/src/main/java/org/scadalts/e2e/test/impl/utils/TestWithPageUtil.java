@@ -4,16 +4,18 @@ import com.codeborne.selenide.Configuration;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.common.config.E2eConfigurator;
+import org.scadalts.e2e.common.exceptions.ApplicationIsNotAvailableException;
+import org.scadalts.e2e.common.exceptions.ApplicationTooHighLoadException;
 import org.scadalts.e2e.page.core.config.PageObjectConfigurator;
 import org.scadalts.e2e.page.impl.pages.LoginPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.config.TestCoreConfigurator;
-import org.scadalts.e2e.test.core.exceptions.ApplicationTooHighLoadException;
 import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
 
 import java.util.Objects;
 import java.util.Optional;
 
+import static org.scadalts.e2e.common.utils.ExecutorUtil.executeConsumer;
 import static org.scadalts.e2e.page.core.utils.MeasurePrinter.print;
 
 @Log4j2
@@ -50,6 +52,9 @@ public class TestWithPageUtil {
     public static void close() {
         logger.info("close...");
         if(navigationPage != null) {
+            if(isLogged()) {
+                navigationPage.logout();
+            }
             navigationPage = null;
         }
         NavigationPage.kill();
@@ -59,12 +64,9 @@ public class TestWithPageUtil {
         logger.info("login...");
         LoginPage loginPage = LoginPage.openPage();
         long navigationStart = loginPage.getNavigationStartMs();
-        navigationPage = loginPage
-                .maximize()
-                .printLoadingMeasure()
-                .setUserName(E2eConfiguration.userName)
-                .setPassword(E2eConfiguration.password)
-                .login();
+
+        executeConsumer(TestWithPageUtil::_login, loginPage, ApplicationIsNotAvailableException::new);
+
         long responseStart = navigationPage.getResponseStartMs();
         long backendPerformanceMs = _performanceMs(navigationStart, responseStart);
         long frontendPerformanceMs = _performanceMs(responseStart, navigationPage.getDomCompleteMs());
@@ -78,6 +80,15 @@ public class TestWithPageUtil {
             close();
             throw new ApplicationTooHighLoadException();
         }
+    }
+
+    private static void _login(LoginPage loginPage) {
+        navigationPage = loginPage
+                .maximize()
+                .printLoadingMeasure()
+                .setUserName(E2eConfiguration.userName)
+                .setPassword(E2eConfiguration.password)
+                .login();
     }
 
     private static String _getSessionId(NavigationPage navigationPage) {

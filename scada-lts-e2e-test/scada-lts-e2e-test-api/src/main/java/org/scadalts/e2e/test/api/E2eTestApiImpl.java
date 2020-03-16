@@ -5,7 +5,6 @@ import org.scadalts.e2e.common.config.E2eConfig;
 import org.scadalts.e2e.common.config.E2eConfigurator;
 import org.scadalts.e2e.test.api.config.TestConfigurator;
 import org.scadalts.e2e.test.core.plans.engine.E2eSummarable;
-import org.scadalts.e2e.test.core.utils.TestResultPrinter;
 import org.scadalts.e2e.test.core.plans.exec.TestsExecutable;
 
 @Log4j2
@@ -22,7 +21,7 @@ class E2eTestApiImpl implements E2eTestApi {
         E2eConfigurator.init(config);
         TestConfigurator.init(config);
         E2eSummarable summary = _execute(executor, config);
-        TestResultPrinter.print(summary);
+        logger.info(summary);
         return summary;
     }
 

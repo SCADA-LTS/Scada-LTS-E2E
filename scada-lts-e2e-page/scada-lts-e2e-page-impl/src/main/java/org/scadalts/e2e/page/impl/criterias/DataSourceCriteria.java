@@ -2,8 +2,6 @@ package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.*;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.criterias.identifiers.GetXid;
-import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
@@ -16,7 +14,6 @@ import java.util.Objects;
 @ToString
 public class DataSourceCriteria implements CriteriaObject, GetXid {
 
-    @Deprecated
     private final @NonNull Xid xid;
     private final @NonNull DataSourceIdentifier identifier;
     private final @NonNull UpdatePeriodType updatePeriodType;

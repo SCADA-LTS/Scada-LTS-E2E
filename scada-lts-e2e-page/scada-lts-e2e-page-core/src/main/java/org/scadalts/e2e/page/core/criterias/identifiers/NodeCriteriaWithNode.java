@@ -14,6 +14,11 @@ public class NodeCriteriaWithNode implements NodeCriteria {
     private final Tag kind;
     private final XpathAttribute kindAttribute;
 
+    NodeCriteriaWithNode(Tag parent, Tag kind, XpathAttribute kindAttribute) {
+        this.parent = parent;
+        this.kind = kind;
+        this.kindAttribute = kindAttribute;
+    }
 
     @Override
     public String getXpath() {

@@ -18,8 +18,8 @@ import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPr
 class E2eRunListener extends RunListener {
 
     private final Class<?> test;
-    private final String deko = "___________________________________________________";
-    private final String deko2 = "---------------------------------------------------";
+    private final String decorationMain = TestResultPrinter.DECORATION_MAIN;
+    private final String decoration = TestResultPrinter.DECORATION;
     private long snapshot = 0;
     private final int testUuid = new Random().nextInt(999999);
 
@@ -29,13 +29,12 @@ class E2eRunListener extends RunListener {
 
     @Override
     public void testRunStarted(Description description) {
-        logger.info("\n{}\n\n[{}] testRunStarted: {}\n", deko, testUuid, test.getName());
+        logger.info("\n{}\n\n[{}] testRunStarted: {}\n", decorationMain, testUuid, test.getName());
     }
 
     @Override
     public void testRunFinished(Result result) {
-        logger.info("\n{}\n\n[{}] testRunFinished \n{}\n", deko2, testUuid, deko);
-        TestResultPrinter.print(E2eResult.builder()
+        logger.info("\n{}\n\n[{}] testRunFinished \n{}\n{}\n", decoration, testUuid, decorationMain, E2eResult.builder()
                 .result(result)
                 .sessionId(E2eConfiguration.sessionId)
                 .simpleTestName(test.getName())
@@ -44,23 +43,23 @@ class E2eRunListener extends RunListener {
 
     @Override
     public void testStarted(Description description) {
-        logger.info("\n\n[{}] testStarted: {}\n", testUuid, description.toString());
+        logger.info("\n{}\n\n[{}] testStarted: {}\n", decoration, testUuid, description.toString());
         snapshot = System.nanoTime();
     }
 
     @Override
     public void testFinished(Description description) {
         logger.info("\n\n[{}] testFinished: {} \n\ntime: {}\n{}\n", testUuid, description.toString(),
-                preparingToPrintNano(System.nanoTime() - snapshot), deko2);
+                preparingToPrintNano(System.nanoTime() - snapshot), decoration);
     }
 
     @Override
     public void testFailure(Failure failure) {
         logger.info("\n\n[{}] testFailure: {}", testUuid, failure.toString());
-        logger.warn("\n{}: {}\n{}", failure.getException().getClass().getName(), failure.getException().getMessage(),
+        /*logger.warn("\n{}: {}\n{}", failure.getException().getClass().getName(), failure.getException().getMessage(),
                 Stream.of(failure.getException().getStackTrace())
                         .map(StackTraceElement::toString)
-                        .collect(Collectors.joining("\n\t")));
+                        .collect(Collectors.joining("\n\t")));*/
 
     }
 
@@ -75,6 +74,6 @@ class E2eRunListener extends RunListener {
 
     @Override
     public void testIgnored(Description description) {
-        logger.info("\n\n[{}] testIgnored: {}\n{}\n", testUuid, description.toString(), deko2);
+        logger.info("\n\n[{}] testIgnored: {}\n{}\n", testUuid, description.toString(), decoration);
     }
 }

@@ -2,8 +2,6 @@ package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.*;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
-import org.scadalts.e2e.page.core.criterias.identifiers.GetXid;
-import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 
 import java.util.Objects;
@@ -11,10 +9,8 @@ import java.util.Objects;
 @Data
 @Builder
 @ToString
-@EqualsAndHashCode
 public class GraphicalViewCriteria implements CriteriaObject, GetXid {
 
-    @Deprecated
     private final @NonNull Xid xid;
     private final @NonNull GraphicalViewIdentifier identifier;
 

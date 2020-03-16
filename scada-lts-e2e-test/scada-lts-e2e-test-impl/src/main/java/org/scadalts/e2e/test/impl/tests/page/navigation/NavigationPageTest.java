@@ -4,6 +4,7 @@ package org.scadalts.e2e.test.impl.tests.page.navigation;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.scadalts.e2e.common.exceptions.ConfigureTestException;
 import org.scadalts.e2e.common.utils.ExecutorUtil;
 import org.scadalts.e2e.page.impl.pages.alarms.PendingAlarmsPage;
 import org.scadalts.e2e.page.impl.pages.compoundeventdetectors.CompoundEventDetectorsPage;
@@ -26,7 +27,6 @@ import org.scadalts.e2e.page.impl.pages.systemsettings.SystemInformationPage;
 import org.scadalts.e2e.page.impl.pages.userprofiles.UserProfilesPage;
 import org.scadalts.e2e.page.impl.pages.users.UsersPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
-import org.scadalts.e2e.test.core.exceptions.ConfigureTestException;
 import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -35,18 +35,18 @@ import static org.hamcrest.core.StringContains.containsString;
 @RunWith(TestWithPageRunner.class)
 public class NavigationPageTest {
 
-    private static NavigationPage subjectPage;
+    private static NavigationPage pageSubject;
 
     @BeforeClass
-    public static void setup() throws ConfigureTestException {
-        subjectPage = ExecutorUtil.execute(NavigationPage::openPage, ConfigureTestException::new);
+    public static void setup(){
+        pageSubject = ExecutorUtil.executeSupplier(NavigationPage::openPage, ConfigureTestException::new);
     }
 
     @Test
     public void test_openViewGraphics() {
 
         //when:
-        String body = subjectPage.openGraphicalViews()
+        String body = pageSubject.openGraphicalViews()
                 .waitOnLoadedBackground()
                 .printLoadingMeasure()
                 .getBodyText();
@@ -59,7 +59,7 @@ public class NavigationPageTest {
     public void test_openAlarms() {
 
         //when:
-        String body = subjectPage.openPendingAlarms()
+        String body = pageSubject.openPendingAlarms()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -71,7 +71,7 @@ public class NavigationPageTest {
     public void test_openMailingLists() {
 
         //when:
-        String body = subjectPage.openMailingLists()
+        String body = pageSubject.openMailingLists()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -83,7 +83,7 @@ public class NavigationPageTest {
     public void test_openMaintenanceEvents() {
 
         //when:
-        String body = subjectPage.openMaintenanceEvents()
+        String body = pageSubject.openMaintenanceEvents()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -95,7 +95,7 @@ public class NavigationPageTest {
     public void test_openPointHierarchy() {
 
         //when:
-        String body = subjectPage.openPointHierarchy()
+        String body = pageSubject.openPointHierarchy()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -107,7 +107,7 @@ public class NavigationPageTest {
     public void test_openPointLinks() {
 
         //when:
-        String body = subjectPage.openPointLinks()
+        String body = pageSubject.openPointLinks()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -119,7 +119,7 @@ public class NavigationPageTest {
     public void test_openPublishers() {
 
         //when:
-        String body = subjectPage.openPublishers()
+        String body = pageSubject.openPublishers()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -131,7 +131,7 @@ public class NavigationPageTest {
     public void test_openReports() {
 
         //when:
-        String body = subjectPage.openReports()
+        String body = pageSubject.openReports()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -143,7 +143,7 @@ public class NavigationPageTest {
     public void test_openScheduledEvents(){
 
         //when:
-        String body = subjectPage.openScheduledEvents()
+        String body = pageSubject.openScheduledEvents()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -155,7 +155,7 @@ public class NavigationPageTest {
     public void test_openScripts() {
 
         //when:
-        String body = subjectPage.openScripts()
+        String body = pageSubject.openScripts()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -167,7 +167,7 @@ public class NavigationPageTest {
     public void test_openSql() {
 
         //when:
-        String body = subjectPage.openSql()
+        String body = pageSubject.openSql()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -179,7 +179,7 @@ public class NavigationPageTest {
     public void test_openSystemInformation() {
 
         //when:
-        String body = subjectPage.openSystemInformation()
+        String body = pageSubject.openSystemInformation()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -191,7 +191,7 @@ public class NavigationPageTest {
     public void test_openUsers() {
 
         //when:
-        String body = subjectPage.openUsers()
+        String body = pageSubject.openUsers()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -203,7 +203,7 @@ public class NavigationPageTest {
     public void test_openUsersProfiles(){
 
         //when:
-        String body = subjectPage.openUsersProfiles()
+        String body = pageSubject.openUsersProfiles()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -215,7 +215,7 @@ public class NavigationPageTest {
     public void test_openWatchList() {
 
         //when:
-        String body = subjectPage.openWatchList()
+        String body = pageSubject.openWatchList()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -227,7 +227,7 @@ public class NavigationPageTest {
     public void test_openHelp() {
 
         //when:
-        String body = subjectPage.openHelp()
+        String body = pageSubject.openHelp()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -239,7 +239,7 @@ public class NavigationPageTest {
     public void test_openExportImport() {
 
         //when:
-        String body = subjectPage.openExportImport()
+        String body = pageSubject.openExportImport()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -251,7 +251,7 @@ public class NavigationPageTest {
     public void test_openEventHandlers() {
 
         //when:
-        String body = subjectPage.openEventHandlers()
+        String body = pageSubject.openEventHandlers()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -263,7 +263,7 @@ public class NavigationPageTest {
     public void test_openDataSources() {
 
         //when:
-        String body = subjectPage.openDataSources()
+        String body = pageSubject.openDataSources()
                 .printLoadingMeasure()
                 .getBodyText();
 
@@ -275,7 +275,7 @@ public class NavigationPageTest {
     public void test_openCompoundEventDetectors() {
 
         //when:
-        String body = subjectPage.openCompoundEventDetectors()
+        String body = pageSubject.openCompoundEventDetectors()
                 .printLoadingMeasure()
                 .getBodyText();
 

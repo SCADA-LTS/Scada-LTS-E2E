@@ -51,13 +51,7 @@ public class LoginServiceObject implements WebServiceObject {
 
     @Override
     public void close() {
-        try {
-            logout(10000);
-        } catch (Throwable throwable){
-            logger.warn(throwable.getMessage(), throwable);
-        } finally {
-            client.close();
-        }
+        client.close();
     }
 
     private E2eResponse<String> _login(LoginParams loginParams) {

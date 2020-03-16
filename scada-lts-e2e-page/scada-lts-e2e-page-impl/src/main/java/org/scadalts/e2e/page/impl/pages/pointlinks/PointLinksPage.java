@@ -45,7 +45,7 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
     public PointLinksPage waitForCompleteLoad() {
         waitWhile(pointLinksTable, not(Condition.visible));
         NodeCriteria nodeCriteria = NodeCriteria.every(1, 0, td(), clazz("link"));
-        waitWhile(a -> findObjects(nodeCriteria, pointLinksTable).size() == 0,null);
+        waitWhile(a -> findObjects(nodeCriteria, pointLinksTable).isEmpty(),null);
         return this;
     }
 
@@ -77,6 +77,7 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
     public boolean containsObject(IdentifierObject identifier) {
         delay();
         waitForCompleteLoad();
+        waitWhile(a -> findObjects(identifier.getNodeCriteria(), pointLinksTable).isEmpty(),null);
         return findObject(identifier.getNodeCriteria(), pointLinksTable).is(Condition.visible);
     }
 

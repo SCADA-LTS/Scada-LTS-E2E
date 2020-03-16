@@ -2,7 +2,8 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.scadalts.e2e.page.core.criterias.identifiers.Xid;
+import org.scadalts.e2e.common.exceptions.ConfigureTestException;
+import org.scadalts.e2e.common.utils.ExecutorUtil;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
@@ -16,8 +17,6 @@ import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.sub.CreateOn
 import org.scadalts.e2e.test.impl.creators.PointLinksObjectsCreator;
 import org.scadalts.e2e.test.impl.tests.check.pointlinks.ChangePointValueViaPointLinksCheckTest;
 
-import static org.scadalts.e2e.common.utils.ExecutorUtil.executeBiFunction;
-
 @Data
 public class ConfigureTestPointLinksCommand implements Command<ChangePointValueViaPointLinksCheckTest> {
 
@@ -25,9 +24,9 @@ public class ConfigureTestPointLinksCommand implements Command<ChangePointValueV
 
     @Override
     public void execute() {
-        executeBiFunction(this::_execute,
+        ExecutorUtil.execute(this::_execute,
                 CriteriaRegisterAggregator.INSTANCE::removeRegister,
-                getClassTest(), RuntimeException::new);
+                getClassTest(), ConfigureTestException::new);
     }
 
     private void _execute() {
@@ -50,7 +49,7 @@ public class ConfigureTestPointLinksCommand implements Command<ChangePointValueV
         CreateOneDataSourceTwoPointsSubCommand createOneDataSourceTwoPointsSubCommand = CreateOneDataSourceTwoPointsSubCommand.builder()
                 .dataPoint1(dataPointSource)
                 .dataPoint2(dataPointTarget)
-                .dataSourceCriteria(dataSource)
+                .dataSource(dataSource)
                 .navigationPage(navigationPage)
                 .build();
 
