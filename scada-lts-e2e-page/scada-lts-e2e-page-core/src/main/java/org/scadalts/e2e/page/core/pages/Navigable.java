@@ -11,17 +11,20 @@ interface Navigable<T extends MainPageObject<T>> extends GetPage<T> {
 
     default T openInNewTab() {
         getSource().openInNewTab();
-        return getPage();
+        T page = getPage();
+        page.waitForCompleteLoad();
+        return page;
     }
 
     default T reopen() {
         getSource().click();
-        return getPage();
+        T page = getPage();
+        page.waitForCompleteLoad();
+        return page;
     }
 
     default T openPage() {
         getSource().click();
         return page(getPage());
     }
-
 }

@@ -10,73 +10,72 @@ import java.util.function.Supplier;
 @Log4j2
 public class ExecutorUtil {
 
-    public static <T, U, S, R, E extends Throwable> R execute(FunctionlInterfaces.TriFunction<T, U, S, R> triFunction, T arg1, U arg2,
-                                                              S arg3, Function<Throwable, E> exception) throws E {
+    public static <T, U, S, R, E extends Exception> R executeTriFunction(FunctionlInterfaces.TriFunction<T, U, S, R> triFunction,
+                                                                         T arg1, U arg2, S arg3,
+                                                                         Function<Throwable, E> exc) throws E {
         try {
             return triFunction.apply(arg1, arg2, arg3);
-        } catch (Throwable throwable) {
-            logger.error(throwable.getMessage(), throwable);
-            throw exception.apply(throwable);
+        } catch (Throwable ex) {
+            throw exc.apply(ex);
         }
     }
 
-    public static <T, U, R, E extends Throwable> R execute(BiFunction<T, U, R> biFunction, T arg1, U arg2,
-                                      Function<Throwable, E> exception) throws E {
+    public static <T, U, R, E extends Exception> R executeBiFunction(BiFunction<T, U, R> biFunction, T arg1, U arg2,
+                                                                     Function<Throwable, E> exc) throws E {
         try {
             return biFunction.apply(arg1, arg2);
-        } catch (Throwable throwable) {
-            logger.error(throwable.getMessage(), throwable);
-            throw exception.apply(throwable);
+        } catch (Throwable ex) {
+            throw exc.apply(ex);
         }
     }
 
-    public static <T, R, E extends Throwable> R execute(Function<T, R> function, T arg,
-                                   Function<Throwable, E> exception) throws E {
+    public static <T, R, E extends Exception> R executeFunction(Function<T, R> function, T arg,
+                                                                Function<Throwable, E> exc) throws E {
         try {
             return function.apply(arg);
-        } catch (Throwable throwable) {
-            logger.error(throwable.getMessage(), throwable);
-            throw exception.apply(throwable);
+        } catch (Throwable ex) {
+            throw exc.apply(ex);
         }
     }
 
-    public static <R, E extends Throwable> R execute(Supplier<R> supplier,
-                                                     Function<Throwable, E> exception) throws E {
+    public static <R, E extends Exception> R executeSupplier(Supplier<R> supplier, Function<Throwable, E> exc) throws E {
         try {
             return supplier.get();
-        } catch (Throwable throwable) {
-            logger.error(throwable.getMessage(), throwable);
-            throw exception.apply(throwable);
+        } catch (Throwable ex) {
+            throw exc.apply(ex);
         }
     }
 
-    public static <T, E extends Throwable> void executeConsumer(Consumer<T> consumer, T arg,
-                                   Function<Throwable, E> exception) throws E {
+    public static <T, E extends Exception> void executeConsumer(Consumer<T> consumer, T arg,
+                                                                Function<Throwable, E> exc) throws E {
         try {
             consumer.accept(arg);
-        } catch (Throwable throwable) {
-            logger.error(throwable.getMessage(), throwable);
-            throw exception.apply(throwable);
+        } catch (Throwable ex) {
+            throw exc.apply(ex);
         }
     }
 
-    public static <T, E extends Throwable> void executeConsumerThrowable(FunctionlInterfaces.ConsumerThrowable<T> consumer, T arg,
-                                                                         Function<Throwable, E> exception) throws E {
-        try {
-            consumer.accept(arg);
-        } catch (Throwable throwable) {
-            logger.error(throwable.getMessage(), throwable);
-            throw exception.apply(throwable);
-        }
-    }
-
-    public static <E extends Throwable> void execute(FunctionlInterfaces.Executable executor,
-                               Function<Throwable, E> exception) throws E {
+    public static <E extends Exception> void execute(FunctionlInterfaces.Executable executor,
+                                                     Function<Throwable, E> exc) throws E {
         try {
             executor.execute();
-        } catch (Throwable throwable) {
-            logger.error(throwable.getMessage(), throwable);
-            throw exception.apply(throwable);
+        } catch (Throwable ex) {
+            throw exc.apply(ex);
+        }
+    }
+
+    public static <K, R, E extends Exception> void execute(FunctionlInterfaces.Executable executor,
+                                                           Function<K, R> executeIfException, K arg,
+                                                           Function<Throwable, E> exc) throws E {
+        try {
+            executor.execute();
+        } catch (Throwable ex) {
+            try {
+                executeIfException.apply(arg);
+            } catch (Throwable ex2) {
+                logger.error(ex2.getMessage(), ex2);
+            }
+            throw exc.apply(ex);
         }
     }
 }

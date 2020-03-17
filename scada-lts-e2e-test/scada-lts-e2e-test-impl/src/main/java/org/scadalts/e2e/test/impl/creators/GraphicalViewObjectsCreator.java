@@ -3,6 +3,7 @@ package org.scadalts.e2e.test.impl.creators;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.GraphicalViewCriteria;
+import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
@@ -15,39 +16,49 @@ import static org.scadalts.e2e.common.utils.FileUtil.getFileFromJar;
 public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViewsPage, GraphicalViewsPage> {
 
     private final NavigationPage navigationPage;
-    private final GraphicalViewCriteria criteria;
+    private final GraphicalViewCriteria[] graphicalViewCriterias;
     private final static File BACKGROUND_FILE = _getBackgroundFile("image/background-test.png");
     private final static File BACKGROUND_SMALL_FILE = _getBackgroundFile("image/background-small-test.png");
 
     @Getter
     private GraphicalViewsPage graphicalViewsPage;
 
-    public GraphicalViewObjectsCreator(NavigationPage navigationPage, GraphicalViewCriteria criteria) {
+    public GraphicalViewObjectsCreator(NavigationPage navigationPage, GraphicalViewCriteria... graphicalViewCriterias) {
         this.navigationPage = navigationPage;
-        this.criteria = criteria;
+        this.graphicalViewCriterias = graphicalViewCriterias;
     }
 
     @Override
     public GraphicalViewsPage deleteObjects() {
         GraphicalViewsPage page = openPage();
-        if(page.containsObject(criteria))
-            page.openViewEditor(criteria)
-                    .delete();
+        for (GraphicalViewCriteria criteria : graphicalViewCriterias) {
+            if(page.containsObject(criteria.getIdentifier())) {
+                logger.info("delete object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+                page.openViewEditor(criteria.getIdentifier())
+                        .delete()
+                        .reopen();
+            }
+        }
         return page;
     }
 
     @Override
     public GraphicalViewsPage createObjects() {
         GraphicalViewsPage page = openPage();
-        if(!page.containsObject(criteria)) {
-            page.openViewCreator()
-                    .chooseFile(BACKGROUND_FILE)
-                    .uploadFile()
-                    .setViewName(criteria.getIdentifier())
-                    .selectComponentByName("Alarms List")
-                    .addViewComponent()
-                    .dragAndDropViewComponent()
-                    .save();
+        for (GraphicalViewCriteria criteria : graphicalViewCriterias) {
+            if (!page.containsObject(criteria.getIdentifier())) {
+                logger.info("create object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+                page.openViewCreator()
+                        .chooseFile(BACKGROUND_FILE)
+                        .uploadFile()
+                        .setViewName(criteria.getIdentifier())
+                        .selectComponentByName("Alarms List")
+                        .addViewComponent()
+                        .dragAndDropViewComponent()
+                        .save();
+            }
         }
         return page;
     }
@@ -67,6 +78,17 @@ public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViews
 
     public static File getBackgroundSmallFile() {
         return BACKGROUND_SMALL_FILE;
+    }
+
+    public static GraphicalViewsPage deleteAllGraphicalViewsTest(NavigationPage navigationPage) {
+        GraphicalViewsPage graphicalViewsPage = navigationPage.openGraphicalViews();
+        GraphicalViewCriteria graphicalViewCriteria = GraphicalViewCriteria.criteria(new GraphicalViewIdentifier("view_test"));
+        while(graphicalViewsPage.containsObject(graphicalViewCriteria.getIdentifier())) {
+            graphicalViewsPage.openViewEditorFirst(graphicalViewCriteria.getIdentifier())
+                    .delete();
+            graphicalViewsPage.reopen();
+        }
+        return graphicalViewsPage;
     }
 
     private static File _getBackgroundFile(String relativePath) {

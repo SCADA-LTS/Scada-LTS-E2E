@@ -4,6 +4,8 @@ import com.codeborne.selenide.SelenideElement;
 
 public interface E2eWebElement {
     void click();
+    void waitWhileVisible();
+    void waitWhileNotVisible();
 
     E2eWebElement openInNewTab();
 

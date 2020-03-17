@@ -10,20 +10,20 @@ import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.E2eServiceTestParameterizedRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
-import org.scadalts.e2e.test.impl.utils.ServiceTestsUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(E2eServiceTestParameterizedRunner.class)
+@RunWith(TestParameterizedWithPageRunner.class)
 public class CmpServiceTest {
 
-    @Parameterized.Parameters(name = "{index}: value:{0}")
+    @Parameterized.Parameters(name = "{index}: expected:{0}")
     public static Collection<String> data() {
         return ChangePointValuesProvider.paramsToTests();
     }
@@ -34,21 +34,21 @@ public class CmpServiceTest {
         this.expectedValue = expectedValue;
     }
 
-    private static DataSourcePointObjectsCreator allObjectsForPointLinkTestsUtil;
+    private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private static DataPointCriteria source;
 
     @BeforeClass
     public static void setup() {
         source = DataPointCriteria.numericNoChange(1234);
 
-        allObjectsForPointLinkTestsUtil = new DataSourcePointObjectsCreator(E2eAbstractRunnable.getNavigationPage(),
+        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(),
                 source);
-        allObjectsForPointLinkTestsUtil.createObjects();
+        dataSourcePointObjectsCreator.createObjects();
     }
 
     @AfterClass
     public static void clean() {
-        allObjectsForPointLinkTestsUtil.deleteObjects();
+        dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test
@@ -64,7 +64,7 @@ public class CmpServiceTest {
                 .build();
 
         //when:
-        E2eResponse<CmpParams> setResponse = ServiceTestsUtil.setValue(cmpParams);
+        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
 
         //then:
         assertEquals(200, setResponse.getStatus());
@@ -83,7 +83,7 @@ public class CmpServiceTest {
                 .build();
 
         //when:
-        E2eResponse<CmpParams> setResponse = ServiceTestsUtil.setValue(cmpParams);
+        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
         CmpParams setResult = setResponse.getValue();
 
         //then:
@@ -104,7 +104,7 @@ public class CmpServiceTest {
                 .build();
 
         //when:
-        E2eResponse<CmpParams> setResponse = ServiceTestsUtil.setValue(cmpParams);
+        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
         CmpParams setResult = setResponse.getValue();
 
         //then:
@@ -125,7 +125,7 @@ public class CmpServiceTest {
                 .build();
 
         //when:
-        E2eResponse<CmpParams> setResponse = ServiceTestsUtil.setValue(cmpParams);
+        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
         CmpParams setResult = setResponse.getValue();
 
         //then:

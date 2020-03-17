@@ -20,11 +20,6 @@ public class UsersPage extends MainPageObjectAbstract<UsersPage> {
     }
 
     @Override
-    public String getTitle() {
-        return TITLE;
-    }
-
-    @Override
     public String getBodyText() {
         String bodyText = super.getBodyText();
         if(!bodyText.contains(getTitle())) {

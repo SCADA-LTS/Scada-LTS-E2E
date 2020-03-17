@@ -18,6 +18,6 @@ public class FunctionlInterfaces {
 
     @FunctionalInterface
     public interface ConsumerThrowable<T> {
-        void accept(T arg1) throws Throwable;
+        void accept(T arg1) throws Exception;
     }
 }

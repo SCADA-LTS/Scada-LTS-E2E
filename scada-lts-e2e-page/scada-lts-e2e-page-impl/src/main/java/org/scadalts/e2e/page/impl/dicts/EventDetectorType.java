@@ -31,4 +31,11 @@ public enum EventDetectorType implements DictionaryObject {
                 .findFirst()
                 .orElse(NONE);
     }
+
+    public static EventDetectorType getTypeContains(String typeName) {
+        return Stream.of(EventDetectorType.values())
+                .filter(a -> typeName.contains(a.name))
+                .findFirst()
+                .orElse(NONE);
+    }
 }

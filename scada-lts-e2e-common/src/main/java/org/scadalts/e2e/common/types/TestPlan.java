@@ -2,5 +2,5 @@ package org.scadalts.e2e.common.types;
 
 public enum TestPlan {
     SERVICE, PAGE, CHECK, PAGE_SERVICE, SERVICE_PAGE, ALL, ANY, LOGIN, LOGOUT,
-    AUTO_CONFIG
+    AUTO_CONFIG, CONFIG_AUTO, EXPORT, IMPORT, CLEAN
 }

@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>15.0.0-SNAPSHOT</version>
+    <version>15.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -782,7 +782,7 @@
                 <test.e2e.env>dev</test.e2e.env>
                 <test.e2e.test-plan>ALL</test.e2e.test-plan>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>12000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
@@ -839,7 +839,7 @@
                 <test.e2e.env>dev-local</test.e2e.env>
                 <test.e2e.test-plan>ALL</test.e2e.test-plan>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>12000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
@@ -876,7 +876,7 @@
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
-                <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
+                <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.custom-name>-all-test-plan</test.e2e.custom-name>
             </properties>

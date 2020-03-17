@@ -5,18 +5,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.GraphicalViewCriteria;
-import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
+import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
-import org.scadalts.e2e.test.impl.runners.E2eTestRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.creators.GraphicalViewObjectsCreator;
+import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 
-@RunWith(E2eTestRunner.class)
+@RunWith(TestWithPageRunner.class)
 public class DeleteGraphicalViewPageTest {
 
     private final GraphicalViewIdentifier viewName = IdentifierObjectFactory.viewName();
@@ -28,7 +28,7 @@ public class DeleteGraphicalViewPageTest {
     @Before
     public void createView() {
         criteria = GraphicalViewCriteria.criteria(viewName);
-        graphicalViewTestsUtil = new GraphicalViewObjectsCreator(E2eAbstractRunnable.getNavigationPage(), criteria);
+        graphicalViewTestsUtil = new GraphicalViewObjectsCreator(TestWithPageUtil.getNavigationPage(), criteria);
         graphicalViewsPageSubject = graphicalViewTestsUtil.createObjects();
     }
 
@@ -42,7 +42,7 @@ public class DeleteGraphicalViewPageTest {
 
         //when:
         graphicalViewsPageSubject
-                .openViewEditor(criteria)
+                .openViewEditor(criteria.getIdentifier())
                 .delete();
 
         //then:

@@ -17,19 +17,19 @@ import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.util.Collection;
 
 import static org.junit.Assert.*;
 
 @Log4j2
-@RunWith(E2eTestParameterizedRunner.class)
+@RunWith(TestParameterizedWithPageRunner.class)
 public class ChangePointValueInDetailsPageTest {
 
-    @Parameterized.Parameters(name = "{index}: value:{0}")
+    @Parameterized.Parameters(name = "{index}: expected:{0}")
     public static Collection<String> data() {
         return ChangePointValuesProvider.paramsToTests();
     }
@@ -52,7 +52,7 @@ public class ChangePointValueInDetailsPageTest {
 
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria
                 .criteria(dataSourceCriteria, dataPointCriteria);
-        NavigationPage navigationPage = E2eAbstractRunnable.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
 
         dataSourcesAndPointsPageTestsUtil =
                 new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
@@ -60,7 +60,7 @@ public class ChangePointValueInDetailsPageTest {
 
         watchListTestsUtil = new WatchListObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataPointDetailsPageSubject = watchListTestsUtil.createObjects()
-                .openDataPointDetails(dataSourcePointCriteria);
+                .openDataPointDetails(dataSourcePointCriteria.getIdentifier());
     }
 
     @AfterClass

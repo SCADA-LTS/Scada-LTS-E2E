@@ -2,6 +2,7 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.sub;
 
 import lombok.Data;
 import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
@@ -10,23 +11,30 @@ import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPa
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.PropertiesDataPointPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 
-import static org.scadalts.e2e.test.core.asserts.E2eAssert.assertExists;
+import java.util.Set;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.scadalts.e2e.test.impl.matchers.ContainsObject.containsObject;
 
 @Data
+@Log4j2
 public class ConfigEventDetectorSubCheck implements SubCheck {
 
     private final @NonNull NavigationPage navigationPage;
-    private final @NonNull EventDetectorCriteria eventDetectorCriteria;
+    private final @NonNull Set<EventDetectorCriteria> eventDetectorCriterias;
 
     @Override
-    public void execute() {
+    public void check() {
+        logger.info("run... {}", this.getClass().getSimpleName());
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
-        DataSourceCriteria dataSourceCriteria = eventDetectorCriteria.getDataSourcePointCriteria().getDataSource();
-        DataPointCriteria dataPointCriteria = eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint();
+        for (EventDetectorCriteria eventDetectorCriteria : eventDetectorCriterias) {
+            DataSourceCriteria dataSourceCriteria = eventDetectorCriteria.getDataSourcePointCriteria().getDataSource();
+            DataPointCriteria dataPointCriteria = eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint();
 
-        EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.openDataSourceEditor(dataSourceCriteria);
-        PropertiesDataPointPage propertiesDataPointPage = editDataSourceWithPointListPage.openDataPointProperties(dataPointCriteria);
-        propertiesDataPointPage.waitOnEventDetectorTable();
-        assertExists(propertiesDataPointPage,eventDetectorCriteria);
+            EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.openDataSourceEditor(dataSourceCriteria.getIdentifier());
+            PropertiesDataPointPage propertiesDataPointPage = editDataSourceWithPointListPage.openDataPointProperties(dataPointCriteria.getIdentifier());
+            propertiesDataPointPage.waitOnEventDetectorTable();
+            assertThat(propertiesDataPointPage, containsObject(eventDetectorCriteria.getIdentifier()));
+        }
     }
 }

@@ -8,18 +8,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.EventType;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksDetailsPage;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
+import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 @Log4j2
-@RunWith(E2eTestParameterizedRunner.class)
+@RunWith(TestParameterizedWithPageRunner.class)
 public class CreatePointLinksPageTest {
 
     @Parameterized.Parameters(name = "{index}: script: {0}, {1}")
@@ -42,13 +44,17 @@ public class CreatePointLinksPageTest {
     private static AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
     private static PointLinksPage pointLinksPageSubject;
     private static PointLinkCriteria criteria;
+    private static DataSourcePointIdentifier sourceIdentifier;
+    private static DataSourcePointIdentifier targetIdentifier;
 
     @BeforeClass
     public static void setup() {
-        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(E2eAbstractRunnable.getNavigationPage());
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage());
         allObjectsForPointLinkTestCreator.getDataSourcesAndPointsPageTestsCreator().createObjects();
         pointLinksPageSubject = allObjectsForPointLinkTestCreator.openPage();
         criteria = allObjectsForPointLinkTestCreator.getCriteria();
+        sourceIdentifier = criteria.getSource().getIdentifier();
+        targetIdentifier = criteria.getTarget().getIdentifier();
     }
 
     @AfterClass
@@ -81,11 +87,11 @@ public class CreatePointLinksPageTest {
 
         //and when:
         PointLinksDetailsPage page = pointLinksPageSubject.openPointLinkEditor(criteria);
-/*
+
         //then:
         assertEquals(scriptExpected, page.getScript());
-        assertEquals(eventTypeExpected, page.getEvent());
-        assertEquals(getSource().getIdentifier(), page.getSourcePointIdText());
-        assertEquals(getTarget().getIdentifier(), page.getTargetPointIdText());*/
+        assertEquals(eventTypeExpected, page.getEventType());
+        assertEquals(sourceIdentifier.getValue(), page.getSourcePointIdText());
+        assertEquals(targetIdentifier.getValue(), page.getTargetPointIdText());
     }
 }

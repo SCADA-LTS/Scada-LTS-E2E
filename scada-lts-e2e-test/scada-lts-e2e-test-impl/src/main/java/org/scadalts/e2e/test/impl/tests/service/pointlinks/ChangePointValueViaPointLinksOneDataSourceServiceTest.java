@@ -5,27 +5,30 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.dicts.DataPointType;
+import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
-import org.scadalts.e2e.test.impl.runners.E2eServiceTestParameterizedRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
-import org.scadalts.e2e.test.impl.utils.ServiceTestsUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(E2eServiceTestParameterizedRunner.class)
+@RunWith(TestParameterizedWithPageRunner.class)
 public class ChangePointValueViaPointLinksOneDataSourceServiceTest {
 
-    @Parameterized.Parameters(name = "{index}: value:{0}")
+    @Parameterized.Parameters(name = "{index}: expected:{0}")
     public static Collection<String> data() {
         return ChangePointValuesProvider.paramsToTests();
     }
@@ -37,24 +40,22 @@ public class ChangePointValueViaPointLinksOneDataSourceServiceTest {
     }
 
     private static AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
-    private static DataPointCriteria source;
-    private static DataPointCriteria target;
+    private static DataPointCriteria dataPointSource;
+    private static DataPointCriteria dataPointTarget;
 
     @BeforeClass
     public static void setup() {
 
-        DataSourceIdentifier dataSourceName = IdentifierObjectFactory.dataSourceName();
+        DataSourceIdentifier dataSourceName = IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE);
 
-        DataSourcePointCriteria sourcePointSourceCriteria = DataSourcePointCriteria.criteria(dataSourceName,
-                IdentifierObjectFactory.dataPointSourceName());
-        DataSourcePointCriteria sourcePointTargetCriteria = DataSourcePointCriteria.criteria(dataSourceName,
-                IdentifierObjectFactory.dataPointTargetName());
+        DataSourcePointCriteria source = DataSourcePointCriteria.criteria(dataSourceName, IdentifierObjectFactory.dataPointSourceName(DataPointType.NUMERIC));
+        DataSourcePointCriteria target = DataSourcePointCriteria.criteria(dataSourceName, IdentifierObjectFactory.dataPointTargetName(DataPointType.NUMERIC));
 
-        source = sourcePointSourceCriteria.getDataPoint();
-        target = sourcePointTargetCriteria.getDataPoint();
+        dataPointSource = source.getDataPoint();
+        dataPointTarget = target.getDataPoint();
 
-        PointLinkCriteria criteria = PointLinkCriteria.change(sourcePointSourceCriteria, sourcePointTargetCriteria);
-        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(E2eAbstractRunnable.getNavigationPage(),
+        PointLinkCriteria criteria = PointLinkCriteria.change(source, target);
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
                 criteria);
         allObjectsForPointLinkTestCreator.createObjects();
     }
@@ -68,8 +69,8 @@ public class ChangePointValueViaPointLinksOneDataSourceServiceTest {
     public void test_point_links() {
 
         //given:
-        Xid sourceXid = source.getXid();
-        Xid targetXid = target.getXid();
+        Xid sourceXid = dataPointSource.getXid();
+        Xid targetXid = dataPointTarget.getXid();
 
         PointValueParams pointTarget = new PointValueParams(targetXid.getValue());
         CmpParams cmpParams = CmpParams.builder()
@@ -80,10 +81,10 @@ public class ChangePointValueViaPointLinksOneDataSourceServiceTest {
                 .build();
 
         //when:
-        ServiceTestsUtil.setValue(cmpParams);
+        TestWithoutPageUtil.setValue(cmpParams);
 
         //and when:
-        E2eResponse<PointValueResponse> getResponse = ServiceTestsUtil.getValue(pointTarget, expectedValue);
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointTarget, expectedValue);
         PointValueResponse getResult = getResponse.getValue();
 
         //then:

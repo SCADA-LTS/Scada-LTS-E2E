@@ -3,11 +3,13 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks;
 import lombok.Data;
 import lombok.NonNull;
 import org.scadalts.e2e.page.impl.criterias.GraphicalViewCriteria;
-import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
-import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
+import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegister;
+import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.ConfigureTestGraphicalViewsCommand;
+import org.scadalts.e2e.test.impl.config.auto.tasks.checks.sub.ConfigGraphicalViewSubCheck;
 import org.scadalts.e2e.test.impl.tests.check.graphicalviews.GraphicalViewsCheckTestsSuite;
+
+import java.util.Set;
 
 @Data
 public class ConfigForTestGraphicalViewsCheck implements Check<GraphicalViewsCheckTestsSuite> {
@@ -16,11 +18,12 @@ public class ConfigForTestGraphicalViewsCheck implements Check<GraphicalViewsChe
 
     @Override
     public void execute() {
-        GraphicalViewCriteria criteria = GraphicalViewCriteria.criteria(new GraphicalViewIdentifier(TestImplConfiguration.graphicalViewName));
-        GraphicalViewsPage graphicalViewsPage = navigationPage.openGraphicalViews();
 
-        graphicalViewsPage.selectViewByName(criteria.getIdentifier());
-        graphicalViewsPage.waitOnLoadedBackground();
+        CriteriaRegister register = CriteriaRegister.getRegister(getClassTest(), new ConfigureTestGraphicalViewsCommand(navigationPage));
+        Set<GraphicalViewCriteria> graphicalViewCriterias = register.get(GraphicalViewCriteria.class);
+
+        ConfigGraphicalViewSubCheck configGraphicalViewSubCheck = new ConfigGraphicalViewSubCheck(navigationPage, graphicalViewCriterias);
+        configGraphicalViewSubCheck.check();
     }
 
     @Override
@@ -29,7 +32,7 @@ public class ConfigForTestGraphicalViewsCheck implements Check<GraphicalViewsChe
     }
 
     @Override
-    public Class<GraphicalViewsCheckTestsSuite> getClassTarget() {
+    public Class<GraphicalViewsCheckTestsSuite> getClassTest() {
         return GraphicalViewsCheckTestsSuite.class;
     }
 }

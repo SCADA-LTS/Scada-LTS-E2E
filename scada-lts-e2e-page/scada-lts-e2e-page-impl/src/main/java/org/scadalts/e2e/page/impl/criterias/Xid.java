@@ -36,7 +36,7 @@ public class Xid {
     }
 
     public static Xid xidForPointLink() {
-        return new Xid(GRAPHICAL_VIEW_PREFIX + _generate());
+        return new Xid(POINT_LINK_PREFIX + _generate());
     }
 
     public static Xid xidForEventDetector() {
@@ -57,5 +57,10 @@ public class Xid {
 
     private static String _generate() {
         return generateString(6, "0123456789");
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }

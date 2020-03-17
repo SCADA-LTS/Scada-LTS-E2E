@@ -22,7 +22,7 @@ public class UserProfilesPage extends MainPageObjectAbstract<UserProfilesPage> {
     @Override
     public String getBodyText() {
         String bodyText = super.getBodyText();
-        if(!bodyText.contains(getTitle())) {
+        if(!bodyText.contains(TITLE)) {
             SelenideElement selenideElement = waitWhileNotVisible($(".smallTitle"));
             return selenideElement.getText();
         }

@@ -6,5 +6,6 @@ public class PageConfiguration {
 
     public volatile static File driverFile = null;
     public volatile static int ctrl = 57353;
+    public volatile static int clickDelayMs = 200;
 
 }

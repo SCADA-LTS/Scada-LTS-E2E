@@ -6,8 +6,7 @@ import lombok.Singular;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfig;
-import org.scadalts.e2e.test.core.plans.runner.E2eResultSummarable;
-import org.scadalts.e2e.test.core.plans.runner.E2eResultSummary;
+import org.scadalts.e2e.test.core.plans.engine.E2eSummarable;
 
 import java.io.File;
 import java.util.Collections;
@@ -27,7 +26,7 @@ class EmailData {
     private final String from;
     private final String header;
     private final String title;
-    private final E2eResultSummary summary;
+    private final E2eSummarable summary;
 
     @Singular
     private final Set<File> attachments;
@@ -35,7 +34,7 @@ class EmailData {
     @Singular
     private final Set<String> failTestNames;
 
-    static EmailData create(E2eConfig config, E2eResultSummary summary) {
+    static EmailData create(E2eConfig config, E2eSummarable summary) {
         Set<String> failTestNames = summary.getFailTestNames();
         logger.info("failTestNames: {}", failTestNames);
 
@@ -64,11 +63,11 @@ class EmailData {
                 .to(config.getSendTo())
                 .failTestName(throwable.getClass().getName())
                 .attachments(Collections.emptySet())
-                .summary(E2eResultSummary.empty())
+                .summary(E2eSummarable.empty())
                 .build();
     }
 
-    private static Set<File> _getAttachments(E2eResultSummarable summary) {
+    private static Set<File> _getAttachments(E2eSummarable summary) {
         return summary.getFailures().stream()
                 .flatMap(a -> Stream.of(a.getScreenshotPng(), a.getSourcePageHtml())
                         .filter(Optional::isPresent)

@@ -1,7 +1,6 @@
 package org.scadalts.e2e.page.impl.dicts;
 
 import org.scadalts.e2e.common.dicts.DictionaryObject;
-import org.scadalts.e2e.common.dicts.EmptyType;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 
 import java.util.stream.Stream;
@@ -9,15 +8,15 @@ import java.util.stream.Stream;
 public enum DataPointChangeFieldType implements DictionaryObject {
 
     BINARY_ALTERNATE_START_VALUE(DataPointType.BINARY, ChangeType.ALTERNATE, ChangeTypeField.START_VALUE),
-    BINARY_NO_CHANGE_START_VALUE(EmptyType.ANY, ChangeType.NO_CHANGE, ChangeTypeField.START_VALUE),
+    BINARY_NO_CHANGE_START_VALUE(DictionaryObject.ANY, ChangeType.NO_CHANGE, ChangeTypeField.START_VALUE),
     BINARY_RANDOM_START_VALUE(DataPointType.BINARY, ChangeType.RANDOM, ChangeTypeField.START_VALUE),
 
-    MULTISTATE_INCREMENT_VALUES(DataPointType.MULTISTATE, ChangeType.INCREMENT, EmptyType.ANY),
+    MULTISTATE_INCREMENT_VALUES(DataPointType.MULTISTATE, ChangeType.INCREMENT, DictionaryObject.ANY),
     MULTISTATE_INCREMENT_ROLL(DataPointType.MULTISTATE, ChangeType.INCREMENT, ChangeTypeField.ROLL),
     MULTISTATE_INCREMENT_START_VALUE(DataPointType.MULTISTATE, ChangeType.INCREMENT, ChangeTypeField.START_VALUE),
 
     MULTISTATE_RANDOM_START_VALUE(DataPointType.MULTISTATE, ChangeType.RANDOM, ChangeTypeField.START_VALUE),
-    MULTISTATE_RANDOM_VALUES(DataPointType.MULTISTATE, ChangeType.RANDOM, EmptyType.ANY),
+    MULTISTATE_RANDOM_VALUES(DataPointType.MULTISTATE, ChangeType.RANDOM, DictionaryObject.ANY),
 
     NUMERIC_BROWNIAN_MIN(DataPointType.NUMERIC, ChangeType.BROWNIAN, ChangeTypeField.MIN),
     NUMERIC_BROWNIAN_MAX(DataPointType.NUMERIC, ChangeType.BROWNIAN, ChangeTypeField.MAX),
@@ -37,7 +36,7 @@ public enum DataPointChangeFieldType implements DictionaryObject {
     NUMERIC_ATTRACTOR_ATTRACTION_POINT(DataPointType.NUMERIC, ChangeType.ATTRACTOR, ChangeTypeField.ATTRACTION_POINT),
     NUMERIC_ATTRACTOR_START_VALUE(DataPointType.NUMERIC, ChangeType.ATTRACTOR, ChangeTypeField.START_VALUE),
 
-    NO_CHANGE_START_VALUE(EmptyType.ANY, ChangeType.NO_CHANGE, ChangeTypeField.START_VALUE);
+    NO_CHANGE_START_VALUE(DictionaryObject.ANY, ChangeType.NO_CHANGE, ChangeTypeField.START_VALUE);
 
     private final DictionaryObject dataPointType;
     private final ChangeType changeType;
@@ -61,7 +60,7 @@ public enum DataPointChangeFieldType implements DictionaryObject {
 
     public static DataPointChangeFieldType getType(DataPointCriteria criteria, ChangeTypeField changeTypeField) {
         return Stream.of(DataPointChangeFieldType.values())
-                .filter(a -> a.dataPointType == criteria.getType())
+                .filter(a -> a.dataPointType == criteria.getIdentifier().getType())
                 .filter(a -> a.changeType == criteria.getChangeType())
                 .filter(a -> a.changeTypeField == changeTypeField)
                 .findFirst()

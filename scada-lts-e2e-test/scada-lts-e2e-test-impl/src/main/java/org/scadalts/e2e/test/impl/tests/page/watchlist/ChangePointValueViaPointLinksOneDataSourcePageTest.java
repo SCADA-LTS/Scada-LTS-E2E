@@ -5,22 +5,27 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.*;
+import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
+import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
+import org.scadalts.e2e.page.impl.dicts.DataPointType;
+import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
-import org.scadalts.e2e.test.impl.runners.E2eTestParameterizedRunner;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
 import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
+import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(E2eTestParameterizedRunner.class)
+@RunWith(TestParameterizedWithPageRunner.class)
 public class ChangePointValueViaPointLinksOneDataSourcePageTest {
 
-    @Parameterized.Parameters(name = "{index}: value:{0}")
+    @Parameterized.Parameters(name = "{index}: expected:{0}")
     public static Collection<String> data() {
         return ChangePointValuesProvider.paramsToTests();
     }
@@ -33,19 +38,23 @@ public class ChangePointValueViaPointLinksOneDataSourcePageTest {
 
     private static AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
     private static WatchListPage watchListPageSubject;
-    private static DataSourcePointCriteria source;
-    private static DataSourcePointCriteria target;
+
+    private static DataSourcePointIdentifier sourceIdentifier;
+    private static DataSourcePointIdentifier targetIdentifier;
 
     @BeforeClass
     public static void setup() {
 
-        DataSourceIdentifier dataSourceName = IdentifierObjectFactory.dataSourceName();
+        DataSourceIdentifier dataSourceName = IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE);
 
-        source = DataSourcePointCriteria.criteria(dataSourceName, IdentifierObjectFactory.dataPointSourceName());
-        target = DataSourcePointCriteria.criteria(dataSourceName, IdentifierObjectFactory.dataPointTargetName());
+        DataSourcePointCriteria source = DataSourcePointCriteria.criteria(dataSourceName, IdentifierObjectFactory.dataPointSourceName(DataPointType.NUMERIC));
+        DataSourcePointCriteria target = DataSourcePointCriteria.criteria(dataSourceName, IdentifierObjectFactory.dataPointTargetName(DataPointType.NUMERIC));
+
+        sourceIdentifier = source.getIdentifier();
+        targetIdentifier = target.getIdentifier();
 
         PointLinkCriteria criteria = PointLinkCriteria.change(source, target);
-        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(E2eAbstractRunnable.getNavigationPage(),
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
                 criteria);
         watchListPageSubject = allObjectsForPointLinkTestCreator.createObjects();
     }
@@ -59,12 +68,12 @@ public class ChangePointValueViaPointLinksOneDataSourcePageTest {
     public void test_point_links() {
 
         //when:
-        watchListPageSubject.openDataPointValueEditor(source)
-                .setDataPointValue(source, expectedValue)
-                .confirmDataPointValue(source)
-                .closeEditorDataPointValue(source);
+        watchListPageSubject.openDataPointValueEditor(sourceIdentifier)
+                .setDataPointValue(sourceIdentifier, expectedValue)
+                .confirmDataPointValue(sourceIdentifier)
+                .closeEditorDataPointValue(sourceIdentifier);
 
-        String result = watchListPageSubject.getDataPointValue(target, expectedValue);
+        String result = watchListPageSubject.getDataPointValue(targetIdentifier, expectedValue);
 
         //then:
         assertEquals(expectedValue, result);

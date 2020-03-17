@@ -10,46 +10,66 @@ import java.util.Objects;
 @Data
 @Builder
 @ToString
-@EqualsAndHashCode
 public class EventHandlerCriteria implements CriteriaObject, GetXid {
 
-    @Deprecated
     private final @NonNull Xid xid;
     private final @NonNull EventHandlerIdentifier identifier;
     private final @NonNull ScriptCriteria activeScript;
     private final @NonNull ScriptCriteria inactiveScript;
     private final @NonNull EventDetectorCriteria eventDetectorCriteria;
-    private final @NonNull EventHandlerType type;
     private final boolean disabled;
 
-    private EventHandlerCriteria(@NonNull Xid xid, @NonNull EventHandlerIdentifier identifier, ScriptCriteria activeScript, ScriptCriteria inactiveScript, @NonNull EventDetectorCriteria eventDetectorCriteria, @NonNull EventHandlerType type, boolean disabled) {
+    private EventHandlerCriteria(@NonNull Xid xid, @NonNull EventHandlerIdentifier identifier,
+                                 @NonNull ScriptCriteria activeScript, @NonNull ScriptCriteria inactiveScript,
+                                 @NonNull EventDetectorCriteria eventDetectorCriteria, boolean disabled) {
         this.xid = xid;
         this.identifier = identifier;
         this.activeScript = activeScript;
         this.inactiveScript = inactiveScript;
         this.eventDetectorCriteria = eventDetectorCriteria;
-        this.type = type;
         this.disabled = disabled;
     }
 
-    public static EventHandlerCriteria script(EventHandlerIdentifier identifier, EventDetectorCriteria eventDetectorCriteria, ScriptCriteria scriptCriteria) {
+    public static EventHandlerCriteria activeScript(EventHandlerIdentifier identifier, EventDetectorCriteria eventDetectorCriteria, ScriptCriteria scriptCriteria) {
         return EventHandlerCriteria.builder()
                 .eventDetectorCriteria(eventDetectorCriteria)
                 .activeScript(scriptCriteria)
                 .inactiveScript(ScriptCriteria.empty())
                 .identifier(identifier)
-                .type(EventHandlerType.SCRIPT)
                 .xid(Xid.xidForEventHandler())
                 .build();
     }
 
-    public static EventHandlerCriteria script(EventDetectorCriteria eventDetectorCriteria, ScriptCriteria scriptCriteria) {
+    public static EventHandlerCriteria script(EventDetectorCriteria eventDetectorCriteria, ScriptCriteria activeScript) {
         return EventHandlerCriteria.builder()
                 .eventDetectorCriteria(eventDetectorCriteria)
-                .activeScript(scriptCriteria)
+                .activeScript(activeScript)
                 .inactiveScript(ScriptCriteria.empty())
-                .identifier(IdentifierObjectFactory.eventHandlerName())
-                .type(EventHandlerType.SCRIPT)
+                .identifier(IdentifierObjectFactory.eventHandlerName(EventHandlerType.SCRIPT))
+                .xid(Xid.xidForEventHandler())
+                .build();
+    }
+
+    public static EventHandlerCriteria script(EventDetectorCriteria eventDetectorCriteria, ScriptCriteria activeScript,
+                                              ScriptCriteria inactiveScript) {
+        return EventHandlerCriteria.builder()
+                .eventDetectorCriteria(eventDetectorCriteria)
+                .activeScript(activeScript)
+                .inactiveScript(inactiveScript)
+                .identifier(IdentifierObjectFactory.eventHandlerName(EventHandlerType.SCRIPT))
+                .xid(Xid.xidForEventHandler())
+                .build();
+    }
+
+    public static EventHandlerCriteria script(EventHandlerIdentifier eventHandlerIdentifier,
+                                              EventDetectorCriteria eventDetectorCriteria,
+                                              ScriptCriteria activeScript,
+                                              ScriptCriteria inactiveScript) {
+        return EventHandlerCriteria.builder()
+                .eventDetectorCriteria(eventDetectorCriteria)
+                .activeScript(activeScript)
+                .inactiveScript(inactiveScript)
+                .identifier(eventHandlerIdentifier)
                 .xid(Xid.xidForEventHandler())
                 .build();
     }

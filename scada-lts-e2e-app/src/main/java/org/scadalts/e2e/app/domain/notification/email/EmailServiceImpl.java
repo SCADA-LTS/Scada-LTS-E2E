@@ -3,12 +3,11 @@ package org.scadalts.e2e.app.domain.notification.email;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.app.infrastructure.metrics.Logging;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.text.MessageFormat;
 
 @Log4j2
 @Service
@@ -27,14 +26,28 @@ class EmailServiceImpl implements EmailService {
     @Cacheable(cacheNames = SentEmailsCacheConfig.SENT_EMAILS,
             key=SentEmailsCacheConfig.EMAIL_CACHE_KEY, unless = "#result == false")
     public boolean sendEmail(EmailData emailData) {
+        return _send(emailData);
+    }
+
+    private boolean _send(EmailData emailData) {
+        boolean send = _sendEmail(emailData);
+        if(!send) {
+            logger.info("second attempt to send...");
+            return _sendEmail(emailData);
+        }
+        return send;
+    }
+
+    private boolean _sendEmail(EmailData emailData) {
         try {
             MimeMessage mail = mimeMessageCreator.create(emailData, javaMailSender);
+            logger.info("sending email...");
             javaMailSender.send(mail);
+            logger.info("successful send");
             return true;
-        } catch (MailException | MessagingException e) {
-            logger.warn(e.getMessage(), e);
+        } catch (Exception ex) {
+            logger.warn(MessageFormat.format("failed send: {0}", ex.getMessage()), ex);
             return false;
         }
     }
-
 }

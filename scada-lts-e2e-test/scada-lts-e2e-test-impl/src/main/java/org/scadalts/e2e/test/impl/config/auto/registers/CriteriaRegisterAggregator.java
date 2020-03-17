@@ -14,6 +14,10 @@ public enum CriteriaRegisterAggregator {
         objects.get(clazz).merge(criteriaRegister);
     }
 
+    public <T> CriteriaRegister removeRegister(Class<T> clazz) {
+        return objects.remove(clazz);
+    }
+
     public <T> CriteriaRegister getRegister(Class<T> clazz) {
         return objects.get(clazz);
     }
@@ -22,4 +26,7 @@ public enum CriteriaRegisterAggregator {
         return objects.containsKey(clazz);
     }
 
+    public void clear() {
+        objects.clear();
+    }
 }

@@ -13,7 +13,7 @@ import java.io.File;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 
 public class EditGraphicalViewPage extends PageObjectAbstract<EditGraphicalViewPage> {
@@ -57,37 +57,44 @@ public class EditGraphicalViewPage extends PageObjectAbstract<EditGraphicalViewP
     }
 
     public EditGraphicalViewPage setViewName(GraphicalViewIdentifier viewName) {
+        delay();
         this.viewName.clear();
-        this.viewName.sendKeys(viewName.getValue());
+        this.viewName.setValue(viewName.getValue());
         return this;
     }
 
     public EditGraphicalViewPage chooseFile(File file) {
+        delay();
         chooseFile.uploadFile(file);
         return this;
     }
 
     public EditGraphicalViewPage uploadFile() {
+        delay();
         uploadFile.click();
         return this;
     }
 
     public GraphicalViewsPage save() {
+        delay();
         save.click();
         return parent;
     }
 
     public EditGraphicalViewPage selectComponentByName(String componentName) {
+        delay();
         componentList.selectOption(componentName);
         return this;
     }
 
     public EditGraphicalViewPage addViewComponent() {
+        delay();
         addViewComponent.click();
         return this;
     }
 
     public EditGraphicalViewPage dragAndDropViewComponent() {
+        delay();
         Action action = new Actions(getWebDriver())
                 .dragAndDrop($(By.id("c1Content")), $(By.id("viewBackground")))
                 .build();
@@ -95,13 +102,22 @@ public class EditGraphicalViewPage extends PageObjectAbstract<EditGraphicalViewP
         return this;
     }
 
-    public void delete() {
+    public EditGraphicalViewPage clickCheckboxDelete() {
+        delay();
         deleteCheckbox.click();
-        deleteButton.click();
-        acceptAlert();
+        return this;
+    }
+
+
+    public GraphicalViewsPage delete() {
+        delay();
+        deleteCheckbox.click();
+        acceptAlertAfterClick(deleteButton);
+        return parent;
     }
 
     public String getElementDynamic(String css) {
+        delay();
         return $(By.cssSelector(css)).innerHtml();
     }
 
@@ -114,6 +130,7 @@ public class EditGraphicalViewPage extends PageObjectAbstract<EditGraphicalViewP
     }
 
     private String _getObject(String css) {
+        delay();
         SelenideElement table = $(By.cssSelector(css));
         String object = table.text();
         return StringUtils.isBlank(object) ? waitWhileNotVisible(table).getText() : object;

@@ -20,23 +20,38 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
 
     @Override
     public EventHandlersPage deleteObjects() {
-        return null;
+        EventHandlersPage eventHandlersPage = openPage();
+        for (EventHandlerCriteria criteria: eventHandlerCriterias) {
+            if(eventHandlersPage.containsObject(criteria.getIdentifier())) {
+                logger.info("delete object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getIdentifier().getType(), criteria.getXid().getValue(),
+                        criteria.getClass().getSimpleName());
+                eventHandlersPage
+                        .openEventHandlerEditor(criteria)
+                        .deleteEventHandler()
+                        .reopen();
+            }
+        }
+        return eventHandlersPage;
     }
 
     @Override
     public EventHandlersPage createObjects() {
         EventHandlersPage eventHandlersPage = openPage();
         for (EventHandlerCriteria criteria: eventHandlerCriterias) {
-            eventHandlersPage.doubleClickPlus(criteria.getEventDetectorCriteria());
-            if(!eventHandlersPage.containsObject(criteria)) {
+            if(!eventHandlersPage.containsObject(criteria.getIdentifier())) {
+                logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getIdentifier().getType(), criteria.getXid().getValue(),
+                        criteria.getClass().getSimpleName());
                 eventHandlersPage.openEventHandlerCreator(criteria.getEventDetectorCriteria())
-                        .setEventHandlerType(criteria.getType())
+                        .setEventHandlerType(criteria.getIdentifier().getType())
                         .setXid(criteria.getXid())
                         .setAlisas(criteria.getIdentifier())
                         .setDisabled(criteria.isDisabled())
                         .setActiveScriptCommand(criteria.getActiveScript())
                         .saveEventHandler();
             }
+            eventHandlersPage.reopen();
         }
         return eventHandlersPage;
     }
