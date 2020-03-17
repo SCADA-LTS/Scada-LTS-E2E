@@ -8,6 +8,9 @@ import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
 
 public class TestConfigurator {
 
+    private TestConfigurator() {
+    }
+
     public static void init(E2eConfig config) {
         if(config == null) {
             return;
@@ -15,6 +18,6 @@ public class TestConfigurator {
         TestCoreConfigurator.init(config);
         TestImplConfigurator.init(config);
         PageObjectConfigurator.init(config);
-        ServiceObjectConfigurator.init(config);
+        ServiceObjectConfigurator.setSessionId(config);
     }
 }

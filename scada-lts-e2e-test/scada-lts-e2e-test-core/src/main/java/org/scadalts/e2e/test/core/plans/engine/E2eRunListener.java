@@ -56,10 +56,10 @@ class E2eRunListener extends RunListener {
     @Override
     public void testFailure(Failure failure) {
         logger.info("\n\n[{}] testFailure: {}", testUuid, failure.toString());
-        /*logger.warn("\n{}: {}\n{}", failure.getException().getClass().getName(), failure.getException().getMessage(),
+        logger.warn("\n{}: {}\n{}", failure.getException().getClass().getName(), failure.getException().getMessage(),
                 Stream.of(failure.getException().getStackTrace())
                         .map(StackTraceElement::toString)
-                        .collect(Collectors.joining("\n\t")));*/
+                        .collect(Collectors.joining("\n\t")));
 
     }
 

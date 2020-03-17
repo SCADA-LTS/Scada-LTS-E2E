@@ -1,6 +1,9 @@
 package org.scadalts.e2e.page.impl.criterias;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NonNull;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
@@ -9,9 +12,10 @@ import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import javax.validation.constraints.Min;
 import java.util.Objects;
 
+import static java.text.MessageFormat.format;
+
 @Data
 @Builder(access = AccessLevel.PRIVATE)
-@ToString
 public class DataSourceCriteria implements CriteriaObject, GetXid {
 
     private final @NonNull Xid xid;
@@ -129,5 +133,10 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
     public int hashCode() {
 
         return Objects.hash(getIdentifier());
+    }
+
+    @Override
+    public String toString() {
+        return format("update period type: {0}, value: {1}", updatePeriodType, updatePeriodValue);
     }
 }

@@ -53,7 +53,7 @@ public class UpdatePointValueViaPointLinksTwoDataSourceServiceTest {
         DataSourcePointCriteria target = DataSourcePointCriteria.criteria(IdentifierObjectFactory.dataSourceTargetName(DataSourceType.VIRTUAL_DATA_SOURCE),
                 IdentifierObjectFactory.dataPointTargetName(DataPointType.NUMERIC));
 
-        PointLinkCriteria criteria = PointLinkCriteria.change(source, target);
+        PointLinkCriteria criteria = PointLinkCriteria.update(source, target);
 
         dataPointSource = source.getDataPoint();
         dataPointTarget = target.getDataPoint();

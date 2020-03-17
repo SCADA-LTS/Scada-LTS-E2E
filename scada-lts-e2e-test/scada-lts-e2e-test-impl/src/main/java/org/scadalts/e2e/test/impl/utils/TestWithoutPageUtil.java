@@ -6,6 +6,7 @@ import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.common.config.E2eConfigurator;
 import org.scadalts.e2e.common.exceptions.ApplicationIsNotAvailableException;
 import org.scadalts.e2e.common.exceptions.E2eAuthenticationException;
+import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.CmpServiceObject;
 import org.scadalts.e2e.service.impl.services.LoginServiceObject;
@@ -109,6 +110,7 @@ public class TestWithoutPageUtil {
         E2eResponse<String> response = executeFunction(TestWithoutPageUtil::login,loginParams,ApplicationIsNotAvailableException::new);
 
         E2eConfiguration.sessionId = response.getSessionId();
+        ServiceObjectConfigurator.setSessionId(E2eConfiguration.sessionId);
         if(!_isLogged(response)) {
             throw new E2eAuthenticationException(E2eConfiguration.userName);
         }
