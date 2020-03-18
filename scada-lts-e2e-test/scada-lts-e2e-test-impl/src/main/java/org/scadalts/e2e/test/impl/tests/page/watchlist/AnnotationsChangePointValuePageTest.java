@@ -1,12 +1,11 @@
-package org.scadalts.e2e.test.impl.tests.page.datasource.datapoint;
+package org.scadalts.e2e.test.impl.tests.page.watchlist;
 
-
-import lombok.extern.log4j.Log4j2;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
@@ -23,6 +22,7 @@ import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.ListLimitedOnlyMethodAddSupported;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -30,19 +30,20 @@ import java.util.Objects;
 
 import static org.junit.Assert.*;
 
-@Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
-public class SequencePointValueHistoryInDetailsPageTest {
+public class AnnotationsChangePointValuePageTest {
 
     @Parameterized.Parameters(name = "{index}: expected:{0}")
     public static Collection<String> data() {
         return ChangePointValuesProvider.paramsToTests();
     }
 
-    private final String valueExpected;
+    private final String value;
+    private final String userExpected;
 
-    public SequencePointValueHistoryInDetailsPageTest(String valueExpected) {
-        this.valueExpected = valueExpected;
+    public AnnotationsChangePointValuePageTest(String value) {
+        this.value = value;
+        this.userExpected = E2eConfiguration.userName;
     }
 
     private static CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
@@ -68,7 +69,7 @@ public class SequencePointValueHistoryInDetailsPageTest {
                 .openDataPointDetails(dataSourcePointCriteria.getIdentifier());
 
         int limit = dataPointDetailsPageSubject.getHistoryLimit();
-        List<String> result = dataPointDetailsPageSubject.getValuesFromHistory();
+        List<String> result = dataPointDetailsPageSubject.getAnnotationsFromHistory();
 
         listExpected = new ListLimitedOnlyMethodAddSupported<>(limit);
         listExpected.addAll(result);
@@ -80,28 +81,27 @@ public class SequencePointValueHistoryInDetailsPageTest {
             watchListTestsUtil.deleteObjects();
         if(Objects.nonNull(dataSourcesAndPointsPageTestsUtil))
             dataSourcesAndPointsPageTestsUtil.deleteObjects();
-        listExpected.clear();
+        if(Objects.nonNull(listExpected))
+            listExpected.clear();
     }
 
     @Test
-    public void test_sequence_history_change_point_value() {
+    public void test_annotation_is_visible_if_user_change_point() {
 
         //given:
-        listExpected.add(valueExpected);
+        listExpected.add(MessageFormat.format("User: {0}", userExpected));
 
         //when:
-        dataPointDetailsPageSubject
-                .setDataPointValue(valueExpected)
+        dataPointDetailsPageSubject.setDataPointValue(value)
                 .confirmDataPointValue()
-                .waitDataPointValue(valueExpected);
+                .waitDataPointValue(value);
 
         //and:
-        List<String> result = dataPointDetailsPageSubject.refreshPage().getValuesFromHistory();
+        List<String> result = dataPointDetailsPageSubject.refreshPage().getAnnotationsFromHistory();
 
         //then:
         assertNotNull(result);
         assertNotEquals(Collections.emptyList(), result);
         assertEquals(listExpected, result);
     }
-
 }

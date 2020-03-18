@@ -86,7 +86,7 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
     public List<String> getValuesFromHistory() {
         delay();
         NodeCriteria nodeCriteria = NodeCriteria.everyInParent(4, 1, td(), clazz("row"));
-
+        refreshPage();
         return findObjects(nodeCriteria, historyTableData).stream()
                 .map(SelenideElement::getText)
                 .map(FormatUtil::unformat)
@@ -96,6 +96,7 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
     public List<String> getAnnotationsFromHistory() {
         delay();
         NodeCriteria nodeCriteria = NodeCriteria.everyInParent(4, 3, td(), clazz("row"));
+        refreshPage();
         return findObjects(nodeCriteria, historyTableData).stream()
                 .map(SelenideElement::getText)
                 .collect(Collectors.toList());
