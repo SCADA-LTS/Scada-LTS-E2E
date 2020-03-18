@@ -10,7 +10,11 @@ import org.junit.runners.Suite;
         ChangePointValueViaPointLinksOneDataSourcePageTest.class,
         ChangePointValueViaPointLinksTwoDataSourcePageTest.class,
         UpdatePointValueViaPointLinksOneDataSourcePageTest.class,
-        UpdatePointValueViaPointLinksTwoDataSourcePageTest.class
+        UpdatePointValueViaPointLinksTwoDataSourcePageTest.class,
+        ChangePointValueInDetailsPageTest.class,
+        SequencePointValueHistoryInDetailsPageTest.class,
+        AnnotationsChangePointValuePageTest.class,
+        AnnotationsChangeValueIfPointDisabledPageTest.class
 })
 public class WatchListPageTestsSuite {
 }

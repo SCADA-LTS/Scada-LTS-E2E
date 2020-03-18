@@ -1,7 +1,6 @@
 package org.scadalts.e2e.page.impl.pages.datasource;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
@@ -143,7 +142,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         return findObject(identifier.getNodeCriteria(), dataSourcesTable);
     }
 
-    private ElementsCollection _findObjects(DataSourceIdentifier identifier) {
+    private List<SelenideElement> _findObjects(DataSourceIdentifier identifier) {
         delay();
         return findObjects(identifier.getNodeCriteria(), dataSourcesTable);
     }

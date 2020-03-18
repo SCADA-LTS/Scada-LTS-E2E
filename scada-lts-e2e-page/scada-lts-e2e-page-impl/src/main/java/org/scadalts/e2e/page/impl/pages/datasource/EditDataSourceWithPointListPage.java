@@ -118,7 +118,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
     public EditDataSourceWithPointListPage disableDataPoint(DataPointIdentifier dataPointIdentifier) {
-        _findAction(dataPointIdentifier, SELECTOR_ACTION_ENABLE_DATA_POINT_BY).click();
+        acceptAlertAfterClick(_findAction(dataPointIdentifier, SELECTOR_ACTION_ENABLE_DATA_POINT_BY));
         waitWhile($(_findAction(dataPointIdentifier, SELECTOR_ACTION_DISABLE_DATA_POINT_BY)), not(Condition.visible));
         return this;
     }
