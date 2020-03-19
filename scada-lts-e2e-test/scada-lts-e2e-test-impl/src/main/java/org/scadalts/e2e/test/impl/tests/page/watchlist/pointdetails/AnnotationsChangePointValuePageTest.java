@@ -1,4 +1,4 @@
-package org.scadalts.e2e.test.impl.tests.page.watchlist;
+package org.scadalts.e2e.test.impl.tests.page.watchlist.pointdetails;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
