@@ -2,12 +2,12 @@ package org.scadalts.e2e.test.impl.utils;
 
 import java.util.*;
 
-public class ListLimitedOnlyMethodAddSupported<T> implements List<T> {
+public class ListLimitedSupportedAddMethod<T> implements List<T> {
 
     private final LinkedList<T> linkedList;
     private final int limit;
 
-    public ListLimitedOnlyMethodAddSupported(int limit) {
+    public ListLimitedSupportedAddMethod(int limit) {
         this.linkedList = new LinkedList<>();
         this.limit = limit;
     }

@@ -108,7 +108,7 @@ public class PointLinksServiceTest {
             TestWithoutPageUtil.setValue(cmpParams);
 
             //and when:
-            E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointTarget, value);
+            E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointTarget, expectedValue);
             PointValueResponse getResult = getResponse.getValue();
 
             //then:

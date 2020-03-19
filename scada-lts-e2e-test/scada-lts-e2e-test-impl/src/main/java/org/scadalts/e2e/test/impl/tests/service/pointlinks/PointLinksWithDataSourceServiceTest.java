@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.impl.tests.service.pointlinks;
 
+import lombok.extern.log4j.Log4j2;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,11 +22,13 @@ import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
 public class PointLinksWithDataSourceServiceTest {
 
@@ -111,10 +114,11 @@ public class PointLinksWithDataSourceServiceTest {
         for (String value : values) {
 
             //given:
+            String expectedValue = new BigDecimal(value).add(BigDecimal.ONE).toString();
+            logger.info("value: {}, value expected: {}", value, expectedValue);
+
             Xid sourceXid = source.getXid();
             Xid targetXid = target.getXid();
-            String expectedValue = String.valueOf(Long.valueOf(value) + 1);
-
 
             PointValueParams pointTarget = new PointValueParams(targetXid.getValue());
             CmpParams cmpParams = CmpParams.builder()

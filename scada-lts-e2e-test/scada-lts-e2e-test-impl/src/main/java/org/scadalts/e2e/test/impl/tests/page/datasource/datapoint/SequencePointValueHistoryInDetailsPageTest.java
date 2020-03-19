@@ -20,7 +20,7 @@ import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
-import org.scadalts.e2e.test.impl.utils.ListLimitedOnlyMethodAddSupported;
+import org.scadalts.e2e.test.impl.utils.ListLimitedSupportedAddMethod;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.util.Collection;
@@ -45,10 +45,10 @@ public class SequencePointValueHistoryInDetailsPageTest {
         this.valueExpected = valueExpected;
     }
 
-    private static CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
-    private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcesAndPointsPageTestsUtil;
+    private static CreatorObject<WatchListPage, WatchListPage> watchListCreator;
+    private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcePointObjectsCreator;
     private static DataPointDetailsPage dataPointDetailsPageSubject;
-    private static ListLimitedOnlyMethodAddSupported<String> listExpected;
+    private static ListLimitedSupportedAddMethod<String> listExpected;
 
     @BeforeClass
     public static void createDataSourceAndPoint() {
@@ -60,26 +60,26 @@ public class SequencePointValueHistoryInDetailsPageTest {
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria
                 .criteria(dataSourceCriteria, dataPointCriteria);
 
-        dataSourcesAndPointsPageTestsUtil = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
-        dataSourcesAndPointsPageTestsUtil.createObjects();
+        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
+        dataSourcePointObjectsCreator.createObjects();
 
-        watchListTestsUtil = new WatchListObjectsCreator(navigationPage, dataSourcePointCriteria);
-        dataPointDetailsPageSubject = watchListTestsUtil.createObjects()
+        watchListCreator = new WatchListObjectsCreator(navigationPage, dataSourcePointCriteria);
+        dataPointDetailsPageSubject = watchListCreator.createObjects()
                 .openDataPointDetails(dataSourcePointCriteria.getIdentifier());
 
         int limit = dataPointDetailsPageSubject.getHistoryLimit();
         List<String> result = dataPointDetailsPageSubject.getValuesFromHistory();
 
-        listExpected = new ListLimitedOnlyMethodAddSupported<>(limit);
+        listExpected = new ListLimitedSupportedAddMethod<>(limit);
         listExpected.addAll(result);
     }
 
     @AfterClass
     public static void clean() {
-        if(Objects.nonNull(watchListTestsUtil))
-            watchListTestsUtil.deleteObjects();
-        if(Objects.nonNull(dataSourcesAndPointsPageTestsUtil))
-            dataSourcesAndPointsPageTestsUtil.deleteObjects();
+        if(Objects.nonNull(watchListCreator))
+            watchListCreator.deleteObjects();
+        if(Objects.nonNull(dataSourcePointObjectsCreator))
+            dataSourcePointObjectsCreator.deleteObjects();
         listExpected.clear();
     }
 
