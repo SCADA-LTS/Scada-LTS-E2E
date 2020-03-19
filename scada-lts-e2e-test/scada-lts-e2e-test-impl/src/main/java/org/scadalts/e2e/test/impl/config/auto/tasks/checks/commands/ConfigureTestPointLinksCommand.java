@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NonNull;
 import org.scadalts.e2e.common.exceptions.ConfigureTestException;
 import org.scadalts.e2e.common.utils.ExecutorUtil;
+import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
@@ -55,7 +56,8 @@ public class ConfigureTestPointLinksCommand implements Command<ChangePointValueV
 
         createOneDataSourceTwoPointsSubCommand.execute();
 
-        PointLinkCriteria pointLink = PointLinkCriteria.change(dataSourcePointSource, dataSourcePointTarget);
+        Script script = Script.sourceValueIncreasedOne();
+        PointLinkCriteria pointLink = PointLinkCriteria.change(dataSourcePointSource, dataSourcePointTarget, script);
 
         PointLinksObjectsCreator pointLinksObjectsCreator = new PointLinksObjectsCreator(navigationPage, pointLink);
         pointLinksObjectsCreator.createObjects();

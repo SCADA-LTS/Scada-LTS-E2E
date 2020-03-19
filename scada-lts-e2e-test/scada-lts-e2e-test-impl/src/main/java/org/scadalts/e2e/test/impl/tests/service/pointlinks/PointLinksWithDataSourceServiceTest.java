@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
@@ -26,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(TestParameterizedWithPageRunner.class)
-public class ChangePointValueViaPointLinksServiceTest {
+public class PointLinksWithDataSourceServiceTest {
 
     @Parameterized.Parameters(name = "{index}: datasource: {0}, point link type: {1}")
     public static Object[][] data() { return new Object[][] {
@@ -70,7 +71,7 @@ public class ChangePointValueViaPointLinksServiceTest {
     private final DataSourceCriteria dataSourceCriteria;
     private final EventType eventType;
 
-    public ChangePointValueViaPointLinksServiceTest(DataSourceCriteria dataSourceCriteria, EventType eventType) {
+    public PointLinksWithDataSourceServiceTest(DataSourceCriteria dataSourceCriteria, EventType eventType) {
         this.dataSourceCriteria = dataSourceCriteria;
         this.eventType = eventType;
     }
@@ -91,7 +92,9 @@ public class ChangePointValueViaPointLinksServiceTest {
         source = sourcePointSourceCriteria.getDataPoint();
         target = sourcePointTargetCriteria.getDataPoint();
 
-        PointLinkCriteria criteria = PointLinkCriteria.criteria(sourcePointSourceCriteria, sourcePointTargetCriteria, eventType);
+        Script script = Script.sourceValueIncreasedOne();
+        PointLinkCriteria criteria = PointLinkCriteria.criteria(sourcePointSourceCriteria, sourcePointTargetCriteria,
+                eventType, script);
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
                 criteria);
         allObjectsForPointLinkTestCreator.createObjects();
@@ -103,19 +106,21 @@ public class ChangePointValueViaPointLinksServiceTest {
     }
 
     @Test
-    public void test_point_links() {
+    public void test_service_point_links() {
 
-        for (String expectedValue : values) {
+        for (String value : values) {
 
             //given:
             Xid sourceXid = source.getXid();
             Xid targetXid = target.getXid();
+            String expectedValue = String.valueOf(Long.valueOf(value) + 1);
+
 
             PointValueParams pointTarget = new PointValueParams(targetXid.getValue());
             CmpParams cmpParams = CmpParams.builder()
                     .error("")
                     .resultOperationSave("")
-                    .value(expectedValue)
+                    .value(value)
                     .xid(sourceXid.getValue())
                     .build();
 

@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.EventType;
@@ -24,19 +25,19 @@ import static org.junit.Assert.assertEquals;
 @RunWith(TestParameterizedWithPageRunner.class)
 public class CreatePointLinksPageTest {
 
-    @Parameterized.Parameters(name = "{index}: script: {0}, {1}")
+    @Parameterized.Parameters(name = "{index}: script: {0}, type: {1}")
     public static Object[][] data() { return new Object[][] {
-            {"return source.value;", EventType.CHANGE},
-            {"return source.value;", EventType.UPDATE},
-            {"", EventType.CHANGE},
-            {"", EventType.UPDATE}
+            {Script.sourceValue(), EventType.CHANGE},
+            {Script.sourceValue(), EventType.UPDATE},
+            {Script.empty(), EventType.CHANGE},
+            {Script.empty(), EventType.UPDATE}
     };
     }
 
-    private final String scriptExpected;
+    private final Script scriptExpected;
     private final EventType eventTypeExpected;
 
-    public CreatePointLinksPageTest(String scriptExpected, EventType eventTypeExpected) {
+    public CreatePointLinksPageTest(Script scriptExpected, EventType eventTypeExpected) {
         this.scriptExpected = scriptExpected;
         this.eventTypeExpected = eventTypeExpected;
     }

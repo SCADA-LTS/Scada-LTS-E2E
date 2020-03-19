@@ -5,11 +5,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        ChangePointValueViaPointLinksOneDataSourceServiceTest.class,
-        ChangePointValueViaPointLinksTwoDataSourceServiceTest.class,
-        UpdatePointValueViaPointLinksOneDataSourceServiceTest.class,
-        UpdatePointValueViaPointLinksTwoDataSourceServiceTest.class,
-        ChangePointValueViaPointLinksServiceTest.class
+        PointLinksServiceTest.class,
+        PointLinksWithDataSourceServiceTest.class
 })
 public class PointLinksServiceTestsSuite {
 }

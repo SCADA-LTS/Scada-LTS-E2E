@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.impl.tests.check.pointlinks;
 
+import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -12,36 +13,42 @@ import org.scadalts.e2e.test.impl.runners.TestParameterizedWithoutPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@Log4j2
 @RunWith(TestParameterizedWithoutPageRunner.class)
 public class ChangePointValueViaPointLinksCheckTest {
 
-    @Parameterized.Parameters(name = "{index}: expected:{0}")
+    @Parameterized.Parameters(name = "{index}: value:{0}")
     public static Collection<String> data() {
         return ChangePointValuesProvider.paramsToTests();
     }
 
-    private final String expectedValue;
+    private final String value;
 
-    public ChangePointValueViaPointLinksCheckTest(String expectedValue) {
-        this.expectedValue = expectedValue;
+    public ChangePointValueViaPointLinksCheckTest(String value) {
+        this.value = value;
     }
 
     @Test
     public void test_check_point_link() {
 
         //given:
+        String expectedValue = new BigDecimal(value).add(BigDecimal.ONE).toString();
+        logger.info("value: {}, value expected: {}", value, expectedValue);
+
         PointValueParams pointValueParams = new PointValueParams(TestImplConfiguration.dataPointTargetXid);
         CmpParams cmpParams = CmpParams.builder()
                 .error("")
                 .resultOperationSave("")
-                .value(expectedValue)
+                .value(value)
                 .xid(TestImplConfiguration.dataPointSourceXid)
                 .build();
+
 
         //when:
         E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
@@ -52,10 +59,10 @@ public class ChangePointValueViaPointLinksCheckTest {
         assertNotNull(setResult);
         assertEquals("", setResult.getError());
         assertEquals(TestImplConfiguration.dataPointSourceXid, setResult.getXid());
-        assertEquals(expectedValue, setResult.getValue());
+        assertEquals(value, setResult.getValue());
 
         //and when:
-        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams, expectedValue);
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams, value);
         PointValueResponse getResult = getResponse.getValue();
 
         //then:
