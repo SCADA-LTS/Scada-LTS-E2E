@@ -17,7 +17,7 @@ import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
-import org.scadalts.e2e.test.impl.utils.ListLimitedOnlyMethodAddSupported;
+import org.scadalts.e2e.test.impl.utils.ListLimitedSupportedAddMethod;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.text.MessageFormat;
@@ -37,7 +37,7 @@ public class AnnotationsChangeValueIfPointDisabledPageTest {
     private static DataSourceCriteria dataSourceCriteria;
     private static DataPointCriteria dataPointCriteria;
     private static DataSourcePointCriteria dataSourcePointCriteria;
-    private static ListLimitedOnlyMethodAddSupported<String> listExpected;
+    private static ListLimitedSupportedAddMethod<String> listExpected;
 
 
     @BeforeClass
@@ -61,7 +61,7 @@ public class AnnotationsChangeValueIfPointDisabledPageTest {
         int limit = dataPointDetailsPage.getHistoryLimit();
         List<String> result = dataPointDetailsPage.getAnnotationsFromHistory();
 
-        listExpected = new ListLimitedOnlyMethodAddSupported<>(limit);
+        listExpected = new ListLimitedSupportedAddMethod<>(limit);
         listExpected.addAll(result);
     }
 

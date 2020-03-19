@@ -19,7 +19,7 @@ import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
-import org.scadalts.e2e.test.impl.utils.ListLimitedOnlyMethodAddSupported;
+import org.scadalts.e2e.test.impl.utils.ListLimitedSupportedAddMethod;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.text.MessageFormat;
@@ -49,7 +49,7 @@ public class AnnotationsChangePointValuePageTest {
     private static CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
     private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcesAndPointsPageTestsUtil;
     private static DataPointDetailsPage dataPointDetailsPageSubject;
-    private static ListLimitedOnlyMethodAddSupported<String> listExpected;
+    private static ListLimitedSupportedAddMethod<String> listExpected;
 
     @BeforeClass
     public static void createDataSourceAndPoint() {
@@ -71,7 +71,7 @@ public class AnnotationsChangePointValuePageTest {
         int limit = dataPointDetailsPageSubject.getHistoryLimit();
         List<String> result = dataPointDetailsPageSubject.getAnnotationsFromHistory();
 
-        listExpected = new ListLimitedOnlyMethodAddSupported<>(limit);
+        listExpected = new ListLimitedSupportedAddMethod<>(limit);
         listExpected.addAll(result);
     }
 
