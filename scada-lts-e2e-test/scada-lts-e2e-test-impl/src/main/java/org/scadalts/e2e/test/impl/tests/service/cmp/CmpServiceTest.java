@@ -1,4 +1,4 @@
-package org.scadalts.e2e.test.impl.tests.service.set;
+package org.scadalts.e2e.test.impl.tests.service.cmp;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

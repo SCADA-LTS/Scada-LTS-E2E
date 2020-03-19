@@ -8,8 +8,6 @@ import org.scadalts.e2e.test.impl.tests.page.datasource.datapoint.eventdetectors
 @Suite.SuiteClasses({
         CreateDataPointPageTest.class,
         DeleteDataPointPageTest.class,
-        ChangePointValueInDetailsPageTest.class,
-        SequencePointValueHistoryInDetailsPageTest.class,
         CreateEventDetectorPageTest.class
 })
 public class DataPointPageTestsSuite {

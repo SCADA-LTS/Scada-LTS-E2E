@@ -1,4 +1,4 @@
-package org.scadalts.e2e.test.impl.tests.page.datasource.datapoint;
+package org.scadalts.e2e.test.impl.tests.page.watchlist.pointdetails;
 
 
 import lombok.extern.log4j.Log4j2;
