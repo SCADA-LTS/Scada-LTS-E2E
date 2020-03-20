@@ -77,7 +77,7 @@ public class TestWithoutPageUtil {
         try (PointValueServiceObject pointValueWebServiceObject =
                      ServiceObjectFactory.newPointValueServiceObject()) {
             Optional<E2eResponse<PointValueResponse>> responseOpt = pointValueWebServiceObject.getValue(pointValueParams,
-                    TestImplConfiguration.waitingAfterSetPointValueMs, expectedValue);
+                    Configuration.timeout, expectedValue);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
@@ -86,7 +86,7 @@ public class TestWithoutPageUtil {
         try (PointValueServiceObject pointValueWebServiceObject =
                      ServiceObjectFactory.newPointValueServiceObject()) {
             Optional<E2eResponse<PointValueResponse>> responseOpt = pointValueWebServiceObject.getValue(pointValueParams,
-                    TestImplConfiguration.waitingAfterSetPointValueMs);
+                    Configuration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }

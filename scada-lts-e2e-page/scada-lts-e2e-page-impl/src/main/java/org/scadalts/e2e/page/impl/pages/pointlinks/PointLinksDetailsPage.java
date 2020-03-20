@@ -97,9 +97,9 @@ public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsP
         return targetPointId.getText();
     }
 
-    public String getScript() {
+    public Script getScript() {
         delay();
-        return script.getValue();
+        return Script.script(script.getValue());
     }
 
     public EventType getEventType() {

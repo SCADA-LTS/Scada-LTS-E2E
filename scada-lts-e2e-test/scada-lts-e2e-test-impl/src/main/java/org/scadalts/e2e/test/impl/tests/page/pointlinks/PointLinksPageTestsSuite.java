@@ -6,7 +6,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         CreatePointLinksPageTest.class,
-        DeletePointLinksPageTest.class
+        DeletePointLinksPageTest.class,
+        PointLinksChangeOnWatchListPageTest.class
 })
 public class PointLinksPageTestsSuite {
 }

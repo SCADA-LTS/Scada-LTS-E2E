@@ -29,13 +29,13 @@ import static org.junit.Assert.*;
 @RunWith(TestWithPageRunner.class)
 public class AnnotationsChangeValueIfPointDisabledPageTest {
 
-    private static CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
-    private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcesAndPointsPageTestsUtil;
-    private static DataSourcesPage dataSourcesPage;
-    private static WatchListPage watchListPage;
-    private static DataSourceCriteria dataSourceCriteria;
-    private static DataPointCriteria dataPointCriteria;
-    private static DataSourcePointCriteria dataSourcePointCriteria;
+    private CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
+    private CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcesAndPointsPageTestsUtil;
+    private DataSourcesPage dataSourcesPage;
+    private WatchListPage watchListPage;
+    private DataSourceCriteria dataSourceCriteria;
+    private DataPointCriteria dataPointCriteria;
+    private DataSourcePointCriteria dataSourcePointCriteria;
 
     @Before
     public void createDataSourceAndPoint() {

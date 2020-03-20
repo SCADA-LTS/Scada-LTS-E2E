@@ -7,7 +7,7 @@ import org.scadalts.e2e.common.types.TestPlan;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.scadalts.e2e.test.core.plans.providers.TestsParser.parseTestClasses;
+import static org.scadalts.e2e.test.core.plans.providers.TestsParser.parse;
 
 @Log4j2
 class TestClassesProviderImpl implements TestClassesProvider {
@@ -42,7 +42,7 @@ class TestClassesProviderImpl implements TestClassesProvider {
 
     private List<Class<?>> _getTestClassesByRef(E2eConfig config) {
         String[] value = config.getClassesTestRefs();
-        return parseTestClasses(value);
+        return parse(value);
     }
 
 }

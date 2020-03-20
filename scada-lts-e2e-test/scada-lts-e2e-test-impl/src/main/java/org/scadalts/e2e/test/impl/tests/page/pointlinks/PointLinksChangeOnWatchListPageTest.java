@@ -1,4 +1,4 @@
-package org.scadalts.e2e.test.impl.tests.page.watchlist;
+package org.scadalts.e2e.test.impl.tests.page.pointlinks;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.After;
@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
-public class PointLinksOnWatchListPageTest {
+public class PointLinksChangeOnWatchListPageTest {
 
     @Parameterized.Parameters(name = "{index}: source: {0} - {1}, target: {2} - {3}, pointlink type: {4}, script: {5}")
     public static Object[][] data() {
@@ -47,9 +47,9 @@ public class PointLinksOnWatchListPageTest {
     private final Script script;
 
 
-    public PointLinksOnWatchListPageTest(String dataSoruceSourceName, String dataPointSourceName,
-                                         String dataSoruceTargetName, String dataPointTargetName,
-                                         EventType eventType, Script script) {
+    public PointLinksChangeOnWatchListPageTest(String dataSoruceSourceName, String dataPointSourceName,
+                                               String dataSoruceTargetName, String dataPointTargetName,
+                                               EventType eventType, Script script) {
         this.eventType = eventType;
 
         DataSourceIdentifier dataSourceSourceIdentifier = new DataSourceIdentifier(dataSoruceSourceName, DataSourceType.VIRTUAL_DATA_SOURCE);
