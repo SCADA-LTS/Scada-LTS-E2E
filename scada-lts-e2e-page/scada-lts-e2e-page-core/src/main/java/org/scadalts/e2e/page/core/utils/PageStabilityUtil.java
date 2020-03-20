@@ -18,7 +18,7 @@ import static org.scadalts.e2e.common.utils.StabilityUtil.executeWhile;
 @Log4j2
 public abstract class PageStabilityUtil {
 
-    private static Timeout timeout = new Timeout(Configuration.timeout);
+    private static Timeout timeout = new Timeout(3 * Configuration.timeout);
 
     public static SelenideElement waitWhileNotVisible(SelenideElement webElement) {
         return waitWhile(webElement, not(Condition.visible));
@@ -29,6 +29,10 @@ public abstract class PageStabilityUtil {
     }
 
     public static <T> void waitWhile(Predicate<T> condition, T arg) {
+        StabilityUtil.waitWhile(condition, arg, timeout);
+    }
+
+    public static <T> void waitWhile(Predicate<T> condition, T arg, Timeout timeout) {
         StabilityUtil.waitWhile(condition, arg, timeout);
     }
 

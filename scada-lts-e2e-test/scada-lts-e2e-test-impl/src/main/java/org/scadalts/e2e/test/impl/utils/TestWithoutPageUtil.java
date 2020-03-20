@@ -74,19 +74,28 @@ public class TestWithoutPageUtil {
     }
 
     public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams, String expectedValue) {
+        return getValue(pointValueParams, expectedValue, Configuration.timeout);
+    }
+
+    public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams, String expectedValue,
+                                                           long timeout) {
         try (PointValueServiceObject pointValueWebServiceObject =
                      ServiceObjectFactory.newPointValueServiceObject()) {
             Optional<E2eResponse<PointValueResponse>> responseOpt = pointValueWebServiceObject.getValue(pointValueParams,
-                    Configuration.timeout, expectedValue);
+                    timeout, expectedValue);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
 
     public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams) {
+        return getValue(pointValueParams, Configuration.timeout);
+    }
+
+    public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams, long timeout) {
         try (PointValueServiceObject pointValueWebServiceObject =
                      ServiceObjectFactory.newPointValueServiceObject()) {
             Optional<E2eResponse<PointValueResponse>> responseOpt = pointValueWebServiceObject.getValue(pointValueParams,
-                    Configuration.timeout);
+                    timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }

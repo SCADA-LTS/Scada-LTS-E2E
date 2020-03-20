@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.ChangeType;
@@ -24,7 +25,8 @@ import static org.junit.Assert.assertThat;
 @RunWith(TestWithPageRunner.class)
 public class DeleteDataPointPageTest {
 
-    private final DataPointIdentifier dataPointToDeleteName = new DataPointIdentifier("dp_test_to_delete_" + System.nanoTime(),DataPointType.BINARY);
+    private final DataPointIdentifier dataPointToDeleteName = IdentifierObjectFactory
+            .dataPointDeleteName(DataPointType.BINARY);
 
     private DataPointCriteria dataPointToDeleteCriteria;
     private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;

@@ -12,6 +12,7 @@ import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
+import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
@@ -80,7 +81,8 @@ public class PointValueServiceTest {
         PointValueParams pointValueParams = new PointValueParams(dataPointXid);
 
         //when:
-        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams, dataPointStartValue);
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams, dataPointStartValue,
+                TestImplConfiguration.waitingAfterSetPointValueMs);
         PointValueResponse getResult = getResponse.getValue();
 
         //then:

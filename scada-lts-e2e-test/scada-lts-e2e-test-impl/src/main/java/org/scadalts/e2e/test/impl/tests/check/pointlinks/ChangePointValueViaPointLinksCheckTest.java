@@ -62,7 +62,8 @@ public class ChangePointValueViaPointLinksCheckTest {
         assertEquals(value, setResult.getValue());
 
         //and when:
-        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams, expectedValue);
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams, expectedValue,
+                TestImplConfiguration.waitingAfterSetPointValueMs);
         PointValueResponse getResult = getResponse.getValue();
 
         //then:

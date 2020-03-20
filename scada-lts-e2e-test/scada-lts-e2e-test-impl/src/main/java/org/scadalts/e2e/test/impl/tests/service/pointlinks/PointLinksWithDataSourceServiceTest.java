@@ -16,6 +16,7 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
+import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
@@ -132,7 +133,8 @@ public class PointLinksWithDataSourceServiceTest {
             TestWithoutPageUtil.setValue(cmpParams);
 
             //and when:
-            E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointTarget, expectedValue);
+            E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointTarget, expectedValue,
+                    TestImplConfiguration.waitingAfterSetPointValueMs);
             PointValueResponse getResult = getResponse.getValue();
 
             //then:

@@ -11,47 +11,55 @@ import java.util.Random;
 public class IdentifierObjectFactory {
 
     public static DataPointIdentifier dataPointName(DataPointType dataPointType) {
-        return new DataPointIdentifier("dp_test" + unique(),dataPointType);
+        return new DataPointIdentifier("dp_test_" + unique(),dataPointType);
+    }
+
+    public static DataPointIdentifier dataPointDeleteName(DataPointType dataPointType) {
+        return new DataPointIdentifier("dp_testDelete_" + unique(),dataPointType);
     }
 
     public static DataPointIdentifier dataPointTargetName(DataPointType dataPointType) {
-        return new DataPointIdentifier("dp_testTarget" + unique(), dataPointType);
+        return new DataPointIdentifier("dp_testTarget_" + unique(), dataPointType);
     }
 
     public static DataPointIdentifier dataPointSourceName(DataPointType dataPointType) {
-        return new DataPointIdentifier("dp_testSource" + unique(), dataPointType);
+        return new DataPointIdentifier("dp_testSource_" + unique(), dataPointType);
     }
 
     public static DataSourceIdentifier dataSourceName(DataSourceType dataSourceType) {
-        return new DataSourceIdentifier("ds_test" + unique(), dataSourceType);
+        return new DataSourceIdentifier("ds_test_" + unique(), dataSourceType);
     }
 
     public static DataSourceIdentifier dataSourceTargetName(DataSourceType dataSourceType) {
-        return new DataSourceIdentifier("ds_testTarget" + unique(), dataSourceType);
+        return new DataSourceIdentifier("ds_testTarget_" + unique(), dataSourceType);
     }
 
     public static DataSourceIdentifier dataSourceSourceName(DataSourceType dataSourceType) {
-        return new DataSourceIdentifier("ds_testSource" + unique(), dataSourceType);
+        return new DataSourceIdentifier("ds_testSource_" + unique(), dataSourceType);
+    }
+
+    public static DataSourceIdentifier dataSourceDeleteName(DataSourceType dataSourceType) {
+        return new DataSourceIdentifier("ds_testDelete_" + unique(), dataSourceType);
     }
 
     public static GraphicalViewIdentifier viewName() {
-        return new GraphicalViewIdentifier("vw_test" + unique());
+        return new GraphicalViewIdentifier("vw_test_" + unique());
     }
 
     public static EventDetectorIdentifier eventDetectorName(EventDetectorType eventDetectorType) {
-        return new EventDetectorIdentifier("ed_test" + unique(), eventDetectorType);
+        return new EventDetectorIdentifier("ed_test_" + unique(), eventDetectorType);
     }
 
     public static VarIdentifier varName() {
-        return new VarIdentifier("vr_test" + unique());
+        return new VarIdentifier("vr_test_" + unique());
     }
 
     public static EventHandlerIdentifier eventHandlerName(EventHandlerType eventHandlerType) {
-        return new EventHandlerIdentifier("eh_test" + unique(), eventHandlerType);
+        return new EventHandlerIdentifier("eh_test_" + unique(), eventHandlerType);
     }
 
     public static ScriptIdentifier scriptName() {
-        return new ScriptIdentifier("sc_test" + unique());
+        return new ScriptIdentifier("sc_test_" + unique());
     }
 
     public static String unique() {
