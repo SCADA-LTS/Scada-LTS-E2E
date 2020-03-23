@@ -1,6 +1,5 @@
 package org.scadalts.e2e.test.impl.utils;
 
-import com.codeborne.selenide.Configuration;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.common.config.E2eConfigurator;
@@ -11,6 +10,7 @@ import org.scadalts.e2e.page.impl.pages.LoginPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 import org.scadalts.e2e.test.core.config.TestCoreConfigurator;
+import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
 
 import java.util.Objects;
@@ -80,7 +80,7 @@ public class TestWithPageUtil {
 
         ServiceObjectConfigurator.setSessionId(E2eConfiguration.sessionId);
 
-        if(backendPerformanceMs > Configuration.timeout) {
+        if(backendPerformanceMs > TestImplConfiguration.timeout) {
             close();
             throw new ApplicationTooHighLoadException();
         }

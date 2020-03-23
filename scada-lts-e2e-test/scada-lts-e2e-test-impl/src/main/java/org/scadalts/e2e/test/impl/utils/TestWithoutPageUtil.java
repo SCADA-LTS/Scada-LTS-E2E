@@ -1,6 +1,5 @@
 package org.scadalts.e2e.test.impl.utils;
 
-import com.codeborne.selenide.Configuration;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.common.config.E2eConfigurator;
@@ -54,27 +53,27 @@ public class TestWithoutPageUtil {
 
     public static E2eResponse<String> login(LoginParams cmpParams) {
         try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
-            Optional<E2eResponse<String>> responseOpt = loginServiceObject.login(cmpParams, Configuration.timeout);
+            Optional<E2eResponse<String>> responseOpt = loginServiceObject.login(cmpParams, TestImplConfiguration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
 
     public static E2eResponse<String> logout() {
         try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
-            Optional<E2eResponse<String>> responseOpt = loginServiceObject.logout(Configuration.timeout);
+            Optional<E2eResponse<String>> responseOpt = loginServiceObject.logout(TestImplConfiguration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
 
     public static E2eResponse<CmpParams> setValue(CmpParams cmpParams) {
         try (CmpServiceObject cmpWebServiceObject = ServiceObjectFactory.newCmpServiceObject()) {
-            Optional<E2eResponse<CmpParams>> responseOpt = cmpWebServiceObject.set(cmpParams, Configuration.timeout);
+            Optional<E2eResponse<CmpParams>> responseOpt = cmpWebServiceObject.set(cmpParams, TestImplConfiguration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
 
     public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams, String expectedValue) {
-        return getValue(pointValueParams, expectedValue, Configuration.timeout);
+        return getValue(pointValueParams, expectedValue, TestImplConfiguration.timeout);
     }
 
     public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams, String expectedValue,
@@ -88,7 +87,7 @@ public class TestWithoutPageUtil {
     }
 
     public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams) {
-        return getValue(pointValueParams, Configuration.timeout);
+        return getValue(pointValueParams, TestImplConfiguration.timeout);
     }
 
     public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams, long timeout) {

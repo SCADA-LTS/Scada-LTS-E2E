@@ -1,15 +1,15 @@
 package org.scadalts.e2e.page.impl.pages.pointlinks;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.common.utils.StabilityUtil;
-import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
+import org.scadalts.e2e.page.core.config.PageConfiguration;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
+import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 
@@ -80,7 +80,7 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
         delay();
         waitForCompleteLoad();
         waitWhile(a -> findObjects(identifier.getNodeCriteria(), pointLinksTable).isEmpty(),null,
-                new StabilityUtil.Timeout(Configuration.timeout));
+                new StabilityUtil.Timeout(PageConfiguration.timeout));
         return findObject(identifier.getNodeCriteria(), pointLinksTable).is(Condition.visible);
     }
 

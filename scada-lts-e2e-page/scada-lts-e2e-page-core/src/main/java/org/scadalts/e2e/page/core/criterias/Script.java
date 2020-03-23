@@ -1,7 +1,12 @@
 package org.scadalts.e2e.page.core.criterias;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import java.text.MessageFormat;
 
+@ToString
+@EqualsAndHashCode
 public class Script {
 
     private final String content;

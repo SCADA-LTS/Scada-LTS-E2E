@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 @Getter
-public class XpathAttribute {
+public final class XpathAttribute {
 
     private final String Name;
     private final String value;
