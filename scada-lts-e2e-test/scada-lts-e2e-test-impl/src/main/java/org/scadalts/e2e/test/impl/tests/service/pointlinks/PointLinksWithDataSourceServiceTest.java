@@ -12,6 +12,8 @@ import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.EventType;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
+import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksDetailsPage;
+import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
@@ -23,11 +25,12 @@ import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
-import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.scadalts.e2e.test.impl.creators.PointLinksObjectsCreator.isUpdate;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
@@ -67,8 +70,6 @@ public class PointLinksWithDataSourceServiceTest {
                         UpdatePeriodType.MILLISECOUND, 3000), EventType.UPDATE},
                 {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.MILLISECOUND, 10000), EventType.UPDATE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
-                        UpdatePeriodType.MINUTE, 1), EventType.UPDATE}
         };
     }
 
@@ -83,7 +84,8 @@ public class PointLinksWithDataSourceServiceTest {
     private AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
     private DataPointCriteria source;
     private DataPointCriteria target;
-    private final static Collection<String> values = ChangePointValuesProvider.paramsToTests();
+    private PointLinksPage pointLinksPage;
+    private PointLinkCriteria criteria;
 
     @Before
     public void setup() {
@@ -96,12 +98,12 @@ public class PointLinksWithDataSourceServiceTest {
         source = sourcePointSourceCriteria.getDataPoint();
         target = sourcePointTargetCriteria.getDataPoint();
 
-        Script script = Script.sourceValueIncreasedOne();
-        PointLinkCriteria criteria = PointLinkCriteria.criteria(sourcePointSourceCriteria, sourcePointTargetCriteria,
-                eventType, script);
+        criteria = PointLinkCriteria.criteria(sourcePointSourceCriteria, sourcePointTargetCriteria,
+                eventType, Script.empty());
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
                 criteria);
         allObjectsForPointLinkTestCreator.createObjects();
+        pointLinksPage = allObjectsForPointLinkTestCreator.openPage();
     }
 
     @After
@@ -111,12 +113,22 @@ public class PointLinksWithDataSourceServiceTest {
 
     @Test
     public void test_service_point_links() {
+        List<String> values = new ArrayList<>(ChangePointValuesProvider.paramsToTests());
+        String previousValue = "";
+        String expectedValue = "";
+        PointLinksDetailsPage pointLinksDetailsPage = pointLinksPage.openPointLinkEditor(criteria);
 
-        for (String value : values) {
+        for(int i = 0 ; i < values.size() ; i++) {
 
             //given:
-            String expectedValue = new BigDecimal(value).add(BigDecimal.ONE).toString();
-            logger.info("value: {}, value expected: {}", value, expectedValue);
+            Script script = Script.sourceValueIncreased(i);
+            String value = values.get(i);
+
+            pointLinksDetailsPage.setScript(script)
+                    .savePointLink();
+
+            expectedValue = isUpdate(eventType, previousValue, value) ? script.executeInJava(value) : expectedValue;
+            logger.info("value: {}, expected: {}, script: {}", value, expectedValue, script);
 
             Xid sourceXid = source.getXid();
             Xid targetXid = target.getXid();
@@ -142,7 +154,7 @@ public class PointLinksWithDataSourceServiceTest {
             assertNotNull(getResult);
             assertEquals(targetXid.getValue(), getResult.getXid());
             assertEquals(expectedValue, getResult.getFormattedValue());
+            previousValue = value;
         }
-
     }
 }

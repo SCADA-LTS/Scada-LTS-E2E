@@ -16,40 +16,46 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifie
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.EventType;
+import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.scadalts.e2e.test.impl.creators.PointLinksObjectsCreator.isUpdate;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
 public class PointLinksChangeOnWatchListPageTest {
 
-    @Parameterized.Parameters(name = "{index}: source: {0} - {1}, target: {2} - {3}, pointlink type: {4}, script: {5}")
+    @Parameterized.Parameters(name = "{index}: source: {0} - {1}, target: {2} - {3}, pointlink type: {4}")
     public static Object[][] data() {
         String unique = IdentifierObjectFactory.unique();
         return new Object[][] {
-                {"ds_test1_" + unique, "dp_test1_source_" + unique, "ds_test1_" + unique, "dp_test1_target_" + unique, EventType.UPDATE, Script.sourceValueIncreasedOne()},
-                {"ds_test2_" + unique, "dp_test2_source_" + unique, "ds_test2_" + unique, "dp_test2_target_" + unique, EventType.CHANGE, Script.sourceValueIncreasedOne()},
-                {"ds_test3_source_" + unique, "dp_test3_source_" + unique, "ds_test3_target_" + unique, "dp_test3_target_" + unique, EventType.UPDATE, Script.sourceValueIncreasedOne()},
-                {"ds_test4_source_" + unique, "dp_test4_source_" + unique, "ds_test4_target_" + unique, "dp_test4_target_" + unique, EventType.CHANGE, Script.sourceValueIncreasedOne()},
+                {"ds_test1_" + unique, "dp_test1_source_" + unique, "ds_test1_" + unique, "dp_test1_target_" + unique,
+                        EventType.UPDATE},
+                {"ds_test2_" + unique, "dp_test2_source_" + unique, "ds_test2_" + unique, "dp_test2_target_" + unique,
+                        EventType.CHANGE},
+                {"ds_test3_source_" + unique, "dp_test3_source_" + unique, "ds_test3_target_" + unique, "dp_test3_target_" + unique,
+                        EventType.UPDATE},
+                {"ds_test4_source_" + unique, "dp_test4_source_" + unique, "ds_test4_target_" + unique, "dp_test4_target_" + unique,
+                        EventType.CHANGE},
         };
     }
 
     private final DataSourcePointCriteria source;
     private final DataSourcePointCriteria target;
     private final EventType eventType;
-    private final Script script;
 
 
     public PointLinksChangeOnWatchListPageTest(String dataSoruceSourceName, String dataPointSourceName,
                                                String dataSoruceTargetName, String dataPointTargetName,
-                                               EventType eventType, Script script) {
+                                               EventType eventType) {
         this.eventType = eventType;
 
         DataSourceIdentifier dataSourceSourceIdentifier = new DataSourceIdentifier(dataSoruceSourceName, DataSourceType.VIRTUAL_DATA_SOURCE);
@@ -60,23 +66,24 @@ public class PointLinksChangeOnWatchListPageTest {
 
         source = DataSourcePointCriteria.criteria(dataSourceSourceIdentifier, dataPointSourceIdentifier);
         target = DataSourcePointCriteria.criteria(dataSourceTargetIdentifier, dataPointTargetIdentifier);
-
-        this.script = script;
     }
 
     private AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
     private WatchListPage watchListPageSubject;
     private DataSourcePointIdentifier sourceIdentifier;
     private DataSourcePointIdentifier targetIdentifier;
+    private PointLinksPage pointLinksPage;
+    private PointLinkCriteria criteria;
 
     @Before
     public void setup() {
         sourceIdentifier = source.getIdentifier();
         targetIdentifier = target.getIdentifier();
-        PointLinkCriteria criteria = PointLinkCriteria.criteria(source, target, eventType, script);
+        criteria = PointLinkCriteria.criteria(source, target, eventType, Script.empty());
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
                 criteria);
         watchListPageSubject = allObjectsForPointLinkTestCreator.createObjects();
+        pointLinksPage = allObjectsForPointLinkTestCreator.openPage();
     }
 
     @After
@@ -87,16 +94,27 @@ public class PointLinksChangeOnWatchListPageTest {
 
     @Test
     public void test_point_links() {
+        List<String> values = new ArrayList<>(ChangePointValuesProvider.paramsToTests());
+        String previousValue = "";
+        String expectedValue = "";
 
-        for (String value : ChangePointValuesProvider.paramsToTests()) {
+        for(int i = 0 ; i < values.size() ; i++) {
 
-            //given
-            String expectedValue = new BigDecimal(value).add(BigDecimal.ONE).toString();
+            //given:
+            Script script = Script.sourceValueIncreased(i);
+            String value = values.get(i);
 
-            logger.info("value: {}, value expected: {}", value, expectedValue);
+            pointLinksPage.reopen()
+                    .openPointLinkEditor(criteria)
+                    .setScript(script)
+                    .savePointLink();
+
+            expectedValue = isUpdate(eventType, previousValue, value) ? script.executeInJava(value) : expectedValue;
+            logger.info("value: {}, expected: {}, script: {}", value, expectedValue, script);
 
             //when:
-            watchListPageSubject.openDataPointValueEditor(sourceIdentifier)
+            watchListPageSubject.reopen()
+                    .openDataPointValueEditor(sourceIdentifier)
                     .setDataPointValue(sourceIdentifier, value)
                     .confirmDataPointValue(sourceIdentifier)
                     .closeEditorDataPointValue(sourceIdentifier);
@@ -105,6 +123,8 @@ public class PointLinksChangeOnWatchListPageTest {
 
             //then:
             assertEquals(expectedValue, result);
+
+            previousValue = value;
         }
 
     }

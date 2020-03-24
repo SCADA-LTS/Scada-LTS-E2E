@@ -59,7 +59,7 @@ public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsP
     public PointLinksDetailsPage setScript(Script script) {
         delay();
         this.script.clear();
-        this.script.setValue(script.getContent());
+        this.script.setValue(script.getScriptToExecute());
         return this;
     }
 

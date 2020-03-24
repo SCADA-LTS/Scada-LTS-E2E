@@ -862,7 +862,7 @@
                 <test.e2e.data-point-to-read-xid>DP_961456</test.e2e.data-point-to-read-xid>
                 <test.e2e.data-source-name>datasource_change_point_in_details_test</test.e2e.data-source-name>
                 <test.e2e.data-point-name>datapoint_change_point_in_details_test</test.e2e.data-point-name>
-                <test.e2e.point-values-to-tests>1;2;3;4;5</test.e2e.point-values-to-tests>
+                <test.e2e.point-values-to-tests>1;1;2;2;3;3;4;4;5;5</test.e2e.point-values-to-tests>
                 <test.e2e.data-point-source-xid>DP_851488</test.e2e.data-point-source-xid>
                 <test.e2e.data-point-target-xid>DP_261408</test.e2e.data-point-target-xid>
                 <test.e2e.run-app.port-app>9092</test.e2e.run-app.port-app>
