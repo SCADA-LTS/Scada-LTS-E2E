@@ -38,9 +38,9 @@ import static org.scadalts.e2e.test.impl.creators.PointLinksObjectsCreator.isUpd
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
-public class PointLinksServiceTest {
+public class PointLinksMultiParametersServiceTest {
 
-    @Parameterized.Parameters(name = "{index}: source: {0} - {1}, target: {2} - {3}, pointlink type: {4}, script: {5}, script2: {6}")
+    @Parameterized.Parameters(name = "{index}: source: {0} - {1}, target: {2} - {3}, pointlink type: {4}")
     public static Object[][] data() {
         String unique = IdentifierObjectFactory.unique();
         return new Object[][] {
@@ -60,9 +60,9 @@ public class PointLinksServiceTest {
     private final EventType eventType;
 
 
-    public PointLinksServiceTest(String dataSoruceSourceName, String dataPointSourceName,
-                                         String dataSoruceTargetName, String dataPointTargetName,
-                                         EventType eventType) {
+    public PointLinksMultiParametersServiceTest(String dataSoruceSourceName, String dataPointSourceName,
+                                                String dataSoruceTargetName, String dataPointTargetName,
+                                                EventType eventType) {
         this.eventType = eventType;
 
         DataSourceIdentifier dataSourceSourceIdentifier = new DataSourceIdentifier(dataSoruceSourceName, DataSourceType.VIRTUAL_DATA_SOURCE);

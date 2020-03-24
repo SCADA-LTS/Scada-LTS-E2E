@@ -35,9 +35,9 @@ public class ConfigureTestPointLinksCommand implements Command<ChangePointValueV
         Xid dataPointSourceXid = new Xid(TestImplConfiguration.dataPointSourceXid);
         Xid dataPointTargetXid = new Xid(TestImplConfiguration.dataPointTargetXid);
 
-        DataPointCriteria dataPointSource = DataPointCriteria.noChange(dataPointTargetXid,
+        DataPointCriteria dataPointSource = DataPointCriteria.noChange(dataPointSourceXid,
                 new DataPointIdentifier("datapoint_source", DataPointType.NUMERIC), "1234");
-        DataPointCriteria dataPointTarget = DataPointCriteria.noChange(dataPointSourceXid,
+        DataPointCriteria dataPointTarget = DataPointCriteria.noChange(dataPointTargetXid,
                 new DataPointIdentifier("datapoint_target", DataPointType.NUMERIC), "12345");
 
         DataSourceIdentifier dataSourceIdentifier = new DataSourceIdentifier("datasource_point_links_test",

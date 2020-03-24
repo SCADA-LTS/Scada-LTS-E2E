@@ -1,9 +1,11 @@
 package org.scadalts.e2e.test.impl.tests.check.pointlinks;
 
 import lombok.extern.log4j.Log4j2;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
@@ -13,7 +15,6 @@ import org.scadalts.e2e.test.impl.runners.TestParameterizedWithoutPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
@@ -34,12 +35,19 @@ public class ChangePointValueViaPointLinksCheckTest {
         this.value = value;
     }
 
+    private Script script;
+
+    @Before
+    public void before() {
+        script = Script.sourceValueIncreasedOne();
+    }
+
     @Test
     public void test_check_point_link() {
 
         //given:
-        String expectedValue = new BigDecimal(value).add(BigDecimal.ONE).toString();
-        logger.info("value: {}, value expected: {}", value, expectedValue);
+        String expectedValue = script.executeInJava(value);
+        logger.info("value: {}, expected: {}", value, expectedValue);
 
         PointValueParams pointValueParams = new PointValueParams(TestImplConfiguration.dataPointTargetXid);
         CmpParams cmpParams = CmpParams.builder()
@@ -48,7 +56,6 @@ public class ChangePointValueViaPointLinksCheckTest {
                 .value(value)
                 .xid(TestImplConfiguration.dataPointSourceXid)
                 .build();
-
 
         //when:
         E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);

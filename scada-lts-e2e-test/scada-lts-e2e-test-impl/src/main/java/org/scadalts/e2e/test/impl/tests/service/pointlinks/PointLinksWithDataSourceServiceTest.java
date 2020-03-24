@@ -70,6 +70,8 @@ public class PointLinksWithDataSourceServiceTest {
                         UpdatePeriodType.MILLISECOUND, 3000), EventType.UPDATE},
                 {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.MILLISECOUND, 10000), EventType.UPDATE},
+                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                        UpdatePeriodType.MINUTE, 1), EventType.UPDATE},
         };
     }
 
