@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NonNull;
 import org.scadalts.e2e.common.exceptions.ConfigureTestException;
 import org.scadalts.e2e.common.utils.ExecutorUtil;
+import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
@@ -34,9 +35,9 @@ public class ConfigureTestPointLinksCommand implements Command<ChangePointValueV
         Xid dataPointSourceXid = new Xid(TestImplConfiguration.dataPointSourceXid);
         Xid dataPointTargetXid = new Xid(TestImplConfiguration.dataPointTargetXid);
 
-        DataPointCriteria dataPointSource = DataPointCriteria.noChange(dataPointTargetXid,
+        DataPointCriteria dataPointSource = DataPointCriteria.noChange(dataPointSourceXid,
                 new DataPointIdentifier("datapoint_source", DataPointType.NUMERIC), "1234");
-        DataPointCriteria dataPointTarget = DataPointCriteria.noChange(dataPointSourceXid,
+        DataPointCriteria dataPointTarget = DataPointCriteria.noChange(dataPointTargetXid,
                 new DataPointIdentifier("datapoint_target", DataPointType.NUMERIC), "12345");
 
         DataSourceIdentifier dataSourceIdentifier = new DataSourceIdentifier("datasource_point_links_test",
@@ -55,7 +56,8 @@ public class ConfigureTestPointLinksCommand implements Command<ChangePointValueV
 
         createOneDataSourceTwoPointsSubCommand.execute();
 
-        PointLinkCriteria pointLink = PointLinkCriteria.change(dataSourcePointSource, dataSourcePointTarget);
+        Script script = Script.sourceValueIncreasedOne();
+        PointLinkCriteria pointLink = PointLinkCriteria.change(dataSourcePointSource, dataSourcePointTarget, script);
 
         PointLinksObjectsCreator pointLinksObjectsCreator = new PointLinksObjectsCreator(navigationPage, pointLink);
         pointLinksObjectsCreator.createObjects();

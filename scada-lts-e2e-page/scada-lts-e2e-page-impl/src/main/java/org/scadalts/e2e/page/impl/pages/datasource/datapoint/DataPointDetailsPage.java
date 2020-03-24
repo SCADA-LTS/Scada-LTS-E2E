@@ -102,6 +102,14 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
                 .collect(Collectors.toList());
     }
 
+    public String getAnnotationFirstFromHistory() {
+        return getAnnotationsFromHistory().get(0);
+    }
+
+    public List<String> getAnnotationsFromHistory(int last) {
+        return getAnnotationsFromHistory().subList(0, last);
+    }
+
     public int getHistoryLimit() {
         delay();
         return parseIntValueFormatted(waitWhile(historyLimit, Condition.empty).getValue());

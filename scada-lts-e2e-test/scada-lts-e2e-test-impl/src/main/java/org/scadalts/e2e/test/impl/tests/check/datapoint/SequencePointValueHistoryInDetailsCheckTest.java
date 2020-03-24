@@ -18,7 +18,7 @@ import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPag
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
-import org.scadalts.e2e.test.impl.utils.ListLimitedOnlyMethodAddSupported;
+import org.scadalts.e2e.test.impl.utils.ListLimitedSupportedAddMethod;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.util.Collection;
@@ -43,7 +43,7 @@ public class SequencePointValueHistoryInDetailsCheckTest {
     }
 
     private static DataPointDetailsPage dataPointDetailsPageSubject;
-    private static ListLimitedOnlyMethodAddSupported<String> listExcepted;
+    private static ListLimitedSupportedAddMethod<String> listExcepted;
 
     @BeforeClass
     public static void createDataSourceAndPoint() {
@@ -59,7 +59,7 @@ public class SequencePointValueHistoryInDetailsCheckTest {
         int limit = dataPointDetailsPageSubject.getHistoryLimit();
         List<String> result = dataPointDetailsPageSubject.getValuesFromHistory();
 
-        listExcepted = new ListLimitedOnlyMethodAddSupported<>(limit);
+        listExcepted = new ListLimitedSupportedAddMethod<>(limit);
         listExcepted.addAll(result);
     }
 

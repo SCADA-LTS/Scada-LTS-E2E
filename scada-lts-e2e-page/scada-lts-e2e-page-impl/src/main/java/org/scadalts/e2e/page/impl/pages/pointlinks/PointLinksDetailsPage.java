@@ -4,6 +4,7 @@ package org.scadalts.e2e.page.impl.pages.pointlinks;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
@@ -55,10 +56,10 @@ public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsP
         return this;
     }
 
-    public PointLinksDetailsPage setScript(String script) {
+    public PointLinksDetailsPage setScript(Script script) {
         delay();
         this.script.clear();
-        this.script.setValue(script);
+        this.script.setValue(script.getScriptToExecute());
         return this;
     }
 
@@ -96,9 +97,9 @@ public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsP
         return targetPointId.getText();
     }
 
-    public String getScript() {
+    public Script getScript() {
         delay();
-        return script.getValue();
+        return Script.script(script.getValue());
     }
 
     public EventType getEventType() {

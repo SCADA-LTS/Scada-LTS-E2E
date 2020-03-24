@@ -3,6 +3,7 @@ package org.scadalts.e2e.test.impl.tests.page.pointlinks;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 import org.scadalts.e2e.page.impl.dicts.EventType;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
@@ -19,17 +20,17 @@ public class DeletePointLinksPageTest {
 
     @Parameterized.Parameters(name = "{index}: script: {0}, {1}")
     public static Object[][] data() { return new Object[][] {
-            {"return source.value;", EventType.CHANGE},
-            {"return source.value;", EventType.UPDATE},
-            {"", EventType.CHANGE},
-            {"", EventType.UPDATE}
+            {Script.sourceValue(), EventType.CHANGE},
+            {Script.sourceValue(), EventType.UPDATE},
+            {Script.empty(), EventType.CHANGE},
+            {Script.empty(), EventType.UPDATE}
     };
     }
 
-    private final String scriptExpected;
+    private final Script scriptExpected;
     private final EventType eventTypeExpected;
 
-    public DeletePointLinksPageTest(String scriptExpected, EventType eventTypeExpected) {
+    public DeletePointLinksPageTest(Script scriptExpected, EventType eventTypeExpected) {
         this.scriptExpected = scriptExpected;
         this.eventTypeExpected = eventTypeExpected;
     }

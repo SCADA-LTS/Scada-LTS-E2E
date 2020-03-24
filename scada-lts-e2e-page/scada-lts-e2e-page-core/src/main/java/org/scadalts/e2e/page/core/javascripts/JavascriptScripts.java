@@ -10,7 +10,7 @@ public enum JavascriptScripts implements JavascriptProvider {
     }
 
     @Override
-    public String getScript() {
+    public String getScriptToExecute() {
         return script;
     }
 }

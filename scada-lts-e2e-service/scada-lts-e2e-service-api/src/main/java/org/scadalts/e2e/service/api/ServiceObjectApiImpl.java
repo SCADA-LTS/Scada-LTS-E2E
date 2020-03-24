@@ -13,6 +13,6 @@ class ServiceObjectApiImpl implements ServiceObjectApi {
 
     @Override
     public void init(E2eConfig config) {
-        ServiceObjectConfigurator.init(config);
+        ServiceObjectConfigurator.setSessionId(config);
     }
 }

@@ -1,11 +1,11 @@
 package org.scadalts.e2e.page.core.utils;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.utils.StabilityUtil;
+import org.scadalts.e2e.page.core.config.PageConfiguration;
 import org.scadalts.e2e.page.core.pages.MainPageObject;
 
 import java.util.function.Predicate;
@@ -18,17 +18,21 @@ import static org.scadalts.e2e.common.utils.StabilityUtil.executeWhile;
 @Log4j2
 public abstract class PageStabilityUtil {
 
-    private static Timeout timeout = new Timeout(2 * Configuration.timeout);
+    private static Timeout timeout = new Timeout(3 * PageConfiguration.timeout);
 
     public static SelenideElement waitWhileNotVisible(SelenideElement webElement) {
         return waitWhile(webElement, not(Condition.visible));
     }
 
     public static SelenideElement waitWhile(SelenideElement element, Condition condition) {
-        return element.waitWhile(condition, Configuration.timeout);
+        return element.waitWhile(condition, PageConfiguration.timeout);
     }
 
     public static <T> void waitWhile(Predicate<T> condition, T arg) {
+        StabilityUtil.waitWhile(condition, arg, timeout);
+    }
+
+    public static <T> void waitWhile(Predicate<T> condition, T arg, Timeout timeout) {
         StabilityUtil.waitWhile(condition, arg, timeout);
     }
 

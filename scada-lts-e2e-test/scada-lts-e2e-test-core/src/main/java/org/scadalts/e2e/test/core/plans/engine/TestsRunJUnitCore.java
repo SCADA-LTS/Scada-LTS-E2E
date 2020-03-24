@@ -22,8 +22,11 @@ class TestsRunJUnitCore implements TestsRunEngine {
     public List<E2eResult> run(List<Class<?>> tests) {
         List<E2eResult> results = new ArrayList<>();
         for (Class<?> test: tests) {
-            RunListener scada = new E2eRunListener(test);
-            E2eResult result = _run(test, scada);
+            E2eResult result = _run(test, new E2eRunListener(test));
+            if(!result.wasSuccessful()) {
+                logger.info("repeats test...{}", test.getSimpleName());
+                result = _run(test, new E2eRunListener(test));
+            }
             results.add(result);
         }
         return results;

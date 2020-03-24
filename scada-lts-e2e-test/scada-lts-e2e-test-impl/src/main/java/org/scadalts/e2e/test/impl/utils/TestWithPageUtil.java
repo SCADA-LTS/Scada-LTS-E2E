@@ -1,6 +1,5 @@
 package org.scadalts.e2e.test.impl.utils;
 
-import com.codeborne.selenide.Configuration;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.common.config.E2eConfigurator;
@@ -9,7 +8,9 @@ import org.scadalts.e2e.common.exceptions.ApplicationTooHighLoadException;
 import org.scadalts.e2e.page.core.config.PageObjectConfigurator;
 import org.scadalts.e2e.page.impl.pages.LoginPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
+import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 import org.scadalts.e2e.test.core.config.TestCoreConfigurator;
+import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
 
 import java.util.Objects;
@@ -39,6 +40,7 @@ public class TestWithPageUtil {
     public static void initNavigationPage(NavigationPage navigationPage) {
         TestWithPageUtil.navigationPage = navigationPage;
         E2eConfiguration.sessionId = navigationPage.getSessionId().orElse("");
+        ServiceObjectConfigurator.setSessionId(E2eConfiguration.sessionId);
     }
 
     public static NavigationPage preparingTest() {
@@ -76,7 +78,9 @@ public class TestWithPageUtil {
         logger.info("cookies: {}", navigationPage.getCookies());
         E2eConfiguration.sessionId = _getSessionId(navigationPage);
 
-        if(backendPerformanceMs > Configuration.timeout) {
+        ServiceObjectConfigurator.setSessionId(E2eConfiguration.sessionId);
+
+        if(backendPerformanceMs > TestImplConfiguration.timeout) {
             close();
             throw new ApplicationTooHighLoadException();
         }

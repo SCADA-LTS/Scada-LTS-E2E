@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
@@ -20,8 +21,8 @@ import static org.hamcrest.core.StringContains.containsString;
 @RunWith(TestWithPageRunner.class)
 public class DeleteDataSourcePageTest {
 
-    private DataSourceIdentifier dataSourceToDeleteName = new DataSourceIdentifier("ds_test_delete" + System.nanoTime(),
-            DataSourceType.VIRTUAL_DATA_SOURCE);
+    private DataSourceIdentifier dataSourceToDeleteName = IdentifierObjectFactory
+            .dataSourceDeleteName(DataSourceType.VIRTUAL_DATA_SOURCE);
     private DataSourceCriteria dataSourceToDeleteCriteria;
 
     private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
@@ -29,6 +30,7 @@ public class DeleteDataSourcePageTest {
 
     @Before
     public void createDataSource() {
+
         dataSourceToDeleteCriteria = DataSourceCriteria.criteria(dataSourceToDeleteName,
                 UpdatePeriodType.SECOND);
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(), dataSourceToDeleteCriteria);

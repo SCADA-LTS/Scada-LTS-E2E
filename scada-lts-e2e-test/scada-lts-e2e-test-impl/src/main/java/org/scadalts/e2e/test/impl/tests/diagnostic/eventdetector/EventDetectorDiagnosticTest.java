@@ -80,7 +80,7 @@ public class EventDetectorDiagnosticTest {
 
             //and when:
             E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams,
-                    expectedValue);
+                    expectedValue, TestImplConfiguration.waitingAfterSetPointValueMs);
             PointValueResponse getResult = getResponse.getValue();
 
             //then:

@@ -12,41 +12,41 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 public abstract class AlertUtil {
 
     public static void acceptAlert() {
-        executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScript());
+        executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScriptToExecute());
     }
 
     public static void dismissAlert() {
-        executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScript());
+        executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScriptToExecute());
     }
 
     public static void acceptAlertAfterClick(SelenideElement selenideElement) {
-        executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScript());
+        executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScriptToExecute());
         selenideElement.click();
     }
 
     public static void acceptAlertAfter(Procedure procedure) {
-        executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScript());
+        executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScriptToExecute());
         procedure.invoke();
     }
 
     public static <T> void acceptAlertAfter(Consumer<T> consumer, T value) {
-        executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScript());
+        executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScriptToExecute());
         consumer.accept(value);
     }
 
 
     public static void dismissAlertAfterClick(SelenideElement selenideElement) {
-        executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScript());
+        executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScriptToExecute());
         selenideElement.click();
     }
 
     public static void dismissAlertAfter(Procedure procedure) {
-        executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScript());
+        executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScriptToExecute());
         procedure.invoke();
     }
 
     public static <T> void dismissAlertAfter(Consumer<T> consumer, T value) {
-        executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScript());
+        executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScriptToExecute());
         consumer.accept(value);
     }
 

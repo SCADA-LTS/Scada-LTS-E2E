@@ -91,7 +91,7 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
 
     public EditScriptsPage setScript(Script script) {
         delay();
-        waitWhile(scriptTextArea, not(Condition.visible)).setValue(script.getContent());
+        waitWhile(scriptTextArea, not(Condition.visible)).setValue(script.getScriptToExecute());
         return this;
     }
 

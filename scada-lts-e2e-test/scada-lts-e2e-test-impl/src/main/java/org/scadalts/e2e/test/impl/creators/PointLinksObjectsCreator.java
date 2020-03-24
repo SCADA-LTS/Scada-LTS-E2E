@@ -3,6 +3,7 @@ package org.scadalts.e2e.test.impl.creators;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
+import org.scadalts.e2e.page.impl.dicts.EventType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
@@ -64,5 +65,9 @@ public class PointLinksObjectsCreator implements CreatorObject<PointLinksPage, P
             }
         }
         return pointLinksPage;
+    }
+
+    public static boolean isUpdate(EventType eventType, String previousValue, String value) {
+        return eventType == EventType.UPDATE || !previousValue.equals(value);
     }
 }
