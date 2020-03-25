@@ -21,7 +21,7 @@ public interface JavascriptExecutable {
 
     default <T> Optional<T> executeJs(JavascriptProvider script, Class<T> returnType) {
         try {
-            Object object = executeJs(script.getScript());
+            Object object = executeJs(script.getScriptToExecute());
             T result = returnType.cast(object);
             return Optional.ofNullable(result);
         } catch (Throwable ex) {
@@ -32,7 +32,7 @@ public interface JavascriptExecutable {
 
     default long executeJsLong(JavascriptProvider script) {
         try {
-            Object result = executeJs(script.getScript());
+            Object result = executeJs(script.getScriptToExecute());
             return (long) result;
         } catch (Throwable ex) {
             ex.printStackTrace();
@@ -42,7 +42,7 @@ public interface JavascriptExecutable {
 
     default int executeJsInt(JavascriptProvider script) {
         try {
-            Object result = executeJs(script.getScript());
+            Object result = executeJs(script.getScriptToExecute());
             return (int) result;
         } catch (Throwable ex) {
             ex.printStackTrace();
@@ -52,7 +52,7 @@ public interface JavascriptExecutable {
 
     default double executeJsDouble(JavascriptProvider script) {
         try {
-            Object result = executeJs(script.getScript());
+            Object result = executeJs(script.getScriptToExecute());
             return (double) result;
         } catch (Throwable ex) {
             ex.printStackTrace();
@@ -62,7 +62,7 @@ public interface JavascriptExecutable {
 
     default boolean executeJsBoolean(JavascriptProvider script) {
         try {
-            Object result = executeJs(script.getScript());
+            Object result = executeJs(script.getScriptToExecute());
             return (boolean) result;
         } catch (Throwable ex) {
             ex.printStackTrace();
@@ -79,6 +79,6 @@ public interface JavascriptExecutable {
     }
 
     default void executeJs(JavascriptProvider script) {
-        executeJs(script.getScript());
+        executeJs(script.getScriptToExecute());
     }
 }

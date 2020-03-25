@@ -22,7 +22,13 @@ class MimeMessageCreator {
     }
 
     MimeMessage create(EmailData emailData, JavaMailSender javaMailSender) throws MessagingException {
+        logger.info("creating email...");
         MimeMessage mail = javaMailSender.createMimeMessage();
+        _setMime(emailData, mail);
+        return mail;
+    }
+
+    private void _setMime(EmailData emailData, MimeMessage mail) throws MessagingException {
         MimeMessageHelper helper = new MimeMessageHelper(mail, true, "UTF-8");
         helper.setBcc(emailData.getTo());
         helper.setFrom(emailData.getFrom());
@@ -40,7 +46,5 @@ class MimeMessageCreator {
                 helper.addAttachment(attachment.getName(), attachment);
             }
         }
-
-        return mail;
     }
 }

@@ -2,6 +2,7 @@ package org.scadalts.e2e.test.impl.creators;
 
 
 import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
@@ -11,6 +12,7 @@ import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 
+@Log4j2
 public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWithPointListPage, EditDataSourceWithPointListPage> {
 
     private final @NonNull NavigationPage navigationPage;
@@ -40,7 +42,7 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
     public EditDataSourceWithPointListPage deleteObjects() {
         EditDataSourceWithPointListPage editDataSourceWithPointListPage = openPage();
         for (DataPointCriteria dataPointCriteria : dataPointCriterias) {
-            if(editDataSourceWithPointListPage.containsObject(dataPointCriteria)) {
+            if(editDataSourceWithPointListPage.containsObject(dataPointCriteria.getIdentifier())) {
                 _deleteDataPoint(editDataSourceWithPointListPage, dataPointCriteria);
             }
         }
@@ -55,7 +57,7 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
 
     public EditDataSourceWithPointListPage createObjects(EditDataSourceWithPointListPage editDataSourceWithPointListPage) {
         for (DataPointCriteria dataPointCriteria : dataPointCriterias) {
-            if(!editDataSourceWithPointListPage.containsObject(dataPointCriteria)) {
+            if(!editDataSourceWithPointListPage.containsObject(dataPointCriteria.getIdentifier())) {
                 _createDataPoint(editDataSourceWithPointListPage, dataPointCriteria);
             }
         }
@@ -66,25 +68,29 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
     public EditDataSourceWithPointListPage openPage() {
         if(dataSourcesPage == null) {
             dataSourcesPage = navigationPage.openDataSources();
-            return dataSourcesPage.openDataSourceEditor(dataSourceCriteria);
+            return dataSourcesPage.openDataSourceEditor(dataSourceCriteria.getIdentifier());
         }
         return dataSourcesPage.reopen()
-                .openDataSourceEditor(dataSourceCriteria);
+                .openDataSourceEditor(dataSourceCriteria.getIdentifier());
     }
 
-    private EditDataPointPage _createDataPoint(EditDataSourceWithPointListPage page, DataPointCriteria pointParams) {
+    private EditDataPointPage _createDataPoint(EditDataSourceWithPointListPage page, DataPointCriteria criteria) {
+        logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(), criteria.getIdentifier().getType(),
+                criteria.getXid().getValue(), criteria.getClass().getSimpleName());
         return page.addDataPoint()
-                .setDataPointName(pointParams.getIdentifier())
-                .selectDataPointType(pointParams.getType())
-                .setSettable(pointParams.isSettable())
-                .selectChangeType(pointParams.getChangeType())
-                .setDataPointXid(pointParams.getXid())
-                .setStartValue(pointParams)
+                .setDataPointName(criteria.getIdentifier())
+                .setDataPointXid(criteria.getXid())
+                .setSettable(criteria.isSettable())
+                .selectDataPointType(criteria.getIdentifier().getType())
+                .selectChangeType(criteria.getChangeType())
+                .setStartValue(criteria)
                 .saveDataPoint();
     }
 
-    private EditDataSourceWithPointListPage _deleteDataPoint(EditDataSourceWithPointListPage page, DataPointCriteria pointParams) {
-        return page.openDataPointEditor(pointParams)
+    private EditDataSourceWithPointListPage _deleteDataPoint(EditDataSourceWithPointListPage page, DataPointCriteria criteria) {
+        logger.info("delete object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(), criteria.getIdentifier().getType(),
+                criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+        return page.openDataPointEditor(criteria.getIdentifier())
                 .deleteDataPoint();
     }
 }

@@ -5,7 +5,6 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.scadalts.e2e.app.infrastructure.config.ConfigAppKeys;
 import org.scadalts.e2e.common.config.E2eConfig;
 import org.scadalts.e2e.common.config.E2eConfigFromFileProvider;
-import org.scadalts.e2e.common.utils.E2eSystemInfoUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -15,6 +14,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.scadalts.e2e.common.utils.E2eSystemInfoUtil.printHeaderWithConfig;
 
 @Log4j2
 @SpringBootApplication
@@ -30,12 +31,7 @@ public class E2eApp {
 
 		Configurator.setRootLevel(config.getLogLevel());
 		Configurator.setAllLevels("org.apache.logging.log4j", config.getLogLevel());
-
-		logger.info("-----------------------------------------------------1");
-		logger.info("{}\n", E2eSystemInfoUtil.getInfo());
-		logger.info("-----------------------------------------------------2");
-		logger.info(config);
-		logger.info("-----------------------------------------------------3");
+		printHeaderWithConfig(config);
 		SpringApplication application = new SpringApplication(E2eApp.class);
 
 		application.addInitializers(applicationEvent -> applicationEvent

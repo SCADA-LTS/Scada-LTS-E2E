@@ -39,9 +39,11 @@ public class PageObjectConfigurator {
         Configuration.proxyPort = config.getPortProxy();
 
         PageConfiguration.ctrl = config.getCtrlCode();
+        PageConfiguration.timeout = config.getTimeoutMs();
 
         Configurator.setRootLevel(config.getLogLevel());
         Configurator.setAllLevels("org.apache.logging.log4j", config.getLogLevel());
+        Configurator.setAllLevels("java.util.logging", config.getLogLevel());
 
         if(!config.isDriverManagerMode()) {
             _configureWebDriver(config);

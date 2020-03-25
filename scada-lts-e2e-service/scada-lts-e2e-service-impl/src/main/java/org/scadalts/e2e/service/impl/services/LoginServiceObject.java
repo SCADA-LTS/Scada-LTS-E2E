@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfiguration;
+import org.scadalts.e2e.common.utils.StabilityUtil;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
@@ -19,6 +20,7 @@ import java.net.URL;
 import java.util.Optional;
 
 import static org.scadalts.e2e.service.core.utils.ServiceStabilityUtil.applyWhile;
+import static org.scadalts.e2e.service.core.utils.ServiceStabilityUtil.executeWhile;
 
 @Log4j2
 @Builder(access = AccessLevel.PACKAGE)
@@ -29,7 +31,7 @@ public class LoginServiceObject implements WebServiceObject {
 
     public Optional<E2eResponse<String>> login(LoginParams loginParams, long timeout) {
         try {
-            E2eResponse<String> response = applyWhile(this::_login, loginParams, timeout);
+            E2eResponse<String> response = applyWhile(this::_login, loginParams, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -39,7 +41,7 @@ public class LoginServiceObject implements WebServiceObject {
 
     public Optional<E2eResponse<String>> logout(long timeout) {
         try {
-            E2eResponse<String> response = applyWhile(this::_logout, timeout);
+            E2eResponse<String> response = executeWhile(this::_logout, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -49,18 +51,12 @@ public class LoginServiceObject implements WebServiceObject {
 
     @Override
     public void close() {
-        try {
-            logout(10000);
-        } catch (Throwable throwable){
-            logger.warn(throwable.getMessage(), throwable);
-        } finally {
-            client.close();
-        }
+        client.close();
     }
 
     private E2eResponse<String> _login(LoginParams loginParams) {
         String endpoint = baseUrl + "/login.htm";
-        logger.info("endpoint: {}", endpoint);
+        logger.debug("endpoint: {}", endpoint);
         Response response = ClientBuilder.newClient()
                 .target(endpoint)
                 .queryParam("username", loginParams.getUserName())
@@ -76,8 +72,8 @@ public class LoginServiceObject implements WebServiceObject {
     private E2eResponse<String> _logout() {
         String endpoint = baseUrl +"/logout.htm";
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
-        logger.info("endpoint: {}", endpoint);
-        logger.info("cookie: {}", cookie);
+        logger.debug("endpoint: {}", endpoint);
+        logger.debug("cookie: {}", cookie);
         Response response = client.target(endpoint)
                 .request(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
                 .cookie(cookie)

@@ -38,13 +38,13 @@ public class LoginPage extends PageObjectAbstract<LoginPage> {
 
     public LoginPage setUserName(String userName) {
         this.userName.clear();
-        this.userName.sendKeys(userName);
+        this.userName.setValue(userName);
         return this;
     }
 
     public LoginPage setPassword(String password) {
         this.password.clear();
-        this.password.sendKeys(password);
+        this.password.setValue(password);
         return this;
     }
 

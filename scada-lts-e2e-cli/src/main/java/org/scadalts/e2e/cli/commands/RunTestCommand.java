@@ -11,6 +11,8 @@ import org.scadalts.e2e.test.api.E2eTestApi;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
+import static org.scadalts.e2e.common.utils.E2eSystemInfoUtil.printHeaderWithConfig;
+
 @Log4j2
 @Getter
 @ToString
@@ -29,7 +31,7 @@ public class RunTestCommand extends DefaultOptions implements Runnable {
                 .fromRunTest(this)
                 .fromE2e(e2eCommand)
                 .build();
-        logger.info(config);
+        printHeaderWithConfig(config);
         E2eTestApi tests = E2eTestApi.newInstance();
         tests.run(config);
     }

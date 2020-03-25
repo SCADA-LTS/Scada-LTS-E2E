@@ -9,7 +9,7 @@ import org.scadalts.e2e.page.impl.pages.scripts.ScriptsPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 
 @Log4j2
-public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, EditScriptsPage> {
+public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsPage> {
 
     private final NavigationPage navigationPage;
     private final ScriptCriteria[] scriptCriteria;
@@ -24,7 +24,9 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, EditScri
     public ScriptsPage deleteObjects() {
         ScriptsPage scriptsPage = openPage();
         for (ScriptCriteria criteria: scriptCriteria) {
-            if(scriptsPage.containsObject(criteria)) {
+            if(scriptsPage.containsObject(criteria.getIdentifier())) {
+                logger.info("delete object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
                 scriptsPage.openScriptEditor(criteria)
                         .deleteScript();
             }
@@ -33,24 +35,28 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, EditScri
     }
 
     @Override
-    public EditScriptsPage createObjects() {
+    public ScriptsPage createObjects() {
         ScriptsPage scriptsPage = openPage();
-        EditScriptsPage editScriptsPage = scriptsPage.openScriptCreator();
         for (ScriptCriteria criteria: scriptCriteria) {
-            if(!scriptsPage.containsObject(criteria)) {
-                editScriptsPage.setName(criteria.getIdentifier())
-                        .setXid(criteria.getXid()).setDataPointCommands(criteria.isEnableDataPointCommands())
+            if(!scriptsPage.containsObject(criteria.getIdentifier())) {
+                logger.info("create object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+                EditScriptsPage editScriptsPage = scriptsPage.openScriptCreator()
+                        .setName(criteria.getIdentifier())
+                        .waitOnPage(500)
+                        .setXid(criteria.getXid())
+                        .setDataPointCommands(criteria.isEnableDataPointCommands())
                         .setDataSourceCommands(criteria.isEnableDataSourceCommands())
                         .setScript(criteria.getScript());
                 for (DataPointVarCriteria var : criteria.getDataPointVarCriterias()) {
                     editScriptsPage.addPointToContext(var.getDataPointCriteria())
                             .setVarName(var);
                 }
-                editScriptsPage.saveScript();
-
+                editScriptsPage.saveScript()
+                        .containsObject(criteria.getIdentifier());
             }
         }
-        return editScriptsPage;
+        return scriptsPage.reopen();
     }
 
     @Override

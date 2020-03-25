@@ -1,8 +1,6 @@
 package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.*;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
-import org.scadalts.e2e.common.dicts.EmptyType;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 
@@ -11,7 +9,6 @@ import java.util.Objects;
 @Data
 @Builder
 @ToString
-@EqualsAndHashCode
 public class GraphicalViewCriteria implements CriteriaObject, GetXid {
 
     private final @NonNull Xid xid;
@@ -25,11 +22,6 @@ public class GraphicalViewCriteria implements CriteriaObject, GetXid {
     public static GraphicalViewCriteria criteria(GraphicalViewIdentifier identifier) {
         Xid xid = Xid.xidForGraphicalView();
         return new GraphicalViewCriteria(xid, identifier);
-    }
-
-    @Override
-    public DictionaryObject getType() {
-        return EmptyType.ANY;
     }
 
     @Override

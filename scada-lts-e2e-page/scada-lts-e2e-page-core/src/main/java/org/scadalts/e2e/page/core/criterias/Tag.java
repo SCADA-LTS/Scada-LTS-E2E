@@ -2,13 +2,10 @@ package org.scadalts.e2e.page.core.criterias;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 
 @Data
-@ToString
 @EqualsAndHashCode
-public class Tag implements IdentifierObject {
+public class Tag {
     private final String value;
 
     private Tag(String value) {
@@ -35,11 +32,24 @@ public class Tag implements IdentifierObject {
         return new Tag("span");
     }
 
+    public static Tag each() {
+        return new Tag("*");
+    }
+
     public static Tag div() {
         return new Tag("div");
     }
 
     public static Tag li() {
         return new Tag("li");
+    }
+
+    public static Tag img() {
+        return new Tag("img");
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }

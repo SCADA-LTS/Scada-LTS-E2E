@@ -1,9 +1,8 @@
 package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.*;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
-import org.scadalts.e2e.common.dicts.EmptyType;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
+import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.identifiers.ScriptIdentifier;
 
 import java.util.Arrays;
@@ -14,10 +13,8 @@ import java.util.Objects;
 @Data
 @Builder
 @ToString
-@EqualsAndHashCode
 public class ScriptCriteria implements CriteriaObject, GetXid {
 
-    @Deprecated
     private final @NonNull Xid xid;
     private final @NonNull ScriptIdentifier identifier;
     private final @NonNull Script script;
@@ -56,11 +53,6 @@ public class ScriptCriteria implements CriteriaObject, GetXid {
                 .script(Script.empty())
                 .identifier(new ScriptIdentifier(""))
                 .build();
-    }
-
-    @Override
-    public DictionaryObject getType() {
-        return EmptyType.ANY;
     }
 
     @Override

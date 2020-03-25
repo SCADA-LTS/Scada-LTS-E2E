@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
-import org.scadalts.e2e.test.impl.tests.E2eAbstractRunnable;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -19,11 +19,7 @@ public class ClickAllGraphicalViewCheckTest {
 
     @Parameterized.Parameters(name = "{index}: id: {0}, viewName: {1}")
     public static List<String[]> data() {
-        if(!E2eAbstractRunnable.isLogged()) {
-            E2eAbstractRunnable.setup();
-            E2eAbstractRunnable.login();
-        }
-        graphicalViewsPage = E2eAbstractRunnable.getNavigationPage()
+        graphicalViewsPage = TestWithPageUtil.preparingTest()
                 .openGraphicalViews();
         return graphicalViewsPage.getDataAllViews()
                 .entrySet()
@@ -43,7 +39,7 @@ public class ClickAllGraphicalViewCheckTest {
 
     @BeforeClass
     public static void setup() {
-        graphicalViewsPage.reopen();
+        graphicalViewsPage.reopen().acceptAlertOnPage();
     }
 
     @Test

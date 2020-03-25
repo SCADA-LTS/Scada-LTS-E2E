@@ -20,6 +20,6 @@ public class ChangePointValuesProvider {
         String[] values = TestImplConfiguration.dataPointValuesToChangeTests;
         if(!Objects.isNull(values) && values.length > 0)
             return Arrays.asList(values);
-        return Arrays.asList( "1" , "2" , "3");
+        return Arrays.asList("1", "1", "2", "2", "3", "3", "4", "4", "5", "5");
     }
 }

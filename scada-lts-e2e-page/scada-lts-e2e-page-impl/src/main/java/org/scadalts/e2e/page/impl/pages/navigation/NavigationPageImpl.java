@@ -25,7 +25,7 @@ import org.scadalts.e2e.page.impl.pages.userprofiles.UserProfilesPage;
 import org.scadalts.e2e.page.impl.pages.users.UsersPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 
-import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
 
 
 class NavigationPageImpl extends PageObjectAbstract<NavigationPage> implements NavigationPage {
@@ -107,8 +107,7 @@ class NavigationPageImpl extends PageObjectAbstract<NavigationPage> implements N
 
     @Override
     public void logout() {
-        this.logout.click();
-        acceptAlert();
+        acceptAlertAfterClick(logout);
     }
 
     @Override

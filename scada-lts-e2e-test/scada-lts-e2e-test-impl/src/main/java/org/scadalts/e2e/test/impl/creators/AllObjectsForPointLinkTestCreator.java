@@ -1,6 +1,7 @@
 package org.scadalts.e2e.test.impl.creators;
 
 import lombok.Getter;
+import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -21,7 +22,7 @@ public class AllObjectsForPointLinkTestCreator implements CreatorObject<PointLin
     private final PointLinkCriteria criteria;
 
     public AllObjectsForPointLinkTestCreator(NavigationPage navigationPage) {
-        this(navigationPage, PointLinkCriteria.change());
+        this(navigationPage, PointLinkCriteria.change(Script.sourceValue()));
     }
 
     public AllObjectsForPointLinkTestCreator(NavigationPage navigationPage, PointLinkCriteria criteria) {

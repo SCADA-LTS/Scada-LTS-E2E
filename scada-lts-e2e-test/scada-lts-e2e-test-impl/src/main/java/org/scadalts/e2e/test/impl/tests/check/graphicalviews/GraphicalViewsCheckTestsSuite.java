@@ -6,7 +6,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         ChangeAlarmListCheckTest.class,
-        ClickAllGraphicalViewCheckTest.class
+        ClickAllGraphicalViewCheckTest.class,
+        EditGraphicalViewAndOpenMainPageCheckTest.class
 })
 public class GraphicalViewsCheckTestsSuite {
 }

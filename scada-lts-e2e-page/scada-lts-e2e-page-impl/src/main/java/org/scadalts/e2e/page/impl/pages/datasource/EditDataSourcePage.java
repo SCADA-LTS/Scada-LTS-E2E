@@ -9,7 +9,7 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 
 import static javax.xml.bind.DatatypeConverter.parseInt;
-import static org.scadalts.e2e.page.core.utils.E2eUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
 
 public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
 
@@ -28,6 +28,7 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
     @FindBy(css = "img[onclick='saveDataSource()']")
     private SelenideElement saveDataSource;
 
+
     public static final String TITLE = "";
 
     EditDataSourcePage() {
@@ -43,54 +44,64 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
         return this;
     }
 
-    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceName) {
+
+    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceIdentifier) {
+        delay();
         this.dataSourceName.clear();
-        this.dataSourceName.sendKeys(dataSourceName.getValue());
+        this.dataSourceName.setValue(dataSourceIdentifier.getValue());
         return this;
     }
 
     public EditDataSourcePage setDataSourceXid(Xid dataSourceXid) {
+        delay();
         this.dataSourceXid.clear();
-        this.dataSourceXid.sendKeys(dataSourceXid.getValue());
+        this.dataSourceXid.setValue(dataSourceXid.getValue());
         return this;
     }
 
     public EditDataSourcePage setUpdatePeriods(int updatePeriods) {
+        delay();
         this.updatePeriods.clear();
         String value = String.valueOf(updatePeriods);
-        this.updatePeriods.sendKeys(value);
+        this.updatePeriods.setValue(value);
         return this;
     }
 
-    public EditDataSourcePage selectUpdatePeriodType(UpdatePeriodType componentName) {
-        updatePeriodType.selectOption(componentName.getName());
+    public EditDataSourcePage selectUpdatePeriodType(UpdatePeriodType updatePeriodType) {
+        delay();
+        this.updatePeriodType.selectOption(updatePeriodType.getName());
         return this;
     }
 
-    public String selectUpdatePeriodTypeValue(UpdatePeriodType componentName) {
-        updatePeriodType.selectOption(componentName.getName());
-        return updatePeriodType.getValue();
+    public String selectUpdatePeriodTypeValue(UpdatePeriodType updatePeriodType) {
+        delay();
+        this.updatePeriodType.selectOption(updatePeriodType.getName());
+        return this.updatePeriodType.getValue();
     }
 
     public EditDataSourceWithPointListPage saveDataSource() {
-        saveDataSource.click();
-        acceptAlert();
+        delay();
+        acceptAlertAfterClick(saveDataSource);
         return Selenide.page(EditDataSourceWithPointListPage.class);
     }
 
     public String getDataSourceName() {
+        delay();
         return dataSourceName.getValue();
     }
 
     public String getDataSourceXid() {
+        delay();
         return dataSourceXid.getValue();
     }
 
     public int getUpdatePeriods() {
+        delay();
         return parseInt(updatePeriods.getValue());
     }
 
     public UpdatePeriodType getUpdatePeriodType() {
+        delay();
         return UpdatePeriodType.getType(updatePeriodType.getSelectedText());
     }
 
