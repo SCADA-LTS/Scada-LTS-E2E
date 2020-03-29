@@ -1,17 +1,20 @@
 package org.scadalts.e2e.test.impl.config.auto.registers;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public enum CriteriaRegisterAggregator {
 
     INSTANCE;
 
-    private static Map<Class<?>, CriteriaRegister> objects = new HashMap<>();
+    private volatile static Map<Class<?>, CriteriaRegister> objects = new ConcurrentHashMap<>();
 
     public <T> void putRegister(Class<T> clazz, CriteriaRegister criteriaRegister) {
-        objects.computeIfAbsent(clazz, key -> objects.put(key, criteriaRegister));
-        objects.get(clazz).merge(criteriaRegister);
+        if(!objects.containsKey(clazz)) {
+            objects.put(clazz, criteriaRegister);
+        } else {
+            objects.get(clazz).merge(criteriaRegister);
+        }
     }
 
     public <T> CriteriaRegister removeRegister(Class<T> clazz) {
