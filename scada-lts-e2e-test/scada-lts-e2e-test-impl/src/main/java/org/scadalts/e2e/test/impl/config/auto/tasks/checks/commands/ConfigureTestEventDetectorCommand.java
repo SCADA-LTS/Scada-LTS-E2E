@@ -76,7 +76,7 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
                 .scriptCriteria(scriptCriteria)
                 .build();
 
-        EventHandlerCriteria eventHandler = createEventHandlerSubCommand.execute();
+        EventHandlerCriteria eventHandlerCriteria = createEventHandlerSubCommand.execute();
 
         try(CriteriaRegister criteriaRegister = new CriteriaRegister(getClassTest())) {
             criteriaRegister.register(DataSourceCriteria.class, dataSourceCriteria);
@@ -85,7 +85,7 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
             criteriaRegister.register(DataPointCriteria.class, dataPointToChangeCriteria);
             criteriaRegister.register(DataPointCriteria.class, dataPointToReadCriteria);
 
-            criteriaRegister.register(EventHandlerCriteria.class, eventHandler);
+            criteriaRegister.register(EventHandlerCriteria.class, eventHandlerCriteria);
             criteriaRegister.register(EventDetectorCriteria.class, eventDetectorCriteria);
             criteriaRegister.register(ScriptCriteria.class, scriptCriteria);
         }

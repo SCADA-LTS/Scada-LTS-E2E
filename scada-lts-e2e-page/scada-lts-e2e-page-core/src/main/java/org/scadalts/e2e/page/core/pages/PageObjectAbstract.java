@@ -70,6 +70,6 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
 
     @Override
     public String toString() {
-        return getBodyText();
+        return this.getName();
     }
 }
