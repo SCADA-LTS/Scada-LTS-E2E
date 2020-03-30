@@ -153,4 +153,12 @@ public class ListLimitedSupportedAddMethod<T> implements List<T> {
     public String toString() {
         return linkedList.toString();
     }
+
+    public T getLast() {
+        return linkedList.getLast();
+    }
+
+    public T getFirst() {
+        return linkedList.getFirst();
+    }
 }
