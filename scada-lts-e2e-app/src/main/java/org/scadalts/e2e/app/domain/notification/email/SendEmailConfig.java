@@ -18,6 +18,8 @@ import java.util.Properties;
 @Configuration
 class SendEmailConfig {
 
+    private static final int TIMEOUT = 60000;
+
     @Bean
     public JavaMailSender javaMailSender(E2eConfig config) {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -32,9 +34,9 @@ class SendEmailConfig {
         props.put("mail.smtp.auth", true);
         props.put("mail.smtp.starttls.enable", true);
         props.put("mail.debug", config.isDebugEmailMode());
-        props.put("mail.smtp.connectiontimeout", 10000);
-        props.put("mail.smtp.timeout", 10000);
-        props.put("mail.smtp.writetimeout", 10000);
+        props.put("mail.smtp.connectiontimeout", TIMEOUT);
+        props.put("mail.smtp.timeout", TIMEOUT);
+        props.put("mail.smtp.writetimeout", TIMEOUT);
         props.put("mail.smtp.socketFactory.port", config.getPortSmtp());
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.ssl.trust", config.getHostSmtp());
@@ -51,9 +53,7 @@ class SendEmailConfig {
     public TemplateEngine emailTemplateEngine(ITemplateResolver htmlTemplateResolver,
                                               ResourceBundleMessageSource emailMessageSource) {
         final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        //templateEngine.addTemplateResolver(textTemplateResolver());
         templateEngine.addTemplateResolver(htmlTemplateResolver);
-        //templateEngine.addTemplateResolver(stringTemplateResolver);
         templateEngine.setTemplateEngineMessageSource(emailMessageSource);
         return templateEngine;
     }
@@ -64,19 +64,6 @@ class SendEmailConfig {
         messageSource.setBasename("lang");
         return messageSource;
     }
-
-    /*
-    private ITemplateResolver textTemplateResolver() {
-        final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setOrder(2);
-        templateResolver.setResolvablePatterns(Collections.singleton("text/*"));
-        templateResolver.setPrefix("/templates/");
-        templateResolver.setSuffix(".txt");
-        templateResolver.setTemplateMode(TemplateMode.TEXT);
-        templateResolver.setCharacterEncoding("UTF-8");
-        templateResolver.setCacheable(false);
-        return templateResolver;
-    }*/
 
     @Bean
     public ITemplateResolver htmlTemplateResolver() {
@@ -90,14 +77,4 @@ class SendEmailConfig {
         templateResolver.setCacheable(false);
         return templateResolver;
     }
-/*
-    @Bean
-    public ITemplateResolver stringTemplateResolver() {
-        final StringTemplateResolver templateResolver = new StringTemplateResolver();
-        templateResolver.setOrder(1);
-        templateResolver.setTemplateMode("HTML5");
-        templateResolver.setCacheable(false);
-        return templateResolver;
-    }*/
-
 }

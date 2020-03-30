@@ -12,7 +12,7 @@ public class E2eWebDriverProvider {
 
     public static Optional<RemoteWebDriver> getDriver() {
         try {
-            RemoteWebDriver webDriver = (RemoteWebDriver) WebDriverRunner.getAndCheckWebDriver();
+            RemoteWebDriver webDriver = (RemoteWebDriver) WebDriverRunner.getWebDriver();
             if(Objects.isNull(webDriver))
                 return Optional.empty();
             return Optional.of(webDriver);

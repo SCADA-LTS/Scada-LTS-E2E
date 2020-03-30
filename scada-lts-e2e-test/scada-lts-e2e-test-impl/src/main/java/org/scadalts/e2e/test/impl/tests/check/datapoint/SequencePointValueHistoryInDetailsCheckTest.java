@@ -72,7 +72,8 @@ public class SequencePointValueHistoryInDetailsCheckTest {
     public void test_sequence_history_change_point_value() {
 
         //given:
-        listExcepted.add(valueExpected);
+        if(!valueExpected.equals(listExcepted.getFirst()))
+            listExcepted.add(valueExpected);
 
         //when:
         dataPointDetailsPageSubject

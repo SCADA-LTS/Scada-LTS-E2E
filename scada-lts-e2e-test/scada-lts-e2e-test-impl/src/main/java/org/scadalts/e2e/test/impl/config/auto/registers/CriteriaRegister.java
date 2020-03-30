@@ -5,11 +5,12 @@ import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.Command;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Log4j2
 public class CriteriaRegister implements AutoCloseable {
 
-    private Map<Class<?>, Set<?>> criterias = new HashMap<>();
+    private volatile Map<Class<?>, Set<?>> criterias = new ConcurrentHashMap<>();
     private final Class<?> tagetClass;
 
     public CriteriaRegister(Class<?> tagetClass) {
@@ -17,12 +18,16 @@ public class CriteriaRegister implements AutoCloseable {
     }
 
     public <T extends CriteriaObject> void register(Class<T> clazz, Set<T> sets) {
-        criterias.computeIfAbsent(clazz, a -> criterias.put(a, new HashSet<>()));
+        if(!criterias.containsKey(clazz)) {
+            criterias.put(clazz, new HashSet<>());
+        }
         ((Set<T>)criterias.get(clazz)).addAll(sets);
     }
 
     public <T extends CriteriaObject> void register(Class<T> clazz, T object) {
-        criterias.computeIfAbsent(clazz, a -> criterias.put(a, new HashSet<>()));
+        if(!criterias.containsKey(clazz)) {
+            criterias.put(clazz, new HashSet<>());
+        }
         ((Set<T>)criterias.get(clazz)).add(object);
     }
 

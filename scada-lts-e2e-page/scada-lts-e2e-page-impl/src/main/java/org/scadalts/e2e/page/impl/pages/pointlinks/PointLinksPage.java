@@ -92,7 +92,8 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
 
     private SelenideElement _findAction(PointLinkCriteria criteria) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getSource().getIdentifier(), criteria.getTarget().getIdentifier(), Tag.tbody());
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getSource().getIdentifier(),
+                criteria.getTarget().getIdentifier(), Tag.tbody());
         return findObject(nodeCriteria, pointLinksTable);
     }
 }
