@@ -1,4 +1,6 @@
 # Scada-LTS-E2E
+[![Apache-2.0](https://img.shields.io/badge/license-Apache%202-blue)](https://github.com/SCADA-LTS/Scada-LTS-E2E/blob/master/LICENSE)
+
 Tests E2E for ScadaLTS
 
 # v15.0.0
