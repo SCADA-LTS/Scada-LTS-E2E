@@ -5,7 +5,7 @@
     <parent>
         <artifactId>scada-lts-e2e-test</artifactId>
         <groupId>org.scadalts</groupId>
-        <version>16.1.0-SNAPSHOT</version>
+        <version>16.1.1-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -17,10 +17,6 @@
         <dependency>
             <groupId>org.scadalts</groupId>
             <artifactId>scada-lts-e2e-test-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.scadalts</groupId>
-            <artifactId>scada-lts-e2e-page-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.scadalts</groupId>
@@ -41,6 +37,10 @@
         <dependency>
             <groupId>org.scadalts</groupId>
             <artifactId>scada-lts-e2e-page-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.scadalts</groupId>
+            <artifactId>scada-lts-e2e-page-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>

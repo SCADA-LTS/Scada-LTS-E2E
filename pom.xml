@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>16.1.0-SNAPSHOT</version>
+    <version>16.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -674,7 +674,7 @@
                 <test.e2e.env>prod</test.e2e.env>
                 <test.e2e.test-plan>CHECK</test.e2e.test-plan>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>12000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
@@ -683,37 +683,38 @@
                 <test.e2e.fast-set-value-mode>true</test.e2e.fast-set-value-mode>
                 <test.e2e.proxy-mode>false</test.e2e.proxy-mode>
                 <test.e2e.reports-url>http://</test.e2e.reports-url>
-                <test.e2e.reports-folder>/</test.e2e.reports-folder>
+                <test.e2e.reports-folder>reports/</test.e2e.reports-folder>
                 <test.e2e.page-load-strategy>NORMAL</test.e2e.page-load-strategy>
                 <test.e2e.polling-interval-ms>200</test.e2e.polling-interval-ms>
                 <test.e2e.host-proxy>{hostProxy}</test.e2e.host-proxy>
                 <test.e2e.port-proxy>12345</test.e2e.port-proxy>
                 <test.e2e.alarm-list-changed-after-ms>6000</test.e2e.alarm-list-changed-after-ms>
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
-                <test.e2e.waiting-after-set-point-value-ms>15000</test.e2e.waiting-after-set-point-value-ms>
+                <test.e2e.waiting-after-set-point-value-ms>30000</test.e2e.waiting-after-set-point-value-ms>
                 <test.e2e.graphical-view-name>graphicalview_change_alarm_list_test</test.e2e.graphical-view-name>
-                <test.e2e.classes-test-refs>{classesTestRefs}</test.e2e.classes-test-refs>
-                <test.e2e.data-point-to-change-xid>{dataPointToChangeXid}</test.e2e.data-point-to-change-xid>
-                <test.e2e.data-point-to-read-xid>{dataPointToReadXid}</test.e2e.data-point-to-read-xid>
+                <test.e2e.classes-test-refs>org.scadalts.e2e.test.impl.config.auto.PerformAutomaticConfiguration;org.scadalts.e2e.test.impl.config.auto.ConfigurationChecker</test.e2e.classes-test-refs>
+                <test.e2e.data-point-to-change-xid>DP_054378</test.e2e.data-point-to-change-xid>
+                <test.e2e.data-point-to-read-xid>DP_961456</test.e2e.data-point-to-read-xid>
                 <test.e2e.data-source-name>datasource_change_point_in_details_test</test.e2e.data-source-name>
                 <test.e2e.data-point-name>datapoint_change_point_in_details_test</test.e2e.data-point-name>
-                <test.e2e.point-values-to-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-tests>
-                <test.e2e.data-point-to-change-xid>DP_400342</test.e2e.data-point-to-change-xid>
-                <test.e2e.data-point-to-read-xid>DP_077081</test.e2e.data-point-to-read-xid>
-                <test.e2e.run-app.port-app>9090</test.e2e.run-app.port-app>
-                <test.e2e.run-app.cron-pattern>0/15 * * * * ?</test.e2e.run-app.cron-pattern>
-                <test.e2e.run-app.continuous-mode>false</test.e2e.run-app.continuous-mode>
+                <test.e2e.point-values-to-tests>1;1;2;2;3;3;4;4;5;5</test.e2e.point-values-to-tests>
+                <test.e2e.data-point-source-xid>DP_851488</test.e2e.data-point-source-xid>
+                <test.e2e.data-point-target-xid>DP_261408</test.e2e.data-point-target-xid>
+                <test.e2e.run-app.port-app>9092</test.e2e.run-app.port-app>
+                <test.e2e.run-app.cron-pattern>0/30 * * * * ?</test.e2e.run-app.cron-pattern>
+                <test.e2e.run-app.continuous-mode>true</test.e2e.run-app.continuous-mode>
                 <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
-                <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
-                <test.e2e.run-app.port-smtp>1234</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.host-smtp>smtp.poczta.onet.pl</test.e2e.run-app.host-smtp>
+                <test.e2e.run-app.port-smtp>587</test.e2e.run-app.port-smtp>
                 <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
-                <test.e2e.run-app.notification-email-mode>false</test.e2e.run-app.notification-email-mode>
-                <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
+                <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
+                <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
-                <test.e2e.custom-name>-only-check-test-plan</test.e2e.custom-name>
+                <test.e2e.custom-name>-all-test-plan</test.e2e.custom-name>
+                <test.e2e.custom-name>-check</test.e2e.custom-name>
             </properties>
         </profile>
         <profile>
@@ -727,60 +728,6 @@
                 <test.e2e.project-version>${project.version}</test.e2e.project-version>
                 <test.e2e.env>test</test.e2e.env>
                 <test.e2e.test-plan>CHECK</test.e2e.test-plan>
-                <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>12000</test.e2e.timeout-ms>
-                <test.e2e.driver-file></test.e2e.driver-file>
-                <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
-                <test.e2e.headless-mode>true</test.e2e.headless-mode>
-                <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
-                <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
-                <test.e2e.fast-set-value-mode>true</test.e2e.fast-set-value-mode>
-                <test.e2e.proxy-mode>false</test.e2e.proxy-mode>
-                <test.e2e.reports-url>http://</test.e2e.reports-url>
-                <test.e2e.reports-folder>/</test.e2e.reports-folder>
-                <test.e2e.page-load-strategy>NORMAL</test.e2e.page-load-strategy>
-                <test.e2e.polling-interval-ms>200</test.e2e.polling-interval-ms>
-                <test.e2e.host-proxy>{hostProxy}</test.e2e.host-proxy>
-                <test.e2e.port-proxy>12345</test.e2e.port-proxy>
-                <test.e2e.alarm-list-changed-after-ms>6000</test.e2e.alarm-list-changed-after-ms>
-                <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
-                <test.e2e.waiting-after-set-point-value-ms>15000</test.e2e.waiting-after-set-point-value-ms>
-                <test.e2e.graphical-view-name>graphicalview_change_alarm_list_test</test.e2e.graphical-view-name>
-                <test.e2e.classes-test-refs>org.scadalts.e2e.test.impl.config.auto.PerformAutomaticConfiguration</test.e2e.classes-test-refs>
-                <test.e2e.data-point-to-change-xid>{dataPointToChangeXid}</test.e2e.data-point-to-change-xid>
-                <test.e2e.data-point-to-read-xid>{dataPointToReadXid}</test.e2e.data-point-to-read-xid>
-                <test.e2e.data-source-name>datasource_change_point_in_details_test</test.e2e.data-source-name>
-                <test.e2e.data-point-name>datapoint_change_point_in_details_test</test.e2e.data-point-name>
-                <test.e2e.point-values-to-tests>1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;234;457;76;5768</test.e2e.point-values-to-tests>
-                <test.e2e.data-point-to-change-xid>DP_400342</test.e2e.data-point-to-change-xid>
-                <test.e2e.data-point-to-read-xid>DP_077081</test.e2e.data-point-to-read-xid>
-                <test.e2e.run-app.port-app>9090</test.e2e.run-app.port-app>
-                <test.e2e.run-app.cron-pattern>0/15 * * * * ?</test.e2e.run-app.cron-pattern>
-                <test.e2e.run-app.continuous-mode>false</test.e2e.run-app.continuous-mode>
-                <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
-                <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
-                <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
-                <test.e2e.run-app.port-smtp>1234</test.e2e.run-app.port-smtp>
-                <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
-                <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
-                <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
-                <test.e2e.run-app.notification-email-mode>false</test.e2e.run-app.notification-email-mode>
-                <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
-                <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
-                <test.e2e.custom-name>-check-test-plan</test.e2e.custom-name>
-            </properties>
-        </profile>
-        <profile>
-            <id>dev</id>
-            <properties>
-                <test.e2e.url-app-being-tested>http://</test.e2e.url-app-being-tested>
-                <test.e2e.log-level>INFO</test.e2e.log-level>
-                <test.e2e.user-name>{user}</test.e2e.user-name>
-                <test.e2e.password>{password}</test.e2e.password>
-                <test.e2e.auth-type>FORM</test.e2e.auth-type>
-                <test.e2e.project-version>${project.version}</test.e2e.project-version>
-                <test.e2e.env>dev</test.e2e.env>
-                <test.e2e.test-plan>ANY</test.e2e.test-plan>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
                 <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
@@ -796,18 +743,18 @@
                 <test.e2e.polling-interval-ms>200</test.e2e.polling-interval-ms>
                 <test.e2e.host-proxy>{hostProxy}</test.e2e.host-proxy>
                 <test.e2e.port-proxy>12345</test.e2e.port-proxy>
-                <test.e2e.alarm-list-changed-after-ms>900008</test.e2e.alarm-list-changed-after-ms>
+                <test.e2e.alarm-list-changed-after-ms>6000</test.e2e.alarm-list-changed-after-ms>
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
                 <test.e2e.waiting-after-set-point-value-ms>30000</test.e2e.waiting-after-set-point-value-ms>
                 <test.e2e.graphical-view-name>graphicalview_change_alarm_list_test</test.e2e.graphical-view-name>
                 <test.e2e.classes-test-refs>org.scadalts.e2e.test.impl.config.auto.PerformAutomaticConfiguration;org.scadalts.e2e.test.impl.config.auto.ConfigurationChecker</test.e2e.classes-test-refs>
-                <test.e2e.data-point-to-change-xid>DP_400344</test.e2e.data-point-to-change-xid>
-                <test.e2e.data-point-to-read-xid>DP_077083</test.e2e.data-point-to-read-xid>
+                <test.e2e.data-point-to-change-xid>DP_054378</test.e2e.data-point-to-change-xid>
+                <test.e2e.data-point-to-read-xid>DP_961456</test.e2e.data-point-to-read-xid>
                 <test.e2e.data-source-name>datasource_change_point_in_details_test</test.e2e.data-source-name>
                 <test.e2e.data-point-name>datapoint_change_point_in_details_test</test.e2e.data-point-name>
-                <test.e2e.point-values-to-tests>1;2;3;4;5</test.e2e.point-values-to-tests>
-                <test.e2e.data-point-source-xid>DP_234569</test.e2e.data-point-source-xid>
-                <test.e2e.data-point-target-xid>DP_234570</test.e2e.data-point-target-xid>
+                <test.e2e.point-values-to-tests>1;1;2;2;3;3;4;4;5;5</test.e2e.point-values-to-tests>
+                <test.e2e.data-point-source-xid>DP_851488</test.e2e.data-point-source-xid>
+                <test.e2e.data-point-target-xid>DP_261408</test.e2e.data-point-target-xid>
                 <test.e2e.run-app.port-app>9092</test.e2e.run-app.port-app>
                 <test.e2e.run-app.cron-pattern>0/30 * * * * ?</test.e2e.run-app.cron-pattern>
                 <test.e2e.run-app.continuous-mode>true</test.e2e.run-app.continuous-mode>
@@ -819,9 +766,63 @@
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
-                <test.e2e.run-app.delete-email-from-sent-emails-after-ms>3600000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
+                <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
-                <test.e2e.custom-name>-all-test-plan</test.e2e.custom-name>
+                <test.e2e.custom-name>-check</test.e2e.custom-name>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <test.e2e.url-app-being-tested>http://</test.e2e.url-app-being-tested>
+                <test.e2e.log-level>INFO</test.e2e.log-level>
+                <test.e2e.user-name>{user}</test.e2e.user-name>
+                <test.e2e.password>{password}</test.e2e.password>
+                <test.e2e.auth-type>FORM</test.e2e.auth-type>
+                <test.e2e.project-version>${project.version}</test.e2e.project-version>
+                <test.e2e.env>dev</test.e2e.env>
+                <test.e2e.test-plan>ALL</test.e2e.test-plan>
+                <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
+                <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
+                <test.e2e.driver-file></test.e2e.driver-file>
+                <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
+                <test.e2e.headless-mode>true</test.e2e.headless-mode>
+                <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
+                <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
+                <test.e2e.fast-set-value-mode>true</test.e2e.fast-set-value-mode>
+                <test.e2e.proxy-mode>false</test.e2e.proxy-mode>
+                <test.e2e.reports-url>http://</test.e2e.reports-url>
+                <test.e2e.reports-folder>reports/</test.e2e.reports-folder>
+                <test.e2e.page-load-strategy>NORMAL</test.e2e.page-load-strategy>
+                <test.e2e.polling-interval-ms>200</test.e2e.polling-interval-ms>
+                <test.e2e.host-proxy>{hostProxy}</test.e2e.host-proxy>
+                <test.e2e.port-proxy>12345</test.e2e.port-proxy>
+                <test.e2e.alarm-list-changed-after-ms>6000</test.e2e.alarm-list-changed-after-ms>
+                <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
+                <test.e2e.waiting-after-set-point-value-ms>30000</test.e2e.waiting-after-set-point-value-ms>
+                <test.e2e.graphical-view-name>graphicalview_change_alarm_list_test</test.e2e.graphical-view-name>
+                <test.e2e.classes-test-refs>org.scadalts.e2e.test.impl.config.auto.PerformAutomaticConfiguration;org.scadalts.e2e.test.impl.config.auto.ConfigurationChecker</test.e2e.classes-test-refs>
+                <test.e2e.data-point-to-change-xid>DP_054378</test.e2e.data-point-to-change-xid>
+                <test.e2e.data-point-to-read-xid>DP_961456</test.e2e.data-point-to-read-xid>
+                <test.e2e.data-source-name>datasource_change_point_in_details_test</test.e2e.data-source-name>
+                <test.e2e.data-point-name>datapoint_change_point_in_details_test</test.e2e.data-point-name>
+                <test.e2e.point-values-to-tests>1;1;2;2;3;3;4;4;5;5</test.e2e.point-values-to-tests>
+                <test.e2e.data-point-source-xid>DP_851488</test.e2e.data-point-source-xid>
+                <test.e2e.data-point-target-xid>DP_261408</test.e2e.data-point-target-xid>
+                <test.e2e.run-app.port-app>9092</test.e2e.run-app.port-app>
+                <test.e2e.run-app.cron-pattern>0/30 * * * * ?</test.e2e.run-app.cron-pattern>
+                <test.e2e.run-app.continuous-mode>true</test.e2e.run-app.continuous-mode>
+                <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
+                <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
+                <test.e2e.run-app.host-smtp>smtp.poczta.onet.pl</test.e2e.run-app.host-smtp>
+                <test.e2e.run-app.port-smtp>587</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
+                <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
+                <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
+                <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
+                <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
+                <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
+                <test.e2e.custom-name>-all-test</test.e2e.custom-name>
             </properties>
         </profile>
         <profile>
@@ -878,7 +879,7 @@
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
-                <test.e2e.custom-name>-all-test-plan</test.e2e.custom-name>
+                <test.e2e.custom-name>-all-test</test.e2e.custom-name>
             </properties>
         </profile>
     </profiles>
