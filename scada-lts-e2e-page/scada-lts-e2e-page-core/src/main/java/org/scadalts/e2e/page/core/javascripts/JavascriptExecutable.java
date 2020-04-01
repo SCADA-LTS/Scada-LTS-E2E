@@ -1,6 +1,7 @@
 package org.scadalts.e2e.page.core.javascripts;
 
-import com.codeborne.selenide.WebDriverRunner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.scadalts.e2e.page.core.utils.E2eWebDriverProvider;
 
@@ -8,13 +9,14 @@ import java.util.Optional;
 
 public interface JavascriptExecutable {
 
+    Logger LOGGER = LogManager.getLogger(JavascriptExecutable.class);
+
     default Object executeJs(String script) {
         try {
-            RemoteWebDriver webDriver = E2eWebDriverProvider.getDriver()
-                    .orElseGet(() -> (RemoteWebDriver) WebDriverRunner.getAndCheckWebDriver());
+            RemoteWebDriver webDriver = E2eWebDriverProvider.getDriver();
             return webDriver.executeScript(script);
         } catch (Throwable ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
             return new Object();
         }
     }
@@ -25,7 +27,7 @@ public interface JavascriptExecutable {
             T result = returnType.cast(object);
             return Optional.ofNullable(result);
         } catch (Throwable ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
             return Optional.empty();
         }
     }
@@ -35,7 +37,7 @@ public interface JavascriptExecutable {
             Object result = executeJs(script.getScriptToExecute());
             return (long) result;
         } catch (Throwable ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
             return -2L;
         }
     }
@@ -45,7 +47,7 @@ public interface JavascriptExecutable {
             Object result = executeJs(script.getScriptToExecute());
             return (int) result;
         } catch (Throwable ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
             return -2;
         }
     }
@@ -55,7 +57,7 @@ public interface JavascriptExecutable {
             Object result = executeJs(script.getScriptToExecute());
             return (double) result;
         } catch (Throwable ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
             return -2d;
         }
     }
@@ -65,7 +67,7 @@ public interface JavascriptExecutable {
             Object result = executeJs(script.getScriptToExecute());
             return (boolean) result;
         } catch (Throwable ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
             return false;
         }
     }
