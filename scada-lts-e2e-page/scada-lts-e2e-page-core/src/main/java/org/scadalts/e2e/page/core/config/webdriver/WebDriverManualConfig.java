@@ -7,6 +7,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.opera.OperaOptions;
 import org.scadalts.e2e.common.config.E2eConfig;
 
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Log4j2
@@ -19,7 +20,9 @@ public enum WebDriverManualConfig {
 
         @Override
         public void setOptions() {
-            System.setProperty("chromeoptions.args", "--proxy-server='direct://',--proxy-bypass-list=*,--no-proxy-server");
+            System.setProperty("chromeoptions.args", StabChromeOptions.all());
+            System.setProperty("webdriver.chrome.logfile", "/chromedriver.log");
+            System.setProperty("webdriver.chrome.verboseLogging", "true");
         }
 
     },
@@ -62,5 +65,29 @@ public enum WebDriverManualConfig {
         return Stream.of(WebDriverManualConfig.values())
                 .filter(a -> a.getBrowserName().equalsIgnoreCase(config.getBrowserRef().name()))
                 .findFirst().orElse(WebDriverManualConfig.CHROME);
+    }
+
+    @Getter
+    enum StabChromeOptions {
+        PROXY_SERVER("--proxy-server","='direct://'"),
+        PROXY_BYPASS_LIST("--proxy-bypass-list","=*"),
+        NO_PROXY_SERVER("--no-proxy-server",""),
+        NO_SANDBOX("--no-sandbox", ""),
+        DISABLE_SETUID_SANDBOX("--disable-setuid-sandbox", ""),
+        VERBOSE("--verbose", "");
+
+        private final String option;
+        private final String value;
+
+        StabChromeOptions(String option, String value) {
+            this.option = option;
+            this.value = value;
+        }
+
+        public static String all() {
+            return Stream.of(StabChromeOptions.values())
+                    .map(a -> a.option + a.value)
+                    .collect(Collectors.joining(","));
+        }
     }
 }
