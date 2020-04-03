@@ -7,12 +7,13 @@ import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
+import org.scadalts.e2e.page.core.utils.E2eWebDriverProvider;
 import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 
 import java.io.File;
 
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 
@@ -95,7 +96,7 @@ public class EditGraphicalViewPage extends PageObjectAbstract<EditGraphicalViewP
 
     public EditGraphicalViewPage dragAndDropViewComponent() {
         delay();
-        Action action = new Actions(getWebDriver())
+        Action action = new Actions(E2eWebDriverProvider.getDriver())
                 .dragAndDrop($(By.id("c1Content")), $(By.id("viewBackground")))
                 .build();
         action.perform();

@@ -9,7 +9,8 @@ import java.util.Set;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.switchTo;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+
+import static org.scadalts.e2e.page.core.utils.E2eWebDriverProvider.getDriver;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 class WebElementClick implements E2eWebElement {
@@ -39,7 +40,7 @@ class WebElementClick implements E2eWebElement {
     public WebElementClick openInNewTab() {
         String newTab = Keys.chord(String.valueOf((char)PageConfiguration.ctrl), Keys.RETURN);
         webElement.sendKeys(newTab);
-        Set<String> tabs = getWebDriver().getWindowHandles();
+        Set<String> tabs = getDriver().getWindowHandles();
         switchTo().window(tabs.size() - 1);
         return this;
     }

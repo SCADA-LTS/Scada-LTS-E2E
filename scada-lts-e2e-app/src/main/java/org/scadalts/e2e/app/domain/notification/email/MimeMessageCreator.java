@@ -2,6 +2,7 @@ package org.scadalts.e2e.app.domain.notification.email;
 
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.utils.FileUtil;
+import org.scadalts.e2e.page.core.config.webdriver.WebDrvierPathsConfig;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -38,8 +39,11 @@ class MimeMessageCreator {
         helper.setText(content, transformator.isHtml());
         helper.addInline(LOGO.getName(), LOGO);
 
-        File log = FileUtil.getFileFromFileSystem("e2e_log");
+        File log = FileUtil.getFileFromFileSystem("e2e.log");
         helper.addAttachment(log.getName(), log);
+
+        File webDriverLog = FileUtil.getFileFromFileSystem(WebDrvierPathsConfig.LOG_FILE);
+        helper.addAttachment(webDriverLog.getName(), webDriverLog);
 
         for (File attachment: emailData.getAttachments()) {
             if(attachment.exists()) {

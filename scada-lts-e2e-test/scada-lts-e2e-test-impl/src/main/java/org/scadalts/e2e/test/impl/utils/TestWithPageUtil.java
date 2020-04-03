@@ -40,7 +40,7 @@ public class TestWithPageUtil {
     public static void initNavigationPage(NavigationPage navigationPage) {
         TestWithPageUtil.navigationPage = navigationPage;
         E2eConfiguration.sessionId = navigationPage.getSessionId().orElse("");
-        ServiceObjectConfigurator.setSessionId(E2eConfiguration.sessionId);
+        ServiceObjectConfigurator.init(E2eConfiguration.sessionId);
     }
 
     public static NavigationPage preparingTest() {
@@ -78,7 +78,7 @@ public class TestWithPageUtil {
         logger.info("cookies: {}", navigationPage.getCookies());
         E2eConfiguration.sessionId = _getSessionId(navigationPage);
 
-        ServiceObjectConfigurator.setSessionId(E2eConfiguration.sessionId);
+        ServiceObjectConfigurator.init(E2eConfiguration.sessionId);
 
         if(backendPerformanceMs > TestImplConfiguration.timeout) {
             close();
