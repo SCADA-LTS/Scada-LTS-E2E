@@ -3,26 +3,31 @@ package org.scadalts.e2e.page.core.config;
 import com.codeborne.selenide.Configuration;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.scadalts.e2e.common.config.ConfigHandler;
 import org.scadalts.e2e.common.config.E2eConfig;
-import org.scadalts.e2e.common.config.E2eConfigFromFileProvider;
 import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.common.utils.FileUtil;
 import org.scadalts.e2e.page.core.config.webdriver.WebDriverManualConfig;
+import org.scadalts.e2e.page.core.config.webdriver.WebDrvierPathsConfig;
+
+import java.util.Objects;
 
 @Log4j2
 public class PageObjectConfigurator {
 
-    private static E2eConfig CONFIG = new E2eConfigFromFileProvider().get();
+    private static E2eConfig CONFIG;
 
     public static void init(E2eConfig config) {
-        if(config == null) {
-            _initDefault();
-            logger.warn("Config is empty!");
+        if(!Objects.isNull(CONFIG)) {
             return;
         }
-        CONFIG = config;
-
+        if(Objects.isNull(config)) {
+            logger.warn("Config is null");
+            return;
+        }
+        CONFIG = ConfigHandler.handle(config);
         Configuration.timeout = config.getTimeoutMs();
         Configuration.baseUrl = config.getUrlAppBeingTested().toString();
         Configuration.browser = config.getBrowserRef().name().toLowerCase();
@@ -37,7 +42,6 @@ public class PageObjectConfigurator {
         Configuration.proxyEnabled = config.isProxyMode();
         Configuration.proxyHost = config.getHostProxy();
         Configuration.proxyPort = config.getPortProxy();
-
         PageConfiguration.ctrl = config.getCtrlCode();
         PageConfiguration.timeout = config.getTimeoutMs();
 
@@ -45,35 +49,42 @@ public class PageObjectConfigurator {
         Configurator.setAllLevels("org.apache.logging.log4j", config.getLogLevel());
         Configurator.setAllLevels("java.util.logging", config.getLogLevel());
 
-        if(!config.isDriverManagerMode()) {
-            _configureWebDriver(config);
-        }
-    }
-
-    public static void init() {
-        init(CONFIG);
+        _configureWebDriver(config);
     }
 
     private static void _configureWebDriver(E2eConfig config) {
-        try {
-            logger.info("web driver loading...  {}", config.getBrowserRef());
-            WebDriverManualConfig manualConfig = WebDriverManualConfig.getWebDriverConfig(config);
-            _setWebDriverOptions(manualConfig);
+        logger.info("web driver loading... {}", config.getBrowserRef());
+        WebDriverManualConfig manualConfig = WebDriverManualConfig.getWebDriverConfig(config);
+
+        if(config.getLogLevel() == Level.DEBUG) {
+            System.setProperty(manualConfig.getLogFileKey(), WebDrvierPathsConfig.LOG_FILE);
+            System.setProperty(manualConfig.getVerboseLoggingKey(), "true");
+        }
+
+        if(!config.isDriverManagerMode()) {
             String webDriverPath = _getWebDriverPath(config, manualConfig);
+            _configureWebDriverPath(webDriverPath, manualConfig);
+        }
+
+        manualConfig.setOptions(config);
+    }
+
+    public static void init() {
+        init(ConfigHandler.getConfig());
+    }
+
+    private static void _configureWebDriverPath(String webDriverPath, WebDriverManualConfig manualConfig) {
+        try {
+            logger.info("web driver file loading for... {}", manualConfig.getBrowserName());
             System.setProperty(manualConfig.getWebDriverKey(), webDriverPath);
             PageConfiguration.driverFile = FileUtil.getFileFromJar(webDriverPath);
-
         } catch (Throwable throwable) {
             logger.error(throwable.getMessage(), throwable);
         }
     }
 
-    private static void _setWebDriverOptions(WebDriverManualConfig manualConfig) {
-        manualConfig.setOptions();
-    }
-
     private static String _getWebDriverPath(E2eConfig config, WebDriverManualConfig manualConfig) {
-        return isPathFromConsole(config) ? manualConfig.getWebDriverPathConfig().getPath()
+        return isPathFromConsole(config) ? manualConfig.getWebDriverPathsConfig().getPath()
                 : config.getDriverFile().getPath();
     }
 

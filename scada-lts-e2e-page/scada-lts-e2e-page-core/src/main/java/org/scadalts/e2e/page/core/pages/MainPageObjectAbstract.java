@@ -2,7 +2,6 @@ package org.scadalts.e2e.page.core.pages;
 
 import com.codeborne.selenide.SelenideElement;
 import org.scadalts.e2e.page.core.components.E2eWebElement;
-import org.scadalts.e2e.page.core.utils.E2eWebDriverProvider;
 
 public abstract class MainPageObjectAbstract<T extends MainPageObject<T>> extends PageObjectAbstract<T>
         implements MainPageObject<T> {
@@ -19,8 +18,4 @@ public abstract class MainPageObjectAbstract<T extends MainPageObject<T>> extend
         return E2eWebElement.newInstance(source);
     }
 
-    @Override
-    public String getCurrentUrl() {
-        return E2eWebDriverProvider.getDriver().get().getCurrentUrl();
-    }
 }

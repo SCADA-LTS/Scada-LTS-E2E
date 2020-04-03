@@ -1,11 +1,13 @@
 package org.scadalts.e2e.cli.options;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import picocli.CommandLine;
 
 @Getter
 @ToString
+@EqualsAndHashCode(callSuper = true)
 public class AppOptions extends DefaultOptions {
 
     @CommandLine.Option(names = {"-P", "--port-app"})

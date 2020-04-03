@@ -1,7 +1,6 @@
 package org.scadalts.e2e.test.impl.tests.check.pointlinks;
 
 import lombok.extern.log4j.Log4j2;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -24,30 +23,24 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(TestParameterizedWithoutPageRunner.class)
 public class ChangePointValueViaPointLinksCheckTest {
 
-    @Parameterized.Parameters(name = "{index}: value:{0}")
+    @Parameterized.Parameters(name = "test number: {index}, set value datapoint-source: {0}")
     public static Collection<String> data() {
         return ChangePointValuesProvider.paramsToTests();
     }
 
     private final String value;
+    private final String expectedValue;
 
     public ChangePointValueViaPointLinksCheckTest(String value) {
         this.value = value;
-    }
-
-    private Script script;
-
-    @Before
-    public void before() {
-        script = Script.sourceValueIncreasedOne();
+        this.expectedValue = Script.sourceValueIncreasedOne().executeInJava(value);
     }
 
     @Test
     public void test_check_point_link() {
 
         //given:
-        String expectedValue = script.executeInJava(value);
-        logger.info("value: {}, expected: {}", value, expectedValue);
+        logger.info("set value datapoint-source: {}, expected value datapoint-target: {}", value, expectedValue);
 
         PointValueParams pointValueParams = new PointValueParams(TestImplConfiguration.dataPointTargetXid);
         CmpParams cmpParams = CmpParams.builder()

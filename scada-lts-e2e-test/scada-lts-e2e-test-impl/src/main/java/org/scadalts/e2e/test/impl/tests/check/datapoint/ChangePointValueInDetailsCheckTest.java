@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 @RunWith(TestParameterizedWithPageRunner.class)
 public class ChangePointValueInDetailsCheckTest {
 
-    @Parameterized.Parameters(name = "{index}:{0}")
+    @Parameterized.Parameters(name = "number test: {index}, set value datapoint: {0}")
     public static Collection<String> data() {
         return ChangePointValuesProvider.paramsToTests();
     }

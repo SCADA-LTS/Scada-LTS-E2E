@@ -2,7 +2,7 @@
 <Configuration status="WARN">
     <Properties>
         <Property name="LOG_PATH">logs</Property>
-        <Property name="LOG_FILE">e2e_log</Property>
+        <Property name="LOG_FILE">e2e.log</Property>
         <Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
         <Property name="LOG_LEVEL_PATTERN">%5p</Property>
         <Property name="LOG_DATEFORMAT_PATTERN">yyyy-MM-dd HH:mm:ss.SSS</Property>
@@ -14,14 +14,21 @@
         <Console name="Console" target="SYSTEM_OUT" follow="true">
             <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}" />
         </Console>
-        <RollingFile name="File" fileName="${sys:LOG_FILE}" filePattern="${sys:LOG_PATH}/$${date:yyyy-MM}/app-%d{yyyy-MM-dd-HH}-%i.log.gz">
+        <RollingFile name="File" fileName="${sys:LOG_FILE}" filePattern="${sys:LOG_PATH}/$${date:yyyy-MM-dd}/e2e-%d{yyyy-MM-dd_HH-mm}_%i.log.gz">
             <PatternLayout>
                 <Pattern>${sys:FILE_LOG_PATTERN}</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="100 MB" />
+                <SizeBasedTriggeringPolicy size="10 MB" />
                 <OnStartupTriggeringPolicy />
             </Policies>
+            <CronTriggeringPolicy schedule="0 0 0 * * ?"/>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${sys:LOG_PATH}" maxDepth="2">
+                    <IfFileName glob="*/e2e-*.log.gz" />
+                    <IfLastModified age="60d" />
+                </Delete>
+            </DefaultRolloverStrategy>
         </RollingFile>
     </Appenders>
     <Loggers>

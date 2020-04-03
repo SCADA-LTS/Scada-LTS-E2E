@@ -29,7 +29,7 @@ public class FileUtil {
 
     public static File getFileFromFileSystem(Path path) {
         try {
-            logger.info("getFileFromFileSystem: {}", path.toRealPath());
+            logger.info("getFileFromFileSystem: {}", path);
             File file = path.toFile();
             if(file.exists()) {
                 logger.debug("file exists: {}", file);

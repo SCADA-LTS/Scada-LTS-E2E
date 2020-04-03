@@ -1,6 +1,9 @@
 package org.scadalts.e2e.page.impl.pages.navigation;
 
 import com.codeborne.selenide.Selenide;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.scadalts.e2e.page.core.pages.PageClosable;
 import org.scadalts.e2e.page.core.pages.PageObject;
 import org.scadalts.e2e.page.impl.pages.alarms.PendingAlarmsPage;
@@ -27,7 +30,8 @@ import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import java.util.Set;
 
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static org.scadalts.e2e.page.core.utils.E2eWebDriverProvider.getDriver;
+
 
 public interface NavigationPage extends PageObject<NavigationPage>, PageClosable {
 
@@ -77,29 +81,32 @@ public interface NavigationPage extends PageObject<NavigationPage>, PageClosable
 
     String URL_REF = "/watch_list.shtm";
 
+    Logger LOGGER = LogManager.getLogger(NavigationPage.class);
+
     static NavigationPage openPage() {
         return open(URL_REF, NavigationPageImpl.class);
     }
 
     static Set<String> tabsOpened() {
-        return getWebDriver().getWindowHandles();
+        return getDriver().getWindowHandles();
     }
 
     static String closeAllButOnePage() {
         try {
-            Set<String> pages = getWebDriver().getWindowHandles();
+            RemoteWebDriver remoteWebDriver = getDriver();
+            Set<String> pages = remoteWebDriver.getWindowHandles();
             String one = pages.iterator().next();
             pages.remove(one);
             for (String page : pages) {
-                getWebDriver().switchTo()
+                remoteWebDriver.switchTo()
                         .window(page)
                         .close();
             }
-            getWebDriver().switchTo()
+            remoteWebDriver.switchTo()
                     .window(one);
             return one;
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
+            LOGGER.error(throwable.getMessage(), throwable);
             return "";
         }
     }
