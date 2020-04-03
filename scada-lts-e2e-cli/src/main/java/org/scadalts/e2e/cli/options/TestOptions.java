@@ -1,5 +1,6 @@
 package org.scadalts.e2e.cli.options;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.scadalts.e2e.cli.parsers.BrowserRefParser;
@@ -16,6 +17,7 @@ import java.nio.file.Path;
 
 @Getter
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class TestOptions extends MainOptions {
 
     @CommandLine.Option(names = {"-b", "--browser-ref"}, converter = BrowserRefParser.class)

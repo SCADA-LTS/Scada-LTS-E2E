@@ -1,6 +1,7 @@
 package org.scadalts.e2e.cli.config;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.logging.log4j.Level;
 import org.scadalts.e2e.cli.commands.E2eCommand;
@@ -18,6 +19,7 @@ import java.nio.file.Path;
 
 @ToString
 @Builder
+@EqualsAndHashCode
 public class E2eConfigCli implements E2eConfig {
 
     private final RunTestCommand fromRunTest;

@@ -56,6 +56,4 @@ class SendEmailAspect {
         String error = MessageFormat.format("exception: {0}, message: {1}", throwable.getClass().getSimpleName(), throwable.getLocalizedMessage());
         return MessageFormat.format("\nrun: {0}\n\n error: {1}\n", run, error);
     }
-
-
 }

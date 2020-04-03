@@ -118,7 +118,7 @@ public class TestWithoutPageUtil {
         E2eResponse<String> response = executeFunction(TestWithoutPageUtil::login,loginParams,ApplicationIsNotAvailableException::new);
 
         E2eConfiguration.sessionId = response.getSessionId();
-        ServiceObjectConfigurator.setSessionId(E2eConfiguration.sessionId);
+        ServiceObjectConfigurator.init(E2eConfiguration.sessionId);
         if(!_isLogged(response)) {
             throw new E2eAuthenticationException(E2eConfiguration.userName);
         }
