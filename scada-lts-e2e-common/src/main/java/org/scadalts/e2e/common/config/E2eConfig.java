@@ -60,6 +60,10 @@ public interface E2eConfig {
 
     String[] getDataPointValuesToTests();
 
+    String[] getBrowserOptionsArgs();
+
+    String[] getBrowserOptionsPrefs();
+
     org.apache.logging.log4j.Level getLogLevel();
 
     int getCtrlCode();

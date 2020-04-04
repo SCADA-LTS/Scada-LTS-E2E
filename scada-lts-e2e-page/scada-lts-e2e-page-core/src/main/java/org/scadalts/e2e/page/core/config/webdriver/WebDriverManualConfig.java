@@ -3,6 +3,7 @@ package org.scadalts.e2e.page.core.config.webdriver;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.opera.OperaOptions;
@@ -17,15 +18,18 @@ import java.util.stream.Stream;
 public enum WebDriverManualConfig {
 
     CHROME("chrome",
-            "webdriver.chrome.driver",
-            "webdriver.chrome.logfile",
-            "webdriver.chrome.verboseLogging",
+            ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
+            ChromeDriverService.CHROME_DRIVER_LOG_PROPERTY,
+            ChromeDriverService.CHROME_DRIVER_VERBOSE_LOG_PROPERTY,
             ChromeDriverPathsConfig.getConfig(),
             ChromeOptions.CAPABILITY) {
 
         @Override
         public void setOptions(E2eConfig config) {
-            System.setProperty("chromeoptions.args", WebDriverManualConfig.StabChromeOptions.all());
+            if(config.getBrowserOptionsArgs().length > 0)
+                System.setProperty("chromeoptions.args", joinWithSeparator(config.getBrowserOptionsArgs(), ","));
+            if(config.getBrowserOptionsPrefs().length > 0)
+                System.setProperty("chromeoptions.prefs", joinWithSeparator(config.getBrowserOptionsPrefs(), ","));
         }
 
     },
@@ -82,39 +86,12 @@ public enum WebDriverManualConfig {
                 .findFirst().orElse(WebDriverManualConfig.CHROME);
     }
 
+    public static String joinWithSeparator(String[] args, String separator) {
+        return Stream.of(args).collect(Collectors.joining(separator));
+    }
+
     private static String getBrowserLogLevel(E2eConfig config) {
         return MessageFormat.format("'{level: '{0}'}'",
                 config.getLogLevel() == Level.DEBUG ? "debug" : "info");
-    }
-
-    @Getter
-    public enum StabChromeOptions {
-        PROXY_SERVER("--proxy-server","='direct://'"),
-        PROXY_BYPASS_LIST("--proxy-bypass-list","=*"),
-        NO_PROXY_SERVER("--no-proxy-server",""),
-        NO_SANDBOX("--no-sandbox", ""),
-        DISABLE_SETUID_SANDBOX("--disable-setuid-sandbox", ""),
-        VERBOSE("--verbose", ""),
-        DISABLE_DEV_SHM_USAGE("--disable-dev-shm-usage", "");
-
-        private final String option;
-        private final String value;
-
-        StabChromeOptions(String option, String value) {
-            this.option = option;
-            this.value = value;
-        }
-
-        public static String[] array() {
-            return Stream.of(StabChromeOptions.values())
-                    .map(a -> a.option + a.value)
-                    .toArray(String[]::new);
-        }
-
-        public static String all() {
-            return Stream.of(StabChromeOptions.values())
-                    .map(a -> a.option + a.value)
-                    .collect(Collectors.joining(","));
-        }
     }
 }

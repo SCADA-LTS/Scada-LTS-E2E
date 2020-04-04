@@ -231,4 +231,14 @@ public class E2eConfigCli implements E2eConfig {
     public String getDataPointSourceXid() {
         return fromE2e.getDataPointSourceXid();
     }
+
+    @Override
+    public String[] getBrowserOptionsArgs() {
+        return fromE2e.getBrowserOptionsArgs();
+    }
+
+    @Override
+    public String[] getBrowserOptionsPrefs() {
+        return fromE2e.getBrowserOptionsPrefs();
+    }
 }
