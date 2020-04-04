@@ -50,6 +50,8 @@ class E2eConfigDefault implements E2eConfig {
     private String hostProxy;
     private String[] classesTestRefs;
     private String[] dataPointValuesToTests;
+    private String[] browserOptionsArgs;
+    private String[] browserOptionsPrefs;
     private int alarmListChangedAfterMs;
     private int alarmListNoChangedAfterMs;
     private int waitingAfterSetPointValueMs;

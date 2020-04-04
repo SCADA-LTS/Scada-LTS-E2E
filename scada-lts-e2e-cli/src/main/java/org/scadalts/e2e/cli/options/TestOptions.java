@@ -71,4 +71,10 @@ public class TestOptions extends MainOptions {
     @CommandLine.Option(names = {"-n", "--classes-test-refs"}, split = ";", defaultValue = "")
     private String[] classesTestRefs;
 
+    @CommandLine.Option(names = {"-o", "--browser-options-args"}, split = ";", defaultValue = "")
+    private String[] browserOptionsArgs;
+
+    @CommandLine.Option(names = {"-O", "--browser-options-prefs"}, split = ";", defaultValue = "")
+    private String[] browserOptionsPrefs;
+
 }
