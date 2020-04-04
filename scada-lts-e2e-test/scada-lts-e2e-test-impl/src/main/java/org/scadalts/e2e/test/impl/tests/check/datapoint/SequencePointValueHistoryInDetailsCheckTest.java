@@ -82,7 +82,7 @@ public class SequencePointValueHistoryInDetailsCheckTest {
                 .getDataPointValue(valueExpected);
 
         //and:
-        List<String> result = dataPointDetailsPageSubject.refreshPage().getValuesFromHistory();
+        List<String> result = dataPointDetailsPageSubject.getValuesFromHistory();
 
         //then:
         assertNotNull(result);
