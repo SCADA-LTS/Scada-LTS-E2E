@@ -116,7 +116,7 @@ public interface NavigationPage extends PageObject<NavigationPage>, PageClosable
             Selenide.closeWindow();
             Selenide.closeWebDriver();
         } catch (Exception ex) {
-
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 }

@@ -53,13 +53,16 @@ public class TestWithPageUtil {
 
     public static void close() {
         logger.info("close...");
-        if(navigationPage != null) {
-            if(isLogged()) {
-                navigationPage.logout();
+        try{
+            if(navigationPage != null) {
+                if(isLogged()) {
+                    navigationPage.logout();
+                }
             }
+        } finally {
             navigationPage = null;
+            NavigationPage.kill();
         }
-        NavigationPage.kill();
     }
 
     private static void _login() {
