@@ -22,7 +22,7 @@
                 <SizeBasedTriggeringPolicy size="10 MB" />
                 <OnStartupTriggeringPolicy />
             </Policies>
-            <CronTriggeringPolicy schedule="0 0 * * *"/>
+            <CronTriggeringPolicy schedule="0 0 * * *  ?"/>
             <DefaultRolloverStrategy>
                 <Delete basePath="${sys:LOG_PATH}" maxDepth="2">
                     <IfFileName glob="*/e2e-*.log.gz" />
