@@ -172,7 +172,7 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return editDataSourceWithPointListPage.openDataPointEditor(dataPointIdentifier);
     }
 
-    public PropertiesDataPointPage openDataPointProperties(DataPointIdentifier dataPointIdentifier) {
+    public DataPointPropertiesPage openDataPointProperties(DataPointIdentifier dataPointIdentifier) {
         return editDataSourceWithPointListPage.openDataPointProperties(dataPointIdentifier);
     }
 

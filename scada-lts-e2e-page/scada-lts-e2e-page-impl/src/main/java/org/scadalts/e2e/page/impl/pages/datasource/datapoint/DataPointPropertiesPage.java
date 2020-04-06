@@ -6,15 +6,19 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.common.dicts.DictionaryObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
-import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
+import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventDetectorIdentifier;
-import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
-import org.scadalts.e2e.page.impl.dicts.EventDetectorType;
+import org.scadalts.e2e.page.impl.dicts.*;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.or;
@@ -29,7 +33,7 @@ import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVis
 import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.onclick;
 
 @Log4j2
-public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPointPage> {
+public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropertiesPage> {
 
     @FindBy(id = "eventDetectorSelect")
     private SelenideElement eventDetectorSelect;
@@ -46,6 +50,41 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
     @FindBy(id = "eventDetectorTable")
     private SelenideElement eventDetectorTable;
 
+    @FindBy(id = "loggingType")
+    private SelenideElement loggingTypeSelect;
+
+    @FindBy(id = "tolerance")
+    private SelenideElement toleranceInput;
+
+    @FindBy(id = "discardExtremeValues")
+    private SelenideElement discardExtremeValuesCheckbox;
+
+    @FindBy(id = "discardLowLimit")
+    private SelenideElement discardLowLimitInput;
+
+    @FindBy(id = "discardHighLimit")
+    private SelenideElement discardHighLimitInput;
+
+    @FindBy(id = "purgeType")
+    private SelenideElement purgeTypeSelect;
+
+    @FindBy(id = "purgePeriod")
+    private SelenideElement purgePeriodInput;
+
+    @FindBy(id = "defaultCacheSize")
+    private SelenideElement defaultCacheSizeInput;
+
+    @FindBy(id = "clearCacheBtn")
+    private SelenideElement clearCacheButton;
+
+    @FindBy(css = "input[name='name']")
+    private SelenideElement dataPointNameInput;
+
+    @FindBy(css = "select[name='engineeringUnits']")
+    private SelenideElement engineeringUnitsSelect;
+
+
+
     private final EditDataSourceWithPointListPage editDataSourceWithPointListPage;
 
     public final static String TITLE = "";
@@ -59,44 +98,44 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
     private final static String GET_FIRST_INPUT_XID = "input[id*='Xid']";
     private final static String GET_EVENT_DETECTOR_DATA = "tbody[id*='eventDetector']";
 
-    public PropertiesDataPointPage(EditDataSourceWithPointListPage editDataSourceWithPointListPage) {
+    public DataPointPropertiesPage(EditDataSourceWithPointListPage editDataSourceWithPointListPage) {
         super(TITLE);
         this.editDataSourceWithPointListPage = editDataSourceWithPointListPage;
     }
 
-    public PropertiesDataPointPage selectEventDetectorType(EventDetectorType eventDetectorType) {
+    public DataPointPropertiesPage selectEventDetectorType(EventDetectorType eventDetectorType) {
         delay();
         eventDetectorSelect.selectOption(eventDetectorType.getName());
         return this;
     }
 
-    public PropertiesDataPointPage selectAlarmLevel(AlarmLevel alarmLevel) {
+    public DataPointPropertiesPage selectAlarmLevel(AlarmLevel alarmLevel) {
         return selectAlarmLevel(alarmLevel, 1);
     }
 
-    public PropertiesDataPointPage setAlias(EventDetectorIdentifier eventDetectorName) {
-        return setAlias(eventDetectorName, 1);
+    public DataPointPropertiesPage setEventDetectorAlias(EventDetectorIdentifier eventDetectorName) {
+        return setEventDetectorAlias(eventDetectorName, 1);
     }
 
-    public PropertiesDataPointPage setXid(Xid eventDetectorXid) {
+    public DataPointPropertiesPage setXid(Xid eventDetectorXid) {
         return setXid(eventDetectorXid, 1);
     }
 
-    public PropertiesDataPointPage setAlias(EventDetectorIdentifier eventDetectorName, int detectorPosition) {
+    public DataPointPropertiesPage setEventDetectorAlias(EventDetectorIdentifier eventDetectorName, int detectorPosition) {
         delay();
         String css = format(INPUT_ALIAS, detectorPosition);
         $(By.cssSelector(css)).setValue(eventDetectorName.getValue());
         return this;
     }
 
-    public PropertiesDataPointPage setXid(Xid eventDetectorXid, int detectorPosition) {
+    public DataPointPropertiesPage setXid(Xid eventDetectorXid, int detectorPosition) {
         delay();
         String css = format(INPUT_XID, detectorPosition);
         $(By.cssSelector(css)).setValue(eventDetectorXid.getValue());
         return this;
     }
 
-    public PropertiesDataPointPage selectAlarmLevel(AlarmLevel alarmLevel, int detectorPosition) {
+    public DataPointPropertiesPage selectAlarmLevel(AlarmLevel alarmLevel, int detectorPosition) {
         delay();
         String css = format(SELECT_ALARM_LIST, detectorPosition);
         $(By.cssSelector(css)).selectOption(alarmLevel.getName());
@@ -162,7 +201,7 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
         return EventDetectorType.getTypeContains(tdWithType.getText());
     }
 
-    public PropertiesDataPointPage saveDataPoint() {
+    public DataPointPropertiesPage saveDataPoint() {
         delay();
         waitWhile(saveDataPoint, not(Condition.visible)).click();
         waitWhile($(By.cssSelector(".content > table tbody tr td > table .formError")), or(" empty or not visible", Condition.empty, not(Condition.visible)));
@@ -176,13 +215,13 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
         return editDataSourceWithPointListPage;
     }
 
-    public PropertiesDataPointPage addEventDetector() {
+    public DataPointPropertiesPage addEventDetector() {
         delay();
         addEventDetector.click();
         return this;
     }
 
-    public PropertiesDataPointPage deleteEventDetector(EventDetectorCriteria criteria) {
+    public DataPointPropertiesPage deleteEventDetector(EventDetectorCriteria criteria) {
         delay();
         ElementsCollection elements = waitWhile(eventDetectorTable, not(Condition.visible)).$$(By.tagName("tbody"));
         for (SelenideElement element: elements) {
@@ -194,6 +233,132 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
                 }
             }
         }
+        return this;
+    }
+
+    public DataPointPropertiesPage setDataPointName(DataPointIdentifier identifier) {
+        dataPointNameInput.clear();
+        delay();
+        dataPointNameInput.setValue(identifier.getValue());
+        return this;
+    }
+
+    public String getDataPointName() {
+        delay();
+        return dataPointNameInput.getValue();
+    }
+
+    public DataPointPropertiesPage setDefaultCacheSize(int defaultCacheSize) {
+        defaultCacheSizeInput.clear();
+        delay();
+        defaultCacheSizeInput.setValue(String.valueOf(defaultCacheSize));
+        return this;
+    }
+
+    public int getDefaultCacheSize() {
+        delay();
+        return Integer.parseInt(defaultCacheSizeInput.getValue());
+    }
+
+    public DataPointPropertiesPage clearCache() {
+        delay();
+        clearCacheButton.click();
+        return this;
+    }
+
+    public DataPointPropertiesPage setTolerance(double tolerance) {
+        toleranceInput.clear();
+        delay();
+        toleranceInput.setValue(String.valueOf(tolerance));
+        return this;
+    }
+
+    public BigDecimal getTolerance() {
+        delay();
+        return new BigDecimal(toleranceInput.getValue());
+    }
+
+    public DataPointPropertiesPage setDiscardExtremeValues(boolean discardExtremeValues) {
+        discardExtremeValuesCheckbox.clear();
+        delay();
+        discardExtremeValuesCheckbox.setValue(String.valueOf(discardExtremeValues));
+        return this;
+    }
+
+    public boolean isDiscardExtremeValues() {
+        delay();
+        return Boolean.parseBoolean(discardExtremeValuesCheckbox.getSelectedValue());
+    }
+
+    public DataPointPropertiesPage setEngineeringUnit(DictionaryObject dictionaryObject) {
+        delay();
+        engineeringUnitsSelect.selectOption(dictionaryObject.getName());
+        return this;
+    }
+
+    public DictionaryObject getEngineeringUnit() {
+        delay();
+        String text = engineeringUnitsSelect.getSelectedText();
+        return EngineeringUnit.getType(text);
+    }
+
+    public DataPointPropertiesPage setPurgeType(PurgeType purgeType) {
+        delay();
+        purgeTypeSelect.selectOption(purgeType.getName());
+        return this;
+    }
+
+    public PurgeType getPurgeType() {
+        delay();
+        String text = engineeringUnitsSelect.getSelectedText();
+        return PurgeType.getType(text);
+    }
+
+    public LoggingType getLoggingType() {
+        delay();
+        String text = loggingTypeSelect.getSelectedText();
+        return LoggingType.getType(text);
+    }
+
+    public DataPointPropertiesPage setLoggingType(LoggingType loggingType) {
+        delay();
+        loggingTypeSelect.selectOption(loggingType.getName());
+        return this;
+    }
+
+    public BigDecimal getDiscardLowLimitInput() {
+        delay();
+        return new BigDecimal(discardLowLimitInput.getValue());
+    }
+
+    public DataPointPropertiesPage setDiscardLowLimitInput(BigDecimal discardLowLimit) {
+        discardExtremeValuesCheckbox.clear();
+        delay();
+        discardExtremeValuesCheckbox.setValue(String.valueOf(discardLowLimit));
+        return this;
+    }
+
+    public DataPointPropertiesPage setPurePeriod(BigInteger purePeriod) {
+        purgePeriodInput.clear();
+        delay();
+        purgePeriodInput.setValue(String.valueOf(purePeriod));
+        return this;
+    }
+
+    public int getPurePeriod() {
+        delay();
+        return Integer.parseInt(purgePeriodInput.getValue());
+    }
+
+    public BigDecimal getDiscardHighLimit() {
+        delay();
+        return new BigDecimal(discardHighLimitInput.getValue());
+    }
+
+    public DataPointPropertiesPage setDiscardHighLimit(BigDecimal discardHighLimit) {
+        discardExtremeValuesCheckbox.clear();
+        delay();
+        discardExtremeValuesCheckbox.setValue(String.valueOf(discardHighLimit));
         return this;
     }
 
@@ -211,12 +376,12 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
         return false;
     }
 
-    public PropertiesDataPointPage waitOnPageWhileNotVisible(EventDetectorIdentifier eventDetectorIdentifier) {
+    public DataPointPropertiesPage waitOnPageWhileNotVisible(EventDetectorIdentifier eventDetectorIdentifier) {
         waitWhile(a -> !this.containsObject(a), eventDetectorIdentifier);
         return this;
     }
 
-    public PropertiesDataPointPage waitOnEventDetectorTable() {
+    public DataPointPropertiesPage waitOnEventDetectorTable() {
         delay();
         waitWhileNotVisible(eventDetectorTable);
         return this;
@@ -228,7 +393,7 @@ public class PropertiesDataPointPage extends PageObjectAbstract<PropertiesDataPo
     }
 
     @Override
-    public PropertiesDataPointPage getPage() {
+    public DataPointPropertiesPage getPage() {
         return this;
     }
 

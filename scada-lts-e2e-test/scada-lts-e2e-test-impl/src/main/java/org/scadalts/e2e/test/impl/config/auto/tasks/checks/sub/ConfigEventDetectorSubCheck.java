@@ -8,7 +8,7 @@ import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
-import org.scadalts.e2e.page.impl.pages.datasource.datapoint.PropertiesDataPointPage;
+import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointPropertiesPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 
 import java.util.Set;
@@ -32,9 +32,9 @@ public class ConfigEventDetectorSubCheck implements SubCheck {
             DataPointCriteria dataPointCriteria = eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint();
 
             EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.openDataSourceEditor(dataSourceCriteria.getIdentifier());
-            PropertiesDataPointPage propertiesDataPointPage = editDataSourceWithPointListPage.openDataPointProperties(dataPointCriteria.getIdentifier());
-            propertiesDataPointPage.waitOnEventDetectorTable();
-            assertThat(propertiesDataPointPage, containsObject(eventDetectorCriteria.getIdentifier()));
+            DataPointPropertiesPage dataPointPropertiesPage = editDataSourceWithPointListPage.openDataPointProperties(dataPointCriteria.getIdentifier());
+            dataPointPropertiesPage.waitOnEventDetectorTable();
+            assertThat(dataPointPropertiesPage, containsObject(eventDetectorCriteria.getIdentifier()));
         }
     }
 }
