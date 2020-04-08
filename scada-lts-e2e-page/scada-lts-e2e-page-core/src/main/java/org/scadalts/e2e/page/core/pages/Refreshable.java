@@ -1,10 +1,10 @@
 package org.scadalts.e2e.page.core.pages;
 
-import com.codeborne.selenide.Selenide;
+import org.scadalts.e2e.page.core.utils.E2eWebDriverProvider;
 
 interface Refreshable<T extends PageObject<T>> extends GetPage<T> {
     default T refreshPage() {
-        Selenide.refresh();
+        E2eWebDriverProvider.navigate().refresh();
         return getPage();
     }
 }

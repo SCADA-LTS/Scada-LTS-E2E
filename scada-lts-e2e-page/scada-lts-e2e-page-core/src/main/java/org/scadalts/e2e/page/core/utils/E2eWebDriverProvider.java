@@ -30,4 +30,13 @@ public class E2eWebDriverProvider {
             throw throwable;
         }
     }
+
+    public static WebDriver.Navigation navigate() {
+        try {
+            return getDriver().navigate();
+        } catch (Throwable throwable) {
+            logger.error(throwable.getMessage(), throwable);
+            throw throwable;
+        }
+    }
 }
