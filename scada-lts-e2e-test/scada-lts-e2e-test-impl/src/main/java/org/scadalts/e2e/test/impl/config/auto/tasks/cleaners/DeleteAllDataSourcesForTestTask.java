@@ -15,4 +15,9 @@ public class DeleteAllDataSourcesForTestTask implements Task {
     public void execute() {
         DataSourcePointObjectsCreator.deleteAllDataSourcesTest(navigationPage);
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

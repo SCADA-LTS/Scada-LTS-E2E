@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.scadalts.e2e.app.infrastructure.metrics.Logging;
 import org.scadalts.e2e.common.config.E2eConfig;
+import org.scadalts.e2e.common.config.SendTo;
 import org.scadalts.e2e.test.core.plans.engine.E2eSummarable;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -39,16 +40,20 @@ class SendEmailAspect {
             @SuppressWarnings("unchecked")
             E2eSummarable summary = (E2eSummarable) returned;
             if (!summary.wasSuccessful()) {
-                EmailData emailData = EmailData.create(config, summary);
-                emailService.sendEmail(emailData);
+                for (SendTo sendTo : config.getSendTo()) {
+                    EmailData emailData = EmailData.create(config, sendTo, summary);
+                    emailService.sendEmail(emailData);
+                }
             }
         }
     }
 
     @AfterThrowing(value = "sendEmail()", throwing = "throwable")
     void reaction(JoinPoint joinPoint, Throwable throwable) {
-        EmailData emailData = EmailData.create(config, _getMessageError(joinPoint, throwable), throwable);
-        emailService.sendEmail(emailData);
+        for (SendTo sendTo : config.getSendTo()) {
+            EmailData emailData = EmailData.create(config, sendTo, _getMessageError(joinPoint, throwable), throwable);
+            emailService.sendEmail(emailData);
+        }
     }
 
     private String _getMessageError(JoinPoint joinPoint, Throwable throwable) {

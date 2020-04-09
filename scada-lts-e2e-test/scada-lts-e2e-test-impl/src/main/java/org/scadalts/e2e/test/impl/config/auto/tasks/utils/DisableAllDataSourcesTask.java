@@ -15,4 +15,9 @@ public class DisableAllDataSourcesTask implements Task {
     public void execute() {
         DataSourcePointObjectsCreator.disableAllDataSources(navigationPage);
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"> <!--th:lang="${#locale.language}"-->
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:remove="all">Notification of failed tests</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -40,10 +40,10 @@
     <table id="results" class="table table-bordered" >
         <thead>
             <tr class="bg-success">
-                <th scope="col" th:text="#{e2e.test.name}" >testName</th>
-                <th scope="col" th:text="#{e2e.test.method-name}" >methodName</th>
-                <th scope="col" th:text="#{e2e.test.message}" >testMessage</th>
-                <th scope="col" th:text="#{e2e.test.session-id}" >sessionId</th>
+                <th scope="col" th:text="${testNameTh}" >testName</th>
+                <th scope="col" th:text="${testMethodNameTh}" >methodName</th>
+                <th scope="col" th:text="${testMessageTh}" >testMessage</th>
+                <th scope="col" th:text="${testSessionIdTh}" >sessionId</th>
             </tr>
         </thead>
         <th:block th:each="failure: ${summary.failures}">
@@ -58,14 +58,14 @@
     <table id="summary" class="table table-bordered">
         <thead>
         <tr class="table-secondary">
-            <td scope="row" colspan="4" th:text="#{e2e.test.summary}" >summary</td>
+            <td scope="row" colspan="4" th:text="${testSummaryTh}" >summary</td>
         </tr>
         </thead>
         <tr class="bg-success">
-            <th scope="col" th:text="#{e2e.test.run}" >run</th>
-            <th scope="col" th:text="#{e2e.test.ignored}" >ignored</th>
-            <th scope="col" th:text="#{e2e.test.failed}" >failed</th>
-            <th scope="col" th:text="#{e2e.test.runtime}" >runtime</th>
+            <th scope="col" th:text="${testRunsTh}" >run</th>
+            <th scope="col" th:text="${testIgnoredTh}" >ignored</th>
+            <th scope="col" th:text="${testFailedTh}" >failed</th>
+            <th scope="col" th:text="${testRuntimeTh}" >runtime</th>
         </tr>
         <tr>
             <td th:text="${summary.runCount}">runCount</td>
@@ -77,7 +77,7 @@
             <td scope="row" colspan="4" th:text="${content}" >content</td>
         </tr>
         <tr class="table-secondary">
-            <td scope="row" colspan="4" ><p><span th:text="#{e2e.test.go-to-page}">go-to-page</span> <a th:href="${summary.url}">Scada-LTS</a></p></td>
+            <td scope="row" colspan="4" ><p><span th:text="${testGoToPageTh}">go-to-page</span> <a th:href="${summary.url}">Scada-LTS</a></p></td>
         </tr>
     </table>
 </body>

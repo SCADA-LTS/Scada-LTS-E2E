@@ -8,9 +8,9 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.scadalts.e2e.common.config.ConfigHandler;
 import org.scadalts.e2e.common.config.E2eConfig;
 import org.scadalts.e2e.common.config.E2eConfiguration;
+import org.scadalts.e2e.common.config.E2eConstant;
 import org.scadalts.e2e.common.utils.FileUtil;
 import org.scadalts.e2e.page.core.config.webdriver.WebDriverManualConfig;
-import org.scadalts.e2e.page.core.config.webdriver.WebDrvierPathsConfig;
 
 import java.util.Objects;
 
@@ -57,7 +57,7 @@ public class PageObjectConfigurator {
         WebDriverManualConfig manualConfig = WebDriverManualConfig.getWebDriverConfig(config);
 
         if(config.getLogLevel() == Level.DEBUG) {
-            System.setProperty(manualConfig.getLogFileKey(), WebDrvierPathsConfig.LOG_FILE);
+            System.setProperty(manualConfig.getLogFileKey(), E2eConstant.WEB_DRIVER_LOG_FILE);
             System.setProperty(manualConfig.getVerboseLoggingKey(), "true");
         }
 

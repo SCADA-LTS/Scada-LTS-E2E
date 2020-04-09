@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 public interface WebDrvierPathsConfig {
     String OS_NAME_KEY = "os.name";
-    String LOG_FILE = "webdriver.log";
+
     String getSystemKey();
     String getPath();
 
