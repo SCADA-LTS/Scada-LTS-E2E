@@ -6,6 +6,7 @@ import lombok.Singular;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfig;
+import org.scadalts.e2e.common.config.SendTo;
 import org.scadalts.e2e.test.core.plans.engine.E2eSummarable;
 
 import java.io.File;
@@ -21,7 +22,7 @@ import java.util.stream.Stream;
 @Log4j2
 class EmailData {
 
-    private final String[] to;
+    private final SendTo sendTo;
     private final String content;
     private final String from;
     private final String header;
@@ -34,7 +35,7 @@ class EmailData {
     @Singular
     private final Set<String> failTestNames;
 
-    static EmailData create(E2eConfig config, E2eSummarable summary) {
+    static EmailData create(E2eConfig config, SendTo sendTo, E2eSummarable summary) {
         Set<String> failTestNames = summary.getFailTestNames();
         logger.info("failTestNames: {}", failTestNames);
 
@@ -46,21 +47,21 @@ class EmailData {
                 .title(config.getTitleEmail())
                 .header("Scada-LTS-E2E")
                 .from(config.getSendFrom())
-                .to(config.getSendTo())
+                .sendTo(sendTo)
                 .failTestNames(failTestNames)
                 .attachments(attachments)
                 .summary(summary)
                 .build();
     }
 
-    static EmailData create(E2eConfig config, String content, Throwable throwable) {
+    static EmailData create(E2eConfig config, SendTo sendTo, String content, Throwable throwable) {
 
         return EmailData.builder()
                 .content(content)
                 .title(config.getTitleEmail())
                 .header("Scada-LTS-E2E")
                 .from(config.getSendFrom())
-                .to(config.getSendTo())
+                .sendTo(sendTo)
                 .failTestName(throwable.getClass().getName())
                 .attachments(Collections.emptySet())
                 .summary(E2eSummarable.empty())

@@ -19,7 +19,7 @@ class SentEmailsCacheConfig {
     private long expireMs;
 
     static final String SENT_EMAILS = "sentEmails";
-    static final String EMAIL_CACHE_KEY = "T(java.util.Objects).hash(#emailData?.failTestNames)";
+    static final String EMAIL_CACHE_KEY = "T(java.util.Objects).hash(#emailData?.failTestNames + #emailData?.sendTo?.adress + #emailData?.sendTo?.locale)";
 
     @Bean
     public CacheManager cacheManager(Ticker ticker) {

@@ -32,7 +32,7 @@ class EmailServiceImpl implements EmailService {
     private boolean _send(EmailData emailData) {
         boolean send = _sendEmail(emailData);
         if(!send) {
-            logger.info("second attempt to send...");
+            logger.info("trying to send message again to... {}", emailData.getSendTo());
             return _sendEmail(emailData);
         }
         return send;
@@ -41,7 +41,7 @@ class EmailServiceImpl implements EmailService {
     private boolean _sendEmail(EmailData emailData) {
         try {
             MimeMessage mail = mimeMessageCreator.create(emailData, javaMailSender);
-            logger.info("sending email...");
+            logger.info("sending email to... {}", emailData.getSendTo());
             javaMailSender.send(mail);
             logger.info("successful send");
             return true;

@@ -2,6 +2,7 @@ package org.scadalts.e2e.page.core.config.webdriver;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -26,9 +27,9 @@ public enum WebDriverManualConfig {
 
         @Override
         public void setOptions(E2eConfig config) {
-            if(config.getBrowserOptionsArgs().length > 0)
+            if(config.getBrowserOptionsArgs().length > 0 && StringUtils.isNotBlank(config.getBrowserOptionsArgs()[0]))
                 System.setProperty("chromeoptions.args", joinWithSeparator(config.getBrowserOptionsArgs(), ","));
-            if(config.getBrowserOptionsPrefs().length > 0)
+            if(config.getBrowserOptionsPrefs().length > 0 && StringUtils.isNotBlank(config.getBrowserOptionsPrefs()[0]))
                 System.setProperty("chromeoptions.prefs", joinWithSeparator(config.getBrowserOptionsPrefs(), ","));
         }
 

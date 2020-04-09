@@ -29,7 +29,7 @@ public class ScadaOptions extends TestOptions {
     private String dataPointToReadXid;
 
     @CommandLine.Option(names = {"-V", "--point-values-to-tests"}, split = ";", defaultValue = "")
-    private String[] dataPointValuesToTests;
+    private String[] pointValuesToTests;
 
     @CommandLine.Option(names = {"-Y", "--data-source-name"})
     private String dataSourceName;
