@@ -20,4 +20,9 @@ public class ExportDataSourcesWithEnabledToJsonTask implements Task {
         List<DataSourceCriteria> criterias =  navigationPage.openDataSources().getDataSources();
         JsonUtil.toJsonFile(criterias, "export/datasource/criterias.json");
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

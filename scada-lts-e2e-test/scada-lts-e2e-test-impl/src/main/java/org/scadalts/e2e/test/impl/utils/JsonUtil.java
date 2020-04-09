@@ -6,25 +6,32 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.json.DataSourceCriteriaJson;
+import org.scadalts.e2e.page.impl.criterias.json.IdentifierJson;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 public class JsonUtil {
 
     public static File toJsonFile(List<DataSourceCriteria> criterias, String fileName) {
 
-        File json = _preparingFile(fileName);
-
+        File jsonFile = _preparingFile(fileName);
+        List<DataSourceCriteriaJson> jsonCriterias = criterias.stream()
+                .map(a -> DataSourceCriteriaJson.builder()
+                                            .enabled(a.isEnabled())
+                                            .identifier(new IdentifierJson<>(a.getIdentifier()))
+                                            .build())
+                .collect(Collectors.toList());
         try {
-            _serialize(criterias, json);
+            _serialize(jsonFile, jsonCriterias);
         } catch (IOException e) {
             logger.warn(e.getMessage(), e);
         }
-        return json;
+        return jsonFile;
     }
 
     public static List<DataSourceCriteriaJson> toList(String fileName) {
@@ -48,7 +55,7 @@ public class JsonUtil {
         return json;
     }
 
-    private static void _serialize(List<DataSourceCriteria> criterias, File json) throws IOException {
+    private static void _serialize(File json, List<DataSourceCriteriaJson> criterias) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(json, criterias);
     }

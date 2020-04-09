@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>16.3.1-SNAPSHOT</version>
+    <version>17.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -714,7 +714,7 @@
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.custom-name>-all-test-plan</test.e2e.custom-name>
-                <test.e2e.browser-options-args>--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
+                <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
                 <test.e2e.custom-name>-check</test.e2e.custom-name>
             </properties>
@@ -770,7 +770,7 @@
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
-                <test.e2e.browser-options-args>--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
+                <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
                 <test.e2e.custom-name>-check</test.e2e.custom-name>
             </properties>
@@ -826,7 +826,7 @@
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
-                <test.e2e.browser-options-args>--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
+                <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
                 <test.e2e.custom-name>-all-test</test.e2e.custom-name>
             </properties>
@@ -885,7 +885,7 @@
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
-                <test.e2e.browser-options-args>--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
+                <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
                 <test.e2e.custom-name>-all-test</test.e2e.custom-name>
             </properties>

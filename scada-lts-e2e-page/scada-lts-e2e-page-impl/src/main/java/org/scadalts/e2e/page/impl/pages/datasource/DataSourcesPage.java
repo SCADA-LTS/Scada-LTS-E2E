@@ -94,7 +94,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     }
 
     public List<DataSourceCriteria> getDataSources() {
-        return ExportDataSourcesUtil.dataSourcesEnabledToCriterias(SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY,dataSourcesTable);
+        return ExportDataSourcesUtil.dataSourcesToCriterias(SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY,dataSourcesTable);
     }
 
     public DataSourcesPage enableDataSource(DataSourceIdentifier identifier) {

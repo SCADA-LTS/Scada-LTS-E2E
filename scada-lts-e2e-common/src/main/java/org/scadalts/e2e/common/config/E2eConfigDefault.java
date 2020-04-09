@@ -13,6 +13,7 @@ import org.scadalts.e2e.common.types.TestPlan;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,7 +28,7 @@ class E2eConfigDefault implements E2eConfig {
     private String passwordSmtp;
     private String hostSmtp;
     private int portSmtp;
-    private String[] sendTo;
+    private Set<SendTo> sendTo;
     private String sendFrom;
     private boolean debugEmailMode;
     private boolean notificationEmailMode;
@@ -49,7 +50,7 @@ class E2eConfigDefault implements E2eConfig {
     private int portProxy;
     private String hostProxy;
     private String[] classesTestRefs;
-    private String[] dataPointValuesToTests;
+    private String[] pointValuesToTests;
     private String[] browserOptionsArgs;
     private String[] browserOptionsPrefs;
     private int alarmListChangedAfterMs;

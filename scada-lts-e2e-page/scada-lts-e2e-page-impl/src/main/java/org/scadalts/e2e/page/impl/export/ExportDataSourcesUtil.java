@@ -21,7 +21,7 @@ import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.clazz;
 @Log4j2
 public class ExportDataSourcesUtil {
 
-    public static List<DataSourceCriteria> dataSourcesEnabledToCriterias(By selectEnableAction, SelenideElement source) {
+    public static List<DataSourceCriteria> dataSourcesToCriterias(By selectEnableAction, SelenideElement source) {
 
         NodeCriteria rowCriteria = NodeCriteria.every(1, 0, tr(), clazz("row"));
 
@@ -29,7 +29,7 @@ public class ExportDataSourcesUtil {
 
         NodeCriteria nameCriteria = NodeCriteria.every(6, 1, td());
         NodeCriteria typeCriteria = NodeCriteria.every(6, 2, td());
-        NodeCriteria enabledCriteria = NodeCriteria.every(6, 4, td());
+        NodeCriteria enableCriteria = NodeCriteria.every(6, 4, td());
 
         List<DataSourceCriteria> criterias = new ArrayList<>();
 
@@ -37,7 +37,7 @@ public class ExportDataSourcesUtil {
             logger.info("element: {}", row);
             String nameText = findObject(nameCriteria,row).getText();
             String typeText = findObject(typeCriteria,row).getText();
-            boolean enabledValue = findObject(enabledCriteria, row).$(selectEnableAction).is(Condition.visible);
+            boolean enabledValue = findObject(enableCriteria, row).$(selectEnableAction).is(Condition.visible);
             logger.info("nameText: {}, typeText: {}, enabledValue: {}\n", nameText, typeText, enabledValue);
             DataSourceCriteria criteria = DataSourceCriteria.criteriaPeriodTypeAny(new DataSourceIdentifier(nameText,
                     DataSourceType.getType(typeText)),enabledValue);

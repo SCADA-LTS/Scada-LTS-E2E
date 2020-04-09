@@ -15,4 +15,9 @@ public class EnableAllDataSourcesTask implements Task {
     public void execute() {
         DataSourcePointObjectsCreator.enableAllDataSources(navigationPage);
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

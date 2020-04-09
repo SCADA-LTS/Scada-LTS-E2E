@@ -8,6 +8,7 @@ import org.scadalts.e2e.cli.commands.E2eCommand;
 import org.scadalts.e2e.cli.commands.RunAppCommand;
 import org.scadalts.e2e.cli.commands.RunTestCommand;
 import org.scadalts.e2e.common.config.E2eConfig;
+import org.scadalts.e2e.common.config.SendTo;
 import org.scadalts.e2e.common.types.AuthType;
 import org.scadalts.e2e.common.types.BrowserRef;
 import org.scadalts.e2e.common.types.PageLoadStrategy;
@@ -16,6 +17,7 @@ import org.scadalts.e2e.common.types.TestPlan;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.Set;
 
 @ToString
 @Builder
@@ -178,7 +180,7 @@ public class E2eConfigCli implements E2eConfig {
     }
 
     @Override
-    public String[] getSendTo() {
+    public Set<SendTo> getSendTo() {
         return fromRunApp.getSendTo();
     }
 
@@ -208,8 +210,8 @@ public class E2eConfigCli implements E2eConfig {
     }
 
     @Override
-    public String[] getDataPointValuesToTests() {
-        return fromE2e.getDataPointValuesToTests();
+    public String[] getPointValuesToTests() {
+        return fromE2e.getPointValuesToTests();
     }
 
     @Override

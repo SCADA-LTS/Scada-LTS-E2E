@@ -1,8 +1,8 @@
 package org.scadalts.e2e.app.domain.notification.email;
 
 import lombok.extern.log4j.Log4j2;
+import org.scadalts.e2e.common.config.E2eConstant;
 import org.scadalts.e2e.common.utils.FileUtil;
-import org.scadalts.e2e.page.core.config.webdriver.WebDrvierPathsConfig;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -25,24 +25,28 @@ class MimeMessageCreator {
     MimeMessage create(EmailData emailData, JavaMailSender javaMailSender) throws MessagingException {
         logger.info("creating email...");
         MimeMessage mail = javaMailSender.createMimeMessage();
-        _setMime(emailData, mail);
+        _createMime(emailData, mail);
         return mail;
     }
 
-    private void _setMime(EmailData emailData, MimeMessage mail) throws MessagingException {
+    private void _createMime(EmailData emailData, MimeMessage mail) throws MessagingException {
         MimeMessageHelper helper = new MimeMessageHelper(mail, true, "UTF-8");
-        helper.setBcc(emailData.getTo());
+        helper.setBcc(emailData.getSendTo().getAdress());
         helper.setFrom(emailData.getFrom());
         helper.setSubject(emailData.getTitle());
 
+        _generateContent(emailData, helper);
+    }
+
+    private void _generateContent(EmailData emailData, MimeMessageHelper helper) throws MessagingException {
         String content = transformator.transform(emailData, LOGO);
         helper.setText(content, transformator.isHtml());
         helper.addInline(LOGO.getName(), LOGO);
 
-        File log = FileUtil.getFileFromFileSystem("e2e.log");
+        File log = FileUtil.getFileFromFileSystem(E2eConstant.E2E_LOG_FILE);
         helper.addAttachment(log.getName(), log);
 
-        File webDriverLog = FileUtil.getFileFromFileSystem(WebDrvierPathsConfig.LOG_FILE);
+        File webDriverLog = FileUtil.getFileFromFileSystem(E2eConstant.WEB_DRIVER_LOG_FILE);
         helper.addAttachment(webDriverLog.getName(), webDriverLog);
 
         for (File attachment: emailData.getAttachments()) {
