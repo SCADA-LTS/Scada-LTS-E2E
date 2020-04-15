@@ -102,4 +102,7 @@ public interface E2eConfig {
 
     boolean isNotificationEmailMode();
 
+    boolean isMailSmtpAuthMode();
+
+    boolean isMailSmtpStarttlsMode();
 }

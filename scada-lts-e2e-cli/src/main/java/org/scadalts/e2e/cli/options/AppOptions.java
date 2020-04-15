@@ -49,4 +49,9 @@ public class AppOptions extends DefaultOptions {
     @CommandLine.Option(names = {"-D", "--delete-email-from-sent-emails-after-ms"})
     private long deleteEmailFromSentEmailsAfterMs;
 
+    @CommandLine.Option(names = {"-A", "--mail-smtp-auth-mode"}, negatable = true)
+    private boolean mailSmtpAuthMode;
+
+    @CommandLine.Option(names = {"-T", "--mail-smtp-starttls-mode"}, negatable = true)
+    private boolean mailSmtpStarttlsMode;
 }
