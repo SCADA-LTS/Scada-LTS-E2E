@@ -1,5 +1,6 @@
 package org.scadalts.e2e.page.core.utils;
 
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.core.javascripts.JavascriptWindow;
@@ -27,6 +28,7 @@ public abstract class AlertUtil {
     public static void acceptAlertAfter(Procedure procedure) {
         executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScriptToExecute());
         procedure.invoke();
+        Selenide.switchTo().alert().accept();
     }
 
     public static <T> void acceptAlertAfter(Consumer<T> consumer, T value) {

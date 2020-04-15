@@ -8,6 +8,7 @@ import org.scadalts.e2e.service.core.services.GetValueResponse;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import static java.util.Objects.isNull;
@@ -26,9 +27,13 @@ public class ServiceStabilityUtil {
 
     public static <T, R extends GetValueResponse
             & GetFormattedValueResponse> E2eResponse<R> applyWhile(Function<T, E2eResponse<R>> function,
-                                                                   T arg, Timeout timeout,
-                                                                    Object expectedValue) {
+                                                                   T arg, Timeout timeout, Object expectedValue) {
         return StabilityUtil.applyWhileBi(ServiceStabilityUtil::_is, function, arg, expectedValue, timeout);
+    }
+
+    public static <T, R> E2eResponse<R> applyWhilePredicate(Function<T, E2eResponse<R>> function,
+                                                                   T arg, Timeout timeout, Predicate<R> predicate) {
+        return StabilityUtil.applyWhileBi(ServiceStabilityUtil::_isPredicate, function, arg, predicate, timeout);
     }
 
     public static <R> E2eResponse<R> executeWhile(Supplier<E2eResponse<R>> function, Timeout timeout) {
@@ -45,6 +50,12 @@ public class ServiceStabilityUtil {
         return !_isStatusUnauth(response)
                 && !(_isStatusOk(response)
                 && _isValueExpected(response, valueExpected));
+    }
+
+    private static <R> boolean _isPredicate(E2eResponse<R> response, Predicate<R> valueExpected) {
+        return !_isStatusUnauth(response)
+                && !(_isStatusOk(response)
+                && valueExpected.test(response.getValue()));
     }
 
     private static <R> boolean _isStatusOk(E2eResponse<R> response) {

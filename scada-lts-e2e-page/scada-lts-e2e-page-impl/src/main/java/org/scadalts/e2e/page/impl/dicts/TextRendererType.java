@@ -20,7 +20,7 @@ public enum  TextRendererType implements DictionaryObject {
 
     public static TextRendererType getType(String typeName) {
         return Stream.of(TextRendererType.values())
-                .filter(a -> a.name.equals(typeName))
+                .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(PLAIN);
     }

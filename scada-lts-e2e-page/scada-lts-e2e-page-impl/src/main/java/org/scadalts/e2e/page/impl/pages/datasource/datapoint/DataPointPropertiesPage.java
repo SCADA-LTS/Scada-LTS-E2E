@@ -9,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.common.dicts.DictionaryObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
+import org.scadalts.e2e.page.core.javascripts.DojoScripts;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.criterias.Xid;
@@ -18,7 +19,6 @@ import org.scadalts.e2e.page.impl.dicts.*;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.or;
@@ -26,11 +26,15 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static java.text.MessageFormat.format;
 import static org.scadalts.e2e.page.core.criterias.Tag.*;
+import static org.scadalts.e2e.page.core.javascripts.JQueryScripts.attrSelected;
+import static org.scadalts.e2e.page.core.javascripts.JQueryScripts.val;
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.onclick;
+import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.selected;
+import static org.scadalts.e2e.page.impl.pages.datasource.datapoint.JavaBeanUtil.*;
 
 @Log4j2
 public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropertiesPage> {
@@ -53,18 +57,6 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
     @FindBy(id = "loggingType")
     private SelenideElement loggingTypeSelect;
 
-    @FindBy(id = "tolerance")
-    private SelenideElement toleranceInput;
-
-    @FindBy(id = "discardExtremeValues")
-    private SelenideElement discardExtremeValuesCheckbox;
-
-    @FindBy(id = "discardLowLimit")
-    private SelenideElement discardLowLimitInput;
-
-    @FindBy(id = "discardHighLimit")
-    private SelenideElement discardHighLimitInput;
-
     @FindBy(id = "purgeType")
     private SelenideElement purgeTypeSelect;
 
@@ -83,7 +75,14 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
     @FindBy(css = "select[name='engineeringUnits']")
     private SelenideElement engineeringUnitsSelect;
 
+    @FindBy(css = "div[class='content']")
+    private SelenideElement contentPage;
 
+    @FindBy(id= "textRendererSelect")
+    private SelenideElement textRendererSelect;
+
+    @FindBy(id= "chartRendererSelect")
+    private SelenideElement chartRendererSelect;
 
     private final EditDataSourceWithPointListPage editDataSourceWithPointListPage;
 
@@ -98,6 +97,30 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
     private final static String GET_FIRST_INPUT_XID = "input[id*='Xid']";
     private final static String GET_EVENT_DETECTOR_DATA = "tbody[id*='eventDetector']";
 
+    private static final By INTERVAL_LOGGING_PERIOD_VALUE_INPUT_BY = By.cssSelector("input[name*='intervalLoggingPeriod']");
+    private static final By INTERVAL_LOGGING_PERIOD_TYPE_SELECT_BY = By.cssSelector("select[name*='intervalLoggingPeriodType']");
+    private static final By INTERVAL_LOGGING_TYPE_SELECT_BY = By.id("intervalLoggingType");
+    private static final By TOLERANCE_INPUT_BY = By.id("tolerance");
+    private static final By DISCARD_EXTREME_VALUES_CHECKBOX_BY = By.id("discardExtremeValues");
+    private static final By DISCARD_LOW_LIMIT_INPUT_BY = By.id("discardLowLimit");
+    private static final By DISCARD_HIGH_LIMIT_INPUT_BY = By.id("discardHighLimit");
+    private static final String TEXT_RENDERER_SUFFIX_INPUT = "input[id*='Suffix']";
+    private static final String TEXT_RENDERER_FORMAT_INPUT = "input[id*='Format']";
+
+    private static final By TEXT_RENDERER_FROM_INPUT_BY = By.cssSelector("input[id*='From']");
+    private static final By TEXT_RENDERER_TO_INPUT_BY = By.cssSelector("input[id*='To']");
+    private static final String TEXT_RENDERER_TEXT_INPUT = "input[id*='Text']";
+    private static final By ADD_RANGE_IMG_BY = By.cssSelector("img[onclick*='addRangeValue']");
+    private static final By TIME_CONVERSION_EXPONENT_INPUT_BY = By.cssSelector("input[id*='ConversionExponent']");
+
+    private static final String CHART_RENDERER_PERIOD_INPUT = "input[id*='NumberOfPeriods']";
+    private static final String CHART_RENDERER_PERIOD_TYPE_SELECT = "select[id*='TimePeriod']";
+    private static final String CHART_RENDERER_INCLUDE_SUM_CHECKBOX = "input[id='chartRendererStatsIncludeSum']";
+    private static final String CLICKED_COLOR_TD = "td[style*=''{0}'']";
+
+    private static final By CHART_RENDERER_LIMIT_INPUT_BY = By.cssSelector("input[id='chartRendererTableLimit']");
+
+
     public DataPointPropertiesPage(EditDataSourceWithPointListPage editDataSourceWithPointListPage) {
         super(TITLE);
         this.editDataSourceWithPointListPage = editDataSourceWithPointListPage;
@@ -109,16 +132,16 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         return this;
     }
 
-    public DataPointPropertiesPage selectAlarmLevel(AlarmLevel alarmLevel) {
-        return selectAlarmLevel(alarmLevel, 1);
+    public DataPointPropertiesPage selectEventDetectorAlarmLevel(AlarmLevel alarmLevel) {
+        return selectEventDetectorAlarmLevel(alarmLevel, 1);
     }
 
     public DataPointPropertiesPage setEventDetectorAlias(EventDetectorIdentifier eventDetectorName) {
         return setEventDetectorAlias(eventDetectorName, 1);
     }
 
-    public DataPointPropertiesPage setXid(Xid eventDetectorXid) {
-        return setXid(eventDetectorXid, 1);
+    public DataPointPropertiesPage setEventDetectorXid(Xid eventDetectorXid) {
+        return setEventDetectorXid(eventDetectorXid, 1);
     }
 
     public DataPointPropertiesPage setEventDetectorAlias(EventDetectorIdentifier eventDetectorName, int detectorPosition) {
@@ -128,34 +151,34 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         return this;
     }
 
-    public DataPointPropertiesPage setXid(Xid eventDetectorXid, int detectorPosition) {
+    public DataPointPropertiesPage setEventDetectorXid(Xid eventDetectorXid, int detectorPosition) {
         delay();
         String css = format(INPUT_XID, detectorPosition);
         $(By.cssSelector(css)).setValue(eventDetectorXid.getValue());
         return this;
     }
 
-    public DataPointPropertiesPage selectAlarmLevel(AlarmLevel alarmLevel, int detectorPosition) {
+    public DataPointPropertiesPage selectEventDetectorAlarmLevel(AlarmLevel alarmLevel, int detectorPosition) {
         delay();
         String css = format(SELECT_ALARM_LIST, detectorPosition);
         $(By.cssSelector(css)).selectOption(alarmLevel.getName());
         return this;
     }
 
-    public AlarmLevel getAlarmLevelFirst() {
-        return getAlarmLevel(0);
+    public AlarmLevel getEventDetectorAlarmLevelFirst() {
+        return getEventDetectorAlarmLevel(0);
     }
 
-    public Xid getXidFirst() {
-        return getXid(0);
+    public Xid getEventDetectorXidFirst() {
+        return getEventDetectorXid(0);
     }
 
-    public EventDetectorIdentifier getAliasFirst() {
-        return getAlias(0);
+    public EventDetectorIdentifier getEventDetectorAliasFirst() {
+        return getEventDetectorAlias(0);
     }
 
 
-    public AlarmLevel getAlarmLevel(int detectorPosition) {
+    public AlarmLevel getEventDetectorAlarmLevel(int detectorPosition) {
         delay();
         waitOnEventDetectorTable();
         SelenideElement eventDetectorData = _getEventDetectorData(detectorPosition);
@@ -163,7 +186,7 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         return AlarmLevel.getType(value);
     }
 
-    public Xid getXid(int detectorPosition) {
+    public Xid getEventDetectorXid(int detectorPosition) {
         delay();
         waitOnEventDetectorTable();
         SelenideElement eventDetectorData = _getEventDetectorData(detectorPosition);
@@ -171,13 +194,13 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         return new Xid(value);
     }
 
-    public EventDetectorIdentifier getAlias(int detectorPosition) {
-        String value = getAliasValue(detectorPosition);
+    public EventDetectorIdentifier getEventDetectorAlias(int detectorPosition) {
+        String value = getEventDetectorAliasValue(detectorPosition);
         EventDetectorType type = getEventDetectorType(detectorPosition);
         return new EventDetectorIdentifier(value, type);
     }
 
-    public String getAliasValue(int detectorPosition) {
+    public String getEventDetectorAliasValue(int detectorPosition) {
         delay();
         waitOnEventDetectorTable();
         SelenideElement eventDetectorData = _getEventDetectorData(detectorPosition);
@@ -221,6 +244,12 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         return this;
     }
 
+    public DataPointPropertiesPage addTextRendererRange() {
+        delay();
+        $(ADD_RANGE_IMG_BY).click();
+        return this;
+    }
+
     public DataPointPropertiesPage deleteEventDetector(EventDetectorCriteria criteria) {
         delay();
         ElementsCollection elements = waitWhile(eventDetectorTable, not(Condition.visible)).$$(By.tagName("tbody"));
@@ -237,27 +266,85 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
     }
 
     public DataPointPropertiesPage setDataPointName(DataPointIdentifier identifier) {
-        dataPointNameInput.clear();
-        delay();
-        dataPointNameInput.setValue(identifier.getValue());
+        setValue(dataPointNameInput, identifier.getValue());
         return this;
     }
 
     public String getDataPointName() {
-        delay();
-        return dataPointNameInput.getValue();
+        return getValue(dataPointNameInput);
     }
 
-    public DataPointPropertiesPage setDefaultCacheSize(int defaultCacheSize) {
-        defaultCacheSizeInput.clear();
-        delay();
-        defaultCacheSizeInput.setValue(String.valueOf(defaultCacheSize));
+    public DataPointPropertiesPage setChartRendererLimit(int limit) {
+        setValue(CHART_RENDERER_LIMIT_INPUT_BY, String.valueOf(limit));
         return this;
     }
 
-    public int getDefaultCacheSize() {
-        delay();
-        return Integer.parseInt(defaultCacheSizeInput.getValue());
+    public String getChartRendererLimit() {
+        return getValue(CHART_RENDERER_LIMIT_INPUT_BY);
+    }
+
+    public DataPointPropertiesPage setTextRendererFrom(String from) {
+        setValue(TEXT_RENDERER_FROM_INPUT_BY, from);
+        return this;
+    }
+
+    public String getTextRendererFrom() {
+        return getValue(TEXT_RENDERER_FROM_INPUT_BY);
+    }
+
+    public DataPointPropertiesPage setTextRendererTo(String to) {
+        setValue(TEXT_RENDERER_TO_INPUT_BY, to);
+        return this;
+    }
+
+    public String getTextRendererTo() {
+        return getValue(TEXT_RENDERER_TO_INPUT_BY);
+    }
+
+    public DataPointPropertiesPage setChartRendererPeriod(int period) {
+        executeJQuery(val(CHART_RENDERER_PERIOD_INPUT, String.valueOf(period)));
+        return this;
+    }
+
+    public int getChartRendererPeriod() {
+        return Integer.parseInt(executeJQueryString(val(CHART_RENDERER_PERIOD_INPUT)));
+    }
+
+    public DataPointPropertiesPage selectChartRendererPeriodType(PeriodType periodType) {
+        executeJQuery(attrSelected(CHART_RENDERER_PERIOD_TYPE_SELECT, periodType.getName()));
+        return this;
+    }
+
+    public PeriodType getChartRendererPeriodType() {
+        return PeriodType.getType(executeJQueryString(val(CHART_RENDERER_PERIOD_TYPE_SELECT)));
+    }
+
+
+    public DataPointPropertiesPage setTextRendererText(String text) {
+        executeJQuery(val(TEXT_RENDERER_TEXT_INPUT, text));
+        return this;
+    }
+
+    public String getTextRendererText() {
+        return executeJQueryString(val(TEXT_RENDERER_TEXT_INPUT));
+    }
+
+    public String getTextRendererTimeConversionExponent() {
+        return getValue(TIME_CONVERSION_EXPONENT_INPUT_BY);
+    }
+
+    public DataPointPropertiesPage setTextRendererTimeConversionExponent(int conversionExponent) {
+        setValue(TIME_CONVERSION_EXPONENT_INPUT_BY, String.valueOf(conversionExponent));
+        return this;
+    }
+
+    public DataPointPropertiesPage setLoggingDefaultCacheSize(int defaultCacheSize) {
+        setValue(defaultCacheSizeInput, String.valueOf(defaultCacheSize));
+        return this;
+    }
+
+    public int getLoggingDefaultCacheSize() {
+        return Integer.parseInt(getValue(defaultCacheSizeInput));
     }
 
     public DataPointPropertiesPage clearCache() {
@@ -266,99 +353,156 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         return this;
     }
 
-    public DataPointPropertiesPage setTolerance(double tolerance) {
-        toleranceInput.clear();
-        delay();
-        toleranceInput.setValue(String.valueOf(tolerance));
+    public DataPointPropertiesPage setLoggingTolerance(String tolerance) {
+        setValue(TOLERANCE_INPUT_BY, tolerance);
         return this;
     }
 
-    public BigDecimal getTolerance() {
-        delay();
-        return new BigDecimal(toleranceInput.getValue());
+    public String getLoggingTolerance() {
+        return getValue(TOLERANCE_INPUT_BY);
     }
 
-    public DataPointPropertiesPage setDiscardExtremeValues(boolean discardExtremeValues) {
-        discardExtremeValuesCheckbox.clear();
-        delay();
-        discardExtremeValuesCheckbox.setValue(String.valueOf(discardExtremeValues));
+    public DataPointPropertiesPage setColour(Color color) {
+        String code = color.getCode();
+        executeJs(DojoScripts.SET_COLOR.getScript(code));
         return this;
     }
 
-    public boolean isDiscardExtremeValues() {
-        delay();
-        return Boolean.parseBoolean(discardExtremeValuesCheckbox.getSelectedValue());
+    public DataPointPropertiesPage setLoggingDiscardExtremeValues(boolean discardExtremeValues) {
+        click(DISCARD_EXTREME_VALUES_CHECKBOX_BY, discardExtremeValues);
+        return this;
     }
 
-    public DataPointPropertiesPage setEngineeringUnit(DictionaryObject dictionaryObject) {
-        delay();
-        engineeringUnitsSelect.selectOption(dictionaryObject.getName());
+    public boolean isLoggingDiscardExtremeValues() {
+        return Boolean.parseBoolean(getSelected(DISCARD_EXTREME_VALUES_CHECKBOX_BY));
+    }
+
+    public DataPointPropertiesPage setChartRendererIncludeSum(boolean includeSum) {
+        click(By.cssSelector(CHART_RENDERER_INCLUDE_SUM_CHECKBOX), includeSum);
         return this;
+    }
+
+    public boolean isChartRendererIncludeSum() {
+        return isChecked(By.cssSelector(CHART_RENDERER_INCLUDE_SUM_CHECKBOX));
     }
 
     public DictionaryObject getEngineeringUnit() {
-        delay();
-        String text = engineeringUnitsSelect.getSelectedText();
-        return EngineeringUnit.getType(text);
+        SelenideElement optgroup = findObject(NodeCriteria.withNode(optgroup(), option(), selected()), engineeringUnitsSelect);
+        String label = optgroup.getAttribute("label");
+        SelenideElement option = findObject(NodeCriteria.every(option(), selected()), optgroup);
+        return EngineeringUnit.getType(label, option.getText());
     }
 
-    public DataPointPropertiesPage setPurgeType(PurgeType purgeType) {
-        delay();
-        purgeTypeSelect.selectOption(purgeType.getName());
+    public DataPointPropertiesPage selectEngineeringUnit(DictionaryObject engineeringUnit) {
+        selectOption(engineeringUnitsSelect, engineeringUnit);
         return this;
     }
 
-    public PurgeType getPurgeType() {
-        delay();
-        String text = engineeringUnitsSelect.getSelectedText();
-        return PurgeType.getType(text);
+    public PurgeType getLoggingPurgeType() {
+        return PurgeType.getType(getSelected(engineeringUnitsSelect));
+    }
+
+    public DataPointPropertiesPage selectLoggingPurgeType(PurgeType purgeType) {
+        selectOption(purgeTypeSelect, purgeType);
+        return this;
+    }
+
+    public TextRendererType getTextRendererType() {
+        return TextRendererType.getType(getSelected(textRendererSelect));
+    }
+
+    public DataPointPropertiesPage selectTextRendererType(TextRendererType textRendererType) {
+        selectOption(textRendererSelect, textRendererType);
+        return this;
+    }
+
+    public ChartRendererType getChartRendererType() {
+        return ChartRendererType.getType(getSelected(chartRendererSelect));
+    }
+
+    public DataPointPropertiesPage selectChartRendererType(ChartRendererType chartRendererType) {
+        selectOption(chartRendererSelect, chartRendererType);
+        return this;
+    }
+
+    public int getIntervalLoggingPeriod() {
+        return Integer.parseInt(getValue(INTERVAL_LOGGING_PERIOD_VALUE_INPUT_BY));
+    }
+
+    public DataPointPropertiesPage setIntervalLoggingPeriod(int intervalLoggingPeriod) {
+        setValue(INTERVAL_LOGGING_PERIOD_VALUE_INPUT_BY, String.valueOf(intervalLoggingPeriod));
+        return this;
+    }
+
+    public IntervalLoggingPeriodType getIntervalLoggingPeriodType() {
+        return IntervalLoggingPeriodType.getType(getSelected(INTERVAL_LOGGING_PERIOD_TYPE_SELECT_BY));
+    }
+
+    public DataPointPropertiesPage selectIntervalLoggingPeriodType(IntervalLoggingPeriodType intervalLoggingPeriodType) {
+        selectOption(INTERVAL_LOGGING_PERIOD_TYPE_SELECT_BY, intervalLoggingPeriodType);
+        return this;
+    }
+
+    public IntervalLoggingType getIntervalLoggingType() {
+        return IntervalLoggingType.getType(getSelected(INTERVAL_LOGGING_TYPE_SELECT_BY));
+    }
+
+    public DataPointPropertiesPage selectIntervalLoggingType(IntervalLoggingType intervalLoggingType) {
+        selectOption(INTERVAL_LOGGING_TYPE_SELECT_BY, intervalLoggingType);
+        return this;
     }
 
     public LoggingType getLoggingType() {
-        delay();
-        String text = loggingTypeSelect.getSelectedText();
-        return LoggingType.getType(text);
+        return LoggingType.getType(getSelected(loggingTypeSelect));
     }
 
-    public DataPointPropertiesPage setLoggingType(LoggingType loggingType) {
-        delay();
-        loggingTypeSelect.selectOption(loggingType.getName());
+    public DataPointPropertiesPage selectLoggingType(LoggingType loggingType) {
+        selectOption(loggingTypeSelect, loggingType);
         return this;
     }
 
-    public BigDecimal getDiscardLowLimitInput() {
-        delay();
-        return new BigDecimal(discardLowLimitInput.getValue());
+    public String getTextRendererSuffix() {
+        return executeJQueryString(val(TEXT_RENDERER_SUFFIX_INPUT));
     }
 
-    public DataPointPropertiesPage setDiscardLowLimitInput(BigDecimal discardLowLimit) {
-        discardExtremeValuesCheckbox.clear();
-        delay();
-        discardExtremeValuesCheckbox.setValue(String.valueOf(discardLowLimit));
+    public DataPointPropertiesPage setTextRendererSuffix(String suffix) {
+        executeJQuery(val(TEXT_RENDERER_SUFFIX_INPUT, suffix));
         return this;
     }
 
-    public DataPointPropertiesPage setPurePeriod(BigInteger purePeriod) {
-        purgePeriodInput.clear();
-        delay();
-        purgePeriodInput.setValue(String.valueOf(purePeriod));
+    public String getTextRendererFormat() {
+        return executeJQueryString(val(TEXT_RENDERER_FORMAT_INPUT));
+    }
+
+    public DataPointPropertiesPage setTextRendererFormat(String format) {
+        executeJQuery(val(TEXT_RENDERER_FORMAT_INPUT, format));
         return this;
     }
 
-    public int getPurePeriod() {
-        delay();
-        return Integer.parseInt(purgePeriodInput.getValue());
+    public BigDecimal getLoggingDiscardLowLimit() {
+        return new BigDecimal(getValue(DISCARD_LOW_LIMIT_INPUT_BY));
     }
 
-    public BigDecimal getDiscardHighLimit() {
-        delay();
-        return new BigDecimal(discardHighLimitInput.getValue());
+    public DataPointPropertiesPage setLoggingDiscardLowLimit(String discardLowLimit) {
+        setValue(DISCARD_LOW_LIMIT_INPUT_BY, discardLowLimit);
+        return this;
     }
 
-    public DataPointPropertiesPage setDiscardHighLimit(BigDecimal discardHighLimit) {
-        discardExtremeValuesCheckbox.clear();
-        delay();
-        discardExtremeValuesCheckbox.setValue(String.valueOf(discardHighLimit));
+    public DataPointPropertiesPage setLoggingPurgePeriod(int purePeriod) {
+        setValue(purgePeriodInput, String.valueOf(purePeriod));
+        return this;
+    }
+
+    public int getLoggingPurePeriod() {
+        return Integer.parseInt(getValue(purgePeriodInput));
+    }
+
+    public BigDecimal getLoggingDiscardHighLimit() {
+        return new BigDecimal(getValue(DISCARD_HIGH_LIMIT_INPUT_BY));
+    }
+
+    public DataPointPropertiesPage setLoggingDiscardHighLimit(String discardHighLimit) {
+        setValue(DISCARD_HIGH_LIMIT_INPUT_BY, discardHighLimit);
         return this;
     }
 
@@ -396,7 +540,6 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
     public DataPointPropertiesPage getPage() {
         return this;
     }
-
 
     private SelenideElement _getEventDetectorData(int position) {
         ElementsCollection collectionElement = $$(By.cssSelector(GET_EVENT_DETECTOR_DATA));

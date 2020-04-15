@@ -27,7 +27,7 @@ public enum EventDetectorType implements DictionaryObject {
 
     public static EventDetectorType getType(String typeName) {
         return Stream.of(EventDetectorType.values())
-                .filter(a -> a.name.equals(typeName))
+                .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
     }

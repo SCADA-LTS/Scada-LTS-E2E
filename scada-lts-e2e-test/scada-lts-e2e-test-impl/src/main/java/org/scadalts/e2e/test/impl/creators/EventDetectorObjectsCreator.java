@@ -45,8 +45,8 @@ public class EventDetectorObjectsCreator implements CreatorObject<DataPointPrope
             dataPointPropertiesPage.selectEventDetectorType(eventDetectorCriteria.getIdentifier().getType())
                     .addEventDetector()
                     .setEventDetectorAlias(eventDetectorCriteria.getIdentifier())
-                    .setXid(eventDetectorCriteria.getXid())
-                    .selectAlarmLevel(eventDetectorCriteria.getAlarmLevel())
+                    .setEventDetectorXid(eventDetectorCriteria.getXid())
+                    .selectEventDetectorAlarmLevel(eventDetectorCriteria.getAlarmLevel())
                     .saveDataPoint();
 
         }

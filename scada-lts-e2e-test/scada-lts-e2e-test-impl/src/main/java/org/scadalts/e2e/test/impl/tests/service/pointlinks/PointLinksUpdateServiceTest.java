@@ -86,7 +86,7 @@ public class PointLinksUpdateServiceTest {
                 .build();
 
         //when:
-        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
+        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setDataPointValue(cmpParams);
         CmpParams setResult = setResponse.getValue();
 
         //then:
@@ -97,7 +97,7 @@ public class PointLinksUpdateServiceTest {
         assertEquals(value, setResult.getValue());
 
         //and when:
-        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams, expectedValue,
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getDataPointValue(pointValueParams, expectedValue,
                 TestImplConfiguration.waitingAfterSetPointValueMs);
         PointValueResponse getResult = getResponse.getValue();
 

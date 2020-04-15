@@ -8,12 +8,11 @@ import java.util.stream.Stream;
 @Getter
 public enum LoggingType implements DictionaryObject {
 
-    WHEN_POINT_VALUE_CHANGES("When point value changes"),
-    ALL_DATA("All data"),
-    DO_NOT_LOG("Do not log"),
+    ON_CHANGE("When point value changes"),
+    ALL("All data"),
+    NONE("Do not log"),
     INTERVAL("Interval"),
-    WHEN_POINT_TIMESTAMP_CHANGES("When point timestamp changes"),
-    NONE("");
+    ON_TS_CHANGE("When point timestamp changes");
 
     private final String name;
 
@@ -23,7 +22,7 @@ public enum LoggingType implements DictionaryObject {
 
     public static LoggingType getType(String typeName) {
         return Stream.of(LoggingType.values())
-                .filter(a -> a.name.equals(typeName))
+                .filter(a -> a.name().equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
     }

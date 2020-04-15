@@ -2,6 +2,7 @@ package org.scadalts.e2e.page.impl.criterias.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.scadalts.e2e.common.dicts.DictionaryObject;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
@@ -14,6 +15,7 @@ import java.util.Objects;
 
 @Data
 @ToString
+@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DataSourceCriteriaJson implements CriteriaObject {
 

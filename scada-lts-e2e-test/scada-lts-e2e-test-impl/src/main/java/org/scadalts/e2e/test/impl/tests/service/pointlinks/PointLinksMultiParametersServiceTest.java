@@ -124,10 +124,10 @@ public class PointLinksMultiParametersServiceTest {
                     .build();
 
             //when:
-            TestWithoutPageUtil.setValue(cmpParams);
+            TestWithoutPageUtil.setDataPointValue(cmpParams);
 
             //and when:
-            E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointTarget, expectedValue,
+            E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getDataPointValue(pointTarget, expectedValue,
                     TestImplConfiguration.waitingAfterSetPointValueMs);
             PointValueResponse getResult = getResponse.getValue();
 

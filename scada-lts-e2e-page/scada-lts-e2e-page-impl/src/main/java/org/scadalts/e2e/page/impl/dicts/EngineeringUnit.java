@@ -1,18 +1,21 @@
 package org.scadalts.e2e.page.impl.dicts;
 
 import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.dicts.DictionaryObject;
 
-import java.util.ArrayList;
+import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Log4j2
 public class EngineeringUnit {
 
     @Getter
     public enum Acceleration implements DictionaryObject {
-
         METERS_PER_SECOND_PER_SECOND("meters per second per second");
 
         private final String name;
@@ -378,7 +381,6 @@ public class EngineeringUnit {
         CUBIC_FEET_PER_SECOND("cubic feet per second"),
         CUBIC_FEET_PER_MINUTE("cubic feet per minute"),
         CUBIC_METERS_PER_SECOND("cubic meters per second"),
-        CUBIC_METERS_PER_MINUTE("cubic meters per minute"),
         CUBIC_METERS_PER_HOUR("cubic meters per hour"),
         IMPERIAL_GALLONS_PER_MINUTE("imperial gallons per minute"),
         LITERS_PER_SECOND("liters per second"),
@@ -432,52 +434,86 @@ public class EngineeringUnit {
         }
     };
 
-    public static DictionaryObject getType(String name) {
-        return _aggregate().stream()
-                .filter(a -> a.getName().contains(name.toLowerCase()))
+    public static DictionaryObject getType(String groupName, String unitName) {
+        logger.info("groupName: {}, unitName: {}", groupName, unitName);
+        String className = _getClassName(groupName);
+        Class<?> key = _getClass(className);
+        return _getUnits(key, aggregate()).stream()
+                .filter(unit -> _preparingUnitName(unit.getName())
+                        .equalsIgnoreCase(_preparingUnitName(unitName.trim())))
                 .findFirst()
-                .orElse(DictionaryObject.ANY);
+                .orElse(Other.NO_UNITS);
     }
 
-    private static List<DictionaryObject> _aggregate() {
-        List<DictionaryObject> acceleration = _toList(Acceleration.values());
-        List<DictionaryObject> area = _toList(Area.values());
-        List<DictionaryObject> currency = _toList(Currency.values());
-        List<DictionaryObject> electrical = _toList(Electrical.values());
-        List<DictionaryObject> energy = _toList(Energy.values());
-        List<DictionaryObject> enthalpy = _toList(Enthalpy.values());
-        List<DictionaryObject> entropy = _toList(Entropy.values());
-        List<DictionaryObject> force = _toList(Force.values());
-        List<DictionaryObject> frequency = _toList(Frequency.values());
-        List<DictionaryObject> humidity = _toList(Humidity.values());
-        List<DictionaryObject> length = _toList(Length.values());
-        List<DictionaryObject> light = _toList(Light.values());
-        List<DictionaryObject> mass = _toList(Mass.values());
-        List<DictionaryObject> massflow = _toList(Massflow.values());
-        List<DictionaryObject> power = _toList(Power.values());
-        List<DictionaryObject> pressure = _toList(Pressure.values());
-        List<DictionaryObject> temperature = _toList(Temperature.values());
-        List<DictionaryObject> time = _toList(Time.values());
-        List<DictionaryObject> torque = _toList(Torque.values());
-        List<DictionaryObject> velocity = _toList(Velocity.values());
-        List<DictionaryObject> volume = _toList(Volume.values());
-        List<DictionaryObject> volumetricFlow = _toList(VolumetricFlow.values());
-        List<DictionaryObject> other = _toList(Other.values());
+    private static List<DictionaryObject> _getUnits(Class<?> key, Map<Class<? extends DictionaryObject>, List<DictionaryObject>> map) {
+        if(!map.containsKey(key)) {
+            return map.entrySet().stream()
+                    .flatMap(entry -> entry.getValue().stream())
+                    .collect(Collectors.toList());
+        }
+        return map.get(key);
+    }
 
-        return _merge(acceleration, area, currency, electrical, energy, enthalpy, entropy, force,
-                frequency, humidity, length, light, mass, massflow, power, pressure, temperature, time, torque, velocity,
-                volume, volumetricFlow, other);
+    private static String _preparingUnitName(String unitName) {
+        return unitName.replaceAll("\\s+", "_");
+    }
+
+    private static String _getClassName(String groupName) {
+        return MessageFormat.format("{0}.{1}",EngineeringUnit.class.getPackage(), _splitCamelCase(groupName));
+    }
+
+    private static Class<?> _getClass(String groupName) {
+        try {
+            return Class.forName(groupName);
+        } catch (ClassNotFoundException e) {
+            logger.warn(e.getMessage());
+            return Class.class;
+        }
+    }
+
+    private static String _splitCamelCase(String s) {
+        return s.replaceAll(
+                String.format("%s|%s|%s",
+                        "(?<=[A-Z])(?=[A-Z][a-z])",
+                        "(?<=[^A-Z])(?=[A-Z])",
+                        "(?<=[A-Za-z])(?=[^A-Za-z])"
+                ),
+                " "
+        );
+    }
+
+    public static Map<Class<? extends DictionaryObject>, List<DictionaryObject>> aggregate() {
+        Map<Class<? extends DictionaryObject>, List<DictionaryObject>> map = new HashMap<>();
+
+        map.put(Acceleration.class, _toList(Acceleration.values()));
+        map.put(Currency.class, _toList(Currency.values()));
+        map.put(Electrical.class, _toList(Electrical.values()));
+        map.put(Area.class, _toList(Area.values()));
+        map.put(Energy.class, _toList(Energy.values()));
+        map.put(Enthalpy.class, _toList(Enthalpy.values()));
+        map.put(Entropy.class, _toList(Entropy.values()));
+        map.put(Force.class, _toList(Force.values()));
+        map.put(Frequency.class, _toList(Frequency.values()));
+        map.put(Humidity.class, _toList(Humidity.values()));
+
+        map.put(Length.class, _toList(Length.values()));
+        map.put(Light.class, _toList(Light.values()));
+        map.put(Mass.class, _toList(Mass.values()));
+        map.put(Massflow.class, _toList(Massflow.values()));
+        map.put(Power.class, _toList(Power.values()));
+        map.put(Pressure.class, _toList(Pressure.values()));
+        map.put(Temperature.class, _toList(Temperature.values()));
+        map.put(Time.class, _toList(Time.values()));
+        map.put(Torque.class, _toList(Torque.values()));
+        map.put(Velocity.class, _toList(Velocity.values()));
+        map.put(Volume.class, _toList(Volume.values()));
+        map.put(VolumetricFlow.class, _toList(VolumetricFlow.values()));
+        map.put(Other.class, _toList(Other.values()));
+
+        return map;
     }
 
     private static List<DictionaryObject> _toList(DictionaryObject... enumeration) {
         return Stream.of(enumeration).collect(Collectors.toList());
-    }
-
-    private static List<DictionaryObject> _merge(List<DictionaryObject>... lists) {
-        List<DictionaryObject> result = new ArrayList<>();
-        for (List<DictionaryObject> list: lists) {
-            result.addAll(list);
-        }
-        return result;
     }
 }

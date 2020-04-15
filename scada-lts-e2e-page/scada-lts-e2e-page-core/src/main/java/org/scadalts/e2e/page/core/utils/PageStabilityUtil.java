@@ -8,6 +8,7 @@ import org.scadalts.e2e.common.utils.StabilityUtil;
 import org.scadalts.e2e.page.core.config.PageConfiguration;
 import org.scadalts.e2e.page.core.pages.MainPageObject;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 
 import static com.codeborne.selenide.Condition.not;
@@ -30,6 +31,10 @@ public abstract class PageStabilityUtil {
 
     public static <T> void waitWhile(Predicate<T> condition, T arg) {
         StabilityUtil.waitWhile(condition, arg, timeout);
+    }
+
+    public static void waitWhile(BooleanSupplier condition) {
+        StabilityUtil.waitWhile(condition, timeout);
     }
 
     public static <T> void waitWhile(Predicate<T> condition, T arg, Timeout timeout) {

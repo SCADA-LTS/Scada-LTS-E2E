@@ -71,8 +71,8 @@ public class CreateEventDetectorPageTest {
         EditDataSourceWithPointListPage editDataSourcePage = page.selectEventDetectorType(eventDetectorTypeExpected)
                 .addEventDetector()
                 .setEventDetectorAlias(eventDetectorIdentifierExpected)
-                .setXid(xidExpected)
-                .selectAlarmLevel(alarmLevelExpected)
+                .setEventDetectorXid(xidExpected)
+                .selectEventDetectorAlarmLevel(alarmLevelExpected)
                 .saveDataPoint()
                 .waitOnPageWhileNotVisible(eventDetectorCriteria.getIdentifier())
                 .editDataSource();
@@ -81,9 +81,9 @@ public class CreateEventDetectorPageTest {
         page = editDataSourcePage
                 .openDataPointProperties(dataPointCriteria.getIdentifier());
 
-        AlarmLevel alarmLevel = page.getAlarmLevelFirst();
-        Xid xid = page.getXidFirst();
-        EventDetectorIdentifier eventDetectorIdentifier = page.getAliasFirst();
+        AlarmLevel alarmLevel = page.getEventDetectorAlarmLevelFirst();
+        Xid xid = page.getEventDetectorXidFirst();
+        EventDetectorIdentifier eventDetectorIdentifier = page.getEventDetectorAliasFirst();
 
         //then:
         assertThat(page, containsObject(eventDetectorCriteria.getIdentifier()));

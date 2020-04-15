@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(TestParameterizedWithoutPageRunner.class)
 public class EventDetectorCheckTest {
 
-    @Parameterized.Parameters(name = "{index}:{0}")
+    @Parameterized.Parameters(name = "test number: {index}, set value datapoint-to-change: {0}, expected value datapoint-to-read: {0}")
     public static Collection<String> data() {
         return ChangePointValuesProvider.paramsToTests();
     }
@@ -44,7 +44,7 @@ public class EventDetectorCheckTest {
                 .build();
 
         //when:
-        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
+        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setDataPointValue(cmpParams);
         CmpParams setResult = setResponse.getValue();
 
         //then:
@@ -55,7 +55,7 @@ public class EventDetectorCheckTest {
         assertEquals(expectedValue, setResult.getValue());
 
         //and when:
-        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams,
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getDataPointValue(pointValueParams,
                 expectedValue, TestImplConfiguration.waitingAfterSetPointValueMs);
         PointValueResponse getResult = getResponse.getValue();
 

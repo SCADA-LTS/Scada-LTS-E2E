@@ -53,7 +53,7 @@ public class PointValueServiceTest {
         PointValueParams pointValueParams = new PointValueParams(dataPointXid);
 
         //when:
-        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams);
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getDataPointValue(pointValueParams);
 
         //then:
         assertEquals(200, getResponse.getStatus());
@@ -66,7 +66,7 @@ public class PointValueServiceTest {
         PointValueParams pointValueParams = new PointValueParams(dataPointXid);
 
         //when:
-        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams);
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getDataPointValue(pointValueParams);
         PointValueResponse getResult = getResponse.getValue();
 
         //then:
@@ -81,7 +81,7 @@ public class PointValueServiceTest {
         PointValueParams pointValueParams = new PointValueParams(dataPointXid);
 
         //when:
-        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams, dataPointStartValue,
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getDataPointValue(pointValueParams, dataPointStartValue,
                 TestImplConfiguration.waitingAfterSetPointValueMs);
         PointValueResponse getResult = getResponse.getValue();
 
