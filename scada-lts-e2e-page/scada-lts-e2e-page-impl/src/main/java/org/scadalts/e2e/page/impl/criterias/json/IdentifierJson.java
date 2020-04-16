@@ -8,5 +8,21 @@ import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 @NoArgsConstructor
 public class IdentifierJson implements IdentifierObject {
 
-    private String value;
+    IdentifierObject identifier;
+
+    public IdentifierJson(IdentifierObject identifier) {
+        this.identifier = identifier;
+    }
+
+    public String getValue() {
+        return identifier.getValue();
+    }
+
+    public T getType() {
+        return (T)identifier.getType();
+    }
+
+    public static IdentifierObject empty() {
+        return IdentifierObject.empty();
+    }
 }

@@ -26,7 +26,7 @@ public class DataSourceRemovedOrDisabledCheck implements Task {
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
 
         for (DataSourceCriteriaJson criteria : criterias) {
-            DataSourceCriteria dataSourceCriteria = criteria.toCriteria();
+            DataSourceCriteria dataSourceCriteria = criteria.toDataSourceSecondCriteria();
             assertExists(dataSourcesPage, dataSourceCriteria.getIdentifier());
             if(dataSourceCriteria.isEnabled())
                 assertTrue(dataSourcesPage.isEnabledDataSource(dataSourceCriteria.getIdentifier()));

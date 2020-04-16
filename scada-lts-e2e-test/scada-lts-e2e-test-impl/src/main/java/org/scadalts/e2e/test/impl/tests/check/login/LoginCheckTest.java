@@ -20,6 +20,7 @@ public class LoginCheckTest {
 
     @Before
     public void setup() {
+        TestWithPageUtil.preparingTest();
         if(TestWithPageUtil.isLogged()) {
             navigationPage = TestWithPageUtil.getNavigationPage();
             navigationPage.logout();

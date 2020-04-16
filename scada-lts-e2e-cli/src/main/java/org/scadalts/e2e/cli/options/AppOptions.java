@@ -3,7 +3,11 @@ package org.scadalts.e2e.cli.options;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import org.scadalts.e2e.cli.parsers.SendToParser;
+import org.scadalts.e2e.common.config.SendTo;
 import picocli.CommandLine;
+
+import java.util.Set;
 
 @Getter
 @ToString
@@ -31,8 +35,8 @@ public class AppOptions extends DefaultOptions {
     @CommandLine.Option(names = {"-M", "--port-smtp"})
     private int portSmtp;
 
-    @CommandLine.Option(names = {"-s", "--send-to"}, split = ";", defaultValue = "")
-    private String[] sendTo;
+    @CommandLine.Option(names = {"-s", "--send-to"}, converter = SendToParser.class)
+    private Set<SendTo> sendTo;
 
     @CommandLine.Option(names = {"-S", "--send-from"})
     private String sendFrom;

@@ -5,6 +5,8 @@ import org.scadalts.e2e.common.types.BrowserRef;
 import org.scadalts.e2e.common.types.PageLoadStrategy;
 import org.scadalts.e2e.common.types.TestPlan;
 
+import java.util.Set;
+
 public interface E2eConfig {
     PageLoadStrategy getPageLoadStrategy();
 
@@ -56,9 +58,9 @@ public interface E2eConfig {
 
     String[] getClassesTestRefs();
 
-    String[] getSendTo();
+    Set<SendTo> getSendTo();
 
-    String[] getDataPointValuesToTests();
+    String[] getPointValuesToTests();
 
     String[] getBrowserOptionsArgs();
 

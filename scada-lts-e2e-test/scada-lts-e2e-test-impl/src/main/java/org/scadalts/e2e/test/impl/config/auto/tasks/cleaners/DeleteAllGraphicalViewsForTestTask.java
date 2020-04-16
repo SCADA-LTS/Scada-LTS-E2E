@@ -15,4 +15,9 @@ public class DeleteAllGraphicalViewsForTestTask implements Task {
     public void execute() {
         GraphicalViewObjectsCreator.deleteAllGraphicalViewsTest(navigationPage);
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

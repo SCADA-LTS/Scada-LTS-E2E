@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 @Log4j2
@@ -35,6 +36,7 @@ public class TypeConstructors {
         values.put(int.class, Integer::parseInt);
         values.put(boolean.class, Boolean::parseBoolean);
         values.put(String.class, Function.identity());
+        values.put(Set.class, SendToUtil::parse);
     }
 
     public static <T> T create(Class<T> key, String value) {

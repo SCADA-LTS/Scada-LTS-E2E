@@ -23,9 +23,14 @@ public class ImportDataSourcesWithEnabledTask implements Task {
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
 
         for (DataSourceCriteriaJson criteria : criterias) {
-            DataSourceCriteria dataSourceCriteria = criteria.toCriteria();
+            DataSourceCriteria dataSourceCriteria = criteria.toDataSourceSecondCriteria();
             if(criteria.isEnabled() && !dataSourcesPage.isEnabledDataSource(dataSourceCriteria.getIdentifier()))
                 dataSourcesPage.enableDataSource(dataSourceCriteria.getIdentifier());
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
     }
 }

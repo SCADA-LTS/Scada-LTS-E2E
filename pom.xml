@@ -714,7 +714,7 @@
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.custom-name>-all-test-plan</test.e2e.custom-name>
-                <test.e2e.browser-options-args>--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
+                <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
@@ -772,7 +772,7 @@
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
-                <test.e2e.browser-options-args>--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
+                <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
@@ -830,7 +830,7 @@
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
-                <test.e2e.browser-options-args>--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
+                <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
@@ -891,7 +891,7 @@
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
-                <test.e2e.browser-options-args>--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
+                <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
