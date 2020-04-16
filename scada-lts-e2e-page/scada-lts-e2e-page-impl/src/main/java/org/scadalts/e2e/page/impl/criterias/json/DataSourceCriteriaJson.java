@@ -12,14 +12,19 @@ import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import java.util.Objects;
 
 @Data
-@Builder
 @ToString
+@Builder
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DataSourceCriteriaJson {
 
     private IdentifierJson<DataSourceType> identifier;
     private boolean enabled;
+
+    private DataSourceCriteriaJson(IdentifierJson<DataSourceType> identifier, boolean enabled) {
+        this.identifier = identifier;
+        this.enabled = enabled;
+    }
 
     public DataSourceCriteria toDataSourceSecondCriteria() {
         return DataSourceCriteria.criteriaSecond(new DataSourceIdentifier(identifier.getValue(),identifier.getType()),

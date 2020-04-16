@@ -48,7 +48,7 @@ public class TestWithPageUtil {
             _setup();
             _login();
         }
-        return NavigationPage.openPage().acceptAlertOnPage();
+        return NavigationPage.openPage();
     }
 
     public static void close() {

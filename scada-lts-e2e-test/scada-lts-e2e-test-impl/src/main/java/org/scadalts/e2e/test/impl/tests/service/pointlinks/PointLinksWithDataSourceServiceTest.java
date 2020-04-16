@@ -102,8 +102,11 @@ public class PointLinksWithDataSourceServiceTest {
 
         criteria = PointLinkCriteria.criteria(sourcePointSourceCriteria, sourcePointTargetCriteria,
                 eventType, Script.empty());
+
+        WatchListCriteria watchListCriteria = WatchListCriteria.criteria(sourcePointSourceCriteria.getIdentifier(),
+                sourcePointTargetCriteria.getIdentifier());
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
-                criteria);
+                criteria, watchListCriteria.getIdentifier());
         allObjectsForPointLinkTestCreator.createObjects();
         pointLinksPage = allObjectsForPointLinkTestCreator.openPage();
     }

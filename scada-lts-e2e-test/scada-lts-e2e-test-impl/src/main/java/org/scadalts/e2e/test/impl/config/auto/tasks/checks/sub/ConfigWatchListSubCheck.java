@@ -25,7 +25,7 @@ public class ConfigWatchListSubCheck implements SubCheck {
         logger.info("run... {}", this.getClass().getSimpleName());
         WatchListPage watchListPage = navigationPage.openWatchList();
         for(DataSourcePointCriteria dataSourcePointCriteria: dataSourcePointCriterias) {
-            assertTrue(watchListPage.isVisibleWatchList());
+            assertTrue(watchListPage.isVisibleWatchListTable());
             assertThat(watchListPage, containsObject(dataSourcePointCriteria.getIdentifier()));
         }
     }

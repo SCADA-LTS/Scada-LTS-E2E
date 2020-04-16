@@ -8,9 +8,6 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegisterAggregator;
 import org.scadalts.e2e.test.impl.config.auto.tasks.Task;
 import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.ConfigureTestDataPointDetailsCommand;
-import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.ConfigureTestEventDetectorCommand;
-import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.ConfigureTestGraphicalViewsCommand;
-import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.ConfigureTestPointLinksCommand;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 @RunWith(Parameterized.class)
@@ -20,10 +17,10 @@ public class PerformAutomaticConfiguration {
     public static Task[] data() {
         NavigationPage navigationPage = TestWithPageUtil.preparingTest();
         return new Task[] {
-                new ConfigureTestEventDetectorCommand(navigationPage),
+                //new ConfigureTestEventDetectorCommand(navigationPage),
                 new ConfigureTestDataPointDetailsCommand(navigationPage),
-                new ConfigureTestGraphicalViewsCommand(navigationPage),
-                new ConfigureTestPointLinksCommand(navigationPage)
+                //new ConfigureTestGraphicalViewsCommand(navigationPage),
+                //new ConfigureTestPointLinksCommand(navigationPage)
         };
     }
 

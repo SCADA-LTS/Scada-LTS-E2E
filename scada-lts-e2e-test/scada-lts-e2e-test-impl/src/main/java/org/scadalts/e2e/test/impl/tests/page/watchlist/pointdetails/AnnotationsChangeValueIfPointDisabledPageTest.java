@@ -8,6 +8,7 @@ import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -29,13 +30,14 @@ import static org.junit.Assert.*;
 @RunWith(TestWithPageRunner.class)
 public class AnnotationsChangeValueIfPointDisabledPageTest {
 
-    private CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
-    private CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcesAndPointsPageTestsUtil;
+    private CreatorObject<WatchListPage, WatchListPage> watchListObjectsCreator;
+    private CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcePointObjectsCreator;
     private DataSourcesPage dataSourcesPage;
     private WatchListPage watchListPage;
     private DataSourceCriteria dataSourceCriteria;
     private DataPointCriteria dataPointCriteria;
     private DataSourcePointCriteria dataSourcePointCriteria;
+    private WatchListCriteria watchListCriteria;
 
     @Before
     public void createDataSourceAndPoint() {
@@ -47,19 +49,20 @@ public class AnnotationsChangeValueIfPointDisabledPageTest {
         dataSourcePointCriteria = DataSourcePointCriteria
                 .criteria(dataSourceCriteria, dataPointCriteria);
 
-        dataSourcesAndPointsPageTestsUtil = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
-        dataSourcesPage = dataSourcesAndPointsPageTestsUtil.createObjects();
+        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
+        dataSourcesPage = dataSourcePointObjectsCreator.createObjects();
 
-        watchListTestsUtil = new WatchListObjectsCreator(navigationPage, dataSourcePointCriteria);
-        watchListPage = watchListTestsUtil.createObjects();
+        watchListCriteria = WatchListCriteria.criteria(dataSourcePointCriteria.getIdentifier());
+        watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, watchListCriteria);
+        watchListPage = watchListObjectsCreator.createObjects();
     }
 
     @After
     public void clean() {
-        if(Objects.nonNull(watchListTestsUtil))
-            watchListTestsUtil.deleteObjects();
-        if(Objects.nonNull(dataSourcesAndPointsPageTestsUtil))
-            dataSourcesAndPointsPageTestsUtil.deleteObjects();
+        if(Objects.nonNull(watchListObjectsCreator))
+            watchListObjectsCreator.deleteObjects();
+        if(Objects.nonNull(dataSourcePointObjectsCreator))
+            dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test
@@ -71,6 +74,7 @@ public class AnnotationsChangeValueIfPointDisabledPageTest {
 
         //when:
         watchListPage.reopen()
+                .selectWatchList(watchListCriteria.getIdentifier())
                 .openDataPointDetails(dataSourcePointCriteria.getIdentifier())
                 .setDataPointValue(value)
                 .confirmDataPointValue()
@@ -81,7 +85,6 @@ public class AnnotationsChangeValueIfPointDisabledPageTest {
                 .openDataSourceEditor(dataSourceCriteria.getIdentifier())
                 .openDataPointEditor(dataPointCriteria.getIdentifier())
                 .disableDataPoint(dataPointCriteria.getIdentifier());
-
 
         //then:
         String result = watchListPage.reopen()
@@ -101,6 +104,7 @@ public class AnnotationsChangeValueIfPointDisabledPageTest {
 
         //when:
         watchListPage.reopen()
+                .selectWatchList(watchListCriteria.getIdentifier())
                 .openDataPointDetails(dataSourcePointCriteria.getIdentifier())
                 .setDataPointValue(value)
                 .confirmDataPointValue()
@@ -135,6 +139,7 @@ public class AnnotationsChangeValueIfPointDisabledPageTest {
         expectAnnotations.add(expectAnnotation);
 
         watchListPage.reopen()
+                .selectWatchList(watchListCriteria.getIdentifier())
                 .openDataPointDetails(dataSourcePointCriteria.getIdentifier())
                 .setDataPointValue(value)
                 .confirmDataPointValue()

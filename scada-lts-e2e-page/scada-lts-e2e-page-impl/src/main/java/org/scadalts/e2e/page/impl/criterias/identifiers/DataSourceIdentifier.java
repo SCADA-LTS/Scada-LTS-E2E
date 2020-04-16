@@ -17,10 +17,15 @@ import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.clazz;
 public class DataSourceIdentifier extends AbstractIdentifier {
 
     private final @NonNull DataSourceType type;
+    public final static DataSourceIdentifier EMPTY = new DataSourceIdentifier("", DataSourceType.NONE);
 
     public DataSourceIdentifier(@NonNull String value, @NonNull DataSourceType type) {
         super(value);
         this.type = type;
+    }
+
+    public static DataSourceIdentifier empty() {
+        return EMPTY;
     }
 
     @Override

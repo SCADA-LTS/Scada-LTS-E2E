@@ -43,7 +43,7 @@ public class CreatorObjectFactory {
     }
 
     public static <T extends PageObject<T>, R extends PageObject<R>> CreatorObject<T, R> creatorWatchList(NavigationPage navigationPage,
-                                                                                                 DataSourcePointCriteria... dataSourcePointCriterias)  {
+                                                                                                 WatchListCriteria... dataSourcePointCriterias)  {
         return (CreatorObject<T, R>) new WatchListObjectsCreator(navigationPage, dataSourcePointCriterias);
     }
 }

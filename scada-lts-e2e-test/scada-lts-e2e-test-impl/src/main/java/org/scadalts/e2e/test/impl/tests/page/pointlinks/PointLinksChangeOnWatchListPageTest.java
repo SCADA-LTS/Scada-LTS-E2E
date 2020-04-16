@@ -13,6 +13,7 @@ import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.WatchListIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.EventType;
@@ -74,14 +75,16 @@ public class PointLinksChangeOnWatchListPageTest {
     private DataSourcePointIdentifier targetIdentifier;
     private PointLinksPage pointLinksPage;
     private PointLinkCriteria criteria;
+    private WatchListIdentifier watchListIdentifier;
 
     @Before
     public void setup() {
         sourceIdentifier = source.getIdentifier();
         targetIdentifier = target.getIdentifier();
         criteria = PointLinkCriteria.criteria(source, target, eventType, Script.empty());
+        watchListIdentifier = IdentifierObjectFactory.watchListName();
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
-                criteria);
+                criteria, watchListIdentifier);
         watchListPageSubject = allObjectsForPointLinkTestCreator.createObjects();
         pointLinksPage = allObjectsForPointLinkTestCreator.openPage();
     }
@@ -114,6 +117,7 @@ public class PointLinksChangeOnWatchListPageTest {
 
             //when:
             watchListPageSubject.reopen()
+                    .selectWatchList(watchListIdentifier)
                     .openDataPointValueEditor(sourceIdentifier)
                     .setDataPointValue(sourceIdentifier, value)
                     .confirmDataPointValue(sourceIdentifier)

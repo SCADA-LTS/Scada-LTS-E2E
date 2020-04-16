@@ -8,6 +8,7 @@ import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -37,10 +38,11 @@ public class ChangePointValueOnWatchListPageTest {
         this.valueExpected = valueExpected;
     }
 
-    private static CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
-    private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcesAndPointsPageTestsUtil;
+    private static CreatorObject<WatchListPage, WatchListPage> watchListObjectsCreator;
+    private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcePointObjectsCreator;
     private static DataSourcePointIdentifier dataSourcePointIdentifier;
     private static WatchListPage watchListPageSubject;
+    private static WatchListCriteria criteria;
 
     @BeforeClass
     public static void createDataSourceAndPoint() {
@@ -52,24 +54,26 @@ public class ChangePointValueOnWatchListPageTest {
         dataSourcePointIdentifier = dataSourcePointCriteria.getIdentifier();
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
 
-        dataSourcesAndPointsPageTestsUtil = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
-        dataSourcesAndPointsPageTestsUtil.createObjects();
+        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
+        dataSourcePointObjectsCreator.createObjects();
 
-        watchListTestsUtil = new WatchListObjectsCreator(navigationPage, dataSourcePointCriteria);
-        watchListPageSubject = watchListTestsUtil.createObjects();
+        criteria = WatchListCriteria.criteria(dataSourcePointCriteria.getIdentifier());
+        watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, criteria);
+        watchListPageSubject = watchListObjectsCreator.createObjects();
     }
 
     @AfterClass
     public static void clean() {
-        watchListTestsUtil.deleteObjects();
-        dataSourcesAndPointsPageTestsUtil.deleteObjects();
+        watchListObjectsCreator.deleteObjects();
+        dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test
     public void test_change_point_value_on_watch_list() {
 
          //when:
-        watchListPageSubject.openDataPointValueEditor(dataSourcePointIdentifier)
+        watchListPageSubject.selectWatchList(criteria.getIdentifier())
+                 .openDataPointValueEditor(dataSourcePointIdentifier)
                  .setDataPointValue(dataSourcePointIdentifier, valueExpected)
                  .confirmDataPointValue(dataSourcePointIdentifier)
                  .closeEditorDataPointValue(dataSourcePointIdentifier);
