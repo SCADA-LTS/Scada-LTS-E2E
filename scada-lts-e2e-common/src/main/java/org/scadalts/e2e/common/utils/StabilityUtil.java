@@ -3,10 +3,7 @@ package org.scadalts.e2e.common.utils;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 
-import java.util.function.BiPredicate;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 @Log4j2
 public class StabilityUtil {
@@ -25,6 +22,18 @@ public class StabilityUtil {
             _sleep();
         }
         return arg;
+    }
+
+    public static void waitWhile(BooleanSupplier predicate, Timeout timeout) {
+        long time = System.currentTimeMillis();
+        int i = 0;
+        while(predicate.getAsBoolean()
+                && !_isExceededTimeout(timeout, time)
+                && !_isExceededLimit(i)) {
+            i++;
+            logger.info("try: {}", i);
+            _sleep();
+        }
     }
 
     public static <T> T executeWhile(Predicate<T> predicate, T arg,

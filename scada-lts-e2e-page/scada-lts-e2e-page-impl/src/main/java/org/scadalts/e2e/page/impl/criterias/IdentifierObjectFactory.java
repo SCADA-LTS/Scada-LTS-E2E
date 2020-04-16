@@ -62,7 +62,10 @@ public class IdentifierObjectFactory {
         return new ScriptIdentifier("sc_test_" + unique());
     }
 
+    public static WatchListIdentifier watchListName() {
+        return new WatchListIdentifier("wl_test_" + unique());
+    }
     public static String unique() {
-        return String.valueOf(new Random().nextInt(9999));
+        return String.valueOf(new Random().nextInt(9999999));
     }
 }

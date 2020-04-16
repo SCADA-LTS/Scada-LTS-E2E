@@ -32,7 +32,7 @@ public enum EventHandlerType implements DictionaryObject {
 
     public static EventHandlerType getType(String typeName) {
         return Stream.of(EventHandlerType.values())
-                .filter(a -> a.name.equals(typeName))
+                .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
     }

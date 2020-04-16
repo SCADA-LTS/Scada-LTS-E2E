@@ -42,7 +42,7 @@ public class DeletePointLinksPageTest {
     @BeforeClass
     public static void setup() {
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage());
-        allObjectsForPointLinkTestCreator.getDataSourcesAndPointsPageTestsCreator().createObjects();
+        allObjectsForPointLinkTestCreator.getDataSourcePointObjectsCreator().createObjects();
         pointLinksPageSubject = allObjectsForPointLinkTestCreator.openPage();
         criteria = allObjectsForPointLinkTestCreator.getCriteria();
     }
@@ -64,7 +64,7 @@ public class DeletePointLinksPageTest {
 
     @After
     public void deletePointLink() {
-        allObjectsForPointLinkTestCreator.getPointLinksTestsCreator().deleteObjects();
+        allObjectsForPointLinkTestCreator.getPointLinksObjectsCreator().deleteObjects();
     }
 
     @Test

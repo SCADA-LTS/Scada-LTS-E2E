@@ -243,4 +243,14 @@ public class E2eConfigCli implements E2eConfig {
     public String[] getBrowserOptionsPrefs() {
         return fromE2e.getBrowserOptionsPrefs();
     }
+
+    @Override
+    public boolean isMailSmtpStarttlsMode() {
+        return fromRunApp.isMailSmtpStarttlsMode();
+    }
+
+    @Override
+    public boolean isMailSmtpAuthMode() {
+        return fromRunApp.isMailSmtpAuthMode();
+    }
 }

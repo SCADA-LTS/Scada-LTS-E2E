@@ -7,11 +7,9 @@ import org.scadalts.e2e.common.exceptions.ApplicationIsNotAvailableException;
 import org.scadalts.e2e.common.exceptions.E2eAuthenticationException;
 import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 import org.scadalts.e2e.service.core.services.E2eResponse;
-import org.scadalts.e2e.service.impl.services.CmpServiceObject;
-import org.scadalts.e2e.service.impl.services.LoginServiceObject;
-import org.scadalts.e2e.service.impl.services.PointValueServiceObject;
-import org.scadalts.e2e.service.impl.services.ServiceObjectFactory;
+import org.scadalts.e2e.service.impl.services.*;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
+import org.scadalts.e2e.service.impl.services.datapoint.DataPointPropertiesResponse;
 import org.scadalts.e2e.service.impl.services.login.LoginParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
@@ -20,6 +18,7 @@ import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
 
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import static org.scadalts.e2e.common.utils.ExecutorUtil.executeFunction;
 
@@ -65,19 +64,19 @@ public class TestWithoutPageUtil {
         }
     }
 
-    public static E2eResponse<CmpParams> setValue(CmpParams cmpParams) {
+    public static E2eResponse<CmpParams> setDataPointValue(CmpParams cmpParams) {
         try (CmpServiceObject cmpWebServiceObject = ServiceObjectFactory.newCmpServiceObject()) {
             Optional<E2eResponse<CmpParams>> responseOpt = cmpWebServiceObject.set(cmpParams, TestImplConfiguration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
 
-    public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams, String expectedValue) {
-        return getValue(pointValueParams, expectedValue, TestImplConfiguration.timeout);
+    public static E2eResponse<PointValueResponse> getDataPointValue(PointValueParams pointValueParams, String expectedValue) {
+        return getDataPointValue(pointValueParams, expectedValue, TestImplConfiguration.timeout);
     }
 
-    public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams, String expectedValue,
-                                                           long timeout) {
+    public static E2eResponse<PointValueResponse> getDataPointValue(PointValueParams pointValueParams, String expectedValue,
+                                                                    long timeout) {
         try (PointValueServiceObject pointValueWebServiceObject =
                      ServiceObjectFactory.newPointValueServiceObject()) {
             Optional<E2eResponse<PointValueResponse>> responseOpt = pointValueWebServiceObject.getValue(pointValueParams,
@@ -86,15 +85,38 @@ public class TestWithoutPageUtil {
         }
     }
 
-    public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams) {
-        return getValue(pointValueParams, TestImplConfiguration.timeout);
+    public static E2eResponse<PointValueResponse> getDataPointValue(PointValueParams pointValueParams) {
+        return getDataPointValue(pointValueParams, TestImplConfiguration.timeout);
     }
 
-    public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams, long timeout) {
+    public static E2eResponse<PointValueResponse> getDataPointValue(PointValueParams pointValueParams, long timeout) {
         try (PointValueServiceObject pointValueWebServiceObject =
                      ServiceObjectFactory.newPointValueServiceObject()) {
             Optional<E2eResponse<PointValueResponse>> responseOpt = pointValueWebServiceObject.getValue(pointValueParams,
                     timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<DataPointPropertiesResponse> getDataPointProperties(PointValueParams pointValueParams) {
+        return getDataPointProperties(pointValueParams, TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<DataPointPropertiesResponse> getDataPointProperties(PointValueParams pointValueParams, long timeout) {
+        try (DataPointServiceObject pointValueWebServiceObject =
+                     ServiceObjectFactory.newDataPointServiceObject()) {
+            Optional<E2eResponse<DataPointPropertiesResponse>> responseOpt = pointValueWebServiceObject.getConfigurationByXid(pointValueParams,
+                    timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<DataPointPropertiesResponse> getDataPointProperties(PointValueParams pointValueParams,
+                                                                                  Predicate<DataPointPropertiesResponse> expectedValue) {
+        try (DataPointServiceObject pointValueWebServiceObject =
+                     ServiceObjectFactory.newDataPointServiceObject()) {
+            Optional<E2eResponse<DataPointPropertiesResponse>> responseOpt = pointValueWebServiceObject
+                    .getConfigurationByXid(pointValueParams, expectedValue, TestImplConfiguration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }

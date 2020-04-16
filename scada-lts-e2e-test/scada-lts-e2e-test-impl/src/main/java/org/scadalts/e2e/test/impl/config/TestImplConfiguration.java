@@ -18,4 +18,5 @@ public class TestImplConfiguration {
     public static TestPlan testPlan = TestPlan.ANY;
     public static long timeout = 6001;
     public static String dataSourceNameEventDetectorTest = "datasource_event_detector_test";
+    public static String watchListName = "watch_list_test";
 }

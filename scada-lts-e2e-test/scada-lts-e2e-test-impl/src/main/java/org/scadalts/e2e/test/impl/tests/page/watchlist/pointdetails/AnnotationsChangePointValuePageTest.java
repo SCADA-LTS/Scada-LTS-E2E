@@ -9,6 +9,7 @@ import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
@@ -46,8 +47,8 @@ public class AnnotationsChangePointValuePageTest {
         this.userExpected = E2eConfiguration.userName;
     }
 
-    private static CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
-    private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcesAndPointsPageTestsUtil;
+    private static CreatorObject<WatchListPage, WatchListPage> watchListObjectsCreator;
+    private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcePointObjectsCreator;
     private static DataPointDetailsPage dataPointDetailsPageSubject;
     private static ListLimitedSupportedAddMethod<String> listExpected;
 
@@ -61,11 +62,13 @@ public class AnnotationsChangePointValuePageTest {
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria
                 .criteria(dataSourceCriteria, dataPointCriteria);
 
-        dataSourcesAndPointsPageTestsUtil = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
-        dataSourcesAndPointsPageTestsUtil.createObjects();
+        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
+        dataSourcePointObjectsCreator.createObjects();
 
-        watchListTestsUtil = new WatchListObjectsCreator(navigationPage, dataSourcePointCriteria);
-        dataPointDetailsPageSubject = watchListTestsUtil.createObjects()
+        WatchListCriteria watchListCriteria = WatchListCriteria.criteria(dataSourcePointCriteria.getIdentifier());
+        watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, watchListCriteria);
+        dataPointDetailsPageSubject = watchListObjectsCreator.createObjects()
+                .selectWatchList(watchListCriteria.getIdentifier())
                 .openDataPointDetails(dataSourcePointCriteria.getIdentifier());
 
         int limit = dataPointDetailsPageSubject.getHistoryLimit();
@@ -77,10 +80,10 @@ public class AnnotationsChangePointValuePageTest {
 
     @AfterClass
     public static void clean() {
-        if(Objects.nonNull(watchListTestsUtil))
-            watchListTestsUtil.deleteObjects();
-        if(Objects.nonNull(dataSourcesAndPointsPageTestsUtil))
-            dataSourcesAndPointsPageTestsUtil.deleteObjects();
+        if(Objects.nonNull(watchListObjectsCreator))
+            watchListObjectsCreator.deleteObjects();
+        if(Objects.nonNull(dataSourcePointObjectsCreator))
+            dataSourcePointObjectsCreator.deleteObjects();
         if(Objects.nonNull(listExpected))
             listExpected.clear();
     }

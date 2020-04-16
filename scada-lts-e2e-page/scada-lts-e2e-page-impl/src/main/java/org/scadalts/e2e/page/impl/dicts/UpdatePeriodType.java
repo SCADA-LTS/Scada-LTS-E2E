@@ -25,7 +25,7 @@ public enum UpdatePeriodType implements DictionaryObject {
 
     public static UpdatePeriodType getType(String typeName) {
         return Stream.of(UpdatePeriodType.values())
-                .filter(a -> a.name.equals(typeName))
+                .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
     }

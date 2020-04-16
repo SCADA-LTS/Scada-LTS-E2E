@@ -7,6 +7,7 @@ import org.scadalts.e2e.common.utils.ExecutorUtil;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
@@ -51,7 +52,7 @@ public class ConfigureTestDataPointDetailsCommand implements Command<DataPointDe
         DataPointObjectsCreator dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataPointObjectsCreator.createObjects();
 
-        WatchListObjectsCreator watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, dataSourcePointCriteria);
+        WatchListObjectsCreator watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, WatchListCriteria.criteria(dataSourcePointCriteria.getIdentifier()));
         watchListObjectsCreator.createObjects();
     }
 

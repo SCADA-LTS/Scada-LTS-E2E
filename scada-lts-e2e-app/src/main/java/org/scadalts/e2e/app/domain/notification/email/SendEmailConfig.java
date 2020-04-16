@@ -33,8 +33,8 @@ class SendEmailConfig {
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", true);
-        props.put("mail.smtp.starttls.enable", true);
+        props.put("mail.smtp.auth", config.isMailSmtpAuthMode());
+        props.put("mail.smtp.starttls.enable", config.isMailSmtpStarttlsMode());
         props.put("mail.debug", config.isDebugEmailMode());
         props.put("mail.smtp.connectiontimeout", TIMEOUT);
         props.put("mail.smtp.timeout", TIMEOUT);

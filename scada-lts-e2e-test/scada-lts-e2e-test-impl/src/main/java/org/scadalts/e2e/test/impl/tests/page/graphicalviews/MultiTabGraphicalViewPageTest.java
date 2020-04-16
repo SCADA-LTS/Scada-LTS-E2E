@@ -23,21 +23,22 @@ import static org.junit.Assert.assertEquals;
 public class MultiTabGraphicalViewPageTest {
 
     private final GraphicalViewIdentifier viewName = IdentifierObjectFactory.viewName();
-    private GraphicalViewObjectsCreator graphicalViewTestsUtil;
+    private GraphicalViewObjectsCreator graphicalViewObjectsCreator;
     private GraphicalViewsPage graphicalViewsPageSubject;
 
     @Before
     public void createView() {
         logger.info("viewName: {}", viewName.getValue());
         GraphicalViewCriteria criteria = GraphicalViewCriteria.criteria(viewName);
-        graphicalViewTestsUtil = new GraphicalViewObjectsCreator(TestWithPageUtil.getNavigationPage(), criteria);
-        graphicalViewsPageSubject = graphicalViewTestsUtil.createObjects();
+        graphicalViewObjectsCreator = new GraphicalViewObjectsCreator(TestWithPageUtil.getNavigationPage(), criteria);
+        graphicalViewsPageSubject = graphicalViewObjectsCreator.createObjects();
     }
 
     @After
     public void clean() {
         NavigationPage.closeAllButOnePage();
-        graphicalViewTestsUtil.deleteObjects();
+        GraphicalViewsPage page = graphicalViewObjectsCreator.deleteObjects();
+        page.acceptAlertOnPage();
     }
 
     @Test

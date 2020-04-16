@@ -9,6 +9,7 @@ import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 
 import java.util.Set;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.scadalts.e2e.test.impl.matchers.ContainsObject.containsObject;
 
@@ -24,11 +25,8 @@ public class ConfigWatchListSubCheck implements SubCheck {
         logger.info("run... {}", this.getClass().getSimpleName());
         WatchListPage watchListPage = navigationPage.openWatchList();
         for(DataSourcePointCriteria dataSourcePointCriteria: dataSourcePointCriterias) {
-            if (watchListPage.isVisibleWatchList()) {
-                assertThat(watchListPage, containsObject(dataSourcePointCriteria.getIdentifier()));
-            } else {
-                watchListPage.addToWatchList(dataSourcePointCriteria.getIdentifier());
-            }
+            assertTrue(watchListPage.isVisibleWatchListTable());
+            assertThat(watchListPage, containsObject(dataSourcePointCriteria.getIdentifier()));
         }
     }
 }

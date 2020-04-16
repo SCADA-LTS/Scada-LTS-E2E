@@ -29,7 +29,7 @@ public enum EventType implements DictionaryObject {
 
     public static EventType getType(String typeName) {
         return Stream.of(EventType.values())
-                .filter(a -> a.name.equals(typeName))
+                .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
     }

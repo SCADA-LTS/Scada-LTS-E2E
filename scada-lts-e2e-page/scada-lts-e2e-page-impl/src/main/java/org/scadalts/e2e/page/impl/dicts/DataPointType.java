@@ -24,7 +24,7 @@ public enum DataPointType implements DictionaryObject {
 
     public static DataPointType getType(String typeName) {
         return Stream.of(DataPointType.values())
-                .filter(a -> a.name.equals(typeName))
+                .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
     }

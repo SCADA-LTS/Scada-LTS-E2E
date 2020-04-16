@@ -74,4 +74,6 @@ class E2eConfigDefault implements E2eConfig {
     private String dataPointTargetXid;
     private String dataPointSourceXid;
 
+    private boolean mailSmtpAuthMode;
+    private boolean mailSmtpStarttlsMode;
 }
