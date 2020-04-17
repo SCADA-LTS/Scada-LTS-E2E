@@ -3,6 +3,7 @@ package org.scadalts.e2e.page.core.criterias.identifiers;
 import lombok.Builder;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.xpaths.XpathAttribute;
+import org.scadalts.e2e.page.core.xpaths.XpathExpression;
 import org.scadalts.e2e.page.core.xpaths.XpathOperation;
 
 import static org.scadalts.e2e.page.core.criterias.Tag.each;
@@ -28,14 +29,13 @@ class NodeCriteriaEvery implements NodeCriteria {
     }
 
     @Override
-    public String getXpath() {
+    public XpathExpression getXpath() {
         XpathOperation xpathOperation = XpathOperation.positionMod(sectionSize, everyoneInPosition);
         if(!attribute.isEmpty())
             xpathOperation = xpathOperation.and(equal(attribute));
         if(parentAttribute.isEmpty())
-            return xpath(tag, xpathOperation).expression();
+            return xpath(tag, xpathOperation);
         return xpath(each(), contains(parentAttribute))
-                .add(xpath(tag, xpathOperation))
-                .expression();
+                .add(xpath(tag, xpathOperation));
     }
 }

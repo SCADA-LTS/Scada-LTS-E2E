@@ -3,6 +3,7 @@ package org.scadalts.e2e.test.impl.utils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.json.DataSourceCriteriaJson;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @Log4j2
 public class JsonUtil {
 
-    public static File toJsonFile(List<DataSourceCriteria> criterias, String fileName) {
+    public static File serialize(List<DataSourceCriteria> criterias, String fileName) {
 
         File jsonFile = _preparingFile(fileName);
         List<DataSourceCriteriaJson> jsonCriterias = criterias.stream()
@@ -34,10 +35,14 @@ public class JsonUtil {
         return jsonFile;
     }
 
-    public static List<DataSourceCriteriaJson> toList(String fileName) {
+    public static List<DataSourceCriteriaJson> deserialize(String fileName) {
+        File json = new File(fileName);
+        return deserialize(json);
+    }
+
+    public static List<DataSourceCriteriaJson> deserialize(File json) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
-        File json = new File(fileName);
         try {
             return objectMapper.readValue(json, new TypeReference<List<DataSourceCriteriaJson>>() {});
         } catch (IOException e) {
@@ -57,6 +62,7 @@ public class JsonUtil {
 
     private static void _serialize(File json, List<DataSourceCriteriaJson> criterias) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         objectMapper.writeValue(json, criterias);
     }
 }

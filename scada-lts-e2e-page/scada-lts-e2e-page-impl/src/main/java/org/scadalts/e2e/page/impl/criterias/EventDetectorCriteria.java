@@ -32,6 +32,17 @@ public class EventDetectorCriteria implements CriteriaObject, GetXid {
                 .build();
     }
 
+    public static EventDetectorCriteria change(DataSourcePointCriteria dataSourcePointCriteria, AlarmLevel alarmLevel) {
+        Xid xid = Xid.xidForEventDetector();
+        return EventDetectorCriteria.builder()
+                .xid(xid)
+                .identifier(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE))
+                .alarmLevel(alarmLevel)
+                .eventHandlerCriterias(Collections.emptyList())
+                .dataSourcePointCriteria(dataSourcePointCriteria)
+                .build();
+    }
+
     public static EventDetectorCriteria criteria(EventDetectorIdentifier identifier, AlarmLevel alarmLevel,
                                                  DataSourcePointCriteria dataSourcePointCriteria) {
         Xid xid = Xid.xidForEventDetector();

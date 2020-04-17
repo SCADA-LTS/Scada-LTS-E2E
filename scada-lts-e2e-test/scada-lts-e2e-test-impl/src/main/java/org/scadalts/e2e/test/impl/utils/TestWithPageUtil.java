@@ -5,6 +5,7 @@ import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.common.config.E2eConfigurator;
 import org.scadalts.e2e.common.exceptions.ApplicationIsNotAvailableException;
 import org.scadalts.e2e.common.exceptions.ApplicationTooHighLoadException;
+import org.scadalts.e2e.common.exceptions.E2eAuthenticationException;
 import org.scadalts.e2e.page.core.config.PageObjectConfigurator;
 import org.scadalts.e2e.page.impl.pages.LoginPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -47,6 +48,8 @@ public class TestWithPageUtil {
         if(!isLogged()) {
             _setup();
             _login();
+            if(!isLogged())
+                throw new E2eAuthenticationException(E2eConfiguration.userName);
         }
         return NavigationPage.openPage();
     }

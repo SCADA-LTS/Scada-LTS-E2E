@@ -4,15 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
 @Data
-@ToString
 @Builder
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -41,7 +40,12 @@ public class DataSourceCriteriaJson {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(getIdentifier());
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("name: {0}, type: {1}, enabled: {2}", identifier.getValue(),
+                identifier.getType(), enabled);
     }
 }

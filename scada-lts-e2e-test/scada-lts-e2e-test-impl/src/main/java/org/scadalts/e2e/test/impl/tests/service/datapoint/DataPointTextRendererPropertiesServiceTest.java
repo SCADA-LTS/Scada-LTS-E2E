@@ -32,7 +32,6 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(TestParameterizedWithPageRunner.class)
 public class DataPointTextRendererPropertiesServiceTest {
 
-
     @Parameterized.Parameters(name = "number of test: {index}, text renderer: {0}")
     public static DataPointTextRendererProperties[] data() {
         return new DataPointTextRendererProperties[] {

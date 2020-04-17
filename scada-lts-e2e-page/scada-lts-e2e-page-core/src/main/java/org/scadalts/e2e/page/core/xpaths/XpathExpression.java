@@ -24,14 +24,14 @@ public final class XpathExpression {
     }
 
     public static XpathExpression xpath(Tag tag, XpathExpression exp) {
-        return new XpathExpression("//{0}[{1}]", tag, exp.expression());
+        return new XpathExpression("//{0}[{1}]", tag, exp.toExecute());
     }
 
     public XpathExpression add(XpathExpression xpathExpression) {
         return new XpathExpression("{0}{1}", this, xpathExpression);
     }
 
-    public String expression() {
+    public String toExecute() {
         return MessageFormat.format(".{0}", this);
     }
 

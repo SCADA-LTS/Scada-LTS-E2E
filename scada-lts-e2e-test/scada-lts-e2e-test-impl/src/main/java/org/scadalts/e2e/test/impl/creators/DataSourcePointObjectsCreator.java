@@ -27,7 +27,7 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
     private final NavigationPage navigationPage;
     private final Map<DataSourceCriteria, DataPointObjectsCreator> dataSources;
 
-    private static final NodeCriteria ALL_DATA_SOURCES = NodeCriteria.every(1, 0, tr(), clazz("row"));
+    private static final NodeCriteria ALL_DATA_SOURCES = NodeCriteria.every(tr(), clazz("row"));
 
     @Getter
     private DataSourcesPage dataSourcesPage;
@@ -77,8 +77,8 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
 
     public static DataSourcesPage deleteAllDataSourcesTest(NavigationPage navigationPage) {
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(new DataSourceIdentifier("ds_test",
-                DataSourceType.VIRTUAL_DATA_SOURCE), tr(), clazz("row"));
+        NodeCriteria nodeCriteria = NodeCriteria.exactlyTypeAny(new DataSourceIdentifier("ds_test",
+                DataSourceType.NONE), tr(), clazz("row"));
         dataSourcesPage.deleteAllDataSourcesMatching(nodeCriteria);
         return dataSourcesPage;
     }

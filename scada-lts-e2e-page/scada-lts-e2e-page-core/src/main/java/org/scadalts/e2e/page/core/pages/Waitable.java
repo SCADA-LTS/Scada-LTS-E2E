@@ -19,7 +19,7 @@ interface Waitable<T extends PageObject<T>> extends GetPage<T> {
     }
 
     default T waitForObject(NodeCriteria nodeCriteria) {
-        waitWhile($(By.xpath(nodeCriteria.getXpath())), not(Condition.visible));
+        waitWhile($(By.xpath(nodeCriteria.getXpath().toExecute())), not(Condition.visible));
         return getPage();
     }
 

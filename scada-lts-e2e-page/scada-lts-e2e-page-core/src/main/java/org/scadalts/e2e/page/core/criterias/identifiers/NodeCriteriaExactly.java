@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.scadalts.e2e.common.dicts.DictionaryObject;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.xpaths.XpathAttribute;
+import org.scadalts.e2e.page.core.xpaths.XpathExpression;
 import org.scadalts.e2e.page.core.xpaths.XpathOperation;
 
 import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.text;
@@ -33,7 +34,7 @@ class NodeCriteriaExactly implements NodeCriteria {
     }
 
     @Override
-    public String getXpath() {
+    public XpathExpression getXpath() {
         XpathOperation xpathOperation = XpathOperation.contains(text(identifier1.getValue()));
         if(!identifier1.equals(identifier2))
             xpathOperation = xpathOperation.and(contains(text(identifier2.getValue())));
@@ -41,6 +42,6 @@ class NodeCriteriaExactly implements NodeCriteria {
             xpathOperation = xpathOperation.and(contains(text(type.getName())));
         if(!xpathAttribute.isEmpty())
             xpathOperation = xpathOperation.and(contains(xpathAttribute));
-        return xpath(tag, xpathOperation).expression();
+        return xpath(tag, xpathOperation);
     }
 }

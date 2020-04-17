@@ -3,12 +3,17 @@ package org.scadalts.e2e.page.core.criterias.identifiers;
 import org.scadalts.e2e.common.dicts.DictionaryObject;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.xpaths.XpathAttribute;
+import org.scadalts.e2e.page.core.xpaths.XpathExpression;
+
+import static org.scadalts.e2e.page.core.criterias.Tag.each;
+import static org.scadalts.e2e.page.core.xpaths.XpathExpression.xpath;
+import static org.scadalts.e2e.page.core.xpaths.XpathOperation.contains;
 
 public interface NodeCriteria {
 
-    String getXpath();
+    XpathExpression getXpath();
 
-    NodeCriteria EMPTY = () -> "";
+    NodeCriteria EMPTY = () -> xpath(each(), contains(XpathAttribute.empty()));
 
     static NodeCriteria exactly(IdentifierObject identifier, Tag tag) {
         return new NodeCriteriaExactly(identifier, identifier, identifier.getType(), tag, XpathAttribute.empty());

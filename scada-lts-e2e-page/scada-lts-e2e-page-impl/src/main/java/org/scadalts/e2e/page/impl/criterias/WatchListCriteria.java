@@ -29,4 +29,9 @@ public class WatchListCriteria implements CriteriaObject {
     public static WatchListCriteria criteria(DataSourcePointIdentifier... identifier) {
         return new WatchListCriteria(IdentifierObjectFactory.watchListName(), identifier);
     }
+
+    public static WatchListCriteria criteria(WatchListIdentifier identifier,
+                                             DataSourcePointIdentifier... dataSourcePointIdentifiers) {
+        return new WatchListCriteria(identifier, dataSourcePointIdentifiers);
+    }
 }

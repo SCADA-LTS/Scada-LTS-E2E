@@ -30,7 +30,6 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(TestParameterizedWithPageRunner.class)
 public class DataPointLoggingPropertiesServiceTest {
 
-
     @Parameterized.Parameters(name = "number of test: {index}, logging: {0}")
     public static DataPointLoggingProperties[] data() {
         return new DataPointLoggingProperties[] {

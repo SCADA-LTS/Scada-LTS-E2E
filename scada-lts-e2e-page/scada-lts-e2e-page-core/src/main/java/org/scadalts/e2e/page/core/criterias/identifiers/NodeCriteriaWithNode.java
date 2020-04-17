@@ -3,6 +3,7 @@ package org.scadalts.e2e.page.core.criterias.identifiers;
 import lombok.Builder;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.xpaths.XpathAttribute;
+import org.scadalts.e2e.page.core.xpaths.XpathExpression;
 
 import static org.scadalts.e2e.page.core.xpaths.XpathExpression.xpath;
 import static org.scadalts.e2e.page.core.xpaths.XpathOperation.contains;
@@ -21,7 +22,7 @@ public class NodeCriteriaWithNode implements NodeCriteria {
     }
 
     @Override
-    public String getXpath() {
-        return xpath(parent, xpath(kind, contains(kindAttribute))).expression();
+    public XpathExpression getXpath() {
+        return xpath(parent, xpath(kind, contains(kindAttribute)));
     }
 }

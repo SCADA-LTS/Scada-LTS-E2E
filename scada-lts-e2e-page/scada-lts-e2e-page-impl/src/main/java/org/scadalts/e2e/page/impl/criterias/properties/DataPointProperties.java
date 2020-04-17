@@ -6,6 +6,7 @@ import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.dicts.EngineeringUnit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -77,6 +78,16 @@ public class DataPointProperties {
                 .build();
     }
 
+    public static DataPointProperties properties(EventDetectorCriteria... eventDetectorCriterias) {
+        return DataPointProperties.builder()
+                .chartColour(null)
+                .chartRenderProperties(DataPointChartRenderProperties.none())
+                .engineeringUnits(EngineeringUnit.VolumetricFlow.LITERS_PER_SECOND)
+                .loggingProperties(DataPointLoggingProperties.noChange())
+                .textRendererProperties(DataPointTextRendererProperties.plain())
+                .eventDetectors(Arrays.asList(eventDetectorCriterias))
+                .build();
+    }
 
     public boolean isEmpty() {
         return this == EMPTY;

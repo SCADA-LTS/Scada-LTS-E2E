@@ -25,31 +25,35 @@ public class EventDetectorObjectsCreator implements CreatorObject<DataPointPrope
     @Override
     public DataPointPropertiesPage deleteObjects() {
         DataPointPropertiesPage dataPointPropertiesPage = openPage();
-        if(dataPointPropertiesPage.containsObject(eventDetectorCriteria.getIdentifier())) {
-            logger.info("delete object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
-                    eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
-                    eventDetectorCriteria.getClass().getSimpleName());
-            dataPointPropertiesPage.deleteEventDetector(eventDetectorCriteria)
-                    .saveDataPoint();
-        }
+
+            if (dataPointPropertiesPage.containsObject(eventDetectorCriteria.getIdentifier())) {
+                logger.info("delete object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
+                        eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
+                        eventDetectorCriteria.getClass().getSimpleName());
+                dataPointPropertiesPage.deleteEventDetector(eventDetectorCriteria)
+                        .saveDataPoint();
+            }
+
         return dataPointPropertiesPage;
     }
 
     @Override
     public DataPointPropertiesPage createObjects() {
         DataPointPropertiesPage dataPointPropertiesPage = openPage();
-        if(!dataPointPropertiesPage.containsObject(eventDetectorCriteria.getIdentifier())) {
-            logger.info("create object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
-                    eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
-                    eventDetectorCriteria.getClass().getSimpleName());
-            dataPointPropertiesPage.selectEventDetectorType(eventDetectorCriteria.getIdentifier().getType())
-                    .addEventDetector()
-                    .setEventDetectorAlias(eventDetectorCriteria.getIdentifier())
-                    .setEventDetectorXid(eventDetectorCriteria.getXid())
-                    .selectEventDetectorAlarmLevel(eventDetectorCriteria.getAlarmLevel())
-                    .saveDataPoint();
 
-        }
+            if (!dataPointPropertiesPage.containsObject(eventDetectorCriteria.getIdentifier())) {
+                logger.info("create object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
+                        eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
+                        eventDetectorCriteria.getClass().getSimpleName());
+                dataPointPropertiesPage.selectEventDetectorType(eventDetectorCriteria.getIdentifier().getType())
+                        .addEventDetector()
+                        .setEventDetectorAlias(eventDetectorCriteria.getIdentifier())
+                        .setEventDetectorXid(eventDetectorCriteria.getXid())
+                        .selectEventDetectorAlarmLevel(eventDetectorCriteria.getAlarmLevel())
+                        .saveDataPoint();
+
+            }
+
         return dataPointPropertiesPage;
     }
 

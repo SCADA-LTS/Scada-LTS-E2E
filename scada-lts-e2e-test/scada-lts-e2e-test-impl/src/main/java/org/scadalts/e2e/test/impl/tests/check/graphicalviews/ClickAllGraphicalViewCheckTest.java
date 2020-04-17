@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.impl.tests.check.graphicalviews;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +40,12 @@ public class ClickAllGraphicalViewCheckTest {
 
     @BeforeClass
     public static void setup() {
-        graphicalViewsPage.reopen().acceptAlertOnPage();
+        graphicalViewsPage.reopen();
+    }
+
+    @AfterClass
+    public static void close() {
+        graphicalViewsPage.acceptAlertOnPage();
     }
 
     @Test
@@ -48,11 +54,14 @@ public class ClickAllGraphicalViewCheckTest {
         boolean selected = graphicalViewsPage
                 .selectViewByName(viewName)
                 .waitOnLoadedBackground()
-                .printLoadingMeasure(MessageFormat.format("view: id: {0}, name: {1}", id, viewName))
+                .printLoadingMeasure(MessageFormat.format("view: id: {0}, name: {1}", id, viewName.getValue()))
                 .isSelectedView(viewName);
 
         //then:
-        assertTrue(selected);
+        assertTrue(_genMsg(viewName, id), selected);
     }
 
+    private static String _genMsg(GraphicalViewIdentifier identifier, String id) {
+        return MessageFormat.format("Expected view selected: {0}, id: {1}", identifier.getValue(), id);
+    }
 }
