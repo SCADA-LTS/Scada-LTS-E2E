@@ -19,8 +19,7 @@
                 <Pattern>${sys:FILE_LOG_PATTERN}</Pattern>
             </PatternLayout>
             <Policies>
-                <!--SizeBasedTriggeringPolicy size="10 MB" /-->
-                <CronTriggeringPolicy schedule="0 */5 * * * ?"/>
+                <CronTriggeringPolicy schedule="0 0 * * * ?"/>
                 <OnStartupTriggeringPolicy />
             </Policies>
             <DefaultRolloverStrategy>
