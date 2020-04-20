@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ChangeJson {
 
-    private String type;
-    private String startValue;
+    private String type = "";
+    private String startValue = "";
 
 }

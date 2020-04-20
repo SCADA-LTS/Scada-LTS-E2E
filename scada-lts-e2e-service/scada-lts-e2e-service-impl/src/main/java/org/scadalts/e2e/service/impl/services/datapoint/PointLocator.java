@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PointLocator {
 
-    private String type;
-    private ChangeJson changeType;
-    private boolean settable;
+    private String type = "";
+    private ChangeJson changeType = new ChangeJson();
+    private boolean settable = false;
 }

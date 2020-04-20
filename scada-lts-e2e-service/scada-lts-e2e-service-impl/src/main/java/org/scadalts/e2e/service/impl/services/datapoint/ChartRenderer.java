@@ -15,9 +15,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ChartRenderer {
 
-    private String type;
-    private int numberOfPeriods;
-    private String timePeriodType;
-    private boolean includeSum;
-    private int limit;
+    private String type = "";
+    private int numberOfPeriods = 0;
+    private String timePeriodType = "";
+    private boolean includeSum = false;
+    private int limit = 0;
 }

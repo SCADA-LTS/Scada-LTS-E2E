@@ -89,6 +89,17 @@ public class DataPointProperties {
                 .build();
     }
 
+    public static DataPointProperties properties(List<EventDetectorCriteria> eventDetectorCriterias) {
+        return DataPointProperties.builder()
+                .chartColour(null)
+                .chartRenderProperties(DataPointChartRenderProperties.none())
+                .engineeringUnits(EngineeringUnit.VolumetricFlow.LITERS_PER_SECOND)
+                .loggingProperties(DataPointLoggingProperties.noChange())
+                .textRendererProperties(DataPointTextRendererProperties.plain())
+                .eventDetectors(eventDetectorCriterias)
+                .build();
+    }
+
     public boolean isEmpty() {
         return this == EMPTY;
     }

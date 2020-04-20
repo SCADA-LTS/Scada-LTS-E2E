@@ -39,31 +39,31 @@ public class EventDetectorPropertiesServiceTest {
     private static DataSourcePointCriteria DATA_SOURCE_POINT_CRITERIA = DataSourcePointCriteria.criteria(DATA_SOURCE_CRITERIA, DATA_POINT_CRITERIA);
 
 
-    @Parameterized.Parameters(name = "number of test: {index}, logging: {0}")
+    @Parameterized.Parameters(name = "number of test: {index}, detector: {0}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
-                {new EventDetectorCriteria[] {
+                {Arrays.asList(new EventDetectorCriteria[] {
                         EventDetectorCriteria.changeAlarmLevelNone(DATA_SOURCE_POINT_CRITERIA),
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.INFORMATION),
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.URGENT),
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.LIFE_SAFETY),
-                }},
-                {new EventDetectorCriteria[] {
+                })},
+                {Arrays.asList(new EventDetectorCriteria[] {
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.CRITICAL),
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.INFORMATION),
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.NONE),
-                }},
-                {new EventDetectorCriteria[] {
+                })},
+                {Arrays.asList(new EventDetectorCriteria[] {
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.INFORMATION),
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.CRITICAL)
-                }}
+                })}
             });
     }
 
     private final DataPointProperties dataPointProperties;
     private static NavigationPage navigationPage;
 
-    public EventDetectorPropertiesServiceTest(EventDetectorCriteria[] eventDetectorCriterias) {
+    public EventDetectorPropertiesServiceTest(List<EventDetectorCriteria> eventDetectorCriterias) {
         dataPointProperties = DataPointProperties.properties(eventDetectorCriterias);
     }
 
@@ -84,7 +84,7 @@ public class EventDetectorPropertiesServiceTest {
 
     @AfterClass
     public static void cleanForAll() {
-       //dataSourcePointObjectsCreator.deleteObjects();
+       dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Before
