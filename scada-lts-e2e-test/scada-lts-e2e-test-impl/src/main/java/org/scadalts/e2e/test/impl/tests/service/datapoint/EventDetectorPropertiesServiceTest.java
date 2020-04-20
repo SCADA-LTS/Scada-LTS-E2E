@@ -74,7 +74,8 @@ public class EventDetectorPropertiesServiceTest {
 
     @BeforeClass
     public static void setupForAll() {
-        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(DATA_SOURCE_CRITERIA, DATA_POINT_CRITERIA);
+        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(DATA_SOURCE_CRITERIA,
+                DATA_POINT_CRITERIA);
         navigationPage = TestWithPageUtil.getNavigationPage();
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcePointObjectsCreator.createObjects();
@@ -89,21 +90,21 @@ public class EventDetectorPropertiesServiceTest {
     @Before
     public void setup() {
 
-        DataPointObjectsCreator dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage, DATA_SOURCE_CRITERIA, DATA_POINT_CRITERIA);
+        DataPointObjectsCreator dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage,
+                DATA_SOURCE_CRITERIA, DATA_POINT_CRITERIA);
         dataPointObjectsCreator.createObjects();
         for(EventDetectorCriteria eventDetectorCriteria: dataPointProperties.getEventDetectors()) {
             EventDetectorObjectsCreator eventDetectorObjectsCreator = new EventDetectorObjectsCreator(navigationPage,
                     eventDetectorCriteria);
-            eventDetectorObjectsCreator.createObjects();
             eventDetectorObjectsCreators.add(eventDetectorObjectsCreator);
+            eventDetectorObjectsCreator.createObjects();
         }
     }
 
     @After
     public void clean() {
-        eventDetectorObjectsCreators.stream()
-                .peek(EventDetectorObjectsCreator::deleteObjects)
-                .close();
+        eventDetectorObjectsCreators
+                .forEach(EventDetectorObjectsCreator::deleteObjects);
         eventDetectorObjectsCreators.clear();
     }
 
