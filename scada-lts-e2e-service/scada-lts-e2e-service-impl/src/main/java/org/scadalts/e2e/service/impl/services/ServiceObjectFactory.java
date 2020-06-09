@@ -29,4 +29,12 @@ public interface ServiceObjectFactory {
                 .baseUrl(E2eConfiguration.baseUrl)
                 .build();
     }
+
+    static StorungsAndAlarmsServiceObject newStorungsAndAlarmsServiceObject() {
+        return StorungsAndAlarmsServiceObject.builder()
+                .client(ClientBuilder.newClient()
+                        .register(new JacksonJsonProvider()))
+                .baseUrl(E2eConfiguration.baseUrl)
+                .build();
+    }
 }

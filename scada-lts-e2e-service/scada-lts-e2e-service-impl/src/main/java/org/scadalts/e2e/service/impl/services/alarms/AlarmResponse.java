@@ -3,6 +3,7 @@ package org.scadalts.e2e.service.impl.services.alarms;
 import lombok.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 @Getter
 @Builder
@@ -14,5 +15,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AlarmResponse {
 
     private String id;
+    private Date activationTime;
+    private Date inactivationTime;
+    private String name;
+    private String level;
 
 }
