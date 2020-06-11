@@ -19,10 +19,10 @@
                 <Pattern>${sys:FILE_LOG_PATTERN}</Pattern>
             </PatternLayout>
             <Policies>
+                <CronTriggeringPolicy schedule="0 0 * * *  ?"/>
                 <SizeBasedTriggeringPolicy size="10 MB" />
                 <OnStartupTriggeringPolicy />
             </Policies>
-            <CronTriggeringPolicy schedule="0 0 * * *  ?"/>
             <DefaultRolloverStrategy>
                 <Delete basePath="${sys:LOG_PATH}" maxDepth="2">
                     <IfFileName glob="*/e2e-*.log.gz" />

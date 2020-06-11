@@ -39,7 +39,9 @@ public class GetLiveAlarmsServiceTest {
     @Parameterized.Parameters(name = "{index}: offset: {0}, limit: {1}")
     public static Object[][] data() {
         return new Object[][] {
-                {0, 10}
+                {0, 10},
+                {0, 5},
+                {0, 2}
         };
     }
 
@@ -129,5 +131,9 @@ public class GetLiveAlarmsServiceTest {
             assertEquals(200, getResponse.getStatus());
             assertNotNull(getResult);
             assertEquals(limit, getResult.size());
+
+            for (AlarmResponse alarmResponse: getResult) {
+
+            }
     }
 }
