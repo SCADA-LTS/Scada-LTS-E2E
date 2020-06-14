@@ -189,6 +189,13 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         return this;
     }
 
+    public WatchListPage setValue(DataSourcePointIdentifier identifier, String value) {
+        return openDataPointValueEditor(identifier)
+                .setDataPointValue(identifier,  value)
+                .confirmDataPointValue(identifier)
+                .closeEditorDataPointValue(identifier);
+    }
+
     @Override
     public boolean containsObject(IdentifierObject identifier) {
         ElementsCollection watchLists = waitWhile(watchListSelect, not(Condition.visible)).getSelectedOptions();

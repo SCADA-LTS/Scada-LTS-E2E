@@ -14,6 +14,14 @@ public class IdentifierObjectFactory {
         return new DataPointIdentifier("dp_test_" + unique(),dataPointType);
     }
 
+    public static DataPointIdentifier dataPointAlarmName(DataPointType dataPointType) {
+        return new DataPointIdentifier("Te AL Test_" + unique(),dataPointType);
+    }
+
+    public static DataPointIdentifier dataPointStorungName(DataPointType dataPointType) {
+        return new DataPointIdentifier("Te ST Test_" + unique(),dataPointType);
+    }
+
     public static DataPointIdentifier dataPointDeleteName(DataPointType dataPointType) {
         return new DataPointIdentifier("dp_testDelete_" + unique(),dataPointType);
     }

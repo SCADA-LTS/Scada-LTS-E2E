@@ -71,8 +71,9 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
     }
 
     private E2eResponse<List<AlarmResponse>> _getLiveAlarms(PaginationParams paginationParams) {
-        String endpoint = MessageFormat.format("{0}/api/alarms/live/{1}/{2}", baseUrl, paginationParams.getOffset(),
-                paginationParams.getLimit());
+        String endpoint = MessageFormat.format("{0}/api/alarms/live/{1}/{2}", baseUrl,
+                String.valueOf(paginationParams.getOffset()),
+                String.valueOf(paginationParams.getLimit()));
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.debug("endpoint: {}", endpoint);
         logger.debug("cookie: {}", cookie);
@@ -86,8 +87,9 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
 
     private E2eResponse<List<AlarmResponse>> _getHistoryAlarms(AlarmParams alarmParams) {
         String endpoint = MessageFormat.format("{0}/api/alarms/history/{1}/{2}/{3}/{4}", baseUrl,
-                alarmParams.getDateDay(), alarmParams.getFilter(), alarmParams.getPaginationParams().getOffset(),
-                alarmParams.getPaginationParams().getLimit());
+                alarmParams.getDateDay(), alarmParams.getFilter(),
+                String.valueOf(alarmParams.getPaginationParams().getOffset()),
+                String.valueOf(alarmParams.getPaginationParams().getLimit()));
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.debug("endpoint: {}", endpoint);
         logger.debug("cookie: {}", cookie);

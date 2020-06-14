@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        GetLiveAlarmsServiceTest.class
+        GetAlarmsLivePaginationServiceTest.class
 })
 public class StorungsAndAlarmsServiceTestsSuite {
 }
