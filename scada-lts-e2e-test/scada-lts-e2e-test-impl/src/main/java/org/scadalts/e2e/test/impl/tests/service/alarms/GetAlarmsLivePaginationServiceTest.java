@@ -35,7 +35,8 @@ public class GetAlarmsLivePaginationServiceTest {
         return new Object[][] {
                 {0, 10},
                 {2, 8},
-                {4, 6}
+                {4, 6},
+                {5, 5}
         };
     }
 

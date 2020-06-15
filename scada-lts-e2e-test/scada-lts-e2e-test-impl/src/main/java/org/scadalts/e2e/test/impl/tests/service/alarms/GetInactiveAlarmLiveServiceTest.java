@@ -66,7 +66,7 @@ public class GetInactiveAlarmLiveServiceTest {
         DataSourcePointIdentifier dataSourcePointAlarmIdentifier = new DataSourcePointIdentifier(dataSourceCriteria.getIdentifier(),
                 alarmIdentifier);
         DataSourcePointIdentifier dataSourcePointStorungIdentifier = new DataSourcePointIdentifier(dataSourceCriteria.getIdentifier(),
-                alarmIdentifier);
+                stroungIdentifier);
 
         watchListObjectsCreator = new WatchListObjectsCreator(navigationPage,
                 WatchListCriteria.criteria(dataSourcePointAlarmIdentifier, dataSourcePointStorungIdentifier));
