@@ -46,21 +46,32 @@ public class GetActiveAlarmLiveServiceTest {
 
     private final DataPointIdentifier dataPointIdentifier;
     private final AlarmLevel alarmLevel;
+    private List<AlarmResponse> alarmResponse;
 
     public GetActiveAlarmLiveServiceTest(DataPointIdentifier identifier, AlarmLevel alarmLevel) {
         this.dataPointIdentifier = identifier;
         this.alarmLevel = alarmLevel;
-    }
-
-    private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
-    private WatchListObjectsCreator watchListObjectsCreator;
-    private List<AlarmResponse> alarmResponse;
-
-    @Before
-    public void setup() {
 
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         DataPointCriteria point = DataPointCriteria.noChange(dataPointIdentifier, "0");
+
+
+        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        DataSourcePointObjectsCreator dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourceCriteria, point);
+        dataSourcePointObjectsCreator.createObjects();
+
+        DataSourcePointIdentifier dataSourcePointIdentifier = new DataSourcePointIdentifier(dataSourceCriteria.getIdentifier(),
+                dataPointIdentifier);
+
+        WatchListObjectsCreator watchListObjectsCreator = new WatchListObjectsCreator(navigationPage,
+                WatchListCriteria.criteria(dataSourcePointIdentifier));
+        watchListObjectsCreator.createObjects();
+
+        navigationPage.openWatchList()
+                .setValue(dataSourcePointIdentifier, "1");
+
+        watchListObjectsCreator.deleteObjects();
+        dataSourcePointObjectsCreator.deleteObjects();
 
         PaginationParams paginationParams = PaginationParams.builder()
                 .limit(9999)
@@ -68,60 +79,39 @@ public class GetActiveAlarmLiveServiceTest {
                 .build();
 
         alarmResponse = getAlarms(dataPointIdentifier, paginationParams);
-        assertEquals(0, alarmResponse.size());
-
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourceCriteria, point);
-        dataSourcePointObjectsCreator.createObjects();
-
-        alarmResponse = getAlarms(dataPointIdentifier, paginationParams);
-        assertEquals(0, alarmResponse.size());
-
-        DataSourcePointIdentifier identifier = new DataSourcePointIdentifier(dataSourceCriteria.getIdentifier(),
-                dataPointIdentifier);
-
-        watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, WatchListCriteria.criteria(identifier));
-        watchListObjectsCreator.createObjects();
-
-        navigationPage.openWatchList()
-                .setValue(identifier, "1");
-
-        alarmResponse = getAlarms(dataPointIdentifier, paginationParams);
-        assertEquals(1, alarmResponse.size());
     }
 
-    @After
-    public void clean() {
-
-        watchListObjectsCreator.deleteObjects();
-        dataSourcePointObjectsCreator.deleteObjects();
+    @Test
+    public void test_alarm_response_size_then_1() {
+        //then:
+        assertEquals(1, alarmResponse.size());
     }
 
     @Test
     public void test_alarm_response_activation_time_then_not_empty() {
         //then:
-        assertEquals(1, alarmResponse.size());
+        assertEquals(2, alarmResponse.size());
         assertNotEquals("", alarmResponse.get(0).getActivationTime());
     }
 
     @Test
     public void test_alarm_response_inactivation_time_then_empty() {
         //then:
-        assertEquals(1, alarmResponse.size());
+        assertEquals(2, alarmResponse.size());
         assertEquals("", alarmResponse.get(0).getInactivationTime());
     }
 
     @Test
     public void test_alarm_response_name_then_point_name() {
         //then:
-        assertEquals(1, alarmResponse.size());
+        assertEquals(2, alarmResponse.size());
         assertEquals(dataPointIdentifier.getValue(), alarmResponse.get(0).getName());
     }
 
     @Test
     public void test_alarm_response_level_then_AlarmLevel() {
         //then:
-        assertEquals(1, alarmResponse.size());
+        assertEquals(2, alarmResponse.size());
         assertEquals(alarmLevel.getId(), alarmResponse.get(0).getLevel());
     }
 }
