@@ -17,6 +17,7 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifie
 import org.scadalts.e2e.page.impl.criterias.identifiers.WatchListIdentifier;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
 
+import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.or;
 import static com.codeborne.selenide.Selenide.$;
@@ -114,6 +115,10 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     public boolean isVisibleWatchList(WatchListIdentifier identifier) {
         delay();
         return containsObject(identifier);
+    }
+
+    public boolean isVisibleWatchListUnit(DataSourcePointIdentifier identifier) {
+        return getWatchListText().contains(identifier.getValue());
     }
 
     public boolean isVisibleWatchListTable() {

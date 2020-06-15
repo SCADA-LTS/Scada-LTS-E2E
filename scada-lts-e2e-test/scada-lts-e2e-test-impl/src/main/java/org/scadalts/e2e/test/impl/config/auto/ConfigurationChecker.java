@@ -15,11 +15,11 @@ public class ConfigurationChecker {
     public static Task[] data() {
         NavigationPage navigationPage = TestWithPageUtil.preparingTest();
         return new Task[] {
-                new DataSourceRemovedOrDisabledCheck(navigationPage),
-                new ConfigForTestEventDetectorCheck(navigationPage),
-                new ConfigForTestDataPointDetailsCheck(navigationPage),
-                new ConfigForTestGraphicalViewsCheck(navigationPage),
-                new ConfigForTestPointLinksCheck(navigationPage)
+            new DataSourceRemovedOrDisabledCheck(navigationPage),
+            new ConfigForTestEventDetectorCheck(navigationPage),
+            new ConfigForTestDataPointDetailsCheck(navigationPage),
+            new ConfigForTestGraphicalViewsCheck(navigationPage),
+            new ConfigForTestPointLinksCheck(navigationPage)
         };
     }
 

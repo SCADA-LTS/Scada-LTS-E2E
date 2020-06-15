@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>17.1.0-SNAPSHOT</version>
+    <version>18.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -850,7 +850,7 @@
                 <test.e2e.auth-type>FORM</test.e2e.auth-type>
                 <test.e2e.project-version>${project.version}</test.e2e.project-version>
                 <test.e2e.env>dev-local</test.e2e.env>
-                <test.e2e.test-plan>CHECK</test.e2e.test-plan>
+                <test.e2e.test-plan>ANY</test.e2e.test-plan>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
                 <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
@@ -870,7 +870,7 @@
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
                 <test.e2e.waiting-after-set-point-value-ms>30000</test.e2e.waiting-after-set-point-value-ms>
                 <test.e2e.graphical-view-name>graphicalview_change_alarm_list_test</test.e2e.graphical-view-name>
-                <test.e2e.classes-test-refs>org.scadalts.e2e.test.impl.config.auto.PerformAutomaticConfiguration;org.scadalts.e2e.test.impl.config.auto.ConfigurationChecker</test.e2e.classes-test-refs>
+                <test.e2e.classes-test-refs>org.scadalts.e2e.test.impl.tests.service.alarms.StorungsAndAlarmsServiceTestsSuite</test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>DP_400344</test.e2e.data-point-to-change-xid>
                 <test.e2e.data-point-to-read-xid>DP_077083</test.e2e.data-point-to-read-xid>
                 <test.e2e.data-source-name>datasource_change_point_in_details_test</test.e2e.data-source-name>
@@ -895,7 +895,7 @@
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
                 <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
-                <test.e2e.custom-name>-check</test.e2e.custom-name>
+                <test.e2e.custom-name>-storungs</test.e2e.custom-name>
             </properties>
         </profile>
     </profiles>

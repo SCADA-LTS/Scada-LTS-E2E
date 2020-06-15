@@ -5,7 +5,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
@@ -15,27 +14,21 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifie
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
 import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
-import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
-import org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
-import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.getAlarms;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(TestWithPageRunner.class)
 public class GetInactiveAlarmLiveServiceTest {
 
     private static DataPointIdentifier alarmIdentifier;
@@ -50,6 +43,7 @@ public class GetInactiveAlarmLiveServiceTest {
 
     @BeforeClass
     public static void setup() {
+
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
 
         alarmIdentifier = IdentifierObjectFactory.dataPointAlarmName(DataPointType.BINARY);
@@ -72,6 +66,7 @@ public class GetInactiveAlarmLiveServiceTest {
                 WatchListCriteria.criteria(dataSourcePointAlarmIdentifier, dataSourcePointStorungIdentifier));
         watchListObjectsCreator.createObjects();
 
+        //Simulate the change of value on the points 0 -> 1 -> 0
         navigationPage.openWatchList()
                 .setValue(dataSourcePointAlarmIdentifier, "1")
                 .setValue(dataSourcePointAlarmIdentifier, "0")
@@ -86,14 +81,15 @@ public class GetInactiveAlarmLiveServiceTest {
         dataSourcePointObjectsCreator.deleteObjects();
     }
 
+    //After aggregation alarms
     @Test
-    public void test_response_size_then_1_for_alarm() {
+    public void test_response_size_then_2_for_alarm() {
 
         //given:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
-        assertEquals(1, alarmResponse.size());
+        assertEquals(2, alarmResponse.size());
     }
 
     @Test
@@ -103,19 +99,17 @@ public class GetInactiveAlarmLiveServiceTest {
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
-        assertEquals(2, alarmResponse.size());
         assertNotEquals("", alarmResponse.get(0).getActivationTime());
     }
 
     @Test
-    public void test_response_inactivation_time_then_empty_for_alarm() {
+    public void test_response_inactivation_time_then_not_empty_for_alarm() {
 
         //given:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
-        assertEquals(2, alarmResponse.size());
-        assertEquals("", alarmResponse.get(0).getInactivationTime());
+        assertNotEquals("", alarmResponse.get(0).getInactivationTime());
     }
 
     @Test
@@ -125,7 +119,6 @@ public class GetInactiveAlarmLiveServiceTest {
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
-        assertEquals(2, alarmResponse.size());
         assertEquals(alarmIdentifier.getValue(), alarmResponse.get(0).getName());
     }
 
@@ -136,18 +129,18 @@ public class GetInactiveAlarmLiveServiceTest {
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
-        assertEquals(2, alarmResponse.size());
         assertEquals(AlarmLevel.INFORMATION.getId(), alarmResponse.get(0).getLevel());
     }
 
+    //After aggregation storungs
     @Test
-    public void test_response_size_then_1_for_storung() {
+    public void test_response_size_then_2_for_storung() {
 
         //given:
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
 
         //then:
-        assertEquals(1, alarmResponse.size());
+        assertEquals(2, alarmResponse.size());
     }
 
     @Test
@@ -157,18 +150,16 @@ public class GetInactiveAlarmLiveServiceTest {
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
 
         //then:
-        assertEquals(2, alarmResponse.size());
         assertNotEquals("", alarmResponse.get(0).getActivationTime());
     }
 
     @Test
-    public void test_response_inactivation_time_then_empty_for_storung() {
+    public void test_response_inactivation_time_then_not_empty_for_storung() {
 
         //given:
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
-
+logger.info("res: {}", alarmResponse);
         //then:
-        assertEquals(2, alarmResponse.size());
         assertNotEquals("", alarmResponse.get(0).getInactivationTime());
     }
 
@@ -179,8 +170,7 @@ public class GetInactiveAlarmLiveServiceTest {
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
 
         //then:
-        assertEquals(2, alarmResponse.size());
-        assertEquals(alarmIdentifier.getValue(), alarmResponse.get(0).getName());
+        assertEquals(stroungIdentifier.getValue(), alarmResponse.get(0).getName());
     }
 
     @Test
@@ -190,7 +180,6 @@ public class GetInactiveAlarmLiveServiceTest {
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
 
         //then:
-        assertEquals(2, alarmResponse.size());
         assertEquals(AlarmLevel.URGENT.getId(), alarmResponse.get(0).getLevel());
     }
 }

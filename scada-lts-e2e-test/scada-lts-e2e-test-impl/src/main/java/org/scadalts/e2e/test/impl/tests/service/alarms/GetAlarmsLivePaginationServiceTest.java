@@ -134,11 +134,17 @@ public class GetAlarmsLivePaginationServiceTest {
                 .offset(0)
                 .build();
 
+        //when:
         E2eResponse<List<AlarmResponse>> getResponse10 = TestWithoutPageUtil.getLiveAlarms(pagination10,
                 TestImplConfiguration.waitingAfterSetPointValueMs);
         List<AlarmResponse> getResult10 = getResponse10.getValue();
 
-        //when:
+        //then:
+        assertEquals(200, getResponse10.getStatus());
+        assertNotNull(getResult10);
+        assertEquals(10, getResult10.size());
+
+        //and when:
         E2eResponse<List<AlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationToTest,
                 TestImplConfiguration.waitingAfterSetPointValueMs);
         List<AlarmResponse> getResult = getResponse.getValue();
@@ -146,7 +152,6 @@ public class GetAlarmsLivePaginationServiceTest {
         //then:
         assertEquals(200, getResponse.getStatus());
         assertNotNull(getResult);
-        assertNotNull(getResult10);
         assertEquals(getResult10.subList(offset, 10), getResult);
     }
 }

@@ -20,7 +20,6 @@
             </PatternLayout>
             <Policies>
                 <CronTriggeringPolicy schedule="0 0 * * *  ?"/>
-                <SizeBasedTriggeringPolicy size="10 MB" />
                 <OnStartupTriggeringPolicy />
             </Policies>
             <DefaultRolloverStrategy>
