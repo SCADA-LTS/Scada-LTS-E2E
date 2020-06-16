@@ -17,7 +17,8 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifie
 import org.scadalts.e2e.page.impl.criterias.identifiers.WatchListIdentifier;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
 
-import static com.codeborne.selenide.Condition.empty;
+import java.util.List;
+
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.or;
 import static com.codeborne.selenide.Selenide.$;
@@ -199,6 +200,12 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
                 .setDataPointValue(identifier,  value)
                 .confirmDataPointValue(identifier)
                 .closeEditorDataPointValue(identifier);
+    }
+
+    public void setSequenceInts(DataSourcePointIdentifier identifier, List<Integer> values) {
+        for(Integer value: values) {
+            setValue(identifier, String.valueOf(value));
+        }
     }
 
     @Override

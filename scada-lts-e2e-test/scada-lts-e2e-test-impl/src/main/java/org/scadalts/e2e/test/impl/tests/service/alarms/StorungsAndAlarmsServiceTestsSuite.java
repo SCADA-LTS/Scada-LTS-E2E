@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
         GetAlarmsLivePaginationServiceTest.class,
         GetActiveAlarmLiveServiceTest.class,
         GetInactiveAlarmLiveServiceTest.class,
-        AcknowledgeAlarmLiveServiceTest.class
+        AcknowledgeAlarmLiveServiceTest.class,
+        SequenceAlarmLiveServiceTest.class
 })
 public class StorungsAndAlarmsServiceTestsSuite {
 }

@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.impl.utils;
 
+import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
@@ -28,5 +29,25 @@ public class AlarmsAndStorungsUtil {
         return AlarmsAndStorungsUtil.getAlarmsFor(identifier, getResult).stream()
                 .sorted((a, b) -> b.getActivationTime().compareTo(a.getActivationTime()))
                 .collect(Collectors.toList());
+    }
+
+    public static int calculateRisingSlopes(List<Integer> list) {
+        int result = 0;
+        Integer pre = 0;
+        for (int i = 0; i < list.size(); i++) {
+            Integer current = list.get(i);
+            if(!current.equals(pre) && pre < current) {
+                result++;
+            }
+            pre = current;
+        }
+        return result;
+    }
+
+    public static List<PermutationTestData> generateDataTest(int nWords, DataPointIdentifier prototype) {
+        return PermutationGenerator.generate(1, nWords).stream()
+                .map(a -> new PermutationTestData(a, prototype.newIdentifier(IdentifierObjectFactory.unique())))
+                .collect(Collectors.toList());
+
     }
 }
