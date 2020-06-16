@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         GetAlarmsLivePaginationServiceTest.class,
         GetActiveAlarmLiveServiceTest.class,
-        GetInactiveAlarmLiveServiceTest.class
+        GetInactiveAlarmLiveServiceTest.class,
+        AcknowledgeAlarmLiveServiceTest.class
 })
 public class StorungsAndAlarmsServiceTestsSuite {
 }

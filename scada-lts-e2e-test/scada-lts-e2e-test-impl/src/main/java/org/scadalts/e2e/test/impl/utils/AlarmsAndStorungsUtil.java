@@ -1,6 +1,5 @@
 package org.scadalts.e2e.test.impl.utils;
 
-import com.google.common.collect.Comparators;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
@@ -8,11 +7,8 @@ import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.junit.Assert.assertEquals;
 
 public class AlarmsAndStorungsUtil {
 
@@ -30,7 +26,7 @@ public class AlarmsAndStorungsUtil {
                 TestImplConfiguration.waitingAfterSetPointValueMs);
         List<AlarmResponse> getResult = getResponse.getValue();
         return AlarmsAndStorungsUtil.getAlarmsFor(identifier, getResult).stream()
-                .sorted(Comparator.comparing(AlarmResponse::getActivationTime))
+                .sorted((a, b) -> b.getActivationTime().compareTo(a.getActivationTime()))
                 .collect(Collectors.toList());
     }
 }

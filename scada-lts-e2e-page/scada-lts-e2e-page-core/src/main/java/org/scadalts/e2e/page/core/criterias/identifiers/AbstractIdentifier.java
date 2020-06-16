@@ -6,7 +6,7 @@ import lombok.NonNull;
 
 @Data
 @EqualsAndHashCode
-public abstract class AbstractIdentifier implements IdentifierObject {
+public class AbstractIdentifier implements IdentifierObject {
 
     private final @NonNull String value;
 

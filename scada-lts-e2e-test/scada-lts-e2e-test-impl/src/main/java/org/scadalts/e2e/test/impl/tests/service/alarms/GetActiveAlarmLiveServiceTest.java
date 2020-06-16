@@ -79,7 +79,7 @@ public class GetActiveAlarmLiveServiceTest {
     @Test
     public void test_response_size_then_1_for_alarm() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
@@ -89,7 +89,7 @@ public class GetActiveAlarmLiveServiceTest {
     @Test
     public void test_response_activation_time_then_not_empty_for_alarm() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
@@ -99,7 +99,7 @@ public class GetActiveAlarmLiveServiceTest {
     @Test
     public void test_response_inactivation_time_then_empty_for_alarm() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
@@ -109,7 +109,7 @@ public class GetActiveAlarmLiveServiceTest {
     @Test
     public void test_response_name_then_point_name_for_alarm() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
@@ -119,7 +119,7 @@ public class GetActiveAlarmLiveServiceTest {
     @Test
     public void test_response_level_then_AlarmLevel_for_alarm() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
@@ -130,7 +130,7 @@ public class GetActiveAlarmLiveServiceTest {
     @Test
     public void test_response_size_then_1_for_storung() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(storungIdentifier, paginationParams);
 
         //then:
@@ -140,7 +140,7 @@ public class GetActiveAlarmLiveServiceTest {
     @Test
     public void test_response_activation_time_then_not_empty_for_storung() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(storungIdentifier, paginationParams);
 
         //then:
@@ -150,7 +150,7 @@ public class GetActiveAlarmLiveServiceTest {
     @Test
     public void test_response_inactivation_time_then_empty_for_storung() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(storungIdentifier, paginationParams);
 
         //then:
@@ -160,7 +160,7 @@ public class GetActiveAlarmLiveServiceTest {
     @Test
     public void test_response_name_then_point_name_for_storung() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(storungIdentifier, paginationParams);
 
         //then:
@@ -170,7 +170,7 @@ public class GetActiveAlarmLiveServiceTest {
     @Test
     public void test_response_level_then_AlarmLevel_for_storung() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(storungIdentifier, paginationParams);
 
         //then:

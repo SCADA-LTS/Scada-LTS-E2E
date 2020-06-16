@@ -83,19 +83,19 @@ public class GetInactiveAlarmLiveServiceTest {
 
     //After aggregation alarms
     @Test
-    public void test_response_size_then_2_for_alarm() {
+    public void test_response_size_then_1_for_alarm() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
-        assertEquals(2, alarmResponse.size());
+        assertEquals(1, alarmResponse.size());
     }
 
     @Test
     public void test_response_activation_time_then_not_empty_for_alarm() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
@@ -105,7 +105,7 @@ public class GetInactiveAlarmLiveServiceTest {
     @Test
     public void test_response_inactivation_time_then_not_empty_for_alarm() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
@@ -115,7 +115,7 @@ public class GetInactiveAlarmLiveServiceTest {
     @Test
     public void test_response_name_then_point_name_for_alarm() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
@@ -125,7 +125,7 @@ public class GetInactiveAlarmLiveServiceTest {
     @Test
     public void test_response_level_then_AlarmLevel_for_alarm() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
@@ -136,7 +136,7 @@ public class GetInactiveAlarmLiveServiceTest {
     @Test
     public void test_response_size_then_2_for_storung() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
 
         //then:
@@ -146,7 +146,7 @@ public class GetInactiveAlarmLiveServiceTest {
     @Test
     public void test_response_activation_time_then_not_empty_for_storung() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
 
         //then:
@@ -156,9 +156,9 @@ public class GetInactiveAlarmLiveServiceTest {
     @Test
     public void test_response_inactivation_time_then_not_empty_for_storung() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
-logger.info("res: {}", alarmResponse);
+
         //then:
         assertNotEquals("", alarmResponse.get(0).getInactivationTime());
     }
@@ -166,7 +166,7 @@ logger.info("res: {}", alarmResponse);
     @Test
     public void test_response_name_then_point_name_for_storung() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
 
         //then:
@@ -176,7 +176,7 @@ logger.info("res: {}", alarmResponse);
     @Test
     public void test_response_level_then_AlarmLevel_for_storung() {
 
-        //given:
+        //when:
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
 
         //then:
