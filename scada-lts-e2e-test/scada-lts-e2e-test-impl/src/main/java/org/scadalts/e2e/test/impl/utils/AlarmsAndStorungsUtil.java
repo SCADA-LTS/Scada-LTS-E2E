@@ -44,8 +44,8 @@ public class AlarmsAndStorungsUtil {
         return result;
     }
 
-    public static List<PermutationTestData> generateDataTest(int nWords, DataPointIdentifier prototype) {
-        return PermutationGenerator.generate(1, nWords).stream()
+    public static List<PermutationTestData> generateDataTest(int nWord, DataPointIdentifier prototype) {
+        return PermutationGenerator.generate(1, nWord).stream()
                 .map(a -> new PermutationTestData(a, prototype.newIdentifier(IdentifierObjectFactory.unique())))
                 .collect(Collectors.toList());
 

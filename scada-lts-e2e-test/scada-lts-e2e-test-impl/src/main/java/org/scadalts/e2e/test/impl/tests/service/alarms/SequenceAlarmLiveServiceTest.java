@@ -97,7 +97,7 @@ public class SequenceAlarmLiveServiceTest {
 
         //then:
         alarmResponses = getAlarms(permutationData.getDataPointIdentifier(), paginationParams);
-        assertEquals(permutationData.getNumberRisingSlopes() + 1, alarmResponses.size());
+        assertEquals(permutationData.getNumberRisingSlopes(), alarmResponses.size());
 
     }
 }

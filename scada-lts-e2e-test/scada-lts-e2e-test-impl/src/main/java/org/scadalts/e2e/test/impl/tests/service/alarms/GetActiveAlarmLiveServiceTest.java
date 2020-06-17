@@ -17,10 +17,12 @@ import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
+import org.scadalts.e2e.test.impl.utils.DateValidation;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.Assert.*;
 import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.getAlarms;
 
@@ -93,7 +95,7 @@ public class GetActiveAlarmLiveServiceTest {
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
-        assertNotEquals("", alarmResponse.get(0).getActivationTime());
+        assertThat(alarmResponse.get(0).getActivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
     }
 
     @Test
@@ -144,7 +146,7 @@ public class GetActiveAlarmLiveServiceTest {
         List<AlarmResponse> alarmResponse = getAlarms(storungIdentifier, paginationParams);
 
         //then:
-        assertNotEquals("", alarmResponse.get(0).getActivationTime());
+        assertThat(alarmResponse.get(0).getActivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
     }
 
     @Test
