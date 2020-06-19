@@ -1,7 +1,9 @@
 package org.scadalts.e2e.test.impl.tests.service.alarms;
 
 import lombok.extern.log4j.Log4j2;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
@@ -10,7 +12,6 @@ import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
-import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
 import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
@@ -23,7 +24,8 @@ import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import java.util.List;
 
 import static org.hamcrest.Matchers.matchesPattern;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.getAlarms;
 
 @Log4j2
@@ -44,8 +46,8 @@ public class GetActiveAlarmLiveServiceTest {
     public static void setup() {
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
 
-        alarmIdentifier = IdentifierObjectFactory.dataPointAlarmName(DataPointType.BINARY);
-        storungIdentifier = IdentifierObjectFactory.dataPointStorungName(DataPointType.BINARY);
+        alarmIdentifier = IdentifierObjectFactory.dataPointAlarmBinaryTypeName();
+        storungIdentifier = IdentifierObjectFactory.dataPointStorungBinaryTypeName();
 
 
         DataPointCriteria pointAlarm = DataPointCriteria.noChange(alarmIdentifier, "0");

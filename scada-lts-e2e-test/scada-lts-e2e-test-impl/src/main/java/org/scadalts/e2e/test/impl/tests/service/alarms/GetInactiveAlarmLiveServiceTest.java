@@ -12,7 +12,6 @@ import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
-import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
 import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
@@ -25,7 +24,8 @@ import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import java.util.List;
 
 import static org.hamcrest.Matchers.matchesPattern;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.getAlarms;
 
 @Log4j2
@@ -47,8 +47,8 @@ public class GetInactiveAlarmLiveServiceTest {
 
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
 
-        alarmIdentifier = IdentifierObjectFactory.dataPointAlarmName(DataPointType.BINARY);
-        stroungIdentifier = IdentifierObjectFactory.dataPointStorungName(DataPointType.BINARY);
+        alarmIdentifier = IdentifierObjectFactory.dataPointAlarmBinaryTypeName();
+        stroungIdentifier = IdentifierObjectFactory.dataPointStorungBinaryTypeName();
 
 
         DataPointCriteria pointAlarm = DataPointCriteria.noChange(alarmIdentifier, "0");
@@ -135,13 +135,13 @@ public class GetInactiveAlarmLiveServiceTest {
 
     //After aggregation storungs
     @Test
-    public void test_response_size_then_2_for_storung() {
+    public void test_response_size_then_1_for_storung() {
 
         //when:
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
 
         //then:
-        assertEquals(2, alarmResponse.size());
+        assertEquals(1, alarmResponse.size());
     }
 
     @Test

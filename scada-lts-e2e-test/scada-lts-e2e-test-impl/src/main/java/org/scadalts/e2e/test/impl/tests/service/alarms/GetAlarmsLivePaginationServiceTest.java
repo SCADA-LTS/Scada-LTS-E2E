@@ -1,13 +1,17 @@
 package org.scadalts.e2e.test.impl.tests.service.alarms;
 
 import lombok.extern.log4j.Log4j2;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.*;
+import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
+import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
-import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.service.core.services.E2eResponse;
@@ -65,17 +69,17 @@ public class GetAlarmsLivePaginationServiceTest {
 
         DataPointIdentifier[] idnetifiers = new DataPointIdentifier[] {
 
-                IdentifierObjectFactory.dataPointAlarmName(DataPointType.BINARY),
-                IdentifierObjectFactory.dataPointAlarmName(DataPointType.BINARY),
-                IdentifierObjectFactory.dataPointAlarmName(DataPointType.BINARY),
-                IdentifierObjectFactory.dataPointAlarmName(DataPointType.BINARY),
-                IdentifierObjectFactory.dataPointAlarmName(DataPointType.BINARY),
+                IdentifierObjectFactory.dataPointAlarmBinaryTypeName(),
+                IdentifierObjectFactory.dataPointAlarmBinaryTypeName(),
+                IdentifierObjectFactory.dataPointAlarmBinaryTypeName(),
+                IdentifierObjectFactory.dataPointAlarmBinaryTypeName(),
+                IdentifierObjectFactory.dataPointAlarmBinaryTypeName(),
 
-                IdentifierObjectFactory.dataPointStorungName(DataPointType.BINARY),
-                IdentifierObjectFactory.dataPointStorungName(DataPointType.BINARY),
-                IdentifierObjectFactory.dataPointStorungName(DataPointType.BINARY),
-                IdentifierObjectFactory.dataPointStorungName(DataPointType.BINARY),
-                IdentifierObjectFactory.dataPointStorungName(DataPointType.BINARY),
+                IdentifierObjectFactory.dataPointStorungBinaryTypeName(),
+                IdentifierObjectFactory.dataPointStorungBinaryTypeName(),
+                IdentifierObjectFactory.dataPointStorungBinaryTypeName(),
+                IdentifierObjectFactory.dataPointStorungBinaryTypeName(),
+                IdentifierObjectFactory.dataPointStorungBinaryTypeName(),
         };
 
         DataPointCriteria[] points = Stream.of(idnetifiers)

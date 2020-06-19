@@ -12,7 +12,6 @@ import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
-import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.service.core.services.E2eResponse;
@@ -38,8 +37,8 @@ public class AcknowledgeAlarmLiveServiceTest {
     @Parameterized.Parameters(name = "{index}: data point: {0}")
     public static Object[] data() {
         return new Object[] {
-                IdentifierObjectFactory.dataPointStorungName(DataPointType.BINARY),
-                IdentifierObjectFactory.dataPointAlarmName(DataPointType.BINARY),
+                IdentifierObjectFactory.dataPointStorungBinaryTypeName(),
+                IdentifierObjectFactory.dataPointAlarmBinaryTypeName(),
         };
     }
 

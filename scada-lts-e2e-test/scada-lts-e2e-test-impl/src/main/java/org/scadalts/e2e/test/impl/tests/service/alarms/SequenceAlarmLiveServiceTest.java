@@ -11,7 +11,6 @@ import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
-import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
@@ -34,8 +33,8 @@ public class SequenceAlarmLiveServiceTest {
 
     @Parameterized.Parameters(name = "{index}: sequence: {0}")
     public static List<PermutationTestData> data() {
-        List<PermutationTestData> result = generateDataTest(4, IdentifierObjectFactory.dataPointAlarmName(DataPointType.BINARY));
-        result.addAll(generateDataTest(4, IdentifierObjectFactory.dataPointStorungName(DataPointType.BINARY)));
+        List<PermutationTestData> result = generateDataTest(4, IdentifierObjectFactory.dataPointAlarmBinaryTypeName());
+        result.addAll(generateDataTest(4, IdentifierObjectFactory.dataPointStorungBinaryTypeName()));
         return result;
     }
 
@@ -90,7 +89,7 @@ public class SequenceAlarmLiveServiceTest {
         List<AlarmResponse> alarmResponses = getAlarms(permutationData.getDataPointIdentifier(), paginationParams);
 
         //then:
-        assertEquals(1, alarmResponses.size());
+        assertEquals(0, alarmResponses.size());
 
         //and when:
         watchListPage.setSequenceInts(dataSourcePointIdentifier, permutationData.getPermutationData().getPermutations());
