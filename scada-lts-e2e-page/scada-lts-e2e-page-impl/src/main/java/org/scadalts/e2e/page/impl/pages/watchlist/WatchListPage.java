@@ -83,6 +83,7 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         waitWhile($(NEW_WATCH_LIST_NAME_TEXT_BY), not(Condition.visible))
                 .setValue(criteria.getIdentifier().getValue());
         waitWhile($(SAVE_NEW_WATCH_LIST_NAME_BUTTON_BY), not(Condition.visible)).click();
+        waitWhile(() -> !containsObject(criteria.getIdentifier()));
         for (DataSourcePointIdentifier dataSourcePointIdentifier
                 : criteria.getDataSourcePointIdentifiers()) {
             addDataToWatchList(dataSourcePointIdentifier);
@@ -104,7 +105,8 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     }
 
     public WatchListPage addDataToWatchList(DataSourcePointIdentifier identifier) {
-        _findActionInSpan(identifier, SELECTOR_ACTION_ADD_TO_WATCH_LIST_BY).click();
+        waitWhile(_findActionInSpan(identifier, SELECTOR_ACTION_ADD_TO_WATCH_LIST_BY), not(Condition.visible)).click();
+        waitWhile(() -> !isVisibleWatchListUnit(identifier));
         return this;
     }
 

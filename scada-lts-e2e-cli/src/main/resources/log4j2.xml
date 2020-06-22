@@ -19,7 +19,7 @@
                 <Pattern>${sys:FILE_LOG_PATTERN}</Pattern>
             </PatternLayout>
             <Policies>
-                <CronTriggeringPolicy schedule="0 0 * * *  ?"/>
+                <CronTriggeringPolicy schedule="0 0 0 * * ?"/>
                 <OnStartupTriggeringPolicy />
             </Policies>
             <DefaultRolloverStrategy>

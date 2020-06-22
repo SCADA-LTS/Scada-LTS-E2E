@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>18.4.0-SNAPSHOT</version>
+    <version>18.5.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -870,7 +870,7 @@
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
                 <test.e2e.waiting-after-set-point-value-ms>30000</test.e2e.waiting-after-set-point-value-ms>
                 <test.e2e.graphical-view-name>graphicalview_change_alarm_list_test</test.e2e.graphical-view-name>
-                <test.e2e.classes-test-refs>org.scadalts.e2e.test.impl.tests.service.alarms.StorungsAndAlarmsServiceTestsSuite</test.e2e.classes-test-refs>
+                <test.e2e.classes-test-refs>org.scadalts.e2e.test.impl.config.auto.ConfigurationChecker;org.scadalts.e2e.test.impl.tests.service.alarms.StorungsAndAlarmsServiceTestsSuite</test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>DP_400344</test.e2e.data-point-to-change-xid>
                 <test.e2e.data-point-to-read-xid>DP_077083</test.e2e.data-point-to-read-xid>
                 <test.e2e.data-source-name>datasource_change_point_in_details_test</test.e2e.data-source-name>

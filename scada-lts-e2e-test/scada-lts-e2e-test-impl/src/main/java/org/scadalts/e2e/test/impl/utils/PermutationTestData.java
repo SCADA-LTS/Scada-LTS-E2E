@@ -20,7 +20,7 @@ public class PermutationTestData {
 
     @Override
     public String toString() {
-        return MessageFormat.format("permutations: {0}, data point name: {1}, live: {2}",
+        return MessageFormat.format("permutations: {0}, data point name: {1}, number alarms live[x]: {2}",
                 permutationData.getPermutations(), dataPointIdentifier.getValue(), numberRisingSlopes);
     }
 }

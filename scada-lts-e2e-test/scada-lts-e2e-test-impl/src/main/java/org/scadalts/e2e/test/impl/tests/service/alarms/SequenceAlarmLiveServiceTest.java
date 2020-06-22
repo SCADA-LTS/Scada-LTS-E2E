@@ -8,9 +8,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
+import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
@@ -21,11 +21,11 @@ import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.PermutationTestData;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.generateDataTest;
-import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.getAlarms;
+import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.*;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
@@ -33,8 +33,8 @@ public class SequenceAlarmLiveServiceTest {
 
     @Parameterized.Parameters(name = "{index}: sequence: {0}")
     public static List<PermutationTestData> data() {
-        List<PermutationTestData> result = generateDataTest(4, IdentifierObjectFactory.dataPointAlarmBinaryTypeName());
-        result.addAll(generateDataTest(4, IdentifierObjectFactory.dataPointStorungBinaryTypeName()));
+        List<PermutationTestData> result = generateDataTest(4, DataPointNotifierType.ALARM);
+        result.addAll(generateDataTest(4, DataPointNotifierType.STORUNG));
         return result;
     }
 
@@ -83,20 +83,21 @@ public class SequenceAlarmLiveServiceTest {
 
 
     @Test
-    public void test_sequence() {
+    public void test_when_before_set_sequence_then_zero_alarms_size_when_after_then_x() {
 
         //when:
         List<AlarmResponse> alarmResponses = getAlarms(permutationData.getDataPointIdentifier(), paginationParams);
 
         //then:
-        assertEquals(0, alarmResponses.size());
+        assertEquals(THERE_ARE_NO_ALARMS_BEFORE_CHANGING_THE_POINT_VALUE, 1, alarmResponses.size());
 
         //and when:
         watchListPage.setSequenceInts(dataSourcePointIdentifier, permutationData.getPermutationData().getPermutations());
 
         //then:
         alarmResponses = getAlarms(permutationData.getDataPointIdentifier(), paginationParams);
-        assertEquals(permutationData.getNumberRisingSlopes(), alarmResponses.size());
+        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_THE_NUMBER_OF_ALARMS_LIVE_DIFFERENT_FROM_Y, permutationData.getPermutationData(), permutationData.getNumberRisingSlopes());
+        assertEquals(msg, permutationData.getNumberRisingSlopes(), alarmResponses.size());
 
     }
 }

@@ -67,10 +67,10 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
             if(!editDataSourceWithPointListPage.containsObject(dataPointCriteria.getIdentifier())) {
                 EditDataPointPage editDataPointPage = _createDataPoint(editDataSourceWithPointListPage, dataPointCriteria);
                 setProperties(dataPointCriteria, editDataPointPage);
-
+                editDataPointPage.enableDataPoint(dataPointCriteria.getIdentifier());
             }
         }
-        return editDataSourceWithPointListPage.enableAllDataPoint();
+        return editDataSourceWithPointListPage;
     }
 
     public void setProperties(DataPointCriteria dataPointCriteria, EditDataPointPage editDataPointPage) {

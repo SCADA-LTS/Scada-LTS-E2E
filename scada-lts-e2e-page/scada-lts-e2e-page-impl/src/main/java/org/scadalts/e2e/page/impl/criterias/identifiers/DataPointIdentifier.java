@@ -23,10 +23,6 @@ public class DataPointIdentifier extends AbstractIdentifier {
         this.type = type;
     }
 
-    public DataPointIdentifier newIdentifier(String unique) {
-        return new DataPointIdentifier(getValue() + unique, type);
-    }
-
     public static DataPointIdentifier empty() {
         return EMPTY;
     }

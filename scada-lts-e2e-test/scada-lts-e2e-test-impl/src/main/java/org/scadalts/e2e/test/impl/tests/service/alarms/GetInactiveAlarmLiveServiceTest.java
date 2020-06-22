@@ -21,12 +21,13 @@ import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.DateValidation;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.getAlarms;
+import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.*;
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
@@ -84,33 +85,34 @@ public class GetInactiveAlarmLiveServiceTest {
 
     //After aggregation alarms
     @Test
-    public void test_response_size_then_1_for_alarm() {
+    public void test_response_after_changing_point_values_by_seq_010_then_one_for_alarm() {
 
         //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
-        assertEquals(1, alarmResponse.size());
+        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_THE_NUMBER_OF_ALARMS_LIVE_DIFFERENT_FROM_Y, "0 -> 1 -> 0", "one");
+        assertEquals(msg,1, alarmResponse.size());
     }
 
     @Test
-    public void test_response_activation_time_then_not_empty_for_alarm() {
+    public void test_response_activation_time_then_is_date_iso_for_alarm() {
 
         //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
-        assertThat(alarmResponse.get(0).getActivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
+        assertThat(EXPECTED_DATE_ISO, alarmResponse.get(0).getActivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
     }
 
     @Test
-    public void test_response_inactivation_time_then_not_empty_for_alarm() {
+    public void test_response_inactivation_time_then_is_date_iso_for_alarm() {
 
         //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
-        assertThat(alarmResponse.get(0).getInactivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
+        assertThat(EXPECTED_DATE_ISO, alarmResponse.get(0).getInactivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
     }
 
     @Test
@@ -135,33 +137,34 @@ public class GetInactiveAlarmLiveServiceTest {
 
     //After aggregation storungs
     @Test
-    public void test_response_size_then_1_for_storung() {
+    public void test_response_after_changing_point_values_by_seq_010_then_one_for_storung() {
 
         //when:
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
 
         //then:
-        assertEquals(1, alarmResponse.size());
+        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_THE_NUMBER_OF_ALARMS_LIVE_DIFFERENT_FROM_Y, "0 -> 1 -> 0", "one");
+        assertEquals(msg,1, alarmResponse.size());
     }
 
     @Test
-    public void test_response_activation_time_then_not_empty_for_storung() {
+    public void test_response_activation_time_then_is_date_iso_for_storung() {
 
         //when:
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
 
         //then:
-        assertThat(alarmResponse.get(0).getActivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
+        assertThat(EXPECTED_DATE_ISO, alarmResponse.get(0).getActivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
     }
 
     @Test
-    public void test_response_inactivation_time_then_not_empty_for_storung() {
+    public void test_response_inactivation_time_then_is_date_iso_for_storung() {
 
         //when:
         List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
 
         //then:
-        assertThat(alarmResponse.get(0).getInactivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
+        assertThat(EXPECTED_DATE_ISO, alarmResponse.get(0).getInactivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
     }
 
     @Test
