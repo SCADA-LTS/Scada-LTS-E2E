@@ -43,7 +43,6 @@
                 <th scope="col" th:text="${testNameTh}" >testName</th>
                 <th scope="col" th:text="${testMethodNameTh}" >methodName</th>
                 <th scope="col" th:text="${testMessageTh}" >testMessage</th>
-                <th scope="col" th:text="${testSessionIdTh}" >sessionId</th>
             </tr>
         </thead>
         <th:block th:each="failure: ${summary.failures}">
@@ -51,7 +50,6 @@
                 <td th:text="${failure.description.testClass == null ? 'runnerError' : failure.description.testClass.simpleName}">testName</td>
                 <td th:text="${failure.description.methodName == null ? 'staticInizalizationError' : failure.description.methodName}">method</td>
                 <td th:text="${failure.message == null ? 'No message' : T(org.apache.commons.lang3.StringUtils).abbreviate(failure.message, 500)}">message</td>
-                <td th:text="${failure.sessionId == null or failure.sessionId == '' ? 'Not logged in' : failure.sessionId}">sessionId</td>
             </tr>
         </th:block>
     </table>

@@ -24,17 +24,19 @@ import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import java.text.MessageFormat;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
+import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.*;
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
-public class GetInactiveAlarmLiveServiceTest {
+public class StartActiveAlarmStorungLiveServiceTest {
 
     private static DataPointIdentifier alarmIdentifier;
-    private static DataPointIdentifier stroungIdentifier;
+    private static DataPointIdentifier storungIdentifier;
     private static PaginationParams paginationParams = PaginationParams.builder()
             .limit(9999)
             .offset(0)
@@ -49,11 +51,11 @@ public class GetInactiveAlarmLiveServiceTest {
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
 
         alarmIdentifier = IdentifierObjectFactory.dataPointAlarmBinaryTypeName();
-        stroungIdentifier = IdentifierObjectFactory.dataPointStorungBinaryTypeName();
+        storungIdentifier = IdentifierObjectFactory.dataPointStorungBinaryTypeName();
 
 
-        DataPointCriteria pointAlarm = DataPointCriteria.noChange(alarmIdentifier, "0");
-        DataPointCriteria pointStorung = DataPointCriteria.noChange(stroungIdentifier, "0");
+        DataPointCriteria pointAlarm = DataPointCriteria.noChange(alarmIdentifier, "1");
+        DataPointCriteria pointStorung = DataPointCriteria.noChange(storungIdentifier, "1");
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourceCriteria, pointAlarm, pointStorung);
@@ -62,18 +64,25 @@ public class GetInactiveAlarmLiveServiceTest {
         DataSourcePointIdentifier dataSourcePointAlarmIdentifier = new DataSourcePointIdentifier(dataSourceCriteria.getIdentifier(),
                 alarmIdentifier);
         DataSourcePointIdentifier dataSourcePointStorungIdentifier = new DataSourcePointIdentifier(dataSourceCriteria.getIdentifier(),
-                stroungIdentifier);
+                storungIdentifier);
 
         watchListObjectsCreator = new WatchListObjectsCreator(navigationPage,
                 WatchListCriteria.criteria(dataSourcePointAlarmIdentifier, dataSourcePointStorungIdentifier));
         watchListObjectsCreator.createObjects();
 
-        //Simulate the change of value on the points 0 -> 1 -> 0
-        navigationPage.openWatchList()
-                .setValue(dataSourcePointAlarmIdentifier, "1")
-                .setValue(dataSourcePointAlarmIdentifier, "0")
-                .setValue(dataSourcePointStorungIdentifier, "1")
-                .setValue(dataSourcePointStorungIdentifier, "0");
+        //when:
+        List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
+
+        //then:
+        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z, "1", "alarm", "1");
+        assertEquals(msg,1, alarmResponse.size());
+
+        //when:
+        alarmResponse = getAlarms(storungIdentifier, paginationParams);
+
+        //then:
+        msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z, "1", "storung", "1");
+        assertEquals(msg,1, alarmResponse.size());
 
     }
 
@@ -81,18 +90,6 @@ public class GetInactiveAlarmLiveServiceTest {
     public static void clean() {
         watchListObjectsCreator.deleteObjects();
         dataSourcePointObjectsCreator.deleteObjects();
-    }
-
-    //After aggregation alarms
-    @Test
-    public void test_response_after_changing_point_values_by_seq_010_then_one_for_alarm() {
-
-        //when:
-        List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
-
-        //then:
-        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_THE_NUMBER_OF_ALARMS_LIVE_DIFFERENT_FROM_Y, "0 -> 1 -> 0", "one");
-        assertEquals(msg,1, alarmResponse.size());
     }
 
     @Test
@@ -106,13 +103,13 @@ public class GetInactiveAlarmLiveServiceTest {
     }
 
     @Test
-    public void test_response_inactivation_time_then_is_date_iso_for_alarm() {
+    public void test_response_inactivation_time_then_empty_for_alarm() {
 
         //when:
         List<AlarmResponse> alarmResponse = getAlarms(alarmIdentifier, paginationParams);
 
         //then:
-        assertThat(EXPECTED_DATE_ISO, alarmResponse.get(0).getInactivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
+        assertThat(EXPECTED_ACTIVE_ALARM, alarmResponse.get(0).getInactivationTime(), anyOf(is(""), is(" ")));
     }
 
     @Test
@@ -135,53 +132,41 @@ public class GetInactiveAlarmLiveServiceTest {
         assertEquals(AlarmLevel.INFORMATION.getId(), alarmResponse.get(0).getLevel());
     }
 
-    //After aggregation storungs
-    @Test
-    public void test_response_after_changing_point_values_by_seq_010_then_one_for_storung() {
-
-        //when:
-        List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
-
-        //then:
-        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_THE_NUMBER_OF_ALARMS_LIVE_DIFFERENT_FROM_Y, "0 -> 1 -> 0", "one");
-        assertEquals(msg,1, alarmResponse.size());
-    }
-
     @Test
     public void test_response_activation_time_then_is_date_iso_for_storung() {
 
         //when:
-        List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
+        List<AlarmResponse> alarmResponse = getAlarms(storungIdentifier, paginationParams);
 
         //then:
         assertThat(EXPECTED_DATE_ISO, alarmResponse.get(0).getActivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
     }
 
     @Test
-    public void test_response_inactivation_time_then_is_date_iso_for_storung() {
+    public void test_response_inactivation_time_then_empty_for_storung() {
 
         //when:
-        List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
+        List<AlarmResponse> alarmResponse = getAlarms(storungIdentifier, paginationParams);
 
         //then:
-        assertThat(EXPECTED_DATE_ISO, alarmResponse.get(0).getInactivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
+        assertThat(EXPECTED_ACTIVE_ALARM, alarmResponse.get(0).getInactivationTime(), anyOf(is(""), is(" ")));
     }
 
     @Test
     public void test_response_name_then_point_name_for_storung() {
 
         //when:
-        List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
+        List<AlarmResponse> alarmResponse = getAlarms(storungIdentifier, paginationParams);
 
         //then:
-        assertEquals(stroungIdentifier.getValue(), alarmResponse.get(0).getName());
+        assertEquals(storungIdentifier.getValue(), alarmResponse.get(0).getName());
     }
 
     @Test
     public void test_response_level_then_AlarmLevel_for_storung() {
 
         //when:
-        List<AlarmResponse> alarmResponse = getAlarms(stroungIdentifier, paginationParams);
+        List<AlarmResponse> alarmResponse = getAlarms(storungIdentifier, paginationParams);
 
         //then:
         assertEquals(AlarmLevel.URGENT.getId(), alarmResponse.get(0).getLevel());

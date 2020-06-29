@@ -24,8 +24,10 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import static org.scadalts.e2e.service.core.utils.ServiceStabilityUtil.applyWhile;
+import static org.scadalts.e2e.service.core.utils.ServiceStabilityUtil.applyWhilePredicate;
 
 @Log4j2
 @Builder(access = AccessLevel.PACKAGE)
@@ -38,6 +40,19 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
     public Optional<E2eResponse<List<AlarmResponse>>> getLiveAlarms(PaginationParams alarmParams, long timeout) {
         try {
             E2eResponse<List<AlarmResponse>> response = applyWhile(this::_getLiveAlarms, alarmParams, new StabilityUtil.Timeout(timeout));
+            return Optional.ofNullable(response);
+        } catch (Throwable e) {
+            logger.error(e.getMessage(), e);
+            return Optional.empty();
+        }
+    }
+
+    public Optional<E2eResponse<List<AlarmResponse>>> getLiveAlarms(PaginationParams alarmParams,
+                                                                    Predicate<List<AlarmResponse>> predicate,
+                                                                    long timeout) {
+        try {
+            E2eResponse<List<AlarmResponse>> response = applyWhilePredicate(this::_getLiveAlarms, alarmParams,
+                    new StabilityUtil.Timeout(timeout), predicate);
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);

@@ -69,7 +69,7 @@ public abstract class DynamicElementUtil {
 
     private static ElementsCollection _findObjects(NodeCriteria nodeCriteria, SelenideElement source) {
         String xpath = nodeCriteria.getXpath();
-        logger.info("xpath: {}", xpath);
+        logger.info("xpath: {} \n source: {}", xpath, source);
 
         ElementsCollection elements = waitWhile(source, not(Condition.visible))
                 .$$(By.xpath(xpath));

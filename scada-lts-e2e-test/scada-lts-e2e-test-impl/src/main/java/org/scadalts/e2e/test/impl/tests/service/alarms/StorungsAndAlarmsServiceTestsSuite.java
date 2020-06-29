@@ -6,10 +6,12 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         GetAlarmsLivePaginationServiceTest.class,
-        GetActiveAlarmLiveServiceTest.class,
-        GetInactiveAlarmLiveServiceTest.class,
-        AcknowledgeAlarmLiveServiceTest.class,
-        SequenceAlarmLiveServiceTest.class
+        GetActiveAlarmStorungLiveServiceTest.class,
+        GetInactiveAlarmStorungLiveServiceTest.class,
+        AcknowledgeAlarmStorungLiveServiceTest.class,
+        SequenceAlarmStorungLiveServiceTest.class,
+        StartActiveAlarmStorungLiveServiceTest.class,
+        StartInactiveAlarmStorungLiveServiceTest.class
 })
 public class StorungsAndAlarmsServiceTestsSuite {
 }

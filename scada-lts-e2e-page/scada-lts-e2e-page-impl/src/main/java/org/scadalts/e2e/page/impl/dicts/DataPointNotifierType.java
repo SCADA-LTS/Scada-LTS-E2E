@@ -6,8 +6,8 @@ import org.scadalts.e2e.common.dicts.DictionaryObject;
 @Getter
 public enum DataPointNotifierType implements DictionaryObject {
     
-    ALARM("AL", "alarm"),
-    STORUNG("ST", "storung");
+    ALARM("AL", "alarms"),
+    STORUNG("ST", "storungs");
     
     private final String id;
     private final String name;

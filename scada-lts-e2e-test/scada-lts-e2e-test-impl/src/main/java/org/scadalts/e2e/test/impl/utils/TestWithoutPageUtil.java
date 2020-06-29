@@ -106,7 +106,8 @@ public class TestWithoutPageUtil {
         return getDataPointProperties(pointValueParams, TestImplConfiguration.timeout);
     }
 
-    public static E2eResponse<DataPointPropertiesResponse> getDataPointProperties(PointValueParams pointValueParams, long timeout) {
+    public static E2eResponse<DataPointPropertiesResponse> getDataPointProperties(PointValueParams pointValueParams,
+                                                                                  long timeout) {
         try (DataPointServiceObject pointValueWebServiceObject =
                      ServiceObjectFactory.newDataPointServiceObject()) {
             Optional<E2eResponse<DataPointPropertiesResponse>> responseOpt = pointValueWebServiceObject.getConfigurationByXid(pointValueParams,
@@ -131,6 +132,15 @@ public class TestWithoutPageUtil {
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
             Optional<E2eResponse<List<AlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getLiveAlarms(paginationParams,
                     timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<List<AlarmResponse>> getLiveAlarms(PaginationParams paginationParams, Predicate<List<AlarmResponse>> expected) {
+        try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
+                     ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
+            Optional<E2eResponse<List<AlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getLiveAlarms(paginationParams,
+                    expected, TestImplConfiguration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }

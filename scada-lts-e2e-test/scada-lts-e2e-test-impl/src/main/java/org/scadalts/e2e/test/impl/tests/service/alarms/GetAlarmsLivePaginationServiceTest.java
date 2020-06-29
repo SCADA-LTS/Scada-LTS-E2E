@@ -24,11 +24,14 @@ import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.EXPECTED_X_ALARMS_STORUNGS;
+import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
@@ -47,7 +50,12 @@ public class GetAlarmsLivePaginationServiceTest {
                 {7, 3},
                 {8, 2},
                 {9, 1},
-                {10, 0}
+                {10, 0},
+                {0, 2},
+                {2, 2},
+                {4, 2},
+                {6, 2},
+                {8, 2},
         };
     }
 
@@ -61,6 +69,7 @@ public class GetAlarmsLivePaginationServiceTest {
 
     private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private static WatchListObjectsCreator watchListObjectsCreator;
+    private static List<AlarmResponse> getResult10;
 
     @BeforeClass
     public static void setup() {
@@ -102,6 +111,23 @@ public class GetAlarmsLivePaginationServiceTest {
         Stream.of(identifiers).forEach(a -> {
             watchListPage.setValue(a, "1");
         });
+
+        PaginationParams pagination10 = PaginationParams.builder()
+                .limit(10)
+                .offset(0)
+                .build();
+
+        //when:
+        E2eResponse<List<AlarmResponse>> getResponse10 = TestWithoutPageUtil.getLiveAlarms(pagination10,
+                TestImplConfiguration.waitingAfterSetPointValueMs);
+        getResult10 = getResponse10.getValue();
+
+        String msg = MessageFormat.format(EXPECTED_X_ALARMS_STORUNGS, "10");
+
+        //then:
+        assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse10.getStatus());
+        assertNotNull(getResult10);
+        assertEquals(msg, 10, getResult10.size());
     }
 
     @AfterClass
@@ -140,21 +166,6 @@ public class GetAlarmsLivePaginationServiceTest {
                 .offset(offset)
                 .build();
 
-        PaginationParams pagination10 = PaginationParams.builder()
-                .limit(10)
-                .offset(0)
-                .build();
-
-        //when:
-        E2eResponse<List<AlarmResponse>> getResponse10 = TestWithoutPageUtil.getLiveAlarms(pagination10,
-                TestImplConfiguration.waitingAfterSetPointValueMs);
-        List<AlarmResponse> getResult10 = getResponse10.getValue();
-
-        //then:
-        assertEquals(200, getResponse10.getStatus());
-        assertNotNull(getResult10);
-        assertEquals(10, getResult10.size());
-
         //and when:
         E2eResponse<List<AlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationToTest,
                 TestImplConfiguration.waitingAfterSetPointValueMs);
@@ -163,6 +174,7 @@ public class GetAlarmsLivePaginationServiceTest {
         //then:
         assertEquals(200, getResponse.getStatus());
         assertNotNull(getResult);
-        assertEquals(getResult10.subList(offset, 10), getResult);
+        assertEquals(getResult10.subList(offset, offset + limit), getResult);
     }
+
 }

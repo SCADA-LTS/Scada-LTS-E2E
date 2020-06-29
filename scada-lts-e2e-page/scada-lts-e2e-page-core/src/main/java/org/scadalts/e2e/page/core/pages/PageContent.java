@@ -45,4 +45,21 @@ interface PageContent<T extends PageObject<T>> extends GetPage<T> {
         }
         return getPage();
     }
+
+    default boolean isAlertOnPage() {
+        try {
+            switchTo().alert();
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    default String getAlertContent() {
+        try {
+            return switchTo().alert().getText();
+        } catch (Exception ex) {
+            return "";
+        }
+    }
 }

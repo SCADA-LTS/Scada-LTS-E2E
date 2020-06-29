@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.common.utils.VariationUnit;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
@@ -204,8 +205,18 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
                 .closeEditorDataPointValue(identifier);
     }
 
-    public void setSequenceInts(DataSourcePointIdentifier identifier, List<Integer> values) {
-        for(Integer value: values) {
+    public WatchListPage setValueWithoutCloseEditor(DataSourcePointIdentifier identifier, String value) {
+        return openDataPointValueEditor(identifier)
+                .setDataPointValue(identifier,  value)
+                .confirmDataPointValue(identifier);
+    }
+
+    public <T> void setSequenceInts(DataSourcePointIdentifier identifier, VariationUnit<T> values) {
+        setSequenceInts(identifier, values.getVariation());
+    }
+
+    public <T> void setSequenceInts(DataSourcePointIdentifier identifier, List<T> values) {
+        for(T value: values) {
             setValue(identifier, String.valueOf(value));
         }
     }
