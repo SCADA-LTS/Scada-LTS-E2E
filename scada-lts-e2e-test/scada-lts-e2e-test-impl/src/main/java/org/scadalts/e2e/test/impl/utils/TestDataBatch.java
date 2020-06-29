@@ -23,7 +23,7 @@ public class TestDataBatch {
     public TestDataBatch(VariationUnit<Integer> variationUnit, DataPointNotifierType dataPointNotifierType) {
         this.variationUnit = variationUnit;
         this.dataPointIdentifier = IdentifierObjectFactory.dataPointNotifierBinaryTypeName(dataPointNotifierType);
-        this.numberAlarmsWithStart = AlarmsAndStorungsUtil.calculateRisingSlopes(variationUnit.getVariationWithStart(),
+        this.numberAlarmsWithStart = dataPointNotifierType == DataPointNotifierType.NONE ? 0 : AlarmsAndStorungsUtil.calculateRisingSlopes(variationUnit.getVariationWithStart(),
                 0); //+ variationUnit.getStartValue() == 0 ? 1 : 0;
         this.dataPointNotifierType = dataPointNotifierType;
     }
@@ -53,16 +53,16 @@ public class TestDataBatch {
     }
 
     public int getNumberActiveAlarms() {
-        return _isActivate() ? 1 : 0;
+        return _isActivate() && dataPointNotifierType != DataPointNotifierType.NONE ? 1 : 0;
     }
 
     public int getNumberStartAlarms() {
-        return variationUnit.getStartValue() == 1 ? 1 : 0;
+        return variationUnit.getStartValue() == 1 && dataPointNotifierType != DataPointNotifierType.NONE ? 1 : 0;
     }
 
     private boolean _isActivate() {
-        List<Integer> variation = variationUnit.getVariation();
-        return variationUnit.getVariation().get(variation.size() - 1) == 1;
+        List<Integer> variation = variationUnit.getVariationWithStart();
+        return variation.get(variation.size() - 1) == 1;
     }
 
     @Override

@@ -46,8 +46,10 @@ public class AcknowledgeAlarmStorungLiveServiceTest {
         return new Object[][] {
                 {DataPointNotifierType.ALARM, "0"},
                 {DataPointNotifierType.STORUNG, "0"},
+                {DataPointNotifierType.NONE, "0"},
                 {DataPointNotifierType.ALARM, "1"},
-                {DataPointNotifierType.STORUNG, "1"}
+                {DataPointNotifierType.STORUNG, "1"},
+                {DataPointNotifierType.NONE, "1"}
 
         };
     }
@@ -100,7 +102,7 @@ public class AcknowledgeAlarmStorungLiveServiceTest {
     }
 
     @Test
-    public void test_acknowledge_if_start_value_one_then_one_live_alarms_other_zero() {
+    public void test_invoke_acknowledge_no_change_state_live() {
 
         //given:
         VariationUnit<Integer> variationUnit = VariationUnit.<Integer>builder()
@@ -110,7 +112,6 @@ public class AcknowledgeAlarmStorungLiveServiceTest {
                 .dataPointNotifierType(dataPointNotifierType)
                 .variationUnit(variationUnit)
                 .build();
-        int numberAlarmsAfterAcknowledgeExpected = testDataBatch.getNumberActiveAlarms();
 
         //when:
         List<AlarmResponse> alarmResponses = getAlarms(uniqueIdentifier, paginationParams);
@@ -131,8 +132,8 @@ public class AcknowledgeAlarmStorungLiveServiceTest {
         }
 
         //then:
-        alarmResponses = getAlarms(uniqueIdentifier, paginationParams);
-        assertEquals(EXPECTED_ONE_LIVE_IF_START_POINT_VALUE_IS_ONE_OTHER_ZERO, numberAlarmsAfterAcknowledgeExpected, alarmResponses.size());
+        List<AlarmResponse> alarmResponsesAfterAcknowledge = getAlarms(uniqueIdentifier, paginationParams);
+        assertEquals(EXPECTED_THAT_INVOKE_ACKNOWLEDGE_NO_CHANGE_STATE_LIVE, alarmResponses, alarmResponsesAfterAcknowledge);
 
     }
 

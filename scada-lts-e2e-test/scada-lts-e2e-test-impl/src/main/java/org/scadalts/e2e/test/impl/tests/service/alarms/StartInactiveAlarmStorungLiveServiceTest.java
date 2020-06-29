@@ -75,7 +75,7 @@ public class StartInactiveAlarmStorungLiveServiceTest {
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z, "0", "alarm", "1");
-        assertEquals(msg,1, alarmResponse.size());
+        assertEquals(msg,0, alarmResponse.size());
 
         //when:
         alarmResponse = getAlarms(stroungIdentifier, paginationParams);

@@ -67,14 +67,18 @@ public abstract class DynamicElementUtil {
         return _findActions(actionCriteria,source);
     }
 
-    private static ElementsCollection _findObjects(NodeCriteria nodeCriteria, SelenideElement source) {
-        String xpath = nodeCriteria.getXpath();
-        logger.info("xpath: {} \n source: {}", xpath, source);
+    private static ElementsCollection _findObjects(NodeCriteria criteria, SelenideElement source) {
+        String xpath = criteria.getXpath();
+        _toLog(criteria, source);
 
         ElementsCollection elements = waitWhile(source, not(Condition.visible))
                 .$$(By.xpath(xpath));
         logger.debug("elements: {}", elements);
         return elements;
+    }
+
+    private static void _toLog(NodeCriteria nodeCriteria, SelenideElement source) {
+        logger.info("xpath: {}, in: {}", nodeCriteria.getXpath(), source.getSearchCriteria());
     }
 
     private static SelenideElement _findObject(NodeCriteria criteria, SelenideElement source) {
@@ -111,14 +115,14 @@ public abstract class DynamicElementUtil {
 
     private static SelenideElement _findObjectWithActions(NodeCriteria criteria, SelenideElement source) {
             String xpath = criteria.getXpath();
-        logger.info("xpath: {}", xpath);
+        _toLog(criteria, source);
         SelenideElement selenideElement = source.$(By.xpath(xpath));
         return selenideElement;
     }
 
     private static ElementsCollection _findObjectsWithActions(NodeCriteria criteria, SelenideElement source) {
         String xpath = criteria.getXpath();
-        logger.info("xpath: {}", xpath);
+        _toLog(criteria, source);
         ElementsCollection selenideElement = source.$$(By.xpath(xpath));
         return selenideElement;
     }

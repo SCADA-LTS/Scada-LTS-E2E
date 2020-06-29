@@ -21,6 +21,7 @@ import org.scadalts.e2e.test.impl.utils.TestDataBatch;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -32,10 +33,25 @@ public class SequenceAlarmStorungLiveServiceTest {
 
     @Parameterized.Parameters(name = "{index}: sequence: {0}")
     public static List<TestDataBatch> data() {
-        List<TestDataBatch> result = generateDataTest(3, DataPointNotifierType.ALARM, 0);
+        List<TestDataBatch> result = new ArrayList<>();
+
+        result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, 0));
         result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, 1));
         result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, 0));
         result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, 1));
+        result.addAll(generateDataTest(3, DataPointNotifierType.NONE, 0));
+        result.addAll(generateDataTest(3, DataPointNotifierType.NONE, 1));
+/*
+        result.add(TestDataBatch.builder()
+                .variationUnit(VariationUnit.<Integer>builder()
+                        .startValue(1)
+                        .sequence(1)
+                        .sequence(0)
+                        .sequence(1)
+                        .build())
+                .dataPointNotifierType(DataPointNotifierType.ALARM)
+                .build());
+*/
         return result;
     }
 
@@ -116,9 +132,20 @@ public class SequenceAlarmStorungLiveServiceTest {
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
                 testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
-                testDataBatch.getNumberAlarmsWithStart());
-
+                testDataBatch.getNumberAlarms());
         assertEquals(msg, testDataBatch.getNumberAlarms(), alarmResponses.size());
+
+        //and then:
+        msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_ACTIVE_DIFFERENT_FROM_Z,
+                testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
+                testDataBatch.getNumberActiveAlarms());
+        assertEquals(msg, testDataBatch.getNumberActiveAlarms(), getNumberActiveAlarmsFromResponse(alarmResponses));
+
+        //and then:
+        msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_INACTIVE_DIFFERENT_FROM_Z,
+                testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
+                testDataBatch.getNumberInactiveAlarms());
+        assertEquals(msg, testDataBatch.getNumberInactiveAlarms(), getNumberInactiveAlarmsFromResponse(alarmResponses));
 
     }
 }
