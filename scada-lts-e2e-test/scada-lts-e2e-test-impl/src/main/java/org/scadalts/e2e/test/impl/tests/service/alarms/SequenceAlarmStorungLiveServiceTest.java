@@ -41,17 +41,7 @@ public class SequenceAlarmStorungLiveServiceTest {
         result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, 1));
         result.addAll(generateDataTest(3, DataPointNotifierType.NONE, 0));
         result.addAll(generateDataTest(3, DataPointNotifierType.NONE, 1));
-/*
-        result.add(TestDataBatch.builder()
-                .variationUnit(VariationUnit.<Integer>builder()
-                        .startValue(1)
-                        .sequence(1)
-                        .sequence(0)
-                        .sequence(1)
-                        .build())
-                .dataPointNotifierType(DataPointNotifierType.ALARM)
-                .build());
-*/
+
         return result;
     }
 

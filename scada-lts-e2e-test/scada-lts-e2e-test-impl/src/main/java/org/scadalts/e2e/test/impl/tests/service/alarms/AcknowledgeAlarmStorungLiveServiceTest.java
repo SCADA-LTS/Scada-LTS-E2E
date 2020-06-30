@@ -46,10 +46,8 @@ public class AcknowledgeAlarmStorungLiveServiceTest {
         return new Object[][] {
                 {DataPointNotifierType.ALARM, "0"},
                 {DataPointNotifierType.STORUNG, "0"},
-                {DataPointNotifierType.NONE, "0"},
                 {DataPointNotifierType.ALARM, "1"},
-                {DataPointNotifierType.STORUNG, "1"},
-                {DataPointNotifierType.NONE, "1"}
+                {DataPointNotifierType.STORUNG, "1"}
 
         };
     }
