@@ -120,7 +120,7 @@ public class PointLinksMultiParametersServiceTest {
                     .error("")
                     .resultOperationSave("")
                     .value(value)
-                    .xid(sourceXid.getValue())
+                    .dataPointXid(sourceXid.getValue())
                     .build();
 
             //when:

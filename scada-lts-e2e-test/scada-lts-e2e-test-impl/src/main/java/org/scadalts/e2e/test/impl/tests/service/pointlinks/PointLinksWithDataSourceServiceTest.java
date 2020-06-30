@@ -143,7 +143,7 @@ public class PointLinksWithDataSourceServiceTest {
                     .error("")
                     .resultOperationSave("")
                     .value(value)
-                    .xid(sourceXid.getValue())
+                    .dataPointXid(sourceXid.getValue())
                     .build();
 
             //when:

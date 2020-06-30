@@ -5,28 +5,34 @@ import org.scadalts.e2e.common.utils.VariationsGenerator;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
 import org.scadalts.e2e.service.core.services.E2eResponse;
+import org.scadalts.e2e.service.impl.services.ServiceObjectFactory;
+import org.scadalts.e2e.service.impl.services.StorungsAndAlarmsServiceObject;
+import org.scadalts.e2e.service.impl.services.alarms.AcknowledgeResponse;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
 import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertEquals;
+
 public class AlarmsAndStorungsUtil {
 
     public final static String AFTER_INITIALIZING_POINT_VALUE_WITH_X_THEN_Y_Z_WAS_GENERATED = "Failure because: After initializing the point with the value {0} then {1} {2} was generated.";
     public final static String INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_SUCCEED = "Failure because: An attempt to invoke acknowledge from API did not succeed.";
+    public final static String INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_OK = "Failure because: An attempt to invoke acknowledge from API did not ok.";
+    public final static String INVOKE_ACKNOWLEDGE_FROM_API_CAUSES_ERROR = "Failure because: An attempt to invoke acknowledge from API causes an error.";
+    public final static String INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID = "Failure because: An attempt to invoke acknowledge from API returns the id of an object other.";
     public final static String INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED = "Failure because: An attempt to invoke get lives from API did not succeed.";
     public final static String INVOKE_ACKNOWLEDGE_ON_ACTIVE_ALARM_DELETE_IT_FROM_LIVE = "Failure because: Invoke acknowledge on active alarm/storung delete it from live.";
     public final static String AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z = "Failure because: After changing point values by sequence: {0}, then the number of {1} live different from {2}.";
     public final static String AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_ACTIVE_DIFFERENT_FROM_Z = "Failure because: After changing point values by sequence: {0}, then the number of {1} active different from {2}.";
     public final static String AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_INACTIVE_DIFFERENT_FROM_Z = "Failure because: After changing point values by sequence: {0}, then the number of {1} inactive different from {2}.";
+    public final static String INVOKE_SET_DATA_POINT_VALUE_FROM_API_DID_NOT_SUCCEED = "Failure because: An attempt to invoke set data point value from API did not succeed.";
 
     public final static String EXPECTED_THAT_INVOKE_ACKNOWLEDGE_NO_CHANGE_STATE_LIVE = "Failure because: Expected that invoke method acknowledge would not change the status of live alarms.";
     public final static String EXPECTED_INACTIVE_ALARM = "Failure because: Expected inactive alarm/storung.";
@@ -51,22 +57,42 @@ public class AlarmsAndStorungsUtil {
         return responses;
     }
 
-    public static List<AlarmResponse> getAlarms(DataPointIdentifier identifier, PaginationParams paginationParams) {
+    public static List<AlarmResponse> getAlarmsSortByActivationTime(DataPointIdentifier identifier, PaginationParams paginationParams) {
         E2eResponse<List<AlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationParams,
                 TestImplConfiguration.waitingAfterSetPointValueMs);
+        assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
         List<AlarmResponse> getResult = getResponse.getValue();
         return AlarmsAndStorungsUtil.getAlarmsFor(identifier, getResult).stream()
                 .sorted((a, b) -> b.getActivationTime().compareTo(a.getActivationTime()))
                 .collect(Collectors.toList());
     }
 
-    public static List<AlarmResponse> getAlarms(DataPointIdentifier identifier, Predicate<List<AlarmResponse>> expected,
-                                                 PaginationParams paginationParams) {
+    public static List<AlarmResponse> getAlarmsSortByActivationTime(DataPointIdentifier identifier, Predicate<List<AlarmResponse>> expected,
+                                                                    PaginationParams paginationParams) {
         E2eResponse<List<AlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationParams, expected);
+        assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
         List<AlarmResponse> getResult = getResponse.getValue();
         return AlarmsAndStorungsUtil.getAlarmsFor(identifier, getResult).stream()
                 .sorted((a, b) -> b.getActivationTime().compareTo(a.getActivationTime()))
                 .collect(Collectors.toList());
+    }
+
+    public static List<AlarmResponse> getAlarms(PaginationParams paginationParams) {
+        E2eResponse<List<AlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationParams,
+                TestImplConfiguration.waitingAfterSetPointValueMs);
+        assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
+        return getResponse.getValue();
+    }
+
+    public static AcknowledgeResponse acknowledgeAlarm(String id) {
+        try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
+                     ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
+            Optional<E2eResponse<AcknowledgeResponse>> responseOpt = storungsAndAlarmsServiceObject.acknowledgeAlarm(id,
+                    TestImplConfiguration.waitingAfterSetPointValueMs);
+            E2eResponse<AcknowledgeResponse> getResponse = responseOpt.orElseGet(E2eResponse::empty);
+            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
+            return getResponse.getValue();
+        }
     }
 
     public static int calculateRisingSlopes(VariationUnit<Integer> variation, int startValue) {

@@ -10,6 +10,7 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
 import org.scadalts.e2e.service.core.sessions.CookieFactory;
+import org.scadalts.e2e.service.impl.services.alarms.AcknowledgeResponse;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmParams;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
 import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
@@ -70,9 +71,9 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
         }
     }
 
-    public Optional<E2eResponse<String>> acknowledgeAlarm(String id, long timeout) {
+    public Optional<E2eResponse<AcknowledgeResponse>> acknowledgeAlarm(String id, long timeout) {
         try {
-            E2eResponse<String> response = applyWhile(this::_acknowledgeAlarm, id, new StabilityUtil.Timeout(timeout));
+            E2eResponse<AcknowledgeResponse> response = applyWhile(this::_acknowledgeAlarm, id, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -117,16 +118,16 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
     }
 
 
-    private E2eResponse<String> _acknowledgeAlarm(String id) {
+    private E2eResponse<AcknowledgeResponse> _acknowledgeAlarm(String id) {
         String endpoint = MessageFormat.format("{0}/api/alarms/acknowledge/{1}", baseUrl, id);
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.debug("endpoint: {}", endpoint);
         logger.debug("cookie: {}", cookie);
         Response response = client.target(endpoint)
-                .request(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
+                .request(MediaType.APPLICATION_JSON_TYPE)
                 .cookie(cookie)
                 .post(null);
-        return E2eResponseFactory.newResponse(response, String.class);
+        return E2eResponseFactory.newResponse(response, AcknowledgeResponse.class);
     }
 
     private List<AlarmResponse> _get(Response response) {

@@ -82,7 +82,7 @@ public class PointLinksUpdateServiceTest {
                 .error("")
                 .resultOperationSave("")
                 .value(value)
-                .xid(pointSource.getValue())
+                .dataPointXid(pointSource.getValue())
                 .build();
 
         //when:
@@ -93,7 +93,7 @@ public class PointLinksUpdateServiceTest {
         assertEquals(200, setResponse.getStatus());
         assertNotNull(setResult);
         assertEquals("", setResult.getError());
-        assertEquals(pointSource.getValue(), setResult.getXid());
+        assertEquals(pointSource.getValue(), setResult.getDataPointXid());
         assertEquals(value, setResult.getValue());
 
         //and when:

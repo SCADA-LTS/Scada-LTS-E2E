@@ -8,6 +8,7 @@ import org.scadalts.e2e.common.exceptions.E2eAuthenticationException;
 import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.*;
+import org.scadalts.e2e.service.impl.services.alarms.AcknowledgeResponse;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmParams;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
 import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
@@ -154,10 +155,10 @@ public class TestWithoutPageUtil {
         }
     }
 
-    public static E2eResponse<String> acknowledgeAlarm(String id, long timeout) {
+    public static E2eResponse<AcknowledgeResponse> acknowledgeAlarm(String id, long timeout) {
         try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
-            Optional<E2eResponse<String>> responseOpt = storungsAndAlarmsServiceObject.acknowledgeAlarm(id,
+            Optional<E2eResponse<AcknowledgeResponse>> responseOpt = storungsAndAlarmsServiceObject.acknowledgeAlarm(id,
                     timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }

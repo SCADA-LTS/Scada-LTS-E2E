@@ -6,16 +6,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
-import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
 import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
-import org.scadalts.e2e.test.impl.creators.DataPointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.AlarmsAndStorungsObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
-import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestDataBatch;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
@@ -60,10 +56,7 @@ public class SequenceAlarmStorungLiveServiceTest {
     private static DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
     private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
 
-    private WatchListObjectsCreator watchListObjectsCreator;
-    private DataPointObjectsCreator dataPointObjectsCreator;
-    private WatchListPage watchListPage;
-    private DataSourcePointIdentifier dataSourcePointIdentifier;
+    private AlarmsAndStorungsObjectsCreator alarmsAndStorungsObjectsCreator;
 
     @BeforeClass
     public static void createDataSource() {
@@ -79,18 +72,10 @@ public class SequenceAlarmStorungLiveServiceTest {
                 String.valueOf(testDataBatch.getStartValue()));
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
-        dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage, dataSourceCriteria, point);
-        dataPointObjectsCreator.createObjects();
+        alarmsAndStorungsObjectsCreator = new AlarmsAndStorungsObjectsCreator(navigationPage, dataSourceCriteria, point);
+        alarmsAndStorungsObjectsCreator.createObjects();
 
-        dataSourcePointIdentifier = new DataSourcePointIdentifier(dataSourceCriteria.getIdentifier(),
-                testDataBatch.getDataPointIdentifier());
-
-        watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, WatchListCriteria.criteria(dataSourcePointIdentifier));
-        watchListObjectsCreator.createObjects();
-
-        watchListPage = navigationPage.openWatchList();
-
-        List<AlarmResponse> alarmResponses = getAlarms(testDataBatch.getDataPointIdentifier(), paginationParams);
+        List<AlarmResponse> alarmResponses = getAlarmsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
         String msg = MessageFormat.format(AFTER_INITIALIZING_POINT_VALUE_WITH_X_THEN_Y_Z_WAS_GENERATED,
                 testDataBatch.getStartValue(), testDataBatch.getNumberStartAlarms(),
                 testDataBatch.getDataPointNotifierType().getName());
@@ -100,8 +85,7 @@ public class SequenceAlarmStorungLiveServiceTest {
 
     @After
     public void clean() {
-        watchListObjectsCreator.deleteObjects();
-        dataPointObjectsCreator.deleteObjects();
+        alarmsAndStorungsObjectsCreator.deleteAlaramsAndDataPoints();
     }
 
     @AfterClass
@@ -109,15 +93,14 @@ public class SequenceAlarmStorungLiveServiceTest {
         dataSourcePointObjectsCreator.deleteObjects();
     }
 
-
     @Test
     public void test_when_set_sequence_then_x_alarms_size() {
 
         //when:
-        watchListPage.setSequenceInts(dataSourcePointIdentifier, testDataBatch.getSequencePointValue());
+        alarmsAndStorungsObjectsCreator.setDataPointValues(testDataBatch.getSequencePointValue());
 
         //and when:
-        List<AlarmResponse> alarmResponses = getAlarms(testDataBatch.getDataPointIdentifier(), paginationParams);
+        List<AlarmResponse> alarmResponses = getAlarmsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,

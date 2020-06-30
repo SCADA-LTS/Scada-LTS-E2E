@@ -27,6 +27,7 @@ import static com.codeborne.selenide.Selenide.page;
 import static org.scadalts.e2e.common.utils.FormatUtil.unformat;
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.refreshWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 @Log4j2
@@ -106,7 +107,7 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     }
 
     public WatchListPage addDataToWatchList(DataSourcePointIdentifier identifier) {
-        waitWhile(_findActionInSpan(identifier, SELECTOR_ACTION_ADD_TO_WATCH_LIST_BY), not(Condition.visible)).click();
+        refreshWhile(_findActionInSpan(identifier, SELECTOR_ACTION_ADD_TO_WATCH_LIST_BY), not(Condition.visible)).click();
         waitWhile(() -> !isVisibleWatchListUnit(identifier));
         return this;
     }
