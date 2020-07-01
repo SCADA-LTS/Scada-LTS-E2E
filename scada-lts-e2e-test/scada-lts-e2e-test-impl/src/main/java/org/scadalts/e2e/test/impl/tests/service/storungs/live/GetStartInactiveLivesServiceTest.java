@@ -25,7 +25,7 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.AFTER_CHANG
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
-public class StartInactiveLivesServiceTest {
+public class GetStartInactiveLivesServiceTest {
 
     private static DataPointIdentifier alarmIdentifier;
     private static DataPointIdentifier stroungIdentifier;
@@ -61,7 +61,7 @@ public class StartInactiveLivesServiceTest {
     public void test_start_value_zero_for_alarm_then_not_raise_alarm() {
         
         //when:
-        List<StorungAlarmResponse> storungAlarmResponse = StorungsAndAlarmsUtil.getAlarmsSortByActivationTime(alarmIdentifier, paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = StorungsAndAlarmsUtil.getAlarmsAndStorungsSortByActivationTime(alarmIdentifier, paginationParams);
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z, "0", "alarm", "0");
@@ -72,7 +72,7 @@ public class StartInactiveLivesServiceTest {
     public void test_start_value_zero_for_storung_then_not_raise_storung() {
 
         //when:
-        List<StorungAlarmResponse> storungAlarmResponse = StorungsAndAlarmsUtil.getAlarmsSortByActivationTime(stroungIdentifier, paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = StorungsAndAlarmsUtil.getAlarmsAndStorungsSortByActivationTime(stroungIdentifier, paginationParams);
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z, "0", "storung", "0");

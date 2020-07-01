@@ -15,7 +15,7 @@ import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
-import org.scadalts.e2e.test.impl.utils.DateValidation;
+import org.scadalts.e2e.test.impl.utils.RegexUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.text.MessageFormat;
@@ -30,7 +30,7 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
-public class StartActiveLivesServiceTest {
+public class GetStartActiveLivesServiceTest {
 
     private static DataPointIdentifier alarmIdentifier;
     private static DataPointIdentifier storungIdentifier;
@@ -57,14 +57,14 @@ public class StartActiveLivesServiceTest {
         storungsAndAlarmsObjectsCreator.createObjects();
 
         //when:
-        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsSortByActivationTime(alarmIdentifier, paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier, paginationParams);
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z, "1", "alarm", "1");
         assertEquals(msg,1, storungAlarmResponse.size());
 
         //when:
-        storungAlarmResponse = getAlarmsSortByActivationTime(storungIdentifier, paginationParams);
+        storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier, paginationParams);
 
         //then:
         msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z, "1", "storung", "1");
@@ -81,17 +81,17 @@ public class StartActiveLivesServiceTest {
     public void test_response_activation_time_then_is_date_iso_for_alarm() {
 
         //when:
-        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsSortByActivationTime(alarmIdentifier, paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier, paginationParams);
 
         //then:
-        assertThat(EXPECTED_DATE_ISO, storungAlarmResponse.get(0).getActivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
+        assertThat(EXPECTED_DATE_ISO, storungAlarmResponse.get(0).getActivationTime(), matchesPattern(RegexUtil.DATE_ISO_REGEX));
     }
 
     @Test
     public void test_response_inactivation_time_then_empty_for_alarm() {
 
         //when:
-        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsSortByActivationTime(alarmIdentifier, paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier, paginationParams);
 
         //then:
         assertThat(EXPECTED_ACTIVE_ALARM, storungAlarmResponse.get(0).getInactivationTime(), anyOf(is(""), is(" ")));
@@ -101,7 +101,7 @@ public class StartActiveLivesServiceTest {
     public void test_response_name_then_point_name_for_alarm() {
 
         //when:
-        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsSortByActivationTime(alarmIdentifier, paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier, paginationParams);
 
         //then:
         assertEquals(alarmIdentifier.getValue(), storungAlarmResponse.get(0).getName());
@@ -111,7 +111,7 @@ public class StartActiveLivesServiceTest {
     public void test_response_level_then_AlarmLevel_for_alarm() {
 
         //when:
-        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsSortByActivationTime(alarmIdentifier, paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier, paginationParams);
 
         //then:
         assertEquals(AlarmLevel.INFORMATION.getId(), storungAlarmResponse.get(0).getLevel());
@@ -121,17 +121,17 @@ public class StartActiveLivesServiceTest {
     public void test_response_activation_time_then_is_date_iso_for_storung() {
 
         //when:
-        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsSortByActivationTime(storungIdentifier, paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier, paginationParams);
 
         //then:
-        assertThat(EXPECTED_DATE_ISO, storungAlarmResponse.get(0).getActivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
+        assertThat(EXPECTED_DATE_ISO, storungAlarmResponse.get(0).getActivationTime(), matchesPattern(RegexUtil.DATE_ISO_REGEX));
     }
 
     @Test
     public void test_response_inactivation_time_then_empty_for_storung() {
 
         //when:
-        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsSortByActivationTime(storungIdentifier, paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier, paginationParams);
 
         //then:
         assertThat(EXPECTED_ACTIVE_ALARM, storungAlarmResponse.get(0).getInactivationTime(), anyOf(is(""), is(" ")));
@@ -141,7 +141,7 @@ public class StartActiveLivesServiceTest {
     public void test_response_name_then_point_name_for_storung() {
 
         //when:
-        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsSortByActivationTime(storungIdentifier, paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier, paginationParams);
 
         //then:
         assertEquals(storungIdentifier.getValue(), storungAlarmResponse.get(0).getName());
@@ -151,7 +151,7 @@ public class StartActiveLivesServiceTest {
     public void test_response_level_then_AlarmLevel_for_storung() {
 
         //when:
-        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsSortByActivationTime(storungIdentifier, paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier, paginationParams);
 
         //then:
         assertEquals(AlarmLevel.URGENT.getId(), storungAlarmResponse.get(0).getLevel());

@@ -10,10 +10,11 @@ import org.scadalts.e2e.test.impl.tests.service.storungs.live.*;
         GetActiveLivesServiceTest.class,
         GetInactiveLivesServiceTest.class,
         AcknowledgeLivesServiceTest.class,
-        SequentialChangesPointValueLivesServiceTest.class,
-        StartActiveLivesServiceTest.class,
-        StartInactiveLivesServiceTest.class,
-        GetLivesStructureServiceTest.class
+        GetLivesAggregationServiceTest.class,
+        GetStartActiveLivesServiceTest.class,
+        GetStartInactiveLivesServiceTest.class,
+        GetLivesGroupingSortServiceTest.class,
+        GetAllLivesParametersServiceTest.class
 })
 public class StorungsAndAlarmsServiceTestsSuite {
 }

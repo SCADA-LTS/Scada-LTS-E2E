@@ -26,7 +26,7 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.EXPECTED_AL
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
-public class GetLivesStructureServiceTest {
+public class GetLivesGroupingSortServiceTest {
 
     @Parameterized.Parameters(name = "{index}: offset: {0}, limit: {1}")
     public static Object[][] data() {
@@ -42,7 +42,7 @@ public class GetLivesStructureServiceTest {
     private final int offset;
     private final int limit;
 
-    public GetLivesStructureServiceTest(int offset, int limit) {
+    public GetLivesGroupingSortServiceTest(int offset, int limit) {
         this.offset = offset;
         this.limit = limit;
     }
@@ -92,7 +92,7 @@ public class GetLivesStructureServiceTest {
         inactivePoints.createObjects();
         inactivePoints.setDataPointValue(0);
 
-        StorungsAndAlarmsUtil.getAlarmsAndStorungs(PaginationParams.builder()
+        StorungsAndAlarmsUtil.getStorungsAndAlarms(PaginationParams.builder()
                 .offset(0)
                 .limit(9999)
                 .build(), 12);
@@ -149,7 +149,7 @@ public class GetLivesStructureServiceTest {
     public void test_ref_structure_lives() {
 
         //when:
-        List<StorungAlarmResponse> responses = StorungsAndAlarmsUtil.getAlarmsAndStorungs(PaginationParams.builder()
+        List<StorungAlarmResponse> responses = StorungsAndAlarmsUtil.getStorungsAndAlarms(PaginationParams.builder()
                 .limit(limit)
                 .offset(offset)
                 .build());

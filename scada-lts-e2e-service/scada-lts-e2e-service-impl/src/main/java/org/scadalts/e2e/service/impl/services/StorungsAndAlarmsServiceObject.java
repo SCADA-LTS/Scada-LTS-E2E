@@ -91,7 +91,7 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
                 String.valueOf(paginationParams.getOffset()),
                 String.valueOf(paginationParams.getLimit()));
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
-        logger.debug("endpoint: {}", endpoint);
+        logger.info("endpoint: {}", endpoint);
         logger.debug("cookie: {}", cookie);
         Response response = client.target(endpoint)
                 .request(MediaType.APPLICATION_JSON_TYPE)
@@ -107,7 +107,7 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
                 String.valueOf(storungAlarmParams.getPaginationParams().getOffset()),
                 String.valueOf(storungAlarmParams.getPaginationParams().getLimit()));
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
-        logger.debug("endpoint: {}", endpoint);
+        logger.info("endpoint: {}", endpoint);
         logger.debug("cookie: {}", cookie);
         Response response = client.target(endpoint)
                 .request(MediaType.APPLICATION_JSON_TYPE)
@@ -121,7 +121,7 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
     private E2eResponse<AcknowledgeResponse> _acknowledgeAlarm(String id) {
         String endpoint = MessageFormat.format("{0}/api/alarms/acknowledge/{1}", baseUrl, id);
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
-        logger.debug("endpoint: {}", endpoint);
+        logger.info("endpoint: {}", endpoint);
         logger.debug("cookie: {}", cookie);
         Response response = client.target(endpoint)
                 .request(MediaType.APPLICATION_JSON_TYPE)

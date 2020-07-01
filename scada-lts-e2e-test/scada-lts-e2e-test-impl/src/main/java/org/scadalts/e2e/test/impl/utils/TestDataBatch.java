@@ -67,7 +67,7 @@ public class TestDataBatch {
 
     @Override
     public String toString() {
-        return MessageFormat.format("variations: {0}, data point name: {1}, number alarms live[x]: {2}",
+        return MessageFormat.format("variations: {0}, data point name: {1}, size lives[x]: {2}",
                 variationUnit.getVariationWithStart(), dataPointIdentifier.getValue(), getNumberAlarmsWithStart());
     }
 }

@@ -126,7 +126,7 @@ public class StorungsAndAlarmsObjectsCreator implements CreatorObject<DataSource
         for (DataSourcePointCriteria criteria : dataSourcePointCriterias) {
             setValue(criteria.getDataPoint(), "0");
             List<StorungAlarmResponse> alarms = StorungsAndAlarmsUtil
-                    .getAlarmsSortByActivationTime(criteria.getDataPoint().getIdentifier(), paginationParams);
+                    .getAlarmsAndStorungsSortByActivationTime(criteria.getDataPoint().getIdentifier(), paginationParams);
             for (StorungAlarmResponse alarm : alarms) {
                 logger.info("delete: {}", alarm);
                 AcknowledgeResponse response = StorungsAndAlarmsUtil.acknowledgeAlarm(alarm.getId());

@@ -25,7 +25,7 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
-public class SequentialChangesPointValueLivesServiceTest {
+public class GetLivesAggregationServiceTest {
 
     @Parameterized.Parameters(name = "{index}: sequence: {0}")
     public static List<TestDataBatch> data() {
@@ -43,7 +43,7 @@ public class SequentialChangesPointValueLivesServiceTest {
 
     private final TestDataBatch testDataBatch;
 
-    public SequentialChangesPointValueLivesServiceTest(TestDataBatch testDataBatch) {
+    public GetLivesAggregationServiceTest(TestDataBatch testDataBatch) {
         this.testDataBatch = testDataBatch;
     }
 
@@ -75,7 +75,7 @@ public class SequentialChangesPointValueLivesServiceTest {
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, point);
         storungsAndAlarmsObjectsCreator.createObjects();
 
-        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
         String msg = MessageFormat.format(AFTER_INITIALIZING_POINT_VALUE_WITH_X_THEN_Y_Z_WAS_GENERATED,
                 testDataBatch.getStartValue(), testDataBatch.getNumberStartAlarms(),
                 testDataBatch.getDataPointNotifierType().getName());
@@ -94,13 +94,13 @@ public class SequentialChangesPointValueLivesServiceTest {
     }
 
     @Test
-    public void test_when_set_sequence_then_x_alarms_size() {
+    public void test_when_set_sequence_then_x_size_lives() {
 
         //when:
         storungsAndAlarmsObjectsCreator.setDataPointValues(testDataBatch.getSequencePointValue());
 
         //and when:
-        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,

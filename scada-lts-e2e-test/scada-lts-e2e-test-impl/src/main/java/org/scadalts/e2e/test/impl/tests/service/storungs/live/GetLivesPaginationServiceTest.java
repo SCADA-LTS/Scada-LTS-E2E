@@ -23,8 +23,10 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.EXPECTED_LARGER_OR_EQUALS_TO_X_ALARMS_STORUNGS_BUT_WAS_Y;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.EXPECTED_X_ALARMS_STORUNGS;
-import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.getAlarmsAndStorungs;
+import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.getStorungsAndAlarms;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
@@ -87,7 +89,7 @@ public class GetLivesPaginationServiceTest {
                 .build();
 
         //when:
-        getResult10 = getAlarmsAndStorungs(pagination10);
+        getResult10 = getStorungsAndAlarms(pagination10);
 
         //then:
         String msg = MessageFormat.format(EXPECTED_X_ALARMS_STORUNGS, "10");
@@ -110,7 +112,7 @@ public class GetLivesPaginationServiceTest {
                 .build();
 
         //when:
-        List<StorungAlarmResponse> getResult = getAlarmsAndStorungs(paginationParams);
+        List<StorungAlarmResponse> getResult = getStorungsAndAlarms(paginationParams);
 
         //then:
         assertNotNull(getResult);
@@ -127,11 +129,33 @@ public class GetLivesPaginationServiceTest {
                 .build();
 
         //when:
-        List<StorungAlarmResponse> getResult = getAlarmsAndStorungs(paginationToTest);
+        List<StorungAlarmResponse> getResult = getStorungsAndAlarms(paginationToTest);
 
 
         //then:
         assertNotNull(getResult);
         assertEquals(getResult10.subList(offset, limit + offset), getResult);
+    }
+
+    @Test
+    public void test_get_live_alarms_offset2() {
+
+        //given:
+        PaginationParams paginationToTest = PaginationParams.builder()
+                .limit(limit)
+                .offset(offset)
+                .build();
+        int max = 10 - offset;
+        int number = (max < limit ? max : limit);
+
+        //when:
+        List<StorungAlarmResponse> getResult = getStorungsAndAlarms(paginationToTest);
+
+        //then:
+        assertNotNull(getResult);
+        String msg = MessageFormat.format(EXPECTED_LARGER_OR_EQUALS_TO_X_ALARMS_STORUNGS_BUT_WAS_Y,
+                number, getResult.size());
+
+        assertTrue(msg, number <= getResult.size());
     }
 }
