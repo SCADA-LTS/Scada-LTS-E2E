@@ -1,4 +1,4 @@
-package org.scadalts.e2e.service.impl.services.alarms;
+package org.scadalts.e2e.service.impl.services.storungs;
 
 import lombok.*;
 

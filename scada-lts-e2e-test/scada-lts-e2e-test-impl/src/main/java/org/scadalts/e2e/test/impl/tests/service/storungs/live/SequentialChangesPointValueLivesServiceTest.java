@@ -1,4 +1,4 @@
-package org.scadalts.e2e.test.impl.tests.service.alarms;
+package org.scadalts.e2e.test.impl.tests.service.storungs.live;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.*;
@@ -8,9 +8,9 @@ import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
-import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
-import org.scadalts.e2e.test.impl.creators.AlarmsAndStorungsObjectsCreator;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
+import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
+import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestDataBatch;
@@ -21,11 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.*;
+import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
-public class SequenceAlarmStorungLiveServiceTest {
+public class SequentialChangesPointValueLivesServiceTest {
 
     @Parameterized.Parameters(name = "{index}: sequence: {0}")
     public static List<TestDataBatch> data() {
@@ -43,7 +43,7 @@ public class SequenceAlarmStorungLiveServiceTest {
 
     private final TestDataBatch testDataBatch;
 
-    public SequenceAlarmStorungLiveServiceTest(TestDataBatch testDataBatch) {
+    public SequentialChangesPointValueLivesServiceTest(TestDataBatch testDataBatch) {
         this.testDataBatch = testDataBatch;
     }
 
@@ -56,7 +56,7 @@ public class SequenceAlarmStorungLiveServiceTest {
     private static DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
     private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
 
-    private AlarmsAndStorungsObjectsCreator alarmsAndStorungsObjectsCreator;
+    private StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
 
     @BeforeClass
     public static void createDataSource() {
@@ -72,20 +72,20 @@ public class SequenceAlarmStorungLiveServiceTest {
                 String.valueOf(testDataBatch.getStartValue()));
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
-        alarmsAndStorungsObjectsCreator = new AlarmsAndStorungsObjectsCreator(navigationPage, dataSourceCriteria, point);
-        alarmsAndStorungsObjectsCreator.createObjects();
+        storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, point);
+        storungsAndAlarmsObjectsCreator.createObjects();
 
-        List<AlarmResponse> alarmResponses = getAlarmsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
         String msg = MessageFormat.format(AFTER_INITIALIZING_POINT_VALUE_WITH_X_THEN_Y_Z_WAS_GENERATED,
                 testDataBatch.getStartValue(), testDataBatch.getNumberStartAlarms(),
                 testDataBatch.getDataPointNotifierType().getName());
 
-        assertEquals(msg, testDataBatch.getNumberStartAlarms(), alarmResponses.size());
+        assertEquals(msg, testDataBatch.getNumberStartAlarms(), storungAlarmRespons.size());
     }
 
     @After
     public void clean() {
-        alarmsAndStorungsObjectsCreator.deleteAlaramsAndDataPoints();
+        storungsAndAlarmsObjectsCreator.deleteAlaramsAndDataPoints();
     }
 
     @AfterClass
@@ -97,28 +97,28 @@ public class SequenceAlarmStorungLiveServiceTest {
     public void test_when_set_sequence_then_x_alarms_size() {
 
         //when:
-        alarmsAndStorungsObjectsCreator.setDataPointValues(testDataBatch.getSequencePointValue());
+        storungsAndAlarmsObjectsCreator.setDataPointValues(testDataBatch.getSequencePointValue());
 
         //and when:
-        List<AlarmResponse> alarmResponses = getAlarmsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
                 testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
                 testDataBatch.getNumberAlarms());
-        assertEquals(msg, testDataBatch.getNumberAlarms(), alarmResponses.size());
+        assertEquals(msg, testDataBatch.getNumberAlarms(), storungAlarmRespons.size());
 
         //and then:
         msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_ACTIVE_DIFFERENT_FROM_Z,
                 testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
                 testDataBatch.getNumberActiveAlarms());
-        assertEquals(msg, testDataBatch.getNumberActiveAlarms(), getNumberActiveAlarmsFromResponse(alarmResponses));
+        assertEquals(msg, testDataBatch.getNumberActiveAlarms(), getNumberActiveAlarmsFromResponse(storungAlarmRespons));
 
         //and then:
         msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_INACTIVE_DIFFERENT_FROM_Z,
                 testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
                 testDataBatch.getNumberInactiveAlarms());
-        assertEquals(msg, testDataBatch.getNumberInactiveAlarms(), getNumberInactiveAlarmsFromResponse(alarmResponses));
+        assertEquals(msg, testDataBatch.getNumberInactiveAlarms(), getNumberInactiveAlarmsFromResponse(storungAlarmRespons));
 
     }
 }

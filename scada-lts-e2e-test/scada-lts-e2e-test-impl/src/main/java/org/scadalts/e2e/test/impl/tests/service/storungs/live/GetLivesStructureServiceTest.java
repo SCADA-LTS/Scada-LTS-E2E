@@ -1,4 +1,4 @@
-package org.scadalts.e2e.test.impl.tests.service.alarms;
+package org.scadalts.e2e.test.impl.tests.service.storungs.live;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.AfterClass;
@@ -10,11 +10,11 @@ import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
-import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
-import org.scadalts.e2e.test.impl.creators.AlarmsAndStorungsObjectsCreator;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
+import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
+import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
-import org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil;
+import org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.util.List;
@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
-public class GetLiveStructureServiceTest {
+public class GetLivesStructureServiceTest {
 
     @Parameterized.Parameters(name = "{index}: offset: {0}, limit: {1}")
     public static Object[][] data() {
@@ -40,13 +40,13 @@ public class GetLiveStructureServiceTest {
     private final int offset;
     private final int limit;
 
-    public GetLiveStructureServiceTest(int offset, int limit) {
+    public GetLivesStructureServiceTest(int offset, int limit) {
         this.offset = offset;
         this.limit = limit;
     }
 
-    private static AlarmsAndStorungsObjectsCreator activePoints;
-    private static AlarmsAndStorungsObjectsCreator inactivePoints;
+    private static StorungsAndAlarmsObjectsCreator activePoints;
+    private static StorungsAndAlarmsObjectsCreator inactivePoints;
 
     @BeforeClass
     public static void setup() {
@@ -83,24 +83,24 @@ public class GetLiveStructureServiceTest {
 
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
-        activePoints = new AlarmsAndStorungsObjectsCreator(navigationPage, activeNotifierAlarams);
+        activePoints = new StorungsAndAlarmsObjectsCreator(navigationPage, activeNotifierAlarams);
         activePoints.createObjects();
 
-        inactivePoints = new AlarmsAndStorungsObjectsCreator(navigationPage, inactiveNotifierAlarams);
+        inactivePoints = new StorungsAndAlarmsObjectsCreator(navigationPage, inactiveNotifierAlarams);
         inactivePoints.createObjects();
         inactivePoints.setDataPointValue(0);
 
-        AlarmsAndStorungsUtil.getAlarmsAndStorungs(PaginationParams.builder()
+        StorungsAndAlarmsUtil.getAlarmsAndStorungs(PaginationParams.builder()
                 .offset(0)
                 .limit(9999)
                 .build(), 12);
 
-        AlarmsAndStorungsUtil.getActiveAlarmsAndStorungs(PaginationParams.builder()
+        StorungsAndAlarmsUtil.getActiveAlarmsAndStorungs(PaginationParams.builder()
                 .offset(0)
                 .limit(9999)
                 .build(), 6);
 
-        AlarmsAndStorungsUtil.getInactiveAlarmsAndStorungs(PaginationParams.builder()
+        StorungsAndAlarmsUtil.getInactiveAlarmsAndStorungs(PaginationParams.builder()
                 .offset(0)
                 .limit(9999)
                 .build(), 6);
@@ -117,12 +117,12 @@ public class GetLiveStructureServiceTest {
     public void test_sort_structure_active_lives() {
 
         //when:
-        List<AlarmResponse> responses = AlarmsAndStorungsUtil.getActiveAlarmsAndStorungs(PaginationParams.builder()
+        List<StorungAlarmResponse> responses = StorungsAndAlarmsUtil.getActiveAlarmsAndStorungs(PaginationParams.builder()
                 .limit(limit)
                 .offset(offset)
                 .build());
 
-        List<AlarmResponse> sorted = AlarmsAndStorungsUtil.sortByActivationTime(responses);
+        List<StorungAlarmResponse> sorted = StorungsAndAlarmsUtil.sortByActivationTime(responses);
 
         //then:
         assertEquals(sorted, responses);
@@ -132,12 +132,12 @@ public class GetLiveStructureServiceTest {
     public void test_sort_structure_inactive_lives() {
 
         //when:
-        List<AlarmResponse> responses = AlarmsAndStorungsUtil.getInactiveAlarmsAndStorungs(PaginationParams.builder()
+        List<StorungAlarmResponse> responses = StorungsAndAlarmsUtil.getInactiveAlarmsAndStorungs(PaginationParams.builder()
                 .limit(limit)
                 .offset(offset)
                 .build());
 
-        List<AlarmResponse> sorted = AlarmsAndStorungsUtil.sortByActivationTime(responses);
+        List<StorungAlarmResponse> sorted = StorungsAndAlarmsUtil.sortByActivationTime(responses);
 
         //then:
         assertEquals(sorted, responses);
@@ -147,12 +147,12 @@ public class GetLiveStructureServiceTest {
     public void test_ref_structure_live() {
 
         //when:
-        List<AlarmResponse> responses = AlarmsAndStorungsUtil.getAlarmsAndStorungs(PaginationParams.builder()
+        List<StorungAlarmResponse> responses = StorungsAndAlarmsUtil.getAlarmsAndStorungs(PaginationParams.builder()
                 .limit(limit)
                 .offset(offset)
                 .build());
 
-        List<AlarmResponse> ref = AlarmsAndStorungsUtil.getReferenceStructure(responses);
+        List<StorungAlarmResponse> ref = StorungsAndAlarmsUtil.getReferenceStructure(responses);
 
         //then:
         assertEquals(ref, responses);

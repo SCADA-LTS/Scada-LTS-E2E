@@ -10,10 +10,10 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
 import org.scadalts.e2e.service.core.sessions.CookieFactory;
-import org.scadalts.e2e.service.impl.services.alarms.AcknowledgeResponse;
-import org.scadalts.e2e.service.impl.services.alarms.AlarmParams;
-import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
-import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
+import org.scadalts.e2e.service.impl.services.storungs.AcknowledgeResponse;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmParams;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
+import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Cookie;
@@ -38,9 +38,9 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
     private final URL baseUrl;
     private final Client client;
 
-    public Optional<E2eResponse<List<AlarmResponse>>> getLiveAlarms(PaginationParams alarmParams, long timeout) {
+    public Optional<E2eResponse<List<StorungAlarmResponse>>> getLiveAlarms(PaginationParams alarmParams, long timeout) {
         try {
-            E2eResponse<List<AlarmResponse>> response = applyWhile(this::_getLiveAlarms, alarmParams, new StabilityUtil.Timeout(timeout));
+            E2eResponse<List<StorungAlarmResponse>> response = applyWhile(this::_getLiveAlarms, alarmParams, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -48,11 +48,11 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
         }
     }
 
-    public Optional<E2eResponse<List<AlarmResponse>>> getLiveAlarms(PaginationParams alarmParams,
-                                                                    Predicate<List<AlarmResponse>> predicate,
-                                                                    long timeout) {
+    public Optional<E2eResponse<List<StorungAlarmResponse>>> getLiveAlarms(PaginationParams alarmParams,
+                                                                           Predicate<List<StorungAlarmResponse>> predicate,
+                                                                           long timeout) {
         try {
-            E2eResponse<List<AlarmResponse>> response = applyWhilePredicate(this::_getLiveAlarms, alarmParams,
+            E2eResponse<List<StorungAlarmResponse>> response = applyWhilePredicate(this::_getLiveAlarms, alarmParams,
                     new StabilityUtil.Timeout(timeout), predicate);
             return Optional.ofNullable(response);
         } catch (Throwable e) {
@@ -61,9 +61,9 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
         }
     }
 
-    public Optional<E2eResponse<List<AlarmResponse>>> getHistoryAlarms(AlarmParams alarmParams, long timeout) {
+    public Optional<E2eResponse<List<StorungAlarmResponse>>> getHistoryAlarms(StorungAlarmParams storungAlarmParams, long timeout) {
         try {
-            E2eResponse<List<AlarmResponse>> response = applyWhile(this::_getHistoryAlarms, alarmParams, new StabilityUtil.Timeout(timeout));
+            E2eResponse<List<StorungAlarmResponse>> response = applyWhile(this::_getHistoryAlarms, storungAlarmParams, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -86,7 +86,7 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
         client.close();
     }
 
-    private E2eResponse<List<AlarmResponse>> _getLiveAlarms(PaginationParams paginationParams) {
+    private E2eResponse<List<StorungAlarmResponse>> _getLiveAlarms(PaginationParams paginationParams) {
         String endpoint = MessageFormat.format("{0}/api/alarms/live/{1}/{2}", baseUrl,
                 String.valueOf(paginationParams.getOffset()),
                 String.valueOf(paginationParams.getLimit()));
@@ -97,15 +97,15 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .cookie(cookie)
                 .get();
-        List<AlarmResponse> list = _get(response);
+        List<StorungAlarmResponse> list = _get(response);
         return E2eResponseFactory.newResponse(response, list);
     }
 
-    private E2eResponse<List<AlarmResponse>> _getHistoryAlarms(AlarmParams alarmParams) {
+    private E2eResponse<List<StorungAlarmResponse>> _getHistoryAlarms(StorungAlarmParams storungAlarmParams) {
         String endpoint = MessageFormat.format("{0}/api/alarms/history/{1}/{2}/{3}/{4}", baseUrl,
-                alarmParams.getDateDay(), alarmParams.getFilter(),
-                String.valueOf(alarmParams.getPaginationParams().getOffset()),
-                String.valueOf(alarmParams.getPaginationParams().getLimit()));
+                storungAlarmParams.getDateDay(), storungAlarmParams.getFilter(),
+                String.valueOf(storungAlarmParams.getPaginationParams().getOffset()),
+                String.valueOf(storungAlarmParams.getPaginationParams().getLimit()));
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.debug("endpoint: {}", endpoint);
         logger.debug("cookie: {}", cookie);
@@ -113,7 +113,7 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .cookie(cookie)
                 .get();
-        List<AlarmResponse> list = _get(response);
+        List<StorungAlarmResponse> list = _get(response);
         return E2eResponseFactory.newResponse(response, list);
     }
 
@@ -130,8 +130,8 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
         return E2eResponseFactory.newResponse(response, AcknowledgeResponse.class);
     }
 
-    private List<AlarmResponse> _get(Response response) {
+    private List<StorungAlarmResponse> _get(Response response) {
         return HttpUtils.isPayloadEmpty(response.getStringHeaders()) ? Collections.emptyList()
-                : response.readEntity(new GenericType<List<AlarmResponse>>() {});
+                : response.readEntity(new GenericType<List<StorungAlarmResponse>>() {});
     }
 }

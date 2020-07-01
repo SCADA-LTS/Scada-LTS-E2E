@@ -1,12 +1,7 @@
-package org.scadalts.e2e.service.impl.services.alarms;
+package org.scadalts.e2e.service.impl.services.storungs;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-
-import javax.jws.HandlerChain;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
 
 @Getter
 @Builder
@@ -14,7 +9,7 @@ import java.util.Date;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class AlarmResponse {
+public class StorungAlarmResponse {
 
     private String id;
     @JsonProperty("activation-time")

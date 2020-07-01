@@ -1,4 +1,4 @@
-package org.scadalts.e2e.test.impl.tests.service.alarms;
+package org.scadalts.e2e.test.impl.tests.service.storungs.live;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.AfterClass;
@@ -11,9 +11,9 @@ import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
-import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
-import org.scadalts.e2e.test.impl.creators.AlarmsAndStorungsObjectsCreator;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
+import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
+import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
@@ -23,12 +23,12 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.EXPECTED_X_ALARMS_STORUNGS;
-import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.getAlarmsAndStorungs;
+import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.EXPECTED_X_ALARMS_STORUNGS;
+import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.getAlarmsAndStorungs;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
-public class GetAlarmsLivePaginationServiceTest {
+public class GetLivesPaginationServiceTest {
 
     @Parameterized.Parameters(name = "{index}: offset: {0}, limit: {1}")
     public static Object[][] data() {
@@ -43,13 +43,13 @@ public class GetAlarmsLivePaginationServiceTest {
     private final int offset;
     private final int limit;
 
-    public GetAlarmsLivePaginationServiceTest(int offset, int limit) {
+    public GetLivesPaginationServiceTest(int offset, int limit) {
         this.offset = offset;
         this.limit = limit;
     }
 
-    private static AlarmsAndStorungsObjectsCreator alarmsAndStorungsObjectsCreator;
-    private static List<AlarmResponse> getResult10;
+    private static StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
+    private static List<StorungAlarmResponse> getResult10;
 
     @BeforeClass
     public static void setup() {
@@ -77,9 +77,9 @@ public class GetAlarmsLivePaginationServiceTest {
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
 
-        alarmsAndStorungsObjectsCreator = new AlarmsAndStorungsObjectsCreator(navigationPage, dataSourceCriteria, points);
-        alarmsAndStorungsObjectsCreator.createObjects();
-        alarmsAndStorungsObjectsCreator.setDataPointValue("1");
+        storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, points);
+        storungsAndAlarmsObjectsCreator.createObjects();
+        storungsAndAlarmsObjectsCreator.setDataPointValue("1");
 
         PaginationParams pagination10 = PaginationParams.builder()
                 .limit(10)
@@ -97,7 +97,7 @@ public class GetAlarmsLivePaginationServiceTest {
 
     @AfterClass
     public static void clean() {
-        alarmsAndStorungsObjectsCreator.deleteObjects();
+        storungsAndAlarmsObjectsCreator.deleteObjects();
     }
 
     @Test
@@ -110,7 +110,7 @@ public class GetAlarmsLivePaginationServiceTest {
                 .build();
 
         //when:
-        List<AlarmResponse> getResult = getAlarmsAndStorungs(paginationParams);
+        List<StorungAlarmResponse> getResult = getAlarmsAndStorungs(paginationParams);
 
         //then:
         assertNotNull(getResult);
@@ -127,7 +127,7 @@ public class GetAlarmsLivePaginationServiceTest {
                 .build();
 
         //when:
-        List<AlarmResponse> getResult = getAlarmsAndStorungs(paginationToTest);
+        List<StorungAlarmResponse> getResult = getAlarmsAndStorungs(paginationToTest);
 
 
         //then:

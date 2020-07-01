@@ -8,10 +8,10 @@ import org.scadalts.e2e.common.exceptions.E2eAuthenticationException;
 import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.*;
-import org.scadalts.e2e.service.impl.services.alarms.AcknowledgeResponse;
-import org.scadalts.e2e.service.impl.services.alarms.AlarmParams;
-import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
-import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
+import org.scadalts.e2e.service.impl.services.storungs.AcknowledgeResponse;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmParams;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
+import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.datapoint.DataPointPropertiesResponse;
 import org.scadalts.e2e.service.impl.services.login.LoginParams;
@@ -128,28 +128,28 @@ public class TestWithoutPageUtil {
     }
 
 
-    public static E2eResponse<List<AlarmResponse>> getLiveAlarms(PaginationParams paginationParams, long timeout) {
+    public static E2eResponse<List<StorungAlarmResponse>> getLiveAlarms(PaginationParams paginationParams, long timeout) {
         try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
-            Optional<E2eResponse<List<AlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getLiveAlarms(paginationParams,
+            Optional<E2eResponse<List<StorungAlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getLiveAlarms(paginationParams,
                     timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
 
-    public static E2eResponse<List<AlarmResponse>> getLiveAlarms(PaginationParams paginationParams, Predicate<List<AlarmResponse>> expected) {
+    public static E2eResponse<List<StorungAlarmResponse>> getLiveAlarms(PaginationParams paginationParams, Predicate<List<StorungAlarmResponse>> expected) {
         try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
-            Optional<E2eResponse<List<AlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getLiveAlarms(paginationParams,
+            Optional<E2eResponse<List<StorungAlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getLiveAlarms(paginationParams,
                     expected, TestImplConfiguration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
 
-    public static E2eResponse<List<AlarmResponse>> getHistoryAlarms(AlarmParams alarmParams, long timeout) {
+    public static E2eResponse<List<StorungAlarmResponse>> getHistoryAlarms(StorungAlarmParams storungAlarmParams, long timeout) {
         try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
-            Optional<E2eResponse<List<AlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getHistoryAlarms(alarmParams,
+            Optional<E2eResponse<List<StorungAlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getHistoryAlarms(storungAlarmParams,
                     timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }

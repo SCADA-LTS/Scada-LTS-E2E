@@ -6,7 +6,7 @@ import org.scadalts.e2e.common.utils.VariationUnit;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
-import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class TestDataBatch {
     public TestDataBatch(VariationUnit<Integer> variationUnit, DataPointNotifierType dataPointNotifierType) {
         this.variationUnit = variationUnit;
         this.dataPointIdentifier = IdentifierObjectFactory.dataPointNotifierBinaryTypeName(dataPointNotifierType);
-        this.numberAlarmsWithStart = dataPointNotifierType == DataPointNotifierType.NONE ? 0 : AlarmsAndStorungsUtil.calculateRisingSlopes(variationUnit.getVariationWithStart(),
+        this.numberAlarmsWithStart = dataPointNotifierType == DataPointNotifierType.NONE ? 0 : StorungsAndAlarmsUtil.calculateRisingSlopes(variationUnit.getVariationWithStart(),
                 0); //+ variationUnit.getStartValue() == 0 ? 1 : 0;
         this.dataPointNotifierType = dataPointNotifierType;
     }
@@ -40,8 +40,8 @@ public class TestDataBatch {
         return new ArrayList<>(variationUnit.getVariationWithStart());
     }
 
-    public String getDateText(AlarmResponse alarmResponse) {
-        return getStartValue() == 0 ? alarmResponse.getInactivationTime() : alarmResponse.getActivationTime();
+    public String getDateText(StorungAlarmResponse storungAlarmResponse) {
+        return getStartValue() == 0 ? storungAlarmResponse.getInactivationTime() : storungAlarmResponse.getActivationTime();
     }
 
     public int getNumberAlarms() {

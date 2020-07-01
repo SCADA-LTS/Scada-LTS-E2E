@@ -1,4 +1,4 @@
-package org.scadalts.e2e.test.impl.tests.service.alarms;
+package org.scadalts.e2e.test.impl.tests.service.storungs.live;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.After;
@@ -13,12 +13,12 @@ import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.service.impl.services.alarms.AcknowledgeResponse;
-import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
-import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
-import org.scadalts.e2e.test.impl.creators.AlarmsAndStorungsObjectsCreator;
+import org.scadalts.e2e.service.impl.services.storungs.AcknowledgeResponse;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
+import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
+import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
-import org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil;
+import org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil;
 import org.scadalts.e2e.test.impl.utils.DateValidation;
 import org.scadalts.e2e.test.impl.utils.TestDataBatch;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
@@ -30,11 +30,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.Assert.*;
-import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.*;
+import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
-public class AcknowledgeAlarmStorungLiveServiceTest {
+public class AcknowledgeLivesServiceTest {
 
     @Parameterized.Parameters(name = "{index}: data point notifier type: {0}, start value: {1}")
     public static Object[][] data() {
@@ -50,7 +50,7 @@ public class AcknowledgeAlarmStorungLiveServiceTest {
     private final DataPointNotifierType dataPointNotifierType;
     private final String startValue;
 
-    public AcknowledgeAlarmStorungLiveServiceTest(DataPointNotifierType dataPointNotifierType, String startValue) {
+    public AcknowledgeLivesServiceTest(DataPointNotifierType dataPointNotifierType, String startValue) {
         this.dataPointNotifierType = dataPointNotifierType;
         this.startValue = startValue;
     }
@@ -60,7 +60,7 @@ public class AcknowledgeAlarmStorungLiveServiceTest {
             .offset(0)
             .build();
 
-    private AlarmsAndStorungsObjectsCreator alarmsAndStorungsObjectsCreator;
+    private StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
     private DataPointIdentifier uniqueIdentifier;
 
     @Before
@@ -71,13 +71,13 @@ public class AcknowledgeAlarmStorungLiveServiceTest {
         DataPointCriteria point = DataPointCriteria.noChange(uniqueIdentifier, startValue);
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
-        alarmsAndStorungsObjectsCreator = new AlarmsAndStorungsObjectsCreator(navigationPage, dataSourceCriteria, point);
-        alarmsAndStorungsObjectsCreator.createObjects();
+        storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, point);
+        storungsAndAlarmsObjectsCreator.createObjects();
     }
 
     @After
     public void clean() {
-        alarmsAndStorungsObjectsCreator.deleteObjects();
+        storungsAndAlarmsObjectsCreator.deleteObjects();
     }
 
     @Test
@@ -93,26 +93,26 @@ public class AcknowledgeAlarmStorungLiveServiceTest {
                 .build();
 
         //when:
-        List<AlarmResponse> alarmResponses = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
                 testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
                 testDataBatch.getNumberAlarms());
-        assertEquals(msg, testDataBatch.getNumberAlarms(), alarmResponses.size());
+        assertEquals(msg, testDataBatch.getNumberAlarms(), storungAlarmRespons.size());
 
         //and when:
-        for (AlarmResponse alarmResponse : alarmResponses) {
+        for (StorungAlarmResponse storungAlarmResponse : storungAlarmRespons) {
 
-            AcknowledgeResponse result = AlarmsAndStorungsUtil.acknowledgeAlarm(alarmResponse.getId());
+            AcknowledgeResponse result = StorungsAndAlarmsUtil.acknowledgeAlarm(storungAlarmResponse.getId());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_SUCCEED, "OK", result.getRequestStatus());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_CAUSES_ERROR, "none", result.getError());
-            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, alarmResponse.getId(), result.getId());
+            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, storungAlarmResponse.getId(), result.getId());
         }
 
         //then:
-        List<AlarmResponse> alarmResponsesAfterAcknowledge = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
-        assertEquals(EXPECTED_THAT_INVOKE_ACKNOWLEDGE_NO_CHANGE_STATE_LIVE, alarmResponses, alarmResponsesAfterAcknowledge);
+        List<StorungAlarmResponse> storungAlarmResponsesAfterAcknowledge = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
+        assertEquals(EXPECTED_THAT_INVOKE_ACKNOWLEDGE_NO_CHANGE_STATE_LIVE, storungAlarmRespons, storungAlarmResponsesAfterAcknowledge);
 
     }
 
@@ -131,27 +131,27 @@ public class AcknowledgeAlarmStorungLiveServiceTest {
                 .build();
 
         //when:
-        alarmsAndStorungsObjectsCreator.setDataPointValues(variationUnit);
-        List<AlarmResponse> alarmResponses = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
+        storungsAndAlarmsObjectsCreator.setDataPointValues(variationUnit);
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
                 testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
                 testDataBatch.getNumberAlarms());
-        assertEquals(msg, testDataBatch.getNumberAlarms(), alarmResponses.size());
+        assertEquals(msg, testDataBatch.getNumberAlarms(), storungAlarmRespons.size());
 
         //and when:
-        for(AlarmResponse alarmResponse : alarmResponses) {
+        for(StorungAlarmResponse storungAlarmResponse : storungAlarmRespons) {
 
-            AcknowledgeResponse result = AlarmsAndStorungsUtil.acknowledgeAlarm(alarmResponse.getId());
+            AcknowledgeResponse result = StorungsAndAlarmsUtil.acknowledgeAlarm(storungAlarmResponse.getId());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_SUCCEED, "OK", result.getRequestStatus());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_CAUSES_ERROR, "none", result.getError());
-            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, alarmResponse.getId(), result.getId());
+            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, storungAlarmResponse.getId(), result.getId());
         }
-        alarmResponses = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
+        storungAlarmRespons = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
 
         //then:
-        assertEquals(ALARM_INACTIVE_NOT_REMOVED_FROM_LIVE, 0, alarmResponses.size());
+        assertEquals(ALARM_INACTIVE_NOT_REMOVED_FROM_LIVE, 0, storungAlarmRespons.size());
     }
 
     @Test
@@ -170,32 +170,32 @@ public class AcknowledgeAlarmStorungLiveServiceTest {
                 .build();
 
         //when:
-        alarmsAndStorungsObjectsCreator.setDataPointValues(variationUnit);
-        List<AlarmResponse> alarmResponses = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
+        storungsAndAlarmsObjectsCreator.setDataPointValues(variationUnit);
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
                 testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
                 testDataBatch.getNumberAlarms());
-        assertEquals(msg, testDataBatch.getNumberAlarms(), alarmResponses.size());
+        assertEquals(msg, testDataBatch.getNumberAlarms(), storungAlarmRespons.size());
 
         //and then:
-        AlarmResponse activeAlarm = alarmResponses.get(0);
+        StorungAlarmResponse activeAlarm = storungAlarmRespons.get(0);
         assertThat(EXPECTED_ACTIVE_ALARM, activeAlarm.getInactivationTime(), anyOf(is(""), is(" ")));
 
         //and when:
-        for(AlarmResponse alarmResponse : alarmResponses) {
+        for(StorungAlarmResponse storungAlarmResponse : storungAlarmRespons) {
 
-            AcknowledgeResponse result = AlarmsAndStorungsUtil.acknowledgeAlarm(alarmResponse.getId());
+            AcknowledgeResponse result = StorungsAndAlarmsUtil.acknowledgeAlarm(storungAlarmResponse.getId());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_SUCCEED, "OK", result.getRequestStatus());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_CAUSES_ERROR, "none", result.getError());
-            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, alarmResponse.getId(), result.getId());
+            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, storungAlarmResponse.getId(), result.getId());
         }
 
-        alarmResponses = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
+        storungAlarmRespons = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
 
         //then:
-        assertTrue(ALARM_ACTIVE_REMOVED_FROM_LIVE, alarmResponses.contains(activeAlarm));
+        assertTrue(ALARM_ACTIVE_REMOVED_FROM_LIVE, storungAlarmRespons.contains(activeAlarm));
 
     }
 
@@ -215,31 +215,31 @@ public class AcknowledgeAlarmStorungLiveServiceTest {
                 .build();
 
         //when:
-        alarmsAndStorungsObjectsCreator.setDataPointValues(variationUnit);
-        List<AlarmResponse> alarmResponses = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
+        storungsAndAlarmsObjectsCreator.setDataPointValues(variationUnit);
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
                 testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
                 testDataBatch.getNumberAlarms());
-        assertEquals(msg, testDataBatch.getNumberAlarms(), alarmResponses.size());
+        assertEquals(msg, testDataBatch.getNumberAlarms(), storungAlarmRespons.size());
 
         //and then:
-        AlarmResponse inactiveAlarm = alarmResponses.get(1);
+        StorungAlarmResponse inactiveAlarm = storungAlarmRespons.get(1);
         assertThat(EXPECTED_INACTIVE_ALARM, inactiveAlarm.getInactivationTime(), matchesPattern(DateValidation.DATE_ISO_REGEX));
 
         //and when:
-        for(AlarmResponse alarmResponse : alarmResponses) {
+        for(StorungAlarmResponse storungAlarmResponse : storungAlarmRespons) {
 
-            AcknowledgeResponse result = AlarmsAndStorungsUtil.acknowledgeAlarm(alarmResponse.getId());
+            AcknowledgeResponse result = StorungsAndAlarmsUtil.acknowledgeAlarm(storungAlarmResponse.getId());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_SUCCEED, "OK", result.getRequestStatus());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_CAUSES_ERROR, "none", result.getError());
-            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, alarmResponse.getId(), result.getId());
+            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, storungAlarmResponse.getId(), result.getId());
         }
-        alarmResponses = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
+        storungAlarmRespons = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
 
         //then:
-        assertFalse(ALARM_INACTIVE_NOT_REMOVED_FROM_LIVE, alarmResponses.contains(inactiveAlarm));
+        assertFalse(ALARM_INACTIVE_NOT_REMOVED_FROM_LIVE, storungAlarmRespons.contains(inactiveAlarm));
     }
 
 
@@ -257,30 +257,30 @@ public class AcknowledgeAlarmStorungLiveServiceTest {
                 .build();
 
         //when:
-        alarmsAndStorungsObjectsCreator.setDataPointValues(variationUnit);
-        List<AlarmResponse> alarmResponses = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
+        storungsAndAlarmsObjectsCreator.setDataPointValues(variationUnit);
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
                 testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
                 testDataBatch.getNumberAlarms());
-        assertEquals(msg, testDataBatch.getNumberAlarms(), alarmResponses.size());
+        assertEquals(msg, testDataBatch.getNumberAlarms(), storungAlarmRespons.size());
 
         //and then:
-        AlarmResponse activeAlarm = alarmResponses.get(0);
+        StorungAlarmResponse activeAlarm = storungAlarmRespons.get(0);
         assertThat(EXPECTED_ACTIVE_ALARM, activeAlarm.getInactivationTime(), anyOf(is(""), is(" ")));
 
         //and when:
-        for(AlarmResponse alarmResponse : alarmResponses) {
+        for(StorungAlarmResponse storungAlarmResponse : storungAlarmRespons) {
 
-            AcknowledgeResponse result = AlarmsAndStorungsUtil.acknowledgeAlarm(alarmResponse.getId());
+            AcknowledgeResponse result = StorungsAndAlarmsUtil.acknowledgeAlarm(storungAlarmResponse.getId());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_OK, "OK", result.getRequestStatus());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_CAUSES_ERROR, "none", result.getError());
-            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, alarmResponse.getId(), result.getId());
+            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, storungAlarmResponse.getId(), result.getId());
         }
-        alarmResponses = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
+        storungAlarmRespons = getAlarmsSortByActivationTime(uniqueIdentifier, paginationParams);
 
         //then:
-        assertTrue(ALARM_ACTIVE_REMOVED_FROM_LIVE, alarmResponses.contains(activeAlarm));
+        assertTrue(ALARM_ACTIVE_REMOVED_FROM_LIVE, storungAlarmRespons.contains(activeAlarm));
     }
 }
