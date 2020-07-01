@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.EXPECTED_X_ALARMS_STORUNGS;
-import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.getAlarms;
+import static org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil.getAlarmsAndStorungs;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
@@ -87,7 +87,7 @@ public class GetAlarmsLivePaginationServiceTest {
                 .build();
 
         //when:
-        getResult10 = getAlarms(pagination10);
+        getResult10 = getAlarmsAndStorungs(pagination10);
 
         //then:
         String msg = MessageFormat.format(EXPECTED_X_ALARMS_STORUNGS, "10");
@@ -110,7 +110,7 @@ public class GetAlarmsLivePaginationServiceTest {
                 .build();
 
         //when:
-        List<AlarmResponse> getResult = getAlarms(paginationParams);
+        List<AlarmResponse> getResult = getAlarmsAndStorungs(paginationParams);
 
         //then:
         assertNotNull(getResult);
@@ -127,7 +127,7 @@ public class GetAlarmsLivePaginationServiceTest {
                 .build();
 
         //when:
-        List<AlarmResponse> getResult = getAlarms(paginationToTest);
+        List<AlarmResponse> getResult = getAlarmsAndStorungs(paginationToTest);
 
 
         //then:

@@ -6,12 +6,21 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
+import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
-import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
-import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
+import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
+import org.scadalts.e2e.test.impl.creators.AlarmsAndStorungsObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
+import org.scadalts.e2e.test.impl.utils.AlarmsAndStorungsUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.util.List;
+import java.util.stream.Stream;
+
+import static org.junit.Assert.assertEquals;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
@@ -20,10 +29,11 @@ public class GetLiveStructureServiceTest {
     @Parameterized.Parameters(name = "{index}: offset: {0}, limit: {1}")
     public static Object[][] data() {
         return new Object[][] {
-                {0, 10}, {1, 9}, {2, 8}, {3, 7}, {4, 6}, {5, 5}, {6, 4}, {7, 3},
-                {8, 2}, {9, 1}, {10, 0}, {0, 2}, {2, 2}, {4, 2}, {6, 2}, {8, 2},
-                {0, 3}, {3, 3}, {6, 3}, {9, 1}, {0, 4}, {4, 4}, {8, 2}, {0, 5},
-                {5, 5}, {0, 6}, {6, 4}, {0, 7}, {7, 3}, {0, 8}, {8, 2}, {0, 9}
+                {0, 12}, {1, 11}, {2, 10}, {3, 9}, {4, 8}, {5, 7}, {6, 6}, {7, 5},
+                {8, 4}, {9, 3}, {10, 4}, {11, 1}, {12, 0}, {8, 2}, {9, 1}, {10, 0},
+                {0, 2}, {2, 2}, {4, 2}, {6, 2}, {8, 2}, {10, 2}, {0, 3}, {3, 3},
+                {6, 3}, {9, 3}, {0, 4}, {4, 4}, {8, 4}, {0, 5}, {5, 5}, {10, 2},
+                {0, 6}, {6, 6}, {0, 7}, {7, 5}, {0, 8}, {8, 4}, {0, 9999}
         };
     }
 
@@ -35,14 +45,11 @@ public class GetLiveStructureServiceTest {
         this.limit = limit;
     }
 
-    private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
-    private static WatchListObjectsCreator watchListObjectsCreator;
-    private static List<AlarmResponse> getResult10;
+    private static AlarmsAndStorungsObjectsCreator activePoints;
+    private static AlarmsAndStorungsObjectsCreator inactivePoints;
 
     @BeforeClass
     public static void setup() {
-/*
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
 
         DataPointIdentifier[] activeIdnetifiers = new DataPointIdentifier[] {
 
@@ -66,80 +73,89 @@ public class GetLiveStructureServiceTest {
                 IdentifierObjectFactory.dataPointStorungBinaryTypeName(),
         };
 
-        DataPointCriteria[] points = Stream.concat(Arrays.asList(activeIdnetifiers).stream(),
-                Arrays.asList(inactiveIdnetifiers).stream())
-                .map(a -> DataPointCriteria.noChange(a, "0"))
-                .toArray(a -> new DataPointCriteria[12]);
+        DataPointCriteria[] activeNotifierAlarams = Stream.of(activeIdnetifiers)
+                .map(a -> DataPointCriteria.noChange(a, "1"))
+                .toArray(a -> new DataPointCriteria[activeIdnetifiers.length]);
 
-        DataPointCriteria[] points = Stream.concat(Arrays.asList(activeIdnetifiers).stream(),
-                Arrays.asList(inactiveIdnetifiers).stream())
-                .map(a -> DataPointCriteria.noChange(a, "0"))
-                .toArray(a -> new DataPointCriteria[12]);
+        DataPointCriteria[] inactiveNotifierAlarams = Stream.of(inactiveIdnetifiers)
+                .map(a -> DataPointCriteria.noChange(a, "1"))
+                .toArray(a -> new DataPointCriteria[inactiveIdnetifiers.length]);
 
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourceCriteria, points);
-        dataSourcePointObjectsCreator.createObjects();
+        activePoints = new AlarmsAndStorungsObjectsCreator(navigationPage, activeNotifierAlarams);
+        activePoints.createObjects();
 
-        DataSourcePointIdentifier[] identifiers = Stream.of(points)
-                .map(a -> new DataSourcePointIdentifier(dataSourceCriteria.getIdentifier(), a.getIdentifier()))
-                .toArray(a -> new DataSourcePointIdentifier[12]);
+        inactivePoints = new AlarmsAndStorungsObjectsCreator(navigationPage, inactiveNotifierAlarams);
+        inactivePoints.createObjects();
+        inactivePoints.setDataPointValue(0);
 
-        watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, WatchListCriteria.criteria(identifiers));
-        watchListObjectsCreator.createObjects();
-
-        WatchListPage watchListPage = navigationPage.openWatchList();
-
-        Stream.of(activeIdnetifiers).forEach(a -> {
-            watchListPage.setValue(a, "1");
-        });
-
-        PaginationParams pagination10 = PaginationParams.builder()
-                .limit(10)
+        AlarmsAndStorungsUtil.getAlarmsAndStorungs(PaginationParams.builder()
                 .offset(0)
-                .build();
+                .limit(9999)
+                .build(), 12);
 
-        //when:
-        E2eResponse<List<AlarmResponse>> getResponse10 = TestWithoutPageUtil.getLiveAlarms(pagination10,
-                TestImplConfiguration.waitingAfterSetPointValueMs);
-        getResult10 = getResponse10.getValue();
+        AlarmsAndStorungsUtil.getActiveAlarmsAndStorungs(PaginationParams.builder()
+                .offset(0)
+                .limit(9999)
+                .build(), 6);
 
-        String msg = MessageFormat.format(EXPECTED_X_ALARMS_STORUNGS, "10");
-
-        //then:
-        assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse10.getStatus());
-        assertNotNull(getResult10);
-        assertEquals(msg, 10, getResult10.size());*/
+        AlarmsAndStorungsUtil.getInactiveAlarmsAndStorungs(PaginationParams.builder()
+                .offset(0)
+                .limit(9999)
+                .build(), 6);
     }
 
     @AfterClass
     public static void clean() {
 
-        watchListObjectsCreator.deleteObjects();
-        dataSourcePointObjectsCreator.deleteObjects();
+        activePoints.deleteObjects();
+        inactivePoints.deleteObjects();
     }
 
     @Test
-    public void test_structure_active_alarms_live() {
+    public void test_sort_structure_active_lives() {
 
+        //when:
+        List<AlarmResponse> responses = AlarmsAndStorungsUtil.getActiveAlarmsAndStorungs(PaginationParams.builder()
+                .limit(limit)
+                .offset(offset)
+                .build());
 
+        List<AlarmResponse> sorted = AlarmsAndStorungsUtil.sortByActivationTime(responses);
+
+        //then:
+        assertEquals(sorted, responses);
     }
 
     @Test
-    public void test_structure_inactive_alarms_live() {
+    public void test_sort_structure_inactive_lives() {
 
+        //when:
+        List<AlarmResponse> responses = AlarmsAndStorungsUtil.getInactiveAlarmsAndStorungs(PaginationParams.builder()
+                .limit(limit)
+                .offset(offset)
+                .build());
 
+        List<AlarmResponse> sorted = AlarmsAndStorungsUtil.sortByActivationTime(responses);
+
+        //then:
+        assertEquals(sorted, responses);
     }
 
     @Test
-    public void test_structure_active_storungs_live() {
+    public void test_ref_structure_live() {
 
+        //when:
+        List<AlarmResponse> responses = AlarmsAndStorungsUtil.getAlarmsAndStorungs(PaginationParams.builder()
+                .limit(limit)
+                .offset(offset)
+                .build());
 
+        List<AlarmResponse> ref = AlarmsAndStorungsUtil.getReferenceStructure(responses);
+
+        //then:
+        assertEquals(ref, responses);
     }
 
-    @Test
-    public void test_structure_inactive_storungs_live() {
-
-
-    }
 }

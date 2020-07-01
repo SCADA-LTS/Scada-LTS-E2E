@@ -12,13 +12,16 @@ import org.scadalts.e2e.service.impl.services.alarms.AlarmResponse;
 import org.scadalts.e2e.service.impl.services.alarms.PaginationParams;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class AlarmsAndStorungsUtil {
 
@@ -42,6 +45,7 @@ public class AlarmsAndStorungsUtil {
     public final static String ALARM_ACTIVE_REMOVED_FROM_LIVE = "Failure because: Alarm/storung active removed from live.";
     public final static String EXPECTED_DATE_ISO = "Failure because: Expected date ISO.";
     public final static String EXPECTED_X_ALARMS_STORUNGS = "Failure because: Expected {0} alarms/storungs.";
+    public final static String EXPECTED_LARGER_OR_EQUALS_TO_X_ALARMS_STORUNGS_BUT_WAS_Y = "Failure because: Expected to be larger than or equal to {0} alarms/storungs but was {1}.";
 
     public final static String EXPECTED_ONE_LIVE_IF_START_POINT_VALUE_IS_ONE_OTHER_ZERO = "Failure because: Expected 1 live if start point value is 1 other 0";
 
@@ -62,9 +66,7 @@ public class AlarmsAndStorungsUtil {
                 TestImplConfiguration.waitingAfterSetPointValueMs);
         assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
         List<AlarmResponse> getResult = getResponse.getValue();
-        return AlarmsAndStorungsUtil.getAlarmsFor(identifier, getResult).stream()
-                .sorted((a, b) -> b.getActivationTime().compareTo(a.getActivationTime()))
-                .collect(Collectors.toList());
+        return sortByActivationTime(AlarmsAndStorungsUtil.getAlarmsFor(identifier, getResult));
     }
 
     public static List<AlarmResponse> getAlarmsSortByActivationTime(DataPointIdentifier identifier, Predicate<List<AlarmResponse>> expected,
@@ -72,16 +74,74 @@ public class AlarmsAndStorungsUtil {
         E2eResponse<List<AlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationParams, expected);
         assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
         List<AlarmResponse> getResult = getResponse.getValue();
-        return AlarmsAndStorungsUtil.getAlarmsFor(identifier, getResult).stream()
+        return sortByActivationTime(AlarmsAndStorungsUtil.getAlarmsFor(identifier, getResult));
+    }
+
+    public static List<AlarmResponse> sortByActivationTime(List<AlarmResponse> list) {
+        return list.stream()
                 .sorted((a, b) -> b.getActivationTime().compareTo(a.getActivationTime()))
                 .collect(Collectors.toList());
     }
 
-    public static List<AlarmResponse> getAlarms(PaginationParams paginationParams) {
+    public static List<AlarmResponse> getReferenceStructure(List<AlarmResponse> list) {
+        List<AlarmResponse> active = _filterActiveAlarmsAndStorungs(list);
+        List<AlarmResponse> inactive = _filterInactiveAlarmsAndStorungs(list);
+        List<AlarmResponse> ref = new ArrayList<>();
+        ref.addAll(sortByActivationTime(active));
+        ref.addAll(sortByActivationTime(inactive));
+        return ref;
+    }
+
+    public static List<AlarmResponse> getAlarmsAndStorungs(PaginationParams paginationParams) {
         E2eResponse<List<AlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationParams,
                 TestImplConfiguration.waitingAfterSetPointValueMs);
         assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
         return getResponse.getValue();
+    }
+
+    public static List<AlarmResponse> getAlarmsAndStorungs(PaginationParams paginationParams, int numberLargerOrEqualsExpected) {
+        List<AlarmResponse> result = getAlarmsAndStorungs(paginationParams);
+        return _check(result, numberLargerOrEqualsExpected);
+    }
+
+    public static List<AlarmResponse> getActiveAlarms(PaginationParams paginationParams, int numberLargerOrEqualsExpected) {
+        List<AlarmResponse> activateAlarms = _filterActiveAlarms(getAlarmsAndStorungs(paginationParams, numberLargerOrEqualsExpected));
+        return _check(activateAlarms, numberLargerOrEqualsExpected);
+    }
+
+    public static List<AlarmResponse> getInactiveAlarms(PaginationParams paginationParams, int numberLargerOrEqualsExpected) {
+        List<AlarmResponse> activateAlarms = _filterInactiveAlarms(getAlarmsAndStorungs(paginationParams, numberLargerOrEqualsExpected));
+        return _check(activateAlarms, numberLargerOrEqualsExpected);
+    }
+
+    public static List<AlarmResponse> getInactiveAlarmsAndStorungs(PaginationParams paginationParams, int numberLargerOrEqualsExpected) {
+        List<AlarmResponse> activateAlarms = _filterInactiveAlarmsAndStorungs(getAlarmsAndStorungs(paginationParams, numberLargerOrEqualsExpected));
+        return _check(activateAlarms, numberLargerOrEqualsExpected);
+    }
+
+    public static List<AlarmResponse> getActiveAlarmsAndStorungs(PaginationParams paginationParams, int numberLargerOrEqualsExpected) {
+        List<AlarmResponse> activateAlarms = _filterActiveAlarmsAndStorungs(getAlarmsAndStorungs(paginationParams, numberLargerOrEqualsExpected));
+        return _check(activateAlarms, numberLargerOrEqualsExpected);
+    }
+
+    public static List<AlarmResponse> getInactiveAlarmsAndStorungs(PaginationParams paginationParams) {
+        List<AlarmResponse> activateAlarms = _filterInactiveAlarmsAndStorungs(getAlarmsAndStorungs(paginationParams));
+        return activateAlarms;
+    }
+
+    public static List<AlarmResponse> getActiveAlarmsAndStorungs(PaginationParams paginationParams) {
+        List<AlarmResponse> activateAlarms = _filterActiveAlarmsAndStorungs(getAlarmsAndStorungs(paginationParams));
+        return activateAlarms;
+    }
+
+    public static List<AlarmResponse> getActiveStorungs(PaginationParams paginationParams, int numberLargerOrEqualsExpected) {
+        List<AlarmResponse> activateAlarms = _filterActiveStorungs(getAlarmsAndStorungs(paginationParams, numberLargerOrEqualsExpected));
+        return _check(activateAlarms, numberLargerOrEqualsExpected);
+    }
+
+    public static List<AlarmResponse> getInactiveStorungs(PaginationParams paginationParams, int numberLargerOrEqualsExpected) {
+        List<AlarmResponse> activateAlarms = _filterInactiveStorungs(getAlarmsAndStorungs(paginationParams, numberLargerOrEqualsExpected));
+        return _check(activateAlarms, numberLargerOrEqualsExpected);
     }
 
     public static AcknowledgeResponse acknowledgeAlarm(String id) {
@@ -144,5 +204,63 @@ public class AlarmsAndStorungsUtil {
                 result++;
         }
         return result;
+    }
+
+    private static List<AlarmResponse> _check(List<AlarmResponse> alarms, int numberLargerOrEqualsExpected) {
+        String msg = MessageFormat.format(EXPECTED_LARGER_OR_EQUALS_TO_X_ALARMS_STORUNGS_BUT_WAS_Y, numberLargerOrEqualsExpected, alarms.size());
+        assertNotNull(alarms);
+        assertTrue(msg,alarms.size() >= numberLargerOrEqualsExpected);
+        return alarms;
+    }
+
+    private static boolean _isActive(AlarmResponse alarm) {
+        return alarm.getInactivationTime() == null
+                || "".equalsIgnoreCase(alarm.getInactivationTime())
+                || " ".equalsIgnoreCase(alarm.getInactivationTime());
+    }
+
+    private static boolean _isAlarm(AlarmResponse alarm) {
+        String name = alarm.getName();
+        return name.contains(" AL ");
+    }
+
+    private static boolean _isStorung(AlarmResponse alarm) {
+        String name = alarm.getName();
+        return name.contains(" ST ");
+    }
+
+
+    private static List<AlarmResponse> _filterInactiveStorungs(List<AlarmResponse> list) {
+        return list.stream().filter(a -> !_isActive(a))
+                .filter(AlarmsAndStorungsUtil::_isStorung)
+                .collect(Collectors.toList());
+    }
+
+    private static List<AlarmResponse> _filterInactiveAlarms(List<AlarmResponse> list) {
+        return list.stream().filter(a -> !_isActive(a))
+                .filter(AlarmsAndStorungsUtil::_isAlarm)
+                .collect(Collectors.toList());
+    }
+
+    private static List<AlarmResponse> _filterActiveStorungs(List<AlarmResponse> list) {
+        return list.stream().filter(AlarmsAndStorungsUtil::_isActive)
+                .filter(AlarmsAndStorungsUtil::_isStorung)
+                .collect(Collectors.toList());
+    }
+
+    private static List<AlarmResponse> _filterActiveAlarms(List<AlarmResponse> list) {
+        return list.stream().filter(AlarmsAndStorungsUtil::_isActive)
+                .filter(AlarmsAndStorungsUtil::_isAlarm)
+                .collect(Collectors.toList());
+    }
+
+    private static List<AlarmResponse> _filterActiveAlarmsAndStorungs(List<AlarmResponse> list) {
+        return list.stream().filter(AlarmsAndStorungsUtil::_isActive)
+                .collect(Collectors.toList());
+    }
+
+    private static List<AlarmResponse> _filterInactiveAlarmsAndStorungs(List<AlarmResponse> list) {
+        return list.stream().filter(a -> !_isActive(a))
+                .collect(Collectors.toList());
     }
 }
