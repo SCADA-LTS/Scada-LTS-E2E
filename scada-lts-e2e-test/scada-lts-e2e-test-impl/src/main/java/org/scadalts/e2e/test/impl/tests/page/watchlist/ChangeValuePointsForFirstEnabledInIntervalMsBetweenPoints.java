@@ -8,6 +8,7 @@ import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
+import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
@@ -54,8 +55,8 @@ public class ChangeValuePointsForFirstEnabledInIntervalMsBetweenPoints {
     @Before
     public void setUp() {
 
-        DataPointCriteria point1 = DataPointCriteria.noChange(IdentifierObjectFactory.dataPointAlarmBinaryTypeName(),"0", false);
-        DataPointCriteria point2 = DataPointCriteria.noChange(IdentifierObjectFactory.dataPointAlarmBinaryTypeName(), "0", false);
+        DataPointCriteria point1 = DataPointCriteria.noChange(IdentifierObjectFactory.dataPointName(DataPointType.BINARY),"0", false);
+        DataPointCriteria point2 = DataPointCriteria.noChange(IdentifierObjectFactory.dataPointName(DataPointType.BINARY), "0", false);
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage, dataSourceCriteria, point1, point2);
