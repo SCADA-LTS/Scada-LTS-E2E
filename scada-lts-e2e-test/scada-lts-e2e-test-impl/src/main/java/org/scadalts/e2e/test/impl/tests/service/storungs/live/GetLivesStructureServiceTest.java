@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
+import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.EXPECTED_ACTIVE_ABOVE_BELOW_THEM_INACTIVE_LIVES_AND_SORTED_ACTIVATION_TIME_DESC;
+import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.EXPECTED_ALARMS_STORUNGS_SORTED_DESCENDING_BY_ACTIVATION_TIME;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
@@ -125,7 +127,7 @@ public class GetLivesStructureServiceTest {
         List<StorungAlarmResponse> sorted = StorungsAndAlarmsUtil.sortByActivationTime(responses);
 
         //then:
-        assertEquals(sorted, responses);
+        assertEquals(EXPECTED_ALARMS_STORUNGS_SORTED_DESCENDING_BY_ACTIVATION_TIME, sorted, responses);
     }
 
     @Test
@@ -140,11 +142,11 @@ public class GetLivesStructureServiceTest {
         List<StorungAlarmResponse> sorted = StorungsAndAlarmsUtil.sortByActivationTime(responses);
 
         //then:
-        assertEquals(sorted, responses);
+        assertEquals(EXPECTED_ALARMS_STORUNGS_SORTED_DESCENDING_BY_ACTIVATION_TIME, sorted, responses);
     }
 
     @Test
-    public void test_ref_structure_live() {
+    public void test_ref_structure_lives() {
 
         //when:
         List<StorungAlarmResponse> responses = StorungsAndAlarmsUtil.getAlarmsAndStorungs(PaginationParams.builder()
@@ -155,7 +157,7 @@ public class GetLivesStructureServiceTest {
         List<StorungAlarmResponse> ref = StorungsAndAlarmsUtil.getReferenceStructure(responses);
 
         //then:
-        assertEquals(ref, responses);
+        assertEquals(EXPECTED_ACTIVE_ABOVE_BELOW_THEM_INACTIVE_LIVES_AND_SORTED_ACTIVATION_TIME_DESC, ref, responses);
     }
 
 }

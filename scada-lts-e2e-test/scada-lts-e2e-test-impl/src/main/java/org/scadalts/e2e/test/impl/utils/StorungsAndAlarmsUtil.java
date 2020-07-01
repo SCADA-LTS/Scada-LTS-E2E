@@ -46,7 +46,8 @@ public class StorungsAndAlarmsUtil {
     public final static String EXPECTED_DATE_ISO = "Failure because: Expected date ISO.";
     public final static String EXPECTED_X_ALARMS_STORUNGS = "Failure because: Expected {0} alarms/storungs.";
     public final static String EXPECTED_LARGER_OR_EQUALS_TO_X_ALARMS_STORUNGS_BUT_WAS_Y = "Failure because: Expected to be larger than or equal to {0} alarms/storungs but was {1}.";
-
+    public final static String EXPECTED_ALARMS_STORUNGS_SORTED_DESCENDING_BY_ACTIVATION_TIME = "Failure because: Expected the alarms/stroungs to be sorted by descending activation-time";
+    public final static String EXPECTED_ACTIVE_ABOVE_BELOW_THEM_INACTIVE_LIVES_AND_SORTED_ACTIVATION_TIME_DESC = "Failure because: Expected active to be above, below them inactive lives and sorted by descending activation-time.";
     public final static String EXPECTED_ONE_LIVE_IF_START_POINT_VALUE_IS_ONE_OTHER_ZERO = "Failure because: Expected 1 live if start point value is 1 other 0";
 
     public static List<StorungAlarmResponse> getAlarmsFor(DataPointIdentifier identifier, List<StorungAlarmResponse> alarms) {
