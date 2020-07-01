@@ -60,7 +60,7 @@ public class CmpServiceTest {
                 .error("")
                 .resultOperationSave("")
                 .value(expectedValue)
-                .xid(sourceXid.getValue())
+                .dataPointXid(sourceXid.getValue())
                 .build();
 
         //when:
@@ -79,7 +79,7 @@ public class CmpServiceTest {
                 .error("")
                 .resultOperationSave("")
                 .value(expectedValue)
-                .xid(sourceXid.getValue())
+                .dataPointXid(sourceXid.getValue())
                 .build();
 
         //when:
@@ -100,7 +100,7 @@ public class CmpServiceTest {
                 .error("")
                 .resultOperationSave("")
                 .value(expectedValue)
-                .xid(sourceXid.getValue())
+                .dataPointXid(sourceXid.getValue())
                 .build();
 
         //when:
@@ -109,7 +109,7 @@ public class CmpServiceTest {
 
         //then:
         assertNotNull(setResult);
-        assertEquals(sourceXid.getValue(), setResult.getXid());
+        assertEquals(sourceXid.getValue(), setResult.getDataPointXid());
     }
 
     @Test
@@ -121,7 +121,7 @@ public class CmpServiceTest {
                 .error("")
                 .resultOperationSave("")
                 .value(expectedValue)
-                .xid(sourceXid.getValue())
+                .dataPointXid(sourceXid.getValue())
                 .build();
 
         //when:

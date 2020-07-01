@@ -1,17 +1,32 @@
 package org.scadalts.e2e.page.impl.criterias;
 
 import org.scadalts.e2e.page.impl.criterias.identifiers.*;
-import org.scadalts.e2e.page.impl.dicts.DataPointType;
-import org.scadalts.e2e.page.impl.dicts.DataSourceType;
-import org.scadalts.e2e.page.impl.dicts.EventDetectorType;
-import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
+import org.scadalts.e2e.page.impl.dicts.*;
 
+import java.text.MessageFormat;
 import java.util.Random;
 
 public class IdentifierObjectFactory {
 
     public static DataPointIdentifier dataPointName(DataPointType dataPointType) {
         return new DataPointIdentifier("dp_test_" + unique(),dataPointType);
+    }
+
+    public static DataPointIdentifier dataPointAlarmBinaryTypeName() {
+        return dataPointNotifierName(DataPointNotifierType.ALARM, DataPointType.BINARY);
+    }
+
+    public static DataPointIdentifier dataPointStorungBinaryTypeName() {
+        return dataPointNotifierName(DataPointNotifierType.STORUNG, DataPointType.BINARY);
+    }
+
+    public static DataPointIdentifier dataPointNotifierBinaryTypeName(DataPointNotifierType dataPointNotifierType) {
+        return dataPointNotifierName(dataPointNotifierType, DataPointType.BINARY);
+    }
+
+    public static DataPointIdentifier dataPointNotifierName(DataPointNotifierType dataPointNotifierType, DataPointType dataPointType) {
+        String name = MessageFormat.format("Te {0} test_{1}", dataPointNotifierType.getId(), unique());
+        return new DataPointIdentifier(name, dataPointType);
     }
 
     public static DataPointIdentifier dataPointDeleteName(DataPointType dataPointType) {

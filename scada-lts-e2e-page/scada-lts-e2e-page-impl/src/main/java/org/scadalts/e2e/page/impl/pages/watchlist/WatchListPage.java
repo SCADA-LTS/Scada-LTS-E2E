@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.common.utils.VariationUnit;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
@@ -17,6 +18,8 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifie
 import org.scadalts.e2e.page.impl.criterias.identifiers.WatchListIdentifier;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
 
+import java.util.List;
+
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.or;
 import static com.codeborne.selenide.Selenide.$;
@@ -24,6 +27,7 @@ import static com.codeborne.selenide.Selenide.page;
 import static org.scadalts.e2e.common.utils.FormatUtil.unformat;
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.refreshWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 @Log4j2
@@ -81,6 +85,7 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         waitWhile($(NEW_WATCH_LIST_NAME_TEXT_BY), not(Condition.visible))
                 .setValue(criteria.getIdentifier().getValue());
         waitWhile($(SAVE_NEW_WATCH_LIST_NAME_BUTTON_BY), not(Condition.visible)).click();
+        waitWhile(() -> !containsObject(criteria.getIdentifier()));
         for (DataSourcePointIdentifier dataSourcePointIdentifier
                 : criteria.getDataSourcePointIdentifiers()) {
             addDataToWatchList(dataSourcePointIdentifier);
@@ -102,7 +107,8 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     }
 
     public WatchListPage addDataToWatchList(DataSourcePointIdentifier identifier) {
-        _findActionInSpan(identifier, SELECTOR_ACTION_ADD_TO_WATCH_LIST_BY).click();
+        refreshWhile(_findActionInSpan(identifier, SELECTOR_ACTION_ADD_TO_WATCH_LIST_BY), not(Condition.visible)).click();
+        waitWhile(() -> !isVisibleWatchListUnit(identifier));
         return this;
     }
 
@@ -114,6 +120,10 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     public boolean isVisibleWatchList(WatchListIdentifier identifier) {
         delay();
         return containsObject(identifier);
+    }
+
+    public boolean isVisibleWatchListUnit(DataSourcePointIdentifier identifier) {
+        return getWatchListText().contains(identifier.getValue());
     }
 
     public boolean isVisibleWatchListTable() {
@@ -187,6 +197,29 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
             }
         }
         return this;
+    }
+
+    public WatchListPage setValue(DataSourcePointIdentifier identifier, String value) {
+        return openDataPointValueEditor(identifier)
+                .setDataPointValue(identifier,  value)
+                .confirmDataPointValue(identifier)
+                .closeEditorDataPointValue(identifier);
+    }
+
+    public WatchListPage setValueWithoutCloseEditor(DataSourcePointIdentifier identifier, String value) {
+        return openDataPointValueEditor(identifier)
+                .setDataPointValue(identifier,  value)
+                .confirmDataPointValue(identifier);
+    }
+
+    public <T> void setSequenceInts(DataSourcePointIdentifier identifier, VariationUnit<T> values) {
+        setSequenceInts(identifier, values.getVariation());
+    }
+
+    public <T> void setSequenceInts(DataSourcePointIdentifier identifier, List<T> values) {
+        for(T value: values) {
+            setValue(identifier, String.valueOf(value));
+        }
     }
 
     @Override

@@ -7,6 +7,8 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.WatchListIdentifier;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Data
 public class WatchListCriteria implements CriteriaObject {
@@ -26,7 +28,18 @@ public class WatchListCriteria implements CriteriaObject {
         this.dataSourcePointIdentifiers = Arrays.asList(dataSourcePointIdentifiers);
     }
 
-    public static WatchListCriteria criteria(DataSourcePointIdentifier... identifier) {
-        return new WatchListCriteria(IdentifierObjectFactory.watchListName(), identifier);
+    public WatchListCriteria(WatchListIdentifier identifier, DataSourcePointCriteria... dataSourcePointCriterias) {
+        this.identifier = identifier;
+        this.dataSourcePointIdentifiers = Stream.of(dataSourcePointCriterias)
+                .map(DataSourcePointCriteria::getIdentifier)
+                .collect(Collectors.toList());
+    }
+
+    public static WatchListCriteria criteria(DataSourcePointIdentifier... identifiers) {
+        return new WatchListCriteria(IdentifierObjectFactory.watchListName(), identifiers);
+    }
+
+    public static WatchListCriteria criteria(DataSourcePointCriteria... criterias) {
+        return new WatchListCriteria(IdentifierObjectFactory.watchListName(), criterias);
     }
 }

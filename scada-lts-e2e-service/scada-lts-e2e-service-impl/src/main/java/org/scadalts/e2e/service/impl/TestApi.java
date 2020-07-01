@@ -46,7 +46,7 @@ public class TestApi {
                 CmpParams cmpParams = CmpParams.builder()
                         .error("")
                         .resultOperationSave("")
-                        .xid("DP_054378")
+                        .dataPointXid("DP_054378")
                         .value(valueExpected)
                         .build();
                 E2eResponse<CmpParams> res = cmpServiceObject.set(cmpParams, 10000).orElse(new E2eResponse<>());

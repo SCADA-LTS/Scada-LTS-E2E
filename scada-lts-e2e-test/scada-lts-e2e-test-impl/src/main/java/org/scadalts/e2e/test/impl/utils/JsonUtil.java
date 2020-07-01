@@ -19,7 +19,6 @@ public class JsonUtil {
 
     public static File toJsonFile(List<DataSourceCriteria> criterias, String fileName) {
 
-        File jsonFile = _preparingFile(fileName);
         List<DataSourceCriteriaJson> jsonCriterias = criterias.stream()
                 .map(a -> DataSourceCriteriaJson.builder()
                                             .enabled(a.isEnabled())
@@ -27,30 +26,47 @@ public class JsonUtil {
                                             .build())
                 .collect(Collectors.toList());
         try {
+            File jsonFile = _preparingFile(fileName);
             _serialize(jsonFile, jsonCriterias);
+            return jsonFile;
         } catch (IOException e) {
             logger.warn(e.getMessage(), e);
+            return new File(fileName);
         }
-        return jsonFile;
     }
 
     public static List<DataSourceCriteriaJson> toList(String fileName) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
-        File json = new File(fileName);
         try {
-            return objectMapper.readValue(json, new TypeReference<List<DataSourceCriteriaJson>>() {});
+            return _toList(fileName);
         } catch (IOException e) {
             logger.warn(e.getMessage(), e);
             return Collections.emptyList();
         }
     }
 
-    private static File _preparingFile(String fileName) {
+    private static List<DataSourceCriteriaJson> _toList(String fileName) throws IOException {
+        File json = _preparingFile(fileName);
+        if(json.length() == 0) {
+            logger.warn("File is empty: {}", fileName);
+            return Collections.emptyList();
+        }
+        return _parse(json);
+    }
+
+    private static List<DataSourceCriteriaJson> _parse(File json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+        return objectMapper.readValue(json, new TypeReference<List<DataSourceCriteriaJson>>() {});
+    }
+
+    private static File _preparingFile(String fileName) throws IOException {
         File json = new File(fileName);
         File path = new File(json.getParent());
         if(!path.exists()) {
             path.mkdirs();
+        }
+        if(!json.exists()) {
+            json.createNewFile();
         }
         return json;
     }

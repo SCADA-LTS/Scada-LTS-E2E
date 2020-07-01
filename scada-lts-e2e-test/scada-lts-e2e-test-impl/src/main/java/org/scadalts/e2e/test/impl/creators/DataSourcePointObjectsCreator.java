@@ -66,6 +66,11 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
         return _deleteDataPointsAndDataSources(dataSources);
     }
 
+    public DataSourcesPage deleteDataPoints() {
+        return _deleteDataPoints(dataSources);
+    }
+
+
     public EditDataSourceWithPointListPage createDataSources() {
         EditDataSourceWithPointListPage page = new EditDataSourceWithPointListPage();
         DataSourcesPage dataSourcesPage = openPage();
@@ -109,6 +114,15 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
         return page;
     }
 
+    private DataSourcesPage _deleteDataPoints(Map<DataSourceCriteria, DataPointObjectsCreator> criteriaMap) {
+        DataSourcesPage page = openPage();
+        for (DataSourceCriteria criteria : criteriaMap.keySet()) {
+            DataPointObjectsCreator creator = criteriaMap.get(criteria);
+            creator.deleteObjects();
+        }
+        return page;
+    }
+
     private EditDataSourceWithPointListPage _createDataSource(DataSourcesPage page, DataSourceCriteria criteria) {
 
         logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
@@ -126,12 +140,15 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
     private DataSourcesPage _createDataSourcesAndPoints() {
         DataSourcesPage dataSourcesPage = openPage();
         for (DataSourceCriteria criteria : dataSources.keySet()) {
+            DataPointObjectsCreator creator = dataSources.get(criteria);
             if(!dataSourcesPage.containsObject(criteria.getIdentifier())) {
                 EditDataSourceWithPointListPage editDataSourceWithPointListPage = _createDataSource(dataSourcesPage, criteria);
-                DataPointObjectsCreator creator = dataSources.get(criteria);
                 creator.createObjects(editDataSourceWithPointListPage);
-                dataSourcesPage.reopen();
+            } else {
+                EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.openDataSourceEditor(criteria.getIdentifier());
+                creator.createObjects(editDataSourceWithPointListPage);
             }
+            dataSourcesPage.reopen();
         }
         return dataSourcesPage;
     }

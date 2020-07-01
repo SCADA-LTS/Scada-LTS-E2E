@@ -16,8 +16,8 @@ public interface GetUrl {
             RemoteWebDriver remoteWebDriver = E2eWebDriverProvider.getDriver();
             return executeSupplier(remoteWebDriver::getCurrentUrl, IllegalStateException::new);
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage(), ex);
-            return "error";
+            LOGGER.warn(ex.getMessage(), ex);
+            return "warnning";
         }
     }
 }

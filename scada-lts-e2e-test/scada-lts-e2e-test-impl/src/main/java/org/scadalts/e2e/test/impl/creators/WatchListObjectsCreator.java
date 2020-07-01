@@ -34,7 +34,7 @@ public class WatchListObjectsCreator implements CreatorObject<WatchListPage, Wat
     public WatchListPage createObjects() {
         WatchListPage page = openPage();
         for (WatchListCriteria criteria : criterias) {
-            if(!page.isVisibleWatchListTable() || !page.containsObject(criteria.getIdentifier())) {
+            if(!page.containsObject(criteria.getIdentifier())) {
                 logger.info("create object: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getClass().getSimpleName());
                 page.addWatchList(criteria);

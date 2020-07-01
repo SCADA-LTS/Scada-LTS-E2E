@@ -64,7 +64,7 @@ public class EventDetectorDiagnosticTest {
                     .error("")
                     .resultOperationSave("")
                     .value(expectedValue)
-                    .xid(TestImplConfiguration.dataPointToChangeXid)
+                    .dataPointXid(TestImplConfiguration.dataPointToChangeXid)
                     .build();
 
             //when:
@@ -75,7 +75,7 @@ public class EventDetectorDiagnosticTest {
             assertEquals(200, setResponse.getStatus());
             assertNotNull(setResult);
             assertEquals("", setResult.getError());
-            assertEquals(TestImplConfiguration.dataPointToChangeXid, setResult.getXid());
+            assertEquals(TestImplConfiguration.dataPointToChangeXid, setResult.getDataPointXid());
             assertEquals(expectedValue, setResult.getValue());
 
             //and when:

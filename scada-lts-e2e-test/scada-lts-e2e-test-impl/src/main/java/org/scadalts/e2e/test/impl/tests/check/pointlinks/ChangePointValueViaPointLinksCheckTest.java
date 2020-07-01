@@ -47,7 +47,7 @@ public class ChangePointValueViaPointLinksCheckTest {
                 .error("")
                 .resultOperationSave("")
                 .value(value)
-                .xid(TestImplConfiguration.dataPointSourceXid)
+                .dataPointXid(TestImplConfiguration.dataPointSourceXid)
                 .build();
 
         //when:
@@ -58,7 +58,7 @@ public class ChangePointValueViaPointLinksCheckTest {
         assertEquals(200, setResponse.getStatus());
         assertNotNull(setResult);
         assertEquals("", setResult.getError());
-        assertEquals(TestImplConfiguration.dataPointSourceXid, setResult.getXid());
+        assertEquals(TestImplConfiguration.dataPointSourceXid, setResult.getDataPointXid());
         assertEquals(value, setResult.getValue());
 
         //and when:
