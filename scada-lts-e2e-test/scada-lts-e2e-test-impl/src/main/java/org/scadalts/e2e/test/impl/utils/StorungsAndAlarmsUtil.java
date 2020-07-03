@@ -47,7 +47,10 @@ public class StorungsAndAlarmsUtil {
     public final static String EXPECTED_X_ALARMS_STORUNGS = "Failure because: Expected {0} alarms/storungs.";
     public final static String EXPECTED_LARGER_OR_EQUALS_TO_X_ALARMS_STORUNGS_BUT_WAS_Y = "Failure because: Expected to be larger than or equal to {0} alarms/storungs but was {1}.";
     public final static String EXPECTED_ALARMS_STORUNGS_SORTED_DESCENDING_BY_ACTIVATION_TIME = "Failure because: Expected the alarms/stroungs to be sorted by descending activation-time";
-    public final static String EXPECTED_ACTIVE_ABOVE_BELOW_THEM_INACTIVE_LIVES_AND_SORTED_ACTIVATION_TIME_DESC = "Failure because: Expected active to be above, below them inactive lives and sorted by descending activation-time.";
+    public final static String EXPECTED_ALARMS_STORUNGS_SORTED_DESCENDING_BY_INACTIVATION_TIME = "Failure because: Expected the alarms/stroungs to be sorted by descending inactivation-time";
+
+    public final static String EXPECTED_ALARMS_STORUNGS_SORTED_ASCENDING_BY_ACTIVATION_TIME = "Failure because: Expected the alarms/stroungs to be sorted by ascending activation-time";
+    public final static String EXPECTED_ACTIVE_ABOVE_BELOW_THEM_INACTIVE_LIVES_AND_SORTED_DESC = "Failure because: Expected active to be above, below them inactive lives and sorted.";
     public final static String EXPECTED_ONE_LIVE_IF_START_POINT_VALUE_IS_ONE_OTHER_ZERO = "Failure because: Expected 1 live if start point value is 1 other 0";
 
     public static List<StorungAlarmResponse> getAlarmsAndStorungsSortByActivationTime(DataPointIdentifier identifier, PaginationParams paginationParams) {
@@ -55,7 +58,7 @@ public class StorungsAndAlarmsUtil {
                 TestImplConfiguration.waitingAfterSetPointValueMs);
         assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
         List<StorungAlarmResponse> getResult = getResponse.getValue();
-        return sortByActivationTime(StorungsAndAlarmsUtil._getAlarmsAndStorungsFor(identifier, getResult));
+        return sortByActivationTimeDesc(StorungsAndAlarmsUtil._getAlarmsAndStorungsFor(identifier, getResult));
     }
 
     public static List<StorungAlarmResponse> getAlarmsAndStorungsSortByActivationTime(DataPointIdentifier identifier, Predicate<List<StorungAlarmResponse>> expected,
@@ -63,21 +66,34 @@ public class StorungsAndAlarmsUtil {
         E2eResponse<List<StorungAlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationParams, expected);
         assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
         List<StorungAlarmResponse> getResult = getResponse.getValue();
-        return sortByActivationTime(StorungsAndAlarmsUtil._getAlarmsAndStorungsFor(identifier, getResult));
+        return sortByActivationTimeDesc(StorungsAndAlarmsUtil._getAlarmsAndStorungsFor(identifier, getResult));
     }
 
-    public static List<StorungAlarmResponse> sortByActivationTime(List<StorungAlarmResponse> list) {
+    public static List<StorungAlarmResponse> sortByActivationTimeDesc(List<StorungAlarmResponse> list) {
         return list.stream()
                 .sorted((a, b) -> b.getActivationTime().compareTo(a.getActivationTime()))
                 .collect(Collectors.toList());
     }
 
+    public static List<StorungAlarmResponse> sortByInactivationTimeDesc(List<StorungAlarmResponse> list) {
+        return list.stream()
+                .sorted((a, b) -> b.getInactivationTime().compareTo(a.getInactivationTime()))
+                .collect(Collectors.toList());
+    }
+
+    public static List<StorungAlarmResponse> sortByActivationTimeAsc(List<StorungAlarmResponse> list) {
+        return list.stream()
+                .sorted(Comparator.comparing(StorungAlarmResponse::getActivationTime))
+                .collect(Collectors.toList());
+    }
+
+
     public static List<StorungAlarmResponse> getReferenceStructure(List<StorungAlarmResponse> list) {
         List<StorungAlarmResponse> active = _filterActiveAlarmsAndStorungs(list);
         List<StorungAlarmResponse> inactive = _filterInactiveAlarmsAndStorungs(list);
         List<StorungAlarmResponse> ref = new ArrayList<>();
-        ref.addAll(sortByActivationTime(active));
-        ref.addAll(sortByActivationTime(inactive));
+        ref.addAll(sortByActivationTimeDesc(active));
+        ref.addAll(sortByInactivationTimeDesc(inactive));
         return ref;
     }
 
