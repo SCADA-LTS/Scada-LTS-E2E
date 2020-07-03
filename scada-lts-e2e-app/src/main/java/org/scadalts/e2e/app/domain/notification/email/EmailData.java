@@ -8,9 +8,11 @@ import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.config.E2eConfig;
 import org.scadalts.e2e.common.config.SendTo;
 import org.scadalts.e2e.test.core.plans.engine.E2eSummarable;
+import org.scadalts.e2e.test.core.plans.engine.TestStatus;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,6 +31,8 @@ class EmailData {
     private final String title;
     private final E2eSummarable summary;
 
+    private final String testStatusesLegend;
+
     @Singular
     private final Set<File> attachments;
 
@@ -38,6 +42,9 @@ class EmailData {
     static EmailData create(E2eConfig config, SendTo sendTo, E2eSummarable summary) {
         Set<String> failTestNames = summary.getFailTestNames();
         logger.info("failTestNames: {}", failTestNames);
+
+        Map<String, TestStatus> testStatuses = summary.getTestStatuses();
+        logger.info("testStatuses: {}", testStatuses);
 
         Set<File> attachments = _getAttachments(summary);
         logger.info("attachments: {}", attachments);

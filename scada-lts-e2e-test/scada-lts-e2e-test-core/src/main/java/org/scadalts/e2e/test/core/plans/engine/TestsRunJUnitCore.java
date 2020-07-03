@@ -7,7 +7,9 @@ import org.junit.runner.notification.RunListener;
 import org.scadalts.e2e.common.config.E2eConfiguration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Log4j2
 class TestsRunJUnitCore implements TestsRunEngine {
@@ -19,15 +21,18 @@ class TestsRunJUnitCore implements TestsRunEngine {
     }
 
     @Override
-    public List<E2eResult> run(List<Class<?>> tests) {
-        List<E2eResult> results = new ArrayList<>();
+    public Map<Class<?>, List<E2eResult>> run(List<Class<?>> tests) {
+        Map<Class<?>, List<E2eResult>> results = new HashMap<>();
+
         for (Class<?> test: tests) {
+            results.putIfAbsent(test, new ArrayList<>());
             E2eResult result = _run(test, new E2eRunListener(test));
+            results.get(test).add(result);
             if(!result.wasSuccessful()) {
                 logger.info("repeats test...{}", test.getSimpleName());
                 result = _run(test, new E2eRunListener(test));
+                results.get(test).add(result);
             }
-            results.add(result);
         }
         return results;
     }

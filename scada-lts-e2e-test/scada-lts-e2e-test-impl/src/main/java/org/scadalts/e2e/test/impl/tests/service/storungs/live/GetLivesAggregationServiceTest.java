@@ -2,6 +2,7 @@ package org.scadalts.e2e.test.impl.tests.service.storungs.live;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
