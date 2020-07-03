@@ -21,8 +21,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
-import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.EXPECTED_ACTIVE_ABOVE_BELOW_THEM_INACTIVE_LIVES_AND_SORTED_ACTIVATION_TIME_DESC;
-import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.EXPECTED_ALARMS_STORUNGS_SORTED_DESCENDING_BY_ACTIVATION_TIME;
+import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
@@ -124,7 +123,7 @@ public class GetLivesGroupingSortServiceTest {
                 .offset(offset)
                 .build());
 
-        List<StorungAlarmResponse> sorted = StorungsAndAlarmsUtil.sortByActivationTime(responses);
+        List<StorungAlarmResponse> sorted = StorungsAndAlarmsUtil.sortByActivationTimeDesc(responses);
 
         //then:
         assertEquals(EXPECTED_ALARMS_STORUNGS_SORTED_DESCENDING_BY_ACTIVATION_TIME, sorted, responses);
@@ -139,14 +138,14 @@ public class GetLivesGroupingSortServiceTest {
                 .offset(offset)
                 .build());
 
-        List<StorungAlarmResponse> sorted = StorungsAndAlarmsUtil.sortByActivationTime(responses);
+        List<StorungAlarmResponse> sorted = StorungsAndAlarmsUtil.sortByInactivationTimeDesc(responses);
 
         //then:
-        assertEquals(EXPECTED_ALARMS_STORUNGS_SORTED_DESCENDING_BY_ACTIVATION_TIME, sorted, responses);
+        assertEquals(EXPECTED_ALARMS_STORUNGS_SORTED_DESCENDING_BY_INACTIVATION_TIME, sorted, responses);
     }
 
     @Test
-    public void test_ref_structure_lives() {
+    public void test_grouping_structure_lives() {
 
         //when:
         List<StorungAlarmResponse> responses = StorungsAndAlarmsUtil.getStorungsAndAlarms(PaginationParams.builder()
@@ -157,7 +156,7 @@ public class GetLivesGroupingSortServiceTest {
         List<StorungAlarmResponse> ref = StorungsAndAlarmsUtil.getReferenceStructure(responses);
 
         //then:
-        assertEquals(EXPECTED_ACTIVE_ABOVE_BELOW_THEM_INACTIVE_LIVES_AND_SORTED_ACTIVATION_TIME_DESC, ref, responses);
+        assertEquals(EXPECTED_ACTIVE_ABOVE_BELOW_THEM_INACTIVE_LIVES_AND_SORTED_DESC, ref, responses);
     }
 
 }
