@@ -53,6 +53,7 @@ class ThymeleafMessageTransformator implements MessageTransformator {
         ResourceBundle message = ResourceBundle.getBundle("lang", locale);
 
         context.setVariable("testNameTh", message.getString("e2e.test.name"));
+        context.setVariable("statusTh", message.getString("e2e.test.status"));
         context.setVariable("testMethodNameTh", message.getString("e2e.test.method-name"));
         context.setVariable("testMessageTh", message.getString("e2e.test.message"));
         context.setVariable("testSessionIdTh", message.getString("e2e.test.session-id"));

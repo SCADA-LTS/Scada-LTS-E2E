@@ -65,7 +65,7 @@ public class GetInactiveLivesServiceTest {
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
-                "0 -> 1 -> 0", "1");
+                "0 -> 1 -> 0", "alarms", "1");
         assertEquals(msg,1, storungAlarmResponse.size());
 
         //when:
@@ -73,7 +73,7 @@ public class GetInactiveLivesServiceTest {
 
         //then:
         msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
-                "0 -> 1 -> 0", "1");
+                "0 -> 1 -> 0", "storungs", "1");
         assertEquals(msg,1, storungAlarmResponse.size());
 
     }
