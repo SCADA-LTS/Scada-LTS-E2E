@@ -39,7 +39,7 @@ public class ConfigureTestDataPointDetailsCommand implements Command<DataPointDe
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.criteriaSecond(new DataSourceIdentifier(TestImplConfiguration.dataSourceName, DataSourceType.VIRTUAL_DATA_SOURCE));
         DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(new DataPointIdentifier(TestImplConfiguration.dataPointName, DataPointType.NUMERIC));
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
-        WatchListCriteria watchListCriteria = new WatchListCriteria(new WatchListIdentifier("wl_test_"), dataSourcePointCriteria.getIdentifier());
+        WatchListCriteria watchListCriteria = new WatchListCriteria(new WatchListIdentifier(TestImplConfiguration.watchListName), dataSourcePointCriteria.getIdentifier());
 
         try (CriteriaRegister criteriaRegister = new CriteriaRegister(getClassTest())) {
 

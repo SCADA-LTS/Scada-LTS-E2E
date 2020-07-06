@@ -121,10 +121,10 @@ public class AnnotationsChangeValueIfPointDisabledPageTest {
         //then:
         List<String> result = watchListPage.reopen()
                 .openDataPointDetails(dataSourcePointCriteria.getIdentifier())
-                .getAnnotationsFromHistory();
+                .getAnnotationsFromHistory(1);
 
         assertNotNull(result);
-        assertEquals(expectAnnotation, result);
+        assertEquals(expectAnnotation, result.get(0));
     }
 
     @Test

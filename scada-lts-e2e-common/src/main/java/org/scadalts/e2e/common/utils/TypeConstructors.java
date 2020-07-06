@@ -90,6 +90,6 @@ public class TypeConstructors {
     }
 
     private static String[] createStringArray(String value) {
-        return new String[]{value};
+        return value.split(";");
     }
 }

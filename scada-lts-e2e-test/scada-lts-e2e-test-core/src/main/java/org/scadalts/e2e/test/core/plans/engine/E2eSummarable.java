@@ -19,6 +19,8 @@ public interface E2eSummarable {
 
     Map<String, TestStatus> getTestStatuses();
 
+    //Map<String, String> getTestDescriptions();
+
     String getUrl();
 
     Map<String, String> getStatusesLegend();
