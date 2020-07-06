@@ -9,6 +9,7 @@ import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
+import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
 import org.scadalts.e2e.page.impl.dicts.ChangeType;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
@@ -40,6 +41,7 @@ public class DeleteDataPointPageTest {
         DataPointCriteria dataPointCriteria2 = DataPointCriteria.binaryAlternate();
 
         dataPointToDeleteCriteria = DataPointCriteria.builder()
+                .dataPointProperties(DataPointProperties.empty())
                 .xid(Xid.xidForDataPoint())
                 .identifier(dataPointToDeleteName)
                 .changeType(ChangeType.ALTERNATE)
@@ -50,7 +52,7 @@ public class DeleteDataPointPageTest {
                 dataPointToDeleteCriteria, dataPointCriteria2);
         editDataSourceWithPointListPageSubject = dataSourcesPageCreator.createObjects()
                 .openDataSourceEditor(dataSourceCriteria.getIdentifier())
-                .acceptAlertOnPage();
+                .acceptAlertOnPage2();
     }
 
     @After

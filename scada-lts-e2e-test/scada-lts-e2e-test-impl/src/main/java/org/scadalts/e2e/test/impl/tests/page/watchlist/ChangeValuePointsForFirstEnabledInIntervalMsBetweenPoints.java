@@ -85,7 +85,7 @@ public class ChangeValuePointsForFirstEnabledInIntervalMsBetweenPoints {
 
     @After
     public void clean() {
-        watchListPage.acceptAlertOnPage();
+        watchListPage.acceptAlertOnPage2();
         watchListObjectsCreator.deleteObjects();
         dataPointObjectsCreator.deleteObjects();
     }

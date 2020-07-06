@@ -73,9 +73,10 @@ public class AnnotationsChangePointValuePageTest {
 
         int limit = dataPointDetailsPageSubject.getHistoryLimit();
         List<String> result = dataPointDetailsPageSubject.getAnnotationsFromHistory();
+        List<String> values = dataPointDetailsPageSubject.getValuesFromHistory();
 
         listExpected = new ListLimitedSupportedAddMethod<>(limit);
-        listExpected.addAll(result);
+        listExpected.addAll(result, values);
     }
 
     @AfterClass
@@ -92,7 +93,7 @@ public class AnnotationsChangePointValuePageTest {
     public void test_annotation_is_visible_if_user_change_point() {
 
         //given:
-        listExpected.add(MessageFormat.format("User: {0}", userExpected));
+        listExpected.addUnique(MessageFormat.format("User: {0}", userExpected), value);
 
         //when:
         dataPointDetailsPageSubject.setDataPointValue(value)

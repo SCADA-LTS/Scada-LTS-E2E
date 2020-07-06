@@ -38,7 +38,7 @@ public class MultiTabGraphicalViewPageTest {
     public void clean() {
         NavigationPage.closeAllButOnePage();
         GraphicalViewsPage page = graphicalViewObjectsCreator.deleteObjects();
-        page.acceptAlertOnPage();
+        page.acceptAlertOnPage2();
     }
 
     @Test

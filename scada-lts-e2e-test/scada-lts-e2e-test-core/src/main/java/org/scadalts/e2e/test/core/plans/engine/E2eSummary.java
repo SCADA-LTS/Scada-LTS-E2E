@@ -1,14 +1,19 @@
 package org.scadalts.e2e.test.core.plans.engine;
 
+import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.test.core.utils.TestResultPrinter;
 
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPrintMs;
 import static org.scadalts.e2e.test.core.utils.TestResultPrinter.failures;
 
+@Log4j2
 public class E2eSummary implements E2eSummarable {
 
     private final Map<Class<?>, List<E2eResult>> results;
@@ -64,6 +69,25 @@ public class E2eSummary implements E2eSummarable {
 
         );
     }
+/*
+    @Override
+    public Map<String, String> getTestDescriptions() {
+        return results.keySet()
+                .stream()
+                .collect(Collectors
+                        .toMap(Class::getSimpleName,
+                                a -> {
+                                    try {
+                                        return a.newInstance().getDescription();
+                                    } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                                        logger.warn(e.getMessage(), e);
+                                    }
+                                    return "...";
+                                },
+                                (b, c) -> c)
+
+                );
+    }*/
 
     @Override
     public Map<String, String> getStatusesLegend() {

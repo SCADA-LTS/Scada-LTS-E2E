@@ -35,7 +35,7 @@ public class DeleteGraphicalViewPageTest {
     @After
     public void clean() {
         GraphicalViewsPage page = graphicalViewObjectsCreator.deleteObjects();
-        page.acceptAlertOnPage();
+        page.acceptAlertOnPage2();
     }
 
     @Test

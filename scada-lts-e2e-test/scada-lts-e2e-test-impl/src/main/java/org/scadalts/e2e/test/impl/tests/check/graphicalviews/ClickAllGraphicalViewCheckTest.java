@@ -39,7 +39,7 @@ public class ClickAllGraphicalViewCheckTest {
 
     @BeforeClass
     public static void setup() {
-        graphicalViewsPage.reopen().acceptAlertOnPage();
+        graphicalViewsPage.reopen().acceptAlertOnPage2();
     }
 
     @Test

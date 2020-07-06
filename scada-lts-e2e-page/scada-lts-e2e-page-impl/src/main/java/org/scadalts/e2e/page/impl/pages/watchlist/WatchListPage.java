@@ -39,6 +39,9 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     @FindBy(id = "watchListTable")
     private SelenideElement watchListTable;
 
+    @FindBy(id = "watchListDiv")
+    private SelenideElement watchListDiv;
+
     @FindBy(css = "img[src='images/report_add.png']")
     private SelenideElement addReportNewWatchListButton;
 
@@ -80,16 +83,13 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
 
     public WatchListPage addWatchList(WatchListCriteria criteria) {
         delay();
+
         executeJQuery(JQueryScripts.click(ADD_NEW_WATCH_LIST));
         waitWhile(editWatchListButton, not(Condition.visible)).click();
         waitWhile($(NEW_WATCH_LIST_NAME_TEXT_BY), not(Condition.visible))
                 .setValue(criteria.getIdentifier().getValue());
         waitWhile($(SAVE_NEW_WATCH_LIST_NAME_BUTTON_BY), not(Condition.visible)).click();
         waitWhile(() -> !containsObject(criteria.getIdentifier()));
-        for (DataSourcePointIdentifier dataSourcePointIdentifier
-                : criteria.getDataSourcePointIdentifiers()) {
-            addDataToWatchList(dataSourcePointIdentifier);
-        }
         return this;
     }
 
@@ -107,14 +107,16 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     }
 
     public WatchListPage addDataToWatchList(DataSourcePointIdentifier identifier) {
-        refreshWhile(_findActionInSpan(identifier, SELECTOR_ACTION_ADD_TO_WATCH_LIST_BY), not(Condition.visible)).click();
+
+        refreshWhile(_findActionInSpan(identifier, SELECTOR_ACTION_ADD_TO_WATCH_LIST_BY),
+                not(Condition.visible)).click();
         waitWhile(() -> !isVisibleWatchListUnit(identifier));
         return this;
     }
 
     public String getWatchListText() {
         delay();
-        return waitWhile(watchListTable, not(Condition.visible)).getText();
+        return waitWhile(watchListDiv, not(Condition.visible)).getText();
     }
 
     public boolean isVisibleWatchList(WatchListIdentifier identifier) {
@@ -189,8 +191,7 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
 
     public WatchListPage deleteWatchList(WatchListIdentifier identifier) {
         delay();
-        if(isVisibleWatchListTable() &&
-                isVisibleWatchList(identifier)) {
+        if(isVisibleWatchList(identifier)) {
             selectWatchList(identifier);
             if(isSelectedWatchList(identifier)) {
                 waitWhile(deleteWatchListButton, not(Condition.visible)).click();
