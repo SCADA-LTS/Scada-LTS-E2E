@@ -8,11 +8,13 @@ import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.core.services.E2eResponse;
+import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.storungs.AcknowledgeResponse;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
+import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
@@ -53,7 +55,7 @@ public class StorungsAndAlarmsObjectsCreator implements CreatorObject<DataSource
     @Override
     public DataSourcesPage deleteObjects() {
         try {
-            deleteAlarms();
+            _deleteAlarms();
         } catch (Throwable throwable) {
             logger.warn(throwable.getMessage(), throwable);
         }
@@ -63,7 +65,7 @@ public class StorungsAndAlarmsObjectsCreator implements CreatorObject<DataSource
 
     public DataSourcesPage deleteAlaramsAndDataPoints() {
         try {
-            deleteAlarms();
+            _deleteAlarms();
         } catch (Throwable throwable) {
             logger.warn(throwable.getMessage(), throwable);
         }
@@ -98,20 +100,26 @@ public class StorungsAndAlarmsObjectsCreator implements CreatorObject<DataSource
     }
 
     public <T> StorungsAndAlarmsObjectsCreator setDataPointValue(T value) {
-        DataSourcesPage dataSourcesPage = openPage();
+        String valueStr = String.valueOf(value);
         for(DataSourcePointCriteria criteria: dataSourcePointCriterias) {
-            setValue(criteria.getDataPoint(), String.valueOf(value));
-            dataSourcesPage.waitOnPage(1000);
+            _setValue(criteria.getDataPoint(), valueStr);
+            _checkSetValue(criteria.getDataPoint(), valueStr);
         }
         return this;
     }
 
     public <T> StorungsAndAlarmsObjectsCreator setDataPointValue(DataPointCriteria dataPointCriteria, T value) {
-        setValue(dataPointCriteria, String.valueOf(value));
+        _setValue(dataPointCriteria, String.valueOf(value));
         return this;
     }
 
-    private static void setValue(DataPointCriteria criteria, String value) {
+    private static void _checkSetValue(DataPointCriteria criteria, String value) {
+        PointValueParams pointValueParams = new PointValueParams(criteria.getXid().getValue());
+        TestWithoutPageUtil.getDataPointValue(pointValueParams, value, TestImplConfiguration.waitingAfterSetPointValueMs);
+
+    }
+
+    private static void _setValue(DataPointCriteria criteria, String value) {
         E2eResponse<CmpParams> response = TestWithoutPageUtil.setDataPointValue(CmpParams.builder()
                 .error("")
                 .resultOperationSave("")
@@ -121,10 +129,10 @@ public class StorungsAndAlarmsObjectsCreator implements CreatorObject<DataSource
         assertEquals(INVOKE_SET_DATA_POINT_VALUE_FROM_API_DID_NOT_SUCCEED, 200, response.getStatus());
     }
 
-    private void deleteAlarms() throws Throwable {
+    private void _deleteAlarms() throws Throwable {
         PaginationParams paginationParams = PaginationParams.builder().offset(0).limit(9999).build();
         for (DataSourcePointCriteria criteria : dataSourcePointCriterias) {
-            setValue(criteria.getDataPoint(), "0");
+            _setValue(criteria.getDataPoint(), "0");
             List<StorungAlarmResponse> alarms = StorungsAndAlarmsUtil
                     .getAlarmsAndStorungsSortByActivationTime(criteria.getDataPoint().getIdentifier(), paginationParams);
             for (StorungAlarmResponse alarm : alarms) {

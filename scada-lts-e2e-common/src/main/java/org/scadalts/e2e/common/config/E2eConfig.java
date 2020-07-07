@@ -68,8 +68,6 @@ public interface E2eConfig {
 
     org.apache.logging.log4j.Level getLogLevel();
 
-    int getCtrlCode();
-
     int getTimeoutMs();
 
     int getPollingIntervalMs();

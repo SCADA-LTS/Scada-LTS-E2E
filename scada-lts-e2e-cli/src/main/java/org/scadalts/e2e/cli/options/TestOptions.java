@@ -32,9 +32,6 @@ public class TestOptions extends MainOptions {
     @CommandLine.Option(names = {"-d", "--driver-file"})
     private File driverFile;
 
-    @CommandLine.Option(names = {"-k", "--ctrl-code"})
-    private int ctrlCode;
-
     @CommandLine.Option(names = {"-H", "--headless-mode"}, negatable = true)
     private boolean headlessMode;
 

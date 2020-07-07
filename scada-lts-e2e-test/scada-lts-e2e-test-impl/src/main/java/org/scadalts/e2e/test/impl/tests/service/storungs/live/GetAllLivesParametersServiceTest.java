@@ -86,7 +86,6 @@ public class GetAllLivesParametersServiceTest {
             assertThat("field name in: " + res.toString(), res.getName(), matchesPattern(RegexUtil.DATA_POINT_NOTIFIER_NAME_REGEX));
     }
 
-
     @Test
     public void test_response_level_then_AlarmLevel() {
 

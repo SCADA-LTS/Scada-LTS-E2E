@@ -183,6 +183,13 @@ public class StorungsAndAlarmsUtil {
 
     }
 
+    public static List<TestDataBatch> generateDataTestRandom(int nWord, DataPointNotifierType prototype, int size) {
+        return VariationsGenerator.generateRandom(1, nWord, size).stream()
+                .map(a -> new TestDataBatch(a, prototype))
+                .collect(Collectors.toList());
+
+    }
+
     public static int getNumberActiveAlarmsFromResponse(List<StorungAlarmResponse> storungAlarmRespons) {
         int result = 0;
         for (StorungAlarmResponse res: storungAlarmRespons) {

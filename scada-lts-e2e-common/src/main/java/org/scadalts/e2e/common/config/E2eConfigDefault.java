@@ -37,7 +37,6 @@ class E2eConfigDefault implements E2eConfig {
     private BrowserRef browserRef;
     private int timeoutMs;
     private File driverFile;
-    private int ctrlCode;
     private boolean headlessMode;
     private boolean driverManagerMode;
     private boolean screenshotMode;

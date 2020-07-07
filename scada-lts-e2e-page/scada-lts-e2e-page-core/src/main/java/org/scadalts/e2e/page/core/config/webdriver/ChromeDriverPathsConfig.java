@@ -18,7 +18,7 @@ public enum ChromeDriverPathsConfig implements WebDrvierPathsConfig {
     }
 
     public static WebDrvierPathsConfig getConfig() {
-        return WebDrvierPathsConfig.getDriverPathConfig(ChromeDriverPathsConfig.values(),
+        return GetConfigForSystem.getConfig(ChromeDriverPathsConfig.values(),
                         ChromeDriverPathsConfig.WINDOWS_32);
     }
 }
