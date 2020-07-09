@@ -15,14 +15,15 @@ public class VariationsGenerator {
     public static List<VariationUnit<Integer>> generateRandom(int toValue, int nWords, int size) {
         List<VariationUnit<Integer>> result = new ArrayList<>();
         Random random = new Random();
+        int bound = toValue + 1;
 
         for (int i = 0 ; i < size ; i++) {
             List<Integer> variatons = new ArrayList<>();
             for (int j = 0; j < nWords; j++) {
-                variatons.add(random.nextInt(toValue + 1));
+                variatons.add(random.nextInt(bound));
             }
             result.add(VariationUnit.<Integer>builder()
-                    .startValue(random.nextInt(toValue + 1))
+                    .startValue(random.nextInt(bound))
                     .variation(variatons)
                     .build());
         }

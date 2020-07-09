@@ -24,7 +24,7 @@ public class TestDataBatch {
         this.variationUnit = variationUnit;
         this.dataPointIdentifier = IdentifierObjectFactory.dataPointNotifierBinaryTypeName(dataPointNotifierType);
         this.numberAlarmsWithStart = dataPointNotifierType == DataPointNotifierType.NONE ? 0 : StorungsAndAlarmsUtil.calculateRisingSlopes(variationUnit.getVariationWithStart(),
-                0); //+ variationUnit.getStartValue() == 0 ? 1 : 0;
+                0);
         this.dataPointNotifierType = dataPointNotifierType;
     }
 

@@ -93,10 +93,18 @@ public class StorungsAndAlarmsObjectsCreator implements CreatorObject<DataSource
     }
 
     public <T> StorungsAndAlarmsObjectsCreator setDataPointValues(List<T> variation) {
+
+        T pre = variation.get(0);
         for (T unit : variation) {
             setDataPointValue(unit);
+            //if(!pre.equals(unit))
+            pre = unit;
         }
         return this;
+    }
+
+    private <T> boolean is(T pre, T current) {
+        return true;
     }
 
     public <T> StorungsAndAlarmsObjectsCreator setDataPointValue(T value) {
@@ -137,7 +145,7 @@ public class StorungsAndAlarmsObjectsCreator implements CreatorObject<DataSource
                     .getAlarmsAndStorungsSortByActivationTime(criteria.getDataPoint().getIdentifier(), paginationParams);
             for (StorungAlarmResponse alarm : alarms) {
                 logger.info("delete: {}", alarm);
-                AcknowledgeResponse response = StorungsAndAlarmsUtil.acknowledgeAlarm(alarm.getId());
+                AcknowledgeResponse response = StorungsAndAlarmsUtil.acknowledge(alarm.getId());
                 logger.debug("delete... ok {}", response);
             }
         }

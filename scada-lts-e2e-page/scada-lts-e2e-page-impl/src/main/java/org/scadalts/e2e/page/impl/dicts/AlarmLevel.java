@@ -22,9 +22,16 @@ public enum AlarmLevel implements DictionaryObject {
         this.id = id;
     }
 
-    public static AlarmLevel getType(String typeName) {
+    public static AlarmLevel getTypeByName(String typeName) {
         return Stream.of(AlarmLevel.values())
                 .filter(a -> a.name.equalsIgnoreCase(typeName))
+                .findFirst()
+                .orElse(NONE);
+    }
+
+    public static AlarmLevel getType(String id) {
+        return Stream.of(AlarmLevel.values())
+                .filter(a -> a.id.equalsIgnoreCase(id))
                 .findFirst()
                 .orElse(NONE);
     }

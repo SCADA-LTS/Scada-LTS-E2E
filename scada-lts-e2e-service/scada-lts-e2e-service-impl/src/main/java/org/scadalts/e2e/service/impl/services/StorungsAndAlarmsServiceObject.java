@@ -71,9 +71,9 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
         }
     }
 
-    public Optional<E2eResponse<AcknowledgeResponse>> acknowledgeAlarm(String id, long timeout) {
+    public Optional<E2eResponse<AcknowledgeResponse>> acknowledge(String id, long timeout) {
         try {
-            E2eResponse<AcknowledgeResponse> response = applyWhile(this::_acknowledgeAlarm, id, new StabilityUtil.Timeout(timeout));
+            E2eResponse<AcknowledgeResponse> response = applyWhile(this::_acknowledge, id, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -118,7 +118,7 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
     }
 
 
-    private E2eResponse<AcknowledgeResponse> _acknowledgeAlarm(String id) {
+    private E2eResponse<AcknowledgeResponse> _acknowledge(String id) {
         String endpoint = MessageFormat.format("{0}/api/alarms/acknowledge/{1}", baseUrl, id);
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.info("endpoint: {}", endpoint);

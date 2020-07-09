@@ -13,63 +13,41 @@ import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
+import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestDataBatch;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(TestWithPageRunner.class)
 public class GetLivesAggregationPerformanceServiceTest {
 
-    @Parameterized.Parameters(name = "{index}: sequence: {0}")
-    public static List<TestDataBatch> data() {
-        List<TestDataBatch> result = new ArrayList<>();
-
-        result.addAll(generateDataTestRandom(1000, DataPointNotifierType.ALARM,  1));
-        result.addAll(generateDataTestRandom(1000, DataPointNotifierType.STORUNG,  1));
-        result.addAll(generateDataTestRandom(1000, DataPointNotifierType.NONE,  1));
-
-        return result;
-    }
-
-    private final TestDataBatch testDataBatch;
-
-    public GetLivesAggregationPerformanceServiceTest(TestDataBatch testDataBatch) {
-        this.testDataBatch = testDataBatch;
-    }
-
-    private PaginationParams paginationParams = PaginationParams.builder()
+    private static PaginationParams paginationParams = PaginationParams.builder()
             .limit(9999)
             .offset(0)
             .build();
 
-
-    private static DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-    private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
-
-    private StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
+    private static StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
+    private static TestDataBatch testDataBatch;
 
     @BeforeClass
-    public static void createDataSource() {
+    public static void setup() {
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourceCriteria);
-        dataSourcePointObjectsCreator.createObjects();
-    }
+        DataSourceCriteria dataSource = DataSourceCriteria.virtualDataSourceSecond();
+        testDataBatch = generateDataTestRandom(10000, DataPointNotifierType.ALARM, 1).get(0);
 
-    @Before
-    public void setup() {
-
-        DataPointCriteria point = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
+        DataPointCriteria dataPoint = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
                 String.valueOf(testDataBatch.getStartValue()));
 
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
-        storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, point);
+        storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSource, dataPoint);
         storungsAndAlarmsObjectsCreator.createObjects();
 
         List<StorungAlarmResponse> storungAlarmRespons = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
@@ -78,44 +56,58 @@ public class GetLivesAggregationPerformanceServiceTest {
                 testDataBatch.getDataPointNotifierType().getName());
 
         assertEquals(msg, testDataBatch.getNumberStartAlarms(), storungAlarmRespons.size());
-    }
 
-    @After
-    public void clean() {
-        storungsAndAlarmsObjectsCreator.deleteAlaramsAndDataPoints();
+        storungsAndAlarmsObjectsCreator.setDataPointValues(testDataBatch.getSequencePointValue());
+
     }
 
     @AfterClass
     public static void cleanAll() {
-        dataSourcePointObjectsCreator.deleteObjects();
+        storungsAndAlarmsObjectsCreator.deleteObjects();
     }
 
     @Test
-    public void test_when_set_sequence_then_x_size_lives() {
+    public void test_when_set_sequence_then_one_size_active_lives() {
 
         //when:
-        storungsAndAlarmsObjectsCreator.setDataPointValues(testDataBatch.getSequencePointValue());
-
-        //and when:
         List<StorungAlarmResponse> storungAlarmRespons = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
 
         //then:
-        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
-                testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
-                testDataBatch.getNumberAlarms());
-        assertEquals(msg, testDataBatch.getNumberAlarms(), storungAlarmRespons.size());
-
-        //and then:
-        msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_ACTIVE_DIFFERENT_FROM_Z,
+        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_ACTIVE_DIFFERENT_FROM_Z,
                 testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
                 testDataBatch.getNumberActiveAlarms());
         assertEquals(msg, testDataBatch.getNumberActiveAlarms(), getNumberActiveAlarmsFromResponse(storungAlarmRespons));
+    }
 
-        //and then:
-        msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_INACTIVE_DIFFERENT_FROM_Z,
+    @Test
+    public void test_when_set_sequence_then_x_size_inactive_lives() {
+
+        //when:
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
+
+        //then:
+        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_INACTIVE_DIFFERENT_FROM_Z,
                 testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
                 testDataBatch.getNumberInactiveAlarms());
         assertEquals(msg, testDataBatch.getNumberInactiveAlarms(), getNumberInactiveAlarmsFromResponse(storungAlarmRespons));
 
+    }
+
+    @Test
+    public void test_when_set_sequence_then_not_duplicate_lives() {
+
+        //when:
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
+
+        //then:
+        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_INACTIVE_DIFFERENT_FROM_Z,
+                testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
+                testDataBatch.getNumberInactiveAlarms());
+        assertFalse(isDuplicates(storungAlarmRespons));
+    }
+
+    private static boolean isDuplicates(List<StorungAlarmResponse> lives) {
+        Set<String> result = lives.stream().map(StorungAlarmResponse::getId).collect(Collectors.toSet());
+        return lives.size() != result.size();
     }
 }

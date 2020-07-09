@@ -149,10 +149,10 @@ public class StorungsAndAlarmsUtil {
         return _check(activateAlarms, numberLargerOrEqualsExpected);
     }
 
-    public static AcknowledgeResponse acknowledgeAlarm(String id) {
+    public static AcknowledgeResponse acknowledge(String id) {
         try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
-            Optional<E2eResponse<AcknowledgeResponse>> responseOpt = storungsAndAlarmsServiceObject.acknowledgeAlarm(id,
+            Optional<E2eResponse<AcknowledgeResponse>> responseOpt = storungsAndAlarmsServiceObject.acknowledge(id,
                     TestImplConfiguration.waitingAfterSetPointValueMs);
             E2eResponse<AcknowledgeResponse> getResponse = responseOpt.orElseGet(E2eResponse::empty);
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
@@ -203,7 +203,7 @@ public class StorungsAndAlarmsUtil {
     public static int getNumberInactiveAlarmsFromResponse(List<StorungAlarmResponse> storungAlarmRespons) {
         int result = 0;
         for (StorungAlarmResponse res: storungAlarmRespons) {
-            Pattern pattern = Pattern.compile(RegexUtil.DATE_ISO_REGEX);
+            Pattern pattern = Pattern.compile(RegexUtil.DATE_PSEUDO_ISO_REGEX);
             Matcher matcher = pattern.matcher(res.getInactivationTime());
             if(matcher.find())
                 result++;

@@ -15,8 +15,6 @@ public class DataPointPropertiesJsonAdapter extends DataPointPropertiesJson {
         this.dataSourcePointCriteria = dataPointCriteria;
     }
 
-    
-
     private static List<RangeValueJson> _from(List<RangeValue> rangeValues) {
         return rangeValues.stream()
                 .map(a -> RangeValueJson.builder()

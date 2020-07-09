@@ -31,8 +31,8 @@ import static org.scadalts.e2e.common.utils.ExecutorUtil.executeFunction;
 public class TestWithoutPageUtil {
 
     public static void preparingTest() {
+        _setup();
         if(!isLogged()) {
-            _setup();
             _login();
         }
     }
@@ -158,7 +158,7 @@ public class TestWithoutPageUtil {
     public static E2eResponse<AcknowledgeResponse> acknowledgeAlarm(String id, long timeout) {
         try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
-            Optional<E2eResponse<AcknowledgeResponse>> responseOpt = storungsAndAlarmsServiceObject.acknowledgeAlarm(id,
+            Optional<E2eResponse<AcknowledgeResponse>> responseOpt = storungsAndAlarmsServiceObject.acknowledge(id,
                     timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }

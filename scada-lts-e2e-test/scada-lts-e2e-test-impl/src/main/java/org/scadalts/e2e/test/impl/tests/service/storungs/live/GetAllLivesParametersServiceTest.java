@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
+import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
@@ -15,12 +16,17 @@ import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.RegexUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
+import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.core.AnyOf.anyOf;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.EXPECTED_DATE_ISO;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.getStorungsAndAlarms;
 
@@ -41,8 +47,8 @@ public class GetAllLivesParametersServiceTest {
         DataPointCriteria[] points = {
                 DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "0"),
                 DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "0"),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "0"),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "0"),
+                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "1"),
+                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "1"),
         };
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
@@ -53,6 +59,8 @@ public class GetAllLivesParametersServiceTest {
                 .setDataPointValue(points[3], 0);
 
         storungAlarmResponse = getStorungsAndAlarms(paginationParams);
+
+        System.out.println("size: " + storungAlarmResponse.size());
 
     }
 
@@ -67,7 +75,7 @@ public class GetAllLivesParametersServiceTest {
 
         //then:
         for (StorungAlarmResponse res : storungAlarmResponse)
-            assertThat(EXPECTED_DATE_ISO + " in:" + res.toString(), res.getActivationTime(), matchesPattern(RegexUtil.DATE_ISO_REGEX));
+            assertThat(EXPECTED_DATE_ISO + " in:" + res.toString(), res.getActivationTime(), matchesPattern(RegexUtil.DATE_PSEUDO_ISO_REGEX));
     }
 
     @Test
@@ -75,7 +83,7 @@ public class GetAllLivesParametersServiceTest {
 
         //then:
         for (StorungAlarmResponse res : storungAlarmResponse)
-            assertThat("field inactivation-time in: " + res.toString(), res.getInactivationTime(), anyOf(is(""), is(" "), matchesPattern(RegexUtil.DATE_ISO_REGEX)));
+            assertThat("field inactivation-time in: " + res.toString(), res.getInactivationTime(), anyOf(is(""), is(" "), matchesPattern(RegexUtil.DATE_PSEUDO_ISO_REGEX)));
     }
 
     @Test
@@ -89,8 +97,44 @@ public class GetAllLivesParametersServiceTest {
     @Test
     public void test_response_level_then_AlarmLevel() {
 
+        //given:
+        Pattern alarm = Pattern.compile(RegexUtil.DATA_POINT_ALARM_NOTIFIER_NAME_REGEX);
+        Pattern storung = Pattern.compile(RegexUtil.DATA_POINT_STORUNG_NOTIFIER_NAME_REGEX);
+
         //then:
-        for (StorungAlarmResponse res : storungAlarmResponse)
-            assertThat("field level in: " + res.toString(), res.getLevel(), anyOf(is("1"), is("2")));
+        for (StorungAlarmResponse res : storungAlarmResponse) {
+            AlarmLevel alarmLevel = AlarmLevel.getType(res.getLevel());
+            DataPointNotifierType dataPointNotifierType = DataPointNotifierType.getTypeByLevel(alarmLevel);
+
+            String msg = MessageFormat.format("Failure because: In {0} Alarm Level not any of is: {1}", res, Arrays.asList(AlarmLevel.INFORMATION, AlarmLevel.URGENT));
+            assertThat(msg, alarmLevel, anyOf(is(AlarmLevel.INFORMATION), is(AlarmLevel.URGENT)));
+
+            msg = MessageFormat.format("Failure because: {0} {1} wrong Alarm Level.", dataPointNotifierType.getName(), res);
+            if (alarm.matcher(res.getName()).find()) {
+                assertEquals(msg, AlarmLevel.URGENT, alarmLevel);
+            }
+            if (storung.matcher(res.getName()).find()) {
+                assertEquals(msg, AlarmLevel.URGENT, alarmLevel);
+            }
+        }
+    }
+
+    @Test
+    public void test_inactivation_time_then_less_24_hours() {
+
+        //given:
+        Pattern regex = Pattern.compile(RegexUtil.DATE_PSEUDO_ISO_REGEX);
+
+        //then:
+        for (StorungAlarmResponse res : storungAlarmResponse) {
+            if(regex.matcher(res.getInactivationTime()).find()) {
+                String time = res.getInactivationTime().replace(" ", "T") + "Z";
+                Instant inactivationTime = Instant.parse(time);
+                Instant now = Instant.now().minus(24, ChronoUnit.HOURS);
+                DataPointNotifierType dataPointNotifierType = DataPointNotifierType.getTypeByLevel(AlarmLevel.getType(res.getLevel()));
+                String msg = MessageFormat.format("Failure because: inactive {0} {1} earlier than 24h", dataPointNotifierType.getName(), res);
+                assertTrue(msg,inactivationTime.getNano() > now.getNano());
+            }
+        }
     }
 }
