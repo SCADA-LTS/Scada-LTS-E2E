@@ -111,7 +111,7 @@ public class GetAllLivesParametersServiceTest {
 
             msg = MessageFormat.format("Failure because: {0} {1} wrong Alarm Level.", dataPointNotifierType.getName(), res);
             if (alarm.matcher(res.getName()).find()) {
-                assertEquals(msg, AlarmLevel.URGENT, alarmLevel);
+                assertEquals(msg, AlarmLevel.INFORMATION, alarmLevel);
             }
             if (storung.matcher(res.getName()).find()) {
                 assertEquals(msg, AlarmLevel.URGENT, alarmLevel);
