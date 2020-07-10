@@ -30,6 +30,21 @@ public class VariationsGenerator {
         return result;
     }
 
+    public static List<VariationUnit<Integer>> generateZeroToOnes(int nWords, int size) {
+        List<VariationUnit<Integer>> result = new ArrayList<>();
+        for (int i = 0 ; i < size ; i++) {
+            List<Integer> variatons = new ArrayList<>();
+            for (int j = 0; j < nWords; j++) {
+                variatons.add(1);
+            }
+            result.add(VariationUnit.<Integer>builder()
+                    .startValue(0)
+                    .variation(variatons)
+                    .build());
+        }
+        return result;
+    }
+
     private static void _generate(int toValue, int nWords, List<Integer> variation, List<VariationUnit<Integer>> result,
                                   int startValue) {
 

@@ -190,6 +190,13 @@ public class StorungsAndAlarmsUtil {
 
     }
 
+    public static List<TestDataBatch> generateDataTestZeroToOnes(int nWord, DataPointNotifierType prototype, int size) {
+        return VariationsGenerator.generateZeroToOnes(nWord, size).stream()
+                .map(a -> new TestDataBatch(a, prototype))
+                .collect(Collectors.toList());
+
+    }
+
     public static int getNumberActiveAlarmsFromResponse(List<StorungAlarmResponse> storungAlarmRespons) {
         int result = 0;
         for (StorungAlarmResponse res: storungAlarmRespons) {
