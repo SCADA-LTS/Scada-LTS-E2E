@@ -14,7 +14,9 @@ import org.scadalts.e2e.test.impl.tests.service.storungs.live.*;
         GetStartActiveLivesServiceTest.class,
         GetStartInactiveLivesServiceTest.class,
         GetLivesGroupingSortServiceTest.class,
-        GetAllLivesParametersServiceTest.class
+        GetAllLivesParametersServiceTest.class,
+        GetLivesAggregationPerformanceServiceTest.class,
+        GetLivesAggregationAlarmFiveSizeSeqServiceTest.class
 })
 public class StorungsAndAlarmsServiceTestsSuite {
 }

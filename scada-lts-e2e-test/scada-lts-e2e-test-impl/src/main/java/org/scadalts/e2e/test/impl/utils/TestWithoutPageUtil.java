@@ -137,11 +137,12 @@ public class TestWithoutPageUtil {
         }
     }
 
-    public static E2eResponse<List<StorungAlarmResponse>> getLiveAlarms(PaginationParams paginationParams, Predicate<List<StorungAlarmResponse>> expected) {
+    public static E2eResponse<List<StorungAlarmResponse>> getLiveAlarms(PaginationParams paginationParams,
+                                                                        Predicate<List<StorungAlarmResponse>> whileNot) {
         try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
             Optional<E2eResponse<List<StorungAlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getLiveAlarms(paginationParams,
-                    expected, TestImplConfiguration.timeout);
+                    whileNot, TestImplConfiguration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }

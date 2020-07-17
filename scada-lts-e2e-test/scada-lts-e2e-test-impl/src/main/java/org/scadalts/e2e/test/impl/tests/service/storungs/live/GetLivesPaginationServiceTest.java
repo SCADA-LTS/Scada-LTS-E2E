@@ -74,7 +74,7 @@ public class GetLivesPaginationServiceTest {
         };
 
         DataPointCriteria[] points = Stream.of(idnetifiers)
-                .map(a -> DataPointCriteria.noChange(a, "0"))
+                .map(a -> DataPointCriteria.noChangeAllDataLogging(a, "0"))
                 .toArray(a -> new DataPointCriteria[10]);
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();

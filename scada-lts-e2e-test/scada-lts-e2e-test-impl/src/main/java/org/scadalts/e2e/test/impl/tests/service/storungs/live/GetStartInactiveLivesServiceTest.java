@@ -29,10 +29,7 @@ public class GetStartInactiveLivesServiceTest {
 
     private static DataPointIdentifier alarmIdentifier;
     private static DataPointIdentifier stroungIdentifier;
-    private static PaginationParams paginationParams = PaginationParams.builder()
-            .limit(9999)
-            .offset(0)
-            .build();
+    private static PaginationParams paginationParams = PaginationParams.all();
 
     private static StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
 
@@ -44,8 +41,8 @@ public class GetStartInactiveLivesServiceTest {
         alarmIdentifier = IdentifierObjectFactory.dataPointAlarmBinaryTypeName();
         stroungIdentifier = IdentifierObjectFactory.dataPointStorungBinaryTypeName();
 
-        DataPointCriteria pointAlarm = DataPointCriteria.noChange(alarmIdentifier, "0");
-        DataPointCriteria pointStorung = DataPointCriteria.noChange(stroungIdentifier, "0");
+        DataPointCriteria pointAlarm = DataPointCriteria.noChangeAllDataLogging(alarmIdentifier, "0");
+        DataPointCriteria pointStorung = DataPointCriteria.noChangeAllDataLogging(stroungIdentifier, "0");
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, pointAlarm, pointStorung);

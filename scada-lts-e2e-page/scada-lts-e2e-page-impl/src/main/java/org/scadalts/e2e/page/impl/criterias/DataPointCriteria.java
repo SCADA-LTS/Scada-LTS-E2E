@@ -229,6 +229,24 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
                 .build();
     }
 
+    public static DataPointCriteria noChange(DataPointIdentifier identifier, String startValue,
+                                             DataPointLoggingProperties dataPointLoggingProperties) {
+        ChangeType changeType = ChangeType.NO_CHANGE;
+        Xid xid = Xid.xidForDataPoint();
+        DataPointProperties dataPointProperties = DataPointProperties.builder()
+                .loggingProperties(dataPointLoggingProperties)
+                .build();
+        return DataPointCriteria.builder()
+                .changeType(changeType)
+                .identifier(identifier)
+                .dataPointProperties(dataPointProperties)
+                .startValue(String.valueOf(startValue))
+                .settable(true)
+                .enabled(true)
+                .xid(xid)
+                .build();
+    }
+
     public static DataPointCriteria noChange(DataPointIdentifier identifier, String startValue, boolean enabled) {
         ChangeType changeType = ChangeType.NO_CHANGE;
         Xid xid = Xid.xidForDataPoint();

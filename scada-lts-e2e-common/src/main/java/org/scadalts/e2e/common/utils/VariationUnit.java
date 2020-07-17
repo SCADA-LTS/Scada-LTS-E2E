@@ -21,8 +21,19 @@ public class VariationUnit<T> {
 
     public List<T> getVariationWithStart() {
         List<T> result = new ArrayList<>();
-        result.add(startValue);
+        if(startValue != null)
+            result.add(startValue);
         result.addAll(variation);
         return result;
+    }
+
+    public T getStartValue() {
+        if(startValue != null) {
+            return startValue;
+        }
+        if(!variation.isEmpty()) {
+            return variation.get(0);
+        }
+        return null;
     }
 }

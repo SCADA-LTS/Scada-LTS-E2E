@@ -75,11 +75,11 @@ public class GetLivesGroupingSortServiceTest {
         };
 
         DataPointCriteria[] activeNotifierAlarams = Stream.of(activeIdnetifiers)
-                .map(a -> DataPointCriteria.noChange(a, "1"))
+                .map(a -> DataPointCriteria.noChangeAllDataLogging(a, "1"))
                 .toArray(a -> new DataPointCriteria[activeIdnetifiers.length]);
 
         DataPointCriteria[] inactiveNotifierAlarams = Stream.of(inactiveIdnetifiers)
-                .map(a -> DataPointCriteria.noChange(a, "1"))
+                .map(a -> DataPointCriteria.noChangeAllDataLogging(a, "1"))
                 .toArray(a -> new DataPointCriteria[inactiveIdnetifiers.length]);
 
 
@@ -91,20 +91,11 @@ public class GetLivesGroupingSortServiceTest {
         inactivePoints.createObjects();
         inactivePoints.setDataPointValue(0);
 
-        StorungsAndAlarmsUtil.getStorungsAndAlarms(PaginationParams.builder()
-                .offset(0)
-                .limit(9999)
-                .build(), 12);
+        PaginationParams paginationParams = PaginationParams.all();
 
-        StorungsAndAlarmsUtil.getActiveAlarmsAndStorungs(PaginationParams.builder()
-                .offset(0)
-                .limit(9999)
-                .build(), 6);
-
-        StorungsAndAlarmsUtil.getInactiveAlarmsAndStorungs(PaginationParams.builder()
-                .offset(0)
-                .limit(9999)
-                .build(), 6);
+        StorungsAndAlarmsUtil.getStorungsAndAlarms(paginationParams, 12);
+        StorungsAndAlarmsUtil.getActiveAlarmsAndStorungs(paginationParams, 6);
+        StorungsAndAlarmsUtil.getInactiveAlarmsAndStorungs(paginationParams, 6);
     }
 
     @AfterClass

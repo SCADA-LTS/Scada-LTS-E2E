@@ -97,7 +97,7 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
 
         DataPointLoggingProperties loggingProperties = dataPointProperties.getLoggingProperties();
         if(!loggingProperties.isEmpty()) {
-            _setLogging(dataPointPropertiesPage, loggingProperties);
+            _setLogging(dataPointPropertiesPage, loggingProperties, dataPointType);
         }
 
         if(dataPointType == DataPointType.NUMERIC) {
@@ -108,7 +108,9 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
         dataPointPropertiesPage.editDataSource();
     }
 
-    private void _setLogging(DataPointPropertiesPage dataPointPropertiesPage, DataPointLoggingProperties loggingProperties) {
+    private void _setLogging(DataPointPropertiesPage dataPointPropertiesPage,
+                             DataPointLoggingProperties loggingProperties,
+                             DataPointType dataPointType) {
         LoggingType loggingType = loggingProperties.getLoggingType();
         dataPointPropertiesPage.selectLoggingType(loggingType);
         if(loggingType == LoggingType.INTERVAL) {
@@ -116,7 +118,7 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
             dataPointPropertiesPage.selectIntervalLoggingPeriodType(loggingProperties.getIntervalLoggingPeriodType());
             dataPointPropertiesPage.setIntervalLoggingPeriod(loggingProperties.getIntervalLoggingPeriod());
         }
-        if(loggingType == LoggingType.ON_CHANGE) {
+        if(loggingType == LoggingType.ON_CHANGE && dataPointType == DataPointType.NUMERIC) {
             dataPointPropertiesPage.setLoggingTolerance(loggingProperties.getTolerance());
         }
         dataPointPropertiesPage.setLoggingDiscardExtremeValues(loggingProperties.isDiscardExtremeValues());

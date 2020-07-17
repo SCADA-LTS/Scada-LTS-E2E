@@ -43,10 +43,7 @@ public class GetLivesAggregationAlarmFiveSizeSeqServiceTest {
         this.testDataBatch = testDataBatch;
     }
 
-    private PaginationParams paginationParams = PaginationParams.builder()
-            .limit(9999)
-            .offset(0)
-            .build();
+    private PaginationParams paginationParams = PaginationParams.all();
 
 
     private static DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
@@ -64,19 +61,22 @@ public class GetLivesAggregationAlarmFiveSizeSeqServiceTest {
     @Before
     public void setup() {
 
-        DataPointCriteria point = DataPointCriteria.noChangeAllDataLogging(testDataBatch.getDataPointIdentifier(),
+        DataPointCriteria point = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
                 String.valueOf(testDataBatch.getStartValue()));
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, point);
         storungsAndAlarmsObjectsCreator.createObjects();
 
-        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
+        List<StorungAlarmResponse> storungAlarmRespons =
+                getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(),
+                a -> a.size() == testDataBatch.getStartAlarmsNumber(),
+                paginationParams);
         String msg = MessageFormat.format(AFTER_INITIALIZING_POINT_VALUE_WITH_X_THEN_Y_Z_WAS_GENERATED,
-                testDataBatch.getStartValue(), testDataBatch.getNumberStartAlarms(),
+                testDataBatch.getStartValue(), testDataBatch.getStartAlarmsNumber(),
                 testDataBatch.getDataPointNotifierType().getName());
 
-        assertEquals(msg, testDataBatch.getNumberStartAlarms(), storungAlarmRespons.size());
+        assertEquals(msg, testDataBatch.getStartAlarmsNumber(), storungAlarmRespons.size());
     }
 
     @After
@@ -96,25 +96,22 @@ public class GetLivesAggregationAlarmFiveSizeSeqServiceTest {
         storungsAndAlarmsObjectsCreator.setDataPointValues(testDataBatch.getSequencePointValue());
 
         //and when:
-        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(),
+                a -> getActiveAlarmsFromResponseNumber(a) == testDataBatch.getActiveAlarmsNumber()
+                && getInactiveAlarmsFromResponseNumber(a) == testDataBatch.getInactiveAlarmsNumber(),
+                paginationParams);
 
         //then:
-        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
+        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_ACTIVE_DIFFERENT_FROM_Z,
                 testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
-                testDataBatch.getNumberAlarms());
-        assertEquals(msg, testDataBatch.getNumberAlarms(), storungAlarmRespons.size());
-
-        //and then:
-        msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_ACTIVE_DIFFERENT_FROM_Z,
-                testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
-                testDataBatch.getNumberActiveAlarms());
-        assertEquals(msg, testDataBatch.getNumberActiveAlarms(), getNumberActiveAlarmsFromResponse(storungAlarmRespons));
+                testDataBatch.getActiveAlarmsNumber());
+        assertEquals(msg, testDataBatch.getActiveAlarmsNumber(), getActiveAlarmsFromResponseNumber(storungAlarmRespons));
 
         //and then:
         msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_INACTIVE_DIFFERENT_FROM_Z,
                 testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
-                testDataBatch.getNumberInactiveAlarms());
-        assertEquals(msg, testDataBatch.getNumberInactiveAlarms(), getNumberInactiveAlarmsFromResponse(storungAlarmRespons));
+                testDataBatch.getInactiveAlarmsNumber());
+        assertEquals(msg, testDataBatch.getInactiveAlarmsNumber(), getInactiveAlarmsFromResponseNumber(storungAlarmRespons));
 
     }
 }

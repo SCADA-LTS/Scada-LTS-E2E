@@ -44,19 +44,19 @@ public class TestDataBatch {
         return getStartValue() == 0 ? storungAlarmResponse.getInactivationTime() : storungAlarmResponse.getActivationTime();
     }
 
-    public int getNumberAlarms() {
+    public int getAlarmsNumber() {
         return numberAlarmsWithStart; //- variationUnit.getStartValue() == 0 ? 1 : 0;
     }
 
-    public int getNumberInactiveAlarms() {
-        return getNumberAlarms() - getNumberActiveAlarms();
+    public int getInactiveAlarmsNumber() {
+        return getAlarmsNumber() - getActiveAlarmsNumber();
     }
 
-    public int getNumberActiveAlarms() {
+    public int getActiveAlarmsNumber() {
         return _isActivate() && dataPointNotifierType != DataPointNotifierType.NONE ? 1 : 0;
     }
 
-    public int getNumberStartAlarms() {
+    public int getStartAlarmsNumber() {
         return variationUnit.getStartValue() == 1 && dataPointNotifierType != DataPointNotifierType.NONE ? 1 : 0;
     }
 

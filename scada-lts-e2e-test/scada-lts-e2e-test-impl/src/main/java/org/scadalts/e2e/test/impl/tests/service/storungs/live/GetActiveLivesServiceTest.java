@@ -34,11 +34,7 @@ public class GetActiveLivesServiceTest {
 
     private static DataPointIdentifier alarmIdentifier;
     private static DataPointIdentifier storungIdentifier;
-    private static PaginationParams paginationParams = PaginationParams.builder()
-            .limit(9999)
-            .offset(0)
-            .build();
-
+    private static PaginationParams paginationParams = PaginationParams.all();
     private static StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
 
     @BeforeClass
@@ -48,8 +44,8 @@ public class GetActiveLivesServiceTest {
         alarmIdentifier = IdentifierObjectFactory.dataPointAlarmBinaryTypeName();
         storungIdentifier = IdentifierObjectFactory.dataPointStorungBinaryTypeName();
 
-        DataPointCriteria pointAlarm = DataPointCriteria.noChange(alarmIdentifier, "0");
-        DataPointCriteria pointStorung = DataPointCriteria.noChange(storungIdentifier, "0");
+        DataPointCriteria pointAlarm = DataPointCriteria.noChangeAllDataLogging(alarmIdentifier, "0");
+        DataPointCriteria pointStorung = DataPointCriteria.noChangeAllDataLogging(storungIdentifier, "0");
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
 
@@ -61,7 +57,9 @@ public class GetActiveLivesServiceTest {
         storungsAndAlarmsObjectsCreator.setDataPointValue("1");
 
         //when:
-        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier, paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier,
+                a -> a.size() == 1,
+                paginationParams);
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
@@ -69,7 +67,9 @@ public class GetActiveLivesServiceTest {
         assertEquals(msg,1, storungAlarmResponse.size());
 
         //when:
-        storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier, paginationParams);
+        storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier,
+                a -> a.size() == 1,
+                paginationParams);
 
         //then:
         msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,

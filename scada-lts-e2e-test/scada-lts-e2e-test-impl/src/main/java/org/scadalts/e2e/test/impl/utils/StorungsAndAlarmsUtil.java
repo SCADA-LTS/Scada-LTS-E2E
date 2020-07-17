@@ -2,15 +2,19 @@ package org.scadalts.e2e.test.impl.utils;
 
 import org.scadalts.e2e.common.utils.VariationUnit;
 import org.scadalts.e2e.common.utils.VariationsGenerator;
+import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
+import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.ServiceObjectFactory;
 import org.scadalts.e2e.service.impl.services.StorungsAndAlarmsServiceObject;
 import org.scadalts.e2e.service.impl.services.storungs.AcknowledgeResponse;
-import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
+import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -25,7 +29,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class StorungsAndAlarmsUtil {
 
-    public final static String AFTER_INITIALIZING_POINT_VALUE_WITH_X_THEN_Y_Z_WAS_GENERATED = "Failure because: After initializing the point with the value {0} then {1} {2} was generated.";
+    public final static String AFTER_INITIALIZING_POINT_VALUE_WITH_X_THEN_Y_Z_WAS_GENERATED = "Failure because: Expected after initializing the point with the value {0} then {1} {2} was generated.";
     public final static String INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_SUCCEED = "Failure because: An attempt to invoke acknowledge from API did not succeed.";
     public final static String INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_OK = "Failure because: An attempt to invoke acknowledge from API did not ok.";
     public final static String INVOKE_ACKNOWLEDGE_FROM_API_CAUSES_ERROR = "Failure because: An attempt to invoke acknowledge from API causes an error.";
@@ -61,12 +65,9 @@ public class StorungsAndAlarmsUtil {
         return sortByActivationTimeDesc(StorungsAndAlarmsUtil._getAlarmsAndStorungsFor(identifier, getResult));
     }
 
-    public static List<StorungAlarmResponse> getAlarmsAndStorungsSortByActivationTime(DataPointIdentifier identifier, Predicate<List<StorungAlarmResponse>> expected,
+    public static List<StorungAlarmResponse> getAlarmsAndStorungsSortByActivationTime(DataPointIdentifier identifier, Predicate<List<StorungAlarmResponse>> condition,
                                                                                       PaginationParams paginationParams) {
-        E2eResponse<List<StorungAlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationParams, expected);
-        assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
-        List<StorungAlarmResponse> getResult = getResponse.getValue();
-        return sortByActivationTimeDesc(StorungsAndAlarmsUtil._getAlarmsAndStorungsFor(identifier, getResult));
+        return TestStabilityUtil.executeWhilePredicate(condition.negate(), StorungsAndAlarmsUtil::getAlarmsAndStorungsSortByActivationTime, identifier, paginationParams);
     }
 
     public static List<StorungAlarmResponse> sortByActivationTimeDesc(List<StorungAlarmResponse> list) {
@@ -102,6 +103,24 @@ public class StorungsAndAlarmsUtil {
                 TestImplConfiguration.waitingAfterSetPointValueMs);
         assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
         return getResponse.getValue();
+    }
+
+    public static List<StorungAlarmResponse> getStorungsAndAlarms(Predicate<List<StorungAlarmResponse>> condition,
+                                                                                      PaginationParams paginationParams) {
+        return TestStabilityUtil.executeWhilePredicate(condition.negate(), StorungsAndAlarmsUtil::getStorungsAndAlarms, paginationParams);
+    }
+
+    public static List<StorungAlarmResponse> getStorungsAndAlarms(DataPointIdentifier identifier, Predicate<List<StorungAlarmResponse>> condition,
+                                                                  PaginationParams paginationParams) {
+        return TestStabilityUtil.executeWhilePredicate(condition.negate(), StorungsAndAlarmsUtil::getStorungsAndAlarms, identifier, paginationParams);
+    }
+
+    public static List<StorungAlarmResponse> getStorungsAndAlarms(DataPointIdentifier identifier, PaginationParams paginationParams) {
+        E2eResponse<List<StorungAlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationParams,
+                TestImplConfiguration.waitingAfterSetPointValueMs);
+        assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
+        List<StorungAlarmResponse> getResult = getResponse.getValue();
+        return StorungsAndAlarmsUtil._getAlarmsAndStorungsFor(identifier, getResult);
     }
 
     public static List<StorungAlarmResponse> getStorungsAndAlarms(PaginationParams paginationParams, int numberLargerOrEqualsExpected) {
@@ -197,7 +216,7 @@ public class StorungsAndAlarmsUtil {
 
     }
 
-    public static int getNumberActiveAlarmsFromResponse(List<StorungAlarmResponse> storungAlarmRespons) {
+    public static int getActiveAlarmsFromResponseNumber(List<StorungAlarmResponse> storungAlarmRespons) {
         int result = 0;
         for (StorungAlarmResponse res: storungAlarmRespons) {
             if(res.getInactivationTime().equalsIgnoreCase("")
@@ -207,7 +226,7 @@ public class StorungsAndAlarmsUtil {
         return result;
     }
 
-    public static int getNumberInactiveAlarmsFromResponse(List<StorungAlarmResponse> storungAlarmRespons) {
+    public static int getInactiveAlarmsFromResponseNumber(List<StorungAlarmResponse> storungAlarmRespons) {
         int result = 0;
         for (StorungAlarmResponse res: storungAlarmRespons) {
             Pattern pattern = Pattern.compile(RegexUtil.DATE_PSEUDO_ISO_REGEX);
@@ -216,6 +235,27 @@ public class StorungsAndAlarmsUtil {
                 result++;
         }
         return result;
+    }
+
+    public static StorungsAndAlarmsObjectsCreator createDataSourcePointAndGetCreator(TestDataBatch testDataBatch, NavigationPage navigationPage) {
+
+        DataSourceCriteria dataSource = DataSourceCriteria.virtualDataSourceSecond();
+        DataPointCriteria dataPoint = DataPointCriteria.noChangeAllDataLogging(testDataBatch.getDataPointIdentifier(),
+                String.valueOf(testDataBatch.getStartValue()));
+        PaginationParams paginationParams = PaginationParams.all();
+
+        StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSource, dataPoint);
+        storungsAndAlarmsObjectsCreator.createObjects();
+
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(),
+                a -> a.size() == testDataBatch.getStartAlarmsNumber(), paginationParams);
+        String msg = MessageFormat.format(AFTER_INITIALIZING_POINT_VALUE_WITH_X_THEN_Y_Z_WAS_GENERATED,
+                testDataBatch.getStartValue(), testDataBatch.getStartAlarmsNumber(),
+                testDataBatch.getDataPointNotifierType().getName());
+
+        assertEquals(msg, testDataBatch.getStartAlarmsNumber(), storungAlarmRespons.size());
+
+        return storungsAndAlarmsObjectsCreator;
     }
 
     private static List<StorungAlarmResponse> _check(List<StorungAlarmResponse> alarms, int numberLargerOrEqualsExpected) {

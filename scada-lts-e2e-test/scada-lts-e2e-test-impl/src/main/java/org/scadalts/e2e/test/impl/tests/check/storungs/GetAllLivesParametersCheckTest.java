@@ -1,22 +1,15 @@
-package org.scadalts.e2e.test.impl.tests.service.storungs.live;
+package org.scadalts.e2e.test.impl.tests.check.storungs;
 
 import lombok.extern.log4j.Log4j2;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
-import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
-import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
-import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.RegexUtil;
-import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.text.MessageFormat;
 import java.time.Instant;
@@ -34,49 +27,16 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.getStorungs
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
-public class GetAllLivesParametersServiceTest {
+public class GetAllLivesParametersCheckTest {
 
-    private static PaginationParams paginationParams = PaginationParams.all();
-
-    private static StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
     private static List<StorungAlarmResponse> storungAlarmResponse;
 
     @BeforeClass
     public static void setup() {
-
-        DataPointCriteria[] points = {
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "0", DataPointLoggingProperties.change()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "0", DataPointLoggingProperties.change()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "1", DataPointLoggingProperties.change()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "1", DataPointLoggingProperties.change()),
-
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "0", DataPointLoggingProperties.allData()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "0", DataPointLoggingProperties.allData()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "1", DataPointLoggingProperties.allData()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "1", DataPointLoggingProperties.allData()),
-
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "0", DataPointLoggingProperties.tsChange()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "0", DataPointLoggingProperties.tsChange()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "1", DataPointLoggingProperties.tsChange()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "1", DataPointLoggingProperties.tsChange()),
-        };
-
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
-        storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, points);
-        storungsAndAlarmsObjectsCreator.createObjects();
-        storungsAndAlarmsObjectsCreator.setDataPointValue(1)
-                .setDataPointValue(points[1], 0)
-                .setDataPointValue(points[3], 0);
-
+        PaginationParams paginationParams = PaginationParams.all();
         storungAlarmResponse = getStorungsAndAlarms(paginationParams);
         logger.info("size lives: {}", storungAlarmResponse.size());
     }
-
-    @AfterClass
-    public static void clean() {
-        storungsAndAlarmsObjectsCreator.deleteObjects();
-    }
-
 
     @Test
     public void test_response_activation_time_then_is_date_iso() {
@@ -141,7 +101,7 @@ public class GetAllLivesParametersServiceTest {
                 Instant nowMinus24h = Instant.now().minus(24, ChronoUnit.HOURS);
                 DataPointNotifierType dataPointNotifierType = DataPointNotifierType.getTypeByLevel(AlarmLevel.getType(res.getLevel()));
                 String msg = MessageFormat.format("Failure because: inactive {0} {1} earlier than 24h", dataPointNotifierType.getName(), res);
-                assertTrue(msg,inactivationTime.getNano() > nowMinus24h.getNano());
+                assertTrue(msg,inactivationTime.getNano() < nowMinus24h.getNano());
             }
         }
     }
