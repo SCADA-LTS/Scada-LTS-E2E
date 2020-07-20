@@ -16,9 +16,9 @@ public class PaginationParams {
     private int offset;
     private int limit;
 
-    private final static PaginationParams ALL = PaginationParams.builder()
+    private static final PaginationParams ALL = PaginationParams.builder()
             .offset(0)
-            .limit(Integer.MAX_VALUE)
+            .limit(9999)
             .build();
 
     public static PaginationParams all() {

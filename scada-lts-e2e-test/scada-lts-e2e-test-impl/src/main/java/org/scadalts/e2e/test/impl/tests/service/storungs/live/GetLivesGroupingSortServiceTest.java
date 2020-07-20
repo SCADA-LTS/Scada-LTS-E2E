@@ -93,9 +93,12 @@ public class GetLivesGroupingSortServiceTest {
 
         PaginationParams paginationParams = PaginationParams.all();
 
+        sleep();
+
         StorungsAndAlarmsUtil.getStorungsAndAlarms(paginationParams, 12);
         StorungsAndAlarmsUtil.getActiveAlarmsAndStorungs(paginationParams, 6);
         StorungsAndAlarmsUtil.getInactiveAlarmsAndStorungs(paginationParams, 6);
+
     }
 
     @AfterClass

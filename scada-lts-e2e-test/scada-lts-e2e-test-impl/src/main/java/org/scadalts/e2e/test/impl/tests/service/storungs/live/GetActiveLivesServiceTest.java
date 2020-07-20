@@ -56,10 +56,11 @@ public class GetActiveLivesServiceTest {
         //Simulate the change of value on the points 0 -> 1
         storungsAndAlarmsObjectsCreator.setDataPointValue("1");
 
+        sleep();
+
         //when:
         List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier,
-                a -> a.size() == 1,
-                paginationParams);
+                a -> a.size() == 1, paginationParams);
 
         //then:
         String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
@@ -68,8 +69,7 @@ public class GetActiveLivesServiceTest {
 
         //when:
         storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier,
-                a -> a.size() == 1,
-                paginationParams);
+                a -> a.size() == 1, paginationParams);
 
         //then:
         msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,

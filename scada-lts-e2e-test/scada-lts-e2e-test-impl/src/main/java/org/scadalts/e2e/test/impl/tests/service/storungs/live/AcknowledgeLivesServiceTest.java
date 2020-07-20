@@ -115,8 +115,6 @@ public class AcknowledgeLivesServiceTest {
         for (StorungAlarmResponse storungAlarmResponse : storungAlarmRespons) {
 
             AcknowledgeResponse result = StorungsAndAlarmsUtil.acknowledge(storungAlarmResponse.getId());
-            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_SUCCEED, "OK", result.getRequestStatus());
-            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_CAUSES_ERROR, "none", result.getError());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, storungAlarmResponse.getId(), result.getId());
         }
 
@@ -205,8 +203,6 @@ public class AcknowledgeLivesServiceTest {
         for(StorungAlarmResponse storungAlarmResponse : storungAlarmRespons) {
 
             AcknowledgeResponse result = StorungsAndAlarmsUtil.acknowledge(storungAlarmResponse.getId());
-            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_SUCCEED, "OK", result.getRequestStatus());
-            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_CAUSES_ERROR, "none", result.getError());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, storungAlarmResponse.getId(), result.getId());
         }
 
@@ -254,12 +250,10 @@ public class AcknowledgeLivesServiceTest {
         for(StorungAlarmResponse storungAlarmResponse : storungAlarmRespons) {
 
             AcknowledgeResponse result = StorungsAndAlarmsUtil.acknowledge(storungAlarmResponse.getId());
-            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_SUCCEED, "OK", result.getRequestStatus());
-            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_CAUSES_ERROR, "none", result.getError());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, storungAlarmResponse.getId(), result.getId());
         }
         List<StorungAlarmResponse> result = getAlarmsAndStorungsSortByActivationTime(uniqueIdentifier,
-                a -> a.contains(inactiveAlarm),
+                a -> !a.contains(inactiveAlarm),
                 paginationParams);
 
         //then:
@@ -300,8 +294,7 @@ public class AcknowledgeLivesServiceTest {
         for(StorungAlarmResponse storungAlarmResponse : storungAlarmRespons) {
 
             AcknowledgeResponse result = StorungsAndAlarmsUtil.acknowledge(storungAlarmResponse.getId());
-            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_OK, "OK", result.getRequestStatus());
-            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_CAUSES_ERROR, "none", result.getError());
+            assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_DID_NOT_OK, "FAULT", result.getRequestStatus());
             assertEquals(INVOKE_ACKNOWLEDGE_FROM_API_RETURNING_OTHER_ID, storungAlarmResponse.getId(), result.getId());
         }
         List<StorungAlarmResponse> result = getAlarmsAndStorungsSortByActivationTime(uniqueIdentifier,

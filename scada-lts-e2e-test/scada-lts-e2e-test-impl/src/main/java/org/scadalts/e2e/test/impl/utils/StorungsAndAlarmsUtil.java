@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.impl.utils;
 
+import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.utils.VariationUnit;
 import org.scadalts.e2e.common.utils.VariationsGenerator;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
@@ -27,6 +28,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@Log4j2
 public class StorungsAndAlarmsUtil {
 
     public final static String AFTER_INITIALIZING_POINT_VALUE_WITH_X_THEN_Y_Z_WAS_GENERATED = "Failure because: Expected after initializing the point with the value {0} then {1} {2} was generated.";
@@ -72,13 +74,13 @@ public class StorungsAndAlarmsUtil {
 
     public static List<StorungAlarmResponse> sortByActivationTimeDesc(List<StorungAlarmResponse> list) {
         return list.stream()
-                .sorted((a, b) -> b.getActivationTime().compareTo(a.getActivationTime()))
+                .sorted(_byActivationTimeIdDescComparator())
                 .collect(Collectors.toList());
     }
 
     public static List<StorungAlarmResponse> sortByInactivationTimeDesc(List<StorungAlarmResponse> list) {
         return list.stream()
-                .sorted((a, b) -> b.getInactivationTime().compareTo(a.getInactivationTime()))
+                .sorted(_byInactivationTimeIdDescComparator())
                 .collect(Collectors.toList());
     }
 
@@ -256,6 +258,34 @@ public class StorungsAndAlarmsUtil {
         assertEquals(msg, testDataBatch.getStartAlarmsNumber(), storungAlarmRespons.size());
 
         return storungsAndAlarmsObjectsCreator;
+    }
+
+    public static void sleep() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            logger.warn(e.getMessage(), e);
+        }
+
+    }
+
+    private static Comparator<StorungAlarmResponse> _byInactivationTimeIdDescComparator() {
+        return (a, b) -> {
+            int result = b.getInactivationTime().compareTo(a.getInactivationTime());
+            return result == 0 ? _byIdDescComparator().compare(a, b)  : result;
+        };
+    }
+
+
+    private static Comparator<StorungAlarmResponse> _byActivationTimeIdDescComparator() {
+        return (a, b) -> {
+            int result = b.getActivationTime().compareTo(a.getActivationTime());
+            return result == 0 ? _byIdDescComparator().compare(a, b) : result;
+        };
+    }
+
+    private static Comparator<StorungAlarmResponse> _byIdDescComparator() {
+        return (a, b) -> Integer.parseInt(b.getId()) - Integer.parseInt(a.getId());
     }
 
     private static List<StorungAlarmResponse> _check(List<StorungAlarmResponse> alarms, int numberLargerOrEqualsExpected) {
