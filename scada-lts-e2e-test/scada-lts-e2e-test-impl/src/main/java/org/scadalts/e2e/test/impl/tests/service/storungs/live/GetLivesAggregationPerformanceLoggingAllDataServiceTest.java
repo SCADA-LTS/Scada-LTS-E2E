@@ -28,7 +28,7 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.getActiveAl
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
-public class GetLivesAggregationPerformanceServiceTest {
+public class GetLivesAggregationPerformanceLoggingAllDataServiceTest {
 
     private static PaginationParams paginationParams = PaginationParams.all();
     private static StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;

@@ -136,7 +136,7 @@ public class GetAllLivesParametersServiceTest {
         //then:
         for (StorungAlarmResponse res : storungAlarmResponse) {
             if(regex.matcher(res.getInactivationTime()).find()) {
-                String time = res.getInactivationTime().replace(" ", "T") + "Z";
+                String time = RegexUtil.getDateIso(res.getInactivationTime());
                 Instant inactivationTime = Instant.parse(time);
                 Instant nowMinus24h = Instant.now().minus(24, ChronoUnit.HOURS);
                 DataPointNotifierType dataPointNotifierType = DataPointNotifierType.getTypeByLevel(res.getLevel());

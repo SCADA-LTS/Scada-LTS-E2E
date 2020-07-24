@@ -26,7 +26,7 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
-public class GetLivesAggregationPerformancePointsServiceTest {
+public class GetLivesAggregationPerformanceTwoPointsServiceTest {
 
     private static PaginationParams paginationParams = PaginationParams.all();
 
@@ -64,8 +64,13 @@ public class GetLivesAggregationPerformancePointsServiceTest {
 
     @AfterClass
     public static void cleanAll() {
-        for(StorungsAndAlarmsObjectsCreator creator: storungsAndAlarmsObjectsCreators)
-            creator.deleteObjects();
+        for(StorungsAndAlarmsObjectsCreator creator: storungsAndAlarmsObjectsCreators) {
+            try {
+                creator.deleteObjects();
+            } catch (Exception ex) {
+                logger.warn(ex.getMessage(), ex);
+            }
+        }
     }
 
     @Test

@@ -61,7 +61,7 @@ public class GetLivesAggregationAlarmFiveSizeSeqServiceTest {
     @Before
     public void setup() {
 
-        DataPointCriteria point = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
+        DataPointCriteria point = DataPointCriteria.noChangeAllDataLogging(testDataBatch.getDataPointIdentifier(),
                 String.valueOf(testDataBatch.getStartValue()));
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();

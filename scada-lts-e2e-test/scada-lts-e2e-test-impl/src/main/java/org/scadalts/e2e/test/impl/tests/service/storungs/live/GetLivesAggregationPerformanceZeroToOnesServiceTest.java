@@ -25,7 +25,7 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
-public class GetLivesAggregationPerformanceValuesServiceTest {
+public class GetLivesAggregationPerformanceZeroToOnesServiceTest {
 
     private static PaginationParams paginationParams = PaginationParams.all();
 
@@ -35,7 +35,7 @@ public class GetLivesAggregationPerformanceValuesServiceTest {
     @BeforeClass
     public static void setup() {
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
-        testDataBatch = generateDataTestZeroToOnes(100, DataPointNotifierType.ALARM, 1).get(0);
+        testDataBatch = generateDataTestZeroToOnes(1000, DataPointNotifierType.ALARM, 1).get(0);
         storungsAndAlarmsObjectsCreator = createDataSourcePointAndGetCreator(testDataBatch, navigationPage);
         storungsAndAlarmsObjectsCreator.setDataPointValues(testDataBatch.getSequencePointValue());
     }
