@@ -120,7 +120,7 @@ public class GetActiveLivesServiceTest {
         List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier, paginationParams);
 
         //then:
-        assertEquals(AlarmLevel.CRITICAL.getId(), storungAlarmResponse.get(0).getLevel());
+        assertEquals(AlarmLevel.URGENT.getId(), storungAlarmResponse.get(0).getLevel());
     }
 
     @Test
@@ -160,6 +160,6 @@ public class GetActiveLivesServiceTest {
         List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier, paginationParams);
 
         //then:
-        assertEquals(AlarmLevel.URGENT.getId(), storungAlarmResponse.get(0).getLevel());
+        assertEquals(AlarmLevel.INFORMATION.getId(), storungAlarmResponse.get(0).getLevel());
     }
 }
