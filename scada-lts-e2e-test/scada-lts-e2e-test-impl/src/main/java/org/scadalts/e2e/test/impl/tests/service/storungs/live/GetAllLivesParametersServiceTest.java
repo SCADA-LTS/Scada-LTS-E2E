@@ -114,15 +114,17 @@ public class GetAllLivesParametersServiceTest {
             AlarmLevel alarmLevel = AlarmLevel.getType(res.getLevel());
             DataPointNotifierType dataPointNotifierType = DataPointNotifierType.getTypeByLevel(alarmLevel);
 
-            String msg = MessageFormat.format("Failure because: In {0} Alarm Level not any of is: {1}", res, Arrays.asList(AlarmLevel.INFORMATION, AlarmLevel.URGENT));
-            assertThat(msg, alarmLevel, anyOf(is(AlarmLevel.INFORMATION), is(AlarmLevel.URGENT)));
+            AlarmLevel alarmLevelCritical = AlarmLevel.CRITICAL;
+            AlarmLevel alarmLevelUrgent = AlarmLevel.URGENT;
+            String msg = MessageFormat.format("Failure because: In {0} Alarm Level not any of is: {1}", res, Arrays.asList(alarmLevelCritical, alarmLevelUrgent));
+            assertThat(msg, alarmLevel, anyOf(is(alarmLevelCritical), is(alarmLevelUrgent)));
 
             msg = MessageFormat.format("Failure because: {0} {1} wrong Alarm Level.", dataPointNotifierType.getName(), res);
             if (alarm.matcher(res.getName()).find()) {
-                assertEquals(msg, AlarmLevel.INFORMATION, alarmLevel);
+                assertEquals(msg, alarmLevelCritical, alarmLevel);
             }
             if (storung.matcher(res.getName()).find()) {
-                assertEquals(msg, AlarmLevel.URGENT, alarmLevel);
+                assertEquals(msg, alarmLevelUrgent, alarmLevel);
             }
         }
     }

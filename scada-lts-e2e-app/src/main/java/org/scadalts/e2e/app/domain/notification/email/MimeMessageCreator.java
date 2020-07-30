@@ -11,6 +11,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 
+import static org.scadalts.e2e.common.utils.FileUtil.zip;
+
 @Component
 @Log4j2
 class MimeMessageCreator {
@@ -43,10 +45,10 @@ class MimeMessageCreator {
         helper.setText(content, transformator.isHtml());
         helper.addInline(LOGO.getName(), LOGO);
 
-        File log = FileUtil.getFileFromFileSystem(E2eConstant.E2E_LOG_FILE);
+        File log = zip(FileUtil.getFileFromFileSystem(E2eConstant.E2E_LOG_FILE));
         helper.addAttachment(log.getName(), log);
 
-        File webDriverLog = FileUtil.getFileFromFileSystem(E2eConstant.WEB_DRIVER_LOG_FILE);
+        File webDriverLog = zip(FileUtil.getFileFromFileSystem(E2eConstant.WEB_DRIVER_LOG_FILE));
         helper.addAttachment(webDriverLog.getName(), webDriverLog);
 
         for (File attachment: emailData.getAttachments()) {
@@ -55,4 +57,6 @@ class MimeMessageCreator {
             }
         }
     }
+
+
 }

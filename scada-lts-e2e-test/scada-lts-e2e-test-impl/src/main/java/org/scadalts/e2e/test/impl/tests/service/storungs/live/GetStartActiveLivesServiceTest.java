@@ -111,7 +111,7 @@ public class GetStartActiveLivesServiceTest {
         List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier, paginationParams);
 
         //then:
-        assertEquals(AlarmLevel.INFORMATION.getId(), storungAlarmResponse.get(0).getLevel());
+        assertEquals(AlarmLevel.CRITICAL.getId(), storungAlarmResponse.get(0).getLevel());
     }
 
     @Test

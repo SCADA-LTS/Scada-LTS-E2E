@@ -94,23 +94,41 @@ public class GetLivesAggregationPerformanceTwoPointsServiceTest {
     }
 
     @Test
-    public void test_when_set_sequence_then_x_size_inactive_lives() {
+    public void test_when_first_point_set_sequence_then_x_size_inactive_lives() {
 
-        for(TestDataBatch testDataBatch: testDataBatchs) {
+        //given:
+        TestDataBatch testDataBatch = testDataBatchs.get(0);
+        logger.info("data point name: {}", testDataBatch.getDataPointIdentifier());
 
-            logger.info("data point name: {}", testDataBatch.getDataPointIdentifier());
+        //when:
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(),
+                a -> getInactiveAlarmsFromResponseNumber(a) == testDataBatch.getInactiveAlarmsNumber(),
+                paginationParams);
 
-            //when:
-            List<StorungAlarmResponse> storungAlarmRespons = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(),
-                    a -> getInactiveAlarmsFromResponseNumber(a) == testDataBatch.getInactiveAlarmsNumber(),
-                    paginationParams);
+        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_INACTIVE_DIFFERENT_FROM_Z,
+                testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
+                testDataBatch.getInactiveAlarmsNumber());
+        assertEquals(msg, testDataBatch.getInactiveAlarmsNumber(), getInactiveAlarmsFromResponseNumber(storungAlarmRespons));
 
-            String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_INACTIVE_DIFFERENT_FROM_Z,
-                    testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
-                    testDataBatch.getInactiveAlarmsNumber());
-            assertEquals(msg, testDataBatch.getInactiveAlarmsNumber(), getInactiveAlarmsFromResponseNumber(storungAlarmRespons));
-        }
+    }
 
+
+    @Test
+    public void test_when_second_point_set_sequence_then_x_size_inactive_lives() {
+
+        //given:
+        TestDataBatch testDataBatch = testDataBatchs.get(1);
+        logger.info("data point name: {}", testDataBatch.getDataPointIdentifier());
+
+        //when:
+        List<StorungAlarmResponse> storungAlarmRespons = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(),
+                a -> getInactiveAlarmsFromResponseNumber(a) == testDataBatch.getInactiveAlarmsNumber(),
+                paginationParams);
+
+        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_INACTIVE_DIFFERENT_FROM_Z,
+                testDataBatch.getSequencePointValueWithStart(), testDataBatch.getDataPointNotifierType().getName(),
+                testDataBatch.getInactiveAlarmsNumber());
+        assertEquals(msg, testDataBatch.getInactiveAlarmsNumber(), getInactiveAlarmsFromResponseNumber(storungAlarmRespons));
     }
 
     @Test
