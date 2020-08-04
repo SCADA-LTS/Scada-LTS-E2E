@@ -28,7 +28,7 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
-public class GetLivesPaginationServiceTest {
+public class GetLivesPaginationAllDataLoggingServiceTest {
 
     @Parameterized.Parameters(name = "{index}: offset: {0}, limit: {1}")
     public static Object[][] data() {
@@ -43,7 +43,7 @@ public class GetLivesPaginationServiceTest {
     private final int offset;
     private final int limit;
 
-    public GetLivesPaginationServiceTest(int offset, int limit) {
+    public GetLivesPaginationAllDataLoggingServiceTest(int offset, int limit) {
         this.offset = offset;
         this.limit = limit;
     }

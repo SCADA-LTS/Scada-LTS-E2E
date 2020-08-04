@@ -7,7 +7,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
+import org.scadalts.e2e.page.impl.dicts.LoggingType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
@@ -24,7 +26,6 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
-import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.getActiveAlarmsFromResponseNumber;
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
@@ -38,10 +39,11 @@ public class GetLivesAggregationLoggingAllDataPerformanceTest {
     public static void setup() {
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         DataSourceCriteria dataSource = DataSourceCriteria.virtualDataSourceSecond();
-        testDataBatch = generateDataTestRandom(10000, DataPointNotifierType.ALARM, 1).get(0);
+        testDataBatch = generateDataTestRandom(10000, DataPointNotifierType.ALARM, LoggingType.ALL, 1).get(0);
 
-        DataPointCriteria dataPoint = DataPointCriteria.noChangeAllDataLogging(testDataBatch.getDataPointIdentifier(),
-                String.valueOf(testDataBatch.getStartValue()));
+        DataPointCriteria dataPoint = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
+                String.valueOf(testDataBatch.getStartValue()),
+                DataPointLoggingProperties.logging(testDataBatch.getLoggingType()));
 
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSource, dataPoint);
         storungsAndAlarmsObjectsCreator.createObjects();
@@ -61,7 +63,7 @@ public class GetLivesAggregationLoggingAllDataPerformanceTest {
 
     @AfterClass
     public static void cleanAll() {
-        //storungsAndAlarmsObjectsCreator.deleteObjects();
+        storungsAndAlarmsObjectsCreator.deleteObjects();
     }
 
     @Test

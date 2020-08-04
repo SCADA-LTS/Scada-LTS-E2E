@@ -13,10 +13,12 @@ public class VariationUnit<T> {
 
     private final @Singular("sequence") List<T> variation;
     private final T startValue;
+    private final T endValue;
 
-    private VariationUnit(List<T> variation, T startValue) {
+    private VariationUnit(List<T> variation, T startValue, T endValue) {
         this.variation = new ArrayList<>(variation);
         this.startValue = startValue;
+        this.endValue = endValue;
     }
 
     public List<T> getVariationWithStart() {
@@ -24,6 +26,8 @@ public class VariationUnit<T> {
         if(startValue != null)
             result.add(startValue);
         result.addAll(variation);
+        if(endValue != null)
+            result.add(endValue);
         return result;
     }
 
@@ -33,6 +37,16 @@ public class VariationUnit<T> {
         }
         if(!variation.isEmpty()) {
             return variation.get(0);
+        }
+        return null;
+    }
+
+    public T getEndValue() {
+        if(endValue != null) {
+            return endValue;
+        }
+        if(!variation.isEmpty()) {
+            return variation.get(variation.size() - 1);
         }
         return null;
     }

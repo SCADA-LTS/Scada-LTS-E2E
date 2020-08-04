@@ -14,7 +14,7 @@ public interface E2eConfig {
 
     AuthType getAuthType();
 
-    TestPlan getTestPlan();
+    TestPlan[] getTestPlans();
 
     java.net.URL getUrlAppBeingTested();
 

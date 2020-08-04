@@ -56,7 +56,7 @@ class E2eConfigDefault implements E2eConfig {
     private int alarmListNoChangedAfterMs;
     private int waitingAfterSetPointValueMs;
     private String graphicalViewName;
-    private TestPlan testPlan;
+    private TestPlan[] testPlans;
     private String dataPointToChangeXid;
     private String dataPointToReadXid;
 

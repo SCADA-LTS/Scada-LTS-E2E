@@ -56,8 +56,10 @@ class TestClassesProviderImpl implements TestClassesProvider {
 
     private List<Class<?>> _getTestClasses(E2eConfig config) {
         List<Class<?>> result = new ArrayList<>();
-        if(plans.containsPlan(config.getTestPlan()))
-            result.add(plans.getPlan(config.getTestPlan()));
+        for(TestPlan testPlan: config.getTestPlans()) {
+            if (plans.containsPlan(testPlan))
+                result.add(plans.getPlan(testPlan));
+        }
         return result;
     }
 

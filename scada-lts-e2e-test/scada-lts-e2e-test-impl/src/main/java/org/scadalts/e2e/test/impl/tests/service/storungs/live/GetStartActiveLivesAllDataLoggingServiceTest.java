@@ -30,50 +30,41 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
-public class GetActiveLivesServiceTest {
+public class GetStartActiveLivesAllDataLoggingServiceTest {
 
     private static DataPointIdentifier alarmIdentifier;
     private static DataPointIdentifier storungIdentifier;
     private static PaginationParams paginationParams = PaginationParams.all();
+
     private static StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
 
     @BeforeClass
     public static void setup() {
+
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
 
         alarmIdentifier = IdentifierObjectFactory.dataPointAlarmBinaryTypeName();
         storungIdentifier = IdentifierObjectFactory.dataPointStorungBinaryTypeName();
 
-        DataPointCriteria pointAlarm = DataPointCriteria.noChangeAllDataLogging(alarmIdentifier, "0");
-        DataPointCriteria pointStorung = DataPointCriteria.noChangeAllDataLogging(storungIdentifier, "0");
+        DataPointCriteria pointAlarm = DataPointCriteria.noChangeAllDataLogging(alarmIdentifier, "1");
+        DataPointCriteria pointStorung = DataPointCriteria.noChangeAllDataLogging(storungIdentifier, "1");
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
-
-        storungsAndAlarmsObjectsCreator =
-                new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, pointAlarm, pointStorung);
+        storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, pointAlarm, pointStorung);
         storungsAndAlarmsObjectsCreator.createObjects();
 
-        //Simulate the change of value on the points 0 -> 1
-        storungsAndAlarmsObjectsCreator.setDataPointValue("1");
-
-        sleep();
-
         //when:
-        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier,
-                a -> a.size() == 1, paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier, paginationParams);
 
         //then:
-        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
-                "0 -> 1", "alarms", "1");
+        String msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z, "1", "alarm", "1");
         assertEquals(msg,1, storungAlarmResponse.size());
 
         //when:
-        storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier,
-                a -> a.size() == 1, paginationParams);
+        storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier, paginationParams);
 
         //then:
-        msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z,
-                "0 -> 1", "storungs", "1");
+        msg = MessageFormat.format(AFTER_CHANGING_POINT_VALUES_BY_SEQUENCE_X_THEN_NUMBER_OF_Y_LIVE_DIFFERENT_FROM_Z, "1", "storung", "1");
         assertEquals(msg,1, storungAlarmResponse.size());
 
     }

@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
+import org.scadalts.e2e.page.impl.dicts.LoggingType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
@@ -31,13 +32,13 @@ public class GetLivesAggregationOnChangePerformanceTest {
 
     private static PaginationParams paginationParams = PaginationParams.all();
     private static StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
-    private static TestDataBatch testDataBatch;
+    private static TestDataBatch testDataBatch = generateDataTestRandom(10000, DataPointNotifierType.ALARM,
+            LoggingType.ON_CHANGE, 1).get(0);
 
     @BeforeClass
     public static void setup() {
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         DataSourceCriteria dataSource = DataSourceCriteria.virtualDataSourceSecond();
-        testDataBatch = generateDataTestRandom(10000, DataPointNotifierType.ALARM, 1).get(0);
 
         DataPointCriteria dataPoint = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
                 String.valueOf(testDataBatch.getStartValue()));

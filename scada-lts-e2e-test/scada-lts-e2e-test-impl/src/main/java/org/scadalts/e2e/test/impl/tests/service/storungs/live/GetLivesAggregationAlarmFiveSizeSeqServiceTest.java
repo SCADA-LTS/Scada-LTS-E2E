@@ -6,7 +6,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
+import org.scadalts.e2e.page.impl.dicts.LoggingType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
@@ -31,9 +33,10 @@ public class GetLivesAggregationAlarmFiveSizeSeqServiceTest {
     public static List<TestDataBatch> data() {
         List<TestDataBatch> result = new ArrayList<>();
 
-        result.addAll(generateDataTest(4, DataPointNotifierType.ALARM, 0));
-        result.addAll(generateDataTest(4, DataPointNotifierType.ALARM, 1));
-
+        result.addAll(generateDataTest(4, DataPointNotifierType.ALARM, LoggingType.ALL, 0));
+        result.addAll(generateDataTest(4, DataPointNotifierType.ALARM, LoggingType.ALL, 1));
+        result.addAll(generateDataTest(4, DataPointNotifierType.ALARM, LoggingType.ON_CHANGE, 0));
+        result.addAll(generateDataTest(4, DataPointNotifierType.ALARM, LoggingType.ON_CHANGE, 1));
         return result;
     }
 
@@ -61,8 +64,9 @@ public class GetLivesAggregationAlarmFiveSizeSeqServiceTest {
     @Before
     public void setup() {
 
-        DataPointCriteria point = DataPointCriteria.noChangeAllDataLogging(testDataBatch.getDataPointIdentifier(),
-                String.valueOf(testDataBatch.getStartValue()));
+        DataPointCriteria point = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
+                String.valueOf(testDataBatch.getStartValue()),
+                DataPointLoggingProperties.logging(testDataBatch.getLoggingType()));
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, point);

@@ -33,8 +33,8 @@ public class E2eConfigCli implements E2eConfig {
         return fromE2e.getBrowserRef();
     }
     @Override
-    public TestPlan getTestPlan() {
-        return fromE2e.getTestPlan();
+    public TestPlan[] getTestPlans() {
+        return fromE2e.getTestPlans();
     }
     @Override
     public String getHostProxy() {

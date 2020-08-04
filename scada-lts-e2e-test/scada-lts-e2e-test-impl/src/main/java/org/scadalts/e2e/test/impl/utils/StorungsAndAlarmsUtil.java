@@ -5,7 +5,9 @@ import org.scadalts.e2e.common.utils.VariationUnit;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
+import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
+import org.scadalts.e2e.page.impl.dicts.LoggingType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.ServiceObjectFactory;
@@ -195,27 +197,30 @@ public class StorungsAndAlarmsUtil {
         return result;
     }
 
-    public static List<TestDataBatch> generateDataTest(int nWord, DataPointNotifierType prototype, int startValue) {
+    public static List<TestDataBatch> generateDataTest(int nWord, DataPointNotifierType prototype,
+                                                       LoggingType loggingType, int startValue) {
         return VariationsGenerator.generate(1, nWord, startValue).stream()
-                .map(a -> new TestDataBatch(a, prototype))
+                .map(a -> new TestDataBatch(a, prototype, loggingType))
                 .collect(Collectors.toList());
 
     }
 
-    public static List<TestDataBatch> generateDataTestRandom(int nWord, DataPointNotifierType prototype, int size) {
+    public static List<TestDataBatch> generateDataTestRandom(int nWord, DataPointNotifierType prototype,
+                                                             LoggingType loggingType, int size) {
         return VariationsGenerator.generateRandom(1, nWord, size).stream()
-                .map(a -> new TestDataBatch(a, prototype))
+                .map(a -> new TestDataBatch(a, prototype, loggingType))
                 .collect(Collectors.toList());
 
     }
 
     public static TestDataBatch generateDataTestFromFile(Path path, DataPointNotifierType prototype) {
-        return new TestDataBatch(VariationsGenerator.generateFromFile(path), prototype);
+        return new TestDataBatch(VariationsGenerator.generateFromFile(path), prototype, LoggingType.ALL);
     }
 
-    public static List<TestDataBatch> generateDataTestZeroToOnes(int nWord, DataPointNotifierType prototype, int size) {
+    public static List<TestDataBatch> generateDataTestZeroToOnes(int nWord, DataPointNotifierType prototype,
+                                                                 LoggingType loggingType, int size) {
         return VariationsGenerator.generateZeroToOnes(nWord, size).stream()
-                .map(a -> new TestDataBatch(a, prototype))
+                .map(a -> new TestDataBatch(a, prototype, loggingType))
                 .collect(Collectors.toList());
 
     }
@@ -252,8 +257,9 @@ public class StorungsAndAlarmsUtil {
     public static StorungsAndAlarmsObjectsCreator createDataSourcePointAndGetCreator(TestDataBatch testDataBatch, NavigationPage navigationPage) {
 
         DataSourceCriteria dataSource = DataSourceCriteria.virtualDataSourceSecond();
-        DataPointCriteria dataPoint = DataPointCriteria.noChangeAllDataLogging(testDataBatch.getDataPointIdentifier(),
-                String.valueOf(testDataBatch.getStartValue()));
+        DataPointCriteria dataPoint = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
+                String.valueOf(testDataBatch.getStartValue()),
+                DataPointLoggingProperties.logging(testDataBatch.getLoggingType()));
         PaginationParams paginationParams = PaginationParams.all();
 
         StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSource, dataPoint);

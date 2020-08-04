@@ -6,16 +6,22 @@ import org.scadalts.e2e.test.impl.tests.service.storungs.live.*;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        GetLivesPaginationServiceTest.class,
-        GetActiveLivesServiceTest.class,
-        GetInactiveLivesServiceTest.class,
+        GetLivesPaginationAllDataLoggingServiceTest.class,
+        GetActiveLivesAllDataLoggingServiceTest.class,
+        GetInactiveLivesAllDataLoggingServiceTest.class,
         AcknowledgeLivesServiceTest.class,
         GetLivesAggregationServiceTest.class,
-        GetStartActiveLivesServiceTest.class,
-        GetStartInactiveLivesServiceTest.class,
-        GetLivesGroupingSortServiceTest.class,
+        GetStartActiveLivesAllDataLoggingServiceTest.class,
+        GetStartInactiveLivesAllDataLoggingServiceTest.class,
+        GetLivesGroupingSortAllDataLoggingServiceTest.class,
         GetAllLivesParametersServiceTest.class,
-        GetLivesAggregationAlarmFiveSizeSeqServiceTest.class
+        GetLivesAggregationAlarmFiveSizeSeqServiceTest.class,
+        GetActiveLivesOnChangeServiceTest.class,
+        GetInactiveLivesOnChangeServiceTest.class,
+        GetLivesGroupingSortOnChangeServiceTest.class,
+        GetLivesPaginationOnChangeServiceTest.class,
+        GetStartActiveLivesOnChangeServiceTest.class,
+        GetStartInactiveLivesOnChangeServiceTest.class
 })
 public class StorungsAndAlarmsServiceTestsSuite {
 }

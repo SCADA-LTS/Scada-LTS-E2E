@@ -6,6 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
+import org.scadalts.e2e.page.impl.dicts.LoggingType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
@@ -30,12 +31,12 @@ public class GetLivesAggregationZeroToOnesPerformanceTest {
     private static PaginationParams paginationParams = PaginationParams.all();
 
     private static StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
-    private static TestDataBatch testDataBatch;
+    private static TestDataBatch testDataBatch = generateDataTestZeroToOnes(1000,
+            DataPointNotifierType.ALARM, LoggingType.ALL, 1).get(0);
 
     @BeforeClass
     public static void setup() {
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
-        testDataBatch = generateDataTestZeroToOnes(1000, DataPointNotifierType.ALARM, 1).get(0);
         storungsAndAlarmsObjectsCreator = createDataSourcePointAndGetCreator(testDataBatch, navigationPage);
         storungsAndAlarmsObjectsCreator.setDataPointValues(testDataBatch.getSequencePointValue());
     }

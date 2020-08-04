@@ -9,9 +9,11 @@ import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
+import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
+import org.scadalts.e2e.page.impl.dicts.LoggingType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil;
@@ -25,7 +27,7 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.AFTER_CHANG
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
-public class GetStartInactiveLivesServiceTest {
+public class GetStartInactiveLivesOnChangeServiceTest {
 
     private static DataPointIdentifier alarmIdentifier;
     private static DataPointIdentifier stroungIdentifier;
@@ -41,8 +43,10 @@ public class GetStartInactiveLivesServiceTest {
         alarmIdentifier = IdentifierObjectFactory.dataPointAlarmBinaryTypeName();
         stroungIdentifier = IdentifierObjectFactory.dataPointStorungBinaryTypeName();
 
-        DataPointCriteria pointAlarm = DataPointCriteria.noChangeAllDataLogging(alarmIdentifier, "0");
-        DataPointCriteria pointStorung = DataPointCriteria.noChangeAllDataLogging(stroungIdentifier, "0");
+        DataPointCriteria pointAlarm = DataPointCriteria.noChange(alarmIdentifier, "0",
+                DataPointLoggingProperties.logging(LoggingType.ON_CHANGE));
+        DataPointCriteria pointStorung = DataPointCriteria.noChange(stroungIdentifier, "0",
+                DataPointLoggingProperties.logging(LoggingType.ON_CHANGE));
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, pointAlarm, pointStorung);

@@ -23,11 +23,10 @@ public class SeqPerformanceTest {
 
     @BeforeClass
     public static void setup() {
-        Path path = Paths.get("C:\\dev\\check-stroungs\\seq.txt");
+        Path path = Paths.get("..\\check-stroungs\\seq.txt");
         testDataBatch = StorungsAndAlarmsUtil.generateDataTestFromFile(path, DataPointNotifierType.ALARM);
-        Path pathByTs = Paths.get("C:\\dev\\check-stroungs\\seqByTs.txt");
+        Path pathByTs = Paths.get("..\\check-stroungs\\seqByTs.txt");
         testDataBatchByTs = StorungsAndAlarmsUtil.generateDataTestFromFile(pathByTs, DataPointNotifierType.ALARM);
-
     }
 
     @Test

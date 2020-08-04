@@ -6,6 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
+import org.scadalts.e2e.page.impl.dicts.LoggingType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
@@ -37,7 +38,8 @@ public class GetLivesAggregationTwoPointsPerformanceTest {
     public static void setup() {
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         int nWord = 10000;
-        testDataBatchs = generateDataTestRandom(nWord, DataPointNotifierType.ALARM, 2);
+        testDataBatchs = generateDataTestRandom(nWord, DataPointNotifierType.ALARM,
+                LoggingType.ALL, 2);
 
         storungsAndAlarmsObjectsCreators = new ArrayList<>();
         for(TestDataBatch testDataBatch: testDataBatchs) {

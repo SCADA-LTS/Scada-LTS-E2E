@@ -8,7 +8,9 @@ import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
+import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
+import org.scadalts.e2e.page.impl.dicts.LoggingType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
@@ -34,13 +36,19 @@ public class GetLivesAggregationServiceTest {
     public static List<TestDataBatch> data() {
         List<TestDataBatch> result = new ArrayList<>();
 
-        result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, 0));
-        result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, 1));
-        result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, 0));
-        result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, 1));
-        result.addAll(generateDataTest(3, DataPointNotifierType.NONE, 0));
-        result.addAll(generateDataTest(3, DataPointNotifierType.NONE, 1));
+        result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, LoggingType.ALL, 0));
+        result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, LoggingType.ALL, 1));
+        result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, LoggingType.ALL, 0));
+        result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, LoggingType.ALL, 1));
+        result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ALL, 0));
+        result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ALL, 1));
 
+        result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, LoggingType.ON_CHANGE, 0));
+        result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, LoggingType.ON_CHANGE, 1));
+        result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, LoggingType.ON_CHANGE, 0));
+        result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, LoggingType.ON_CHANGE, 1));
+        result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ON_CHANGE, 0));
+        result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ON_CHANGE, 1));
         return result;
     }
 
@@ -68,8 +76,9 @@ public class GetLivesAggregationServiceTest {
     @Before
     public void setup() {
 
-        DataPointCriteria point = DataPointCriteria.noChangeAllDataLogging(testDataBatch.getDataPointIdentifier(),
-                String.valueOf(testDataBatch.getStartValue()));
+        DataPointCriteria point = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
+                String.valueOf(testDataBatch.getStartValue()),
+                DataPointLoggingProperties.logging(testDataBatch.getLoggingType()));
 
         DataPointCriteria point2 = DataPointCriteria.noChangeAllDataLogging(IdentifierObjectFactory.dataPointStorungBinaryTypeName(),
                 "1");
