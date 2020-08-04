@@ -1,5 +1,9 @@
-package org.scadalts.e2e.common.utils;
+package org.scadalts.e2e.test.impl.utils;
 
+import org.scadalts.e2e.common.utils.FileUtil;
+import org.scadalts.e2e.common.utils.VariationUnit;
+
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -28,6 +32,18 @@ public class VariationsGenerator {
                     .build());
         }
         return result;
+    }
+
+    public static VariationUnit<Integer> generateFromFile(Path path) {
+
+        List<String> list = FileUtil.readLines(path);
+        List<Integer> variations = new ArrayList<>();
+        for (String var : list) {
+            variations.add(Integer.valueOf(var));
+        }
+        return VariationUnit.<Integer>builder()
+                .variation(variations)
+                .build();
     }
 
     public static List<VariationUnit<Integer>> generateZeroToOnes(int nWords, int size) {

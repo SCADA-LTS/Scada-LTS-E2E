@@ -1,4 +1,4 @@
-package org.scadalts.e2e.test.impl.tests.service.storungs.live;
+package org.scadalts.e2e.test.impl.tests.performance.storungs.live;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.AfterClass;
@@ -26,7 +26,7 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
-public class GetLivesAggregationPerformanceTwoPointsServiceTest {
+public class GetLivesAggregationTwoPointsPerformanceTest {
 
     private static PaginationParams paginationParams = PaginationParams.all();
 

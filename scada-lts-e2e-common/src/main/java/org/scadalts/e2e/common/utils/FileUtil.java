@@ -2,11 +2,17 @@ package org.scadalts.e2e.common.utils;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -69,6 +75,14 @@ public class FileUtil {
         return new File(zipFileName);
     }
 
+    public static List<String> readLines(Path path) {
+        try {
+            return Files.lines(path).collect(Collectors.toList());
+        } catch (IOException e) {
+            logger.warn(e.getMessage(), e);
+            return Collections.emptyList();
+        }
+    }
 
     private static File _createNewFileInFileSystem(String fileName) throws IOException {
         Path path = Paths.get(fileName);

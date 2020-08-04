@@ -10,20 +10,22 @@ import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.RegexUtil;
+import org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil;
 
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.Assert.*;
-import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.EXPECTED_DATE_ISO;
-import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.getStorungsAndAlarms;
+import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
@@ -51,7 +53,9 @@ public class GetAllLivesParametersCheckTest {
 
         //then:
         for (StorungAlarmResponse res : storungAlarmResponse)
-            assertThat("field inactivation-time in: " + res.toString(), res.getInactivationTime(), anyOf(is(""), is(" "), matchesPattern(RegexUtil.DATE_PSEUDO_ISO_REGEX)));
+            assertThat("field inactivation-time in: " + res.toString(), res.getInactivationTime(),
+                    anyOf(is(""), is(" "), is("1970-01-01 01:00:00"),
+                    matchesPattern(RegexUtil.DATE_PSEUDO_ISO_REGEX)));
     }
 
     @Test
@@ -74,15 +78,17 @@ public class GetAllLivesParametersCheckTest {
             AlarmLevel alarmLevel = AlarmLevel.getType(res.getLevel());
             DataPointNotifierType dataPointNotifierType = DataPointNotifierType.getTypeByLevel(alarmLevel);
 
-            String msg = MessageFormat.format("Failure because: In {0} Alarm Level not any of is: {1}", res, Arrays.asList(AlarmLevel.INFORMATION, AlarmLevel.URGENT));
-            assertThat(msg, alarmLevel, anyOf(is(AlarmLevel.INFORMATION), is(AlarmLevel.URGENT)));
+            AlarmLevel alarmLevelUrgent = AlarmLevel.URGENT;
+            AlarmLevel alarmLevelInformation = AlarmLevel.INFORMATION;
+            String msg = MessageFormat.format("Failure because: In {0} Alarm Level not any of is: {1}", res, Arrays.asList(alarmLevelUrgent, alarmLevelInformation));
+            assertThat(msg, alarmLevel, anyOf(is(alarmLevelUrgent), is(alarmLevelInformation)));
 
             msg = MessageFormat.format("Failure because: {0} {1} wrong Alarm Level.", dataPointNotifierType.getName(), res);
             if (alarm.matcher(res.getName()).find()) {
-                assertEquals(msg, AlarmLevel.INFORMATION, alarmLevel);
+                assertEquals(msg, alarmLevelUrgent, alarmLevel);
             }
             if (storung.matcher(res.getName()).find()) {
-                assertEquals(msg, AlarmLevel.URGENT, alarmLevel);
+                assertEquals(msg, alarmLevelInformation, alarmLevel);
             }
         }
     }
@@ -91,18 +97,40 @@ public class GetAllLivesParametersCheckTest {
     public void test_inactivation_time_then_less_24_hours() {
 
         //given:
-        Pattern regex = Pattern.compile(RegexUtil.DATE_PSEUDO_ISO_REGEX);
+        List<StorungAlarmResponse> responses = new ArrayList<>();
 
         //then:
         for (StorungAlarmResponse res : storungAlarmResponse) {
-            if(regex.matcher(res.getInactivationTime()).find()) {
-                String time = res.getInactivationTime().replace(" ", "T") + "Z";
+
+            if(!isActive(res)) {
+                assertThat(EXPECTED_DATE_ISO + " in:" + res.toString(), res.getInactivationTime(), matchesPattern(RegexUtil.DATE_PSEUDO_ISO_REGEX));
+                String time = RegexUtil.getDateIso(res.getInactivationTime());
                 Instant inactivationTime = Instant.parse(time);
                 Instant nowMinus24h = Instant.now().minus(24, ChronoUnit.HOURS);
-                DataPointNotifierType dataPointNotifierType = DataPointNotifierType.getTypeByLevel(AlarmLevel.getType(res.getLevel()));
-                String msg = MessageFormat.format("Failure because: inactive {0} {1} earlier than 24h", dataPointNotifierType.getName(), res);
-                assertTrue(msg,inactivationTime.getNano() < nowMinus24h.getNano());
+                if(inactivationTime.getNano() > nowMinus24h.getNano())
+                    responses.add(res);
             }
         }
+
+        //then:
+        String msg = MessageFormat.format("Failure because: inactive older than 24h : {0}", responses.stream()
+                .map(StorungAlarmResponse::toString)
+                .collect(Collectors.joining("\n")));
+        assertTrue(msg, responses.isEmpty());
+    }
+
+    @Test
+    public void test_grouping_structure_lives() {
+
+        //when:
+        List<StorungAlarmResponse> responses = StorungsAndAlarmsUtil.getStorungsAndAlarms(PaginationParams.builder()
+                .limit(9999)
+                .offset(0)
+                .build());
+
+        List<StorungAlarmResponse> ref = StorungsAndAlarmsUtil.getReferenceStructure(responses);
+
+        //then:
+        assertEquals(EXPECTED_ACTIVE_ABOVE_BELOW_THEM_INACTIVE_LIVES_AND_SORTED_DESC, ref, responses);
     }
 }

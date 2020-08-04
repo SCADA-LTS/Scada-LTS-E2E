@@ -55,13 +55,6 @@ public class TestWithoutPageUtil {
         }
     }
 
-    public static E2eResponse<String> login(LoginParams cmpParams) {
-        try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
-            Optional<E2eResponse<String>> responseOpt = loginServiceObject.login(cmpParams, TestImplConfiguration.timeout);
-            return responseOpt.orElseGet(E2eResponse::empty);
-        }
-    }
-
     public static E2eResponse<String> logout() {
         try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
             Optional<E2eResponse<String>> responseOpt = loginServiceObject.logout(TestImplConfiguration.timeout);
@@ -165,6 +158,21 @@ public class TestWithoutPageUtil {
         }
     }
 
+    private static void _login() {
+        LoginParams loginParams = LoginParams.builder()
+                .userName(E2eConfiguration.userName)
+                .password(E2eConfiguration.password)
+                .build();
+
+        E2eResponse<String> response = executeFunction(TestWithoutPageUtil::_login,loginParams,ApplicationIsNotAvailableException::new);
+
+        E2eConfiguration.sessionId = response.getSessionId();
+        ServiceObjectConfigurator.init(E2eConfiguration.sessionId);
+        if(!_isLogged(response)) {
+            throw new E2eAuthenticationException(E2eConfiguration.userName);
+        }
+    }
+
     private static boolean _isLogged(E2eResponse<String> response) {
         return response.getStatus() == 302;
     }
@@ -175,18 +183,10 @@ public class TestWithoutPageUtil {
         TestImplConfigurator.init();
     }
 
-    private static void _login() {
-        LoginParams loginParams = LoginParams.builder()
-                .userName(E2eConfiguration.userName)
-                .password(E2eConfiguration.password)
-                .build();
-
-        E2eResponse<String> response = executeFunction(TestWithoutPageUtil::login,loginParams,ApplicationIsNotAvailableException::new);
-
-        E2eConfiguration.sessionId = response.getSessionId();
-        ServiceObjectConfigurator.init(E2eConfiguration.sessionId);
-        if(!_isLogged(response)) {
-            throw new E2eAuthenticationException(E2eConfiguration.userName);
+    private static E2eResponse<String> _login(LoginParams cmpParams) {
+        try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
+            Optional<E2eResponse<String>> responseOpt = loginServiceObject.login(cmpParams, TestImplConfiguration.timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
 }

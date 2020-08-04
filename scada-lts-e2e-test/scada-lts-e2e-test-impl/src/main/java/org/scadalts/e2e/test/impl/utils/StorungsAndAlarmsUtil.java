@@ -2,7 +2,6 @@ package org.scadalts.e2e.test.impl.utils;
 
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.utils.VariationUnit;
-import org.scadalts.e2e.common.utils.VariationsGenerator;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
@@ -17,6 +16,7 @@ import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
 
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Predicate;
@@ -151,13 +151,11 @@ public class StorungsAndAlarmsUtil {
     }
 
     public static List<StorungAlarmResponse> getInactiveAlarmsAndStorungs(PaginationParams paginationParams) {
-        List<StorungAlarmResponse> activateAlarms = _filterInactiveAlarmsAndStorungs(getStorungsAndAlarms(paginationParams));
-        return activateAlarms;
+        return _filterInactiveAlarmsAndStorungs(getStorungsAndAlarms(paginationParams));
     }
 
     public static List<StorungAlarmResponse> getActiveAlarmsAndStorungs(PaginationParams paginationParams) {
-        List<StorungAlarmResponse> activateAlarms = _filterActiveAlarmsAndStorungs(getStorungsAndAlarms(paginationParams));
-        return activateAlarms;
+        return _filterActiveAlarmsAndStorungs(getStorungsAndAlarms(paginationParams));
     }
 
     public static List<StorungAlarmResponse> getActiveStorungs(PaginationParams paginationParams, int numberLargerOrEqualsExpected) {
@@ -211,6 +209,10 @@ public class StorungsAndAlarmsUtil {
 
     }
 
+    public static TestDataBatch generateDataTestFromFile(Path path, DataPointNotifierType prototype) {
+        return new TestDataBatch(VariationsGenerator.generateFromFile(path), prototype);
+    }
+
     public static List<TestDataBatch> generateDataTestZeroToOnes(int nWord, DataPointNotifierType prototype, int size) {
         return VariationsGenerator.generateZeroToOnes(nWord, size).stream()
                 .map(a -> new TestDataBatch(a, prototype))
@@ -221,20 +223,28 @@ public class StorungsAndAlarmsUtil {
     public static int getActiveAlarmsFromResponseNumber(List<StorungAlarmResponse> storungAlarmRespons) {
         int result = 0;
         for (StorungAlarmResponse res: storungAlarmRespons) {
-            if(res.getInactivationTime().equalsIgnoreCase("")
-                    || res.getInactivationTime().equalsIgnoreCase(" "))
+            if(isActive(res))
                 result++;
         }
         return result;
     }
 
+    public static boolean isActive(StorungAlarmResponse alarm) {
+        return alarm.getInactivationTime() == null
+                || "1970-01-01 01:00:00".equalsIgnoreCase(alarm.getInactivationTime())
+                || "".equalsIgnoreCase(alarm.getInactivationTime())
+                || " ".equalsIgnoreCase(alarm.getInactivationTime());
+    }
+
     public static int getInactiveAlarmsFromResponseNumber(List<StorungAlarmResponse> storungAlarmRespons) {
         int result = 0;
         for (StorungAlarmResponse res: storungAlarmRespons) {
-            Pattern pattern = Pattern.compile(RegexUtil.DATE_PSEUDO_ISO_REGEX);
-            Matcher matcher = pattern.matcher(res.getInactivationTime());
-            if(matcher.find())
-                result++;
+            if(!isActive(res)) {
+                Pattern pattern = Pattern.compile(RegexUtil.DATE_PSEUDO_ISO_REGEX);
+                Matcher matcher = pattern.matcher(res.getInactivationTime());
+                if (matcher.find())
+                    result++;
+            }
         }
         return result;
     }
@@ -294,12 +304,12 @@ public class StorungsAndAlarmsUtil {
         assertTrue(msg,alarms.size() >= numberLargerOrEqualsExpected);
         return alarms;
     }
-
-    private static boolean _isActive(StorungAlarmResponse alarm) {
+/*
+    private static boolean isActive(StorungAlarmResponse alarm) {
         return alarm.getInactivationTime() == null
                 || "".equalsIgnoreCase(alarm.getInactivationTime())
                 || " ".equalsIgnoreCase(alarm.getInactivationTime());
-    }
+    }*/
 
     private static boolean _isAlarm(StorungAlarmResponse alarm) {
         String name = alarm.getName();
@@ -313,36 +323,36 @@ public class StorungsAndAlarmsUtil {
 
 
     private static List<StorungAlarmResponse> _filterInactiveStorungs(List<StorungAlarmResponse> list) {
-        return list.stream().filter(a -> !_isActive(a))
+        return list.stream().filter(a -> !isActive(a))
                 .filter(StorungsAndAlarmsUtil::_isStorung)
                 .collect(Collectors.toList());
     }
 
     private static List<StorungAlarmResponse> _filterInactiveAlarms(List<StorungAlarmResponse> list) {
-        return list.stream().filter(a -> !_isActive(a))
+        return list.stream().filter(a -> !isActive(a))
                 .filter(StorungsAndAlarmsUtil::_isAlarm)
                 .collect(Collectors.toList());
     }
 
     private static List<StorungAlarmResponse> _filterActiveStorungs(List<StorungAlarmResponse> list) {
-        return list.stream().filter(StorungsAndAlarmsUtil::_isActive)
+        return list.stream().filter(StorungsAndAlarmsUtil::isActive)
                 .filter(StorungsAndAlarmsUtil::_isStorung)
                 .collect(Collectors.toList());
     }
 
     private static List<StorungAlarmResponse> _filterActiveAlarms(List<StorungAlarmResponse> list) {
-        return list.stream().filter(StorungsAndAlarmsUtil::_isActive)
+        return list.stream().filter(StorungsAndAlarmsUtil::isActive)
                 .filter(StorungsAndAlarmsUtil::_isAlarm)
                 .collect(Collectors.toList());
     }
 
     private static List<StorungAlarmResponse> _filterActiveAlarmsAndStorungs(List<StorungAlarmResponse> list) {
-        return list.stream().filter(StorungsAndAlarmsUtil::_isActive)
+        return list.stream().filter(StorungsAndAlarmsUtil::isActive)
                 .collect(Collectors.toList());
     }
 
     private static List<StorungAlarmResponse> _filterInactiveAlarmsAndStorungs(List<StorungAlarmResponse> list) {
-        return list.stream().filter(a -> !_isActive(a))
+        return list.stream().filter(a -> !isActive(a))
                 .collect(Collectors.toList());
     }
 

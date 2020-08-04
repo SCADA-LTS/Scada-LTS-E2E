@@ -104,8 +104,8 @@ public class GetLivesGroupingSortServiceTest {
     @AfterClass
     public static void clean() {
 
-        /*activePoints.deleteObjects();
-        inactivePoints.deleteObjects();*/
+        activePoints.deleteObjects();
+        inactivePoints.deleteObjects();
     }
 
     @Test
