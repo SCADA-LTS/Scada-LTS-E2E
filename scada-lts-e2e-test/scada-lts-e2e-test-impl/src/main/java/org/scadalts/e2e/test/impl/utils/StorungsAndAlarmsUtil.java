@@ -69,6 +69,22 @@ public class StorungsAndAlarmsUtil {
         return sortByActivationTimeDesc(StorungsAndAlarmsUtil._getAlarmsAndStorungsFor(identifier, getResult));
     }
 
+    public static List<StorungAlarmResponse> getAlarmsAndStorungsSortByInactivationTime(DataPointIdentifier identifier, PaginationParams paginationParams) {
+        E2eResponse<List<StorungAlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationParams,
+                TestImplConfiguration.waitingAfterSetPointValueMs);
+        assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
+        List<StorungAlarmResponse> getResult = getResponse.getValue();
+        return sortByInactivationTimeDesc(StorungsAndAlarmsUtil._getAlarmsAndStorungsFor(identifier, getResult));
+    }
+
+    public static List<StorungAlarmResponse> getAlarmsAndStorungsSortByIdDesc(DataPointIdentifier identifier, PaginationParams paginationParams) {
+        E2eResponse<List<StorungAlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationParams,
+                TestImplConfiguration.waitingAfterSetPointValueMs);
+        assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
+        List<StorungAlarmResponse> getResult = getResponse.getValue();
+        return sortByIdDesc(StorungsAndAlarmsUtil._getAlarmsAndStorungsFor(identifier, getResult));
+    }
+
     public static List<StorungAlarmResponse> getAlarmsAndStorungsSortByActivationTime(DataPointIdentifier identifier, Predicate<List<StorungAlarmResponse>> condition,
                                                                                       PaginationParams paginationParams) {
         return TestStabilityUtil.executeWhilePredicate(condition.negate(), StorungsAndAlarmsUtil::getAlarmsAndStorungsSortByActivationTime, identifier, paginationParams);
@@ -77,6 +93,12 @@ public class StorungsAndAlarmsUtil {
     public static List<StorungAlarmResponse> sortByActivationTimeDesc(List<StorungAlarmResponse> list) {
         return list.stream()
                 .sorted(_byActivationTimeIdDescComparator())
+                .collect(Collectors.toList());
+    }
+
+    public static List<StorungAlarmResponse> sortByIdDesc(List<StorungAlarmResponse> list) {
+        return list.stream()
+                .sorted(_byIdDescComparator())
                 .collect(Collectors.toList());
     }
 
@@ -299,7 +321,6 @@ public class StorungsAndAlarmsUtil {
             return result == 0 ? _byIdDescComparator().compare(a, b)  : result;
         };
     }
-
 
     private static Comparator<StorungAlarmResponse> _byActivationTimeIdDescComparator() {
         return (a, b) -> {

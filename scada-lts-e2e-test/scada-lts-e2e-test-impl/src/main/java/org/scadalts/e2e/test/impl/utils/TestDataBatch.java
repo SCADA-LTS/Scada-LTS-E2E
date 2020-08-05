@@ -65,6 +65,8 @@ public class TestDataBatch {
 
     private boolean _isActivate() {
         List<Integer> variation = variationUnit.getVariationWithStart();
+        if(variation.isEmpty())
+            return false;
         return variation.get(variation.size() - 1) == 1;
     }
 

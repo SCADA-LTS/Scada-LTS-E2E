@@ -114,13 +114,13 @@ public class GetInactiveLivesAfterSeqServiceTest {
         storungsAndAlarmsObjectsCreator.setDataPointValues(testDataBatch.getSequencePointValue());
 
         //and when:
-        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByInactivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
 
         if(testDataBatch.getAlarmsNumber() > 0) {
 
             //then:
             assertThat(EXPECTED_DATE_ISO, storungAlarmResponse.get(0).getActivationTime(), matchesPattern(RegexUtil.DATE_PSEUDO_ISO_REGEX));
-            assertThat(EXPECTED_ACTIVE_ALARM, storungAlarmResponse.get(0).getInactivationTime(), anyOf(is(""), is(" ")));
+            assertThat(EXPECTED_INACTIVE_ALARM, storungAlarmResponse.get(0).getInactivationTime(), matchesPattern(RegexUtil.DATE_PSEUDO_ISO_REGEX));
             assertEquals(testDataBatch.getDataPointIdentifier().getValue(), storungAlarmResponse.get(0).getName());
             assertEquals(testDataBatch.getDataPointNotifierType().getAlarmLevel(), AlarmLevel.getType(storungAlarmResponse.get(0).getLevel()));
 
