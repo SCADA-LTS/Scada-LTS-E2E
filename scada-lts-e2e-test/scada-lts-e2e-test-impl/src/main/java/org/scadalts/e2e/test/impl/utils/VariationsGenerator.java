@@ -12,7 +12,13 @@ public class VariationsGenerator {
 
     public static List<VariationUnit<Integer>> generate(int toValue, int nWords, int startValue) {
         List<VariationUnit<Integer>> result = new ArrayList<>();
-        _generate(toValue, nWords, new ArrayList<>(), result, startValue);
+        _generate(toValue, nWords, new ArrayList<>(), result, startValue, null);
+        return result;
+    }
+
+    public static List<VariationUnit<Integer>> generateEndValue(int toValue, int nWords, int endValue) {
+        List<VariationUnit<Integer>> result = new ArrayList<>();
+        _generate(toValue, nWords, new ArrayList<>(), result, null, endValue);
         return result;
     }
 
@@ -62,19 +68,20 @@ public class VariationsGenerator {
     }
 
     private static void _generate(int toValue, int nWords, List<Integer> variation, List<VariationUnit<Integer>> result,
-                                  int startValue) {
+                                  Integer startValue, Integer endValue) {
 
         if(nWords == 0) {
             result.add(VariationUnit.<Integer>builder()
                             .startValue(startValue)
                             .variation(variation)
+                            .endValue(endValue)
                             .build());
             return;
         }
 
         for(int i = 0; i < toValue + 1; i++) {
             variation.add(0, i);
-            _generate(toValue, nWords-1, variation, result, startValue);
+            _generate(toValue, nWords-1, variation, result, startValue, endValue);
             variation.remove(0);
         }
     }

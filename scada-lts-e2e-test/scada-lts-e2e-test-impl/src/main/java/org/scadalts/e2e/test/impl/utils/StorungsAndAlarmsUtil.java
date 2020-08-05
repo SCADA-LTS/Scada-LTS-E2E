@@ -205,6 +205,14 @@ public class StorungsAndAlarmsUtil {
 
     }
 
+    public static List<TestDataBatch> generateDataTestEndValue(int nWord, DataPointNotifierType prototype,
+                                                       LoggingType loggingType, int endValue) {
+        return VariationsGenerator.generateEndValue(1, nWord, endValue).stream()
+                .map(a -> new TestDataBatch(a, prototype, loggingType))
+                .collect(Collectors.toList());
+
+    }
+
     public static List<TestDataBatch> generateDataTestRandom(int nWord, DataPointNotifierType prototype,
                                                              LoggingType loggingType, int size) {
         return VariationsGenerator.generateRandom(1, nWord, size).stream()

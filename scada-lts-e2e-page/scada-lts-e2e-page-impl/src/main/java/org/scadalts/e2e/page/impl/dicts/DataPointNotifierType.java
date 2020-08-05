@@ -8,8 +8,8 @@ import java.util.stream.Stream;
 @Getter
 public enum DataPointNotifierType implements DictionaryObject {
     
-    ALARM("AL", "alarms", AlarmLevel.INFORMATION),
-    STORUNG("ST", "storungs", AlarmLevel.URGENT),
+    ALARM("AL", "alarms", AlarmLevel.URGENT),
+    STORUNG("ST", "storungs", AlarmLevel.INFORMATION),
     NONE("NONE", "none", AlarmLevel.ANY);
     
     private final String id;

@@ -31,6 +31,15 @@ public class VariationUnit<T> {
         return result;
     }
 
+
+    public List<T> getVariation() {
+        List<T> result = new ArrayList<>();
+        result.addAll(variation);
+        if(endValue != null)
+            result.add(endValue);
+        return result;
+    }
+
     public T getStartValue() {
         if(startValue != null) {
             return startValue;
