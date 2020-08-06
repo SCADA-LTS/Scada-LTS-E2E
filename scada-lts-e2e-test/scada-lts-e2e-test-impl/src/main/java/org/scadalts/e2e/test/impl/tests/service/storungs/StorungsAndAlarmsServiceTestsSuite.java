@@ -21,7 +21,9 @@ import org.scadalts.e2e.test.impl.tests.service.storungs.live.*;
         GetLivesGroupingSortOnChangeServiceTest.class,
         GetLivesPaginationOnChangeServiceTest.class,
         GetStartActiveLivesOnChangeServiceTest.class,
-        GetStartInactiveLivesOnChangeServiceTest.class
+        GetStartInactiveLivesOnChangeServiceTest.class,
+        GetActiveLivesAfterSeqServiceTest.class,
+        GetInactiveLivesAfterSeqServiceTest.class
 })
 public class StorungsAndAlarmsServiceTestsSuite {
 }
