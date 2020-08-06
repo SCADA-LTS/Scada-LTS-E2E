@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
 import org.scadalts.e2e.page.impl.dicts.LoggingType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -29,21 +28,20 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
-public class GetLivesAggregationLoggingAllDataPerformanceTest {
+public class GetLivesNumberOnChangePerformanceTest {
 
     private static PaginationParams paginationParams = PaginationParams.all();
     private static StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
-    private static TestDataBatch testDataBatch;
+    private static TestDataBatch testDataBatch = generateDataTestRandom(10000, DataPointNotifierType.ALARM,
+            LoggingType.ON_CHANGE, 1).get(0);
 
     @BeforeClass
     public static void setup() {
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         DataSourceCriteria dataSource = DataSourceCriteria.virtualDataSourceSecond();
-        testDataBatch = generateDataTestRandom(10000, DataPointNotifierType.ALARM, LoggingType.ALL, 1).get(0);
 
         DataPointCriteria dataPoint = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
-                String.valueOf(testDataBatch.getStartValue()),
-                DataPointLoggingProperties.logging(testDataBatch.getLoggingType()));
+                String.valueOf(testDataBatch.getStartValue()));
 
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSource, dataPoint);
         storungsAndAlarmsObjectsCreator.createObjects();
