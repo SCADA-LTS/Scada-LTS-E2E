@@ -143,7 +143,7 @@ public class GetAllLivesParametersServiceTest {
                 Instant nowMinus24h = Instant.now().minus(24, ChronoUnit.HOURS);
                 DataPointNotifierType dataPointNotifierType = DataPointNotifierType.getTypeByLevel(res.getLevel());
                 String msg = MessageFormat.format("Failure because: inactive {0} {1} older than 24h", dataPointNotifierType.getName(), res);
-                assertTrue(msg,inactivationTime.getNano() < nowMinus24h.getNano());
+                assertTrue(msg,inactivationTime.compareTo(nowMinus24h) > -1);
             }
         }
     }

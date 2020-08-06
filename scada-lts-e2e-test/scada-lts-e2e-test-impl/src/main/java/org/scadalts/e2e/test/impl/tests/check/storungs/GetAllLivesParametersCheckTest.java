@@ -107,7 +107,7 @@ public class GetAllLivesParametersCheckTest {
                 String time = RegexUtil.getDateIso(res.getInactivationTime());
                 Instant inactivationTime = Instant.parse(time);
                 Instant nowMinus24h = Instant.now().minus(24, ChronoUnit.HOURS);
-                if(inactivationTime.getNano() > nowMinus24h.getNano())
+                if(inactivationTime.compareTo(nowMinus24h) < 0)
                     responses.add(res);
             }
         }
