@@ -116,7 +116,7 @@ public class GetActiveLivesAfterSeqServiceTest {
         storungsAndAlarmsObjectsCreator.setDataPointValues(testDataBatch.getSequencePointValue());
 
         //and when:
-        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(testDataBatch.getDataPointIdentifier(), paginationParams);
+        List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungs(testDataBatch.getDataPointIdentifier(), paginationParams);
 
         //then:
         assertThat(EXPECTED_DATE_ISO, storungAlarmResponse.get(0).getActivationTime(), matchesPattern(RegexUtil.DATE_PSEUDO_ISO_REGEX));

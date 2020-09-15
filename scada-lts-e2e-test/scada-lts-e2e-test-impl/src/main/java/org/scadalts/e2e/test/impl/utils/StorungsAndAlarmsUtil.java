@@ -69,6 +69,14 @@ public class StorungsAndAlarmsUtil {
         return sortByActivationTimeDesc(StorungsAndAlarmsUtil._getAlarmsAndStorungsFor(identifier, getResult));
     }
 
+    public static List<StorungAlarmResponse> getAlarmsAndStorungs(DataPointIdentifier identifier, PaginationParams paginationParams) {
+        E2eResponse<List<StorungAlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationParams,
+                TestImplConfiguration.waitingAfterSetPointValueMs);
+        assertEquals(INVOKE_GET_LIVES_FROM_API_DID_NOT_SUCCEED, 200, getResponse.getStatus());
+        List<StorungAlarmResponse> getResult = getResponse.getValue();
+        return StorungsAndAlarmsUtil._getAlarmsAndStorungsFor(identifier, getResult);
+    }
+
     public static List<StorungAlarmResponse> getAlarmsAndStorungsSortByInactivationTime(DataPointIdentifier identifier, PaginationParams paginationParams) {
         E2eResponse<List<StorungAlarmResponse>> getResponse = TestWithoutPageUtil.getLiveAlarms(paginationParams,
                 TestImplConfiguration.waitingAfterSetPointValueMs);

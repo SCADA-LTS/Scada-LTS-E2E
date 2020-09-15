@@ -1,11 +1,15 @@
 package org.scadalts.e2e.page.impl.criterias.properties;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Singular;
 import org.scadalts.e2e.common.dicts.DictionaryObject;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.dicts.EngineeringUnit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -82,6 +86,28 @@ public class DataPointProperties {
                 .engineeringUnits(EngineeringUnit.VolumetricFlow.LITERS_PER_SECOND)
                 .loggingProperties(DataPointLoggingProperties.noChange())
                 .textRendererProperties(dataPointTextRendererProperties)
+                .build();
+    }
+
+    public static DataPointProperties properties(EventDetectorCriteria... eventDetectorCriterias) {
+        return DataPointProperties.builder()
+                .chartColour(null)
+                .chartRenderProperties(DataPointChartRenderProperties.none())
+                .engineeringUnits(EngineeringUnit.VolumetricFlow.LITERS_PER_SECOND)
+                .loggingProperties(DataPointLoggingProperties.noChange())
+                .textRendererProperties(DataPointTextRendererProperties.plain())
+                .eventDetectors(Arrays.asList(eventDetectorCriterias))
+                .build();
+    }
+
+    public static DataPointProperties properties(List<EventDetectorCriteria> eventDetectorCriterias) {
+        return DataPointProperties.builder()
+                .chartColour(null)
+                .chartRenderProperties(DataPointChartRenderProperties.none())
+                .engineeringUnits(EngineeringUnit.VolumetricFlow.LITERS_PER_SECOND)
+                .loggingProperties(DataPointLoggingProperties.noChange())
+                .textRendererProperties(DataPointTextRendererProperties.plain())
+                .eventDetectors(eventDetectorCriterias)
                 .build();
     }
 
