@@ -9,6 +9,7 @@ import static org.scadalts.e2e.page.core.criterias.Tag.each;
 import static org.scadalts.e2e.page.core.xpaths.XpathExpression.xpath;
 import static org.scadalts.e2e.page.core.xpaths.XpathOperation.contains;
 import static org.scadalts.e2e.page.core.xpaths.XpathOperation.equal;
+import static org.scadalts.e2e.page.core.xpaths.XpathOperation.positionMod;
 
 @Builder
 class NodeCriteriaEvery implements NodeCriteria {
@@ -29,7 +30,7 @@ class NodeCriteriaEvery implements NodeCriteria {
 
     @Override
     public String getXpath() {
-        XpathOperation xpathOperation = XpathOperation.positionMod(sectionSize, everyoneInPosition);
+        XpathOperation xpathOperation = positionMod(sectionSize, everyoneInPosition);
         if(!attribute.isEmpty())
             xpathOperation = xpathOperation.and(equal(attribute));
         if(parentAttribute.isEmpty())
