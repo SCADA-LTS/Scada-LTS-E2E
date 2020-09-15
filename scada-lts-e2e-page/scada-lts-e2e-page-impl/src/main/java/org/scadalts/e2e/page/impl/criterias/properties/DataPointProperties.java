@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @Builder
 @EqualsAndHashCode
-@AllArgsConstructor
 public class DataPointProperties {
 
     private final DictionaryObject engineeringUnits;
@@ -22,6 +21,15 @@ public class DataPointProperties {
     private final DataPointChartRenderProperties chartRenderProperties;
     private final DataPointTextRendererProperties textRendererProperties;
     private final @Singular List<EventDetectorCriteria> eventDetectors;
+
+    protected DataPointProperties(DictionaryObject engineeringUnits, String chartColour, DataPointLoggingProperties loggingProperties, DataPointChartRenderProperties chartRenderProperties, DataPointTextRendererProperties textRendererProperties, List<EventDetectorCriteria> eventDetectors) {
+        this.engineeringUnits = engineeringUnits == null ? EngineeringUnit.Acceleration.ANY : engineeringUnits;
+        this.chartColour = chartColour;
+        this.loggingProperties = loggingProperties == null ? DataPointLoggingProperties.empty() : loggingProperties;
+        this.chartRenderProperties = chartRenderProperties == null ? DataPointChartRenderProperties.empty() : chartRenderProperties;
+        this.textRendererProperties = textRendererProperties == null ? DataPointTextRendererProperties.empty() : textRendererProperties;
+        this.eventDetectors = eventDetectors;
+    }
 
     private static final DataPointProperties EMPTY = DataPointProperties.builder()
             .textRendererProperties(DataPointTextRendererProperties.empty())

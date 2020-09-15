@@ -69,25 +69,6 @@ public class E2eSummary implements E2eSummarable {
 
         );
     }
-/*
-    @Override
-    public Map<String, String> getTestDescriptions() {
-        return results.keySet()
-                .stream()
-                .collect(Collectors
-                        .toMap(Class::getSimpleName,
-                                a -> {
-                                    try {
-                                        return a.newInstance().getDescription();
-                                    } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-                                        logger.warn(e.getMessage(), e);
-                                    }
-                                    return "...";
-                                },
-                                (b, c) -> c)
-
-                );
-    }*/
 
     @Override
     public Map<String, String> getStatusesLegend() {

@@ -38,7 +38,8 @@ class WebElementClick implements E2eWebElement {
 
     @Override
     public WebElementClick openInNewTab() {
-        String newTab = Keys.chord(String.valueOf((char)PageConfiguration.ctrl), Keys.RETURN);
+
+        String newTab = Keys.chord(PageConfiguration.ctrl, Keys.RETURN);
         webElement.sendKeys(newTab);
         Set<String> tabs = getDriver().getWindowHandles();
         switchTo().window(tabs.size() - 1);

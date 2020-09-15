@@ -42,7 +42,6 @@ public class PageObjectConfigurator {
         Configuration.proxyEnabled = config.isProxyMode();
         Configuration.proxyHost = config.getHostProxy();
         Configuration.proxyPort = config.getPortProxy();
-        PageConfiguration.ctrl = config.getCtrlCode();
         PageConfiguration.timeout = config.getTimeoutMs();
 
         Configurator.setRootLevel(config.getLogLevel());

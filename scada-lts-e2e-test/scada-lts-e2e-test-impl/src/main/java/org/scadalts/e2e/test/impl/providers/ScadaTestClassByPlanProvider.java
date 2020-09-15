@@ -12,6 +12,7 @@ import org.scadalts.e2e.test.impl.tests.check.ScadaCheckTestsSuite;
 import org.scadalts.e2e.test.impl.tests.check.login.LoginCheckTest;
 import org.scadalts.e2e.test.impl.tests.check.login.LogoutCheckTest;
 import org.scadalts.e2e.test.impl.tests.page.ScadaPageTestsSuite;
+import org.scadalts.e2e.test.impl.tests.performance.ScadaPerformanceTestsSuite;
 import org.scadalts.e2e.test.impl.tests.service.ScadaServiceTestsSuite;
 
 import java.util.HashMap;
@@ -35,6 +36,8 @@ public class ScadaTestClassByPlanProvider implements TestClassByPlanProvider {
         tests.put(TestPlan.EXPORT, Exporter.class);
         tests.put(TestPlan.IMPORT, Importer.class);
         tests.put(TestPlan.CLEAN, Cleaner.class);
+        tests.put(TestPlan.PERFORMANCE, ScadaPerformanceTestsSuite.class);
+        tests.put(TestPlan.PERF, ScadaPerformanceTestsSuite.class);
     }
 
     @Override

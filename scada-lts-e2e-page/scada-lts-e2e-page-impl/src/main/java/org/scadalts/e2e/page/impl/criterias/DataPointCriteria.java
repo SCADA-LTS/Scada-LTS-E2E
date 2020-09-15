@@ -6,9 +6,11 @@ import lombok.NonNull;
 import lombok.ToString;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
+import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
 import org.scadalts.e2e.page.impl.dicts.ChangeType;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
+import org.scadalts.e2e.page.impl.dicts.LoggingType;
 
 import java.util.Objects;
 
@@ -202,6 +204,42 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
                 .changeType(changeType)
                 .identifier(identifier)
                 .dataPointProperties(DataPointProperties.empty())
+                .startValue(String.valueOf(startValue))
+                .settable(true)
+                .enabled(true)
+                .xid(xid)
+                .build();
+    }
+
+    public static DataPointCriteria noChangeAllDataLogging(DataPointIdentifier identifier, String startValue) {
+        ChangeType changeType = ChangeType.NO_CHANGE;
+        Xid xid = Xid.xidForDataPoint();
+        DataPointProperties dataPointProperties = DataPointProperties.builder()
+                .loggingProperties(DataPointLoggingProperties.builder()
+                        .loggingType(LoggingType.ALL).build())
+                .build();
+        return DataPointCriteria.builder()
+                .changeType(changeType)
+                .identifier(identifier)
+                .dataPointProperties(dataPointProperties)
+                .startValue(String.valueOf(startValue))
+                .settable(true)
+                .enabled(true)
+                .xid(xid)
+                .build();
+    }
+
+    public static DataPointCriteria noChange(DataPointIdentifier identifier, String startValue,
+                                             DataPointLoggingProperties dataPointLoggingProperties) {
+        ChangeType changeType = ChangeType.NO_CHANGE;
+        Xid xid = Xid.xidForDataPoint();
+        DataPointProperties dataPointProperties = DataPointProperties.builder()
+                .loggingProperties(dataPointLoggingProperties)
+                .build();
+        return DataPointCriteria.builder()
+                .changeType(changeType)
+                .identifier(identifier)
+                .dataPointProperties(dataPointProperties)
                 .startValue(String.valueOf(startValue))
                 .settable(true)
                 .enabled(true)

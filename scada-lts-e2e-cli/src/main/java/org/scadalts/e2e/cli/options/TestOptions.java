@@ -26,14 +26,11 @@ public class TestOptions extends MainOptions {
     @CommandLine.Option(names = {"-t", "--timeout-ms"})
     private int timeoutMs;
 
-    @CommandLine.Option(names = {"-T", "--test-plan"}, required = true, converter = TestPlansParser.class)
-    private TestPlan testPlan;
+    @CommandLine.Option(names = {"-T", "--test-plans"}, required = true, converter = TestPlansParser.class, split = ";")
+    private TestPlan[] testPlans;
 
     @CommandLine.Option(names = {"-d", "--driver-file"})
     private File driverFile;
-
-    @CommandLine.Option(names = {"-k", "--ctrl-code"})
-    private int ctrlCode;
 
     @CommandLine.Option(names = {"-H", "--headless-mode"}, negatable = true)
     private boolean headlessMode;

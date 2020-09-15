@@ -37,7 +37,7 @@ public class DataPointLoggingProperties {
         this.intervalLoggingPeriodType = intervalLoggingPeriodType == null ? IntervalLoggingPeriodType.MINUTES : intervalLoggingPeriodType;
         this.intervalLoggingType = intervalLoggingType == null ? IntervalLoggingType.INSTANT : intervalLoggingType;
         this.purgeType = purgeType == null ? PurgeType.YEARS : purgeType;
-        this.defaultCacheSize = defaultCacheSize;
+        this.defaultCacheSize = defaultCacheSize == 0 ? 1 : defaultCacheSize;
         this.discardExtremeValues = discardExtremeValues;
         this.discardHighLimit = discardHighLimit == null ? "1.7976931348623157E308" : discardHighLimit;
         this.discardLowLimit = discardLowLimit == null ? "-1.7976931348623157E308" : discardLowLimit;
@@ -53,6 +53,71 @@ public class DataPointLoggingProperties {
     public static DataPointLoggingProperties noChange() {
         return DataPointLoggingProperties.builder()
                 .loggingType(LoggingType.NONE)
+                .intervalLoggingPeriod(0)
+                .defaultCacheSize(0)
+                .discardExtremeValues(false)
+                .discardHighLimit("0.0")
+                .discardLowLimit("0.0")
+                .intervalLoggingPeriodType(IntervalLoggingPeriodType.YEARS)
+                .intervalLoggingType(IntervalLoggingType.INSTANT)
+                .purgePeriod(0)
+                .purgeType(PurgeType.YEARS)
+                .tolerance("0.0")
+                .build();
+    }
+
+    public static DataPointLoggingProperties allData() {
+        return DataPointLoggingProperties.builder()
+                .loggingType(LoggingType.ALL)
+                .intervalLoggingPeriod(0)
+                .defaultCacheSize(0)
+                .discardExtremeValues(false)
+                .discardHighLimit("0.0")
+                .discardLowLimit("0.0")
+                .intervalLoggingPeriodType(IntervalLoggingPeriodType.YEARS)
+                .intervalLoggingType(IntervalLoggingType.INSTANT)
+                .purgePeriod(0)
+                .purgeType(PurgeType.YEARS)
+                .tolerance("0.0")
+                .build();
+    }
+
+
+    public static DataPointLoggingProperties change() {
+        return DataPointLoggingProperties.builder()
+                .loggingType(LoggingType.ON_TS_CHANGE)
+                .intervalLoggingPeriod(0)
+                .defaultCacheSize(0)
+                .discardExtremeValues(false)
+                .discardHighLimit("0.0")
+                .discardLowLimit("0.0")
+                .intervalLoggingPeriodType(IntervalLoggingPeriodType.YEARS)
+                .intervalLoggingType(IntervalLoggingType.INSTANT)
+                .purgePeriod(0)
+                .purgeType(PurgeType.YEARS)
+                .tolerance("0.0")
+                .build();
+    }
+
+    public static DataPointLoggingProperties tsChange() {
+        return DataPointLoggingProperties.builder()
+                .loggingType(LoggingType.ON_CHANGE)
+                .intervalLoggingPeriod(0)
+                .defaultCacheSize(0)
+                .discardExtremeValues(false)
+                .discardHighLimit("0.0")
+                .discardLowLimit("0.0")
+                .intervalLoggingPeriodType(IntervalLoggingPeriodType.YEARS)
+                .intervalLoggingType(IntervalLoggingType.INSTANT)
+                .purgePeriod(0)
+                .purgeType(PurgeType.YEARS)
+                .tolerance("0.0")
+                .build();
+    }
+
+    public static DataPointLoggingProperties logging(LoggingType loggingType) {
+        return DataPointLoggingProperties.builder()
+                .loggingType(loggingType)
                 .intervalLoggingPeriod(0)
                 .defaultCacheSize(0)
                 .discardExtremeValues(false)

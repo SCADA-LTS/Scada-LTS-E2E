@@ -9,9 +9,11 @@ import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
+import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
+import org.scadalts.e2e.page.impl.dicts.LoggingType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil;
@@ -25,7 +27,7 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
-public class GetLivesGroupingSortServiceTest {
+public class GetLivesGroupingSortOnChangeServiceTest {
 
     @Parameterized.Parameters(name = "{index}: offset: {0}, limit: {1}")
     public static Object[][] data() {
@@ -41,7 +43,7 @@ public class GetLivesGroupingSortServiceTest {
     private final int offset;
     private final int limit;
 
-    public GetLivesGroupingSortServiceTest(int offset, int limit) {
+    public GetLivesGroupingSortOnChangeServiceTest(int offset, int limit) {
         this.offset = offset;
         this.limit = limit;
     }
@@ -75,11 +77,13 @@ public class GetLivesGroupingSortServiceTest {
         };
 
         DataPointCriteria[] activeNotifierAlarams = Stream.of(activeIdnetifiers)
-                .map(a -> DataPointCriteria.noChange(a, "1"))
+                .map(a -> DataPointCriteria.noChange(a, "1",
+                        DataPointLoggingProperties.logging(LoggingType.ON_CHANGE)))
                 .toArray(a -> new DataPointCriteria[activeIdnetifiers.length]);
 
         DataPointCriteria[] inactiveNotifierAlarams = Stream.of(inactiveIdnetifiers)
-                .map(a -> DataPointCriteria.noChange(a, "1"))
+                .map(a -> DataPointCriteria.noChange(a, "1",
+                        DataPointLoggingProperties.logging(LoggingType.ON_CHANGE)))
                 .toArray(a -> new DataPointCriteria[inactiveIdnetifiers.length]);
 
 
@@ -91,25 +95,19 @@ public class GetLivesGroupingSortServiceTest {
         inactivePoints.createObjects();
         inactivePoints.setDataPointValue(0);
 
-        StorungsAndAlarmsUtil.getStorungsAndAlarms(PaginationParams.builder()
-                .offset(0)
-                .limit(9999)
-                .build(), 12);
+        PaginationParams paginationParams = PaginationParams.all();
 
-        StorungsAndAlarmsUtil.getActiveAlarmsAndStorungs(PaginationParams.builder()
-                .offset(0)
-                .limit(9999)
-                .build(), 6);
+        sleep();
 
-        StorungsAndAlarmsUtil.getInactiveAlarmsAndStorungs(PaginationParams.builder()
-                .offset(0)
-                .limit(9999)
-                .build(), 6);
+        StorungsAndAlarmsUtil.getStorungsAndAlarms(paginationParams, 12);
+        StorungsAndAlarmsUtil.getActiveAlarmsAndStorungs(paginationParams, 6);
+        StorungsAndAlarmsUtil.getInactiveAlarmsAndStorungs(paginationParams, 6);
+
     }
 
     @AfterClass
     public static void clean() {
-
+        sleep();
         activePoints.deleteObjects();
         inactivePoints.deleteObjects();
     }

@@ -183,7 +183,7 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         waitOnEventDetectorTable();
         SelenideElement eventDetectorData = _getEventDetectorData(detectorPosition);
         String value = waitWhile(eventDetectorData.$(By.cssSelector(GET_FIRST_SELECT_ALARM_LIST)), not(Condition.visible)).getSelectedText();
-        return AlarmLevel.getType(value);
+        return AlarmLevel.getTypeByName(value);
     }
 
     public Xid getEventDetectorXid(int detectorPosition) {

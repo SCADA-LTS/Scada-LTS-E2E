@@ -30,14 +30,11 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestWithPageRunner.class)
-public class GetStartActiveLivesServiceTest {
+public class GetStartActiveLivesAllDataLoggingServiceTest {
 
     private static DataPointIdentifier alarmIdentifier;
     private static DataPointIdentifier storungIdentifier;
-    private static PaginationParams paginationParams = PaginationParams.builder()
-            .limit(9999)
-            .offset(0)
-            .build();
+    private static PaginationParams paginationParams = PaginationParams.all();
 
     private static StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
 
@@ -49,8 +46,8 @@ public class GetStartActiveLivesServiceTest {
         alarmIdentifier = IdentifierObjectFactory.dataPointAlarmBinaryTypeName();
         storungIdentifier = IdentifierObjectFactory.dataPointStorungBinaryTypeName();
 
-        DataPointCriteria pointAlarm = DataPointCriteria.noChange(alarmIdentifier, "1");
-        DataPointCriteria pointStorung = DataPointCriteria.noChange(storungIdentifier, "1");
+        DataPointCriteria pointAlarm = DataPointCriteria.noChangeAllDataLogging(alarmIdentifier, "1");
+        DataPointCriteria pointStorung = DataPointCriteria.noChangeAllDataLogging(storungIdentifier, "1");
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, pointAlarm, pointStorung);
@@ -84,7 +81,7 @@ public class GetStartActiveLivesServiceTest {
         List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier, paginationParams);
 
         //then:
-        assertThat(EXPECTED_DATE_ISO, storungAlarmResponse.get(0).getActivationTime(), matchesPattern(RegexUtil.DATE_ISO_REGEX));
+        assertThat(EXPECTED_DATE_ISO, storungAlarmResponse.get(0).getActivationTime(), matchesPattern(RegexUtil.DATE_PSEUDO_ISO_REGEX));
     }
 
     @Test
@@ -114,7 +111,7 @@ public class GetStartActiveLivesServiceTest {
         List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier, paginationParams);
 
         //then:
-        assertEquals(AlarmLevel.INFORMATION.getId(), storungAlarmResponse.get(0).getLevel());
+        assertEquals(AlarmLevel.URGENT.getId(), storungAlarmResponse.get(0).getLevel());
     }
 
     @Test
@@ -124,7 +121,7 @@ public class GetStartActiveLivesServiceTest {
         List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier, paginationParams);
 
         //then:
-        assertThat(EXPECTED_DATE_ISO, storungAlarmResponse.get(0).getActivationTime(), matchesPattern(RegexUtil.DATE_ISO_REGEX));
+        assertThat(EXPECTED_DATE_ISO, storungAlarmResponse.get(0).getActivationTime(), matchesPattern(RegexUtil.DATE_PSEUDO_ISO_REGEX));
     }
 
     @Test
@@ -154,6 +151,6 @@ public class GetStartActiveLivesServiceTest {
         List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier, paginationParams);
 
         //then:
-        assertEquals(AlarmLevel.URGENT.getId(), storungAlarmResponse.get(0).getLevel());
+        assertEquals(AlarmLevel.INFORMATION.getId(), storungAlarmResponse.get(0).getLevel());
     }
 }

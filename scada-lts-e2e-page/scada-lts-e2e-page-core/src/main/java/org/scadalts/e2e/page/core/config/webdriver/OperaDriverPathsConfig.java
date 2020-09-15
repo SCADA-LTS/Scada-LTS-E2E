@@ -19,7 +19,7 @@ public enum OperaDriverPathsConfig implements WebDrvierPathsConfig {
     }
 
     public static WebDrvierPathsConfig getConfig() {
-        return WebDrvierPathsConfig.getDriverPathConfig(OperaDriverPathsConfig.values(),
+        return GetConfigForSystem.getConfig(OperaDriverPathsConfig.values(),
                 OperaDriverPathsConfig.WINDOWS_32);
     }
 }

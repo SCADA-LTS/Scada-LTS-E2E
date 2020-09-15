@@ -24,7 +24,7 @@ public class E2eResponse<T> {
     private String mediaType;
 
     public static <T> E2eResponse<T> empty() {
-        return E2eResponse.<T>builder().status(404).build();
+        return E2eResponse.<T>builder().status(444).build();
     }
 
 }

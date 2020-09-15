@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>18.9.0-SNAPSHOT</version>
+    <version>18.12.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -672,11 +672,10 @@
                 <test.e2e.auth-type>FORM</test.e2e.auth-type>
                 <test.e2e.project-version>${project.version}</test.e2e.project-version>
                 <test.e2e.env>prod</test.e2e.env>
-                <test.e2e.test-plan>CHECK</test.e2e.test-plan>
+                <test.e2e.test-plans>CHECK</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
                 <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
-                <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
                 <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
                 <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
@@ -731,11 +730,10 @@
                 <test.e2e.auth-type>FORM</test.e2e.auth-type>
                 <test.e2e.project-version>${project.version}</test.e2e.project-version>
                 <test.e2e.env>test</test.e2e.env>
-                <test.e2e.test-plan>CHECK</test.e2e.test-plan>
+                <test.e2e.test-plans>CHECK</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
                 <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
-                <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
                 <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
                 <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
@@ -789,11 +787,10 @@
                 <test.e2e.auth-type>FORM</test.e2e.auth-type>
                 <test.e2e.project-version>${project.version}</test.e2e.project-version>
                 <test.e2e.env>dev</test.e2e.env>
-                <test.e2e.test-plan>ALL</test.e2e.test-plan>
+                <test.e2e.test-plans>ALL</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
                 <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
-                <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
                 <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
                 <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
@@ -843,18 +840,17 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <test.e2e.url-app-being-tested>http://localhost:8080/ScadaBR</test.e2e.url-app-being-tested>
+                <test.e2e.url-app-being-tested>http://localhost:81/ScadaBR</test.e2e.url-app-being-tested>
                 <test.e2e.log-level>INFO</test.e2e.log-level>
                 <test.e2e.user-name>admin</test.e2e.user-name>
                 <test.e2e.password>admin</test.e2e.password>
                 <test.e2e.auth-type>FORM</test.e2e.auth-type>
                 <test.e2e.project-version>${project.version}</test.e2e.project-version>
                 <test.e2e.env>dev-local</test.e2e.env>
-                <test.e2e.test-plan>ANY</test.e2e.test-plan>
+                <test.e2e.test-plans>PERF</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
                 <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
-                <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
                 <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
                 <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>

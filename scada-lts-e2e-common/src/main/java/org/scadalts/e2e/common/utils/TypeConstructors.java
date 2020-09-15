@@ -12,10 +12,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 @Log4j2
 public class TypeConstructors {
@@ -31,7 +30,7 @@ public class TypeConstructors {
         values.put(AuthType.class, TypeConstructors::createAuthType);
         values.put(BrowserRef.class, TypeConstructors::createBrowserRef);
         values.put(Level.class, TypeConstructors::createLevel);
-        values.put(TestPlan.class, TypeConstructors::createTestPlan);
+        values.put(TestPlan[].class, TypeConstructors::createTestPlans);
         values.put(long.class, Long::parseLong);
         values.put(int.class, Integer::parseInt);
         values.put(boolean.class, Boolean::parseBoolean);
@@ -85,8 +84,13 @@ public class TypeConstructors {
         return Level.valueOf(value.toUpperCase());
     }
 
-    private static TestPlan createTestPlan(String value) {
-        return TestPlan.valueOf(value.toUpperCase());
+    private static TestPlan[] createTestPlans(String value) {
+        String[] planNames = value.split(";");
+        return Stream.of(planNames)
+                .filter(Objects::nonNull)
+                .map(String::toUpperCase)
+                .map(TestPlan::valueOf)
+                .toArray(a -> new TestPlan[planNames.length]);
     }
 
     private static String[] createStringArray(String value) {

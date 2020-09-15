@@ -11,93 +11,109 @@ public class StabilityUtil {
     private final static long INTERVAL_MS = 3000;
     private final static int LIMIT = 100;
 
-    public static <T> T waitWhile(Predicate<T> predicate, T arg, Timeout timeout) {
+    public static <T> T waitWhile(Predicate<T> whileDo, T arg, Timeout timeout) {
         long time = System.currentTimeMillis();
         int i = 0;
-        while(predicate.test(arg)
+        while(whileDo.test(arg)
                 && !_isExceededTimeout(timeout, time)
                 && !_isExceededLimit(i)) {
             i++;
             logger.info("try: {}", i);
             _sleep();
         }
+        if(whileDo.test(arg))
+            logger.warn("Result does not meet the condition!");
         return arg;
     }
 
-    public static void waitWhile(BooleanSupplier predicate, Timeout timeout) {
+    public static void waitWhile(BooleanSupplier whileDo, Timeout timeout) {
         long time = System.currentTimeMillis();
         int i = 0;
-        while(predicate.getAsBoolean()
+        while(whileDo.getAsBoolean()
                 && !_isExceededTimeout(timeout, time)
                 && !_isExceededLimit(i)) {
             i++;
             logger.info("try: {}", i);
             _sleep();
         }
+        if(whileDo.getAsBoolean())
+            logger.warn("Result does not meet the condition!");
     }
 
-    public static <T> T executeWhile(Predicate<T> predicate, T arg,
+    public static <T> T executeWhile(Predicate<T> whileDo, T arg,
                                      FunctionlInterfaces.Executable executor,
                                      Timeout timeout) {
         long time = System.currentTimeMillis();
         int i = 0;
-        executor.execute();
-        while(predicate.test(arg)
+        _execute(executor);
+        while(whileDo.test(arg)
                 && !_isExceededTimeout(timeout, time)
                 && !_isExceededLimit(i)) {
             i++;
             logger.info("try: {}", i);
             _sleep();
-            executor.execute();
+            _execute(executor);
         }
+        if(whileDo.test(arg))
+            logger.warn("Result does not meet the condition!");
         return arg;
     }
 
-    public static <T> T executeWhile(Predicate<T> predicate, Supplier<T> supplier,
+    public static <T> T executeWhile(Predicate<T> whileDo, Supplier<T> supplier,
                                      Timeout timeout) {
         long time = System.currentTimeMillis();
         int i = 0;
-        T result = supplier.get();
-        while(predicate.test(result)
+
+        T result = _execute(supplier);
+        while((result == null
+                || whileDo.test(result))
                 && !_isExceededTimeout(timeout, time)
                 && !_isExceededLimit(i)) {
             i++;
             logger.info("try: {}", i);
             _sleep();
-            result = supplier.get();
+            result = _execute(supplier);
         }
+        if(result == null || whileDo.test(result))
+            logger.warn("Result does not meet the condition! Result: {}", result);
         return result;
     }
 
-    public static <T, R> R applyWhile(Predicate<R> predicate, Function<T, R> function, T arg,
+    public static <T, R> R applyWhile(Predicate<R> whileDo, Function<T, R> function, T arg,
                                      Timeout timeout) {
         long time = System.currentTimeMillis();
         int i = 0;
-        R result = function.apply(arg);
-        while(predicate.test(result)
+        R result = _execute(function, arg);
+        while((result == null
+                || whileDo.test(result))
                 && !_isExceededTimeout(timeout, time)
                 && !_isExceededLimit(i)) {
             i++;
             logger.info("try: {}", i);
             _sleep();
-            result = function.apply(arg);
+            result = _execute(function, arg);
         }
+        if(result == null || whileDo.test(result))
+            logger.warn("Result does not meet the condition! Result: {}", result);
         return result;
     }
 
-    public static <T, R, S> R applyWhileBi(BiPredicate<R, S> predicate, Function<T, R> fun, T arg,
+    public static <T, R, S> R applyWhileBi(BiPredicate<R, S> whileDo, Function<T, R> function, T arg,
                                         S expectedValue, Timeout timeout) {
         long time = System.currentTimeMillis();
         int i = 0;
-        R result = fun.apply(arg);
-        while(predicate.test(result, expectedValue)
+        R result = _execute(function, arg);
+        while((result == null
+                || whileDo.test(result, expectedValue))
                 && !_isExceededTimeout(timeout, time)
                 && !_isExceededLimit(i)) {
             i++;
             logger.info("try: {}, value expected: {}", i, expectedValue);
             _sleep();
-            result = fun.apply(arg);
+            result = _execute(function, arg);
         }
+        if(result == null || whileDo.test(result, expectedValue))
+            logger.warn("Result does not meet the condition! Result: {}, Expected value: {}", result, expectedValue);
         return result;
     }
 
@@ -122,4 +138,30 @@ public class StabilityUtil {
         return System.currentTimeMillis() - time > timeout.getValue();
     }
 
+
+    private static void _execute(FunctionlInterfaces.Executable executor) {
+        try {
+            executor.execute();
+        } catch (Exception ex) {
+            logger.warn(ex.getMessage(), ex);
+        }
+    }
+
+    private static <T> T _execute(Supplier<T> supplier) {
+        try {
+            return supplier.get();
+        } catch (Exception ex) {
+            logger.warn(ex.getMessage(), ex);
+            return null;
+        }
+    }
+
+    private static <T, R> R _execute(Function<T, R> function, T arg) {
+        try {
+            return function.apply(arg);
+        } catch (Exception ex) {
+            logger.warn(ex.getMessage(), ex);
+            return null;
+        }
+    }
 }

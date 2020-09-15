@@ -31,8 +31,8 @@ import static org.scadalts.e2e.common.utils.ExecutorUtil.executeFunction;
 public class TestWithoutPageUtil {
 
     public static void preparingTest() {
+        _setup();
         if(!isLogged()) {
-            _setup();
             _login();
         }
     }
@@ -52,13 +52,6 @@ public class TestWithoutPageUtil {
         } catch (Exception e) {
             logger.warn(e.getMessage(), e);
             return false;
-        }
-    }
-
-    public static E2eResponse<String> login(LoginParams cmpParams) {
-        try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
-            Optional<E2eResponse<String>> responseOpt = loginServiceObject.login(cmpParams, TestImplConfiguration.timeout);
-            return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
 
@@ -137,11 +130,12 @@ public class TestWithoutPageUtil {
         }
     }
 
-    public static E2eResponse<List<StorungAlarmResponse>> getLiveAlarms(PaginationParams paginationParams, Predicate<List<StorungAlarmResponse>> expected) {
+    public static E2eResponse<List<StorungAlarmResponse>> getLiveAlarms(PaginationParams paginationParams,
+                                                                        Predicate<List<StorungAlarmResponse>> whileNot) {
         try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
             Optional<E2eResponse<List<StorungAlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getLiveAlarms(paginationParams,
-                    expected, TestImplConfiguration.timeout);
+                    whileNot, TestImplConfiguration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
@@ -158,9 +152,24 @@ public class TestWithoutPageUtil {
     public static E2eResponse<AcknowledgeResponse> acknowledgeAlarm(String id, long timeout) {
         try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
-            Optional<E2eResponse<AcknowledgeResponse>> responseOpt = storungsAndAlarmsServiceObject.acknowledgeAlarm(id,
+            Optional<E2eResponse<AcknowledgeResponse>> responseOpt = storungsAndAlarmsServiceObject.acknowledge(id,
                     timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    private static void _login() {
+        LoginParams loginParams = LoginParams.builder()
+                .userName(E2eConfiguration.userName)
+                .password(E2eConfiguration.password)
+                .build();
+
+        E2eResponse<String> response = executeFunction(TestWithoutPageUtil::_login,loginParams,ApplicationIsNotAvailableException::new);
+
+        E2eConfiguration.sessionId = response.getSessionId();
+        ServiceObjectConfigurator.init(E2eConfiguration.sessionId);
+        if(!_isLogged(response)) {
+            throw new E2eAuthenticationException(E2eConfiguration.userName);
         }
     }
 
@@ -174,18 +183,10 @@ public class TestWithoutPageUtil {
         TestImplConfigurator.init();
     }
 
-    private static void _login() {
-        LoginParams loginParams = LoginParams.builder()
-                .userName(E2eConfiguration.userName)
-                .password(E2eConfiguration.password)
-                .build();
-
-        E2eResponse<String> response = executeFunction(TestWithoutPageUtil::login,loginParams,ApplicationIsNotAvailableException::new);
-
-        E2eConfiguration.sessionId = response.getSessionId();
-        ServiceObjectConfigurator.init(E2eConfiguration.sessionId);
-        if(!_isLogged(response)) {
-            throw new E2eAuthenticationException(E2eConfiguration.userName);
+    private static E2eResponse<String> _login(LoginParams cmpParams) {
+        try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
+            Optional<E2eResponse<String>> responseOpt = loginServiceObject.login(cmpParams, TestImplConfiguration.timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
 }

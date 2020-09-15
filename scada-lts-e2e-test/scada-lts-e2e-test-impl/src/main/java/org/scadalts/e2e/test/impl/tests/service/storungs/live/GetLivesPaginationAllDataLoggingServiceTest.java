@@ -24,13 +24,11 @@ import java.util.stream.Stream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.EXPECTED_LARGER_OR_EQUALS_TO_X_ALARMS_STORUNGS_BUT_WAS_Y;
-import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.EXPECTED_X_ALARMS_STORUNGS;
-import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.getStorungsAndAlarms;
+import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
 @RunWith(TestParameterizedWithPageRunner.class)
-public class GetLivesPaginationServiceTest {
+public class GetLivesPaginationAllDataLoggingServiceTest {
 
     @Parameterized.Parameters(name = "{index}: offset: {0}, limit: {1}")
     public static Object[][] data() {
@@ -45,7 +43,7 @@ public class GetLivesPaginationServiceTest {
     private final int offset;
     private final int limit;
 
-    public GetLivesPaginationServiceTest(int offset, int limit) {
+    public GetLivesPaginationAllDataLoggingServiceTest(int offset, int limit) {
         this.offset = offset;
         this.limit = limit;
     }
@@ -74,7 +72,7 @@ public class GetLivesPaginationServiceTest {
         };
 
         DataPointCriteria[] points = Stream.of(idnetifiers)
-                .map(a -> DataPointCriteria.noChange(a, "0"))
+                .map(a -> DataPointCriteria.noChangeAllDataLogging(a, "0"))
                 .toArray(a -> new DataPointCriteria[10]);
 
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
@@ -83,10 +81,13 @@ public class GetLivesPaginationServiceTest {
         storungsAndAlarmsObjectsCreator.createObjects();
         storungsAndAlarmsObjectsCreator.setDataPointValue("1");
 
+
         PaginationParams pagination10 = PaginationParams.builder()
                 .limit(10)
                 .offset(0)
                 .build();
+
+        sleep();
 
         //when:
         getResult10 = getStorungsAndAlarms(pagination10);
@@ -130,7 +131,6 @@ public class GetLivesPaginationServiceTest {
 
         //when:
         List<StorungAlarmResponse> getResult = getStorungsAndAlarms(paginationToTest);
-
 
         //then:
         assertNotNull(getResult);

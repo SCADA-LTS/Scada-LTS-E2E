@@ -3,6 +3,7 @@ package org.scadalts.e2e.test.impl.utils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.json.DataSourceCriteriaJson;
@@ -56,6 +57,7 @@ public class JsonUtil {
     private static List<DataSourceCriteriaJson> _parse(File json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         return objectMapper.readValue(json, new TypeReference<List<DataSourceCriteriaJson>>() {});
     }
 

@@ -24,100 +24,88 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
     private final @Min(1) int updatePeriodValue;
     private final boolean enabled;
 
+    private static final UpdatePeriodType UPDATE_PERIOD_TYPE_DEFAULT = UpdatePeriodType.SECOND;
+    private static final DataSourceType DATA_SOURCE_TYPE_DEFAULT = DataSourceType.VIRTUAL_DATA_SOURCE;
+    private static final int UPDATE_PERIOD_VALUE_DEFAULT = 1;
+
     public static DataSourceCriteria virtualDataSourceSecond() {
-        DataSourceType dataSourceType = DataSourceType.VIRTUAL_DATA_SOURCE;
-        UpdatePeriodType updatePeriodType = UpdatePeriodType.SECOND;
-        Xid xid = Xid.xidForDataSource();
-        int updatePeriodValue = 2;
         return DataSourceCriteria.builder()
-                .identifier(IdentifierObjectFactory.dataSourceName(dataSourceType))
-                .updatePeriodType(updatePeriodType)
-                .xid(xid)
+                .identifier(IdentifierObjectFactory.dataSourceName(DATA_SOURCE_TYPE_DEFAULT))
+                .updatePeriodType(UPDATE_PERIOD_TYPE_DEFAULT)
+                .xid(Xid.xidForDataSource())
                 .enabled(true)
-                .updatePeriodValue(updatePeriodValue)
+                .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
                 .build();
     }
 
     public static DataSourceCriteria criteriaSecond(DataSourceIdentifier identifier) {
-        UpdatePeriodType updatePeriodType = UpdatePeriodType.SECOND;
-        Xid xid = Xid.xidForDataSource();
-        int updatePeriodValue = 2;
         return DataSourceCriteria.builder()
                 .identifier(identifier)
-                .updatePeriodType(updatePeriodType)
-                .xid(xid)
+                .updatePeriodType(UPDATE_PERIOD_TYPE_DEFAULT)
+                .xid(Xid.xidForDataSource())
                 .enabled(true)
-                .updatePeriodValue(updatePeriodValue)
+                .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
                 .build();
     }
 
     public static DataSourceCriteria criteria(DataSourceIdentifier identifier, UpdatePeriodType updatePeriodType,
                                               int updatePeriodValue) {
-        Xid xid = Xid.xidForDataSource();
         return DataSourceCriteria.builder()
                 .identifier(identifier)
                 .updatePeriodType(updatePeriodType)
-                .xid(xid)
+                .xid(Xid.xidForDataSource())
                 .enabled(true)
                 .updatePeriodValue(updatePeriodValue)
                 .build();
     }
 
     public static DataSourceCriteria virtualDataSource(UpdatePeriodType updatePeriodType, int updatePeriodValue) {
-        DataSourceType dataSourceType = DataSourceType.VIRTUAL_DATA_SOURCE;
-        Xid xid = Xid.xidForDataSource();
         return DataSourceCriteria.builder()
-                .identifier(IdentifierObjectFactory.dataSourceName(dataSourceType))
+                .identifier(IdentifierObjectFactory.dataSourceName(DATA_SOURCE_TYPE_DEFAULT))
                 .updatePeriodType(updatePeriodType)
-                .xid(xid)
+                .xid(Xid.xidForDataSource())
                 .enabled(true)
                 .updatePeriodValue(updatePeriodValue)
                 .build();
     }
 
     public static DataSourceCriteria criteria(DataSourceIdentifier identifier, UpdatePeriodType updatePeriodType) {
-        Xid xid = Xid.xidForDataSource();
         return DataSourceCriteria.builder()
                 .identifier(identifier)
                 .updatePeriodType(updatePeriodType)
-                .xid(xid)
+                .xid(Xid.xidForDataSource())
                 .enabled(true)
-                .updatePeriodValue(2)
+                .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
                 .build();
     }
 
     public static DataSourceCriteria criteriaSecond(DataSourceIdentifier identifier, boolean enabled) {
-        Xid xid = Xid.xidForDataSource();
         return DataSourceCriteria.builder()
                 .identifier(identifier)
-                .updatePeriodType(UpdatePeriodType.SECOND)
-                .xid(xid)
+                .updatePeriodType(UPDATE_PERIOD_TYPE_DEFAULT)
+                .xid(Xid.xidForDataSource())
                 .enabled(enabled)
-                .updatePeriodValue(2)
+                .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
                 .build();
     }
 
     public static DataSourceCriteria criteriaPeriodTypeAny(DataSourceIdentifier identifier, boolean enabled) {
-        Xid xid = Xid.xidForDataSource();
         return DataSourceCriteria.builder()
                 .identifier(identifier)
                 .updatePeriodType(UpdatePeriodType.ANY)
-                .xid(xid)
+                .xid(Xid.xidForDataSource())
                 .enabled(enabled)
-                .updatePeriodValue(2)
+                .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
                 .build();
     }
 
     public static DataSourceCriteria virtualDataSourceSecond(Xid xid) {
-        DataSourceType dataSourceType = DataSourceType.VIRTUAL_DATA_SOURCE;
-        UpdatePeriodType updatePeriodType = UpdatePeriodType.SECOND;
-        int updatePeriodValue = 2;
         return DataSourceCriteria.builder()
-                .identifier(IdentifierObjectFactory.dataSourceName(dataSourceType))
-                .updatePeriodType(updatePeriodType)
+                .identifier(IdentifierObjectFactory.dataSourceName(DATA_SOURCE_TYPE_DEFAULT))
+                .updatePeriodType(UPDATE_PERIOD_TYPE_DEFAULT)
                 .xid(xid)
                 .enabled(true)
-                .updatePeriodValue(updatePeriodValue)
+                .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
                 .build();
     }
 

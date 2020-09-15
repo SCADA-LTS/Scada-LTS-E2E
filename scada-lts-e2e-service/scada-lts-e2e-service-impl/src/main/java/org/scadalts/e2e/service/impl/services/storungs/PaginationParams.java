@@ -15,4 +15,13 @@ public class PaginationParams {
 
     private int offset;
     private int limit;
+
+    private static final PaginationParams ALL = PaginationParams.builder()
+            .offset(0)
+            .limit(9999)
+            .build();
+
+    public static PaginationParams all() {
+        return ALL;
+    }
 }

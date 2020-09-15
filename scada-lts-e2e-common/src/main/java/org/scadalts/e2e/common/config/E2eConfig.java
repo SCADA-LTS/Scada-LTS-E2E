@@ -14,7 +14,7 @@ public interface E2eConfig {
 
     AuthType getAuthType();
 
-    TestPlan getTestPlan();
+    TestPlan[] getTestPlans();
 
     java.net.URL getUrlAppBeingTested();
 
@@ -67,8 +67,6 @@ public interface E2eConfig {
     String[] getBrowserOptionsPrefs();
 
     org.apache.logging.log4j.Level getLogLevel();
-
-    int getCtrlCode();
 
     int getTimeoutMs();
 
