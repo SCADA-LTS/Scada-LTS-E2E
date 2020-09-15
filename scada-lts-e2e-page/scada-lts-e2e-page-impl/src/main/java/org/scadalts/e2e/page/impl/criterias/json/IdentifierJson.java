@@ -9,7 +9,7 @@ import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 @Data
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class IdentifierJson<T extends DictionaryObject> implements IdentifierObject {
+public class IdentifierJson<T extends DictionaryObject> {
 
     private String value;
     private T type;

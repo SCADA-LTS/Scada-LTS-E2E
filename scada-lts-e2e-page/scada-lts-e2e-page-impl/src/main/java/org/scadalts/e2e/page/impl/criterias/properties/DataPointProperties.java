@@ -1,9 +1,6 @@
 package org.scadalts.e2e.page.impl.criterias.properties;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Singular;
+import lombok.*;
 import org.scadalts.e2e.common.dicts.DictionaryObject;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.dicts.EngineeringUnit;

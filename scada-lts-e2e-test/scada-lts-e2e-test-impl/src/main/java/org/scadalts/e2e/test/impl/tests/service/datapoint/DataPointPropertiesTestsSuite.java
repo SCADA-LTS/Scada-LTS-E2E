@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
         DataPointChartRendererPropertiesServiceTest.class,
         DataPointLoggingPropertiesServiceTest.class,
         DataPointTextRendererPropertiesServiceTest.class,
-        DataPointUnitsPropertiesServiceTest.class
+        DataPointUnitsPropertiesServiceTest.class,
+        EventDetectorPropertiesServiceTest.class
 })
 public class DataPointPropertiesTestsSuite {
 }

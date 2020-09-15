@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Log4j2
 public class JsonUtil {
 
-    public static File toJsonFile(List<DataSourceCriteria> criterias, String fileName) {
+    public static File serialize(List<DataSourceCriteria> criterias, String fileName) {
 
         List<DataSourceCriteriaJson> jsonCriterias = criterias.stream()
                 .map(a -> DataSourceCriteriaJson.builder()
@@ -36,16 +36,16 @@ public class JsonUtil {
         }
     }
 
-    public static List<DataSourceCriteriaJson> toList(String fileName) {
+    public static List<DataSourceCriteriaJson> deserialize(String fileName) {
         try {
-            return _toList(fileName);
+            return _deserialize(fileName);
         } catch (IOException e) {
             logger.warn(e.getMessage(), e);
             return Collections.emptyList();
         }
     }
 
-    private static List<DataSourceCriteriaJson> _toList(String fileName) throws IOException {
+    private static List<DataSourceCriteriaJson> _deserialize(String fileName) throws IOException {
         File json = _preparingFile(fileName);
         if(json.length() == 0) {
             logger.warn("File is empty: {}", fileName);
@@ -75,6 +75,7 @@ public class JsonUtil {
 
     private static void _serialize(File json, List<DataSourceCriteriaJson> criterias) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         objectMapper.writeValue(json, criterias);
     }
 }

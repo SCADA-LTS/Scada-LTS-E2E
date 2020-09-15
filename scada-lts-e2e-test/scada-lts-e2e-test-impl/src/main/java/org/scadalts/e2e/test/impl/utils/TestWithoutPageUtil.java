@@ -34,6 +34,8 @@ public class TestWithoutPageUtil {
         _setup();
         if(!isLogged()) {
             _login();
+            if(!isLogged())
+                throw new E2eAuthenticationException(E2eConfiguration.userName);
         }
     }
 

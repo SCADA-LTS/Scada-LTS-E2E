@@ -9,11 +9,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ToString
 @XmlRootElement
 @EqualsAndHashCode
-@NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DataPointPropertiesResponse {
 
     private DataPointPropertiesJson dataPoints;
+
+    public DataPointPropertiesResponse() {
+        this.dataPoints = new DataPointPropertiesJson();
+    }
 
 }

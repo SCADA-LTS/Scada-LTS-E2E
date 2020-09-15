@@ -11,21 +11,24 @@ public interface JavascriptExecutable {
 
     Logger LOGGER = LogManager.getLogger(JavascriptExecutable.class);
 
-    default Object executeJs(String script) {
+    default Optional<Object> executeJs(String script) {
         try {
             RemoteWebDriver webDriver = E2eWebDriverProvider.getDriver();
-            return webDriver.executeScript(script);
+            return Optional.ofNullable(webDriver.executeScript(script));
         } catch (Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
-            return new Object();
+            return Optional.empty();
         }
     }
 
     default <T> Optional<T> executeJs(JavascriptProvider script, Class<T> returnType) {
         try {
-            Object object = executeJs(script.getScriptToExecute());
-            T result = returnType.cast(object);
-            return Optional.ofNullable(result);
+            Optional<Object> object = executeJs(script.getScriptToExecute());
+            if(object.isPresent()) {
+                T result = returnType.cast(object.get());
+                return Optional.of(result);
+            }
+            return Optional.empty();
         } catch (Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
             return Optional.empty();
@@ -34,8 +37,7 @@ public interface JavascriptExecutable {
 
     default long executeJsLong(JavascriptProvider script) {
         try {
-            Object result = executeJs(script.getScriptToExecute());
-            return (long) result;
+            return (long) executeJs(script.getScriptToExecute()).orElse(-1L);
         } catch (Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
             return -2L;
@@ -44,8 +46,7 @@ public interface JavascriptExecutable {
 
     default int executeJsInt(JavascriptProvider script) {
         try {
-            Object result = executeJs(script.getScriptToExecute());
-            return (int) result;
+            return (int) executeJs(script.getScriptToExecute()).orElse(-1);
         } catch (Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
             return -2;
@@ -54,8 +55,7 @@ public interface JavascriptExecutable {
 
     default double executeJsDouble(JavascriptProvider script) {
         try {
-            Object result = executeJs(script.getScriptToExecute());
-            return (double) result;
+            return (double) executeJs(script.getScriptToExecute()).orElse(-1.0);
         } catch (Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
             return -2d;
@@ -64,8 +64,7 @@ public interface JavascriptExecutable {
 
     default boolean executeJsBoolean(JavascriptProvider script) {
         try {
-            Object result = executeJs(script.getScriptToExecute());
-            return (boolean) result;
+            return (boolean) executeJs(script.getScriptToExecute()).orElse(false);
         } catch (Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
             return false;

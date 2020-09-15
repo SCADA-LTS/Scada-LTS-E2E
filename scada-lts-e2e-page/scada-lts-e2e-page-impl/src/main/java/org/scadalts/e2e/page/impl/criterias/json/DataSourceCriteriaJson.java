@@ -9,6 +9,7 @@ import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
 @Data
@@ -43,5 +44,11 @@ public class DataSourceCriteriaJson {
     public int hashCode() {
 
         return Objects.hash(getIdentifier());
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("name: {0}, type: {1}, enabled: {2}", identifier.getValue(),
+                identifier.getType(), enabled);
     }
 }
