@@ -100,12 +100,15 @@ public class E2eSummary implements E2eSummarable {
     private static TestStatus _reduce(List<E2eResult> list) {
         if(list.isEmpty())
             return TestStatus.NONE;
-        if(list.size() > 1) {
-            if(list.get(1).wasSuccessful())
-                return TestStatus.NON_DETERMINISTIC_ERROR;
-            return TestStatus.ERROR;
-        }
-        return list.get(0).wasSuccessful() ? TestStatus.OK : TestStatus.ERROR;
+        int error = _calcErrors(list);
+        if(error == 0)
+            return TestStatus.OK;
+        if(error < list.size())
+            return TestStatus.NON_DETERMINISTIC_ERROR;
+        return TestStatus.ERROR;
     }
 
+    private static int _calcErrors(List<E2eResult> list) {
+        return (int)list.stream().filter(a -> !a.wasSuccessful()).count();
+    }
 }
