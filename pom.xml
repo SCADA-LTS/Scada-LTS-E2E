@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>18.13.0-SNAPSHOT</version>
+    <version>18.13.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -55,6 +55,7 @@
         <caffeine.version>2.8.1</caffeine.version>
         <log4j-slf4j-impl.version>2.13.0</log4j-slf4j-impl.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
+        <commons-logging.version>1.2</commons-logging.version>
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
@@ -117,6 +118,11 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-slf4j-impl</artifactId>
                 <version>${log4j-slf4j-impl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>${commons-logging.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -288,6 +294,10 @@
                         <groupId>org.apache.logging.log4j</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -307,6 +317,10 @@
                         <groupId>org.apache.logging.log4j</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -324,6 +338,10 @@
                     </exclusion>
                     <exclusion>
                         <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
                 </exclusions>
@@ -350,6 +368,10 @@
                         <groupId>org.apache.logging.log4j</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -371,6 +393,10 @@
                         <groupId>org.apache.logging.log4j</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -390,6 +416,10 @@
                         <groupId>org.apache.logging.log4j</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -407,6 +437,10 @@
                     </exclusion>
                     <exclusion>
                         <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
                 </exclusions>
@@ -550,6 +584,10 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
