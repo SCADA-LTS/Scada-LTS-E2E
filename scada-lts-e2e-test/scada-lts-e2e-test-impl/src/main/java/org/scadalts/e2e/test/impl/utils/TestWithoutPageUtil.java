@@ -8,6 +8,8 @@ import org.scadalts.e2e.common.exceptions.E2eAuthenticationException;
 import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.*;
+import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorParams;
+import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorResponse;
 import org.scadalts.e2e.service.impl.services.storungs.AcknowledgeResponse;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
@@ -191,4 +193,19 @@ public class TestWithoutPageUtil {
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
+
+    public static E2eResponse<List<EventDetectorResponse>> getEventDetectors(EventDetectorParams eventDetectorParams) {
+        return getEventDetectors(eventDetectorParams, TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<List<EventDetectorResponse>> getEventDetectors(EventDetectorParams eventDetectorParams, long timeout) {
+        try (EventDetectorServiceObject eventDetectorServiceObject =
+                     ServiceObjectFactory.newEventDetectorServiceObject()) {
+            Optional<E2eResponse<List<EventDetectorResponse>>> responseOpt = eventDetectorServiceObject.getEventDetectorsByXid(eventDetectorParams,
+                    timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+
 }
