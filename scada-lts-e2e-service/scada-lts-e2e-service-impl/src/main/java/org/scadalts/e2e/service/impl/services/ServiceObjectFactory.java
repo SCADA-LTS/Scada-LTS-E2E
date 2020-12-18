@@ -53,4 +53,12 @@ public interface ServiceObjectFactory {
                 .baseUrl(E2eConfiguration.baseUrl)
                 .build();
     }
+
+    static EventHandlerServiceObject newEventHandlerServiceObject() {
+        return EventHandlerServiceObject.builder()
+                .client(ClientBuilder.newClient()
+                        .register(new JacksonJsonProvider()))
+                .baseUrl(E2eConfiguration.baseUrl)
+                .build();
+    }
 }

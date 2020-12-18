@@ -10,6 +10,7 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.*;
 import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorParams;
 import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorResponse;
+import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerResponse;
 import org.scadalts.e2e.service.impl.services.storungs.AcknowledgeResponse;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
@@ -203,6 +204,18 @@ public class TestWithoutPageUtil {
                      ServiceObjectFactory.newEventDetectorServiceObject()) {
             Optional<E2eResponse<List<EventDetectorResponse>>> responseOpt = eventDetectorServiceObject.getEventDetectorsByXid(eventDetectorParams,
                     timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<List<EventHandlerResponse>> getEventHandlers() {
+        return getEventHandlers(TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<List<EventHandlerResponse>> getEventHandlers(long timeout) {
+        try (EventHandlerServiceObject eventHandlerServiceObject =
+                     ServiceObjectFactory.newEventHandlerServiceObject()) {
+            Optional<E2eResponse<List<EventHandlerResponse>>> responseOpt = eventHandlerServiceObject.getAllEventHandlers(timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }

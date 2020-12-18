@@ -1,5 +1,6 @@
 package org.scadalts.e2e.service.impl.services.eventDetector;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 @Getter
@@ -8,6 +9,7 @@ import lombok.*;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EventDetectorResponse {
     private int id;
     private String xid;
