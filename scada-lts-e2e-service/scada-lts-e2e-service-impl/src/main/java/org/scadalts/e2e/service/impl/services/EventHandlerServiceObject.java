@@ -11,10 +11,13 @@ import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
 import org.scadalts.e2e.service.core.sessions.CookieFactory;
 import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorParams;
+import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorPostResponse;
 import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorResponse;
+import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerParams;
 import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerResponse;
 
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -37,7 +40,7 @@ public class EventHandlerServiceObject implements WebServiceObject {
 
     public Optional<E2eResponse<List<EventHandlerResponse>>> getAllEventHandlers(long timeout) {
         try {
-            E2eResponse<List<EventHandlerResponse>> response = _getAllEventHandlers();
+            E2eResponse<List<EventHandlerResponse>> response = executeWhile(this::_getAllEventHandlers, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -60,9 +63,62 @@ public class EventHandlerServiceObject implements WebServiceObject {
         return E2eResponseFactory.newResponse(response, list);
     }
 
+    public Optional<E2eResponse<EventHandlerResponse>> getEventHandlerByXid(EventHandlerParams eventHandlerParams, long timeout) {
+        try {
+            E2eResponse<EventHandlerResponse> response = applyWhile(this::_getEventHandlerByXid, eventHandlerParams, new StabilityUtil.Timeout(timeout));
+            return Optional.ofNullable(response);
+        } catch (Throwable e) {
+            logger.error(e.getMessage(), e);
+            return Optional.empty();
+        }
+    }
+
+    private E2eResponse<EventHandlerResponse> _getEventHandlerByXid(EventHandlerParams eventHandlerParams) {
+        String endpoint = baseUrl + "/api/eventHandler/get/";
+        Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
+        logger.info("params: {}", eventHandlerParams.getXid());
+        logger.info("endpoint: {}", endpoint);
+        logger.info("cookie: {}", cookie);
+        MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
+        Response response = client
+                .target(endpoint)
+                .request(mediaType)
+                .cookie(cookie)
+                .get();
+        return E2eResponseFactory.newResponse(response, EventHandlerResponse.class);
+    }
+
     private List<EventHandlerResponse> _getList(Response response) {
         return HttpUtils.isPayloadEmpty(response.getStringHeaders()) ? Collections.emptyList()
                 : response.readEntity(new GenericType<List<EventHandlerResponse>>() {});
+    }
+
+    public Optional<E2eResponse<String>> createEventHandlerTypeScript(EventHandlerParams eventHandlerParams, long timeout) {
+        try {
+            E2eResponse<String> response = applyWhile(this::_createEventHandlerTypeScript, eventHandlerParams, new StabilityUtil.Timeout(timeout));
+            return Optional.ofNullable(response);
+        } catch (Throwable e) {
+            logger.error(e.getMessage(), e);
+            return Optional.empty();
+        }
+    }
+
+    private E2eResponse<String> _createEventHandlerTypeScript(EventHandlerParams eventHandlerParams) {
+        String endpoint = baseUrl + "/api/eventHandler/set/{typeId}/{typeRef1}/{typeRef2}/4";
+        Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
+        logger.info("params: {} {} {}", eventHandlerParams.getTypeId(), eventHandlerParams.getTypeRef1(), eventHandlerParams.getTypeRef2());
+        logger.info("endpoint: {}", endpoint);
+        logger.info("cookie: {}", cookie);
+        MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
+        Response response = client
+                .target(endpoint)
+                .path(String.valueOf(eventHandlerParams.getTypeId()))
+                .path(String.valueOf(eventHandlerParams.getTypeRef1()))
+                .path(String.valueOf(eventHandlerParams.getTypeRef2()))
+                .request(mediaType)
+                .cookie(cookie)
+                .post(null);
+        return E2eResponseFactory.newResponse(response, String.class);
     }
 
     @Override

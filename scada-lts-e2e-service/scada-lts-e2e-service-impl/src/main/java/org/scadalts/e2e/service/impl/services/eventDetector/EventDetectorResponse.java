@@ -2,6 +2,9 @@ package org.scadalts.e2e.service.impl.services.eventDetector;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.scadalts.e2e.service.core.services.WebServiceObjectParams;
+
+import java.io.Serializable;
 
 @Getter
 @Builder
@@ -10,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EventDetectorResponse {
+public class EventDetectorResponse implements Serializable {
     private int id;
     private String xid;
     private String alias;

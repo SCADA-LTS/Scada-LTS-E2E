@@ -10,19 +10,23 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
 import org.scadalts.e2e.service.core.sessions.CookieFactory;
+import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorParams;
+import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorPostResponse;
 import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorResponse;
+import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import static org.scadalts.e2e.service.core.utils.ServiceStabilityUtil.applyWhile;
 
@@ -63,6 +67,36 @@ public class EventDetectorServiceObject implements WebServiceObject {
     private List<EventDetectorResponse> _getList(Response response) {
         return HttpUtils.isPayloadEmpty(response.getStringHeaders()) ? Collections.emptyList()
                 : response.readEntity(new GenericType<List<EventDetectorResponse>>() {});
+    }
+
+    public Optional<E2eResponse<EventDetectorPostResponse>> setEventDetector(EventDetectorParams eventDetectorParams, long timeout) {
+        try {
+            E2eResponse<EventDetectorPostResponse> response = applyWhile(this::_setBinaryStateEventDetector, eventDetectorParams, new StabilityUtil.Timeout(timeout));
+            return Optional.ofNullable(response);
+        } catch (Throwable e) {
+            logger.error(e.getMessage(), e);
+            return Optional.empty();
+        }
+    }
+
+    private E2eResponse<EventDetectorPostResponse> _setBinaryStateEventDetector(EventDetectorParams eventDetectorParams) {
+        String endpoint = baseUrl + "/api/eventDetector/set/binary/state/xid/";
+        Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
+        logger.info("params: {}", eventDetectorParams.getXid());
+        logger.info("endpoint: {}", endpoint);
+        logger.info("cookie: {}", cookie);
+        logger.info("body: {}", eventDetectorParams.getBody());
+        MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
+        Response response = client
+                .target(endpoint)
+                .path(eventDetectorParams.getXid())
+                .request(mediaType)
+                .cookie(cookie)
+//                .post(Entity.entity(new EventDetectorResponse[]{eventDetectorParams.getBody()}, mediaType));
+                .post(Entity.entity(eventDetectorParams.getBody(), MediaType.APPLICATION_JSON));
+//        String res = response.readEntity(String.class);
+//                .post(null);
+        return E2eResponseFactory.newResponse(response, EventDetectorPostResponse.class);
     }
 
     @Override

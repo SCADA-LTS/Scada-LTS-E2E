@@ -12,6 +12,7 @@ import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorParams;
 import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorResponse;
+import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerParams;
 import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerResponse;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
@@ -44,7 +45,7 @@ public class EventHandlerServiceTest {
                 EventDetectorCriteria.criteria(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE), AlarmLevel.INFORMATION, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
         eventDetectorObjectsCreator = new EventDetectorObjectsCreator(TestWithPageUtil.getNavigationPage(), eventDetectorCriteria);
         Xid xidExpected = Xid.xidForEventHandler();
-        EventHandlerType eventHandlerTypeExpected = EventHandlerType.EMAIL;
+        EventHandlerType eventHandlerTypeExpected = EventHandlerType.SCRIPT;
         EventHandlerIdentifier eventHandlerIdentifierExpected = new EventHandlerIdentifier("eventhandler_test_create", eventHandlerTypeExpected);
         eventHandlerCriteria = EventHandlerCriteria.builder()
                 .identifier(eventHandlerIdentifierExpected)
@@ -54,9 +55,10 @@ public class EventHandlerServiceTest {
                 .eventDetectorCriteria(eventDetectorCriteria)
                 .disabled(true)
                 .build();
-        eventHandlerObjectsCreator = new EventHandlerObjectsCreator(TestWithPageUtil.getNavigationPage(), eventHandlerCriteria);
         dataSourcePointObjectsCreator.createObjects();
         eventDetectorObjectsCreator.createObjects();
+        eventHandlerObjectsCreator = new EventHandlerObjectsCreator(TestWithPageUtil.getNavigationPage(), eventHandlerCriteria);
+        eventHandlerObjectsCreator.createObjects();
         dataPointXid = dataPointCriteria.getXid().getValue();
     }
 
@@ -76,6 +78,50 @@ public class EventHandlerServiceTest {
         //then:
         assertEquals(200, getResponse.getStatus());
     }
+
+    @Test
+    public void test_eventHandler_type() {
+
+        //when:
+        E2eResponse<List<EventHandlerResponse>> getResponse = TestWithoutPageUtil.getEventHandlers();
+
+        //then:
+        assertEquals(Integer.parseInt(EventHandlerType.SCRIPT.getId()), getResponse.getValue().get(0).getHandlerType());
+    }
+
+    @Test
+    public void test_getEventHandlerByXid_then_status_http_200() {
+
+        //given:
+        EventHandlerParams eventHandlerParams = new EventHandlerParams();
+        eventHandlerParams.setXid(eventDetectorCriteria.getXid().getValue());
+
+        //when:
+        E2eResponse<EventHandlerResponse> getResponse = TestWithoutPageUtil.getEventHandlerByXid(eventHandlerParams);
+
+        //then:
+        assertEquals(200, getResponse.getStatus());
+    }
+
+    @Test
+    public void test_createEventHandlerTypeScript_then_status_http_200() {
+
+        //given:
+        EventHandlerParams eventHandlerParams = new EventHandlerParams();
+        eventHandlerParams.setTypeId(1);
+//        eventHandlerParams.setTypeRef1();
+//        eventHandlerParams.setTypeRef2();
+
+        //when:
+        E2eResponse<String> setResponse = TestWithoutPageUtil.createEventHandlerTypeScript(eventHandlerParams);
+
+        //then:
+        assertEquals(200, setResponse.getStatus());
+    }
+
+
+
+
 }
 
 
