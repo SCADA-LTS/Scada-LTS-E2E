@@ -10,19 +10,14 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
 import org.scadalts.e2e.service.core.sessions.CookieFactory;
-import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorParams;
-import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorPostResponse;
-import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorResponse;
 import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerParams;
 import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerResponse;
 
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
@@ -82,6 +77,7 @@ public class EventHandlerServiceObject implements WebServiceObject {
         MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
         Response response = client
                 .target(endpoint)
+                .path(eventHandlerParams.getXid())
                 .request(mediaType)
                 .cookie(cookie)
                 .get();

@@ -69,7 +69,7 @@ public abstract class E2eResponseFactory {
     private static <T> T _getValue(Response response, Class<T> resClass) {
         MediaType mediaType = _getMediaType(response);
         return _unformat(isPayloadEmpty(response.getStringHeaders()) ? null
-                : mediaType == MediaType.APPLICATION_JSON_TYPE ? response.readEntity(resClass)
+                : MediaType.APPLICATION_JSON_TYPE.isCompatible(mediaType) ? response.readEntity(resClass)
                 : _newInstance(resClass));
     }
 

@@ -10,11 +10,9 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
 import org.scadalts.e2e.service.core.sessions.CookieFactory;
-import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorParams;
 import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorPostResponse;
 import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorResponse;
-import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -26,7 +24,6 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 import static org.scadalts.e2e.service.core.utils.ServiceStabilityUtil.applyWhile;
 
@@ -92,10 +89,7 @@ public class EventDetectorServiceObject implements WebServiceObject {
                 .path(eventDetectorParams.getXid())
                 .request(mediaType)
                 .cookie(cookie)
-//                .post(Entity.entity(new EventDetectorResponse[]{eventDetectorParams.getBody()}, mediaType));
                 .post(Entity.entity(eventDetectorParams.getBody(), MediaType.APPLICATION_JSON));
-//        String res = response.readEntity(String.class);
-//                .post(null);
         return E2eResponseFactory.newResponse(response, EventDetectorPostResponse.class);
     }
 
