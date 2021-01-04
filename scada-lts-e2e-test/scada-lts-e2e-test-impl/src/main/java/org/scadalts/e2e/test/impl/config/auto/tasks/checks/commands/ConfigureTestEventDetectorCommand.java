@@ -7,8 +7,11 @@ import org.scadalts.e2e.common.utils.ExecutorUtil;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.EventDetectorIdentifier;
+import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
+import org.scadalts.e2e.page.impl.dicts.EventDetectorType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegister;
@@ -41,9 +44,9 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
         DataPointCriteria dataPointToReadCriteria = DataPointCriteria.noChange(dataPointToReadXid,
                 new DataPointIdentifier("datapoint_to_read", DataPointType.NUMERIC), "12345");
 
-        DataSourceIdentifier eventDetectorIdentifier = new DataSourceIdentifier(TestImplConfiguration.dataSourceNameEventDetectorTest,
+        DataSourceIdentifier dataSourceIdentifier = new DataSourceIdentifier(TestImplConfiguration.dataSourceNameEventDetectorTest,
                 DataSourceType.VIRTUAL_DATA_SOURCE);
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.criteriaSecond(eventDetectorIdentifier);
+        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.criteriaSecond(dataSourceIdentifier);
 
         CreateOneDataSourceTwoPointsSubCommand createOneDataSourceTwoPointsSubCommand = CreateOneDataSourceTwoPointsSubCommand.builder()
                 .dataPoint1(dataPointToChangeCriteria)
@@ -54,9 +57,14 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
 
         createOneDataSourceTwoPointsSubCommand.execute();
 
+        EventDetectorIdentifier eventDetectorIdentifier =
+                new EventDetectorIdentifier("ed_event_detector_test",EventDetectorType.CHANGE);
+
         CreateEventDetectorSubCommand createEventDetectorSubCommand = CreateEventDetectorSubCommand.builder()
                 .dataPointCriteria(dataPointToChangeCriteria)
                 .dataSourceCriteria(dataSourceCriteria)
+                .eventDetectorIdentifier(eventDetectorIdentifier)
+                .alarmLevel(AlarmLevel.NONE)
                 .navigationPage(navigationPage)
                 .build();
 
