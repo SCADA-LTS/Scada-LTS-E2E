@@ -17,4 +17,5 @@ public class EventHandlerParams implements WebServiceObjectParams {
     private int typeId;
     private int typeRef1;
     private int typeRef2;
+    private EventHandlerResponse body;
 }

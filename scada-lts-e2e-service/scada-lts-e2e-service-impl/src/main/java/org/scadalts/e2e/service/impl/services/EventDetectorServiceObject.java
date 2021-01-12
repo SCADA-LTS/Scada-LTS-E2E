@@ -76,7 +76,7 @@ public class EventDetectorServiceObject implements WebServiceObject {
         }
     }
 
-    private E2eResponse<EventDetectorPostResponse> _setBinaryStateEventDetector(EventDetectorParams eventDetectorParams) {
+    public E2eResponse<EventDetectorPostResponse> _setBinaryStateEventDetector(EventDetectorParams eventDetectorParams) {
         String endpoint = baseUrl + "/api/eventDetector/set/binary/state/xid/";
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.info("params: {}", eventDetectorParams.getXid());

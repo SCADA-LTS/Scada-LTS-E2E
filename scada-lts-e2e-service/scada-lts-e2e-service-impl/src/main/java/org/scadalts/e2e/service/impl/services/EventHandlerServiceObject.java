@@ -14,11 +14,13 @@ import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerParams;
 import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerResponse;
 
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -89,9 +91,9 @@ public class EventHandlerServiceObject implements WebServiceObject {
                 : response.readEntity(new GenericType<List<EventHandlerResponse>>() {});
     }
 
-    public Optional<E2eResponse<String>> createEventHandlerTypeScript(EventHandlerParams eventHandlerParams, long timeout) {
+    public Optional<E2eResponse<String>> createEventHandlerTypeEmail(EventHandlerParams eventHandlerParams, long timeout) {
         try {
-            E2eResponse<String> response = applyWhile(this::_createEventHandlerTypeScript, eventHandlerParams, new StabilityUtil.Timeout(timeout));
+            E2eResponse<String> response = applyWhile(this::_createEventHandlerTypeEmail, eventHandlerParams, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -99,8 +101,12 @@ public class EventHandlerServiceObject implements WebServiceObject {
         }
     }
 
-    private E2eResponse<String> _createEventHandlerTypeScript(EventHandlerParams eventHandlerParams) {
-        String endpoint = baseUrl + "/api/eventHandler/set/{typeId}/{typeRef1}/{typeRef2}/4";
+    private E2eResponse<String> _createEventHandlerTypeEmail(EventHandlerParams eventHandlerParams) {
+        String endpoint = MessageFormat.format("{0}/api/eventHandler/set/{1}/{2}/{3}/2", baseUrl,
+                String.valueOf(eventHandlerParams.getTypeId()),
+                String.valueOf(eventHandlerParams.getTypeRef1()),
+                String.valueOf(eventHandlerParams.getTypeRef2())
+                );
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.info("params: {} {} {}", eventHandlerParams.getTypeId(), eventHandlerParams.getTypeRef1(), eventHandlerParams.getTypeRef2());
         logger.info("endpoint: {}", endpoint);
@@ -108,12 +114,9 @@ public class EventHandlerServiceObject implements WebServiceObject {
         MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
         Response response = client
                 .target(endpoint)
-                .path(String.valueOf(eventHandlerParams.getTypeId()))
-                .path(String.valueOf(eventHandlerParams.getTypeRef1()))
-                .path(String.valueOf(eventHandlerParams.getTypeRef2()))
                 .request(mediaType)
                 .cookie(cookie)
-                .post(null);
+                .post(Entity.entity(eventHandlerParams.getBody(), MediaType.APPLICATION_JSON));
         return E2eResponseFactory.newResponse(response, String.class);
     }
 

@@ -247,14 +247,14 @@ public class TestWithoutPageUtil {
         }
     }
 
-    public static E2eResponse<String> createEventHandlerTypeScript(EventHandlerParams eventHandlerParams) {
-        return createEventHandlerTypeScript(eventHandlerParams, TestImplConfiguration.timeout);
+    public static E2eResponse<String> createEventHandlerTypeEmail(EventHandlerParams eventHandlerParams) {
+        return createEventHandlerTypeEmail(eventHandlerParams, TestImplConfiguration.timeout);
     }
 
-    public static E2eResponse<String> createEventHandlerTypeScript(EventHandlerParams eventHandlerParams, long timeout) {
+    public static E2eResponse<String> createEventHandlerTypeEmail(EventHandlerParams eventHandlerParams, long timeout) {
         try (EventHandlerServiceObject eventHandlerServiceObject =
                      ServiceObjectFactory.newEventHandlerServiceObject()) {
-            Optional<E2eResponse<String>> responseOpt = eventHandlerServiceObject.createEventHandlerTypeScript(eventHandlerParams, timeout);
+            Optional<E2eResponse<String>> responseOpt = eventHandlerServiceObject.createEventHandlerTypeEmail(eventHandlerParams, timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
