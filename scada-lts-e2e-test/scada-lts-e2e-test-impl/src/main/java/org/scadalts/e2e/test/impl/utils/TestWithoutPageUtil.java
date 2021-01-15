@@ -8,11 +8,12 @@ import org.scadalts.e2e.common.exceptions.E2eAuthenticationException;
 import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.*;
-import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorParams;
-import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorPostResponse;
-import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorResponse;
-import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerParams;
-import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerResponse;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorParams;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorPostResponse;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorResponse;
+import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerGetParams;
+import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerPostParams;
+import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerResponse;
 import org.scadalts.e2e.service.impl.services.storungs.AcknowledgeResponse;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
@@ -235,26 +236,26 @@ public class TestWithoutPageUtil {
         }
     }
 
-    public static E2eResponse<EventHandlerResponse> getEventHandlerByXid(EventHandlerParams eventHandlerParams) {
-        return getEventHandlerByXid(eventHandlerParams, TestImplConfiguration.timeout);
+    public static E2eResponse<EventHandlerResponse> getEventHandlerByXid(EventHandlerGetParams eventHandlerGetParams) {
+        return getEventHandlerByXid(eventHandlerGetParams, TestImplConfiguration.timeout);
     }
 
-    public static E2eResponse<EventHandlerResponse> getEventHandlerByXid(EventHandlerParams eventHandlerParams, long timeout) {
+    public static E2eResponse<EventHandlerResponse> getEventHandlerByXid(EventHandlerGetParams eventHandlerGetParams, long timeout) {
         try (EventHandlerServiceObject eventHandlerServiceObject =
                      ServiceObjectFactory.newEventHandlerServiceObject()) {
-            Optional<E2eResponse<EventHandlerResponse>> responseOpt = eventHandlerServiceObject.getEventHandlerByXid(eventHandlerParams, timeout);
+            Optional<E2eResponse<EventHandlerResponse>> responseOpt = eventHandlerServiceObject.getEventHandlerByXid(eventHandlerGetParams, timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
 
-    public static E2eResponse<EventHandlerResponse> createEventHandler(EventHandlerParams eventHandlerParams) {
-        return createEventHandler(eventHandlerParams, TestImplConfiguration.timeout);
+    public static E2eResponse<EventHandlerResponse> createEventHandler(EventHandlerPostParams eventHandlerPostParams) {
+        return createEventHandler(eventHandlerPostParams, TestImplConfiguration.timeout);
     }
 
-    public static E2eResponse<EventHandlerResponse> createEventHandler(EventHandlerParams eventHandlerParams, long timeout) {
+    public static E2eResponse<EventHandlerResponse> createEventHandler(EventHandlerPostParams eventHandlerPostParams, long timeout) {
         try (EventHandlerServiceObject eventHandlerServiceObject =
                      ServiceObjectFactory.newEventHandlerServiceObject()) {
-            Optional<E2eResponse<EventHandlerResponse>> responseOpt = eventHandlerServiceObject.createEventHandler(eventHandlerParams, timeout);
+            Optional<E2eResponse<EventHandlerResponse>> responseOpt = eventHandlerServiceObject.createEventHandler(eventHandlerPostParams, timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }

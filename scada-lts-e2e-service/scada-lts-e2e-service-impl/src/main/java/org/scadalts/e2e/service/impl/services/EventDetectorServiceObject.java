@@ -10,9 +10,9 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
 import org.scadalts.e2e.service.core.sessions.CookieFactory;
-import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorParams;
-import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorPostResponse;
-import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorResponse;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorParams;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorPostResponse;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorResponse;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;

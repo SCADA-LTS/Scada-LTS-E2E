@@ -4,19 +4,21 @@ import org.scadalts.e2e.common.dicts.DictionaryObject;
 
 import java.util.stream.Stream;
 
-public enum EventHandlerType implements DictionaryObject {
-
-    EMAIL("Email", "2"),
-    SET_POINT("Set point", "1"),
-    PROCESS("Process", "3"),
-    SCRIPT("Script", "4"),
-    SMS("Sms", "5"),
+public enum EventSourcesType implements DictionaryObject {
+    DATA_POINT("Data point", "1"),
+    DATA_SOURCE("Data source", "3"),
+    SYSTEM("System", "4"),
+    COMPOUND("Compound", "5"),
+    SCHEDULED("Scheduled", "6"),
+    PUBLISHER("Publisher", "7"),
+    AUDIT("Audit", "8"),
+    MAINTENANCE("Maintenance", "9"),
     NONE("", "");
 
     private final String name;
     private final String id;
 
-    EventHandlerType(String name, String id) {
+    EventSourcesType(String name, String id) {
         this.name = name;
         this.id = id;
     }
@@ -31,11 +33,10 @@ public enum EventHandlerType implements DictionaryObject {
         return id;
     }
 
-    public static EventHandlerType getType(String typeName) {
-        return Stream.of(EventHandlerType.values())
+    public static EventSourcesType getType(String typeName) {
+        return Stream.of(EventSourcesType.values())
                 .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
     }
 }
-

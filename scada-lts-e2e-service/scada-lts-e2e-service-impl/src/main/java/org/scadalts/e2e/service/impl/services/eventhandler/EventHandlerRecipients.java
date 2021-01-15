@@ -1,4 +1,4 @@
-package org.scadalts.e2e.service.impl.services.eventHandler;
+package org.scadalts.e2e.service.impl.services.eventhandler;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;

@@ -1,7 +1,6 @@
-package org.scadalts.e2e.service.impl.services.eventDetector;
+package org.scadalts.e2e.service.impl.services.eventdetector;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.xml.bind.annotation.XmlRootElement;

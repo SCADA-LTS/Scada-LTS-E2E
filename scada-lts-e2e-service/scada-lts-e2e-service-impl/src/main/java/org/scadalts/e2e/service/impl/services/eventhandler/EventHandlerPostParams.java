@@ -1,6 +1,8 @@
-package org.scadalts.e2e.service.impl.services.eventHandler;
+package org.scadalts.e2e.service.impl.services.eventhandler;
 
+import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
 import lombok.*;
+import org.scadalts.e2e.page.impl.dicts.EventSourcesType;
 import org.scadalts.e2e.service.core.services.WebServiceObjectParams;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -12,11 +14,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventHandlerParams implements WebServiceObjectParams {
-    private String xid;
-    private int typeId;
+public class EventHandlerPostParams implements WebServiceObjectParams {
+    private EventSourcesType typeId;
     private int typeRef1;
     private int typeRef2;
-    private int handlerType;
+    private EventHandlerType handlerType;
     private EventHandlerResponse body;
 }

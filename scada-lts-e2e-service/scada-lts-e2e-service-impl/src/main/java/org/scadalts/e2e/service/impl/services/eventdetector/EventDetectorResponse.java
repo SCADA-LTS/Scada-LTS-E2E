@@ -1,8 +1,7 @@
-package org.scadalts.e2e.service.impl.services.eventDetector;
+package org.scadalts.e2e.service.impl.services.eventdetector;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.scadalts.e2e.service.core.services.WebServiceObjectParams;
 
 import java.io.Serializable;
 

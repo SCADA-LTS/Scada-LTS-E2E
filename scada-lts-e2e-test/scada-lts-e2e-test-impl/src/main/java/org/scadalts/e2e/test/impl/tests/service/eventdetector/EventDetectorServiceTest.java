@@ -1,4 +1,4 @@
-package org.scadalts.e2e.test.impl.tests.service.eventDetector;
+package org.scadalts.e2e.test.impl.tests.service.eventdetector;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,25 +9,25 @@ import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.dicts.EventDetectorType;
 import org.scadalts.e2e.service.core.services.E2eResponse;
-import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorParams;
-import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorPostResponse;
-import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorResponse;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorParams;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorResponse;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(TestWithPageRunner.class)
-public class EventDetectorServicePostTest {
+public class EventDetectorServiceTest {
 
     private String dataPointXid;
-    private String eventDetectorXid;
-    private int eventDetectorAlarmLevel;
     private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
+    private EventDetectorObjectsCreator eventDetectorObjectsCreator;
     private EventDetectorCriteria eventDetectorCriteria;
-    private EventDetectorResponse eventDetectorResponse;
 
     @Before
     public void createDataSourceAndPoint() {
@@ -37,65 +37,59 @@ public class EventDetectorServicePostTest {
                 dataSourceCriteria, dataPointCriteria);
         eventDetectorCriteria =
                 EventDetectorCriteria.criteria(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE), AlarmLevel.INFORMATION, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
+        eventDetectorObjectsCreator = new EventDetectorObjectsCreator(TestWithPageUtil.getNavigationPage(), eventDetectorCriteria);
         dataSourcePointObjectsCreator.createObjects();
+        eventDetectorObjectsCreator.createObjects();
         dataPointXid = dataPointCriteria.getXid().getValue();
-        eventDetectorXid = eventDetectorCriteria.getXid().getValue();
-        eventDetectorAlarmLevel = Integer.parseInt(eventDetectorCriteria.getAlarmLevel().getId());
-        eventDetectorResponse =
-                EventDetectorResponse.builder()
-                        .xid(eventDetectorXid)
-                        .alias("e2e_Test")
-                        .alarmLevel(eventDetectorAlarmLevel)
-                        .build();
     }
 
     @After
     public void clean() {
+        eventDetectorObjectsCreator.deleteObjects();
         dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test
-    public void test_post_eventDetector_then_status_http_200() {
+    public void test_getEventDetectors_for_data_point_then_status_http_200() {
 
         //given:
         EventDetectorParams eventDetectorParams = new EventDetectorParams();
         eventDetectorParams.setXid(dataPointXid);
-        eventDetectorParams.setBody(eventDetectorResponse);
 
         //when:
-        E2eResponse<EventDetectorPostResponse> setResponse = TestWithoutPageUtil.setEventDetector(eventDetectorParams);
+        E2eResponse<List<EventDetectorResponse>> getResponse = TestWithoutPageUtil.getEventDetectors(eventDetectorParams);
 
         //then:
-        assertEquals(200, setResponse.getStatus());
+        assertEquals(200, getResponse.getStatus());
     }
 
     @Test
-    public void test_post_eventDetector_getAlias() {
+    public void test_response_alarm_level_then_EventDetectorType_for_data_point() {
 
         //given:
         EventDetectorParams eventDetectorParams = new EventDetectorParams();
         eventDetectorParams.setXid(dataPointXid);
-        eventDetectorParams.setBody(eventDetectorResponse);
 
         //when:
-        E2eResponse<EventDetectorPostResponse> setResponse = TestWithoutPageUtil.setEventDetector(eventDetectorParams);
+        E2eResponse<List<EventDetectorResponse>> getResponse = TestWithoutPageUtil.getEventDetectors(eventDetectorParams);
 
         //then:
-        assertEquals("e2e_Test", setResponse.getValue().getAlias());
+        assertEquals(Integer.parseInt(AlarmLevel.INFORMATION.getId()), getResponse.getValue().get(0).getAlarmLevel());
     }
 
     @Test
-    public void test_post_eventDetector_getXid() {
+    public void test_response_type_then_EventDetectorType_for_data_point() {
 
         //given:
         EventDetectorParams eventDetectorParams = new EventDetectorParams();
         eventDetectorParams.setXid(dataPointXid);
-        eventDetectorParams.setBody(eventDetectorResponse);
 
         //when:
-        E2eResponse<EventDetectorPostResponse> setResponse = TestWithoutPageUtil.setEventDetector(eventDetectorParams);
+        E2eResponse<List<EventDetectorResponse>> getResponse = TestWithoutPageUtil.getEventDetectors(eventDetectorParams);
 
         //then:
-        assertEquals(eventDetectorXid, setResponse.getValue().getXid());
+        assertEquals(Integer.parseInt(EventDetectorType.CHANGE.getId()), getResponse.getValue().get(0).getDetectorType());
     }
 }
+
+

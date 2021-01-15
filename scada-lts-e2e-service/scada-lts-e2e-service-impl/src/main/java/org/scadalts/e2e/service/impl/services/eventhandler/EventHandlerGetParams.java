@@ -1,4 +1,4 @@
-package org.scadalts.e2e.service.impl.services.eventDetector;
+package org.scadalts.e2e.service.impl.services.eventhandler;
 
 import lombok.*;
 import org.scadalts.e2e.service.core.services.WebServiceObjectParams;
@@ -12,7 +12,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventDetectorParams implements WebServiceObjectParams {
+public class EventHandlerGetParams implements WebServiceObjectParams {
     private String xid;
-    private EventDetectorResponse body;
 }

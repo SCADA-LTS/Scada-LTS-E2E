@@ -1,13 +1,16 @@
 package org.scadalts.e2e.test.impl.utils;
 
+import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
+import org.scadalts.e2e.page.impl.dicts.EventSourcesType;
 import org.scadalts.e2e.service.core.services.E2eResponse;
-import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerParams;
-import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerResponse;
+import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerPostParams;
+import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerResponse;
 
 public class EventHandlerUtil {
 
-    private static EventHandlerResponse createEmailEventHandler(String xid){
-        EventHandlerResponse body = EventHandlerResponse.builder()
+    private static EventHandlerResponse createEmailEventHandlerBody(String xid){
+
+        return EventHandlerResponse.builder()
                 .id(-1)
                 .xid(xid)
                 .alias("eventhandler_email_test_create")
@@ -21,45 +24,42 @@ public class EventHandlerUtil {
                 .inactiveOverride(false)
                 .inactiveRecipients(null)
                 .build();
-
-        return body;
     }
 
-    private static EventHandlerResponse createSmsEventHandler(String xid){
-        EventHandlerResponse body = EventHandlerResponse.builder()
+    private static EventHandlerResponse createSmsEventHandlerBody(String xid){
+
+        return EventHandlerResponse.builder()
                 .id(-1)
                 .xid(xid)
                 .alias("eventhandler_sms_test_create")
                 .disabled(false)
                 .activeRecipients(null)
                 .build();
-
-        return body;
     }
 
-    public static E2eResponse<EventHandlerResponse> createEventHandler(String xid, int dataPointId, int eventDetectorId, int handlerType){
+    public static E2eResponse<EventHandlerResponse> createEventHandler(String xid, int dataPointId, int eventDetectorId, EventHandlerType handlerType){
 
-        EventHandlerParams eventHandlerParams = new EventHandlerParams();
-        eventHandlerParams.setTypeId(1);
-        eventHandlerParams.setTypeRef1(dataPointId);
-        eventHandlerParams.setTypeRef2(eventDetectorId);
-        eventHandlerParams.setHandlerType(handlerType);
+        EventHandlerPostParams eventHandlerPostParams = new EventHandlerPostParams();
+        eventHandlerPostParams.setTypeId(EventSourcesType.DATA_POINT);
+        eventHandlerPostParams.setTypeRef1(dataPointId);
+        eventHandlerPostParams.setTypeRef2(eventDetectorId);
+        eventHandlerPostParams.setHandlerType(handlerType);
 
         EventHandlerResponse body;
 
         switch (handlerType){
-            case 2:
-                body = createEmailEventHandler(xid);
+            case EMAIL:
+                body = createEmailEventHandlerBody(xid);
                 break;
-            case 5:
-                body = createSmsEventHandler(xid);
+            case SMS:
+                body = createSmsEventHandlerBody(xid);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + handlerType);
         }
 
-        eventHandlerParams.setBody(body);
+        eventHandlerPostParams.setBody(body);
 
-        return TestWithoutPageUtil.createEventHandler(eventHandlerParams);
+        return TestWithoutPageUtil.createEventHandler(eventHandlerPostParams);
     }
 }
