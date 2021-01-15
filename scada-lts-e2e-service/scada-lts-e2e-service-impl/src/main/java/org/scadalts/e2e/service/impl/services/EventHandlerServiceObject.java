@@ -10,6 +10,7 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
 import org.scadalts.e2e.service.core.sessions.CookieFactory;
+import org.scadalts.e2e.service.impl.services.eventDetector.EventDetectorResponse;
 import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerParams;
 import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerResponse;
 
@@ -91,9 +92,9 @@ public class EventHandlerServiceObject implements WebServiceObject {
                 : response.readEntity(new GenericType<List<EventHandlerResponse>>() {});
     }
 
-    public Optional<E2eResponse<String>> createEventHandlerTypeEmail(EventHandlerParams eventHandlerParams, long timeout) {
+    public Optional<E2eResponse<String>> createEventHandler(EventHandlerParams eventHandlerParams, long timeout) {
         try {
-            E2eResponse<String> response = applyWhile(this::_createEventHandlerTypeEmail, eventHandlerParams, new StabilityUtil.Timeout(timeout));
+            E2eResponse<String> response = applyWhile(this::_createEventHandler, eventHandlerParams, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -101,14 +102,15 @@ public class EventHandlerServiceObject implements WebServiceObject {
         }
     }
 
-    private E2eResponse<String> _createEventHandlerTypeEmail(EventHandlerParams eventHandlerParams) {
-        String endpoint = MessageFormat.format("{0}/api/eventHandler/set/{1}/{2}/{3}/2", baseUrl,
+    private E2eResponse<String> _createEventHandler(EventHandlerParams eventHandlerParams) {
+        String endpoint = MessageFormat.format("{0}/api/eventHandler/set/{1}/{2}/{3}/{4}", baseUrl,
                 String.valueOf(eventHandlerParams.getTypeId()),
                 String.valueOf(eventHandlerParams.getTypeRef1()),
-                String.valueOf(eventHandlerParams.getTypeRef2())
+                String.valueOf(eventHandlerParams.getTypeRef2()),
+                String.valueOf(eventHandlerParams.getHandlerType())
                 );
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
-        logger.info("params: {} {} {}", eventHandlerParams.getTypeId(), eventHandlerParams.getTypeRef1(), eventHandlerParams.getTypeRef2());
+        logger.info("params: {} {} {} {}", eventHandlerParams.getTypeId(), eventHandlerParams.getTypeRef1(), eventHandlerParams.getTypeRef2(), eventHandlerParams.getHandlerType());
         logger.info("endpoint: {}", endpoint);
         logger.info("cookie: {}", cookie);
         MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;

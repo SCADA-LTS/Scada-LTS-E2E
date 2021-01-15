@@ -20,9 +20,11 @@ import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
+
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.scadalts.e2e.test.impl.utils.EventHandlerUtil.createEventHandler;
 
 @RunWith(TestWithPageRunner.class)
 public class EventHandlerServiceTest {
@@ -35,7 +37,6 @@ public class EventHandlerServiceTest {
     private String eventDetectorXid;
     private int eventDetectorAlarmLevel;
     private EventDetectorResponse eventDetectorResponse;
-    private Xid xidExpected;
 
     @Before
     public void createDataSourceAndPoint() {
@@ -51,8 +52,6 @@ public class EventHandlerServiceTest {
         dataSourcePointObjectsCreator.createObjects();
         dataPointXid = dataPointCriteria.getXid().getValue();
         eventDetectorId = createEventDetector();
-        xidExpected = Xid.xidForEventHandler();
-        createEventHandler();
     }
 
     private int createEventDetector(){
@@ -71,34 +70,6 @@ public class EventHandlerServiceTest {
         return setResponse.getValue().getId();
     }
 
-    private void createEventHandler(){
-        EventHandlerParams eventHandlerParams = new EventHandlerParams();
-        eventHandlerParams.setTypeId(1);
-        eventHandlerParams.setTypeRef1(dataPointId);
-        eventHandlerParams.setTypeRef2(eventDetectorId);
-
-
-
-        EventHandlerResponse eventHandlerResponse = EventHandlerResponse.builder()
-                .id(-1)
-                .xid(xidExpected.getValue())
-                .alias("eventhandler_test_create")
-                .disabled(false)
-                .activeRecipients(null)
-                .sendEscalation(false)
-                .escalationDelayType(1)
-                .escalationDelay(0)
-                .escalationRecipients(null)
-                .sendInactive(false)
-                .inactiveOverride(false)
-                .inactiveRecipients(null)
-                .build();
-
-        eventHandlerParams.setBody(eventHandlerResponse);
-
-        TestWithoutPageUtil.createEventHandlerTypeEmail(eventHandlerParams);
-    }
-
     @After
     public void clean() {
         dataSourcePointObjectsCreator.deleteObjects();
@@ -107,7 +78,8 @@ public class EventHandlerServiceTest {
 //    @Test
 //    public void test_getEventHandlers_then_status_http_200() {
 //        //given:
-//
+//        createEventHandler(Xid.xidForEventHandler().getValue(), dataPointId, eventDetectorId, 2);
+//        createEventHandler(Xid.xidForEventHandler().getValue(), dataPointId, eventDetectorId, 5);
 //
 //        //when:
 //        E2eResponse<List<EventHandlerResponse>> getResponse = TestWithoutPageUtil.getEventHandlers();
@@ -117,17 +89,67 @@ public class EventHandlerServiceTest {
 //    }
 
     @Test
-    public void test_getEventHandlerByXid_then_status_http_200() {
+    public void test_getEmailEventHandlerByXid_then_status_http_200() {
 
         //given:
+        String xid = Xid.xidForEventHandler().getValue();
+        createEventHandler(xid, dataPointId, eventDetectorId, 2);
         EventHandlerParams eventHandlerParams = new EventHandlerParams();
-        eventHandlerParams.setXid(xidExpected.getValue());
+        eventHandlerParams.setXid(xid);
 
         //when:
         E2eResponse<EventHandlerResponse> getResponse = TestWithoutPageUtil.getEventHandlerByXid(eventHandlerParams);
 
         //then:
         assertEquals(200, getResponse.getStatus());
+    }
+
+    @Test
+    public void test_getSmsEventHandlerByXid_then_status_http_200() {
+
+        //given:
+        String xid = Xid.xidForEventHandler().getValue();
+        createEventHandler(xid, dataPointId, eventDetectorId, 5);
+        EventHandlerParams eventHandlerParams = new EventHandlerParams();
+        eventHandlerParams.setXid(xid);
+
+        //when:
+        E2eResponse<EventHandlerResponse> getResponse = TestWithoutPageUtil.getEventHandlerByXid(eventHandlerParams);
+
+        //then:
+        assertEquals(200, getResponse.getStatus());
+    }
+
+    @Test
+    public void test_getEmailEventHandlerByXid_then_check_xId() {
+
+        //given:
+        String xid = Xid.xidForEventHandler().getValue();
+        createEventHandler(xid, dataPointId, eventDetectorId, 2);
+        EventHandlerParams eventHandlerParams = new EventHandlerParams();
+        eventHandlerParams.setXid(xid);
+
+        //when:
+        E2eResponse<EventHandlerResponse> getResponse = TestWithoutPageUtil.getEventHandlerByXid(eventHandlerParams);
+
+        //then:
+        assertEquals(xid, getResponse.getValue().getXid());
+    }
+
+    @Test
+    public void test_getSmsEventHandlerByXid_then_check_xId() {
+
+        //given:
+        String xid = Xid.xidForEventHandler().getValue();
+        createEventHandler(xid, dataPointId, eventDetectorId, 5);
+        EventHandlerParams eventHandlerParams = new EventHandlerParams();
+        eventHandlerParams.setXid(xid);
+
+        //when:
+        E2eResponse<EventHandlerResponse> getResponse = TestWithoutPageUtil.getEventHandlerByXid(eventHandlerParams);
+
+        //then:
+        assertEquals(xid, getResponse.getValue().getXid());
     }
 
 }

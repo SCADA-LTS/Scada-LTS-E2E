@@ -3,6 +3,7 @@ package org.scadalts.e2e.service.impl.services.eventHandler;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -12,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EventHandlerResponse {
+public class EventHandlerResponse implements Serializable {
     // Common fields
     private int id;
     private String xid;
