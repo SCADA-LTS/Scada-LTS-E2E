@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.impl.utils;
 
+import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerParams;
 import org.scadalts.e2e.service.impl.services.eventHandler.EventHandlerResponse;
 
@@ -36,7 +37,7 @@ public class EventHandlerUtil {
         return body;
     }
 
-    public static void createEventHandler(String xid, int dataPointId, int eventDetectorId, int handlerType){
+    public static E2eResponse<EventHandlerResponse> createEventHandler(String xid, int dataPointId, int eventDetectorId, int handlerType){
 
         EventHandlerParams eventHandlerParams = new EventHandlerParams();
         eventHandlerParams.setTypeId(1);
@@ -59,6 +60,6 @@ public class EventHandlerUtil {
 
         eventHandlerParams.setBody(body);
 
-        TestWithoutPageUtil.createEventHandler(eventHandlerParams);
+        return TestWithoutPageUtil.createEventHandler(eventHandlerParams);
     }
 }
