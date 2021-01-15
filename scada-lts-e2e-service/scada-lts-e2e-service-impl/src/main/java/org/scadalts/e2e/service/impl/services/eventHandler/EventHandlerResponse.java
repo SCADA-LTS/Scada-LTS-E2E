@@ -31,14 +31,14 @@ public class EventHandlerResponse implements Serializable {
     private int inactivePointId;
 
     // Email handler fields.
-    private List<String> activeRecipients;
+    private List<EventHandlerRecipients> activeRecipients;
     private boolean sendEscalation;
     private int escalationDelayType;
     private int escalationDelay;
-    private List<String> escalationRecipients;
+    private List<EventHandlerRecipients> escalationRecipients;
     private boolean sendInactive;
     private boolean inactiveOverride;
-    private List<String> inactiveRecipients;
+    private List<EventHandlerRecipients> inactiveRecipients;
 
     // Process handler fields.
     private String activeProcessCommand;

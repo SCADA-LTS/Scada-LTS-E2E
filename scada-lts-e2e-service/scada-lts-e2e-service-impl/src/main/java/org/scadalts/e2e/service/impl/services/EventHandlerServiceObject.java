@@ -45,6 +45,26 @@ public class EventHandlerServiceObject implements WebServiceObject {
         }
     }
 
+    public Optional<E2eResponse<EventHandlerResponse>> getEventHandlerByXid(EventHandlerParams eventHandlerParams, long timeout) {
+        try {
+            E2eResponse<EventHandlerResponse> response = applyWhile(this::_getEventHandlerByXid, eventHandlerParams, new StabilityUtil.Timeout(timeout));
+            return Optional.ofNullable(response);
+        } catch (Throwable e) {
+            logger.error(e.getMessage(), e);
+            return Optional.empty();
+        }
+    }
+
+    public Optional<E2eResponse<EventHandlerResponse>> createEventHandler(EventHandlerParams eventHandlerParams, long timeout) {
+        try {
+            E2eResponse<EventHandlerResponse> response = applyWhile(this::_createEventHandler, eventHandlerParams, new StabilityUtil.Timeout(timeout));
+            return Optional.ofNullable(response);
+        } catch (Throwable e) {
+            logger.error(e.getMessage(), e);
+            return Optional.empty();
+        }
+    }
+
     private E2eResponse<List<EventHandlerResponse>> _getAllEventHandlers() {
         String endpoint = baseUrl + "/api/eventHandler/getAll";
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
@@ -60,14 +80,9 @@ public class EventHandlerServiceObject implements WebServiceObject {
         return E2eResponseFactory.newResponse(response, list);
     }
 
-    public Optional<E2eResponse<EventHandlerResponse>> getEventHandlerByXid(EventHandlerParams eventHandlerParams, long timeout) {
-        try {
-            E2eResponse<EventHandlerResponse> response = applyWhile(this::_getEventHandlerByXid, eventHandlerParams, new StabilityUtil.Timeout(timeout));
-            return Optional.ofNullable(response);
-        } catch (Throwable e) {
-            logger.error(e.getMessage(), e);
-            return Optional.empty();
-        }
+    private List<EventHandlerResponse> _getList(Response response) {
+        return HttpUtils.isPayloadEmpty(response.getStringHeaders()) ? Collections.emptyList()
+                : response.readEntity(new GenericType<List<EventHandlerResponse>>() {});
     }
 
     private E2eResponse<EventHandlerResponse> _getEventHandlerByXid(EventHandlerParams eventHandlerParams) {
@@ -84,21 +99,6 @@ public class EventHandlerServiceObject implements WebServiceObject {
                 .cookie(cookie)
                 .get();
         return E2eResponseFactory.newResponse(response, EventHandlerResponse.class);
-    }
-
-    private List<EventHandlerResponse> _getList(Response response) {
-        return HttpUtils.isPayloadEmpty(response.getStringHeaders()) ? Collections.emptyList()
-                : response.readEntity(new GenericType<List<EventHandlerResponse>>() {});
-    }
-
-    public Optional<E2eResponse<EventHandlerResponse>> createEventHandler(EventHandlerParams eventHandlerParams, long timeout) {
-        try {
-            E2eResponse<EventHandlerResponse> response = applyWhile(this::_createEventHandler, eventHandlerParams, new StabilityUtil.Timeout(timeout));
-            return Optional.ofNullable(response);
-        } catch (Throwable e) {
-            logger.error(e.getMessage(), e);
-            return Optional.empty();
-        }
     }
 
     private E2eResponse<EventHandlerResponse> _createEventHandler(EventHandlerParams eventHandlerParams) {

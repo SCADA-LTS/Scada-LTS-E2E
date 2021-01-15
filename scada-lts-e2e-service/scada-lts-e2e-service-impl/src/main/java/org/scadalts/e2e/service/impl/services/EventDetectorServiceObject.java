@@ -44,28 +44,6 @@ public class EventDetectorServiceObject implements WebServiceObject {
         }
     }
 
-    private E2eResponse<List<EventDetectorResponse>> _getEventDetectorsByXid(EventDetectorParams eventDetectorParams) {
-        String endpoint = baseUrl + "/api/eventDetector/getAll/";
-        Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
-        logger.info("params: {}", eventDetectorParams);
-        logger.info("endpoint: {}", endpoint);
-        logger.info("cookie: {}", cookie);
-        MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
-        Response response = client
-                .target(endpoint)
-                .path(eventDetectorParams.getXid())
-                .request(mediaType)
-                .cookie(cookie)
-                .get();
-        List<EventDetectorResponse> list = _getList(response);
-        return E2eResponseFactory.newResponse(response, list);
-    }
-
-    private List<EventDetectorResponse> _getList(Response response) {
-        return HttpUtils.isPayloadEmpty(response.getStringHeaders()) ? Collections.emptyList()
-                : response.readEntity(new GenericType<List<EventDetectorResponse>>() {});
-    }
-
     public Optional<E2eResponse<EventDetectorPostResponse>> setEventDetector(EventDetectorParams eventDetectorParams, long timeout) {
         try {
             E2eResponse<EventDetectorPostResponse> response = applyWhile(this::_setBinaryStateEventDetector, eventDetectorParams, new StabilityUtil.Timeout(timeout));
@@ -91,6 +69,28 @@ public class EventDetectorServiceObject implements WebServiceObject {
                 .cookie(cookie)
                 .post(Entity.entity(eventDetectorParams.getBody(), MediaType.APPLICATION_JSON));
         return E2eResponseFactory.newResponse(response, EventDetectorPostResponse.class);
+    }
+
+    private E2eResponse<List<EventDetectorResponse>> _getEventDetectorsByXid(EventDetectorParams eventDetectorParams) {
+        String endpoint = baseUrl + "/api/eventDetector/getAll/";
+        Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
+        logger.info("params: {}", eventDetectorParams);
+        logger.info("endpoint: {}", endpoint);
+        logger.info("cookie: {}", cookie);
+        MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
+        Response response = client
+                .target(endpoint)
+                .path(eventDetectorParams.getXid())
+                .request(mediaType)
+                .cookie(cookie)
+                .get();
+        List<EventDetectorResponse> list = _getList(response);
+        return E2eResponseFactory.newResponse(response, list);
+    }
+
+    private List<EventDetectorResponse> _getList(Response response) {
+        return HttpUtils.isPayloadEmpty(response.getStringHeaders()) ? Collections.emptyList()
+                : response.readEntity(new GenericType<List<EventDetectorResponse>>() {});
     }
 
     @Override

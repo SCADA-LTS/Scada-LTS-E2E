@@ -21,6 +21,8 @@ import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.scadalts.e2e.test.impl.utils.EventHandlerUtil.createEventHandler;
 
@@ -69,18 +71,18 @@ public class EventHandlerServiceTest {
         dataSourcePointObjectsCreator.deleteObjects();
     }
 
-//    @Test
-//    public void test_getEventHandlers_then_status_http_200() {
-//        //given:
-//        createEventHandler(Xid.xidForEventHandler().getValue(), dataPointId, eventDetectorId, 2);
-//        createEventHandler(Xid.xidForEventHandler().getValue(), dataPointId, eventDetectorId, 5);
-//
-//        //when:
-//        E2eResponse<List<EventHandlerResponse>> getResponse = TestWithoutPageUtil.getEventHandlers();
-//
-//        //then:
-//        assertEquals(200, getResponse.getStatus());
-//    }
+    @Test
+    public void test_getEventHandlers_then_status_http_200() {
+        //given:
+        createEventHandler(Xid.xidForEventHandler().getValue(), dataPointId, eventDetectorId, 2);
+        createEventHandler(Xid.xidForEventHandler().getValue(), dataPointId, eventDetectorId, 5);
+
+        //when:
+        E2eResponse<List<EventHandlerResponse>> getResponse = TestWithoutPageUtil.getEventHandlers();
+
+        //then:
+        assertEquals(200, getResponse.getStatus());
+    }
 
     @Test
     public void test_getEmailEventHandlerByXid_then_status_http_200() {
