@@ -28,6 +28,16 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
     private static final DataSourceType DATA_SOURCE_TYPE_DEFAULT = DataSourceType.VIRTUAL_DATA_SOURCE;
     private static final int UPDATE_PERIOD_VALUE_DEFAULT = 1;
 
+    public static DataSourceCriteria empty() {
+        return DataSourceCriteria.builder()
+                .identifier(new DataSourceIdentifier("", DataSourceType.NONE))
+                .updatePeriodType(UPDATE_PERIOD_TYPE_DEFAULT)
+                .xid(new Xid(""))
+                .enabled(true)
+                .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
+                .build();
+    }
+
     public static DataSourceCriteria virtualDataSourceSecond() {
         return DataSourceCriteria.builder()
                 .identifier(IdentifierObjectFactory.dataSourceName(DATA_SOURCE_TYPE_DEFAULT))

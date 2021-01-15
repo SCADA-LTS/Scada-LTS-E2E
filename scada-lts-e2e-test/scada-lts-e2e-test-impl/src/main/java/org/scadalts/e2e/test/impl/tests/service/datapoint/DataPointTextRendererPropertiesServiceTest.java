@@ -39,6 +39,7 @@ public class DataPointTextRendererPropertiesServiceTest {
                 DataPointTextRendererProperties.builder()
                         .textRendererType(TextRendererType.PLAIN)
                         .suffix("suffix1")
+                        .format("")
                         .build(),
                 DataPointTextRendererProperties.builder()
                         .textRendererType(TextRendererType.ANALOG)
@@ -48,11 +49,13 @@ public class DataPointTextRendererPropertiesServiceTest {
                 DataPointTextRendererProperties.builder()
                         .textRendererType(TextRendererType.TIME)
                         .format("yyyy-MM")
+                        .suffix("")
                         .conversionExponent(2)
                         .build(),
                 DataPointTextRendererProperties.builder()
                         .textRendererType(TextRendererType.RANGE)
                         .format("yyyy")
+                        .suffix("")
                         .rangeValue(RangeValue.builder()
                                 .colour(Color.WHITE)
                                 .text("text1")

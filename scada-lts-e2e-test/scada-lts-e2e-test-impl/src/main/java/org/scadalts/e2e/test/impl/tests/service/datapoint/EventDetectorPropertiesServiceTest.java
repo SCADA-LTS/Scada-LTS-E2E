@@ -10,6 +10,7 @@ import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
+import org.scadalts.e2e.page.impl.dicts.EventDetectorType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.datapoint.DataPointPropertiesResponse;
@@ -43,10 +44,12 @@ public class EventDetectorPropertiesServiceTest {
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
                 {Arrays.asList(new EventDetectorCriteria[] {
-                        EventDetectorCriteria.changeAlarmLevelNone(DATA_SOURCE_POINT_CRITERIA),
-                        EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.INFORMATION),
-                        EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.URGENT),
-                        EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.LIFE_SAFETY),
+                        EventDetectorCriteria.criteria(EventDetectorType.HIGH_LIMIT, DATA_SOURCE_POINT_CRITERIA, AlarmLevel.LIFE_SAFETY),
+                        EventDetectorCriteria.criteria(EventDetectorType.LOW_LIMIT, DATA_SOURCE_POINT_CRITERIA, AlarmLevel.LIFE_SAFETY),
+                        EventDetectorCriteria.criteria(EventDetectorType.NEGATIVE_CUSUM, DATA_SOURCE_POINT_CRITERIA, AlarmLevel.LIFE_SAFETY),
+                        EventDetectorCriteria.criteria(EventDetectorType.POSITIVE_CUSUM, DATA_SOURCE_POINT_CRITERIA, AlarmLevel.LIFE_SAFETY),
+                        EventDetectorCriteria.criteria(EventDetectorType.NO_CHANGE, DATA_SOURCE_POINT_CRITERIA, AlarmLevel.LIFE_SAFETY),
+                        EventDetectorCriteria.criteria(EventDetectorType.NO_UPDATE, DATA_SOURCE_POINT_CRITERIA, AlarmLevel.LIFE_SAFETY),
                 })},
                 {Arrays.asList(new EventDetectorCriteria[] {
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.CRITICAL),

@@ -254,11 +254,14 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         delay();
         ElementsCollection elements = waitWhile(eventDetectorTable, not(Condition.visible)).$$(By.tagName("tbody"));
         for (SelenideElement element: elements) {
-            ElementsCollection inputs = element.$$(By.tagName("input"));
-            for (SelenideElement input: inputs) {
-                String value = input.getValue();
-                if(value != null && value.equals(criteria.getIdentifier().getValue())) {
-                    element.$(By.cssSelector("img[onclick*='deleteDetector']")).click();
+            if(element.is(not(Condition.matchesText("Event detectors")))) {
+                ElementsCollection inputs = element.$$(By.tagName("input"));
+                for (SelenideElement input : inputs) {
+                    String value = input.getValue();
+                    if (value != null && value.equals(criteria.getIdentifier().getValue())) {
+                        element.$(By.cssSelector("img[onclick*='deleteDetector']")).click();
+                        break;
+                    }
                 }
             }
         }
