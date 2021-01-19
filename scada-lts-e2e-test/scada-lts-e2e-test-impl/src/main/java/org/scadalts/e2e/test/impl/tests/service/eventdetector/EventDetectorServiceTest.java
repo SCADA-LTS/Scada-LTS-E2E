@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(TestWithPageRunner.class)
 public class EventDetectorServiceTest {
 
-    private String dataPointXid;
+    private Xid dataPointXid;
     private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private EventDetectorObjectsCreator eventDetectorObjectsCreator;
     private EventDetectorCriteria eventDetectorCriteria;
@@ -40,7 +40,7 @@ public class EventDetectorServiceTest {
         eventDetectorObjectsCreator = new EventDetectorObjectsCreator(TestWithPageUtil.getNavigationPage(), eventDetectorCriteria);
         dataSourcePointObjectsCreator.createObjects();
         eventDetectorObjectsCreator.createObjects();
-        dataPointXid = dataPointCriteria.getXid().getValue();
+        dataPointXid = dataPointCriteria.getXid();
     }
 
     @After
@@ -54,7 +54,7 @@ public class EventDetectorServiceTest {
 
         //given:
         EventDetectorParams eventDetectorParams = new EventDetectorParams();
-        eventDetectorParams.setXid(dataPointXid);
+        eventDetectorParams.setXid(dataPointXid.getValue());
 
         //when:
         E2eResponse<List<EventDetectorResponse>> getResponse = TestWithoutPageUtil.getEventDetectors(eventDetectorParams);
@@ -68,7 +68,7 @@ public class EventDetectorServiceTest {
 
         //given:
         EventDetectorParams eventDetectorParams = new EventDetectorParams();
-        eventDetectorParams.setXid(dataPointXid);
+        eventDetectorParams.setXid(dataPointXid.getValue());
 
         //when:
         E2eResponse<List<EventDetectorResponse>> getResponse = TestWithoutPageUtil.getEventDetectors(eventDetectorParams);
@@ -82,7 +82,7 @@ public class EventDetectorServiceTest {
 
         //given:
         EventDetectorParams eventDetectorParams = new EventDetectorParams();
-        eventDetectorParams.setXid(dataPointXid);
+        eventDetectorParams.setXid(dataPointXid.getValue());
 
         //when:
         E2eResponse<List<EventDetectorResponse>> getResponse = TestWithoutPageUtil.getEventDetectors(eventDetectorParams);

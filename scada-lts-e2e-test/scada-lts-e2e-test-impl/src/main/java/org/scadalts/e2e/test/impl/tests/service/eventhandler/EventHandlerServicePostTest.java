@@ -11,9 +11,6 @@ import org.scadalts.e2e.page.impl.dicts.EventDetectorType;
 import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.service.core.services.E2eResponse;
-import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorParams;
-import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorPostResponse;
-import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorResponse;
 import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerResponse;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
@@ -27,11 +24,9 @@ import static org.scadalts.e2e.test.impl.utils.EventHandlerUtil.createEventHandl
 @RunWith(TestWithPageRunner.class)
 public class EventHandlerServicePostTest {
 
-    private String dataPointXid;
     private int dataPointId;
     private int eventDetectorId;
     private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
-    private EventDetectorCriteria eventDetectorCriteria;
 
     @Before
     public void createDataSourceAndPoint() {
@@ -42,26 +37,9 @@ public class EventHandlerServicePostTest {
         EditDataSourceWithPointListPage pointPage = dataSourcePointObjectsCreator.createObjects()
                 .openDataSourceEditor(dataSourceCriteria.getIdentifier());
         dataPointId = pointPage.getDataPointDatabaseId(dataPointCriteria.getIdentifier());
-        eventDetectorCriteria =
-                EventDetectorCriteria.criteria(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE), AlarmLevel.INFORMATION, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
+        EventDetectorCriteria eventDetectorCriteria = EventDetectorCriteria.criteria(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE), AlarmLevel.INFORMATION, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
         dataSourcePointObjectsCreator.createObjects();
-        dataPointXid = dataPointCriteria.getXid().getValue();
-        eventDetectorId = createEventDetector();
-    }
-
-    private int createEventDetector() {
-        String eventDetectorXid = eventDetectorCriteria.getXid().getValue();
-        int eventDetectorAlarmLevel = Integer.parseInt(eventDetectorCriteria.getAlarmLevel().getId());
-        EventDetectorResponse eventDetectorResponse = EventDetectorResponse.builder()
-                .xid(eventDetectorXid)
-                .alias("e2e_Test")
-                .alarmLevel(eventDetectorAlarmLevel)
-                .build();
-        EventDetectorParams eventDetectorParams = new EventDetectorParams();
-        eventDetectorParams.setXid(dataPointXid);
-        eventDetectorParams.setBody(eventDetectorResponse);
-        E2eResponse<EventDetectorPostResponse> setResponse = TestWithoutPageUtil.setEventDetector(eventDetectorParams);
-        return setResponse.getValue().getId();
+        eventDetectorId = TestWithoutPageUtil.createEventDetectorAndGetId(eventDetectorCriteria);
     }
 
     @After
@@ -72,7 +50,7 @@ public class EventHandlerServicePostTest {
     @Test
     public void test_post_EmailEventHandler_then_status_http_200() {
         //given
-        String xid = Xid.xidForEventHandler().getValue();
+        Xid xid = Xid.xidForEventHandler();
 
         //when
         E2eResponse<EventHandlerResponse> setResponse = createEventHandler(xid, dataPointId, eventDetectorId, EventHandlerType.EMAIL);
@@ -84,7 +62,7 @@ public class EventHandlerServicePostTest {
     @Test
     public void test_post_SmsEventHandler_then_status_http_200() {
         //given
-        String xid = Xid.xidForEventHandler().getValue();
+        Xid xid = Xid.xidForEventHandler();
 
         //when
         E2eResponse<EventHandlerResponse> setResponse = createEventHandler(xid, dataPointId, eventDetectorId, EventHandlerType.SMS);
@@ -96,25 +74,25 @@ public class EventHandlerServicePostTest {
     @Test
     public void test_post_EmailEventHandler_then_getXid() {
         //given
-        String xid = Xid.xidForEventHandler().getValue();
+        Xid xid = Xid.xidForEventHandler();
 
         //when
         E2eResponse<EventHandlerResponse> setResponse = createEventHandler(xid, dataPointId, eventDetectorId, EventHandlerType.EMAIL);
 
         //then
-        assertEquals(xid, setResponse.getValue().getXid());
+        assertEquals(xid.getValue(), setResponse.getValue().getXid());
     }
 
     @Test
     public void test_post_SmsEventHandler_then_getXid() {
         //given
-        String xid = Xid.xidForEventHandler().getValue();
+        Xid xid = Xid.xidForEventHandler();
 
         //when
         E2eResponse<EventHandlerResponse> setResponse = createEventHandler(xid, dataPointId, eventDetectorId, EventHandlerType.SMS);
 
         //then
-        assertEquals(xid, setResponse.getValue().getXid());
+        assertEquals(xid.getValue(), setResponse.getValue().getXid());
     }
 
 }

@@ -5,6 +5,8 @@ import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.common.config.E2eConfigurator;
 import org.scadalts.e2e.common.exceptions.ApplicationIsNotAvailableException;
 import org.scadalts.e2e.common.exceptions.E2eAuthenticationException;
+import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
+import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.*;
@@ -258,6 +260,28 @@ public class TestWithoutPageUtil {
             Optional<E2eResponse<EventHandlerResponse>> responseOpt = eventHandlerServiceObject.createEventHandler(eventHandlerPostParams, timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
+    }
+
+    public static int createEventDetectorAndGetId(EventDetectorCriteria eventDetectorCriteria){
+        EventDetectorParams eventDetectorParams = prepareEventDetectorParams(eventDetectorCriteria);
+        E2eResponse<EventDetectorPostResponse> setResponse = TestWithoutPageUtil.setEventDetector(eventDetectorParams);
+        return setResponse.getValue().getId();
+    }
+
+    private static EventDetectorParams prepareEventDetectorParams(EventDetectorCriteria eventDetectorCriteria) {
+        Xid eventDetectorXid = eventDetectorCriteria.getXid();
+        Xid dataPointXid = eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint().getXid();
+        int eventDetectorAlarmLevel = Integer.parseInt(eventDetectorCriteria.getAlarmLevel().getId());
+        String name = eventDetectorCriteria.getIdentifier().getValue();
+        EventDetectorResponse body = EventDetectorResponse.builder()
+                .xid(eventDetectorXid.getValue())
+                .alias(name)
+                .alarmLevel(eventDetectorAlarmLevel)
+                .build();
+        EventDetectorParams eventDetectorParams = new EventDetectorParams();
+        eventDetectorParams.setXid(dataPointXid.getValue());
+        eventDetectorParams.setBody(body);
+        return eventDetectorParams;
     }
 
 

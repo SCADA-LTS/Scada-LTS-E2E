@@ -22,12 +22,11 @@ import static org.junit.Assert.assertEquals;
 @RunWith(TestWithPageRunner.class)
 public class EventDetectorServicePostTest {
 
-    private String dataPointXid;
-    private String eventDetectorXid;
-    private int eventDetectorAlarmLevel;
+    private Xid dataPointXid;
+    private Xid eventDetectorXid;
     private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
-    private EventDetectorCriteria eventDetectorCriteria;
     private EventDetectorResponse eventDetectorResponse;
+    private String eventDetectorName;
 
     @Before
     public void createDataSourceAndPoint() {
@@ -35,16 +34,16 @@ public class EventDetectorServicePostTest {
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(),
                 dataSourceCriteria, dataPointCriteria);
-        eventDetectorCriteria =
-                EventDetectorCriteria.criteria(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE), AlarmLevel.INFORMATION, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
+        EventDetectorCriteria eventDetectorCriteria = EventDetectorCriteria.criteria(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE), AlarmLevel.INFORMATION, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
         dataSourcePointObjectsCreator.createObjects();
-        dataPointXid = dataPointCriteria.getXid().getValue();
-        eventDetectorXid = eventDetectorCriteria.getXid().getValue();
-        eventDetectorAlarmLevel = Integer.parseInt(eventDetectorCriteria.getAlarmLevel().getId());
+        dataPointXid = dataPointCriteria.getXid();
+        eventDetectorXid = eventDetectorCriteria.getXid();
+        int eventDetectorAlarmLevel = Integer.parseInt(eventDetectorCriteria.getAlarmLevel().getId());
+        eventDetectorName = eventDetectorCriteria.getIdentifier().getValue();
         eventDetectorResponse =
                 EventDetectorResponse.builder()
-                        .xid(eventDetectorXid)
-                        .alias("e2e_Test")
+                        .xid(eventDetectorXid.getValue())
+                        .alias(eventDetectorName)
                         .alarmLevel(eventDetectorAlarmLevel)
                         .build();
     }
@@ -59,7 +58,7 @@ public class EventDetectorServicePostTest {
 
         //given:
         EventDetectorParams eventDetectorParams = new EventDetectorParams();
-        eventDetectorParams.setXid(dataPointXid);
+        eventDetectorParams.setXid(dataPointXid.getValue());
         eventDetectorParams.setBody(eventDetectorResponse);
 
         //when:
@@ -74,14 +73,14 @@ public class EventDetectorServicePostTest {
 
         //given:
         EventDetectorParams eventDetectorParams = new EventDetectorParams();
-        eventDetectorParams.setXid(dataPointXid);
+        eventDetectorParams.setXid(dataPointXid.getValue());
         eventDetectorParams.setBody(eventDetectorResponse);
 
         //when:
         E2eResponse<EventDetectorPostResponse> setResponse = TestWithoutPageUtil.setEventDetector(eventDetectorParams);
 
         //then:
-        assertEquals("e2e_Test", setResponse.getValue().getAlias());
+        assertEquals(eventDetectorName, setResponse.getValue().getAlias());
     }
 
     @Test
@@ -89,13 +88,13 @@ public class EventDetectorServicePostTest {
 
         //given:
         EventDetectorParams eventDetectorParams = new EventDetectorParams();
-        eventDetectorParams.setXid(dataPointXid);
+        eventDetectorParams.setXid(dataPointXid.getValue());
         eventDetectorParams.setBody(eventDetectorResponse);
 
         //when:
         E2eResponse<EventDetectorPostResponse> setResponse = TestWithoutPageUtil.setEventDetector(eventDetectorParams);
 
         //then:
-        assertEquals(eventDetectorXid, setResponse.getValue().getXid());
+        assertEquals(eventDetectorXid.getValue(), setResponse.getValue().getXid());
     }
 }

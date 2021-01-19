@@ -1,5 +1,7 @@
 package org.scadalts.e2e.test.impl.utils;
 
+import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
+import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
 import org.scadalts.e2e.page.impl.dicts.EventSourcesType;
 import org.scadalts.e2e.service.core.services.E2eResponse;
@@ -8,12 +10,14 @@ import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerResponse;
 
 public class EventHandlerUtil {
 
-    private static EventHandlerResponse createEmailEventHandlerBody(String xid){
+    private static EventHandlerResponse createEmailEventHandlerBody(Xid xid){
+
+        String alias = IdentifierObjectFactory.eventHandlerName(EventHandlerType.EMAIL).getValue();
 
         return EventHandlerResponse.builder()
                 .id(-1)
-                .xid(xid)
-                .alias("eventhandler_email_test_create")
+                .xid(xid.getValue())
+                .alias(alias)
                 .disabled(false)
                 .activeRecipients(null)
                 .sendEscalation(false)
@@ -26,18 +30,20 @@ public class EventHandlerUtil {
                 .build();
     }
 
-    private static EventHandlerResponse createSmsEventHandlerBody(String xid){
+    private static EventHandlerResponse createSmsEventHandlerBody(Xid xid){
+
+        String alias = IdentifierObjectFactory.eventHandlerName(EventHandlerType.SMS).getValue();
 
         return EventHandlerResponse.builder()
                 .id(-1)
-                .xid(xid)
-                .alias("eventhandler_sms_test_create")
+                .xid(xid.getValue())
+                .alias(alias)
                 .disabled(false)
                 .activeRecipients(null)
                 .build();
     }
 
-    public static E2eResponse<EventHandlerResponse> createEventHandler(String xid, int dataPointId, int eventDetectorId, EventHandlerType handlerType){
+    public static E2eResponse<EventHandlerResponse> createEventHandler(Xid xid, int dataPointId, int eventDetectorId, EventHandlerType handlerType){
 
         EventHandlerPostParams eventHandlerPostParams = new EventHandlerPostParams();
         eventHandlerPostParams.setTypeId(EventSourcesType.DATA_POINT);
