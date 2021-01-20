@@ -177,4 +177,23 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         delay();
         return findObject(identifier.getNodeCriteria(), dataPointsTable);
     }
+
+    @Deprecated
+    public int getDataPointDatabaseId(DataPointIdentifier identifier) {
+        SelenideElement selenideElement = waitWhile($(_findAction(identifier, SELECTOR_ACTION_PROPERTIES_DATA_POINT_BY)), not(Condition.visible));
+        String onclick = selenideElement.getAttribute("onclick");
+        return convertToInt(onclick);
+    }
+
+    private int convertToInt(String onclick) {
+        if(onclick != null) {
+            String[] split = onclick.split("dpid=");
+            if (split.length == 2) {
+                String onlyNumber = split[1].replaceAll("[^0-9]", "");
+                if(!onlyNumber.isEmpty())
+                    return Integer.parseInt(onlyNumber);
+            }
+        }
+        return -1;
+    }
 }
