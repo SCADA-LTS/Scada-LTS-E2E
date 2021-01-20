@@ -40,9 +40,36 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
         this.dataPointProperties = dataPointProperties;
     }
 
+    public static DataPointCriteria empty() {
+        return DataPointCriteria.builder()
+                .changeType(ChangeType.NONE)
+                .identifier(new DataPointIdentifier("", DataPointType.NONE))
+                .dataPointProperties(DataPointProperties.empty())
+                .startValue("")
+                .settable(false)
+                .enabled(false)
+                .xid(new Xid(""))
+                .build();
+    }
+
     public static DataPointCriteria binaryAlternate() {
         DataPointType dataPointType = DataPointType.BINARY;
         ChangeType changeType = ChangeType.ALTERNATE;
+        Xid xid = Xid.xidForDataPoint();
+        return DataPointCriteria.builder()
+                .changeType(changeType)
+                .identifier(IdentifierObjectFactory.dataPointName(dataPointType))
+                .dataPointProperties(DataPointProperties.empty())
+                .startValue("true")
+                .settable(true)
+                .enabled(true)
+                .xid(xid)
+                .build();
+    }
+
+    public static DataPointCriteria binaryNoChange() {
+        DataPointType dataPointType = DataPointType.BINARY;
+        ChangeType changeType = ChangeType.NO_CHANGE;
         Xid xid = Xid.xidForDataPoint();
         return DataPointCriteria.builder()
                 .changeType(changeType)

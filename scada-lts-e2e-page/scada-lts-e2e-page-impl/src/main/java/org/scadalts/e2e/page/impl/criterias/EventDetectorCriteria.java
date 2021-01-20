@@ -55,6 +55,19 @@ public class EventDetectorCriteria implements CriteriaObject, GetXid {
                 .build();
     }
 
+    public static EventDetectorCriteria criteria(EventDetectorType eventDetectorType,
+                                               DataSourcePointCriteria dataSourcePointCriteria,
+                                               AlarmLevel alarmLevel) {
+        Xid xid = Xid.xidForEventDetector();
+        return EventDetectorCriteria.builder()
+                .xid(xid)
+                .identifier(IdentifierObjectFactory.eventDetectorName(eventDetectorType))
+                .alarmLevel(alarmLevel)
+                .eventHandlerCriterias(Collections.emptyList())
+                .dataSourcePointCriteria(dataSourcePointCriteria)
+                .build();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
