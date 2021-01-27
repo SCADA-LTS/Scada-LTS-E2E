@@ -8,6 +8,7 @@ import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.dicts.EventDetectorType;
+import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorParams;
 import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorPostResponse;
@@ -23,6 +24,7 @@ import static org.junit.Assert.assertEquals;
 public class EventDetectorServicePostTest {
 
     private Xid dataPointXid;
+    private int dataPointId;
     private Xid eventDetectorXid;
     private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private EventDetectorResponse eventDetectorResponse;
@@ -34,6 +36,9 @@ public class EventDetectorServicePostTest {
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(),
                 dataSourceCriteria, dataPointCriteria);
+        EditDataSourceWithPointListPage pointPage = dataSourcePointObjectsCreator.createObjects()
+                .openDataSourceEditor(dataSourceCriteria.getIdentifier());
+        dataPointId = pointPage.getDataPointDatabaseId(dataPointCriteria.getIdentifier());
         EventDetectorCriteria eventDetectorCriteria = EventDetectorCriteria.criteria(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE), AlarmLevel.INFORMATION, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
         dataSourcePointObjectsCreator.createObjects();
         dataPointXid = dataPointCriteria.getXid();
@@ -58,7 +63,7 @@ public class EventDetectorServicePostTest {
 
         //given:
         EventDetectorParams eventDetectorParams = new EventDetectorParams();
-        eventDetectorParams.setXid(dataPointXid.getValue());
+        eventDetectorParams.setId(dataPointId);
         eventDetectorParams.setBody(eventDetectorResponse);
 
         //when:
@@ -73,7 +78,7 @@ public class EventDetectorServicePostTest {
 
         //given:
         EventDetectorParams eventDetectorParams = new EventDetectorParams();
-        eventDetectorParams.setXid(dataPointXid.getValue());
+        eventDetectorParams.setId(dataPointId);
         eventDetectorParams.setBody(eventDetectorResponse);
 
         //when:
@@ -88,7 +93,7 @@ public class EventDetectorServicePostTest {
 
         //given:
         EventDetectorParams eventDetectorParams = new EventDetectorParams();
-        eventDetectorParams.setXid(dataPointXid.getValue());
+        eventDetectorParams.setId(dataPointId);
         eventDetectorParams.setBody(eventDetectorResponse);
 
         //when:

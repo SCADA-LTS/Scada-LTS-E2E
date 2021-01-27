@@ -46,7 +46,7 @@ public class EventDetectorServiceObject implements WebServiceObject {
 
     public Optional<E2eResponse<EventDetectorPostResponse>> setEventDetector(EventDetectorParams eventDetectorParams, long timeout) {
         try {
-            E2eResponse<EventDetectorPostResponse> response = applyWhile(this::_setBinaryStateEventDetector, eventDetectorParams, new StabilityUtil.Timeout(timeout));
+            E2eResponse<EventDetectorPostResponse> response = applyWhile(this::_setChangeEventDetector, eventDetectorParams, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -55,16 +55,33 @@ public class EventDetectorServiceObject implements WebServiceObject {
     }
 
     public E2eResponse<EventDetectorPostResponse> _setBinaryStateEventDetector(EventDetectorParams eventDetectorParams) {
-        String endpoint = baseUrl + "/api/eventDetector/set/binary/state/xid/";
+        String endpoint = baseUrl + "/api/eventDetector/set/binary/state/";
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
-        logger.info("params: {}", eventDetectorParams.getXid());
+        logger.info("params: {}", eventDetectorParams.getId());
         logger.info("endpoint: {}", endpoint);
         logger.info("cookie: {}", cookie);
         logger.info("body: {}", eventDetectorParams.getBody());
         MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
         Response response = client
                 .target(endpoint)
-                .path(eventDetectorParams.getXid())
+                .path(String.valueOf(eventDetectorParams.getId()))
+                .request(mediaType)
+                .cookie(cookie)
+                .post(Entity.entity(eventDetectorParams.getBody(), MediaType.APPLICATION_JSON));
+        return E2eResponseFactory.newResponse(response, EventDetectorPostResponse.class);
+    }
+
+    public E2eResponse<EventDetectorPostResponse> _setChangeEventDetector(EventDetectorParams eventDetectorParams) {
+        String endpoint = baseUrl + "/api/eventDetector/set/change/";
+        Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
+        logger.info("params: {}", eventDetectorParams.getId());
+        logger.info("endpoint: {}", endpoint);
+        logger.info("cookie: {}", cookie);
+        logger.info("body: {}", eventDetectorParams.getBody());
+        MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
+        Response response = client
+                .target(endpoint)
+                .path(String.valueOf(eventDetectorParams.getId()))
                 .request(mediaType)
                 .cookie(cookie)
                 .post(Entity.entity(eventDetectorParams.getBody(), MediaType.APPLICATION_JSON));
