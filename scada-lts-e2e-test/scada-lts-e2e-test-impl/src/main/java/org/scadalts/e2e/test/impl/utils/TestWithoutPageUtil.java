@@ -262,13 +262,13 @@ public class TestWithoutPageUtil {
         }
     }
 
-    public static int createEventDetectorAndGetId(EventDetectorCriteria eventDetectorCriteria){
-        EventDetectorParams eventDetectorParams = prepareEventDetectorParams(eventDetectorCriteria);
+    public static int createEventDetectorAndGetId(int dataPointId, EventDetectorCriteria eventDetectorCriteria){
+        EventDetectorParams eventDetectorParams = prepareEventDetectorParams(dataPointId, eventDetectorCriteria);
         E2eResponse<EventDetectorPostResponse> setResponse = TestWithoutPageUtil.setEventDetector(eventDetectorParams);
         return setResponse.getValue().getId();
     }
 
-    private static EventDetectorParams prepareEventDetectorParams(EventDetectorCriteria eventDetectorCriteria) {
+    private static EventDetectorParams prepareEventDetectorParams(int dataPointId, EventDetectorCriteria eventDetectorCriteria) {
         Xid eventDetectorXid = eventDetectorCriteria.getXid();
         Xid dataPointXid = eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint().getXid();
         int eventDetectorAlarmLevel = Integer.parseInt(eventDetectorCriteria.getAlarmLevel().getId());
@@ -279,7 +279,7 @@ public class TestWithoutPageUtil {
                 .alarmLevel(eventDetectorAlarmLevel)
                 .build();
         EventDetectorParams eventDetectorParams = new EventDetectorParams();
-        eventDetectorParams.setXid(dataPointXid.getValue());
+        eventDetectorParams.setId(dataPointId);
         eventDetectorParams.setBody(body);
         return eventDetectorParams;
     }

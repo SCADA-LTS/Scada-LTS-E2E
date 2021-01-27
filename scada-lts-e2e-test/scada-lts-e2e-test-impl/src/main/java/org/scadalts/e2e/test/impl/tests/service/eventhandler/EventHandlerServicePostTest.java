@@ -39,7 +39,7 @@ public class EventHandlerServicePostTest {
         dataPointId = pointPage.getDataPointDatabaseId(dataPointCriteria.getIdentifier());
         EventDetectorCriteria eventDetectorCriteria = EventDetectorCriteria.criteria(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE), AlarmLevel.INFORMATION, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
         dataSourcePointObjectsCreator.createObjects();
-        eventDetectorId = TestWithoutPageUtil.createEventDetectorAndGetId(eventDetectorCriteria);
+        eventDetectorId = TestWithoutPageUtil.createEventDetectorAndGetId(dataPointId, eventDetectorCriteria);
     }
 
     @After

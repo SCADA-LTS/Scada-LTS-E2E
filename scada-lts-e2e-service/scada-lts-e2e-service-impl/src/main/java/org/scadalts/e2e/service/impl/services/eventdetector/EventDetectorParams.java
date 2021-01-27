@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventDetectorParams implements WebServiceObjectParams {
+    private int id;
     private String xid;
     private EventDetectorResponse body;
 }
