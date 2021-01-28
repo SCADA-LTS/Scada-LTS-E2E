@@ -23,7 +23,7 @@ public class DataPointPropertiesJson {
     private String intervalLoggingType = "";
     private String purgeType = "";
     private PointLocator pointLocator = new PointLocator();
-    private List<String> eventDetectors = new ArrayList<>();
+    private List<EventDetectorJson> eventDetectors = new ArrayList<>();
     private String engineeringUnits = "";
     private String chartColour = "";
     private ChartRenderer chartRenderer = new ChartRenderer();

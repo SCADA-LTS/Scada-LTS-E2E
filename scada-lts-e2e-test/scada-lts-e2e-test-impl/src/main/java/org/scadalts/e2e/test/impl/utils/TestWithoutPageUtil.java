@@ -5,9 +5,17 @@ import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.common.config.E2eConfigurator;
 import org.scadalts.e2e.common.exceptions.ApplicationIsNotAvailableException;
 import org.scadalts.e2e.common.exceptions.E2eAuthenticationException;
+import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
+import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.*;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorParams;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorPostResponse;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorResponse;
+import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerGetParams;
+import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerPostParams;
+import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerResponse;
 import org.scadalts.e2e.service.impl.services.storungs.AcknowledgeResponse;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
@@ -191,4 +199,94 @@ public class TestWithoutPageUtil {
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
+
+    public static E2eResponse<List<EventDetectorResponse>> getEventDetectors(EventDetectorParams eventDetectorParams) {
+        return getEventDetectors(eventDetectorParams, TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<List<EventDetectorResponse>> getEventDetectors(EventDetectorParams eventDetectorParams, long timeout) {
+        try (EventDetectorServiceObject eventDetectorServiceObject =
+                     ServiceObjectFactory.newEventDetectorServiceObject()) {
+            Optional<E2eResponse<List<EventDetectorResponse>>> responseOpt = eventDetectorServiceObject.getEventDetectorsByXid(eventDetectorParams,
+                    timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<EventDetectorPostResponse> setEventDetector(EventDetectorParams eventDetectorParams) {
+        return setEventDetector(eventDetectorParams, TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<EventDetectorPostResponse> setEventDetector(EventDetectorParams eventDetectorParams, long timeout) {
+        try (EventDetectorServiceObject eventDetectorServiceObject =
+                     ServiceObjectFactory.newEventDetectorServiceObject()) {
+            Optional<E2eResponse<EventDetectorPostResponse>> responseOpt = eventDetectorServiceObject.setEventDetector(eventDetectorParams,
+                    timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<List<EventHandlerResponse>> getEventHandlers() {
+        return getEventHandlers(TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<List<EventHandlerResponse>> getEventHandlers(long timeout) {
+        try (EventHandlerServiceObject eventHandlerServiceObject =
+                     ServiceObjectFactory.newEventHandlerServiceObject()) {
+            Optional<E2eResponse<List<EventHandlerResponse>>> responseOpt = eventHandlerServiceObject.getAllEventHandlers(timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<EventHandlerResponse> getEventHandlerByXid(EventHandlerGetParams eventHandlerGetParams) {
+        return getEventHandlerByXid(eventHandlerGetParams, TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<EventHandlerResponse> getEventHandlerByXid(EventHandlerGetParams eventHandlerGetParams, long timeout) {
+        try (EventHandlerServiceObject eventHandlerServiceObject =
+                     ServiceObjectFactory.newEventHandlerServiceObject()) {
+            Optional<E2eResponse<EventHandlerResponse>> responseOpt = eventHandlerServiceObject.getEventHandlerByXid(eventHandlerGetParams, timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<EventHandlerResponse> createEventHandler(EventHandlerPostParams eventHandlerPostParams) {
+        return createEventHandler(eventHandlerPostParams, TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<EventHandlerResponse> createEventHandler(EventHandlerPostParams eventHandlerPostParams, long timeout) {
+        try (EventHandlerServiceObject eventHandlerServiceObject =
+                     ServiceObjectFactory.newEventHandlerServiceObject()) {
+            Optional<E2eResponse<EventHandlerResponse>> responseOpt = eventHandlerServiceObject.createEventHandler(eventHandlerPostParams, timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static int createEventDetectorAndGetId(int dataPointId, EventDetectorCriteria eventDetectorCriteria){
+        EventDetectorParams eventDetectorParams = prepareEventDetectorParams(dataPointId, eventDetectorCriteria);
+        E2eResponse<EventDetectorPostResponse> setResponse = TestWithoutPageUtil.setEventDetector(eventDetectorParams);
+        return setResponse.getValue().getId();
+    }
+
+    private static EventDetectorParams prepareEventDetectorParams(int dataPointId, EventDetectorCriteria eventDetectorCriteria) {
+        Xid eventDetectorXid = eventDetectorCriteria.getXid();
+        Xid dataPointXid = eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint().getXid();
+        int eventDetectorAlarmLevel = Integer.parseInt(eventDetectorCriteria.getAlarmLevel().getId());
+        String name = eventDetectorCriteria.getIdentifier().getValue();
+        EventDetectorResponse body = EventDetectorResponse.builder()
+                .xid(eventDetectorXid.getValue())
+                .alias(name)
+                .alarmLevel(eventDetectorAlarmLevel)
+                .build();
+        EventDetectorParams eventDetectorParams = new EventDetectorParams();
+        eventDetectorParams.setId(dataPointId);
+        eventDetectorParams.setBody(body);
+        return eventDetectorParams;
+    }
+
+
+
+
+
+
 }

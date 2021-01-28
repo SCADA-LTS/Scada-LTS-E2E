@@ -26,6 +26,11 @@ public class DataSourcePointCriteria implements CriteriaObject {
         this.dataPoint = dataPoint;
     }
 
+    public static DataSourcePointCriteria empty() {
+        return new DataSourcePointCriteria(DataSourceCriteria.empty(),
+                DataPointCriteria.empty());
+    }
+
     public static DataSourcePointCriteria virtualDataSourceBinaryAlternate() {
         return new DataSourcePointCriteria(DataSourceCriteria.virtualDataSourceSecond(),
                 DataPointCriteria.binaryAlternate());

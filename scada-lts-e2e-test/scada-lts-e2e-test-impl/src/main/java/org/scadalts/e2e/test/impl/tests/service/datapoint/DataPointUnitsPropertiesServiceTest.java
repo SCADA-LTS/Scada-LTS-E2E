@@ -42,6 +42,7 @@ public class DataPointUnitsPropertiesServiceTest {
                 .entrySet()
                 .stream()
                 .flatMap(a -> a.getValue().stream())
+                .limit(20)
                 .collect(Collectors.toList());
     }
 

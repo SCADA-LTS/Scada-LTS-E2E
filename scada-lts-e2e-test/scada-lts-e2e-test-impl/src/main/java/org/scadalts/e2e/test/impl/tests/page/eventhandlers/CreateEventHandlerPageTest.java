@@ -94,11 +94,11 @@ public class CreateEventHandlerPageTest {
         EventHandlerObjectsCreator eventHandlerObjectsCreator = new EventHandlerObjectsCreator(navigationPage, eventHandlerCriteria);
         eventHandlerObjectsCreator.deleteObjects();
         scriptObjectsCreator.deleteObjects();
-        /*eventDetectorObjectsCreator.deleteObjects();
+        eventDetectorObjectsCreator.deleteObjects();
         eventDetectorObjectsCreator2.deleteObjects();
         eventDetectorObjectsCreator3.deleteObjects();
         eventDetectorObjectsCreator4.deleteObjects();
-        eventDetectorObjectsCreator5.deleteObjects();*/
+        eventDetectorObjectsCreator5.deleteObjects();
         dataSourcePointObjectsCreator.deleteObjects();
     }
 
