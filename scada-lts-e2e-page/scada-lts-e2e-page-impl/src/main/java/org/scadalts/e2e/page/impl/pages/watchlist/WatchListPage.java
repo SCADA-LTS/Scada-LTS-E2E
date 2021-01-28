@@ -83,8 +83,8 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
 
     public WatchListPage addWatchList(WatchListCriteria criteria) {
         delay();
-
         executeJQuery(JQueryScripts.click(ADD_NEW_WATCH_LIST));
+        delay();
         waitWhile(editWatchListButton, not(Condition.visible)).click();
         waitWhile($(NEW_WATCH_LIST_NAME_TEXT_BY), not(Condition.visible))
                 .setValue(criteria.getIdentifier().getValue());

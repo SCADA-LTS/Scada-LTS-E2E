@@ -59,11 +59,15 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     public EditDataSourceWithPointListPage enableDataSource(boolean enable) {
         delay();
         if(enable) {
-            acceptAlertAfterClick(dataSourceOnOff);
-            waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
+            if($(SELECTOR_DISABLE_DATA_SOURCE_BY).is(Condition.visible)) {
+                acceptAlertAfterClick(dataSourceOnOff);
+                waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
+            }
         } else {
-            acceptAlertAfter(dataSourceOnOff::clear);
-            waitWhile($(SELECTOR_DISABLE_DATA_SOURCE_BY), not(Condition.visible));
+            if($(SELECTOR_ENABLE_DATA_SOURCE_BY).is(Condition.visible)) {
+                acceptAlertAfter(dataSourceOnOff::clear);
+                waitWhile($(SELECTOR_DISABLE_DATA_SOURCE_BY), not(Condition.visible));
+            }
         }
         return this;
     }

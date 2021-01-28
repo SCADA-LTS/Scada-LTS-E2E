@@ -21,15 +21,13 @@ public class CreateOneDataSourceMultiPointsSubCommand implements SubCommand<Data
     @Override
     public DataSourceCriteria execute() {
         DataSourcePointObjectsCreator dataSourcePointObjectsCreator =
-                new DataSourcePointObjectsCreator(navigationPage, dataPoints.toArray(new DataPointCriteria[]{}));
-
+                new DataSourcePointObjectsCreator(navigationPage, dataSource,
+                        dataPoints.toArray(new DataPointCriteria[]{}));
         dataSourcePointObjectsCreator.createObjects();
 
         DataPointObjectsCreator dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage,
                 dataSource, dataPoints.toArray(new DataPointCriteria[]{}));
-
         dataPointObjectsCreator.createObjects();
-
         return dataSource;
     }
 

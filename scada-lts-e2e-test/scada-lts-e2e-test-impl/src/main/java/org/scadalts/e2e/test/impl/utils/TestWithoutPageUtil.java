@@ -40,7 +40,9 @@ public class TestWithoutPageUtil {
 
     public static void preparingTest() {
         _setup();
-        if(!isLogged()) {
+        if(!E2eConfiguration.checkAuthentication) {
+            TestWithoutPageUtil._login();
+        } else if(!isLogged()) {
             _login();
             if(!isLogged())
                 throw new E2eAuthenticationException(E2eConfiguration.userName);

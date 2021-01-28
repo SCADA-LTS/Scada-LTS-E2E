@@ -75,4 +75,6 @@ class E2eConfigDefault implements E2eConfig {
 
     private boolean mailSmtpAuthMode;
     private boolean mailSmtpStarttlsMode;
+
+    private boolean checkAuthentication;
 }

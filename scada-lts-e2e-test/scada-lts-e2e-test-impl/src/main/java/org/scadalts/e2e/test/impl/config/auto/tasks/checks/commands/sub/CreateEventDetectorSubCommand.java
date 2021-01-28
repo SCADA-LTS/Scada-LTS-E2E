@@ -9,7 +9,6 @@ import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventDetectorIdentifier;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
-import org.scadalts.e2e.page.impl.dicts.EventDetectorType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
 
