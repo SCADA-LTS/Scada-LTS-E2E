@@ -7,8 +7,10 @@ import org.scadalts.e2e.common.utils.ExecutorUtil;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.WatchListIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -37,12 +39,15 @@ public class ConfigureTestDataPointDetailsCommand implements Command<DataPointDe
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.criteriaSecond(new DataSourceIdentifier(TestImplConfiguration.dataSourceName, DataSourceType.VIRTUAL_DATA_SOURCE));
         DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(new DataPointIdentifier(TestImplConfiguration.dataPointName, DataPointType.NUMERIC));
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
+        WatchListCriteria watchListCriteria = WatchListCriteria.criteria(new WatchListIdentifier(TestImplConfiguration.watchListName), dataSourcePointCriteria.getIdentifier());
 
         try (CriteriaRegister criteriaRegister = new CriteriaRegister(getClassTest())) {
 
             criteriaRegister.register(DataSourceCriteria.class, dataSourceCriteria);
             criteriaRegister.register(DataPointCriteria.class, dataPointCriteria);
             criteriaRegister.register(DataSourcePointCriteria.class, dataSourcePointCriteria);
+            criteriaRegister.register(WatchListCriteria.class, watchListCriteria);
+
         }
 
         DataSourcePointObjectsCreator dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
@@ -51,7 +56,7 @@ public class ConfigureTestDataPointDetailsCommand implements Command<DataPointDe
         DataPointObjectsCreator dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataPointObjectsCreator.createObjects();
 
-        WatchListObjectsCreator watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, dataSourcePointCriteria);
+        WatchListObjectsCreator watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, watchListCriteria);
         watchListObjectsCreator.createObjects();
     }
 

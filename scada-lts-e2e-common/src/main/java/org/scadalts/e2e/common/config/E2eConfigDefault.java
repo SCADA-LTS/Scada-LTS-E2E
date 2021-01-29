@@ -37,7 +37,6 @@ class E2eConfigDefault implements E2eConfig {
     private BrowserRef browserRef;
     private int timeoutMs;
     private File driverFile;
-    private int ctrlCode;
     private boolean headlessMode;
     private boolean driverManagerMode;
     private boolean screenshotMode;
@@ -57,7 +56,7 @@ class E2eConfigDefault implements E2eConfig {
     private int alarmListNoChangedAfterMs;
     private int waitingAfterSetPointValueMs;
     private String graphicalViewName;
-    private TestPlan testPlan;
+    private TestPlan[] testPlans;
     private String dataPointToChangeXid;
     private String dataPointToReadXid;
 
@@ -74,4 +73,8 @@ class E2eConfigDefault implements E2eConfig {
     private String dataPointTargetXid;
     private String dataPointSourceXid;
 
+    private boolean mailSmtpAuthMode;
+    private boolean mailSmtpStarttlsMode;
+
+    private boolean checkAuthentication;
 }

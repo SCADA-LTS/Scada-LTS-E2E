@@ -9,6 +9,7 @@ import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
+import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
 import org.scadalts.e2e.page.impl.dicts.ChangeType;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
@@ -39,6 +40,7 @@ public class CreateDataPointPageTest {
     public void createDataSource() {
         dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         dataPointCreatedCriteria = DataPointCriteria.builder()
+                .dataPointProperties(DataPointProperties.empty())
                 .xid(Xid.xidForDataPoint())
                 .identifier(dataPointToCreateName)
                 .changeType(changeType)

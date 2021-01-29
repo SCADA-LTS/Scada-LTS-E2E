@@ -22,19 +22,20 @@ public class DeleteGraphicalViewPageTest {
     private final GraphicalViewIdentifier viewName = IdentifierObjectFactory.viewName();
 
     private GraphicalViewCriteria criteria;
-    private GraphicalViewObjectsCreator graphicalViewTestsUtil;
+    private GraphicalViewObjectsCreator graphicalViewObjectsCreator;
     private GraphicalViewsPage graphicalViewsPageSubject;
 
     @Before
     public void createView() {
         criteria = GraphicalViewCriteria.criteria(viewName);
-        graphicalViewTestsUtil = new GraphicalViewObjectsCreator(TestWithPageUtil.getNavigationPage(), criteria);
-        graphicalViewsPageSubject = graphicalViewTestsUtil.createObjects();
+        graphicalViewObjectsCreator = new GraphicalViewObjectsCreator(TestWithPageUtil.getNavigationPage(), criteria);
+        graphicalViewsPageSubject = graphicalViewObjectsCreator.createObjects();
     }
 
     @After
     public void clean() {
-        graphicalViewTestsUtil.deleteObjects();
+        GraphicalViewsPage page = graphicalViewObjectsCreator.deleteObjects();
+        page.acceptAlertOnPage2();
     }
 
     @Test

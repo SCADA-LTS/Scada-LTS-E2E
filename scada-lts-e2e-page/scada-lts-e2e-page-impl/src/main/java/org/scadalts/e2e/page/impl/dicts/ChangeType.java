@@ -26,7 +26,7 @@ public enum ChangeType implements DictionaryObject {
 
     public static ChangeType getType(String typeName) {
         return Stream.of(ChangeType.values())
-                .filter(a -> a.name.equals(typeName))
+                .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
     }

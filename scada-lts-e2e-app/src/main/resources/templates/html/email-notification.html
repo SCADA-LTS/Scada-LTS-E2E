@@ -5,26 +5,26 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style type="text/css">
-        #results, #summary {
+        .results, #summary {
           font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
           border-collapse: collapse;
           width: 100%;
         }
 
-        #results td, #results th, #summary td, #summary th {
+        .results td, .results th, #summary td, #summary th {
           border: 1px solid #ddd;
           padding: 8px;
         }
 
-        #results tr:nth-child(even){background-color: #f2f2f2;}
+        .results tr:nth-child(even){background-color: #f2f2f2;}
 
-        #results tr:hover {background-color: #ddd;}
+        .results tr:hover {background-color: #ddd;}
 
         #summary tr:nth-child(even){background-color: #f2f2f2;}
 
         #summary tr:hover {background-color: #ddd;}
 
-        #results th, #summary th {
+        .results th, #summary th {
           padding-top: 12px;
           padding-bottom: 12px;
           text-align: left;
@@ -32,28 +32,58 @@
           color: white;
         }
 
+        .NON_DETERMINISTIC_ERROR {
+            color: #ff9900;
+        }
+
+        .OK {
+            color: #006600;
+        }
+
+        .DETERMINISTIC_ERROR {
+            color: red;
+        }
     </style>
 </head>
 <body>
     <div><img src="../../templates/logo.png"  th:src="|cid:logo.png|" /></div>
     <div th:text="${title}">Title email</div>
-    <table id="results" class="table table-bordered" >
+    <table id="results" class="results table table-bordered" >
         <thead>
             <tr class="bg-success">
                 <th scope="col" th:text="${testNameTh}" >testName</th>
                 <th scope="col" th:text="${testMethodNameTh}" >methodName</th>
                 <th scope="col" th:text="${testMessageTh}" >testMessage</th>
-                <th scope="col" th:text="${testSessionIdTh}" >sessionId</th>
             </tr>
         </thead>
         <th:block th:each="failure: ${summary.failures}">
             <tr>
                 <td th:text="${failure.description.testClass == null ? 'runnerError' : failure.description.testClass.simpleName}">testName</td>
-                <td th:text="${failure.description.methodName == null ? 'staticInizalizationError' : failure.description.methodName}">method</td>
+                <td th:text="${failure.description.methodName == null ? 'staticInizalizationError' : T(org.apache.commons.lang3.StringUtils).abbreviate(failure.description.methodName, 500)}">method</td>
                 <td th:text="${failure.message == null ? 'No message' : T(org.apache.commons.lang3.StringUtils).abbreviate(failure.message, 500)}">message</td>
-                <td th:text="${failure.sessionId == null or failure.sessionId == '' ? 'Not logged in' : failure.sessionId}">sessionId</td>
             </tr>
         </th:block>
+    </table>
+    <table id="results2" class="results table table-bordered" >
+        <thead>
+        <tr class="bg-success">
+            <th scope="col" th:text="${testNameTh}" >testName</th>
+            <th scope="col" th:text="${statusTh}" >status</th>
+        </tr>
+        </thead>
+        <th:block th:each="status: ${summary.testStatuses}">
+            <tr>
+                <td th:text="${status.key}">testName</td>
+                <td th:text="${status.value}">statusName</td>
+            </tr>
+        </th:block>
+        <tr>
+            <td colspan="2">
+                <th:block th:each="legend: ${summary.statusesLegend}">
+                    <p th:text="|${legend.key} - ${legend.value}|">legend</p>
+                </th:block>
+            </td>
+        </tr>
     </table>
     <table id="summary" class="table table-bordered">
         <thead>

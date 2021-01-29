@@ -2,7 +2,8 @@ package org.scadalts.e2e.test.impl.creators;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
@@ -11,12 +12,12 @@ import org.scadalts.e2e.test.core.creators.CreatorObject;
 public class WatchListObjectsCreator implements CreatorObject<WatchListPage, WatchListPage> {
 
     private final NavigationPage navigationPage;
-    private final DataSourcePointCriteria[] criterias;
+    private final WatchListCriteria[] criterias;
 
     @Getter
     private WatchListPage watchListPage;
 
-    public WatchListObjectsCreator(NavigationPage navigationPage, DataSourcePointCriteria... criterias) {
+    public WatchListObjectsCreator(NavigationPage navigationPage, WatchListCriteria... criterias) {
         this.criterias = criterias;
         this.navigationPage = navigationPage;
     }
@@ -33,11 +34,18 @@ public class WatchListObjectsCreator implements CreatorObject<WatchListPage, Wat
     @Override
     public WatchListPage createObjects() {
         WatchListPage page = openPage();
-        for (DataSourcePointCriteria criteria : criterias) {
-            if(!page.isVisibleWatchList() || !page.containsObject(criteria.getIdentifier())) {
+        for (WatchListCriteria criteria : criterias) {
+            if(!page.containsObject(criteria.getIdentifier())) {
                 logger.info("create object: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getClass().getSimpleName());
-                page.addToWatchList(criteria.getIdentifier());
+                page.addWatchList(criteria);
+            }
+            for (DataSourcePointIdentifier identifier : criteria.getDataSourcePointIdentifiers()) {
+                if(!page.isVisibleWatchListUnit(identifier)) {
+                    logger.info("create object: {}, class: {}", identifier.getValue(),
+                            identifier.getClass().getSimpleName());
+                    page.addDataToWatchList(identifier);
+                }
             }
         }
         return page;
@@ -46,11 +54,11 @@ public class WatchListObjectsCreator implements CreatorObject<WatchListPage, Wat
     @Override
     public WatchListPage deleteObjects() {
         WatchListPage page = openPage();
-        for (DataSourcePointCriteria criteria : criterias) {
+        for (WatchListCriteria criteria : criterias) {
             if(page.containsObject(criteria.getIdentifier())) {
                 logger.info("delete object: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getClass().getSimpleName());
-                page.deleteFromWatchList(criteria.getIdentifier());
+                page.deleteWatchList(criteria.getIdentifier());
             }
         }
         return page;

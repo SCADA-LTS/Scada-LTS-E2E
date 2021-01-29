@@ -48,6 +48,18 @@ public class Tag {
         return new Tag("img");
     }
 
+    public static Tag table() {
+        return new Tag("table");
+    }
+
+    public static Tag optgroup() {
+        return new Tag("optgroup");
+    }
+
+    public static Tag option() {
+        return new Tag("option");
+    }
+
     @Override
     public String toString() {
         return value;

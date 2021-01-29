@@ -51,7 +51,7 @@ public class CmpServiceObject implements WebServiceObject {
         MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
         Response response = client
                 .target(endpoint)
-                .path(cmpParams.getXid())
+                .path(cmpParams.getDataPointXid())
                 .path(String.valueOf(cmpParams.getValue()))
                 .request(mediaType)
                 .cookie(cookie)

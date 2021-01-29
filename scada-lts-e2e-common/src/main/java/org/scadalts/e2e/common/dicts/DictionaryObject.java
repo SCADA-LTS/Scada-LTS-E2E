@@ -3,7 +3,9 @@ package org.scadalts.e2e.common.dicts;
 public interface DictionaryObject {
 
     String getName();
-    String getId();
+    default String getId() {
+        return "";
+    }
 
     DictionaryObject ANY = new DictionaryObject() {
         @Override

@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
@@ -23,10 +24,10 @@ import static org.junit.Assert.assertThat;
 @RunWith(TestWithPageRunner.class)
 public class DeleteWatchListPageTest {
 
-    private static CreatorObject<WatchListPage, WatchListPage> watchListTestsUtil;
+    private static CreatorObject<WatchListPage, WatchListPage> watchListObjectsCreator;
     private static CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcePointObjectsCreator;
 
-    private static DataSourcePointCriteria watchListToDeleteCriteria;
+    private static DataSourcePointCriteria dataSourcePointToDeleteCriteria;
     private static WatchListPage watchListPageSubject;
 
     @BeforeClass
@@ -35,19 +36,21 @@ public class DeleteWatchListPageTest {
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         DataPointCriteria dataPointCriteria = DataPointCriteria.numericNoChange(123);
 
-        watchListToDeleteCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
+        dataSourcePointToDeleteCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
         NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
 
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, watchListToDeleteCriteria);
+        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointToDeleteCriteria);
         dataSourcePointObjectsCreator.createObjects();
 
-        watchListTestsUtil = new WatchListObjectsCreator(navigationPage, watchListToDeleteCriteria);
-        watchListPageSubject = watchListTestsUtil.createObjects();
+        WatchListCriteria watchListToDeleteCriteria = WatchListCriteria.criteria(dataSourcePointToDeleteCriteria.getIdentifier());
+        watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, watchListToDeleteCriteria);
+        watchListPageSubject = watchListObjectsCreator.createObjects()
+                .selectWatchList(watchListToDeleteCriteria.getIdentifier());
     }
 
     @AfterClass
     public static void clean() {
-        watchListTestsUtil.deleteObjects();
+        watchListObjectsCreator.deleteObjects();
         dataSourcePointObjectsCreator.deleteObjects();
     }
 
@@ -58,15 +61,15 @@ public class DeleteWatchListPageTest {
         String watchListBeforeDelete = watchListPageSubject.getWatchListText();
 
         //then:
-        assertThat(watchListBeforeDelete, containsString(watchListToDeleteCriteria.getIdentifier().getValue()));
+        assertThat(watchListBeforeDelete, containsString(dataSourcePointToDeleteCriteria.getIdentifier().getValue()));
 
         //and when:
-        watchListPageSubject.deleteFromWatchList(watchListToDeleteCriteria.getIdentifier());
+        watchListPageSubject.deleteFromWatchList(dataSourcePointToDeleteCriteria.getIdentifier());
 
         //and:
         String watchListAfterDelete = watchListPageSubject.getWatchListText();
 
         //then:
-        assertThat(watchListAfterDelete, not(containsString(watchListToDeleteCriteria.getIdentifier().getValue())));
+        assertThat(watchListAfterDelete, not(containsString(dataSourcePointToDeleteCriteria.getIdentifier().getValue())));
     }
 }

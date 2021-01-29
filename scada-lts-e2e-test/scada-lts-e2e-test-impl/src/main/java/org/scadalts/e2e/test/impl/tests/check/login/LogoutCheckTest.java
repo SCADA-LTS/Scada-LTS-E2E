@@ -49,6 +49,6 @@ public class LogoutCheckTest {
 
         //then:
         assertThat(body, not(containsString(E2eConfiguration.userName)));
-        assertThat(E2eConfiguration.baseUrl + LoginPage.getUrlRef(), equalTo(currentUrl));
+        assertThat(currentUrl, equalTo(E2eConfiguration.baseUrl + LoginPage.getUrlRef()));
     }
 }

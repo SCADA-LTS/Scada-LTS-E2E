@@ -34,11 +34,11 @@ public interface NodeCriteria {
         return new NodeCriteriaExactly(identifier1, identifier2, DictionaryObject.ANY, tag, attribute);
     }
 
-    static NodeCriteria everyInParent(int sectionSize, int everyoneInPosition, Tag tag, XpathAttribute parentAttribute) {
+    static NodeCriteria everyInParent(int sectionSize, int everyoneInPosition, Tag parent, XpathAttribute parentAttribute) {
         return NodeCriteriaEvery.builder()
                 .sectionSize(sectionSize)
                 .everyoneInPosition(everyoneInPosition)
-                .tag(tag)
+                .tag(parent)
                 .attribute(XpathAttribute.empty())
                 .parentAttribute(parentAttribute)
                 .build();
@@ -48,6 +48,16 @@ public interface NodeCriteria {
         return NodeCriteriaEvery.builder()
                 .sectionSize(sectionSize)
                 .everyoneInPosition(everyoneInPosition)
+                .tag(tag)
+                .attribute(attribute)
+                .parentAttribute(XpathAttribute.empty())
+                .build();
+    }
+
+    static NodeCriteria every(Tag tag, XpathAttribute attribute) {
+        return NodeCriteriaEvery.builder()
+                .sectionSize(1)
+                .everyoneInPosition(0)
                 .tag(tag)
                 .attribute(attribute)
                 .parentAttribute(XpathAttribute.empty())
@@ -65,10 +75,10 @@ public interface NodeCriteria {
     }
 
 
-    static NodeCriteria withNode(Tag parent, Tag kind, XpathAttribute kindAttribute) {
+    static NodeCriteria withNode(Tag parent, Tag kid, XpathAttribute kindAttribute) {
         return NodeCriteriaWithNode.builder()
                 .parent(parent)
-                .kind(kind)
+                .kid(kid)
                 .kindAttribute(kindAttribute)
                 .build();
     }

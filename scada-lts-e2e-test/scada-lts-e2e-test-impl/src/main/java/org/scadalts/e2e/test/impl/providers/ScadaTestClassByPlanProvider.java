@@ -2,6 +2,7 @@ package org.scadalts.e2e.test.impl.providers;
 
 import org.scadalts.e2e.common.types.TestPlan;
 import org.scadalts.e2e.test.core.plans.providers.TestClassByPlanProvider;
+import org.scadalts.e2e.test.impl.config.auto.AlarmNotificationAutomaticConfiguration;
 import org.scadalts.e2e.test.impl.config.auto.PerformAutomaticConfiguration;
 import org.scadalts.e2e.test.impl.config.auto.tasks.cleaners.Cleaner;
 import org.scadalts.e2e.test.impl.config.auto.tasks.exports.Exporter;
@@ -12,6 +13,7 @@ import org.scadalts.e2e.test.impl.tests.check.ScadaCheckTestsSuite;
 import org.scadalts.e2e.test.impl.tests.check.login.LoginCheckTest;
 import org.scadalts.e2e.test.impl.tests.check.login.LogoutCheckTest;
 import org.scadalts.e2e.test.impl.tests.page.ScadaPageTestsSuite;
+import org.scadalts.e2e.test.impl.tests.performance.ScadaPerformanceTestsSuite;
 import org.scadalts.e2e.test.impl.tests.service.ScadaServiceTestsSuite;
 
 import java.util.HashMap;
@@ -35,6 +37,9 @@ public class ScadaTestClassByPlanProvider implements TestClassByPlanProvider {
         tests.put(TestPlan.EXPORT, Exporter.class);
         tests.put(TestPlan.IMPORT, Importer.class);
         tests.put(TestPlan.CLEAN, Cleaner.class);
+        tests.put(TestPlan.PERFORMANCE, ScadaPerformanceTestsSuite.class);
+        tests.put(TestPlan.PERF, ScadaPerformanceTestsSuite.class);
+        tests.put(TestPlan.ALARM_NOTIFICATION_AUTO_CONFIG, AlarmNotificationAutomaticConfiguration.class);
     }
 
     @Override

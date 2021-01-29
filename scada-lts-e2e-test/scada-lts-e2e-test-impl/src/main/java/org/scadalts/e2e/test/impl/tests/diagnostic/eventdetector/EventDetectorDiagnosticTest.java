@@ -64,22 +64,22 @@ public class EventDetectorDiagnosticTest {
                     .error("")
                     .resultOperationSave("")
                     .value(expectedValue)
-                    .xid(TestImplConfiguration.dataPointToChangeXid)
+                    .dataPointXid(TestImplConfiguration.dataPointToChangeXid)
                     .build();
 
             //when:
-            E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
+            E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setDataPointValue(cmpParams);
             CmpParams setResult = setResponse.getValue();
 
             //then:
             assertEquals(200, setResponse.getStatus());
             assertNotNull(setResult);
             assertEquals("", setResult.getError());
-            assertEquals(TestImplConfiguration.dataPointToChangeXid, setResult.getXid());
+            assertEquals(TestImplConfiguration.dataPointToChangeXid, setResult.getDataPointXid());
             assertEquals(expectedValue, setResult.getValue());
 
             //and when:
-            E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams,
+            E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getDataPointValue(pointValueParams,
                     expectedValue, TestImplConfiguration.waitingAfterSetPointValueMs);
             PointValueResponse getResult = getResponse.getValue();
 

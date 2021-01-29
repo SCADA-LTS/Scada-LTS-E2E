@@ -53,7 +53,8 @@ public class CreateGraphicalViewPageTest {
 
     @After
     public void clean() {
-        graphicalViewObjectsCreator.deleteObjects();
+        GraphicalViewsPage page = graphicalViewObjectsCreator.deleteObjects();
+        page.acceptAlertOnPage2();
     }
 
     @Test

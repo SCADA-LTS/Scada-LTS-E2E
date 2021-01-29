@@ -1,9 +1,6 @@
 package org.scadalts.e2e.test.core.plans.engine;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public interface E2eSummarable {
     int getRunCount();
@@ -20,13 +17,19 @@ public interface E2eSummarable {
 
     Set<String> getFailTestNames();
 
+    Map<String, TestStatus> getTestStatuses();
+
+    //Map<String, String> getTestDescriptions();
+
     String getUrl();
 
+    Map<String, String> getStatusesLegend();
+
     static E2eSummarable empty() {
-        return new E2eSummary(Collections.emptyList());
+        return new E2eSummary(Collections.emptyMap());
     }
 
-    static E2eSummarable summary(List<E2eResult> results) {
-        return new E2eSummary(new ArrayList<>(results));
+    static E2eSummarable summary(Map<Class<?>, List<E2eResult>> results) {
+        return new E2eSummary(new HashMap<>(results));
     }
 }

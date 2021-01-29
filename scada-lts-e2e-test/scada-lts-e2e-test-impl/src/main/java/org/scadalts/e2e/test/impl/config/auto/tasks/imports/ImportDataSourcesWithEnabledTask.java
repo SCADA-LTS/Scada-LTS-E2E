@@ -19,7 +19,7 @@ public class ImportDataSourcesWithEnabledTask implements Task {
     @Override
     public void execute() {
 
-        List<DataSourceCriteriaJson> criterias = JsonUtil.toList("export/datasource/criterias.json");
+        List<DataSourceCriteriaJson> criterias = JsonUtil.deserialize("export/datasource/criterias.json");
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
 
         for (DataSourceCriteriaJson criteria : criterias) {

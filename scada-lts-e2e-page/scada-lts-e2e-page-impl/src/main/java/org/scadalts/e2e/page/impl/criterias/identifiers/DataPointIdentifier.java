@@ -16,9 +16,15 @@ public class DataPointIdentifier extends AbstractIdentifier {
 
     private final DataPointType type;
 
+    public final static DataPointIdentifier EMPTY = new DataPointIdentifier("", DataPointType.NONE);
+
     public DataPointIdentifier(@NonNull String value, DataPointType type) {
         super(value);
         this.type = type;
+    }
+
+    public static DataPointIdentifier empty() {
+        return EMPTY;
     }
 
     @Override

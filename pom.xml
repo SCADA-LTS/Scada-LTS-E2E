@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>17.0.0-SNAPSHOT</version>
+    <version>19.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -21,6 +21,7 @@
 
     <properties>
         <scada-lts-e2e-common.version>${project.version}</scada-lts-e2e-common.version>
+
         <scada-lts-e2e-app.version>${project.version}</scada-lts-e2e-app.version>
         <scada-lts-e2e-cli.version>${project.version}</scada-lts-e2e-cli.version>
 
@@ -55,6 +56,7 @@
         <caffeine.version>2.8.1</caffeine.version>
         <log4j-slf4j-impl.version>2.13.0</log4j-slf4j-impl.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
+        <commons-logging.version>1.2</commons-logging.version>
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
@@ -117,6 +119,11 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-slf4j-impl</artifactId>
                 <version>${log4j-slf4j-impl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>${commons-logging.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -288,6 +295,10 @@
                         <groupId>org.apache.logging.log4j</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -307,6 +318,10 @@
                         <groupId>org.apache.logging.log4j</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -324,6 +339,10 @@
                     </exclusion>
                     <exclusion>
                         <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
                 </exclusions>
@@ -350,6 +369,10 @@
                         <groupId>org.apache.logging.log4j</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -371,6 +394,10 @@
                         <groupId>org.apache.logging.log4j</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -390,6 +417,10 @@
                         <groupId>org.apache.logging.log4j</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -407,6 +438,10 @@
                     </exclusion>
                     <exclusion>
                         <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.commons.logging</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
                 </exclusions>
@@ -552,6 +587,10 @@
             <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
         <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
@@ -672,11 +711,10 @@
                 <test.e2e.auth-type>FORM</test.e2e.auth-type>
                 <test.e2e.project-version>${project.version}</test.e2e.project-version>
                 <test.e2e.env>prod</test.e2e.env>
-                <test.e2e.test-plan>CHECK</test.e2e.test-plan>
+                <test.e2e.test-plans>CHECK</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
                 <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
-                <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
                 <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
                 <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
@@ -716,7 +754,10 @@
                 <test.e2e.custom-name>-all-test-plan</test.e2e.custom-name>
                 <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
+                <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
+                <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-check</test.e2e.custom-name>
+                <test.e2e.check-authentication>true</test.e2e.check-authentication>
             </properties>
         </profile>
         <profile>
@@ -729,11 +770,10 @@
                 <test.e2e.auth-type>FORM</test.e2e.auth-type>
                 <test.e2e.project-version>${project.version}</test.e2e.project-version>
                 <test.e2e.env>test</test.e2e.env>
-                <test.e2e.test-plan>CHECK</test.e2e.test-plan>
+                <test.e2e.test-plans>CHECK</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
                 <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
-                <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
                 <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
                 <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
@@ -772,7 +812,10 @@
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
+                <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
+                <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-check</test.e2e.custom-name>
+                <test.e2e.check-authentication>true</test.e2e.check-authentication>
             </properties>
         </profile>
         <profile>
@@ -785,11 +828,10 @@
                 <test.e2e.auth-type>FORM</test.e2e.auth-type>
                 <test.e2e.project-version>${project.version}</test.e2e.project-version>
                 <test.e2e.env>dev</test.e2e.env>
-                <test.e2e.test-plan>ALL</test.e2e.test-plan>
+                <test.e2e.test-plans>ALL</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
                 <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
-                <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
                 <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
                 <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
@@ -828,7 +870,10 @@
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
+                <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
+                <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-all-test</test.e2e.custom-name>
+                <test.e2e.check-authentication>true</test.e2e.check-authentication>
             </properties>
         </profile>
         <profile>
@@ -844,13 +889,12 @@
                 <test.e2e.auth-type>FORM</test.e2e.auth-type>
                 <test.e2e.project-version>${project.version}</test.e2e.project-version>
                 <test.e2e.env>dev-local</test.e2e.env>
-                <test.e2e.test-plan>ALL</test.e2e.test-plan>
+                <test.e2e.test-plans>ALL</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>65000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
-                <test.e2e.ctrl-code>57353</test.e2e.ctrl-code>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
-                <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
+                <test.e2e.driver-manager-mode>true</test.e2e.driver-manager-mode>
                 <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
                 <test.e2e.fast-set-value-mode>true</test.e2e.fast-set-value-mode>
                 <test.e2e.proxy-mode>false</test.e2e.proxy-mode>
@@ -864,7 +908,7 @@
                 <test.e2e.alarm-list-no-changed-after-ms>4000</test.e2e.alarm-list-no-changed-after-ms>
                 <test.e2e.waiting-after-set-point-value-ms>30000</test.e2e.waiting-after-set-point-value-ms>
                 <test.e2e.graphical-view-name>graphicalview_change_alarm_list_test</test.e2e.graphical-view-name>
-                <test.e2e.classes-test-refs>org.scadalts.e2e.test.impl.config.auto.PerformAutomaticConfiguration;org.scadalts.e2e.test.impl.config.auto.ConfigurationChecker</test.e2e.classes-test-refs>
+                <test.e2e.classes-test-refs>org.scadalts.e2e.test.impl.config.auto.ConfigurationChecker</test.e2e.classes-test-refs>
                 <test.e2e.data-point-to-change-xid>DP_400344</test.e2e.data-point-to-change-xid>
                 <test.e2e.data-point-to-read-xid>DP_077083</test.e2e.data-point-to-read-xid>
                 <test.e2e.data-source-name>datasource_change_point_in_details_test</test.e2e.data-source-name>
@@ -887,7 +931,10 @@
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage</test.e2e.browser-options-args>
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
-                <test.e2e.custom-name>-all-test</test.e2e.custom-name>
+                <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
+                <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
+                <test.e2e.custom-name>-85</test.e2e.custom-name>
+                <test.e2e.check-authentication>true</test.e2e.check-authentication>
             </properties>
         </profile>
     </profiles>

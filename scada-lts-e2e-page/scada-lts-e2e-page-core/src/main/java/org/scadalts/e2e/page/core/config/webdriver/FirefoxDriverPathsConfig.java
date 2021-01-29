@@ -19,7 +19,7 @@ public enum FirefoxDriverPathsConfig implements WebDrvierPathsConfig {
     }
 
     public static WebDrvierPathsConfig getConfig() {
-        return WebDrvierPathsConfig.getDriverPathConfig(FirefoxDriverPathsConfig.values(),
+        return GetConfigForSystem.getConfig(FirefoxDriverPathsConfig.values(),
                 FirefoxDriverPathsConfig.WINDOWS_32);
     }
 }

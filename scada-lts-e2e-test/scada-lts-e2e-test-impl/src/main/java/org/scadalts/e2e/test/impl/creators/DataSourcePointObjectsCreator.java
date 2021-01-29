@@ -27,7 +27,7 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
     private final NavigationPage navigationPage;
     private final Map<DataSourceCriteria, DataPointObjectsCreator> dataSources;
 
-    private static final NodeCriteria ALL_DATA_SOURCES = NodeCriteria.every(1, 0, tr(), clazz("row"));
+    private static final NodeCriteria ALL_DATA_SOURCES = NodeCriteria.every(tr(), clazz("row"));
 
     @Getter
     private DataSourcesPage dataSourcesPage;
@@ -66,6 +66,11 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
         return _deleteDataPointsAndDataSources(dataSources);
     }
 
+    public DataSourcesPage deleteDataPoints() {
+        return _deleteDataPoints(dataSources);
+    }
+
+
     public EditDataSourceWithPointListPage createDataSources() {
         EditDataSourceWithPointListPage page = new EditDataSourceWithPointListPage();
         DataSourcesPage dataSourcesPage = openPage();
@@ -77,8 +82,8 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
 
     public static DataSourcesPage deleteAllDataSourcesTest(NavigationPage navigationPage) {
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
-        NodeCriteria nodeCriteria = NodeCriteria.exactly(new DataSourceIdentifier("ds_test",
-                DataSourceType.VIRTUAL_DATA_SOURCE), tr(), clazz("row"));
+        NodeCriteria nodeCriteria = NodeCriteria.exactlyTypeAny(new DataSourceIdentifier("ds_test",
+                DataSourceType.NONE), tr(), clazz("row"));
         dataSourcesPage.deleteAllDataSourcesMatching(nodeCriteria);
         return dataSourcesPage;
     }
@@ -109,6 +114,15 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
         return page;
     }
 
+    private DataSourcesPage _deleteDataPoints(Map<DataSourceCriteria, DataPointObjectsCreator> criteriaMap) {
+        DataSourcesPage page = openPage();
+        for (DataSourceCriteria criteria : criteriaMap.keySet()) {
+            DataPointObjectsCreator creator = criteriaMap.get(criteria);
+            creator.deleteObjects();
+        }
+        return page;
+    }
+
     private EditDataSourceWithPointListPage _createDataSource(DataSourcesPage page, DataSourceCriteria criteria) {
 
         logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
@@ -120,18 +134,21 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
                 .setDataSourceName(criteria.getIdentifier())
                 .setDataSourceXid(criteria.getXid())
                 .saveDataSource()
-                .enableDataSource(true);
+                .enableDataSource(criteria.isEnabled());
     }
 
     private DataSourcesPage _createDataSourcesAndPoints() {
         DataSourcesPage dataSourcesPage = openPage();
         for (DataSourceCriteria criteria : dataSources.keySet()) {
+            DataPointObjectsCreator creator = dataSources.get(criteria);
             if(!dataSourcesPage.containsObject(criteria.getIdentifier())) {
                 EditDataSourceWithPointListPage editDataSourceWithPointListPage = _createDataSource(dataSourcesPage, criteria);
-                DataPointObjectsCreator creator = dataSources.get(criteria);
                 creator.createObjects(editDataSourceWithPointListPage);
-                dataSourcesPage.reopen();
+            } else {
+                EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.openDataSourceEditor(criteria.getIdentifier());
+                creator.createObjects(editDataSourceWithPointListPage);
             }
+            dataSourcesPage.reopen();
         }
         return dataSourcesPage;
     }

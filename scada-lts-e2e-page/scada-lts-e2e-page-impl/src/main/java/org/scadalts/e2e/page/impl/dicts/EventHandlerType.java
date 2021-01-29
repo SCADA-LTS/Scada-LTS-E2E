@@ -10,6 +10,7 @@ public enum EventHandlerType implements DictionaryObject {
     SET_POINT("Set point", "1"),
     PROCESS("Process", "3"),
     SCRIPT("Script", "4"),
+    SMS("Sms", "5"),
     NONE("", "");
 
     private final String name;
@@ -32,7 +33,7 @@ public enum EventHandlerType implements DictionaryObject {
 
     public static EventHandlerType getType(String typeName) {
         return Stream.of(EventHandlerType.values())
-                .filter(a -> a.name.equals(typeName))
+                .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
     }

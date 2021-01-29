@@ -60,11 +60,11 @@ public class CmpServiceTest {
                 .error("")
                 .resultOperationSave("")
                 .value(expectedValue)
-                .xid(sourceXid.getValue())
+                .dataPointXid(sourceXid.getValue())
                 .build();
 
         //when:
-        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
+        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setDataPointValue(cmpParams);
 
         //then:
         assertEquals(200, setResponse.getStatus());
@@ -79,11 +79,11 @@ public class CmpServiceTest {
                 .error("")
                 .resultOperationSave("")
                 .value(expectedValue)
-                .xid(sourceXid.getValue())
+                .dataPointXid(sourceXid.getValue())
                 .build();
 
         //when:
-        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
+        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setDataPointValue(cmpParams);
         CmpParams setResult = setResponse.getValue();
 
         //then:
@@ -100,16 +100,16 @@ public class CmpServiceTest {
                 .error("")
                 .resultOperationSave("")
                 .value(expectedValue)
-                .xid(sourceXid.getValue())
+                .dataPointXid(sourceXid.getValue())
                 .build();
 
         //when:
-        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
+        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setDataPointValue(cmpParams);
         CmpParams setResult = setResponse.getValue();
 
         //then:
         assertNotNull(setResult);
-        assertEquals(sourceXid.getValue(), setResult.getXid());
+        assertEquals(sourceXid.getValue(), setResult.getDataPointXid());
     }
 
     @Test
@@ -121,11 +121,11 @@ public class CmpServiceTest {
                 .error("")
                 .resultOperationSave("")
                 .value(expectedValue)
-                .xid(sourceXid.getValue())
+                .dataPointXid(sourceXid.getValue())
                 .build();
 
         //when:
-        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
+        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setDataPointValue(cmpParams);
         CmpParams setResult = setResponse.getValue();
 
         //then:

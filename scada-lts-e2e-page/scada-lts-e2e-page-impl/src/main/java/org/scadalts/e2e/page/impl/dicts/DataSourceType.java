@@ -50,7 +50,7 @@ public enum DataSourceType implements DictionaryObject {
 
     public static DataSourceType getType(String typeName) {
         return Stream.of(DataSourceType.values())
-                .filter(a -> a.name.equals(typeName))
+                .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
     }

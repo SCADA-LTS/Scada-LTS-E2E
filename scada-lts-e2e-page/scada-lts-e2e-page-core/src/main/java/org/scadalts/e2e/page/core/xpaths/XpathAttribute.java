@@ -30,8 +30,16 @@ public final class XpathAttribute {
         return new XpathAttribute("text()", value);
     }
 
+    public static XpathAttribute style(String value) {
+        return new XpathAttribute("@style", value);
+    }
+
     public static XpathAttribute empty() {
         return new XpathAttribute(".", "");
+    }
+
+    public static XpathAttribute selected() {
+        return new XpathAttribute("@selected", "selected");
     }
 
     public boolean isEmpty() {

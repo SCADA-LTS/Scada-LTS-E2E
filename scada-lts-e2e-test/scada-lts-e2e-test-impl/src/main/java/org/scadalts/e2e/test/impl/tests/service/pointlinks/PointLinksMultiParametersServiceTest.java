@@ -105,12 +105,12 @@ public class PointLinksMultiParametersServiceTest {
             //given:
             Script script = Script.sourceValueIncreased(i);
             String value = values.get(i);
+            logger.info("value: {}, expected: {}, script: {}", value, expectedValue, script);
 
             pointLinksDetailsPage.setScript(script)
                     .savePointLink();
 
             expectedValue = isUpdate(eventType, previousValue, value) ? script.executeInJava(value) : expectedValue;
-            logger.info("value: {}, expected: {}, script: {}", value, expectedValue, script);
 
             Xid sourceXid = source.getDataPoint().getXid();
             Xid targetXid = target.getDataPoint().getXid();
@@ -120,14 +120,14 @@ public class PointLinksMultiParametersServiceTest {
                     .error("")
                     .resultOperationSave("")
                     .value(value)
-                    .xid(sourceXid.getValue())
+                    .dataPointXid(sourceXid.getValue())
                     .build();
 
             //when:
-            TestWithoutPageUtil.setValue(cmpParams);
+            TestWithoutPageUtil.setDataPointValue(cmpParams);
 
             //and when:
-            E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointTarget, expectedValue,
+            E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getDataPointValue(pointTarget, expectedValue,
                     TestImplConfiguration.waitingAfterSetPointValueMs);
             PointValueResponse getResult = getResponse.getValue();
 

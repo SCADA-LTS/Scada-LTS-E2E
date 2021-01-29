@@ -7,6 +7,7 @@ import org.scadalts.e2e.test.impl.tests.check.eventdetectors.EventDetectorCheckT
 import org.scadalts.e2e.test.impl.tests.check.graphicalviews.GraphicalViewsCheckTestsSuite;
 import org.scadalts.e2e.test.impl.tests.check.login.LoginCheckTestsSuite;
 import org.scadalts.e2e.test.impl.tests.check.pointlinks.ChangePointValueViaPointLinksCheckTest;
+import org.scadalts.e2e.test.impl.tests.check.storungs.GetAllLivesParametersCheckTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -14,7 +15,8 @@ import org.scadalts.e2e.test.impl.tests.check.pointlinks.ChangePointValueViaPoin
         EventDetectorCheckTest.class,
         GraphicalViewsCheckTestsSuite.class,
         DataPointDetailsCheckTestsSuite.class,
-        ChangePointValueViaPointLinksCheckTest.class
+        ChangePointValueViaPointLinksCheckTest.class,
+        GetAllLivesParametersCheckTest.class
 })
 public class ScadaCheckTestsSuite {
 }

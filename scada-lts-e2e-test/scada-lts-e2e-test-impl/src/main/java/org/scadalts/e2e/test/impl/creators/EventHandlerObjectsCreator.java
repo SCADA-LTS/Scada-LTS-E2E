@@ -49,7 +49,8 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
                         .setAlisas(criteria.getIdentifier())
                         .setDisabled(criteria.isDisabled())
                         .setActiveScriptCommand(criteria.getActiveScript())
-                        .saveEventHandler();
+                        .saveEventHandler()
+                        .waitForObject(criteria.getIdentifier());
             }
             eventHandlersPage.reopen();
         }

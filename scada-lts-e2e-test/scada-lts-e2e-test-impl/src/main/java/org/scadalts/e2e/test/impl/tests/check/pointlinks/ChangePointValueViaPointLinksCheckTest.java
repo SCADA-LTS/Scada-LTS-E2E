@@ -47,22 +47,22 @@ public class ChangePointValueViaPointLinksCheckTest {
                 .error("")
                 .resultOperationSave("")
                 .value(value)
-                .xid(TestImplConfiguration.dataPointSourceXid)
+                .dataPointXid(TestImplConfiguration.dataPointSourceXid)
                 .build();
 
         //when:
-        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
+        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setDataPointValue(cmpParams);
         CmpParams setResult = setResponse.getValue();
 
         //then:
         assertEquals(200, setResponse.getStatus());
         assertNotNull(setResult);
         assertEquals("", setResult.getError());
-        assertEquals(TestImplConfiguration.dataPointSourceXid, setResult.getXid());
+        assertEquals(TestImplConfiguration.dataPointSourceXid, setResult.getDataPointXid());
         assertEquals(value, setResult.getValue());
 
         //and when:
-        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams, expectedValue,
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getDataPointValue(pointValueParams, expectedValue,
                 TestImplConfiguration.waitingAfterSetPointValueMs);
         PointValueResponse getResult = getResponse.getValue();
 

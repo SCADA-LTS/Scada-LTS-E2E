@@ -1,7 +1,6 @@
 package org.scadalts.e2e.service.impl.services.pointvalue;
 
 import lombok.*;
-import org.scadalts.e2e.service.impl.dicts.TextRendererType;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -12,11 +11,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class TextRenderer {
+public class TextRendererJson {
 
     private String colour;
     private String suffix;
-    private TextRendererType typeName;
+    private String typeName;
     private String metaText;
     private TextRendererDef def;
 

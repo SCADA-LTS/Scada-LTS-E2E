@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.impl.tests.check.graphicalviews;
 
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,15 +17,19 @@ import static org.hamcrest.core.StringContains.containsString;
 @RunWith(TestWithPageRunner.class)
 public class EditGraphicalViewAndOpenMainPageCheckTest {
 
-    private static NavigationPage navigationPage;
     private static GraphicalViewsPage graphicalViewsPageSubject;
     private static GraphicalViewIdentifier graphicalViewIdentifier;
 
     @BeforeClass
     public static void setup() {
-        navigationPage = TestWithPageUtil.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         graphicalViewsPageSubject = navigationPage.openGraphicalViews();
         graphicalViewIdentifier = new GraphicalViewIdentifier(TestImplConfiguration.graphicalViewName);
+    }
+
+    @After
+    public void close() {
+        NavigationPage.openPage().acceptAlertOnPage();
     }
 
     @Test
@@ -35,7 +40,7 @@ public class EditGraphicalViewAndOpenMainPageCheckTest {
                 .clickCheckboxDelete();
 
         //and:
-        NavigationPage navigationPage = NavigationPage.openPage().acceptAlertOnPage();
+        NavigationPage navigationPage = NavigationPage.openPage().acceptAlertOnPage2();
 
         //then:
         assertThat(navigationPage.getCurrentUrl(), containsString(NavigationPage.URL_REF));

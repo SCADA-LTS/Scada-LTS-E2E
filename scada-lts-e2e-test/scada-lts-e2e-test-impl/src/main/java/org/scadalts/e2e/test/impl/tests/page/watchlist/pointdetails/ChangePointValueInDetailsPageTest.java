@@ -10,6 +10,7 @@ import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -58,8 +59,10 @@ public class ChangePointValueInDetailsPageTest {
                 new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcesAndPointsPageTestsUtil.createObjects();
 
-        watchListTestsUtil = new WatchListObjectsCreator(navigationPage, dataSourcePointCriteria);
+        WatchListCriteria watchListCriteria = WatchListCriteria.criteria(dataSourcePointCriteria.getIdentifier());
+        watchListTestsUtil = new WatchListObjectsCreator(navigationPage, watchListCriteria);
         dataPointDetailsPageSubject = watchListTestsUtil.createObjects()
+                .selectWatchList(watchListCriteria.getIdentifier())
                 .openDataPointDetails(dataSourcePointCriteria.getIdentifier());
     }
 

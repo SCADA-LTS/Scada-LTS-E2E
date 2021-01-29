@@ -23,7 +23,7 @@ public class ExportDataSourcesUtil {
 
     public static List<DataSourceCriteria> dataSourcesToCriterias(By selectEnableAction, SelenideElement source) {
 
-        NodeCriteria rowCriteria = NodeCriteria.every(1, 0, tr(), clazz("row"));
+        NodeCriteria rowCriteria = NodeCriteria.every(tr(), clazz("row"));
 
         List<SelenideElement> rows = findObjects(rowCriteria,source);
 

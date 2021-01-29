@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
+import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 @Log4j2
@@ -21,5 +22,7 @@ public class TestWithPageRunner extends BlockJUnit4ClassRunner {
             throw ex;
         }
         super.run(notifier);
+        if(!E2eConfiguration.checkAuthentication)
+            TestWithPageUtil.logout();
     }
 }

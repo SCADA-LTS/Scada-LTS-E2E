@@ -5,13 +5,23 @@ import org.scadalts.e2e.common.config.E2eConfiguration;
 import org.scadalts.e2e.common.config.E2eConfigurator;
 import org.scadalts.e2e.common.exceptions.ApplicationIsNotAvailableException;
 import org.scadalts.e2e.common.exceptions.E2eAuthenticationException;
+import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
+import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 import org.scadalts.e2e.service.core.services.E2eResponse;
-import org.scadalts.e2e.service.impl.services.CmpServiceObject;
-import org.scadalts.e2e.service.impl.services.LoginServiceObject;
-import org.scadalts.e2e.service.impl.services.PointValueServiceObject;
-import org.scadalts.e2e.service.impl.services.ServiceObjectFactory;
+import org.scadalts.e2e.service.impl.services.*;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorParams;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorPostResponse;
+import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorResponse;
+import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerGetParams;
+import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerPostParams;
+import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerResponse;
+import org.scadalts.e2e.service.impl.services.storungs.AcknowledgeResponse;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmParams;
+import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
+import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
+import org.scadalts.e2e.service.impl.services.datapoint.DataPointPropertiesResponse;
 import org.scadalts.e2e.service.impl.services.login.LoginParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
@@ -19,7 +29,9 @@ import org.scadalts.e2e.test.core.config.TestCoreConfigurator;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import static org.scadalts.e2e.common.utils.ExecutorUtil.executeFunction;
 
@@ -27,9 +39,13 @@ import static org.scadalts.e2e.common.utils.ExecutorUtil.executeFunction;
 public class TestWithoutPageUtil {
 
     public static void preparingTest() {
-        if(!isLogged()) {
-            _setup();
+        _setup();
+        if(!E2eConfiguration.checkAuthentication) {
+            TestWithoutPageUtil._login();
+        } else if(!isLogged()) {
             _login();
+            if(!isLogged())
+                throw new E2eAuthenticationException(E2eConfiguration.userName);
         }
     }
 
@@ -51,13 +67,6 @@ public class TestWithoutPageUtil {
         }
     }
 
-    public static E2eResponse<String> login(LoginParams cmpParams) {
-        try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
-            Optional<E2eResponse<String>> responseOpt = loginServiceObject.login(cmpParams, TestImplConfiguration.timeout);
-            return responseOpt.orElseGet(E2eResponse::empty);
-        }
-    }
-
     public static E2eResponse<String> logout() {
         try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
             Optional<E2eResponse<String>> responseOpt = loginServiceObject.logout(TestImplConfiguration.timeout);
@@ -65,19 +74,19 @@ public class TestWithoutPageUtil {
         }
     }
 
-    public static E2eResponse<CmpParams> setValue(CmpParams cmpParams) {
+    public static E2eResponse<CmpParams> setDataPointValue(CmpParams cmpParams) {
         try (CmpServiceObject cmpWebServiceObject = ServiceObjectFactory.newCmpServiceObject()) {
             Optional<E2eResponse<CmpParams>> responseOpt = cmpWebServiceObject.set(cmpParams, TestImplConfiguration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
 
-    public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams, String expectedValue) {
-        return getValue(pointValueParams, expectedValue, TestImplConfiguration.timeout);
+    public static E2eResponse<PointValueResponse> getDataPointValue(PointValueParams pointValueParams, String expectedValue) {
+        return getDataPointValue(pointValueParams, expectedValue, TestImplConfiguration.timeout);
     }
 
-    public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams, String expectedValue,
-                                                           long timeout) {
+    public static E2eResponse<PointValueResponse> getDataPointValue(PointValueParams pointValueParams, String expectedValue,
+                                                                    long timeout) {
         try (PointValueServiceObject pointValueWebServiceObject =
                      ServiceObjectFactory.newPointValueServiceObject()) {
             Optional<E2eResponse<PointValueResponse>> responseOpt = pointValueWebServiceObject.getValue(pointValueParams,
@@ -86,16 +95,93 @@ public class TestWithoutPageUtil {
         }
     }
 
-    public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams) {
-        return getValue(pointValueParams, TestImplConfiguration.timeout);
+    public static E2eResponse<PointValueResponse> getDataPointValue(PointValueParams pointValueParams) {
+        return getDataPointValue(pointValueParams, TestImplConfiguration.timeout);
     }
 
-    public static E2eResponse<PointValueResponse> getValue(PointValueParams pointValueParams, long timeout) {
+    public static E2eResponse<PointValueResponse> getDataPointValue(PointValueParams pointValueParams, long timeout) {
         try (PointValueServiceObject pointValueWebServiceObject =
                      ServiceObjectFactory.newPointValueServiceObject()) {
             Optional<E2eResponse<PointValueResponse>> responseOpt = pointValueWebServiceObject.getValue(pointValueParams,
                     timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<DataPointPropertiesResponse> getDataPointProperties(PointValueParams pointValueParams) {
+        return getDataPointProperties(pointValueParams, TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<DataPointPropertiesResponse> getDataPointProperties(PointValueParams pointValueParams,
+                                                                                  long timeout) {
+        try (DataPointServiceObject pointValueWebServiceObject =
+                     ServiceObjectFactory.newDataPointServiceObject()) {
+            Optional<E2eResponse<DataPointPropertiesResponse>> responseOpt = pointValueWebServiceObject.getConfigurationByXid(pointValueParams,
+                    timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<DataPointPropertiesResponse> getDataPointProperties(PointValueParams pointValueParams,
+                                                                                  Predicate<DataPointPropertiesResponse> expectedValue) {
+        try (DataPointServiceObject pointValueWebServiceObject =
+                     ServiceObjectFactory.newDataPointServiceObject()) {
+            Optional<E2eResponse<DataPointPropertiesResponse>> responseOpt = pointValueWebServiceObject
+                    .getConfigurationByXid(pointValueParams, expectedValue, TestImplConfiguration.timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+
+    public static E2eResponse<List<StorungAlarmResponse>> getLiveAlarms(PaginationParams paginationParams, long timeout) {
+        try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
+                     ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
+            Optional<E2eResponse<List<StorungAlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getLiveAlarms(paginationParams,
+                    timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<List<StorungAlarmResponse>> getLiveAlarms(PaginationParams paginationParams,
+                                                                        Predicate<List<StorungAlarmResponse>> whileNot) {
+        try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
+                     ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
+            Optional<E2eResponse<List<StorungAlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getLiveAlarms(paginationParams,
+                    whileNot, TestImplConfiguration.timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<List<StorungAlarmResponse>> getHistoryAlarms(StorungAlarmParams storungAlarmParams, long timeout) {
+        try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
+                     ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
+            Optional<E2eResponse<List<StorungAlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getHistoryAlarms(storungAlarmParams,
+                    timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<AcknowledgeResponse> acknowledgeAlarm(String id, long timeout) {
+        try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
+                     ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
+            Optional<E2eResponse<AcknowledgeResponse>> responseOpt = storungsAndAlarmsServiceObject.acknowledge(id,
+                    timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    private static void _login() {
+        LoginParams loginParams = LoginParams.builder()
+                .userName(E2eConfiguration.userName)
+                .password(E2eConfiguration.password)
+                .build();
+
+        E2eResponse<String> response = executeFunction(TestWithoutPageUtil::_login,loginParams,ApplicationIsNotAvailableException::new);
+
+        E2eConfiguration.sessionId = response.getSessionId();
+        ServiceObjectConfigurator.init(E2eConfiguration.sessionId);
+        if(!_isLogged(response)) {
+            throw new E2eAuthenticationException(E2eConfiguration.userName);
         }
     }
 
@@ -109,18 +195,100 @@ public class TestWithoutPageUtil {
         TestImplConfigurator.init();
     }
 
-    private static void _login() {
-        LoginParams loginParams = LoginParams.builder()
-                .userName(E2eConfiguration.userName)
-                .password(E2eConfiguration.password)
-                .build();
-
-        E2eResponse<String> response = executeFunction(TestWithoutPageUtil::login,loginParams,ApplicationIsNotAvailableException::new);
-
-        E2eConfiguration.sessionId = response.getSessionId();
-        ServiceObjectConfigurator.init(E2eConfiguration.sessionId);
-        if(!_isLogged(response)) {
-            throw new E2eAuthenticationException(E2eConfiguration.userName);
+    private static E2eResponse<String> _login(LoginParams cmpParams) {
+        try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
+            Optional<E2eResponse<String>> responseOpt = loginServiceObject.login(cmpParams, TestImplConfiguration.timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
+
+    public static E2eResponse<List<EventDetectorResponse>> getEventDetectors(EventDetectorParams eventDetectorParams) {
+        return getEventDetectors(eventDetectorParams, TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<List<EventDetectorResponse>> getEventDetectors(EventDetectorParams eventDetectorParams, long timeout) {
+        try (EventDetectorServiceObject eventDetectorServiceObject =
+                     ServiceObjectFactory.newEventDetectorServiceObject()) {
+            Optional<E2eResponse<List<EventDetectorResponse>>> responseOpt = eventDetectorServiceObject.getEventDetectorsByXid(eventDetectorParams,
+                    timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<EventDetectorPostResponse> setEventDetector(EventDetectorParams eventDetectorParams) {
+        return setEventDetector(eventDetectorParams, TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<EventDetectorPostResponse> setEventDetector(EventDetectorParams eventDetectorParams, long timeout) {
+        try (EventDetectorServiceObject eventDetectorServiceObject =
+                     ServiceObjectFactory.newEventDetectorServiceObject()) {
+            Optional<E2eResponse<EventDetectorPostResponse>> responseOpt = eventDetectorServiceObject.setEventDetector(eventDetectorParams,
+                    timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<List<EventHandlerResponse>> getEventHandlers() {
+        return getEventHandlers(TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<List<EventHandlerResponse>> getEventHandlers(long timeout) {
+        try (EventHandlerServiceObject eventHandlerServiceObject =
+                     ServiceObjectFactory.newEventHandlerServiceObject()) {
+            Optional<E2eResponse<List<EventHandlerResponse>>> responseOpt = eventHandlerServiceObject.getAllEventHandlers(timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<EventHandlerResponse> getEventHandlerByXid(EventHandlerGetParams eventHandlerGetParams) {
+        return getEventHandlerByXid(eventHandlerGetParams, TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<EventHandlerResponse> getEventHandlerByXid(EventHandlerGetParams eventHandlerGetParams, long timeout) {
+        try (EventHandlerServiceObject eventHandlerServiceObject =
+                     ServiceObjectFactory.newEventHandlerServiceObject()) {
+            Optional<E2eResponse<EventHandlerResponse>> responseOpt = eventHandlerServiceObject.getEventHandlerByXid(eventHandlerGetParams, timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static E2eResponse<EventHandlerResponse> createEventHandler(EventHandlerPostParams eventHandlerPostParams) {
+        return createEventHandler(eventHandlerPostParams, TestImplConfiguration.timeout);
+    }
+
+    public static E2eResponse<EventHandlerResponse> createEventHandler(EventHandlerPostParams eventHandlerPostParams, long timeout) {
+        try (EventHandlerServiceObject eventHandlerServiceObject =
+                     ServiceObjectFactory.newEventHandlerServiceObject()) {
+            Optional<E2eResponse<EventHandlerResponse>> responseOpt = eventHandlerServiceObject.createEventHandler(eventHandlerPostParams, timeout);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    public static int createEventDetectorAndGetId(int dataPointId, EventDetectorCriteria eventDetectorCriteria){
+        EventDetectorParams eventDetectorParams = prepareEventDetectorParams(dataPointId, eventDetectorCriteria);
+        E2eResponse<EventDetectorPostResponse> setResponse = TestWithoutPageUtil.setEventDetector(eventDetectorParams);
+        return setResponse.getValue().getId();
+    }
+
+    private static EventDetectorParams prepareEventDetectorParams(int dataPointId, EventDetectorCriteria eventDetectorCriteria) {
+        Xid eventDetectorXid = eventDetectorCriteria.getXid();
+        Xid dataPointXid = eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint().getXid();
+        int eventDetectorAlarmLevel = Integer.parseInt(eventDetectorCriteria.getAlarmLevel().getId());
+        String name = eventDetectorCriteria.getIdentifier().getValue();
+        EventDetectorResponse body = EventDetectorResponse.builder()
+                .xid(eventDetectorXid.getValue())
+                .alias(name)
+                .alarmLevel(eventDetectorAlarmLevel)
+                .build();
+        EventDetectorParams eventDetectorParams = new EventDetectorParams();
+        eventDetectorParams.setId(dataPointId);
+        eventDetectorParams.setBody(body);
+        return eventDetectorParams;
+    }
+
+
+
+
+
+
 }

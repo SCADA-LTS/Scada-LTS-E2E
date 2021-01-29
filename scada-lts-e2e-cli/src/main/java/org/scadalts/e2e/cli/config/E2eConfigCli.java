@@ -33,12 +33,8 @@ public class E2eConfigCli implements E2eConfig {
         return fromE2e.getBrowserRef();
     }
     @Override
-    public int getCtrlCode() {
-        return fromE2e.getCtrlCode();
-    }
-    @Override
-    public TestPlan getTestPlan() {
-        return fromE2e.getTestPlan();
+    public TestPlan[] getTestPlans() {
+        return fromE2e.getTestPlans();
     }
     @Override
     public String getHostProxy() {
@@ -242,5 +238,20 @@ public class E2eConfigCli implements E2eConfig {
     @Override
     public String[] getBrowserOptionsPrefs() {
         return fromE2e.getBrowserOptionsPrefs();
+    }
+
+    @Override
+    public boolean isMailSmtpStarttlsMode() {
+        return fromRunApp.isMailSmtpStarttlsMode();
+    }
+
+    @Override
+    public boolean isMailSmtpAuthMode() {
+        return fromRunApp.isMailSmtpAuthMode();
+    }
+
+    @Override
+    public boolean isCheckAuthentication() {
+        return fromE2e.isCheckAuthentication();
     }
 }

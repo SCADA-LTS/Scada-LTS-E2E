@@ -102,8 +102,11 @@ public class PointLinksWithDataSourceServiceTest {
 
         criteria = PointLinkCriteria.criteria(sourcePointSourceCriteria, sourcePointTargetCriteria,
                 eventType, Script.empty());
+
+        WatchListCriteria watchListCriteria = WatchListCriteria.criteria(sourcePointSourceCriteria.getIdentifier(),
+                sourcePointTargetCriteria.getIdentifier());
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
-                criteria);
+                criteria, watchListCriteria.getIdentifier());
         allObjectsForPointLinkTestCreator.createObjects();
         pointLinksPage = allObjectsForPointLinkTestCreator.openPage();
     }
@@ -140,14 +143,14 @@ public class PointLinksWithDataSourceServiceTest {
                     .error("")
                     .resultOperationSave("")
                     .value(value)
-                    .xid(sourceXid.getValue())
+                    .dataPointXid(sourceXid.getValue())
                     .build();
 
             //when:
-            TestWithoutPageUtil.setValue(cmpParams);
+            TestWithoutPageUtil.setDataPointValue(cmpParams);
 
             //and when:
-            E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointTarget, expectedValue,
+            E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getDataPointValue(pointTarget, expectedValue,
                     TestImplConfiguration.waitingAfterSetPointValueMs);
             PointValueResponse getResult = getResponse.getValue();
 

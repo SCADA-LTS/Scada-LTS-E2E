@@ -14,7 +14,7 @@ public interface E2eConfig {
 
     AuthType getAuthType();
 
-    TestPlan getTestPlan();
+    TestPlan[] getTestPlans();
 
     java.net.URL getUrlAppBeingTested();
 
@@ -68,8 +68,6 @@ public interface E2eConfig {
 
     org.apache.logging.log4j.Level getLogLevel();
 
-    int getCtrlCode();
-
     int getTimeoutMs();
 
     int getPollingIntervalMs();
@@ -104,4 +102,9 @@ public interface E2eConfig {
 
     boolean isNotificationEmailMode();
 
+    boolean isMailSmtpAuthMode();
+
+    boolean isMailSmtpStarttlsMode();
+
+    boolean isCheckAuthentication();
 }

@@ -10,7 +10,7 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
-import org.scadalts.e2e.page.impl.pages.datasource.datapoint.PropertiesDataPointPage;
+import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointPropertiesPage;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
@@ -59,11 +59,15 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     public EditDataSourceWithPointListPage enableDataSource(boolean enable) {
         delay();
         if(enable) {
-            acceptAlertAfterClick(dataSourceOnOff);
-            waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
+            if($(SELECTOR_DISABLE_DATA_SOURCE_BY).is(Condition.visible)) {
+                acceptAlertAfterClick(dataSourceOnOff);
+                waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
+            }
         } else {
-            acceptAlertAfter(dataSourceOnOff::clear);
-            waitWhile($(SELECTOR_DISABLE_DATA_SOURCE_BY), not(Condition.visible));
+            if($(SELECTOR_ENABLE_DATA_SOURCE_BY).is(Condition.visible)) {
+                acceptAlertAfter(dataSourceOnOff::clear);
+                waitWhile($(SELECTOR_DISABLE_DATA_SOURCE_BY), not(Condition.visible));
+            }
         }
         return this;
     }
@@ -106,9 +110,9 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return page(EditDataPointPage.class);
     }
 
-    public PropertiesDataPointPage openDataPointProperties(DataPointIdentifier dataPointIdentifier) {
+    public DataPointPropertiesPage openDataPointProperties(DataPointIdentifier dataPointIdentifier) {
         _findAction(dataPointIdentifier, SELECTOR_ACTION_PROPERTIES_DATA_POINT_BY).click();
-        return page(new PropertiesDataPointPage(this));
+        return page(new DataPointPropertiesPage(this));
     }
 
     public EditDataSourceWithPointListPage enableDataPoint(DataPointIdentifier dataPointIdentifier) {
@@ -176,5 +180,24 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     private SelenideElement _findObject(DataPointIdentifier identifier) {
         delay();
         return findObject(identifier.getNodeCriteria(), dataPointsTable);
+    }
+
+    @Deprecated
+    public int getDataPointDatabaseId(DataPointIdentifier identifier) {
+        SelenideElement selenideElement = waitWhile($(_findAction(identifier, SELECTOR_ACTION_PROPERTIES_DATA_POINT_BY)), not(Condition.visible));
+        String onclick = selenideElement.getAttribute("onclick");
+        return convertToInt(onclick);
+    }
+
+    private int convertToInt(String onclick) {
+        if(onclick != null) {
+            String[] split = onclick.split("dpid=");
+            if (split.length == 2) {
+                String onlyNumber = split[1].replaceAll("[^0-9]", "");
+                if(!onlyNumber.isEmpty())
+                    return Integer.parseInt(onlyNumber);
+            }
+        }
+        return -1;
     }
 }

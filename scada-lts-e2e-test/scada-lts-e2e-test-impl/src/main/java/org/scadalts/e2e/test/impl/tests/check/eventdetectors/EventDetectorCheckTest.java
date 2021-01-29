@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(TestParameterizedWithoutPageRunner.class)
 public class EventDetectorCheckTest {
 
-    @Parameterized.Parameters(name = "{index}:{0}")
+    @Parameterized.Parameters(name = "test number: {index}, set value datapoint-to-change: {0}, expected value datapoint-to-read: {0}")
     public static Collection<String> data() {
         return ChangePointValuesProvider.paramsToTests();
     }
@@ -40,22 +40,22 @@ public class EventDetectorCheckTest {
                 .error("")
                 .resultOperationSave("")
                 .value(expectedValue)
-                .xid(TestImplConfiguration.dataPointToChangeXid)
+                .dataPointXid(TestImplConfiguration.dataPointToChangeXid)
                 .build();
 
         //when:
-        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setValue(cmpParams);
+        E2eResponse<CmpParams> setResponse = TestWithoutPageUtil.setDataPointValue(cmpParams);
         CmpParams setResult = setResponse.getValue();
 
         //then:
         assertEquals(200, setResponse.getStatus());
         assertNotNull(setResult);
         assertEquals("", setResult.getError());
-        assertEquals(TestImplConfiguration.dataPointToChangeXid, setResult.getXid());
+        assertEquals(TestImplConfiguration.dataPointToChangeXid, setResult.getDataPointXid());
         assertEquals(expectedValue, setResult.getValue());
 
         //and when:
-        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getValue(pointValueParams,
+        E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getDataPointValue(pointValueParams,
                 expectedValue, TestImplConfiguration.waitingAfterSetPointValueMs);
         PointValueResponse getResult = getResponse.getValue();
 

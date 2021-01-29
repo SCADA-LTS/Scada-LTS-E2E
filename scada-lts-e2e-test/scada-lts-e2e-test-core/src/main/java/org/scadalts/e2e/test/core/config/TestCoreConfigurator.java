@@ -20,7 +20,7 @@ public class TestCoreConfigurator {
             return;
         }
         CONFIG = ConfigHandler.handle(config);
-        TestCoreConfiguration.testPlan = config.getTestPlan();
+        TestCoreConfiguration.testPlans = config.getTestPlans();
         TestCoreConfiguration.classesTestRefs = config.getClassesTestRefs();
     }
 

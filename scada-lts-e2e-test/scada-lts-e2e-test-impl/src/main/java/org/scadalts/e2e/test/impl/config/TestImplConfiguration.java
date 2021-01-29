@@ -15,7 +15,8 @@ public class TestImplConfiguration {
     public static String dataPointName = "dataPointName";
     public static String dataPointSourceXid = "dataPointSourceXid";
     public static String dataPointTargetXid = "dataPointTargetXid";
-    public static TestPlan testPlan = TestPlan.ANY;
+    public static TestPlan[] testPlans = new TestPlan[]{TestPlan.ANY};
     public static long timeout = 6001;
     public static String dataSourceNameEventDetectorTest = "datasource_event_detector_test";
+    public static String watchListName = "watch_list_test";
 }

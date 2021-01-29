@@ -1,24 +1,22 @@
 package org.scadalts.e2e.page.impl.criterias.json;
 
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.scadalts.e2e.common.dicts.DictionaryObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 
-@Builder
+@Data
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class IdentifierJson<T extends DictionaryObject> {
 
-    IdentifierObject identifier;
+    private String value;
+    private T type;
 
     public IdentifierJson(IdentifierObject identifier) {
-        this.identifier = identifier;
-    }
-
-    public String getValue() {
-        return identifier.getValue();
-    }
-
-    public T getType() {
-        return (T)identifier.getType();
+        this.value = identifier.getValue();
+        this.type = (T)identifier.getType();
     }
 
     public static IdentifierObject empty() {

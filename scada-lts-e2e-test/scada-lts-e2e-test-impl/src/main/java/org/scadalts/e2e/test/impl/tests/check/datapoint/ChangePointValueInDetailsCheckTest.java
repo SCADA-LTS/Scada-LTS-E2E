@@ -11,6 +11,7 @@ import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.criterias.identifiers.WatchListIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
@@ -47,8 +48,11 @@ public class ChangePointValueInDetailsCheckTest {
         DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(new DataPointIdentifier(TestImplConfiguration.dataPointName, DataPointType.NUMERIC));
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
 
+        WatchListIdentifier identifier = new WatchListIdentifier(TestImplConfiguration.watchListName);
         dataPointDetailsPageSubject = TestWithPageUtil.getNavigationPage().openWatchList()
+                .selectWatchList(identifier)
                 .openDataPointDetails(dataSourcePointCriteria.getIdentifier());
+
     }
 
     @Test

@@ -1,5 +1,6 @@
 package org.scadalts.e2e.service.impl.services.cmp;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.scadalts.e2e.service.core.services.GetValueResponse;
 import org.scadalts.e2e.service.core.services.ValueUnfromatted;
@@ -18,7 +19,8 @@ import static org.scadalts.e2e.common.utils.FormatUtil.unformat;
 @AllArgsConstructor
 public class CmpParams implements WebServiceObjectParams, GetValueResponse, ValueUnfromatted<CmpParams> {
 
-    private String xid;
+    @JsonProperty("xid")
+    private String dataPointXid;
     private String value;
     private String resultOperationSave;
     private String error;
@@ -27,7 +29,7 @@ public class CmpParams implements WebServiceObjectParams, GetValueResponse, Valu
     public CmpParams perform() {
         return CmpParams.builder()
                 .value(unformat(value))
-                .xid(xid)
+                .dataPointXid(dataPointXid)
                 .resultOperationSave(resultOperationSave)
                 .error(error)
                 .build();

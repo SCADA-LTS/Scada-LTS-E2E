@@ -8,6 +8,7 @@ import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
+import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 
 import java.util.Objects;
@@ -25,12 +26,28 @@ public class DataSourcePointCriteria implements CriteriaObject {
         this.dataPoint = dataPoint;
     }
 
+    public static DataSourcePointCriteria empty() {
+        return new DataSourcePointCriteria(DataSourceCriteria.empty(),
+                DataPointCriteria.empty());
+    }
+
     public static DataSourcePointCriteria virtualDataSourceBinaryAlternate() {
         return new DataSourcePointCriteria(DataSourceCriteria.virtualDataSourceSecond(),
                 DataPointCriteria.binaryAlternate());
     }
 
+    public static DataSourcePointCriteria virtualDataSourceNumericNoChange() {
+        return new DataSourcePointCriteria(DataSourceCriteria.virtualDataSourceSecond(),
+                DataPointCriteria.numericNoChange());
+    }
+
     public static DataSourcePointCriteria virtualDataSource(DataPointType dataPointType, String dataPointStartValue) {
+        return new DataSourcePointCriteria(DataSourceCriteria.virtualDataSourceSecond(),
+                DataPointCriteria.noChange(dataPointType, dataPointStartValue));
+    }
+
+    public static DataSourcePointCriteria virtualDataSource(DataPointType dataPointType, String dataPointStartValue,
+                                                            DataPointProperties dataPointProperties) {
         return new DataSourcePointCriteria(DataSourceCriteria.virtualDataSourceSecond(),
                 DataPointCriteria.noChange(dataPointType, dataPointStartValue));
     }

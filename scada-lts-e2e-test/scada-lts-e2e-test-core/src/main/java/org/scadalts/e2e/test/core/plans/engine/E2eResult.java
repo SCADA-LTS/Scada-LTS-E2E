@@ -7,9 +7,7 @@ import org.scadalts.e2e.test.core.utils.TestResultPrinter;
 
 import java.net.URL;
 import java.text.MessageFormat;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPrintMs;
@@ -25,8 +23,11 @@ public class E2eResult {
     @Getter
     private final String sessionId;
     @Getter
+    private final String description;
+    @Getter
     private final URL url;
     private final Result result;
+
 
     public int getRunCount() {
         return result.getRunCount();

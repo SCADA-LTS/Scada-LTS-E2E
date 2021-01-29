@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.impl.tests.check.graphicalviews;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,6 +30,11 @@ public class ChangeAlarmListCheckTest {
     @Before
     public void setup() {
         editViewPageSubject = graphicalViewObjectsCreator.openPage();
+    }
+
+    @After
+    public void close() {
+        editViewPageSubject.acceptAlertOnPage();
     }
 
     @Test

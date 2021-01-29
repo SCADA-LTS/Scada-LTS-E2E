@@ -29,4 +29,36 @@ public interface ServiceObjectFactory {
                 .baseUrl(E2eConfiguration.baseUrl)
                 .build();
     }
+
+    static DataPointServiceObject newDataPointServiceObject() {
+        return DataPointServiceObject.builder()
+                .client(ClientBuilder.newClient()
+                        .register(new JacksonJsonProvider()))
+                .baseUrl(E2eConfiguration.baseUrl)
+                .build();
+    }
+
+    static StorungsAndAlarmsServiceObject newStorungsAndAlarmsServiceObject() {
+        return StorungsAndAlarmsServiceObject.builder()
+                .client(ClientBuilder.newClient()
+                        .register(new JacksonJsonProvider()))
+                .baseUrl(E2eConfiguration.baseUrl)
+                .build();
+    }
+
+    static EventDetectorServiceObject newEventDetectorServiceObject() {
+        return EventDetectorServiceObject.builder()
+                .client(ClientBuilder.newClient()
+                        .register(new JacksonJsonProvider()))
+                .baseUrl(E2eConfiguration.baseUrl)
+                .build();
+    }
+
+    static EventHandlerServiceObject newEventHandlerServiceObject() {
+        return EventHandlerServiceObject.builder()
+                .client(ClientBuilder.newClient()
+                        .register(new JacksonJsonProvider()))
+                .baseUrl(E2eConfiguration.baseUrl)
+                .build();
+    }
 }

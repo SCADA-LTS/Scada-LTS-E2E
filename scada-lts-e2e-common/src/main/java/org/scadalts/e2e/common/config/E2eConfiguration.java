@@ -10,12 +10,13 @@ import java.net.URL;
 @Log4j2
 public class E2eConfiguration {
 
-    public volatile static AuthType authType = AuthType.FORM;
-    public volatile static String userName = "admin";
-    public volatile static String password = "admin";
-    public volatile static Level logLevel = Level.DEBUG;
-    public volatile static URL baseUrl;
-    public volatile static String sessionId;
+    public static AuthType authType = AuthType.FORM;
+    public static String userName = "admin";
+    public static String password = "admin";
+    public static Level logLevel = Level.DEBUG;
+    public static URL baseUrl;
+    public static String sessionId;
+    public static boolean checkAuthentication = false;
 
     static {
         try {
