@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>19.0.2-SNAPSHOT</version>
+    <version>19.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -744,7 +744,7 @@
                 <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
                 <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
-                <test.e2e.run-app.port-smtp>{portSmtp}</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.port-smtp>0</test.e2e.run-app.port-smtp>
                 <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
@@ -803,7 +803,7 @@
                 <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
                 <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
-                <test.e2e.run-app.port-smtp>{portSmtp}</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.port-smtp>0</test.e2e.run-app.port-smtp>
                 <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
@@ -861,7 +861,7 @@
                 <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
                 <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
-                <test.e2e.run-app.port-smtp>{portSmtp}</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.port-smtp>0</test.e2e.run-app.port-smtp>
                 <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
@@ -922,7 +922,7 @@
                 <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
                 <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
-                <test.e2e.run-app.port-smtp>{portSmtp}</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.port-smtp>0</test.e2e.run-app.port-smtp>
                 <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
