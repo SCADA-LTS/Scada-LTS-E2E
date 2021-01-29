@@ -249,4 +249,9 @@ public class E2eConfigCli implements E2eConfig {
     public boolean isMailSmtpAuthMode() {
         return fromRunApp.isMailSmtpAuthMode();
     }
+
+    @Override
+    public boolean isCheckAuthentication() {
+        return fromE2e.isCheckAuthentication();
+    }
 }

@@ -74,4 +74,6 @@ public class TestOptions extends MainOptions {
     @CommandLine.Option(names = {"-O", "--browser-options-prefs"}, split = ";", defaultValue = "")
     private String[] browserOptionsPrefs;
 
+    @CommandLine.Option(names = {"-ca", "--check-authentication"}, negatable = true)
+    private boolean checkAuthentication;
 }

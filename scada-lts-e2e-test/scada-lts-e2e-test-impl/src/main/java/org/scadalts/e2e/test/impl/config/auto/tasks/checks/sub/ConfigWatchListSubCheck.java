@@ -1,6 +1,5 @@
 package org.scadalts.e2e.test.impl.config.auto.tasks.checks.sub;
 
-import junit.framework.Assert;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;

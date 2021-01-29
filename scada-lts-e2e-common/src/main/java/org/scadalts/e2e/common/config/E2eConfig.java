@@ -105,4 +105,6 @@ public interface E2eConfig {
     boolean isMailSmtpAuthMode();
 
     boolean isMailSmtpStarttlsMode();
+
+    boolean isCheckAuthentication();
 }

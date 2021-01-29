@@ -69,6 +69,17 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
                 .build();
     }
 
+    public static DataSourceCriteria criteria(DataSourceIdentifier identifier, UpdatePeriodType updatePeriodType,
+                                              int updatePeriodValue, boolean enabled) {
+        return DataSourceCriteria.builder()
+                .identifier(identifier)
+                .updatePeriodType(updatePeriodType)
+                .xid(Xid.xidForDataSource())
+                .enabled(enabled)
+                .updatePeriodValue(updatePeriodValue)
+                .build();
+    }
+
     public static DataSourceCriteria virtualDataSource(UpdatePeriodType updatePeriodType, int updatePeriodValue) {
         return DataSourceCriteria.builder()
                 .identifier(IdentifierObjectFactory.dataSourceName(DATA_SOURCE_TYPE_DEFAULT))

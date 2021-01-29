@@ -82,6 +82,20 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
                 .build();
     }
 
+    public static DataPointCriteria alternate(DataPointIdentifier identifier) {
+        ChangeType changeType = ChangeType.ALTERNATE;
+        Xid xid = Xid.xidForDataPoint();
+        return DataPointCriteria.builder()
+                .changeType(changeType)
+                .identifier(identifier)
+                .dataPointProperties(DataPointProperties.empty())
+                .startValue("true")
+                .settable(true)
+                .enabled(true)
+                .xid(xid)
+                .build();
+    }
+
     public static DataPointCriteria numericNoChange() {
         DataPointType dataPointType = DataPointType.NUMERIC;
         ChangeType changeType = ChangeType.NO_CHANGE;

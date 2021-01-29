@@ -134,7 +134,7 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
                 .setDataSourceName(criteria.getIdentifier())
                 .setDataSourceXid(criteria.getXid())
                 .saveDataSource()
-                .enableDataSource(true);
+                .enableDataSource(criteria.isEnabled());
     }
 
     private DataSourcesPage _createDataSourcesAndPoints() {

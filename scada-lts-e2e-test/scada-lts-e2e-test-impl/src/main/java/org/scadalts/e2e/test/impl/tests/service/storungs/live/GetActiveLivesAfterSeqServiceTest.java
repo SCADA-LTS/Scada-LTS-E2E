@@ -43,15 +43,11 @@ public class GetActiveLivesAfterSeqServiceTest {
         result.addAll(generateDataTestEndValue(1, DataPointNotifierType.ALARM, LoggingType.ON_CHANGE, 1));
         result.addAll(generateDataTestEndValue(3, DataPointNotifierType.ALARM, LoggingType.ALL, 1));
         result.addAll(generateDataTestEndValue(3, DataPointNotifierType.ALARM, LoggingType.ON_CHANGE, 1));
-        result.addAll(generateDataTestEndValue(5, DataPointNotifierType.ALARM, LoggingType.ALL, 1));
-        result.addAll(generateDataTestEndValue(5, DataPointNotifierType.ALARM, LoggingType.ON_CHANGE, 1));
 
         result.addAll(generateDataTestEndValue(1, DataPointNotifierType.STORUNG, LoggingType.ALL, 1));
         result.addAll(generateDataTestEndValue(1, DataPointNotifierType.STORUNG, LoggingType.ON_CHANGE, 1));
         result.addAll(generateDataTestEndValue(3, DataPointNotifierType.STORUNG, LoggingType.ALL, 1));
         result.addAll(generateDataTestEndValue(3, DataPointNotifierType.STORUNG, LoggingType.ON_CHANGE, 1));
-        result.addAll(generateDataTestEndValue(5, DataPointNotifierType.STORUNG, LoggingType.ALL, 1));
-        result.addAll(generateDataTestEndValue(5, DataPointNotifierType.STORUNG, LoggingType.ON_CHANGE, 1));
 
         return result;
     }

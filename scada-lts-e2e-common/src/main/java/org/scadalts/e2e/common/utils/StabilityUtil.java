@@ -8,7 +8,7 @@ import java.util.function.*;
 @Log4j2
 public class StabilityUtil {
 
-    private final static long INTERVAL_MS = 3000;
+    private final static long INTERVAL_MS = 5000;
     private final static int LIMIT = 100;
 
     public static <T> T waitWhile(Predicate<T> whileDo, T arg, Timeout timeout) {
@@ -51,8 +51,8 @@ public class StabilityUtil {
                 && !_isExceededLimit(i)) {
             i++;
             logger.info("try: {}", i);
-            _sleep();
             _execute(executor);
+            _sleep();
         }
         if(whileDo.test(arg))
             logger.warn("Result does not meet the condition!");
@@ -71,8 +71,8 @@ public class StabilityUtil {
                 && !_isExceededLimit(i)) {
             i++;
             logger.info("try: {}", i);
-            _sleep();
             result = _execute(supplier);
+            _sleep();
         }
         if(result == null || whileDo.test(result))
             logger.warn("Result does not meet the condition! Result: {}", result);
@@ -90,8 +90,8 @@ public class StabilityUtil {
                 && !_isExceededLimit(i)) {
             i++;
             logger.info("try: {}", i);
-            _sleep();
             result = _execute(function, arg);
+            _sleep();
         }
         if(result == null || whileDo.test(result))
             logger.warn("Result does not meet the condition! Result: {}", result);
@@ -109,8 +109,8 @@ public class StabilityUtil {
                 && !_isExceededLimit(i)) {
             i++;
             logger.info("try: {}, value expected: {}", i, expectedValue);
-            _sleep();
             result = _execute(function, arg);
+            _sleep();
         }
         if(result == null || whileDo.test(result, expectedValue))
             logger.warn("Result does not meet the condition! Result: {}, Expected value: {}", result, expectedValue);

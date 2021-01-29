@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>18.13.1-SNAPSHOT</version>
+    <version>19.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -21,6 +21,7 @@
 
     <properties>
         <scada-lts-e2e-common.version>${project.version}</scada-lts-e2e-common.version>
+
         <scada-lts-e2e-app.version>${project.version}</scada-lts-e2e-app.version>
         <scada-lts-e2e-cli.version>${project.version}</scada-lts-e2e-cli.version>
 
@@ -756,6 +757,7 @@
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
                 <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-check</test.e2e.custom-name>
+                <test.e2e.check-authentication>true</test.e2e.check-authentication>
             </properties>
         </profile>
         <profile>
@@ -813,6 +815,7 @@
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
                 <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-check</test.e2e.custom-name>
+                <test.e2e.check-authentication>true</test.e2e.check-authentication>
             </properties>
         </profile>
         <profile>
@@ -870,6 +873,7 @@
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
                 <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-all-test</test.e2e.custom-name>
+                <test.e2e.check-authentication>true</test.e2e.check-authentication>
             </properties>
         </profile>
         <profile>
@@ -887,10 +891,10 @@
                 <test.e2e.env>dev-local</test.e2e.env>
                 <test.e2e.test-plans>ALL</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>65000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
-                <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
+                <test.e2e.driver-manager-mode>true</test.e2e.driver-manager-mode>
                 <test.e2e.screenshot-mode>true</test.e2e.screenshot-mode>
                 <test.e2e.fast-set-value-mode>true</test.e2e.fast-set-value-mode>
                 <test.e2e.proxy-mode>false</test.e2e.proxy-mode>
@@ -930,6 +934,7 @@
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
                 <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-85</test.e2e.custom-name>
+                <test.e2e.check-authentication>true</test.e2e.check-authentication>
             </properties>
         </profile>
     </profiles>

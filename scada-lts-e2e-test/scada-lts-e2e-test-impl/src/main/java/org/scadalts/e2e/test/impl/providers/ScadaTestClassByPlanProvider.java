@@ -2,6 +2,7 @@ package org.scadalts.e2e.test.impl.providers;
 
 import org.scadalts.e2e.common.types.TestPlan;
 import org.scadalts.e2e.test.core.plans.providers.TestClassByPlanProvider;
+import org.scadalts.e2e.test.impl.config.auto.AlarmNotificationAutomaticConfiguration;
 import org.scadalts.e2e.test.impl.config.auto.PerformAutomaticConfiguration;
 import org.scadalts.e2e.test.impl.config.auto.tasks.cleaners.Cleaner;
 import org.scadalts.e2e.test.impl.config.auto.tasks.exports.Exporter;
@@ -38,6 +39,7 @@ public class ScadaTestClassByPlanProvider implements TestClassByPlanProvider {
         tests.put(TestPlan.CLEAN, Cleaner.class);
         tests.put(TestPlan.PERFORMANCE, ScadaPerformanceTestsSuite.class);
         tests.put(TestPlan.PERF, ScadaPerformanceTestsSuite.class);
+        tests.put(TestPlan.ALARM_NOTIFICATION_AUTO_CONFIG, AlarmNotificationAutomaticConfiguration.class);
     }
 
     @Override
