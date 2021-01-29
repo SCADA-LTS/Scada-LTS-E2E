@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>19.0.1-SNAPSHOT</version>
+    <version>19.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -713,7 +713,7 @@
                 <test.e2e.env>prod</test.e2e.env>
                 <test.e2e.test-plans>CHECK</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>75000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
                 <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
@@ -743,8 +743,8 @@
                 <test.e2e.run-app.continuous-mode>true</test.e2e.run-app.continuous-mode>
                 <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
-                <test.e2e.run-app.host-smtp>smtp.poczta.onet.pl</test.e2e.run-app.host-smtp>
-                <test.e2e.run-app.port-smtp>587</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
+                <test.e2e.run-app.port-smtp>{portSmtp}</test.e2e.run-app.port-smtp>
                 <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
@@ -772,7 +772,7 @@
                 <test.e2e.env>test</test.e2e.env>
                 <test.e2e.test-plans>CHECK</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>75000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
                 <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
@@ -802,8 +802,8 @@
                 <test.e2e.run-app.continuous-mode>true</test.e2e.run-app.continuous-mode>
                 <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
-                <test.e2e.run-app.host-smtp>smtp.poczta.onet.pl</test.e2e.run-app.host-smtp>
-                <test.e2e.run-app.port-smtp>587</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
+                <test.e2e.run-app.port-smtp>{portSmtp}</test.e2e.run-app.port-smtp>
                 <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
@@ -830,7 +830,7 @@
                 <test.e2e.env>dev</test.e2e.env>
                 <test.e2e.test-plans>ALL</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>75000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
                 <test.e2e.driver-manager-mode>false</test.e2e.driver-manager-mode>
@@ -860,8 +860,8 @@
                 <test.e2e.run-app.continuous-mode>true</test.e2e.run-app.continuous-mode>
                 <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
-                <test.e2e.run-app.host-smtp>smtp.poczta.onet.pl</test.e2e.run-app.host-smtp>
-                <test.e2e.run-app.port-smtp>587</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
+                <test.e2e.run-app.port-smtp>{portSmtp}</test.e2e.run-app.port-smtp>
                 <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
@@ -891,7 +891,7 @@
                 <test.e2e.env>dev-local</test.e2e.env>
                 <test.e2e.test-plans>ALL</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
-                <test.e2e.timeout-ms>65000</test.e2e.timeout-ms>
+                <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
                 <test.e2e.driver-file></test.e2e.driver-file>
                 <test.e2e.headless-mode>true</test.e2e.headless-mode>
                 <test.e2e.driver-manager-mode>true</test.e2e.driver-manager-mode>
@@ -921,8 +921,8 @@
                 <test.e2e.run-app.continuous-mode>true</test.e2e.run-app.continuous-mode>
                 <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
-                <test.e2e.run-app.host-smtp>smtp.poczta.onet.pl</test.e2e.run-app.host-smtp>
-                <test.e2e.run-app.port-smtp>587</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
+                <test.e2e.run-app.port-smtp>{portSmtp}</test.e2e.run-app.port-smtp>
                 <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
@@ -934,7 +934,7 @@
                 <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
                 <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-85</test.e2e.custom-name>
-                <test.e2e.check-authentication>true</test.e2e.check-authentication>
+                <test.e2e.check-authentication>false</test.e2e.check-authentication>
             </properties>
         </profile>
     </profiles>
