@@ -80,7 +80,7 @@ public class TestWithPageUtil {
 
     private static void _login() {
         logger.info("login...");
-        LoginPage loginPage = LoginPage.openPage();
+        LoginPage loginPage = loginPage();
         long navigationStart = loginPage.getNavigationStartMs();
 
         executeConsumer(TestWithPageUtil::_login, loginPage, ApplicationIsNotAvailableException::new);
@@ -99,6 +99,14 @@ public class TestWithPageUtil {
         if(backendPerformanceMs > TestImplConfiguration.timeout) {
             close();
             throw new ApplicationTooHighLoadException();
+        }
+    }
+
+    private static LoginPage loginPage() {
+        try {
+            return LoginPage.openPage();
+        } catch (Exception ex) {
+            throw new ApplicationIsNotAvailableException(ex);
         }
     }
 
