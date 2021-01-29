@@ -43,7 +43,7 @@
         <selenide.version>5.5.1</selenide.version>
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.10</lombok.version>
-        <log4j.version>2.13.0</log4j.version>
+        <log4j.version>2.14.0</log4j.version>
         <jdk.version>1.8</jdk.version>
         <maven.version>3.6.1</maven.version>
         <commons-lang3.version>3.9</commons-lang3.version>
