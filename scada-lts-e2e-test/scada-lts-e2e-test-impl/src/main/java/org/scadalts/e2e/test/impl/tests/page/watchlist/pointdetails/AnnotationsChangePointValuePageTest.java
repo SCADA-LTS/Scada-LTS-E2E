@@ -5,7 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.common.config.E2eConfiguration;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
@@ -18,7 +18,6 @@ import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.ListLimitedSupportedAddMethod;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
@@ -31,7 +30,7 @@ import java.util.Objects;
 
 import static org.junit.Assert.*;
 
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class AnnotationsChangePointValuePageTest {
 
     @Parameterized.Parameters(name = "{index}: expected:{0}")
@@ -55,7 +54,7 @@ public class AnnotationsChangePointValuePageTest {
     @BeforeClass
     public static void createDataSourceAndPoint() {
 
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
 
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(DataPointType.NUMERIC, "123.0");

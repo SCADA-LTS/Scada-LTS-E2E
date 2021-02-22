@@ -3,7 +3,7 @@ package org.scadalts.e2e.test.impl.tests.service.login;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.scadalts.e2e.common.config.E2eConfiguration;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.LoginServiceObject;
 import org.scadalts.e2e.service.impl.services.ServiceObjectFactory;
@@ -31,7 +31,8 @@ public class LoginServiceTest {
 
     @After
     public void logout() {
-        loginServiceObject.close();
+        if(loginServiceObject != null)
+            loginServiceObject.close();
     }
 
     @Test

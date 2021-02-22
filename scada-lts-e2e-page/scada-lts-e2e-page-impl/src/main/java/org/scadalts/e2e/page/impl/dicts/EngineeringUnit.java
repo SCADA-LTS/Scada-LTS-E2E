@@ -2,7 +2,7 @@ package org.scadalts.e2e.page.impl.dicts;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
+import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 
 import java.text.MessageFormat;
 import java.util.HashMap;

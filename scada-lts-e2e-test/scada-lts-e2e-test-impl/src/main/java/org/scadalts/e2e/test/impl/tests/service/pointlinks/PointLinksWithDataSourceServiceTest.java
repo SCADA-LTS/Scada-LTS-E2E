@@ -20,7 +20,6 @@ import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
@@ -33,7 +32,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.scadalts.e2e.test.impl.creators.PointLinksObjectsCreator.isUpdate;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class PointLinksWithDataSourceServiceTest {
 
     @Parameterized.Parameters(name = "{index}: datasource: {0}, point link type: {1}")
@@ -53,8 +52,6 @@ public class PointLinksWithDataSourceServiceTest {
                         UpdatePeriodType.MILLISECOUND, 3000), EventType.CHANGE},
                 {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.MILLISECOUND, 10000), EventType.CHANGE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
-                        UpdatePeriodType.MINUTE, 1), EventType.CHANGE},
 
                 {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.SECOND, 1), EventType.UPDATE},
@@ -70,8 +67,6 @@ public class PointLinksWithDataSourceServiceTest {
                         UpdatePeriodType.MILLISECOUND, 3000), EventType.UPDATE},
                 {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.MILLISECOUND, 10000), EventType.UPDATE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
-                        UpdatePeriodType.MINUTE, 1), EventType.UPDATE},
         };
     }
 
@@ -105,7 +100,7 @@ public class PointLinksWithDataSourceServiceTest {
 
         WatchListCriteria watchListCriteria = WatchListCriteria.criteria(sourcePointSourceCriteria.getIdentifier(),
                 sourcePointTargetCriteria.getIdentifier());
-        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.openNavigationPage(),
                 criteria, watchListCriteria.getIdentifier());
         allObjectsForPointLinkTestCreator.createObjects();
         pointLinksPage = allObjectsForPointLinkTestCreator.openPage();
@@ -113,7 +108,8 @@ public class PointLinksWithDataSourceServiceTest {
 
     @After
     public void clean() {
-        allObjectsForPointLinkTestCreator.deleteObjects();
+        if(allObjectsForPointLinkTestCreator != null)
+            allObjectsForPointLinkTestCreator.deleteObjects();
     }
 
     @Test

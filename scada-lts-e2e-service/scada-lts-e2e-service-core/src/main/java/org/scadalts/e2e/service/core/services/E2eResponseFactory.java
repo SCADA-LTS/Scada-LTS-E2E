@@ -1,9 +1,13 @@
 package org.scadalts.e2e.service.core.services;
 
 import lombok.extern.log4j.Log4j2;
+import org.apache.cxf.jaxrs.utils.HttpUtils;
 
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -35,21 +39,46 @@ public abstract class E2eResponseFactory {
                 .build();
     }
 
-    public static <T> E2eResponse<T> newResponseForJsonArrayFirst(Response response, List<T> value) {
+    public static <T> E2eResponse<T> newResponseForJsonArrayFirst(Response response, GenericType<List<T>> genericType) {
         MediaType mediaType = _getMediaType(response);
+        List<T> values = _getParams(response, genericType);
         return E2eResponse.<T>builder()
                 .headers(new LinkedHashMap<>(response.getHeaders()))
-                .value(_unformat(_calculateValueOne(value)))
+                .value(_unformat(_calculateValueOne(values)))
                 .sessionId(getSessionIdFrom(response).orElse(""))
                 .status(response.getStatus())
                 .mediaType(mediaType.toString())
                 .build();
     }
 
+    public static <T> E2eResponse<List<T>> newResponseForJsonArray(Response response, GenericType<List<T>> genericType) {
+        MediaType mediaType = _getMediaType(response);
+        List<T> values = _getParams(response, genericType);
+        return E2eResponse.<List<T>>builder()
+                .headers(new LinkedHashMap<>(response.getHeaders()))
+                .value(_unformat(values))
+                .sessionId(getSessionIdFrom(response).orElse(""))
+                .status(response.getStatus())
+                .mediaType(mediaType.toString())
+                .build();
+    }
+
+    private static <T> List<T> _getParams(Response response, GenericType<List<T>> genericType) {
+        return HttpUtils.isPayloadEmpty(response.getStringHeaders()) ? Collections.emptyList()
+                : response.readEntity(genericType);
+    }
+
     private static <T> T _calculateValueOne(List<T> list) {
         if(list.isEmpty())
             return null;
         return list.get(0);
+    }
+
+    private static <T> List<T> _unformat(List<T> values) {
+        List<T> result = new ArrayList<>();
+        for (T t: values)
+            result.add(_unformat(t));
+        return result;
     }
 
     private static <T> T _unformat(T value) {

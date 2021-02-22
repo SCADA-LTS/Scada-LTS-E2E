@@ -3,7 +3,7 @@ package org.scadalts.e2e.page.impl.criterias.json;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
+import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 
 @Data

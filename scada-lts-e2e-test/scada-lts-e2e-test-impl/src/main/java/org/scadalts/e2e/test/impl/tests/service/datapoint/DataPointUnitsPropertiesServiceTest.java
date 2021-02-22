@@ -7,7 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
+import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
@@ -21,7 +21,6 @@ import org.scadalts.e2e.service.impl.services.datapoint.DataPointPropertiesRespo
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.test.impl.creators.DataPointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.DataPointPropertiesAdapter;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
@@ -33,7 +32,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class DataPointUnitsPropertiesServiceTest {
 
     @Parameterized.Parameters(name = "number of test: {index}, unit: {0}")
@@ -62,7 +61,7 @@ public class DataPointUnitsPropertiesServiceTest {
 
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.virtualDataSourceNumericNoChange();
 
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcePointObjectsCreator.createObjects();
 
@@ -74,11 +73,6 @@ public class DataPointUnitsPropertiesServiceTest {
         dataPointCriteria = dataSourcePointCriteria.getDataPoint();
     }
 
-    @AfterClass
-    public static void cleanForAll() {
-        dataSourcePointObjectsCreator.deleteObjects();
-    }
-
     @Before
     public void setup() {
         DataPointPropertiesPage dataPointPropertiesPage = editDataSourceWithPointListPage
@@ -87,6 +81,12 @@ public class DataPointUnitsPropertiesServiceTest {
         dataPointObjectsCreator.setProperties(dataPointProperties,
                 dataPointCriteria.getIdentifier().getType(), dataPointPropertiesPage);
 
+    }
+
+    @AfterClass
+    public static void cleanForAll() {
+        if(dataSourcePointObjectsCreator != null)
+            dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test

@@ -7,10 +7,11 @@ import org.scadalts.e2e.test.core.utils.TestResultPrinter;
 
 import java.net.URL;
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPrintMs;
+import static org.scadalts.e2e.common.core.measure.ValueTimeUnitToPrint.preparingToPrintMs;
 import static org.scadalts.e2e.test.core.utils.TestResultPrinter.failures;
 
 @Builder
@@ -28,6 +29,11 @@ public class E2eResult {
     private final URL url;
     private final Result result;
 
+    @Getter
+    private final LocalDateTime startDateTime;
+
+    @Getter
+    private final LocalDateTime endDateTime;
 
     public int getRunCount() {
         return result.getRunCount();
@@ -43,7 +49,7 @@ public class E2eResult {
 
     public List<E2eFailure> getFailures() {
         return result.getFailures().stream()
-                .map(a -> new E2eFailure(a, sessionId))
+                .map(a -> new E2eFailure(a, sessionId, getStartDateTime()))
                 .collect(Collectors.toList());
     }
 

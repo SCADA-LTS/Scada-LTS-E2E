@@ -10,7 +10,6 @@ import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.clazz;
 
 @Getter
 @Builder
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class PointLinkIdentifier extends AbstractIdentifier {
 
@@ -29,5 +28,10 @@ public class PointLinkIdentifier extends AbstractIdentifier {
     @Override
     public NodeCriteria getNodeCriteria() {
         return NodeCriteria.exactly(source, target, td(), clazz("link"));
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

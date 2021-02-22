@@ -1,7 +1,7 @@
 package org.scadalts.e2e.page.impl.dicts;
 
 import lombok.Getter;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
+import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 
 @Getter
 public enum ChangeTypeField implements DictionaryObject {

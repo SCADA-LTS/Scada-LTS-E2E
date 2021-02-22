@@ -2,8 +2,8 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.scadalts.e2e.common.exceptions.ConfigureTestException;
-import org.scadalts.e2e.common.utils.ExecutorUtil;
+import org.scadalts.e2e.common.core.exceptions.ConfigureTestException;
+import org.scadalts.e2e.common.core.utils.ExecutorUtil;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;

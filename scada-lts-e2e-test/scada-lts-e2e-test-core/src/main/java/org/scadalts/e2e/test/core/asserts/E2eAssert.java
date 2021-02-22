@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.core.asserts;
 
+import com.codeborne.selenide.Selenide;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.exceptions.ObjectNotExistsAssertionError;
 import org.scadalts.e2e.page.core.pages.PageObject;

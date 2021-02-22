@@ -1,6 +1,6 @@
 package org.scadalts.e2e.test.core.plans.exec;
 
-import org.scadalts.e2e.common.config.E2eConfig;
+import org.scadalts.e2e.common.core.config.E2eConfig;
 import org.scadalts.e2e.test.core.plans.engine.E2eSummarable;
 import org.scadalts.e2e.test.core.plans.engine.TestsRunEngine;
 import org.scadalts.e2e.test.core.plans.providers.TestClassesProvider;

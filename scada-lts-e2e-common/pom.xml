@@ -6,28 +6,15 @@
     <parent>
         <artifactId>scada-lts-e2e</artifactId>
         <groupId>org.scadalts</groupId>
-        <version>19.0.3-SNAPSHOT</version>
+        <version>19.2.0-SNAPSHOT</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>scada-lts-e2e-common</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>config/scadalts-e2e-config.properties</include>
-                    <include>e2e-version.properties</include>
-                    <include>log4j2.xml</include>
-                </includes>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-    </build>
+    <modules>
+        <module>scada-lts-e2e-common-core</module>
+        <module>scada-lts-e2e-common-impl</module>
+        <module>scada-lts-e2e-common-api</module>
+    </modules>
 </project>

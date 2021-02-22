@@ -2,7 +2,7 @@ package org.scadalts.e2e.page.impl.pages.datasource.datapoint;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
+import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 import org.scadalts.e2e.page.core.pages.HumanSimulation;
 import org.scadalts.e2e.page.core.pages.PageObject;
 

@@ -16,7 +16,6 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.text.MessageFormat;
@@ -27,7 +26,7 @@ import static org.junit.Assert.*;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class GetLivesPaginationOnChangeServiceTest {
 
     @Parameterized.Parameters(name = "{index}: offset: {0}, limit: {1}")
@@ -76,7 +75,7 @@ public class GetLivesPaginationOnChangeServiceTest {
                         DataPointLoggingProperties.logging(LoggingType.ON_CHANGE)))
                 .toArray(a -> new DataPointCriteria[10]);
 
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
 
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, points);
         storungsAndAlarmsObjectsCreator.createObjects();
@@ -101,7 +100,8 @@ public class GetLivesPaginationOnChangeServiceTest {
 
     @AfterClass
     public static void clean() {
-        storungsAndAlarmsObjectsCreator.deleteObjects();
+        if(storungsAndAlarmsObjectsCreator != null)
+            storungsAndAlarmsObjectsCreator.deleteObjects();
     }
 
     @Test

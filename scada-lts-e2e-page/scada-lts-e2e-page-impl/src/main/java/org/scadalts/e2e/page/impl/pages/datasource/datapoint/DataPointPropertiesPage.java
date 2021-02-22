@@ -6,7 +6,7 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
+import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.javascripts.DojoScripts;
@@ -28,7 +28,7 @@ import static java.text.MessageFormat.format;
 import static org.scadalts.e2e.page.core.criterias.Tag.*;
 import static org.scadalts.e2e.page.core.javascripts.JQueryScripts.attrSelected;
 import static org.scadalts.e2e.page.core.javascripts.JQueryScripts.val;
-import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
@@ -122,7 +122,7 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
 
 
     public DataPointPropertiesPage(EditDataSourceWithPointListPage editDataSourceWithPointListPage) {
-        super(TITLE);
+        super();
         this.editDataSourceWithPointListPage = editDataSourceWithPointListPage;
     }
 
@@ -234,7 +234,8 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
 
     public EditDataSourceWithPointListPage editDataSource() {
         delay();
-        acceptAlertAfterClick(editDataSource);
+        acceptAfterClick(editDataSource);
+        printCurrentUrl();
         return editDataSourceWithPointListPage;
     }
 

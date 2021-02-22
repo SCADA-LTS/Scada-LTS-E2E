@@ -22,7 +22,7 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
     public EventHandlersPage deleteObjects() {
         EventHandlersPage eventHandlersPage = openPage();
         for (EventHandlerCriteria criteria: eventHandlerCriterias) {
-            if(eventHandlersPage.containsObject(criteria.getIdentifier())) {
+            if(eventHandlersPage.containsObject(criteria)) {
                 logger.info("delete object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getIdentifier().getType(), criteria.getXid().getValue(),
                         criteria.getClass().getSimpleName());
@@ -39,7 +39,7 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
     public EventHandlersPage createObjects() {
         EventHandlersPage eventHandlersPage = openPage();
         for (EventHandlerCriteria criteria: eventHandlerCriterias) {
-            if(!eventHandlersPage.containsObject(criteria.getIdentifier())) {
+            if(!eventHandlersPage.containsObject(criteria)) {
                 logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getIdentifier().getType(), criteria.getXid().getValue(),
                         criteria.getClass().getSimpleName());

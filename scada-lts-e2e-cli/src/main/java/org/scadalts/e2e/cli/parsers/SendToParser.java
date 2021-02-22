@@ -1,7 +1,7 @@
 package org.scadalts.e2e.cli.parsers;
 
-import org.scadalts.e2e.common.config.SendTo;
-import org.scadalts.e2e.common.utils.SendToUtil;
+import org.scadalts.e2e.common.core.config.SendTo;
+import org.scadalts.e2e.common.core.utils.SendToUtil;
 import picocli.CommandLine;
 
 import java.util.*;

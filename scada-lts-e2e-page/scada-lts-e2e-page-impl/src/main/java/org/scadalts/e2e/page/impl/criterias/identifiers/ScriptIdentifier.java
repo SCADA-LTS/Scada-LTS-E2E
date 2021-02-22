@@ -7,7 +7,6 @@ import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.criterias.identifiers.AbstractIdentifier;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class ScriptIdentifier extends AbstractIdentifier {
     public ScriptIdentifier(@NonNull String value) {
@@ -17,5 +16,10 @@ public class ScriptIdentifier extends AbstractIdentifier {
     @Override
     public NodeCriteria getNodeCriteria() {
         return NodeCriteria.exactlyTypeAny(this, Tag.td());
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

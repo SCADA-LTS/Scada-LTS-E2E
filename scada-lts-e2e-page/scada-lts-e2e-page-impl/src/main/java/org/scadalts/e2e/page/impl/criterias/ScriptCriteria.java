@@ -12,7 +12,6 @@ import java.util.Objects;
 
 @Data
 @Builder
-@ToString
 public class ScriptCriteria implements CriteriaObject, GetXid {
 
     private final @NonNull Xid xid;

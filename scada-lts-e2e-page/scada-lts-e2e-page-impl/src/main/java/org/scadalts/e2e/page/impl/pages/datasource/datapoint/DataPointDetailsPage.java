@@ -4,7 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.common.utils.FormatUtil;
+import org.scadalts.e2e.common.core.utils.FormatUtil;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.or;
-import static org.scadalts.e2e.common.utils.FormatUtil.unformat;
+import static org.scadalts.e2e.common.core.utils.FormatUtil.unformat;
 import static org.scadalts.e2e.page.core.criterias.Tag.td;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObjects;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.refreshWhile;
@@ -40,9 +40,10 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
     @FindBy(id = "historyLimit")
     private SelenideElement historyLimit;
 
+    public static final String TITLE = "Statistics;History";
 
     public DataPointDetailsPage() {
-        super("Statistics;History");
+        super();
     }
 
     @Override

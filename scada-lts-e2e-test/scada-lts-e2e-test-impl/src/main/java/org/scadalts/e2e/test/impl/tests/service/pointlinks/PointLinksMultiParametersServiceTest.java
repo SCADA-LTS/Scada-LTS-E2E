@@ -24,7 +24,6 @@ import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
@@ -37,7 +36,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.scadalts.e2e.test.impl.creators.PointLinksObjectsCreator.isUpdate;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class PointLinksMultiParametersServiceTest {
 
     @Parameterized.Parameters(name = "{index}: source: {0} - {1}, target: {2} - {3}, pointlink type: {4}")
@@ -82,7 +81,7 @@ public class PointLinksMultiParametersServiceTest {
     @Before
     public void setup() {
         criteria = PointLinkCriteria.criteria(source, target, eventType, Script.empty());
-        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.openNavigationPage(),
                 criteria);
         allObjectsForPointLinkTestCreator.createObjects();
         pointLinksPage = allObjectsForPointLinkTestCreator.openPage();
@@ -90,7 +89,8 @@ public class PointLinksMultiParametersServiceTest {
 
     @After
     public void clean() {
-        allObjectsForPointLinkTestCreator.deleteObjects();
+        if(allObjectsForPointLinkTestCreator != null)
+            allObjectsForPointLinkTestCreator.deleteObjects();
     }
 
     @Test

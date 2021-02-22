@@ -8,7 +8,7 @@ import org.scadalts.e2e.service.core.services.ValueUnfromatted;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import static org.scadalts.e2e.common.utils.FormatUtil.unformat;
+import static org.scadalts.e2e.common.core.utils.FormatUtil.unformat;
 
 @Getter
 @Builder

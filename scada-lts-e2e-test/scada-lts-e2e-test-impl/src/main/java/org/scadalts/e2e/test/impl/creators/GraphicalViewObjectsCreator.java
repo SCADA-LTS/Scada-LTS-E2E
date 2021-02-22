@@ -10,7 +10,7 @@ import org.scadalts.e2e.test.core.creators.CreatorObject;
 
 import java.io.File;
 
-import static org.scadalts.e2e.common.utils.FileUtil.getFileFromJar;
+import static org.scadalts.e2e.common.core.utils.FileUtil.getFileFromJar;
 
 @Log4j2
 public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViewsPage, GraphicalViewsPage> {
@@ -93,7 +93,7 @@ public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViews
 
     private static File _getBackgroundFile(String relativePath) {
         try {
-            return getFileFromJar(relativePath);
+            return getFileFromJar(relativePath).orElseThrow(IllegalStateException::new);
         } catch (Throwable throwable) {
             logger.error(throwable.getMessage(),throwable);
             return new File("Not_found");

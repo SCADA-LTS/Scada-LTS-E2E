@@ -4,7 +4,6 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
@@ -14,7 +13,6 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestDataBatch;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
@@ -28,7 +26,6 @@ import static org.junit.Assert.assertFalse;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
-@RunWith(TestWithPageRunner.class)
 public class GetLivesNumberOnChangePerformanceTest {
 
     private static PaginationParams paginationParams = PaginationParams.all();
@@ -38,7 +35,7 @@ public class GetLivesNumberOnChangePerformanceTest {
 
     @BeforeClass
     public static void setup() {
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
         DataSourceCriteria dataSource = DataSourceCriteria.virtualDataSourceSecond();
 
         DataPointCriteria dataPoint = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
@@ -63,7 +60,8 @@ public class GetLivesNumberOnChangePerformanceTest {
 
     @AfterClass
     public static void cleanAll() {
-        storungsAndAlarmsObjectsCreator.deleteObjects();
+        if(storungsAndAlarmsObjectsCreator != null)
+            storungsAndAlarmsObjectsCreator.deleteObjects();
     }
 
     @Test

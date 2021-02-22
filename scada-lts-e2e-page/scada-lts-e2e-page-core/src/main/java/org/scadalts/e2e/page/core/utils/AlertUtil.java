@@ -3,6 +3,7 @@ package org.scadalts.e2e.page.core.utils;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
+import org.scadalts.e2e.page.core.components.E2eWebElement;
 import org.scadalts.e2e.page.core.javascripts.JavascriptWindow;
 
 import java.util.function.Consumer;
@@ -20,34 +21,48 @@ public abstract class AlertUtil {
         executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScriptToExecute());
     }
 
-    public static void acceptAlertAfterClick(SelenideElement selenideElement) {
+    public static void acceptAfterClick(SelenideElement selenideElement) {
         executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScriptToExecute());
         selenideElement.click();
     }
 
-    public static void acceptAlertAfter(Procedure procedure) {
+    public static void acceptAfterClick(E2eWebElement selenideElement) {
         executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScriptToExecute());
-        procedure.invoke();
-        Selenide.switchTo().alert().accept();
+        selenideElement.click();
     }
 
-    public static <T> void acceptAlertAfter(Consumer<T> consumer, T value) {
+    public static void acceptAlert(Procedure procedure) {
+        executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScriptToExecute());
+        procedure.invoke();
+        try {
+            Selenide.switchTo().alert().accept();
+        } catch (Throwable th) {
+
+        }
+    }
+
+    public static <T> void acceptAlert(Consumer<T> consumer, T value) {
         executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScriptToExecute());
         consumer.accept(value);
     }
 
 
-    public static void dismissAlertAfterClick(SelenideElement selenideElement) {
+    public static void dismissAfterClick(SelenideElement selenideElement) {
         executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScriptToExecute());
         selenideElement.click();
     }
 
-    public static void dismissAlertAfter(Procedure procedure) {
+    public static void dismissAfterClick(E2eWebElement selenideElement) {
+        executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScriptToExecute());
+        selenideElement.click();
+    }
+
+    public static void dismissAlert(Procedure procedure) {
         executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScriptToExecute());
         procedure.invoke();
     }
 
-    public static <T> void dismissAlertAfter(Consumer<T> consumer, T value) {
+    public static <T> void dismissAlert(Consumer<T> consumer, T value) {
         executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScriptToExecute());
         consumer.accept(value);
     }

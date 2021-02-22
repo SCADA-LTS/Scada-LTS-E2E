@@ -46,10 +46,10 @@ public class EventHandlerUtil {
     public static E2eResponse<EventHandlerResponse> createEventHandler(Xid xid, int dataPointId, int eventDetectorId, EventHandlerType handlerType){
 
         EventHandlerPostParams eventHandlerPostParams = new EventHandlerPostParams();
-        eventHandlerPostParams.setTypeId(EventSourcesType.DATA_POINT);
+        eventHandlerPostParams.setTypeId(EventSourcesType.DATA_POINT.getId());
         eventHandlerPostParams.setTypeRef1(dataPointId);
         eventHandlerPostParams.setTypeRef2(eventDetectorId);
-        eventHandlerPostParams.setHandlerType(handlerType);
+        eventHandlerPostParams.setHandlerType(handlerType.getId());
 
         EventHandlerResponse body;
 

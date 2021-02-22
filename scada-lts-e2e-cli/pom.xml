@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.scadalts</groupId>
         <artifactId>scada-lts-e2e</artifactId>
-        <version>19.0.3-SNAPSHOT</version>
+        <version>19.2.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>org.scadalts</groupId>
-            <artifactId>scada-lts-e2e-common</artifactId>
+            <artifactId>scada-lts-e2e-common-core</artifactId>
         </dependency>
     </dependencies>
 
@@ -40,7 +40,7 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
-                    <include>e2e-version.properties</include>
+                    <!--include>e2e-version.properties</include-->
                     <include>log4j2.xml</include>
                 </includes>
                 <filtering>true</filtering>

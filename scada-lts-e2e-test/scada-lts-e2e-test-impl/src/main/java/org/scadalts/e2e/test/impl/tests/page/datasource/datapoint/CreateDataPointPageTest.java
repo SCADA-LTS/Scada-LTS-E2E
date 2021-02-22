@@ -3,7 +3,6 @@ package org.scadalts.e2e.test.impl.tests.page.datasource.datapoint;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
@@ -15,13 +14,11 @@ import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 
-@RunWith(TestWithPageRunner.class)
 public class CreateDataPointPageTest {
 
     private static final DataPointType dataPointType = DataPointType.BINARY;
@@ -34,7 +31,7 @@ public class CreateDataPointPageTest {
     private DataSourcesPage dataSourcesPage;
     private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
 
-    private DataSourcePointObjectsCreator dataSourcesPageTestsUtil;
+    private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
 
     @Before
     public void createDataSource() {
@@ -47,15 +44,16 @@ public class CreateDataPointPageTest {
                 .startValue("true")
                 .build();
 
-        dataSourcesPageTestsUtil = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(), dataSourceCriteria, dataPointCreatedCriteria);
+        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(), dataSourceCriteria, dataPointCreatedCriteria);
 
-        dataSourcesPage = dataSourcesPageTestsUtil.openPage();
-        editDataSourceWithPointListPageSubject = dataSourcesPageTestsUtil.createDataSources();
+        dataSourcesPage = dataSourcePointObjectsCreator.openPage();
+        editDataSourceWithPointListPageSubject = dataSourcePointObjectsCreator.createDataSources();
     }
 
     @After
     public void clean() {
-        dataSourcesPageTestsUtil.deleteObjects();
+        if(dataSourcePointObjectsCreator != null)
+            dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test

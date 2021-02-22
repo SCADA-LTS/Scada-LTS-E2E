@@ -7,7 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.common.utils.VariationUnit;
+import org.scadalts.e2e.common.core.utils.VariationUnit;
+import org.scadalts.e2e.page.core.components.E2eWebElement;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
@@ -24,8 +25,8 @@ import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.or;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
-import static org.scadalts.e2e.common.utils.FormatUtil.unformat;
-import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
+import static org.scadalts.e2e.common.core.utils.FormatUtil.unformat;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.refreshWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
@@ -57,10 +58,15 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     @FindBy(id = "watchListSelect")
     private SelenideElement watchListSelect;
 
+    @FindBy(css = "a[href='watch_list.shtm']")
+    private SelenideElement source;
+
+    private static final String URL_REF = "/watch_list.shtm";
+
     public static final String TITLE = "Watch list";
 
-    public WatchListPage(SelenideElement source) {
-        super(source, TITLE);
+    public WatchListPage() {
+        super(TITLE, URL_REF);
     }
 
     private static final By SELECTOR_ACTION_ADD_TO_WATCH_LIST_BY = By.cssSelector("span[class='dojoTreeNodeLabelTitle']");
@@ -174,6 +180,7 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
 
     public DataPointDetailsPage openDataPointDetails(DataSourcePointIdentifier identifier) {
         _findActionInTBody(identifier, SELECTOR_DATA_POINT_DETAILS_BY).click();
+        printCurrentUrl();
         return page(DataPointDetailsPage.class);
     }
 
@@ -185,7 +192,7 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     public WatchListPage deleteFromWatchList(DataSourcePointIdentifier identifier) {
         delay();
         SelenideElement selenideElement = _findActionInTBody(identifier, SELECTOR_DELETE_FROM_WATCH_LIST_BY);
-        acceptAlertAfterClick(selenideElement);
+        acceptAfterClick(selenideElement);
         return this;
     }
 
@@ -227,6 +234,11 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
     public boolean containsObject(IdentifierObject identifier) {
         ElementsCollection watchLists = waitWhile(watchListSelect, not(Condition.visible)).getSelectedOptions();
         return watchLists.stream().anyMatch(a -> a.getText().equalsIgnoreCase(identifier.getValue()));
+    }
+
+    @Override
+    public E2eWebElement getSource() {
+        return E2eWebElement.newInstance(source);
     }
 
     private SelenideElement _findActionInSpan(DataSourcePointIdentifier identifier, By selectAction) {

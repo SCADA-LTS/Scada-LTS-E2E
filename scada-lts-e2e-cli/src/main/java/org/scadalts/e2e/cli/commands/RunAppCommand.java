@@ -8,7 +8,7 @@ import org.scadalts.e2e.app.E2eApp;
 import org.scadalts.e2e.cli.config.E2eConfigCli;
 import org.scadalts.e2e.cli.options.AppOptions;
 import org.scadalts.e2e.cli.providers.VersionProvider;
-import org.scadalts.e2e.common.config.E2eConfig;
+import org.scadalts.e2e.common.core.config.E2eConfig;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 

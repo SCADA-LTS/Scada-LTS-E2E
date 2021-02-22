@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.common.utils.VariationUnit;
+import org.scadalts.e2e.common.core.utils.VariationUnit;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
@@ -18,7 +18,6 @@ import org.scadalts.e2e.service.impl.services.storungs.AcknowledgeResponse;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.RegexUtil;
 import org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil;
 import org.scadalts.e2e.test.impl.utils.TestDataBatch;
@@ -34,7 +33,7 @@ import static org.junit.Assert.*;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class AcknowledgeLivesServiceTest {
 
     @Parameterized.Parameters(name = "{index}: data point notifier type: {0}, start value: {1}, logging type: {2}")
@@ -74,18 +73,18 @@ public class AcknowledgeLivesServiceTest {
 
     @Before
     public void setup() {
-
         uniqueIdentifier = IdentifierObjectFactory.dataPointNotifierBinaryTypeName(dataPointNotifierType);
         DataPointCriteria point = DataPointCriteria.noChange(uniqueIdentifier, startValue, pointLoggingProperties);
 
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, point);
         storungsAndAlarmsObjectsCreator.createObjects();
     }
 
     @After
     public void clean() {
-        storungsAndAlarmsObjectsCreator.deleteObjects();
+        if(storungsAndAlarmsObjectsCreator != null)
+            storungsAndAlarmsObjectsCreator.deleteObjects();
     }
 
     @Test

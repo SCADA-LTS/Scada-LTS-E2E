@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.scadalts.e2e.cli.parsers.SendToParser;
-import org.scadalts.e2e.common.config.SendTo;
+import org.scadalts.e2e.common.core.config.SendTo;
 import picocli.CommandLine;
 
 import java.util.Set;

@@ -4,8 +4,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.extern.log4j.Log4j2;
 import org.apache.cxf.jaxrs.utils.HttpUtils;
-import org.scadalts.e2e.common.config.E2eConfiguration;
-import org.scadalts.e2e.common.utils.StabilityUtil;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
+import org.scadalts.e2e.common.core.utils.StabilityUtil;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
@@ -104,13 +104,13 @@ public class EventHandlerServiceObject implements WebServiceObject {
 
     private E2eResponse<EventHandlerResponse> _createEventHandler(EventHandlerPostParams eventHandlerPostParams) {
         String endpoint = MessageFormat.format("{0}/api/eventHandler/set/{1}/{2}/{3}/{4}", baseUrl,
-                String.valueOf(eventHandlerPostParams.getTypeId().getId()),
+                String.valueOf(eventHandlerPostParams.getTypeId()),
                 String.valueOf(eventHandlerPostParams.getTypeRef1()),
                 String.valueOf(eventHandlerPostParams.getTypeRef2()),
-                String.valueOf(eventHandlerPostParams.getHandlerType().getId())
+                String.valueOf(eventHandlerPostParams.getHandlerType())
                 );
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
-        logger.info("params: {} {} {} {}", eventHandlerPostParams.getTypeId().getId(), eventHandlerPostParams.getTypeRef1(), eventHandlerPostParams.getTypeRef2(), eventHandlerPostParams.getHandlerType().getId());
+        logger.info("params: {} {} {} {}", eventHandlerPostParams.getTypeId(), eventHandlerPostParams.getTypeRef1(), eventHandlerPostParams.getTypeRef2(), eventHandlerPostParams.getHandlerType());
         logger.info("endpoint: {}", endpoint);
         logger.info("cookie: {}", cookie);
         MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;

@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.scadalts.e2e.page.core.utils.E2eWebDriverProvider;
 
-import static org.scadalts.e2e.common.utils.ExecutorUtil.executeSupplier;
+import static org.scadalts.e2e.common.core.utils.ExecutorUtil.executeSupplier;
 
 public interface GetUrl {
 
@@ -19,5 +19,9 @@ public interface GetUrl {
             LOGGER.warn(ex.getMessage(), ex);
             return "warnning";
         }
+    }
+
+    default void printCurrentUrl() {
+        LOGGER.info("current url: {}", getCurrentUrl());
     }
 }

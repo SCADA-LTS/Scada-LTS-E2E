@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import org.scadalts.e2e.page.core.components.E2eWebElement;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 
@@ -28,10 +29,13 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
     @FindBy(css = "a[href='view_edit.shtm']")
     private SelenideElement creator;
 
+    @FindBy(css = "a[href='views.shtm']")
+    private SelenideElement source;
+
     public static final String TITLE = "Graphic views";
 
-    public GraphicalViewsPage(SelenideElement source) {
-        super(source, TITLE);
+    public GraphicalViewsPage() {
+        super(TITLE, "/views.shtm");
     }
 
     public EditGraphicalViewPage openViewEditor(GraphicalViewIdentifier identifier) {
@@ -103,6 +107,11 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
     @Override
     public GraphicalViewsPage getPage() {
         return this;
+    }
+
+    @Override
+    public E2eWebElement getSource() {
+        return E2eWebElement.newInstance(source);
     }
 
     private String _selectViewAndGetIdByName(GraphicalViewIdentifier viewName) {

@@ -7,6 +7,7 @@ import org.scadalts.e2e.test.core.utils.TestResultPrinter;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.scadalts.e2e.test.core.utils.RegexUtil.getFilesFromMessage;
@@ -22,9 +23,13 @@ public class E2eFailure {
     @Getter
     private final String sessionId;
 
-    E2eFailure(Failure failure, String sessionId) {
+    @Getter
+    private final LocalDateTime startDateTime;
+
+    public E2eFailure(Failure failure, String sessionId, LocalDateTime startDateTime) {
         this.failure = failure;
         this.sessionId = sessionId;
+        this.startDateTime = startDateTime;
     }
 
     public String getTestHeader() {

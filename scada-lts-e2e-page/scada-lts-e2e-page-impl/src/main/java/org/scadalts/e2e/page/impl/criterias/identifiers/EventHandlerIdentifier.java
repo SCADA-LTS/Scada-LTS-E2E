@@ -10,7 +10,6 @@ import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
 
 @Getter
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class EventHandlerIdentifier extends AbstractIdentifier {
 
@@ -24,5 +23,10 @@ public class EventHandlerIdentifier extends AbstractIdentifier {
     @Override
     public NodeCriteria getNodeCriteria() {
         return NodeCriteria.exactlyTypeAny(this, Tag.span());
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

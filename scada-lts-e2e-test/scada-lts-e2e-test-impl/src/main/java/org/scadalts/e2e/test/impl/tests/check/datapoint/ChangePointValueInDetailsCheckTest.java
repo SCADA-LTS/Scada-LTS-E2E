@@ -15,17 +15,18 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.WatchListIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointDetailsPage;
+import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.Collection;
 
 import static org.junit.Assert.*;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class ChangePointValueInDetailsCheckTest {
 
     @Parameterized.Parameters(name = "number test: {index}, set value datapoint: {0}")
@@ -44,12 +45,13 @@ public class ChangePointValueInDetailsCheckTest {
     @BeforeClass
     public static void createDataSourceAndPoint() {
 
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.criteriaSecond(new DataSourceIdentifier(TestImplConfiguration.dataSourceName, DataSourceType.VIRTUAL_DATA_SOURCE));
         DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(new DataPointIdentifier(TestImplConfiguration.dataPointName, DataPointType.NUMERIC));
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
 
         WatchListIdentifier identifier = new WatchListIdentifier(TestImplConfiguration.watchListName);
-        dataPointDetailsPageSubject = TestWithPageUtil.getNavigationPage().openWatchList()
+        dataPointDetailsPageSubject = navigationPage.openWatchList()
                 .selectWatchList(identifier)
                 .openDataPointDetails(dataSourcePointCriteria.getIdentifier());
 

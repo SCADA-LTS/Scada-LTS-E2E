@@ -1,8 +1,8 @@
 package org.scadalts.e2e.test.core.plans.exec;
 
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.common.config.E2eConfig;
-import org.scadalts.e2e.common.types.TestPlan;
+import org.scadalts.e2e.common.core.config.E2eConfig;
+import org.scadalts.e2e.common.core.types.TestPlan;
 import org.scadalts.e2e.test.core.plans.engine.E2eSummarable;
 import org.scadalts.e2e.test.core.plans.engine.TestsRunEngine;
 import org.scadalts.e2e.test.core.plans.providers.TestClassesProvider;

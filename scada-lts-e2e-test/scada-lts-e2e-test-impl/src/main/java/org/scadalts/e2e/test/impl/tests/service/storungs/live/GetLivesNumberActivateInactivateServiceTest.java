@@ -16,7 +16,6 @@ import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestDataBatch;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
@@ -29,7 +28,7 @@ import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.getInactiveAlarmsFromResponseNumber;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class GetLivesNumberActivateInactivateServiceTest {
 
     @Parameterized.Parameters(name = "{index}: sequence: {0}")
@@ -40,14 +39,14 @@ public class GetLivesNumberActivateInactivateServiceTest {
         result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, LoggingType.ALL, 1));
         result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, LoggingType.ALL, 0));
         result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, LoggingType.ALL, 1));
-        result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ALL, 0));
+        //result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ALL, 0));
         result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ALL, 1));
 
         result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, LoggingType.ON_CHANGE, 0));
         result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, LoggingType.ON_CHANGE, 1));
         result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, LoggingType.ON_CHANGE, 0));
         result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, LoggingType.ON_CHANGE, 1));
-        result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ON_CHANGE, 0));
+        //result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ON_CHANGE, 0));
         result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ON_CHANGE, 1));
         return result;
     }
@@ -66,9 +65,11 @@ public class GetLivesNumberActivateInactivateServiceTest {
 
     private StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
 
+    private static NavigationPage navigationPage;
+
     @BeforeClass
     public static void createDataSource() {
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        navigationPage = TestWithPageUtil.openNavigationPage();
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourceCriteria);
         dataSourcePointObjectsCreator.createObjects();
     }
@@ -83,7 +84,6 @@ public class GetLivesNumberActivateInactivateServiceTest {
         DataPointCriteria point2 = DataPointCriteria.noChangeAllDataLogging(IdentifierObjectFactory.dataPointStorungBinaryTypeName(),
                 "1");
 
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, point, point2);
         storungsAndAlarmsObjectsCreator.createObjects();
 
@@ -98,12 +98,14 @@ public class GetLivesNumberActivateInactivateServiceTest {
 
     @After
     public void clean() {
-        storungsAndAlarmsObjectsCreator.deleteAlaramsAndDataPoints();
+        if(storungsAndAlarmsObjectsCreator != null)
+            storungsAndAlarmsObjectsCreator.deleteAlaramsAndDataPoints();
     }
 
     @AfterClass
     public static void cleanAll() {
-        dataSourcePointObjectsCreator.deleteObjects();
+        if(dataSourcePointObjectsCreator != null)
+            dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test

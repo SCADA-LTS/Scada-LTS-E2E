@@ -1,14 +1,14 @@
 package org.scadalts.e2e.test.impl.providers;
 
-import org.scadalts.e2e.common.types.TestPlan;
+import org.scadalts.e2e.common.core.types.TestPlan;
 import org.scadalts.e2e.test.core.plans.providers.TestClassByPlanProvider;
 import org.scadalts.e2e.test.impl.config.auto.AlarmNotificationAutomaticConfiguration;
+import org.scadalts.e2e.test.impl.config.auto.ConfigForProdChecker;
 import org.scadalts.e2e.test.impl.config.auto.PerformAutomaticConfiguration;
-import org.scadalts.e2e.test.impl.config.auto.tasks.cleaners.Cleaner;
 import org.scadalts.e2e.test.impl.config.auto.tasks.exports.Exporter;
-import org.scadalts.e2e.test.impl.config.auto.tasks.imports.Importer;
 import org.scadalts.e2e.test.impl.tests.ScadaAllTestsSuite;
 import org.scadalts.e2e.test.impl.tests.ScadaPageAndServiceTestsSuite;
+import org.scadalts.e2e.test.impl.tests.ScadaProdTestsSuite;
 import org.scadalts.e2e.test.impl.tests.check.ScadaCheckTestsSuite;
 import org.scadalts.e2e.test.impl.tests.check.login.LoginCheckTest;
 import org.scadalts.e2e.test.impl.tests.check.login.LogoutCheckTest;
@@ -35,11 +35,13 @@ public class ScadaTestClassByPlanProvider implements TestClassByPlanProvider {
         tests.put(TestPlan.AUTO_CONFIG, PerformAutomaticConfiguration.class);
         tests.put(TestPlan.CONFIG_AUTO, PerformAutomaticConfiguration.class);
         tests.put(TestPlan.EXPORT, Exporter.class);
-        tests.put(TestPlan.IMPORT, Importer.class);
-        tests.put(TestPlan.CLEAN, Cleaner.class);
+        //tests.put(TestPlan.IMPORT, Importer.class);
+        //tests.put(TestPlan.CLEAN, Cleaner.class);
         tests.put(TestPlan.PERFORMANCE, ScadaPerformanceTestsSuite.class);
         tests.put(TestPlan.PERF, ScadaPerformanceTestsSuite.class);
         tests.put(TestPlan.ALARM_NOTIFICATION_AUTO_CONFIG, AlarmNotificationAutomaticConfiguration.class);
+        tests.put(TestPlan.PROD, ScadaProdTestsSuite.class);
+        tests.put(TestPlan.CONFIG_PROD_CHECKER, ConfigForProdChecker.class);
     }
 
     @Override

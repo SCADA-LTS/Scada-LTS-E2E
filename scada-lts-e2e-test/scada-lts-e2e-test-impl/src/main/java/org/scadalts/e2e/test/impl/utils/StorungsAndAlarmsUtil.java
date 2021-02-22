@@ -1,7 +1,7 @@
 package org.scadalts.e2e.test.impl.utils;
 
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.common.utils.VariationUnit;
+import org.scadalts.e2e.common.core.utils.VariationUnit;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;

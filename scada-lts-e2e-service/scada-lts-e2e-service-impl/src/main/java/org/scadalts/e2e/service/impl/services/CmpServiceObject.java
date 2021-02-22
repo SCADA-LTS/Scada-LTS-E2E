@@ -3,9 +3,8 @@ package org.scadalts.e2e.service.impl.services;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.extern.log4j.Log4j2;
-import org.apache.cxf.jaxrs.utils.HttpUtils;
-import org.scadalts.e2e.common.config.E2eConfiguration;
-import org.scadalts.e2e.common.utils.StabilityUtil;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
+import org.scadalts.e2e.common.core.utils.StabilityUtil;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
@@ -19,7 +18,6 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,13 +54,7 @@ public class CmpServiceObject implements WebServiceObject {
                 .request(mediaType)
                 .cookie(cookie)
                 .post(Entity.entity(new CmpParams[]{cmpParams}, mediaType));
-        List<CmpParams> para = _getCmpParams(response);
-        return E2eResponseFactory.newResponseForJsonArrayFirst(response, para);
-    }
-
-    private List<CmpParams> _getCmpParams(Response response) {
-        return HttpUtils.isPayloadEmpty(response.getStringHeaders()) ? Collections.emptyList()
-                : response.readEntity(new GenericType<List<CmpParams>>() {});
+        return E2eResponseFactory.newResponseForJsonArrayFirst(response, new GenericType<List<CmpParams>>() {});
     }
 
     @Override

@@ -6,11 +6,11 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 public final class XpathAttribute {
 
-    private final String Name;
+    private final String name;
     private final String value;
 
-    private XpathAttribute(String Name, String value) {
-        this.Name = Name;
+    private XpathAttribute(String name, String value) {
+        this.name = name;
         this.value = value;
     }
 

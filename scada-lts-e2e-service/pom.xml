@@ -5,16 +5,16 @@
     <parent>
         <artifactId>scada-lts-e2e</artifactId>
         <groupId>org.scadalts</groupId>
-        <version>19.0.3-SNAPSHOT</version>
+        <version>19.2.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>scada-lts-e2e-service</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>scada-lts-e2e-service-api</module>
         <module>scada-lts-e2e-service-core</module>
         <module>scada-lts-e2e-service-impl</module>
+        <module>scada-lts-e2e-service-api</module>
     </modules>
 
     <dependencies>
@@ -36,7 +36,7 @@
         </dependency>
         <dependency>
             <groupId>org.scadalts</groupId>
-            <artifactId>scada-lts-e2e-common</artifactId>
+            <artifactId>scada-lts-e2e-common-core</artifactId>
         </dependency>
     </dependencies>
 </project>

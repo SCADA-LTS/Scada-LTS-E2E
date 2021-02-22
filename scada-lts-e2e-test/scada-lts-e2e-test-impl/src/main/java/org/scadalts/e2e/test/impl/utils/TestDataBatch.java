@@ -2,7 +2,7 @@ package org.scadalts.e2e.test.impl.utils;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.scadalts.e2e.common.utils.VariationUnit;
+import org.scadalts.e2e.common.core.utils.VariationUnit;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;

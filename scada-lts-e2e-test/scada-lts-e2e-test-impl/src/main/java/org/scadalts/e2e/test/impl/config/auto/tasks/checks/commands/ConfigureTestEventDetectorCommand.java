@@ -2,8 +2,9 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.scadalts.e2e.common.exceptions.ConfigureTestException;
-import org.scadalts.e2e.common.utils.ExecutorUtil;
+import lombok.extern.log4j.Log4j2;
+import org.scadalts.e2e.common.core.exceptions.ConfigureTestException;
+import org.scadalts.e2e.common.core.utils.ExecutorUtil;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
@@ -23,15 +24,21 @@ import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.sub.CreateSc
 import org.scadalts.e2e.test.impl.tests.check.eventdetectors.EventDetectorCheckTest;
 
 @Data
+@Log4j2
 public class ConfigureTestEventDetectorCommand implements Command<EventDetectorCheckTest> {
 
     private final @NonNull NavigationPage navigationPage;
 
     @Override
     public void execute() {
-        ExecutorUtil.execute(this::_execute,
-                CriteriaRegisterAggregator.INSTANCE::removeRegister,
-                getClassTest(), ConfigureTestException::new);
+        try {
+            ExecutorUtil.execute(this::_execute,
+                    CriteriaRegisterAggregator.INSTANCE::removeRegister,
+                    getClassTest(), ConfigureTestException::new);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            throw th;
+        }
     }
 
     private void _execute() {
@@ -39,10 +46,10 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
         Xid dataPointToReadXid = new Xid(TestImplConfiguration.dataPointToReadXid);
 
         DataPointCriteria dataPointToChangeCriteria = DataPointCriteria.noChange(dataPointToChangeXid,
-                new DataPointIdentifier("datapoint_to_change", DataPointType.NUMERIC), "123");
+                new DataPointIdentifier("dp_to_change", DataPointType.NUMERIC), "123");
 
         DataPointCriteria dataPointToReadCriteria = DataPointCriteria.noChange(dataPointToReadXid,
-                new DataPointIdentifier("datapoint_to_read", DataPointType.NUMERIC), "12345");
+                new DataPointIdentifier("dp_to_read", DataPointType.NUMERIC), "12345");
 
         DataSourceIdentifier dataSourceIdentifier = new DataSourceIdentifier(TestImplConfiguration.dataSourceNameEventDetectorTest,
                 DataSourceType.VIRTUAL_DATA_SOURCE);

@@ -1,6 +1,6 @@
 package org.scadalts.e2e.service.api;
 
-import org.scadalts.e2e.common.config.E2eConfig;
+import org.scadalts.e2e.common.core.config.E2eConfig;
 import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 
 class ServiceObjectApiImpl implements ServiceObjectApi {
