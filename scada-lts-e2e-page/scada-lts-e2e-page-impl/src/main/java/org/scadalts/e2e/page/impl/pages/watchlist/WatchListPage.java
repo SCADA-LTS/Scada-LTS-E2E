@@ -232,7 +232,7 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
 
     @Override
     public boolean containsObject(IdentifierObject identifier) {
-        ElementsCollection watchLists = waitWhile(watchListSelect, not(Condition.visible)).getSelectedOptions();
+        ElementsCollection watchLists = waitWhile(watchListSelect, not(Condition.visible)).$$(By.tagName("option"));
         return watchLists.stream().anyMatch(a -> a.getText().equalsIgnoreCase(identifier.getValue()));
     }
 
