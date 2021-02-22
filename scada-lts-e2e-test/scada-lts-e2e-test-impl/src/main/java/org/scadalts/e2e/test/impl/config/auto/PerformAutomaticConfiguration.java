@@ -20,10 +20,10 @@ public class PerformAutomaticConfiguration {
     public static Task[] data() {
         NavigationPage navigationPage = TestWithPageUtil.preparingTest();
         return new Task[] {
-                //new ConfigureTestEventDetectorCommand(navigationPage),
+                new ConfigureTestEventDetectorCommand(navigationPage),
                 new ConfigureTestDataPointDetailsCommand(navigationPage),
-                //new ConfigureTestGraphicalViewsCommand(navigationPage),
-                //new ConfigureTestPointLinksCommand(navigationPage)
+                new ConfigureTestGraphicalViewsCommand(navigationPage),
+                new ConfigureTestPointLinksCommand(navigationPage)
         };
     }
 
