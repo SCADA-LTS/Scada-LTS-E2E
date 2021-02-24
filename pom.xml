@@ -895,7 +895,7 @@
             </properties>
         </profile>
         <profile>
-            <id>dev-local</id>
+            <id>localhost</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -906,7 +906,7 @@
                 <test.e2e.password>admin</test.e2e.password>
                 <test.e2e.auth-type>FORM</test.e2e.auth-type>
                 <test.e2e.project-version>${project.version}</test.e2e.project-version>
-                <test.e2e.env>dev-local</test.e2e.env>
+                <test.e2e.env>localhost</test.e2e.env>
                 <test.e2e.test-plans>ALL</test.e2e.test-plans>
                 <test.e2e.browser-ref>chrome</test.e2e.browser-ref>
                 <test.e2e.timeout-ms>45000</test.e2e.timeout-ms>
