@@ -3,7 +3,7 @@ package org.scadalts.e2e.app.domain.plan;
 
 import org.scadalts.e2e.app.domain.notification.email.SendEmailReaction;
 import org.scadalts.e2e.app.infrastructure.metrics.Logging;
-import org.scadalts.e2e.common.config.E2eConfig;
+import org.scadalts.e2e.common.core.config.E2eConfig;
 import org.scadalts.e2e.test.api.E2eTestApi;
 import org.scadalts.e2e.test.core.plans.engine.E2eSummarable;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

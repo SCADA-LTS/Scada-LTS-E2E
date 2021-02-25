@@ -1,6 +1,7 @@
 package org.scadalts.e2e.page.impl.pages.navigation;
 
 import com.codeborne.selenide.SelenideElement;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.pages.MainPageObject;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
@@ -25,79 +26,19 @@ import org.scadalts.e2e.page.impl.pages.userprofiles.UserProfilesPage;
 import org.scadalts.e2e.page.impl.pages.users.UsersPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 
-import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
 
-
+@Log4j2
 class NavigationPageImpl extends PageObjectAbstract<NavigationPage> implements NavigationPage {
 
     @FindBy(css = "a[href='logout.htm']")
     private SelenideElement logout;
 
-    @FindBy(css = "a[href='watch_list.shtm']")
-    private SelenideElement watchList;
-
-    @FindBy(css = "a[href='views.shtm']")
-    private SelenideElement graphicalViews;
-
-    @FindBy(css = "a[href='events.shtm']")
-    private SelenideElement pendingAlarms;
-
-    @FindBy(css = "a[href='reports.shtm']")
-    private SelenideElement reports;
-
-    @FindBy(css = "a[href='event_handlers.shtm']")
-    private SelenideElement eventHandlers;
-
-    @FindBy(css = "a[href='data_sources.shtm']")
-    private SelenideElement dataSources;
-
-    @FindBy(css = "a[href='scheduled_events.shtm']")
-    private SelenideElement scheduledEvents;
-
-    @FindBy(css = "a[href='compound_events.shtm']")
-    private SelenideElement compoundEventDetectors;
-
-    @FindBy(css = "a[href='point_links.shtm']")
-    private SelenideElement pointLinks;
-
-    @FindBy(css = "a[href='scripting.shtm']")
-    private SelenideElement scripts;
-
-    @FindBy(css = "a[href='users.shtm']")
-    private SelenideElement users;
-
-    @FindBy(css = "a[href='usersProfiles.shtm']")
-    private SelenideElement userProfiles;
-
-    @FindBy(css = "a[href='pointHierarchySLTS']")
-    private SelenideElement pointHierarchy;
-
-    @FindBy(css = "a[href='mailing_lists.shtm']")
-    private SelenideElement mailingLists;
-
-    @FindBy(css = "a[href='publishers.shtm']")
-    private SelenideElement publishers;
-
-    @FindBy(css = "a[href='maintenance_events.shtm']")
-    private SelenideElement maintenanceEvents;
-
-    @FindBy(css = "a[href='system_settings.shtm']")
-    private SelenideElement systemInformation;
-
-    @FindBy(css = "a[href='emport.shtm']")
-    private SelenideElement exportImport;
-
-    @FindBy(css = "a[href='sql.shtm']")
-    private SelenideElement sql;
-
-    @FindBy(css = "a[href='help.shtm']")
-    private SelenideElement help;
-
     @FindBy(css = ".userName")
     private SelenideElement userName;
 
     public NavigationPageImpl() {
-        super("");
+        super();
     }
 
     @Override
@@ -107,126 +48,126 @@ class NavigationPageImpl extends PageObjectAbstract<NavigationPage> implements N
 
     @Override
     public void logout() {
-        acceptAlertAfterClick(logout);
+        acceptAfterClick(logout);
     }
 
     @Override
     public GraphicalViewsPage openGraphicalViews() {
-        MainPageObject<GraphicalViewsPage> page = new GraphicalViewsPage(graphicalViews);
+        MainPageObject<GraphicalViewsPage> page = new GraphicalViewsPage();
         return page.openPage();
     }
 
     @Override
     public WatchListPage openWatchList() {
-        MainPageObject<WatchListPage> page = new WatchListPage(watchList);
+        MainPageObject<WatchListPage> page = new WatchListPage();
         return page.openPage();
     }
 
     @Override
     public PendingAlarmsPage openPendingAlarms() {
-        MainPageObject<PendingAlarmsPage> page = new PendingAlarmsPage(pendingAlarms);
+        MainPageObject<PendingAlarmsPage> page = new PendingAlarmsPage();
         return page.openPage();
     }
 
     @Override
     public ReportsPage openReports() {
-        MainPageObject<ReportsPage> page = new ReportsPage(reports);
+        MainPageObject<ReportsPage> page = new ReportsPage();
         return page.openPage();
     }
 
     @Override
     public EventHandlersPage openEventHandlers() {
-        MainPageObject<EventHandlersPage> page = new EventHandlersPage(eventHandlers);
+        MainPageObject<EventHandlersPage> page = new EventHandlersPage();
         return page.openPage();
     }
 
     @Override
     public DataSourcesPage openDataSources() {
-        MainPageObject<DataSourcesPage> page = new DataSourcesPage(dataSources);
+        MainPageObject<DataSourcesPage> page = new DataSourcesPage();
         return page.openPage();
     }
 
     @Override
     public ScheduledEventsPage openScheduledEvents() {
-        MainPageObject<ScheduledEventsPage> page = new ScheduledEventsPage(scheduledEvents);
+        MainPageObject<ScheduledEventsPage> page = new ScheduledEventsPage();
         return page.openPage();
     }
 
     @Override
     public CompoundEventDetectorsPage openCompoundEventDetectors() {
-        MainPageObject<CompoundEventDetectorsPage> page = new CompoundEventDetectorsPage(compoundEventDetectors);
+        MainPageObject<CompoundEventDetectorsPage> page = new CompoundEventDetectorsPage();
         return page.openPage();
     }
 
     @Override
     public PointLinksPage openPointLinks() {
-        MainPageObject<PointLinksPage> page = new PointLinksPage(pointLinks);
+        MainPageObject<PointLinksPage> page = new PointLinksPage();
         return page.openPage();
     }
 
     @Override
     public ScriptsPage openScripts() {
-        MainPageObject<ScriptsPage> page = new ScriptsPage(scripts);
+        MainPageObject<ScriptsPage> page = new ScriptsPage();
         return page.openPage();
     }
 
     @Override
     public UsersPage openUsers() {
-        MainPageObject<UsersPage> page = new UsersPage(users);
+        MainPageObject<UsersPage> page = new UsersPage();
         return page.openPage();
     }
 
     @Override
     public UserProfilesPage openUsersProfiles() {
-        MainPageObject<UserProfilesPage> page = new UserProfilesPage(userProfiles);
+        MainPageObject<UserProfilesPage> page = new UserProfilesPage();
         return page.openPage();
     }
 
     @Override
     public PointHierarchyPage openPointHierarchy() {
-        MainPageObject<PointHierarchyPage> page = new PointHierarchyPage(pointHierarchy);
+        MainPageObject<PointHierarchyPage> page = new PointHierarchyPage();
         return page.openPage();
     }
 
     @Override
     public MailingListsPage openMailingLists() {
-        MainPageObject<MailingListsPage> page = new MailingListsPage(mailingLists);
+        MainPageObject<MailingListsPage> page = new MailingListsPage();
         return page.openPage();
     }
 
     @Override
     public PublishersPage openPublishers() {
-        MainPageObject<PublishersPage> page = new PublishersPage(publishers);
+        MainPageObject<PublishersPage> page = new PublishersPage();
         return page.openPage();
     }
 
     @Override
     public MaintenanceEventsPage openMaintenanceEvents() {
-        MainPageObject<MaintenanceEventsPage> page = new MaintenanceEventsPage(maintenanceEvents);
+        MainPageObject<MaintenanceEventsPage> page = new MaintenanceEventsPage();
         return page.openPage();
     }
 
     @Override
     public SystemInformationPage openSystemInformation() {
-        MainPageObject<SystemInformationPage> page = new SystemInformationPage(systemInformation);
+        MainPageObject<SystemInformationPage> page = new SystemInformationPage();
         return page.openPage();
     }
 
     @Override
     public ExportImportPage openExportImport() {
-        MainPageObject<ExportImportPage> page = new ExportImportPage(exportImport);
+        MainPageObject<ExportImportPage> page = new ExportImportPage();
         return page.openPage();
     }
 
     @Override
     public SqlPage openSql() {
-        MainPageObject<SqlPage> page = new SqlPage(sql);
+        MainPageObject<SqlPage> page = new SqlPage();
         return page.openPage();
     }
 
     @Override
     public HelpPage openHelp() {
-        MainPageObject<HelpPage> page = new HelpPage(help);
+        MainPageObject<HelpPage> page = new HelpPage();
         return page.openPage();
     }
 
@@ -234,4 +175,5 @@ class NavigationPageImpl extends PageObjectAbstract<NavigationPage> implements N
     public String getUserName() {
         return userName.getText();
     }
+
 }

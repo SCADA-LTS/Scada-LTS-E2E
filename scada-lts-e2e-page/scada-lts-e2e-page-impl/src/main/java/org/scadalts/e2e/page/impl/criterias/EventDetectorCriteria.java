@@ -2,6 +2,7 @@ package org.scadalts.e2e.page.impl.criterias;
 
 import lombok.*;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
+import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventDetectorIdentifier;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
 import org.scadalts.e2e.page.impl.dicts.EventDetectorType;
@@ -10,9 +11,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static org.scadalts.e2e.page.core.criterias.Tag.div;
+import static org.scadalts.e2e.page.core.criterias.Tag.span;
+import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.clazz;
+
 @Data
 @Builder
-@ToString
+@ToString(exclude = "dataSourcePointCriteria")
 public class EventDetectorCriteria implements CriteriaObject, GetXid {
 
     private final @NonNull Xid xid;
@@ -80,5 +85,12 @@ public class EventDetectorCriteria implements CriteriaObject, GetXid {
     public int hashCode() {
 
         return Objects.hash(getIdentifier());
+    }
+
+    @Override
+    public NodeCriteria[] getNodeCriteria() {
+        NodeCriteria nodeCriteria = NodeCriteria.exactly(dataSourcePointCriteria.getIdentifier(), div(), clazz("dojoTreeNode"));
+        NodeCriteria nodeCriteria2 = NodeCriteria.exactlyTypeAny(identifier, span());
+        return new NodeCriteria[]{nodeCriteria, nodeCriteria2};
     }
 }

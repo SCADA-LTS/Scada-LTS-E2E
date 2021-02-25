@@ -10,7 +10,6 @@ import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.test.impl.creators.GraphicalViewObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.io.File;
@@ -18,7 +17,7 @@ import java.io.File;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class CreateGraphicalViewPageTest {
 
     @Parameterized.Parameters(name = "{index}: {0} {1}")
@@ -47,14 +46,16 @@ public class CreateGraphicalViewPageTest {
     @Before
     public void setup() {
         GraphicalViewCriteria criteria = GraphicalViewCriteria.criteria(identifier);
-        graphicalViewObjectsCreator = new GraphicalViewObjectsCreator(TestWithPageUtil.getNavigationPage(), criteria);
+        graphicalViewObjectsCreator = new GraphicalViewObjectsCreator(TestWithPageUtil.openNavigationPage(), criteria);
         graphicalViewsPageSubject = graphicalViewObjectsCreator.openPage();
     }
 
     @After
     public void clean() {
-        GraphicalViewsPage page = graphicalViewObjectsCreator.deleteObjects();
-        page.acceptAlertOnPage2();
+        if(graphicalViewObjectsCreator != null) {
+            GraphicalViewsPage page = graphicalViewObjectsCreator.deleteObjects();
+            page.acceptAlertOnPage();
+        }
     }
 
     @Test

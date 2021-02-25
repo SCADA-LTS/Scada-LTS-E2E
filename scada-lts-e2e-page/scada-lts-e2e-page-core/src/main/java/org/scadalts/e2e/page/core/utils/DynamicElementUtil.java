@@ -44,6 +44,15 @@ public abstract class DynamicElementUtil {
         return _findActionInNodeInTreeReopen(page, source, selectAction, nodeCriterias);
     }
 
+    public static <T extends MainPageObject<T>> SelenideElement findObjectInNodeInTree(MainPageObject<T> page,
+                                                                                       SelenideElement source,
+                                                                                       By selectAction,
+                                                                                       NodeCriteria... nodeCriterias) {
+        if(nodeCriterias.length == 0)
+            throw new IllegalArgumentException();
+        return _findObjectInNodeInTreeReopen(page, source, selectAction, nodeCriterias);
+    }
+
     public static SelenideElement findNodeClickableInTree(SelenideElement source, NodeCriteria... nodeCriterias)  {
         if(nodeCriterias.length == 0)
             throw new IllegalArgumentException();
@@ -156,6 +165,27 @@ public abstract class DynamicElementUtil {
                 element = waitWhile(findObject(nodeCriteria, element), not(Condition.visible));
                 if(!nodeCriterias[nodeCriterias.length - 1].equals(nodeCriteria)) {
                     waitWhile(element.$(selectAction), not(Condition.visible)).click();
+                }
+            }
+        }
+        return element;
+    }
+
+    private static <T extends MainPageObject<T>> SelenideElement _findObjectInNodeInTreeReopen(MainPageObject<T> page,
+                                                                                               SelenideElement source,
+                                                                                               By selectAction,
+                                                                                               NodeCriteria[] nodeCriterias) {
+        SelenideElement element = reopenWaitWhile(page, findObject(nodeCriterias[0], source), not(Condition.visible));
+        waitWhile(element.$(selectAction), not(Condition.visible)).click();
+        for (NodeCriteria nodeCriteria : nodeCriterias) {
+            if(!nodeCriterias[0].equals(nodeCriteria)) {
+                element = findObject(nodeCriteria, element);
+                if(waitWhile(element, not(Condition.visible)).is(Condition.visible)) {
+                    if (waitWhile(element.$(selectAction), not(Condition.visible)).is(Condition.visible)) {
+                        element.$(selectAction).click();
+                    }
+                } else {
+                    return element;
                 }
             }
         }

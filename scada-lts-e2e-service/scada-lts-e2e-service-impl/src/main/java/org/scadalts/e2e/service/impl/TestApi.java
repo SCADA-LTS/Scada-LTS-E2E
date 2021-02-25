@@ -2,7 +2,7 @@ package org.scadalts.e2e.service.impl;
 
 
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.common.config.E2eConfiguration;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
 import org.scadalts.e2e.service.core.exceptions.WebServiceObjectException;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.CmpServiceObject;

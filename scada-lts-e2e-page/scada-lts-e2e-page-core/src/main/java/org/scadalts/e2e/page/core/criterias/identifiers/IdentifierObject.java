@@ -1,6 +1,6 @@
 package org.scadalts.e2e.page.core.criterias.identifiers;
 
-import org.scadalts.e2e.common.dicts.DictionaryObject;
+import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 
 import static org.scadalts.e2e.page.core.criterias.Tag.each;
 

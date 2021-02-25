@@ -2,8 +2,8 @@ package org.scadalts.e2e.test.core.plans.providers;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.runners.Suite;
-import org.scadalts.e2e.common.config.E2eConfig;
-import org.scadalts.e2e.common.types.TestPlan;
+import org.scadalts.e2e.common.core.config.E2eConfig;
+import org.scadalts.e2e.common.core.types.TestPlan;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;

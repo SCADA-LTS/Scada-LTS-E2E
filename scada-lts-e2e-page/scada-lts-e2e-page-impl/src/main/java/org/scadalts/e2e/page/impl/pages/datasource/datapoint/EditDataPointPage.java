@@ -18,8 +18,8 @@ import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 import static javax.xml.bind.DatatypeConverter.parseBoolean;
-import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfter;
-import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 
@@ -51,7 +51,7 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
     public static final String TITLE = "Point details";
 
     public EditDataPointPage() {
-        super(TITLE);
+        super();
         editDataSourceWithPointListPage = page(EditDataSourceWithPointListPage.class);
     }
 
@@ -93,7 +93,7 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
 
     public EditDataPointPage selectDataPointType(DataPointType dataPointType) {
         delay();
-        acceptAlertAfter(dataTypes::selectOption, dataPointType.getName());
+        acceptAlert(dataTypes::selectOption, dataPointType.getName());
         return this;
     }
 
@@ -114,14 +114,14 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
 
     public EditDataPointPage saveDataPoint() {
         delay();
-        acceptAlertAfterClick(saveDataPoint);
+        acceptAfterClick(saveDataPoint);
         return this;
     }
 
     public EditDataSourceWithPointListPage deleteDataPoint() {
         delay();
         deleteDataPoint.click();
-        acceptAlertOnPage();
+        //acceptAlertOnPage();
         return editDataSourceWithPointListPage;
     }
 

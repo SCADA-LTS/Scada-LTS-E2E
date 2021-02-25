@@ -5,16 +5,13 @@ import lombok.Getter;
 import lombok.Singular;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.common.config.E2eConfig;
-import org.scadalts.e2e.common.config.SendTo;
+import org.scadalts.e2e.common.core.config.E2eConfig;
+import org.scadalts.e2e.common.core.config.SendTo;
 import org.scadalts.e2e.test.core.plans.engine.E2eSummarable;
 import org.scadalts.e2e.test.core.plans.engine.TestStatus;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,10 +34,10 @@ class EmailData {
     private final Set<File> attachments;
 
     @Singular
-    private final Set<String> failTestNames;
+    private final List<String> failTestNames;
 
     static EmailData create(E2eConfig config, SendTo sendTo, E2eSummarable summary) {
-        Set<String> failTestNames = summary.getFailTestNames();
+        List<String> failTestNames = summary.getFailTestNames();
         logger.info("failTestNames: {}", failTestNames);
 
         Map<String, TestStatus> testStatuses = summary.getTestStatuses();

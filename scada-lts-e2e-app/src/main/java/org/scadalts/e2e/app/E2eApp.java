@@ -3,8 +3,10 @@ package org.scadalts.e2e.app;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.scadalts.e2e.app.infrastructure.config.ConfigAppKeys;
-import org.scadalts.e2e.common.config.E2eConfig;
-import org.scadalts.e2e.common.config.E2eConfigFromFileProvider;
+import org.scadalts.e2e.common.api.E2eCommonApi;
+import org.scadalts.e2e.common.core.config.E2eConfig;
+import org.scadalts.e2e.common.core.config.E2eConfigFromFileProvider;
+import org.scadalts.e2e.common.core.utils.E2eSystemInfoUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -14,8 +16,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.scadalts.e2e.common.utils.E2eSystemInfoUtil.printHeaderWithConfig;
 
 @Log4j2
 @SpringBootApplication
@@ -31,7 +31,8 @@ public class E2eApp {
 
 		Configurator.setRootLevel(config.getLogLevel());
 		Configurator.setAllLevels("org.apache.logging.log4j", config.getLogLevel());
-		printHeaderWithConfig(config);
+		E2eSystemInfoUtil systemInfo = new E2eSystemInfoUtil(E2eCommonApi.createAsciiHeaders());
+		systemInfo.printHeaderWithConfig(config);
 		SpringApplication application = new SpringApplication(E2eApp.class);
 
 		application.addInitializers(applicationEvent -> applicationEvent

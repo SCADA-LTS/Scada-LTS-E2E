@@ -9,7 +9,7 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 
 import static javax.xml.bind.DatatypeConverter.parseInt;
-import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
 
 public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
 
@@ -28,15 +28,8 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
     @FindBy(css = "img[onclick='saveDataSource()']")
     private SelenideElement saveDataSource;
 
-
-    public static final String TITLE = "";
-
     EditDataSourcePage() {
-        super(TITLE);
-    }
-
-    EditDataSourcePage(String title) {
-        super(title);
+        super();
     }
 
     @Override
@@ -81,7 +74,7 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
 
     public EditDataSourceWithPointListPage saveDataSource() {
         delay();
-        acceptAlertAfterClick(saveDataSource);
+        acceptAfterClick(saveDataSource);
         return Selenide.page(EditDataSourceWithPointListPage.class);
     }
 

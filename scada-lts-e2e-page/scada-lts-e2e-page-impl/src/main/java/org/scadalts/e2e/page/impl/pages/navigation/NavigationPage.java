@@ -87,6 +87,10 @@ public interface NavigationPage extends PageObject<NavigationPage>, PageClosable
         return open(URL_REF, NavigationPageImpl.class);
     }
 
+    static NavigationPage openRootPage() {
+        return open("", NavigationPageImpl.class);
+    }
+
     static Set<String> tabsOpened() {
         return getDriver().getWindowHandles();
     }
@@ -115,12 +119,12 @@ public interface NavigationPage extends PageObject<NavigationPage>, PageClosable
         try {
             Selenide.closeWindow();
         } catch (Exception ex) {
-            LOGGER.warn(ex.getMessage(), ex);
+            LOGGER.warn(ex.getMessage());
         }
         try {
             Selenide.closeWebDriver();
         } catch (Exception ex) {
-            LOGGER.warn(ex.getMessage(), ex);
+            LOGGER.warn(ex.getMessage());
         }
     }
 }

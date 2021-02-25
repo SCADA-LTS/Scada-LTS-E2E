@@ -44,10 +44,11 @@ public class ChangeValuePointsForFirstEnabledInIntervalMsBetweenPoints {
     private DataSourcePointIdentifier dataSourcePointIdentifier1;
     private DataSourcePointIdentifier dataSourcePointIdentifier2;
     private DataPointObjectsCreator dataPointObjectsCreator;
+    private static NavigationPage navigationPage;
 
     @BeforeClass
     public static void createDataSource() {
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        navigationPage = TestWithPageUtil.openNavigationPage();
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourceCriteria);
         dataSourcePointObjectsCreator.createObjects();
     }
@@ -58,7 +59,6 @@ public class ChangeValuePointsForFirstEnabledInIntervalMsBetweenPoints {
         DataPointCriteria point1 = DataPointCriteria.noChange(IdentifierObjectFactory.dataPointName(DataPointType.BINARY),"0", false);
         DataPointCriteria point2 = DataPointCriteria.noChange(IdentifierObjectFactory.dataPointName(DataPointType.BINARY), "0", false);
 
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage, dataSourceCriteria, point1, point2);
         EditDataSourceWithPointListPage page = dataPointObjectsCreator.createObjects();
 
@@ -85,9 +85,12 @@ public class ChangeValuePointsForFirstEnabledInIntervalMsBetweenPoints {
 
     @After
     public void clean() {
-        watchListPage.acceptAlertOnPage2();
-        watchListObjectsCreator.deleteObjects();
-        dataPointObjectsCreator.deleteObjects();
+        if(watchListPage != null)
+            watchListPage.acceptAlertOnPage();
+        if(watchListObjectsCreator != null)
+            watchListObjectsCreator.deleteObjects();
+        if(dataPointObjectsCreator != null)
+            dataPointObjectsCreator.deleteObjects();
     }
 
     @AfterClass

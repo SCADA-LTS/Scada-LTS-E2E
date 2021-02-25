@@ -1,7 +1,7 @@
 package org.scadalts.e2e.service.impl.services;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import org.scadalts.e2e.common.config.E2eConfiguration;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
 
 import javax.ws.rs.client.ClientBuilder;
 

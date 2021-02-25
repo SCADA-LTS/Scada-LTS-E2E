@@ -15,7 +15,6 @@ import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.RegexUtil;
 import org.scadalts.e2e.test.impl.utils.TestDataBatch;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
@@ -32,7 +31,7 @@ import static org.junit.Assert.assertThat;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class GetActiveLivesAfterSeqServiceTest {
 
     @Parameterized.Parameters(name = "{index}: sequence: {0}")
@@ -63,12 +62,13 @@ public class GetActiveLivesAfterSeqServiceTest {
 
     private static DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
     private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
+    private static NavigationPage navigationPage;
 
     private StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
 
     @BeforeClass
     public static void createDataSource() {
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        navigationPage = TestWithPageUtil.openNavigationPage();
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourceCriteria);
         dataSourcePointObjectsCreator.createObjects();
     }
@@ -80,7 +80,6 @@ public class GetActiveLivesAfterSeqServiceTest {
                 String.valueOf(testDataBatch.getStartValue()),
                 DataPointLoggingProperties.logging(testDataBatch.getLoggingType()));
 
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, point);
         storungsAndAlarmsObjectsCreator.createObjects();
 
@@ -97,12 +96,14 @@ public class GetActiveLivesAfterSeqServiceTest {
 
     @After
     public void clean() {
-        storungsAndAlarmsObjectsCreator.deleteAlaramsAndDataPoints();
+        if(storungsAndAlarmsObjectsCreator != null)
+            storungsAndAlarmsObjectsCreator.deleteAlaramsAndDataPoints();
     }
 
     @AfterClass
     public static void cleanAll() {
-        dataSourcePointObjectsCreator.deleteObjects();
+        if(dataSourcePointObjectsCreator != null)
+            dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test

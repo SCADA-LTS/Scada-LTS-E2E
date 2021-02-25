@@ -18,7 +18,6 @@ import org.scadalts.e2e.service.impl.services.datapoint.DataPointPropertiesRespo
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.test.impl.creators.DataPointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.DataPointPropertiesAdapter;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
@@ -27,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class DataPointLoggingPropertiesServiceTest {
 
 
@@ -119,7 +118,7 @@ public class DataPointLoggingPropertiesServiceTest {
 
         dataSourcePointCriteria = DataSourcePointCriteria.virtualDataSourceNumericNoChange();
 
-        navigationPage = TestWithPageUtil.getNavigationPage();
+        navigationPage = TestWithPageUtil.openNavigationPage();
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcePointObjectsCreator.createObjects();
 
@@ -131,7 +130,8 @@ public class DataPointLoggingPropertiesServiceTest {
 
     @AfterClass
     public static void cleanForAll() {
-       dataSourcePointObjectsCreator.deleteObjects();
+        if(dataSourcePointObjectsCreator != null)
+            dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Before
@@ -149,7 +149,8 @@ public class DataPointLoggingPropertiesServiceTest {
 
     @After
     public void clean() {
-       dataPointObjectsCreator.deleteObjects();
+        if(dataPointObjectsCreator != null)
+            dataPointObjectsCreator.deleteObjects();
     }
 
     @Test

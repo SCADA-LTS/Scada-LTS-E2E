@@ -25,7 +25,7 @@ public class CreateScriptRewritingValueFromToPointSubCommand implements SubComma
         Script script = Script.script(_getScriptPattern(), dataPointToCriteria.getXid(), varCriteria);
 
         ScriptCriteria scriptCriteria = ScriptCriteria
-                .dataPointCommandsEnabled(new ScriptIdentifier("script_event_detector_test"),
+                .dataPointCommandsEnabled(new ScriptIdentifier("sc_event_detector_test"),
                         script, dataPointVarCriteria);
 
         ScriptObjectsCreator scriptObjectsCreator = new ScriptObjectsCreator(navigationPage, scriptCriteria);

@@ -14,7 +14,7 @@ import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static javax.xml.bind.DatatypeConverter.parseBoolean;
-import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 public class EditEventHandlersPage extends PageObjectAbstract<EditEventHandlersPage> {
@@ -42,7 +42,7 @@ public class EditEventHandlersPage extends PageObjectAbstract<EditEventHandlersP
     public final static String TITLE = "Event handler";
 
     public EditEventHandlersPage(EventHandlersPage eventHandlersPage) {
-        super(TITLE);
+        super();
         this.eventHandlersPage = eventHandlersPage;
     }
 
@@ -127,7 +127,7 @@ public class EditEventHandlersPage extends PageObjectAbstract<EditEventHandlersP
     public EditEventHandlersPage saveEventHandler() {
         delay();
         SelenideElement selenideElement = waitWhile(saveHandler, not(Condition.visible));
-        acceptAlertAfterClick(selenideElement);
+        acceptAfterClick(selenideElement);
         return this;
     }
 

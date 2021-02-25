@@ -1,7 +1,7 @@
 package org.scadalts.e2e.test.core.utils;
 
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.common.utils.FileUtil;
+import org.scadalts.e2e.common.core.utils.FileUtil;
 
 import java.io.File;
 import java.util.Objects;
@@ -19,9 +19,9 @@ public class RegexUtil {
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(message);
             if (matcher.find()) {
-                String group = matcher.group().replace("http:", "").trim();
-                File file = FileUtil.getFileFromFileSystem(group);
-                return Optional.of(file);
+                String group = matcher.group().replace("http:", "").trim().substring(1);
+                logger.info("path:" + group);
+                return FileUtil.getFileFromFileSystem(group);
             }
         }
         return Optional.empty();

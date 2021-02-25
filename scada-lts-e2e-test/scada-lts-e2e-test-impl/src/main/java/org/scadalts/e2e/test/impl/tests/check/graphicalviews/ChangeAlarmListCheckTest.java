@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.GraphicalViewCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.EditGraphicalViewPage;
@@ -12,17 +11,15 @@ import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.creators.GraphicalViewObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 @Ignore
-@RunWith(TestWithPageRunner.class)
 public class ChangeAlarmListCheckTest {
 
-    private final NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+    private final NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
     private final GraphicalViewCriteria criteria = GraphicalViewCriteria.criteria(new GraphicalViewIdentifier(TestImplConfiguration.graphicalViewName));
     private final GraphicalViewObjectsCreator graphicalViewObjectsCreator = new GraphicalViewObjectsCreator(navigationPage, criteria);
     private GraphicalViewsPage editViewPageSubject;
@@ -34,7 +31,8 @@ public class ChangeAlarmListCheckTest {
 
     @After
     public void close() {
-        editViewPageSubject.acceptAlertOnPage();
+        if(editViewPageSubject != null)
+            editViewPageSubject.acceptAlertOnPage();
     }
 
     @Test

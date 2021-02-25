@@ -7,12 +7,12 @@ import org.apache.logging.log4j.Level;
 import org.scadalts.e2e.cli.commands.E2eCommand;
 import org.scadalts.e2e.cli.commands.RunAppCommand;
 import org.scadalts.e2e.cli.commands.RunTestCommand;
-import org.scadalts.e2e.common.config.E2eConfig;
-import org.scadalts.e2e.common.config.SendTo;
-import org.scadalts.e2e.common.types.AuthType;
-import org.scadalts.e2e.common.types.BrowserRef;
-import org.scadalts.e2e.common.types.PageLoadStrategy;
-import org.scadalts.e2e.common.types.TestPlan;
+import org.scadalts.e2e.common.core.config.E2eConfig;
+import org.scadalts.e2e.common.core.config.SendTo;
+import org.scadalts.e2e.common.core.types.AuthType;
+import org.scadalts.e2e.common.core.types.BrowserRef;
+import org.scadalts.e2e.common.core.types.PageLoadStrategy;
+import org.scadalts.e2e.common.core.types.TestPlan;
 
 import java.io.File;
 import java.net.URL;

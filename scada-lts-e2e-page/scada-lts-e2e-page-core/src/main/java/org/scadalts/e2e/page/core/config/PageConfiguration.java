@@ -8,9 +8,9 @@ import java.io.File;
 
 public class PageConfiguration {
 
-    public volatile static File driverFile = null;
-    public volatile static Keys ctrl = SystemConfig.getConfig().getCtrl();
-    public volatile static int clickDelayMs = 500;
-    public volatile static long timeout = 6001;
+    public static File driverFile = null;
+    public static Keys ctrl = SystemConfig.getConfig().getCtrl();
+    public static int clickDelayMs = 500;
+    public static long timeout = 6001;
 
 }

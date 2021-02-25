@@ -4,7 +4,7 @@ package org.scadalts.e2e.page.core.criterias.identifiers;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
+import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.xpaths.XpathAttribute;
 import org.scadalts.e2e.page.core.xpaths.XpathOperation;

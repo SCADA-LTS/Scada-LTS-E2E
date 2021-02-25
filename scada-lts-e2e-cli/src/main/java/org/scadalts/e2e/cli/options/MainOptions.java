@@ -6,7 +6,7 @@ import lombok.ToString;
 import org.apache.logging.log4j.Level;
 import org.scadalts.e2e.cli.parsers.AuthTypeParser;
 import org.scadalts.e2e.cli.parsers.LogLevelParser;
-import org.scadalts.e2e.common.types.AuthType;
+import org.scadalts.e2e.common.core.types.AuthType;
 import picocli.CommandLine;
 
 import java.net.URL;

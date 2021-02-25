@@ -2,9 +2,9 @@ package org.scadalts.e2e.cli.commands;
 
 import lombok.Getter;
 import lombok.ToString;
-import org.scadalts.e2e.common.ansi.ConsoleColors;
+import org.scadalts.e2e.common.core.ansi.ConsoleColors;
 import org.scadalts.e2e.cli.options.DefaultOptions;
-import org.scadalts.e2e.common.utils.PropsPrintUtil;
+import org.scadalts.e2e.common.core.utils.PropsPrintUtil;
 import picocli.CommandLine;
 
 @Getter

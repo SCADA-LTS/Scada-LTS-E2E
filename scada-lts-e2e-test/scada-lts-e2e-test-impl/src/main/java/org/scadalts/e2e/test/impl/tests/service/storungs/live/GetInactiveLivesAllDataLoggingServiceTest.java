@@ -4,7 +4,6 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
@@ -14,7 +13,6 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.RegexUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
@@ -27,7 +25,6 @@ import static org.junit.Assert.assertThat;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
-@RunWith(TestWithPageRunner.class)
 public class GetInactiveLivesAllDataLoggingServiceTest {
 
     private static DataPointIdentifier alarmIdentifier;
@@ -48,7 +45,7 @@ public class GetInactiveLivesAllDataLoggingServiceTest {
         DataPointCriteria pointAlarm = DataPointCriteria.noChangeAllDataLogging(alarmIdentifier, "0");
         DataPointCriteria pointStorung = DataPointCriteria.noChangeAllDataLogging(storungIdentifier, "0");
 
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
 
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, pointAlarm, pointStorung);
         storungsAndAlarmsObjectsCreator.createObjects();
@@ -81,7 +78,8 @@ public class GetInactiveLivesAllDataLoggingServiceTest {
 
     @AfterClass
     public static void clean() {
-        storungsAndAlarmsObjectsCreator.deleteObjects();
+        if(storungsAndAlarmsObjectsCreator != null)
+            storungsAndAlarmsObjectsCreator.deleteObjects();
     }
 
     @Test

@@ -5,14 +5,14 @@ import org.junit.runner.Description;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
-import org.scadalts.e2e.common.config.E2eConfiguration;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
 import org.scadalts.e2e.test.core.utils.TestResultPrinter;
 
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPrintNano;
+import static org.scadalts.e2e.common.core.measure.ValueTimeUnitToPrint.preparingToPrintNano;
 
 @Log4j2
 class E2eRunListener extends RunListener {

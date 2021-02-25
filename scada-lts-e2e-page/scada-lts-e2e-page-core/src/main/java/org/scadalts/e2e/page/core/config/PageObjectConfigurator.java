@@ -5,11 +5,12 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
-import org.scadalts.e2e.common.config.ConfigHandler;
-import org.scadalts.e2e.common.config.E2eConfig;
-import org.scadalts.e2e.common.config.E2eConfiguration;
-import org.scadalts.e2e.common.config.E2eConstant;
-import org.scadalts.e2e.common.utils.FileUtil;
+import org.openqa.selenium.chrome.ChromeDriverService;
+import org.scadalts.e2e.common.core.config.ConfigHandler;
+import org.scadalts.e2e.common.core.config.E2eConfig;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
+import org.scadalts.e2e.common.core.config.E2eConstant;
+import org.scadalts.e2e.common.core.utils.FileUtil;
 import org.scadalts.e2e.page.core.config.webdriver.WebDriverManualConfig;
 
 import java.util.Objects;
@@ -43,6 +44,7 @@ public class PageObjectConfigurator {
         Configuration.proxyHost = config.getHostProxy();
         Configuration.proxyPort = config.getPortProxy();
         PageConfiguration.timeout = config.getTimeoutMs();
+        Configuration.pageLoadTimeout = PageConfiguration.timeout + 1000;
 
         Configurator.setRootLevel(config.getLogLevel());
         Configurator.setAllLevels("org.apache.logging.log4j", config.getLogLevel());
@@ -58,6 +60,10 @@ public class PageObjectConfigurator {
         if(config.getLogLevel() == Level.DEBUG) {
             System.setProperty(manualConfig.getLogFileKey(), E2eConstant.WEB_DRIVER_LOG_FILE);
             System.setProperty(manualConfig.getVerboseLoggingKey(), "true");
+            System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "false");
+        } else {
+            System.setProperty(manualConfig.getVerboseLoggingKey(), "false");
+            System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
         }
 
         if(!config.isDriverManagerMode()) {
@@ -76,7 +82,7 @@ public class PageObjectConfigurator {
         try {
             logger.info("web driver file loading for... {}", manualConfig.getBrowserName());
             System.setProperty(manualConfig.getWebDriverKey(), webDriverPath);
-            PageConfiguration.driverFile = FileUtil.getFileFromJar(webDriverPath);
+            PageConfiguration.driverFile = FileUtil.getFileFromJar(webDriverPath).orElseThrow(IllegalStateException::new);
         } catch (Throwable throwable) {
             logger.error(throwable.getMessage(), throwable);
         }
@@ -93,6 +99,7 @@ public class PageObjectConfigurator {
 
     private static void _initDefault() {
         Configuration.timeout = 6001;
+        Configuration.pageLoadTimeout = Configuration.timeout + 1000;
         Configuration.baseUrl = E2eConfiguration.baseUrl.toString();
         Configuration.browser = "chrome";
         Configuration.pageLoadStrategy = "normal";

@@ -1,19 +1,16 @@
 package org.scadalts.e2e.test.impl.tests.check.login;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.pages.LoginPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@RunWith(TestWithPageRunner.class)
 public class IsLoggedThenOpenLoginPageAndBackCheckTest {
 
-    private static NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+    private static NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
 
     @Test
     public void test_login() {

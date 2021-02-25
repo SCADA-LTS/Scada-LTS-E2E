@@ -6,10 +6,12 @@ import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.page.impl.criterias.ScriptCriteria;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.scripts.ScriptsPage;
+import org.scadalts.e2e.test.core.asserts.E2eAssert;
 
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.scadalts.e2e.test.core.asserts.E2eAssert.assertExists;
 import static org.scadalts.e2e.test.impl.matchers.ContainsObject.containsObject;
 
 @Data
@@ -24,7 +26,7 @@ public class ConfigScriptSubCheck implements SubCheck {
         logger.info("run... {}", this.getClass().getSimpleName());
         ScriptsPage scriptsPage = navigationPage.openScripts();
         for (ScriptCriteria scriptCriteria: scriptCriterias) {
-            assertThat(scriptsPage, containsObject(scriptCriteria.getIdentifier()));
+            assertExists(scriptsPage, scriptCriteria.getIdentifier());
         }
     }
 }

@@ -41,7 +41,7 @@ public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsP
     public final static String TITLE = "";
 
     public PointLinksDetailsPage(PointLinksPage pointLinksPage) {
-        super(TITLE);
+        super();
         this.pointLinksPage = pointLinksPage;
     }
 

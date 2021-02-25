@@ -7,7 +7,6 @@ import lombok.ToString;
 import org.scadalts.e2e.page.core.criterias.identifiers.AbstractIdentifier;
 
 @Getter
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class DataSourcePointIdentifier extends AbstractIdentifier {
 
@@ -26,5 +25,10 @@ public class DataSourcePointIdentifier extends AbstractIdentifier {
 
     public static DataSourcePointIdentifier empty() {
         return EMPTY;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

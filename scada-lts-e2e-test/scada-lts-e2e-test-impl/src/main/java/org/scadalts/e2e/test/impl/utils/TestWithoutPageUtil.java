@@ -1,10 +1,11 @@
 package org.scadalts.e2e.test.impl.utils;
 
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.common.config.E2eConfiguration;
-import org.scadalts.e2e.common.config.E2eConfigurator;
-import org.scadalts.e2e.common.exceptions.ApplicationIsNotAvailableException;
-import org.scadalts.e2e.common.exceptions.E2eAuthenticationException;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
+import org.scadalts.e2e.common.core.config.E2eConfigurator;
+import org.scadalts.e2e.common.core.exceptions.E2eAuthenticationException;
+import org.scadalts.e2e.common.core.exceptions.E2eLoginException;
+import org.scadalts.e2e.common.core.exceptions.InitializeTestException;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
@@ -33,15 +34,24 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import static org.scadalts.e2e.common.utils.ExecutorUtil.executeFunction;
+import static org.scadalts.e2e.common.core.utils.ExecutorUtil.executeFunction;
 
 @Log4j2
 public class TestWithoutPageUtil {
 
     public static void preparingTest() {
+        try {
+            _preparingTest();
+        } catch (Throwable ex) {
+            TestWithoutPageUtil.close();
+            throw new InitializeTestException(ex);
+        }
+    }
+
+    private static void _preparingTest() {
         _setup();
         if(!E2eConfiguration.checkAuthentication) {
-            TestWithoutPageUtil._login();
+            _login();
         } else if(!isLogged()) {
             _login();
             if(!isLogged())
@@ -50,31 +60,54 @@ public class TestWithoutPageUtil {
     }
 
     public static void close() {
-        logout();
+        try {
+            logout();
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+        }
     }
 
     public static boolean isLogged() {
         try(PointValueServiceObject serviceObject = ServiceObjectFactory.newPointValueServiceObject()) {
             PointValueParams pointValueParams = new PointValueParams(TestImplConfiguration.dataPointToReadXid);
-            Optional<E2eResponse<PointValueResponse>> response = serviceObject.getValue(pointValueParams, TestImplConfiguration.timeout);
+            Optional<E2eResponse<PointValueResponse>> response = serviceObject.getValueOrThrowException(pointValueParams, TestImplConfiguration.timeout);
             boolean logged = response.isPresent() && response.get().getStatus() != 401;
             logger.info("is logged: {}", logged);
             logger.debug("response: {}", response);
             return logged;
         } catch (Exception e) {
+            logger.info("is logged: false");
             logger.warn(e.getMessage(), e);
             return false;
         }
     }
 
     public static E2eResponse<String> logout() {
+        try {
+            return _logout();
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<String> _logout() {
         try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
-            Optional<E2eResponse<String>> responseOpt = loginServiceObject.logout(TestImplConfiguration.timeout);
+            Optional<E2eResponse<String>> responseOpt = loginServiceObject.logoutOrThrowException(TestImplConfiguration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
 
     public static E2eResponse<CmpParams> setDataPointValue(CmpParams cmpParams) {
+        try {
+            return _setDataPointValue(cmpParams);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<CmpParams> _setDataPointValue(CmpParams cmpParams) {
         try (CmpServiceObject cmpWebServiceObject = ServiceObjectFactory.newCmpServiceObject()) {
             Optional<E2eResponse<CmpParams>> responseOpt = cmpWebServiceObject.set(cmpParams, TestImplConfiguration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
@@ -87,6 +120,15 @@ public class TestWithoutPageUtil {
 
     public static E2eResponse<PointValueResponse> getDataPointValue(PointValueParams pointValueParams, String expectedValue,
                                                                     long timeout) {
+        try {
+            return _getPointValue(pointValueParams, expectedValue, timeout);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<PointValueResponse> _getPointValue(PointValueParams pointValueParams, String expectedValue, long timeout) {
         try (PointValueServiceObject pointValueWebServiceObject =
                      ServiceObjectFactory.newPointValueServiceObject()) {
             Optional<E2eResponse<PointValueResponse>> responseOpt = pointValueWebServiceObject.getValue(pointValueParams,
@@ -100,6 +142,15 @@ public class TestWithoutPageUtil {
     }
 
     public static E2eResponse<PointValueResponse> getDataPointValue(PointValueParams pointValueParams, long timeout) {
+        try {
+            return _getPointValue(pointValueParams, timeout);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<PointValueResponse> _getPointValue(PointValueParams pointValueParams, long timeout) {
         try (PointValueServiceObject pointValueWebServiceObject =
                      ServiceObjectFactory.newPointValueServiceObject()) {
             Optional<E2eResponse<PointValueResponse>> responseOpt = pointValueWebServiceObject.getValue(pointValueParams,
@@ -114,6 +165,15 @@ public class TestWithoutPageUtil {
 
     public static E2eResponse<DataPointPropertiesResponse> getDataPointProperties(PointValueParams pointValueParams,
                                                                                   long timeout) {
+        try {
+            return _getDataPointProperties(pointValueParams, timeout);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<DataPointPropertiesResponse> _getDataPointProperties(PointValueParams pointValueParams, long timeout) {
         try (DataPointServiceObject pointValueWebServiceObject =
                      ServiceObjectFactory.newDataPointServiceObject()) {
             Optional<E2eResponse<DataPointPropertiesResponse>> responseOpt = pointValueWebServiceObject.getConfigurationByXid(pointValueParams,
@@ -134,6 +194,15 @@ public class TestWithoutPageUtil {
 
 
     public static E2eResponse<List<StorungAlarmResponse>> getLiveAlarms(PaginationParams paginationParams, long timeout) {
+        try {
+            return _getLiveAlarms(paginationParams, timeout);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<List<StorungAlarmResponse>> _getLiveAlarms(PaginationParams paginationParams, long timeout) {
         try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
             Optional<E2eResponse<List<StorungAlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getLiveAlarms(paginationParams,
@@ -144,6 +213,15 @@ public class TestWithoutPageUtil {
 
     public static E2eResponse<List<StorungAlarmResponse>> getLiveAlarms(PaginationParams paginationParams,
                                                                         Predicate<List<StorungAlarmResponse>> whileNot) {
+        try {
+            return _getLiveAlarms(paginationParams, whileNot);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<List<StorungAlarmResponse>> _getLiveAlarms(PaginationParams paginationParams, Predicate<List<StorungAlarmResponse>> whileNot) {
         try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
             Optional<E2eResponse<List<StorungAlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getLiveAlarms(paginationParams,
@@ -153,6 +231,15 @@ public class TestWithoutPageUtil {
     }
 
     public static E2eResponse<List<StorungAlarmResponse>> getHistoryAlarms(StorungAlarmParams storungAlarmParams, long timeout) {
+        try {
+            return _getHistoryAlarms(storungAlarmParams, timeout);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<List<StorungAlarmResponse>> _getHistoryAlarms(StorungAlarmParams storungAlarmParams, long timeout) {
         try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
             Optional<E2eResponse<List<StorungAlarmResponse>>> responseOpt = storungsAndAlarmsServiceObject.getHistoryAlarms(storungAlarmParams,
@@ -162,6 +249,15 @@ public class TestWithoutPageUtil {
     }
 
     public static E2eResponse<AcknowledgeResponse> acknowledgeAlarm(String id, long timeout) {
+        try {
+            return _acknowledgeAlarm(id, timeout);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<AcknowledgeResponse> _acknowledgeAlarm(String id, long timeout) {
         try (StorungsAndAlarmsServiceObject storungsAndAlarmsServiceObject =
                      ServiceObjectFactory.newStorungsAndAlarmsServiceObject()) {
             Optional<E2eResponse<AcknowledgeResponse>> responseOpt = storungsAndAlarmsServiceObject.acknowledge(id,
@@ -176,7 +272,7 @@ public class TestWithoutPageUtil {
                 .password(E2eConfiguration.password)
                 .build();
 
-        E2eResponse<String> response = executeFunction(TestWithoutPageUtil::_login,loginParams,ApplicationIsNotAvailableException::new);
+        E2eResponse<String> response = executeFunction(TestWithoutPageUtil::_login,loginParams,E2eLoginException::new);
 
         E2eConfiguration.sessionId = response.getSessionId();
         ServiceObjectConfigurator.init(E2eConfiguration.sessionId);
@@ -197,7 +293,7 @@ public class TestWithoutPageUtil {
 
     private static E2eResponse<String> _login(LoginParams cmpParams) {
         try (LoginServiceObject loginServiceObject = ServiceObjectFactory.newLoginServiceObject()){
-            Optional<E2eResponse<String>> responseOpt = loginServiceObject.login(cmpParams, TestImplConfiguration.timeout);
+            Optional<E2eResponse<String>> responseOpt = loginServiceObject.loginOrThrowException(cmpParams, TestImplConfiguration.timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
@@ -207,6 +303,15 @@ public class TestWithoutPageUtil {
     }
 
     public static E2eResponse<List<EventDetectorResponse>> getEventDetectors(EventDetectorParams eventDetectorParams, long timeout) {
+        try {
+            return _getEventDetectors(eventDetectorParams, timeout);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<List<EventDetectorResponse>> _getEventDetectors(EventDetectorParams eventDetectorParams, long timeout) {
         try (EventDetectorServiceObject eventDetectorServiceObject =
                      ServiceObjectFactory.newEventDetectorServiceObject()) {
             Optional<E2eResponse<List<EventDetectorResponse>>> responseOpt = eventDetectorServiceObject.getEventDetectorsByXid(eventDetectorParams,
@@ -220,6 +325,15 @@ public class TestWithoutPageUtil {
     }
 
     public static E2eResponse<EventDetectorPostResponse> setEventDetector(EventDetectorParams eventDetectorParams, long timeout) {
+        try {
+            return _setEventDetector(eventDetectorParams, timeout);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<EventDetectorPostResponse> _setEventDetector(EventDetectorParams eventDetectorParams, long timeout) {
         try (EventDetectorServiceObject eventDetectorServiceObject =
                      ServiceObjectFactory.newEventDetectorServiceObject()) {
             Optional<E2eResponse<EventDetectorPostResponse>> responseOpt = eventDetectorServiceObject.setEventDetector(eventDetectorParams,
@@ -233,6 +347,15 @@ public class TestWithoutPageUtil {
     }
 
     public static E2eResponse<List<EventHandlerResponse>> getEventHandlers(long timeout) {
+        try {
+            return _getEventHandlers(timeout);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<List<EventHandlerResponse>> _getEventHandlers(long timeout) {
         try (EventHandlerServiceObject eventHandlerServiceObject =
                      ServiceObjectFactory.newEventHandlerServiceObject()) {
             Optional<E2eResponse<List<EventHandlerResponse>>> responseOpt = eventHandlerServiceObject.getAllEventHandlers(timeout);
@@ -245,6 +368,15 @@ public class TestWithoutPageUtil {
     }
 
     public static E2eResponse<EventHandlerResponse> getEventHandlerByXid(EventHandlerGetParams eventHandlerGetParams, long timeout) {
+        try {
+            return _getEventHandler(eventHandlerGetParams, timeout);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<EventHandlerResponse> _getEventHandler(EventHandlerGetParams eventHandlerGetParams, long timeout) {
         try (EventHandlerServiceObject eventHandlerServiceObject =
                      ServiceObjectFactory.newEventHandlerServiceObject()) {
             Optional<E2eResponse<EventHandlerResponse>> responseOpt = eventHandlerServiceObject.getEventHandlerByXid(eventHandlerGetParams, timeout);
@@ -257,6 +389,15 @@ public class TestWithoutPageUtil {
     }
 
     public static E2eResponse<EventHandlerResponse> createEventHandler(EventHandlerPostParams eventHandlerPostParams, long timeout) {
+        try {
+            return _getEventHandler(eventHandlerPostParams, timeout);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    private static E2eResponse<EventHandlerResponse> _getEventHandler(EventHandlerPostParams eventHandlerPostParams, long timeout) {
         try (EventHandlerServiceObject eventHandlerServiceObject =
                      ServiceObjectFactory.newEventHandlerServiceObject()) {
             Optional<E2eResponse<EventHandlerResponse>> responseOpt = eventHandlerServiceObject.createEventHandler(eventHandlerPostParams, timeout);

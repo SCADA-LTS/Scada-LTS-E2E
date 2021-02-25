@@ -1,6 +1,6 @@
 package org.scadalts.e2e.page.api;
 
-import org.scadalts.e2e.common.config.E2eConfig;
+import org.scadalts.e2e.common.core.config.E2eConfig;
 
 public interface E2ePageObjectApi {
     void init(E2eConfig config);

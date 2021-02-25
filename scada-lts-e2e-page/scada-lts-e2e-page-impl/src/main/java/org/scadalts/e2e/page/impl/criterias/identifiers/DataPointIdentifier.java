@@ -10,7 +10,6 @@ import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 
 @Getter
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class DataPointIdentifier extends AbstractIdentifier {
 
@@ -30,5 +29,10 @@ public class DataPointIdentifier extends AbstractIdentifier {
     @Override
     public NodeCriteria getNodeCriteria() {
         return NodeCriteria.exactly(this, Tag.tr());
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

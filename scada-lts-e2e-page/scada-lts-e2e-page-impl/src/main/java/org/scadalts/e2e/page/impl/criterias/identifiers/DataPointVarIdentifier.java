@@ -11,7 +11,6 @@ import static org.scadalts.e2e.page.core.criterias.Tag.tr;
 import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.clazz;
 
 @Getter
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class DataPointVarIdentifier extends AbstractIdentifier {
 
@@ -27,5 +26,10 @@ public class DataPointVarIdentifier extends AbstractIdentifier {
     @Override
     public NodeCriteria getNodeCriteria() {
         return NodeCriteria.exactly(dataPointIdentifier, varIdentifier, tr(), clazz("smRow"));
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

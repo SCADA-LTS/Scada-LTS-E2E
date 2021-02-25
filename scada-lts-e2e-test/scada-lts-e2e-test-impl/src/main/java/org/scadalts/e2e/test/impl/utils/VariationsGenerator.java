@@ -1,7 +1,7 @@
 package org.scadalts.e2e.test.impl.utils;
 
-import org.scadalts.e2e.common.utils.FileUtil;
-import org.scadalts.e2e.common.utils.VariationUnit;
+import org.scadalts.e2e.common.core.utils.FileUtil;
+import org.scadalts.e2e.common.core.utils.VariationUnit;
 
 import java.nio.file.Path;
 import java.util.ArrayList;

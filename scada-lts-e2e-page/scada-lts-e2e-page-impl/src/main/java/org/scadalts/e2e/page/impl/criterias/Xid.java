@@ -11,13 +11,13 @@ import static org.scadalts.e2e.page.impl.criterias.XidUtil.generateString;
 @EqualsAndHashCode
 public class Xid {
 
-    public static final String DATA_POINT_PREFIX = "DP_";
-    private static final String DATA_SOURCE_PREFIX = "DS_";
-    private static final String GRAPHICAL_VIEW_PREFIX = "GV_";
-    private static final String POINT_LINK_PREFIX = "PL_";
-    private static final String POINT_EVENT_DETECTOR_PREFIX = "PED_";
-    private static final String SCRIPT_PREFIX = "SC_";
-    private static final String EVENT_HANDLER_PREFIX = "EH_";
+    public static final String DATA_POINT_PREFIX = "DP_TEST_";
+    private static final String DATA_SOURCE_PREFIX = "DS_TEST_";
+    private static final String GRAPHICAL_VIEW_PREFIX = "GV_TEST_";
+    private static final String POINT_LINK_PREFIX = "PL_TEST_";
+    private static final String POINT_EVENT_DETECTOR_PREFIX = "PED_TEST_";
+    private static final String SCRIPT_PREFIX = "SC_TEST_";
+    private static final String EVENT_HANDLER_PREFIX = "EH_TEST_";
 
     private static final Xid EMPTY = new Xid("");
 

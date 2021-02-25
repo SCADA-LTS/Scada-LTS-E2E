@@ -5,7 +5,8 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.common.utils.StabilityUtil;
+import org.scadalts.e2e.common.core.utils.StabilityUtil;
+import org.scadalts.e2e.page.core.components.E2eWebElement;
 import org.scadalts.e2e.page.core.config.PageConfiguration;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
@@ -31,10 +32,13 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
     @FindBy(id = "pointLinksTable")
     private SelenideElement pointLinksTable;
 
+    @FindBy(css = "a[href='point_links.shtm']")
+    private SelenideElement source;
+
     public static final String TITLE = "Point links";
 
-    public PointLinksPage(SelenideElement source) {
-        super(source, TITLE);
+    public PointLinksPage() {
+        super(TITLE, "/point_links.shtm");
     }
 
     public PointLinksDetailsPage openPointLinkCreator() {
@@ -88,6 +92,11 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
     public PointLinksPage waitForObject(IdentifierObject identifier) {
         delay();
         return waitForObject(identifier.getNodeCriteria());
+    }
+
+    @Override
+    public E2eWebElement getSource() {
+        return E2eWebElement.newInstance(source);
     }
 
     private SelenideElement _findAction(PointLinkCriteria criteria) {
