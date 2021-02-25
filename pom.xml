@@ -44,7 +44,7 @@
         <scada-lts-e2e-service-core.version>${project.version}</scada-lts-e2e-service-core.version>
 
         <selenide.version>5.17.0</selenide.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <lombok.version>1.18.10</lombok.version>
         <log4j.version>2.13.0</log4j.version>
         <jdk.version>1.8</jdk.version>
