@@ -4,8 +4,10 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.RunListener;
-import org.scadalts.e2e.common.config.E2eConfiguration;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +41,9 @@ class TestsRunJUnitCore implements TestsRunEngine {
 
     private E2eResult _run(Class<?> test, RunListener runListener) {
         jUnitCore.addListener(runListener);
+        long start = System.currentTimeMillis();
         Result result = jUnitCore.run(test);
+        long end = System.currentTimeMillis();
         jUnitCore.removeListener(runListener);
         return E2eResult.builder()
                 .url(E2eConfiguration.baseUrl)
@@ -47,6 +51,8 @@ class TestsRunJUnitCore implements TestsRunEngine {
                 .sessionId(E2eConfiguration.sessionId)
                 .simpleTestName(test.getSimpleName())
                 .testName(test.getName())
+                .startDateTime(Instant.ofEpochMilli(start).atZone(ZoneId.systemDefault()).toLocalDateTime())
+                .endDateTime(Instant.ofEpochMilli(end).atZone(ZoneId.systemDefault()).toLocalDateTime())
                 .build();
     }
 }

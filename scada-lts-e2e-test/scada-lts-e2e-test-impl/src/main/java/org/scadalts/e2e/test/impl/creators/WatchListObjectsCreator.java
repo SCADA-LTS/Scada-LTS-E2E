@@ -40,6 +40,7 @@ public class WatchListObjectsCreator implements CreatorObject<WatchListPage, Wat
                         criteria.getClass().getSimpleName());
                 page.addWatchList(criteria);
             }
+            page.selectWatchList(criteria.getIdentifier());
             for (DataSourcePointIdentifier identifier : criteria.getDataSourcePointIdentifiers()) {
                 if(!page.isVisibleWatchListUnit(identifier)) {
                     logger.info("create object: {}, class: {}", identifier.getValue(),

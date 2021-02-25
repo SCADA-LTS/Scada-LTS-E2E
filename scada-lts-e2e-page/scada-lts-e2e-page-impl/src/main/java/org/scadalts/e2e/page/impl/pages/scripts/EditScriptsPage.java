@@ -59,7 +59,7 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
     private static final By INPUT_VAL_NAME = By.cssSelector("input[type='text']");
 
     public EditScriptsPage() {
-        super(TITLE);
+        super();
     }
 
 

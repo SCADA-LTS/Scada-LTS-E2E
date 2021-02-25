@@ -1,7 +1,7 @@
 package org.scadalts.e2e.page.impl.criterias.properties;
 
 import lombok.*;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
+import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.dicts.EngineeringUnit;
 

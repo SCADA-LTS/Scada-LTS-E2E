@@ -5,6 +5,8 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.page.core.components.E2eWebElement;
+import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
@@ -14,9 +16,12 @@ import org.scadalts.e2e.page.impl.export.ExportDataSourcesUtil;
 
 import java.util.List;
 
+import static com.codeborne.selenide.Condition.not;
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
-import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.*;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.refreshWaitWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 @Log4j2
@@ -31,6 +36,9 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     @FindBy(css = "table table .dataSourcesTable")
     private SelenideElement dataSourcesTable;
 
+    @FindBy(css = "a[href='data_sources.shtm']")
+    private SelenideElement source;
+
     private static final By SELECTOR_ACTION_EDIT_DATA_SOURCE_BY = By.cssSelector("a[href*='data_source_edit.shtm?dsid=']");
     private static final By SELECTOR_ACTION_DELETE_DATA_SOURCE_BY = By.cssSelector("img[title='Delete']");
     private static final By SELECTOR_ACTION_ENABLE_DATA_SOURCE_BY = By.cssSelector("img[src='images/database_stop.png']");
@@ -38,8 +46,8 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
 
     public static final String TITLE = "Data sources";
 
-    public DataSourcesPage(SelenideElement source) {
-        super(source, TITLE);
+    public DataSourcesPage() {
+        super(TITLE, "/data_sources.shtm");
     }
 
     @Override
@@ -49,11 +57,12 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
 
     public EditDataSourceWithPointListPage openDataSourceEditor(DataSourceIdentifier identifier) {
         _findAction(identifier, SELECTOR_ACTION_EDIT_DATA_SOURCE_BY).click();
+        printCurrentUrl();
         return page(EditDataSourceWithPointListPage.class);
     }
 
     public DataSourcesPage deleteDataSource(DataSourceIdentifier identifier) {
-        acceptAlertAfterClick(_findAction(identifier,SELECTOR_ACTION_DELETE_DATA_SOURCE_BY));
+        acceptAfterClick(_findAction(identifier,SELECTOR_ACTION_DELETE_DATA_SOURCE_BY));
         waitWhile(_findObject(identifier), Condition.visible);
         return this;
     }
@@ -63,7 +72,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         List<SelenideElement> deleteActions = findActions(nodeCriteria,SELECTOR_ACTION_DELETE_DATA_SOURCE_BY,dataSourcesTable);
         for (SelenideElement deleteAction: deleteActions) {
             delay();
-            acceptAlertAfterClick(deleteAction);
+            acceptAfterClick(deleteAction);
             waitWhile(deleteAction, Condition.visible);
         }
         return this;
@@ -76,7 +85,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         for (SelenideElement disableAction: disableActions) {
             delay();
             logger.info("disableAction: {}", disableAction);
-            acceptAlertAfterClick(disableAction);
+            acceptAfterClick(disableAction);
             waitWhile(disableAction, Condition.visible);
         }
         return this;
@@ -87,7 +96,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         List<SelenideElement> enableActions = findActions(nodeCriteria,SELECTOR_ACTION_ENABLE_DATA_SOURCE_BY,dataSourcesTable);
         for (SelenideElement enableAction: enableActions) {
             delay();
-            acceptAlertAfterClick(enableAction);
+            acceptAfterClick(enableAction);
             waitWhile(enableAction, Condition.visible);
         }
         return this;
@@ -99,7 +108,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
 
     public DataSourcesPage enableDataSource(DataSourceIdentifier identifier) {
         SelenideElement selenideElement = _findAction(identifier,SELECTOR_ACTION_ENABLE_DATA_SOURCE_BY);
-        acceptAlertAfterClick(selenideElement);
+        acceptAfterClick(selenideElement);
         return this;
     }
 
@@ -110,7 +119,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
 
     public DataSourcesPage disableDataSource(DataSourceIdentifier identifier) {
         SelenideElement selenideElement = _findAction(identifier,SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY);
-        acceptAlertAfterClick(selenideElement);
+        acceptAfterClick(selenideElement);
         return this;
     }
 
@@ -130,6 +139,11 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         delay();
         dataSourceTypes.selectOption(dataSourceType.getName());
         return dataSourceTypes.getValue();
+    }
+
+    @Override
+    public E2eWebElement getSource() {
+        return E2eWebElement.newInstance(source);
     }
 
     private SelenideElement _findAction(DataSourceIdentifier identifier, By selectAction) {
@@ -154,6 +168,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     private EditDataSourcePage _openDataSourceCreator() {
         delay();
         addDataSource.click();
+        printCurrentUrl();
         return page(EditDataSourcePage.class);
     }
 }

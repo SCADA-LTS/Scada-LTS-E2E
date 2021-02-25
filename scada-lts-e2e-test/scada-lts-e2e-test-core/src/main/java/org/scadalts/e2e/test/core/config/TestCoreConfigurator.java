@@ -1,8 +1,8 @@
 package org.scadalts.e2e.test.core.config;
 
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.common.config.ConfigHandler;
-import org.scadalts.e2e.common.config.E2eConfig;
+import org.scadalts.e2e.common.core.config.ConfigHandler;
+import org.scadalts.e2e.common.core.config.E2eConfig;
 
 import java.util.Objects;
 

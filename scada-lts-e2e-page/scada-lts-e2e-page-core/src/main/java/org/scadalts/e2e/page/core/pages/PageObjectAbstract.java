@@ -19,11 +19,7 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
     @FindBy(tagName = "body")
     private SelenideElement body;
 
-    private final String title;
-
-    public PageObjectAbstract(String title) {
-        this.title = title;
-    }
+    public PageObjectAbstract() {}
 
     @Override
     public String getHeadHtml() {
@@ -34,9 +30,9 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
     public String getBodyText() {
         waitForCompleteLoad();
         String bodyText = body.getText();
-        if(StringUtils.isNotBlank(bodyText) && bodyText.contains(title))
+        if(StringUtils.isNotBlank(bodyText) && bodyText.contains(getTitle()))
             return bodyText;
-        SelenideElement element = waitWhile(body, Condition.exactTextCaseSensitive(title));
+        SelenideElement element = waitWhile(body, Condition.exactTextCaseSensitive(getTitle()));
         return element.getText();
     }
 
@@ -44,9 +40,9 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
     public String getBodyHtml() {
         waitForCompleteLoad();
         String innerHtml = body.innerHtml();
-        if(innerHtml.contains(title))
+        if(innerHtml.contains(getTitle()))
             return innerHtml;
-        SelenideElement element = waitWhile(body, Condition.exactTextCaseSensitive(title));
+        SelenideElement element = waitWhile(body, Condition.exactTextCaseSensitive(getTitle()));
         return element.innerHtml();
     }
 
@@ -72,4 +68,5 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
     public String toString() {
         return getBodyText();
     }
+
 }

@@ -15,7 +15,6 @@ import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
@@ -26,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class PointLinksUpdateServiceTest {
 
     @Parameterized.Parameters(name = "{index}: value:{0}")
@@ -58,14 +57,15 @@ public class PointLinksUpdateServiceTest {
 
         script = Script.sourceValueIncreasedOne();
         PointLinkCriteria pointLinkUpdate = PointLinkCriteria.update(sourcePointSourceCriteria, sourcePointTargetCriteria, script);
-        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.openNavigationPage(),
                 pointLinkUpdate);
         allObjectsForPointLinkTestCreator.createObjects();
     }
 
     @AfterClass
     public static void clean() {
-        allObjectsForPointLinkTestCreator.deleteObjects();
+        if(allObjectsForPointLinkTestCreator != null)
+            allObjectsForPointLinkTestCreator.deleteObjects();
     }
 
     @Test

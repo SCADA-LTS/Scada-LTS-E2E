@@ -3,8 +3,9 @@ package org.scadalts.e2e.service.impl.services;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.common.config.E2eConfiguration;
-import org.scadalts.e2e.common.utils.StabilityUtil;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
+import org.scadalts.e2e.common.core.exceptions.ApplicationIsNotAvailableException;
+import org.scadalts.e2e.common.core.utils.StabilityUtil;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
@@ -16,11 +17,12 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.Optional;
 
-import static org.scadalts.e2e.service.core.utils.ServiceStabilityUtil.applyWhile;
-import static org.scadalts.e2e.service.core.utils.ServiceStabilityUtil.executeWhile;
+import static org.scadalts.e2e.service.core.utils.ServiceStabilityUtil.*;
 
 @Log4j2
 @Builder(access = AccessLevel.PACKAGE)
@@ -39,6 +41,19 @@ public class LoginServiceObject implements WebServiceObject {
         }
     }
 
+    public Optional<E2eResponse<String>> loginOrThrowException(LoginParams loginParams, long timeout) {
+        try {
+            E2eResponse<String> response = applyWhileOrThrowException(this::_login, loginParams, new StabilityUtil.Timeout(timeout));
+            return Optional.ofNullable(response);
+        } catch (Throwable th) {
+            if((th.getCause() instanceof ConnectException)
+                    || (th.getCause() instanceof SocketTimeoutException)) {
+                throw new ApplicationIsNotAvailableException("");
+            }
+            throw th;
+        }
+    }
+
     public Optional<E2eResponse<String>> logout(long timeout) {
         try {
             E2eResponse<String> response = executeWhile(this::_logout, new StabilityUtil.Timeout(timeout));
@@ -49,12 +64,29 @@ public class LoginServiceObject implements WebServiceObject {
         }
     }
 
+    public Optional<E2eResponse<String>> logoutOrThrowException(long timeout) {
+        try {
+            E2eResponse<String> response = executeWhileOrThrowException(this::_logout, new StabilityUtil.Timeout(timeout));
+            return Optional.ofNullable(response);
+        } catch (Throwable th) {
+            if((th.getCause() instanceof ConnectException)
+                    || (th.getCause() instanceof SocketTimeoutException)) {
+                throw new ApplicationIsNotAvailableException("");
+            }
+            throw th;
+        }
+    }
+
     @Override
     public void close() {
         client.close();
     }
 
     private E2eResponse<String> _login(LoginParams loginParams) {
+        return _loginTry(loginParams);
+    }
+
+    private E2eResponse<String> _loginTry(LoginParams loginParams) {
         String endpoint = baseUrl + "/login.htm";
         logger.debug("endpoint: {}", endpoint);
         Response response = ClientBuilder.newClient()

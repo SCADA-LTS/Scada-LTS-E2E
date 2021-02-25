@@ -1,14 +1,14 @@
 package org.scadalts.e2e.page.impl.dicts;
 
 import lombok.Getter;
-import org.scadalts.e2e.common.dicts.DictionaryObject;
+import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 
 import java.util.stream.Stream;
 
 @Getter
 public enum UpdatePeriodType implements DictionaryObject {
 
-    MILLISECOUND("millisecond(ms)", "8"),
+    MILLISECOND("millisecond(ms)", "8"),
     SECOND("second(s)", "1"),
     MINUTE("minute(s)", "2"),
     HOUR("hour(s)", "3"),

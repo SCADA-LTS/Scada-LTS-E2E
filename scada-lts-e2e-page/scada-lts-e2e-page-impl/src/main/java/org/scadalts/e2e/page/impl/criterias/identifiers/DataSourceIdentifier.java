@@ -12,7 +12,6 @@ import static org.scadalts.e2e.page.core.criterias.Tag.tr;
 import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.clazz;
 
 @Getter
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class DataSourceIdentifier extends AbstractIdentifier {
 
@@ -31,5 +30,10 @@ public class DataSourceIdentifier extends AbstractIdentifier {
     @Override
     public NodeCriteria getNodeCriteria() {
         return NodeCriteria.exactly(this, tr(), clazz("row"));
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

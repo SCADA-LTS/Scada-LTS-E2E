@@ -1,21 +1,25 @@
 package org.scadalts.e2e.page.core.pages;
 
-import com.codeborne.selenide.SelenideElement;
-import org.scadalts.e2e.page.core.components.E2eWebElement;
-
 public abstract class MainPageObjectAbstract<T extends MainPageObject<T>> extends PageObjectAbstract<T>
         implements MainPageObject<T> {
 
-    private final SelenideElement source;
+    private final String refUrl;
+    private final String title;
 
-    public MainPageObjectAbstract(SelenideElement source, String title) {
-        super(title);
-        this.source = source;
+    public MainPageObjectAbstract(String title, String refUrl) {
+        super();
+        this.refUrl = refUrl;
+        this.title = title;
     }
 
     @Override
-    public E2eWebElement getSource() {
-        return E2eWebElement.newInstance(source);
+    public String getRefUrl() {
+        return refUrl;
     }
 
+    @Override
+    public String getTitle() {
+        //return waitWhileNotVisible($(".smallTitle")).getText();
+        return title;
+    }
 }

@@ -1,6 +1,6 @@
 package org.scadalts.e2e.test.impl.utils;
 
-import org.scadalts.e2e.common.utils.StabilityUtil;
+import org.scadalts.e2e.common.core.utils.StabilityUtil;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 
 import java.util.function.BiFunction;

@@ -15,11 +15,16 @@ public interface GetCookie {
     Logger LOGGER = LogManager.getLogger(GetCookie.class);
 
     default Optional<String> getSessionId() {
-        return getCookies()
-                .stream()
-                .filter(a -> a.getName().equals("JSESSIONID"))
-                .map(E2eCookie::getValue)
-                .findFirst();
+        try {
+            return getCookies()
+                    .stream()
+                    .filter(a -> a.getName().equals("JSESSIONID"))
+                    .map(E2eCookie::getValue)
+                    .findFirst();
+        } catch (Throwable th) {
+            LOGGER.warn(th.getMessage(), th);
+            return Optional.empty();
+        }
     }
 
     default List<E2eCookie> getCookies() {
@@ -29,8 +34,8 @@ public interface GetCookie {
                     .stream()
                     .map(E2eCookie::new)
                     .collect(Collectors.toList());
-        } catch (Exception ex) {
-            LOGGER.error(ex.getMessage(), ex);
+        } catch (Throwable th) {
+            LOGGER.error(th.getMessage(), th);
             return Collections.emptyList();
         }
     }

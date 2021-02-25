@@ -11,7 +11,6 @@ import org.scadalts.e2e.page.impl.dicts.EventDetectorType;
 import static org.scadalts.e2e.page.core.criterias.Tag.tbody;
 
 @Getter
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class EventDetectorIdentifier extends AbstractIdentifier {
 
@@ -25,5 +24,10 @@ public class EventDetectorIdentifier extends AbstractIdentifier {
     @Override
     public NodeCriteria getNodeCriteria() {
         return NodeCriteria.exactlyTypeAny(this, tbody());
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

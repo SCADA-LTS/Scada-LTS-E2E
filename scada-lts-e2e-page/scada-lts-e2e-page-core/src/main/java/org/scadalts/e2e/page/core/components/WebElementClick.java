@@ -1,6 +1,7 @@
 package org.scadalts.e2e.page.core.components;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
 import org.scadalts.e2e.page.core.config.PageConfiguration;

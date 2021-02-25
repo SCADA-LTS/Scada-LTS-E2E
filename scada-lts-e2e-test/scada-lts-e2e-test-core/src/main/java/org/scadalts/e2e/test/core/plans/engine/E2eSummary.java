@@ -4,13 +4,11 @@ import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.test.core.utils.TestResultPrinter;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPrintMs;
+import static org.scadalts.e2e.common.core.measure.ValueTimeUnitToPrint.preparingToPrintMs;
 import static org.scadalts.e2e.test.core.utils.TestResultPrinter.failures;
 
 @Log4j2
@@ -24,50 +22,87 @@ public class E2eSummary implements E2eSummarable {
 
     @Override
     public int getRunCount() {
-        return results.values().stream().map(a -> a.get(0)).mapToInt(E2eResult::getRunCount).sum();
+        return results.values().stream().flatMap(Collection::stream).mapToInt(E2eResult::getRunCount).sum();
     }
 
     @Override
     public int getFailureCount() {
-        return results.values().stream().map(a -> a.get(0)).mapToInt(E2eResult::getFailureCount).sum();
+        return results.values().stream().flatMap(Collection::stream).distinct().mapToInt(E2eResult::getFailureCount).sum();
     }
 
     @Override
     public long getRunTime() {
-        return results.values().stream().map(a -> a.get(0)).mapToLong(E2eResult::getRunTime).sum();
+        return results.values().stream().flatMap(Collection::stream).mapToLong(E2eResult::getRunTime).sum();
     }
 
     @Override
     public int getIgnoreCount() {
-        return results.values().stream().map(a -> a.get(0)).mapToInt(E2eResult::getIgnoreCount).sum();
+        return results.values().stream().flatMap(Collection::stream).mapToInt(E2eResult::getIgnoreCount).sum();
     }
 
     @Override
     public boolean wasSuccessful() {
-        return results.values().stream().map(a -> a.get(0)).allMatch(E2eResult::wasSuccessful);
+        return results.values().stream().flatMap(Collection::stream).allMatch(E2eResult::wasSuccessful);
     }
 
     @Override
     public List<E2eFailure> getFailures() {
-        return results.values().stream().map(a -> a.get(0)).flatMap(a -> a.getFailures().stream()).collect(Collectors.toList());
+        return results.values().stream()
+                .flatMap(Collection::stream)
+                .sorted(Comparator.comparing(E2eResult::getStartDateTime))
+                .flatMap(a -> a.getFailures().stream())
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Set<String> getFailTestNames() {
-        return results.values().stream().map(a -> a.get(0)).flatMap(a -> a.getFailTestNames().stream()).collect(Collectors.toSet());
+    public List<String> getFailTestNames() {
+        return results.values().stream()
+                .flatMap(Collection::stream)
+                .flatMap(a -> a.getFailTestNames().stream())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     @Override
     public Map<String, TestStatus> getTestStatuses() {
         return results.entrySet()
                 .stream()
-                .collect(Collectors
-                        .toMap(a -> a.getKey().getSimpleName(),
+                .sorted(Comparator.comparing(a -> a.getKey().getSimpleName()))
+                .collect(Collectors.toMap(a -> a.getKey().getSimpleName(),
                                 a -> _reduce(a.getValue()),
                                         (b, c) -> c == TestStatus.ERROR || b == TestStatus.ERROR ? TestStatus.ERROR :
-                                                c == TestStatus.NON_DETERMINISTIC_ERROR || b == TestStatus.NON_DETERMINISTIC_ERROR ? TestStatus.NON_DETERMINISTIC_ERROR : TestStatus.OK)
+                                                c == TestStatus.NON_DETERMINISTIC_ERROR || b == TestStatus.NON_DETERMINISTIC_ERROR ? TestStatus.NON_DETERMINISTIC_ERROR : TestStatus.OK,
+                        LinkedHashMap::new)
 
         );
+    }
+
+    @Override
+    public Map<String, LocalDateTime> getStartTimes() {
+        return results.entrySet()
+                .stream()
+                .sorted(Comparator.comparing(a -> a.getValue().get(0).getStartDateTime()))
+                .collect(Collectors
+                        .toMap(a -> a.getKey().getSimpleName(),
+                                a -> _reduceStartTime(a.getValue()), (b, c) -> b.compareTo(c) > 0 ? c : b,
+                                LinkedHashMap::new)
+
+                );
+    }
+
+
+    @Override
+    public Map<String, LocalDateTime> getEndTimes() {
+        return results.entrySet()
+                .stream()
+                .sorted(Comparator.comparing(a -> a.getValue().get(0).getStartDateTime()))
+                .collect(Collectors
+                        .toMap(a -> a.getKey().getSimpleName(),
+                                a -> _reduceEndTime(a.getValue()), (b, c) -> b.compareTo(c) > 0 ? c : b,
+                                LinkedHashMap::new)
+
+                );
     }
 
     @Override
@@ -107,6 +142,19 @@ public class E2eSummary implements E2eSummarable {
             return TestStatus.NON_DETERMINISTIC_ERROR;
         return TestStatus.ERROR;
     }
+
+    private static LocalDateTime _reduceStartTime(List<E2eResult> list) {
+        if(list.isEmpty())
+            return LocalDateTime.MIN;
+        return list.get(0).getStartDateTime();
+    }
+
+    private static LocalDateTime _reduceEndTime(List<E2eResult> list) {
+        if(list.isEmpty())
+            return LocalDateTime.MIN;
+        return list.get(0).getEndDateTime();
+    }
+
 
     private static int _calcErrors(List<E2eResult> list) {
         return (int)list.stream().filter(a -> !a.wasSuccessful()).count();

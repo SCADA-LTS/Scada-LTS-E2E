@@ -2,8 +2,11 @@ package org.scadalts.e2e.page.impl.pages.datasource;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
+import org.scadalts.e2e.page.core.utils.AlertUtil;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
@@ -15,13 +18,13 @@ import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointProperties
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
-import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfter;
-import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlert;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
-
+@Log4j2
 public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditDataSourceWithPointListPage> {
 
     @FindBy(id = "dsStatusImg")
@@ -52,7 +55,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     public static final String TITLE = "Points";
 
     public EditDataSourceWithPointListPage() {
-        super(TITLE);
+        super();
         editDataSourcePage = page(EditDataSourcePage.class);
     }
 
@@ -60,12 +63,12 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         delay();
         if(enable) {
             if($(SELECTOR_DISABLE_DATA_SOURCE_BY).is(Condition.visible)) {
-                acceptAlertAfterClick(dataSourceOnOff);
+                acceptAfterClick(dataSourceOnOff);
                 waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
             }
         } else {
             if($(SELECTOR_ENABLE_DATA_SOURCE_BY).is(Condition.visible)) {
-                acceptAlertAfter(dataSourceOnOff::clear);
+                acceptAlert(dataSourceOnOff::clear);
                 waitWhile($(SELECTOR_DISABLE_DATA_SOURCE_BY), not(Condition.visible));
             }
         }
@@ -89,7 +92,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
 
     public EditDataSourceWithPointListPage enableAllDataPoint() {
         delay();
-        acceptAlertAfterClick(enableAllDataPoint);
+        acceptAfterClick(enableAllDataPoint);
         waitWhile($(SELECTOR_ACTION_ENABLE_DATA_POINT_BY), not(Condition.visible));
         return this;
     }
@@ -101,17 +104,18 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
 
     public EditDataPointPage addDataPoint() {
         delay();
-        acceptAlertAfterClick(addDataPoint);
+        acceptAfterClick(addDataPoint);
         return page(EditDataPointPage.class);
     }
 
     public EditDataPointPage openDataPointEditor(DataPointIdentifier dataPointIdentifier) {
-        acceptAlertAfterClick(_findAction(dataPointIdentifier, SELECTOR_ACTION_EDIT_DATA_POINT_BY));
+        acceptAfterClick(_findAction(dataPointIdentifier, SELECTOR_ACTION_EDIT_DATA_POINT_BY));
         return page(EditDataPointPage.class);
     }
 
     public DataPointPropertiesPage openDataPointProperties(DataPointIdentifier dataPointIdentifier) {
         _findAction(dataPointIdentifier, SELECTOR_ACTION_PROPERTIES_DATA_POINT_BY).click();
+        printCurrentUrl();
         return page(new DataPointPropertiesPage(this));
     }
 
@@ -122,7 +126,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
     public EditDataSourceWithPointListPage disableDataPoint(DataPointIdentifier dataPointIdentifier) {
-        acceptAlertAfterClick(_findAction(dataPointIdentifier, SELECTOR_ACTION_ENABLE_DATA_POINT_BY));
+        acceptAfterClick(_findAction(dataPointIdentifier, SELECTOR_ACTION_ENABLE_DATA_POINT_BY));
         waitWhile($(_findAction(dataPointIdentifier, SELECTOR_ACTION_DISABLE_DATA_POINT_BY)), not(Condition.visible));
         return this;
     }

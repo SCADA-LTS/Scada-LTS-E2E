@@ -15,7 +15,6 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
@@ -26,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class GetLivesGroupingSortOnChangeServiceTest {
 
     @Parameterized.Parameters(name = "{index}: offset: {0}, limit: {1}")
@@ -87,7 +86,7 @@ public class GetLivesGroupingSortOnChangeServiceTest {
                 .toArray(a -> new DataPointCriteria[inactiveIdnetifiers.length]);
 
 
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
         activePoints = new StorungsAndAlarmsObjectsCreator(navigationPage, activeNotifierAlarams);
         activePoints.createObjects();
 
@@ -108,8 +107,10 @@ public class GetLivesGroupingSortOnChangeServiceTest {
     @AfterClass
     public static void clean() {
         sleep();
-        activePoints.deleteObjects();
-        inactivePoints.deleteObjects();
+        if(activePoints != null)
+            activePoints.deleteObjects();
+        if(inactivePoints != null)
+            inactivePoints.deleteObjects();
     }
 
     @Test

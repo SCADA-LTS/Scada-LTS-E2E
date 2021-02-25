@@ -1,8 +1,8 @@
 package org.scadalts.e2e.app.domain.notification.email;
 
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.common.config.E2eConstant;
-import org.scadalts.e2e.common.utils.FileUtil;
+import org.scadalts.e2e.common.core.config.E2eConstant;
+import org.scadalts.e2e.common.core.utils.FileUtil;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -10,15 +10,16 @@ import org.springframework.stereotype.Component;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.util.Optional;
 
-import static org.scadalts.e2e.common.utils.FileUtil.zip;
+import static org.scadalts.e2e.common.core.utils.FileUtil.zip;
 
 @Component
 @Log4j2
 class MimeMessageCreator {
 
     private final MessageTransformator transformator;
-    private static File LOGO = FileUtil.getFileFromJar("templates/logo.png");
+    private static Optional<File> LOGO = FileUtil.getFileFromJar("templates/logo.png");
 
     MimeMessageCreator(MessageTransformator transformator) {
         this.transformator = transformator;
@@ -40,23 +41,45 @@ class MimeMessageCreator {
         _generateContent(emailData, helper);
     }
 
-    private void _generateContent(EmailData emailData, MimeMessageHelper helper) throws MessagingException {
-        String content = transformator.transform(emailData, LOGO);
-        helper.setText(content, transformator.isHtml());
-        helper.addInline(LOGO.getName(), LOGO);
+    private void _generateContent(EmailData emailData, MimeMessageHelper helper) {
 
-        File log = zip(FileUtil.getFileFromFileSystem(E2eConstant.E2E_LOG_FILE));
-        helper.addAttachment(log.getName(), log);
+        LOGO.ifPresent(a -> {
+            String content = transformator.transform(emailData, a);
+            try {
+                helper.setText(content, transformator.isHtml());
+                helper.addInline(a.getName(), a);
+            } catch (MessagingException e) {
+                logger.warn(e.getMessage(), e);
+            }
+        });
 
-        File webDriverLog = zip(FileUtil.getFileFromFileSystem(E2eConstant.WEB_DRIVER_LOG_FILE));
-        helper.addAttachment(webDriverLog.getName(), webDriverLog);
+        FileUtil.getFileFromFileSystem(E2eConstant.E2E_LOG_FILE).ifPresent(a -> {
+            File zip = zip(a);
+            try {
+                helper.addAttachment(zip.getName(), zip);
+            } catch (MessagingException e) {
+                logger.warn(e.getMessage(), e);
+            }
+        });
+
+        FileUtil.getFileFromFileSystem(E2eConstant.WEB_DRIVER_LOG_FILE).ifPresent(a -> {
+            File webDriverLog = zip(a);
+            try {
+                helper.addAttachment(webDriverLog.getName(), webDriverLog);
+            } catch (MessagingException e) {
+                logger.warn(e.getMessage(), e);
+            }
+        });
 
         for (File attachment: emailData.getAttachments()) {
             if(attachment.exists()) {
-                helper.addAttachment(attachment.getName(), attachment);
+                try {
+                    helper.addAttachment(attachment.getName(), attachment);
+                } catch (MessagingException e) {
+
+                    logger.warn(e.getMessage(), e);
+                }
             }
         }
     }
-
-
 }

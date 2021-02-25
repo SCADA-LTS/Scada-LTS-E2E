@@ -19,7 +19,6 @@ import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.ListLimitedSupportedAddMethod;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
@@ -32,7 +31,7 @@ import java.util.Objects;
 import static org.junit.Assert.*;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class SequencePointValueHistoryInDetailsPageTest {
 
     @Parameterized.Parameters(name = "{index}: expected:{0}")
@@ -54,7 +53,7 @@ public class SequencePointValueHistoryInDetailsPageTest {
     @BeforeClass
     public static void createDataSourceAndPoint() {
 
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
 
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(DataPointType.NUMERIC, "123.0");
@@ -83,7 +82,8 @@ public class SequencePointValueHistoryInDetailsPageTest {
             watchListCreator.deleteObjects();
         if(Objects.nonNull(dataSourcePointObjectsCreator))
             dataSourcePointObjectsCreator.deleteObjects();
-        listExpected.clear();
+        if(Objects.nonNull(listExpected))
+            listExpected.clear();
     }
 
     @Test

@@ -3,8 +3,7 @@ package org.scadalts.e2e.test.impl.tests.page.watchlist.pointdetails;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.scadalts.e2e.common.config.E2eConfiguration;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
@@ -16,7 +15,6 @@ import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.text.MessageFormat;
@@ -27,7 +25,6 @@ import java.util.Objects;
 
 import static org.junit.Assert.*;
 
-@RunWith(TestWithPageRunner.class)
 public class AnnotationsChangeValueIfPointDisabledPageTest {
 
     private CreatorObject<WatchListPage, WatchListPage> watchListObjectsCreator;
@@ -42,7 +39,7 @@ public class AnnotationsChangeValueIfPointDisabledPageTest {
     @Before
     public void createDataSourceAndPoint() {
 
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
 
         dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         dataPointCriteria = DataPointCriteria.noChange(DataPointType.NUMERIC, "123.0");

@@ -2,8 +2,8 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.scadalts.e2e.common.exceptions.ConfigureTestException;
-import org.scadalts.e2e.common.utils.ExecutorUtil;
+import org.scadalts.e2e.common.core.exceptions.ConfigureTestException;
+import org.scadalts.e2e.common.core.utils.ExecutorUtil;
 import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
@@ -36,11 +36,11 @@ public class ConfigureTestPointLinksCommand implements Command<ChangePointValueV
         Xid dataPointTargetXid = new Xid(TestImplConfiguration.dataPointTargetXid);
 
         DataPointCriteria dataPointSource = DataPointCriteria.noChange(dataPointSourceXid,
-                new DataPointIdentifier("datapoint_source", DataPointType.NUMERIC), "1234");
+                new DataPointIdentifier("dp_source_test", DataPointType.NUMERIC), "1234");
         DataPointCriteria dataPointTarget = DataPointCriteria.noChange(dataPointTargetXid,
-                new DataPointIdentifier("datapoint_target", DataPointType.NUMERIC), "12345");
+                new DataPointIdentifier("dp_target_test", DataPointType.NUMERIC), "12345");
 
-        DataSourceIdentifier dataSourceIdentifier = new DataSourceIdentifier("datasource_point_links_test",
+        DataSourceIdentifier dataSourceIdentifier = new DataSourceIdentifier("ds_point_links_test",
                 DataSourceType.VIRTUAL_DATA_SOURCE);
         DataSourceCriteria dataSource = DataSourceCriteria.criteriaSecond(dataSourceIdentifier);
         DataSourcePointCriteria dataSourcePointSource = DataSourcePointCriteria.criteria(dataSource, dataPointSource);

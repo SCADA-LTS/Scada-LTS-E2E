@@ -97,7 +97,7 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
         }
     }
 
-    public void setProperties(DataPointProperties dataPointProperties, DataPointType dataPointType, DataPointPropertiesPage dataPointPropertiesPage) {
+    public EditDataSourceWithPointListPage setProperties(DataPointProperties dataPointProperties, DataPointType dataPointType, DataPointPropertiesPage dataPointPropertiesPage) {
 
         DataPointTextRendererProperties textRenderer = dataPointProperties.getTextRendererProperties();
         if(!textRenderer.isEmpty()) {
@@ -117,9 +117,10 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
         if(dataPointType == DataPointType.NUMERIC) {
             dataPointPropertiesPage.selectEngineeringUnit(dataPointProperties.getEngineeringUnits());
         }
+        return dataPointPropertiesPage.saveDataPoint()
+                .editDataSource()
+                .acceptAlertOnPage();
 
-        dataPointPropertiesPage.saveDataPoint();
-        dataPointPropertiesPage.editDataSource();
     }
 
     private void _setLogging(DataPointPropertiesPage dataPointPropertiesPage,

@@ -6,9 +6,9 @@ import lombok.ToString;
 import org.scadalts.e2e.cli.parsers.BrowserRefParser;
 import org.scadalts.e2e.cli.parsers.PageLoadStrategyParser;
 import org.scadalts.e2e.cli.parsers.TestPlansParser;
-import org.scadalts.e2e.common.types.BrowserRef;
-import org.scadalts.e2e.common.types.PageLoadStrategy;
-import org.scadalts.e2e.common.types.TestPlan;
+import org.scadalts.e2e.common.core.types.BrowserRef;
+import org.scadalts.e2e.common.core.types.PageLoadStrategy;
+import org.scadalts.e2e.common.core.types.TestPlan;
 import picocli.CommandLine;
 
 import java.io.File;

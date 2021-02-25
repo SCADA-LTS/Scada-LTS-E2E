@@ -3,9 +3,8 @@ package org.scadalts.e2e.service.impl.services;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.extern.log4j.Log4j2;
-import org.apache.cxf.jaxrs.utils.HttpUtils;
-import org.scadalts.e2e.common.config.E2eConfiguration;
-import org.scadalts.e2e.common.utils.StabilityUtil;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
+import org.scadalts.e2e.common.core.utils.StabilityUtil;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
@@ -22,7 +21,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URL;
 import java.text.MessageFormat;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -97,8 +95,7 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .cookie(cookie)
                 .get();
-        List<StorungAlarmResponse> list = _get(response);
-        return E2eResponseFactory.newResponse(response, list);
+        return E2eResponseFactory.newResponseForJsonArray(response, new GenericType<List<StorungAlarmResponse>>() {});
     }
 
     private E2eResponse<List<StorungAlarmResponse>> _getHistoryAlarms(StorungAlarmParams storungAlarmParams) {
@@ -113,8 +110,7 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .cookie(cookie)
                 .get();
-        List<StorungAlarmResponse> list = _get(response);
-        return E2eResponseFactory.newResponse(response, list);
+        return E2eResponseFactory.newResponseForJsonArray(response, new GenericType<List<StorungAlarmResponse>>() {});
     }
 
 
@@ -128,10 +124,5 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
                 .cookie(cookie)
                 .post(null);
         return E2eResponseFactory.newResponse(response, AcknowledgeResponse.class);
-    }
-
-    private List<StorungAlarmResponse> _get(Response response) {
-        return HttpUtils.isPayloadEmpty(response.getStringHeaders()) ? Collections.emptyList()
-                : response.readEntity(new GenericType<List<StorungAlarmResponse>>() {});
     }
 }

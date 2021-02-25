@@ -1,7 +1,7 @@
 package org.scadalts.e2e.page.api;
 
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.common.config.E2eConfig;
+import org.scadalts.e2e.common.core.config.E2eConfig;
 import org.scadalts.e2e.page.core.config.PageObjectConfigurator;
 
 @Log4j2

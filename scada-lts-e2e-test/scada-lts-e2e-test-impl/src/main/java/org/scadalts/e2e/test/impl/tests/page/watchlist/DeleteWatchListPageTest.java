@@ -3,7 +3,6 @@ package org.scadalts.e2e.test.impl.tests.page.watchlist;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
@@ -14,14 +13,12 @@ import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
-@RunWith(TestWithPageRunner.class)
 public class DeleteWatchListPageTest {
 
     private static CreatorObject<WatchListPage, WatchListPage> watchListObjectsCreator;
@@ -37,7 +34,7 @@ public class DeleteWatchListPageTest {
         DataPointCriteria dataPointCriteria = DataPointCriteria.numericNoChange(123);
 
         dataSourcePointToDeleteCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
-        NavigationPage navigationPage = TestWithPageUtil.getNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
 
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointToDeleteCriteria);
         dataSourcePointObjectsCreator.createObjects();
@@ -50,8 +47,10 @@ public class DeleteWatchListPageTest {
 
     @AfterClass
     public static void clean() {
-        watchListObjectsCreator.deleteObjects();
-        dataSourcePointObjectsCreator.deleteObjects();
+        if(watchListObjectsCreator != null)
+            watchListObjectsCreator.deleteObjects();
+        if(dataSourcePointObjectsCreator != null)
+            dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test

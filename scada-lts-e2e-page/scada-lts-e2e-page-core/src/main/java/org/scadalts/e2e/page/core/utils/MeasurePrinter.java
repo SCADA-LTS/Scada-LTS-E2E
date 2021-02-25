@@ -5,7 +5,7 @@ import org.scadalts.e2e.page.core.pages.PageObject;
 
 import java.text.MessageFormat;
 
-import static org.scadalts.e2e.common.measure.ValueTimeUnitToPrint.preparingToPrintMs;
+import static org.scadalts.e2e.common.core.measure.ValueTimeUnitToPrint.preparingToPrintMs;
 
 @Log4j2
 public class MeasurePrinter {

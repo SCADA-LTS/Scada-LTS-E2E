@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.opera.OperaOptions;
-import org.scadalts.e2e.common.config.E2eConfig;
+import org.scadalts.e2e.common.core.config.E2eConfig;
 
 import java.text.MessageFormat;
 import java.util.stream.Collectors;

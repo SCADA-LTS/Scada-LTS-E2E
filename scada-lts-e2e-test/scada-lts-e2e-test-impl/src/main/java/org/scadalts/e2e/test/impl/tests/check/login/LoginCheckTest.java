@@ -3,8 +3,7 @@ package org.scadalts.e2e.test.impl.tests.check.login;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.scadalts.e2e.common.config.E2eConfiguration;
-import org.scadalts.e2e.page.impl.pages.LoginPage;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
@@ -16,16 +15,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class LoginCheckTest {
 
     private NavigationPage navigationPage;
-    private LoginPage loginPage;
 
     @Before
     public void setup() {
-        TestWithPageUtil.preparingTest();
         if(TestWithPageUtil.isLogged()) {
-            navigationPage = TestWithPageUtil.getNavigationPage();
-            navigationPage.logout();
+            TestWithPageUtil.logout();
         }
-        loginPage = LoginPage.openPage();
     }
 
     @After
@@ -38,17 +33,12 @@ public class LoginCheckTest {
     public void test_login() {
 
         //when:
-        navigationPage = loginPage.maximize()
-                .printLoadingMeasure()
-                .setUserName(E2eConfiguration.userName)
-                .setPassword(E2eConfiguration.password)
-                .login()
-                .printLoadingMeasure();
+        navigationPage = TestWithPageUtil.openNavigationPage();
 
         //and:
         String userName = navigationPage.getUserName();
 
         //then:
-        assertThat(E2eConfiguration.userName, equalTo(userName));
+        assertThat("Problem with logging into the system for user: " + E2eConfiguration.userName, E2eConfiguration.userName, equalTo(userName));
     }
 }

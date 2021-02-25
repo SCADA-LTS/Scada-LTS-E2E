@@ -1,6 +1,6 @@
 package org.scadalts.e2e.page.impl.dicts;
 
-import org.scadalts.e2e.common.dicts.DictionaryObject;
+import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 
 import java.util.stream.Stream;
 

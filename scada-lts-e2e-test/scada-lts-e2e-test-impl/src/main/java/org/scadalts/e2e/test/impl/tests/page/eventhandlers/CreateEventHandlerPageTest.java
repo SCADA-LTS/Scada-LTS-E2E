@@ -4,7 +4,6 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.*;
@@ -19,14 +18,12 @@ import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.EventHandlerObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.ScriptObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 @Log4j2
-@RunWith(TestWithPageRunner.class)
 public class CreateEventHandlerPageTest {
 
     private static EventHandlersPage eventHandlersPage;
@@ -50,7 +47,7 @@ public class CreateEventHandlerPageTest {
 
     @BeforeClass
     public static void createDataSourcePointEventDetectorScripts() {
-        navigationPage = TestWithPageUtil.getNavigationPage();
+        navigationPage = TestWithPageUtil.openNavigationPage();
 
         dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         dataPointCriteria = DataPointCriteria.binaryAlternate();
@@ -93,13 +90,20 @@ public class CreateEventHandlerPageTest {
     public void clean() {
         EventHandlerObjectsCreator eventHandlerObjectsCreator = new EventHandlerObjectsCreator(navigationPage, eventHandlerCriteria);
         eventHandlerObjectsCreator.deleteObjects();
-        scriptObjectsCreator.deleteObjects();
-        eventDetectorObjectsCreator.deleteObjects();
-        eventDetectorObjectsCreator2.deleteObjects();
-        eventDetectorObjectsCreator3.deleteObjects();
-        eventDetectorObjectsCreator4.deleteObjects();
-        eventDetectorObjectsCreator5.deleteObjects();
-        dataSourcePointObjectsCreator.deleteObjects();
+        if(scriptObjectsCreator != null)
+            scriptObjectsCreator.deleteObjects();
+        if(eventDetectorObjectsCreator != null)
+            eventDetectorObjectsCreator.deleteObjects();
+        if(eventDetectorObjectsCreator2 != null)
+            eventDetectorObjectsCreator2.deleteObjects();
+        if(eventDetectorObjectsCreator3 != null)
+            eventDetectorObjectsCreator3.deleteObjects();
+        if(eventDetectorObjectsCreator4 != null)
+            eventDetectorObjectsCreator4.deleteObjects();
+        if(eventDetectorObjectsCreator5 != null)
+            eventDetectorObjectsCreator5.deleteObjects();
+        if(dataSourcePointObjectsCreator != null)
+            dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test

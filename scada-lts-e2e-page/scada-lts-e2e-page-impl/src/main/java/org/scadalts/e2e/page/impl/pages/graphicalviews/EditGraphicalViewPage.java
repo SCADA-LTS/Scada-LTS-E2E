@@ -14,7 +14,7 @@ import java.io.File;
 
 import static com.codeborne.selenide.Selenide.$;
 
-import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlertAfterClick;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
 
 public class EditGraphicalViewPage extends PageObjectAbstract<EditGraphicalViewPage> {
@@ -48,7 +48,7 @@ public class EditGraphicalViewPage extends PageObjectAbstract<EditGraphicalViewP
     private GraphicalViewsPage parent;
 
     public EditGraphicalViewPage(GraphicalViewsPage parent) {
-        super(TITLE);
+        super();
         this.parent = parent;
     }
 
@@ -113,7 +113,7 @@ public class EditGraphicalViewPage extends PageObjectAbstract<EditGraphicalViewP
     public GraphicalViewsPage delete() {
         delay();
         deleteCheckbox.click();
-        acceptAlertAfterClick(deleteButton);
+        acceptAfterClick(deleteButton);
         return parent;
     }
 

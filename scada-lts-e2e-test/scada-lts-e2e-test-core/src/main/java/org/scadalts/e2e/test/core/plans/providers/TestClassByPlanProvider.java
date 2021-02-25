@@ -1,6 +1,6 @@
 package org.scadalts.e2e.test.core.plans.providers;
 
-import org.scadalts.e2e.common.types.TestPlan;
+import org.scadalts.e2e.common.core.types.TestPlan;
 
 public interface TestClassByPlanProvider {
     boolean containsPlan(TestPlan plan);

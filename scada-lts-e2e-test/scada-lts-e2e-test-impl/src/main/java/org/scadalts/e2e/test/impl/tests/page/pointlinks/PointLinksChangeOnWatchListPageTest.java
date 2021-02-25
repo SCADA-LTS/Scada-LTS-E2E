@@ -20,7 +20,6 @@ import org.scadalts.e2e.page.impl.dicts.EventType;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
@@ -31,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 import static org.scadalts.e2e.test.impl.creators.PointLinksObjectsCreator.isUpdate;
 
 @Log4j2
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class PointLinksChangeOnWatchListPageTest {
 
     @Parameterized.Parameters(name = "{index}: source: {0} - {1}, target: {2} - {3}, pointlink type: {4}")
@@ -83,7 +82,7 @@ public class PointLinksChangeOnWatchListPageTest {
         targetIdentifier = target.getIdentifier();
         criteria = PointLinkCriteria.criteria(source, target, eventType, Script.empty());
         watchListIdentifier = IdentifierObjectFactory.watchListName();
-        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.getNavigationPage(),
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.openNavigationPage(),
                 criteria, watchListIdentifier);
         watchListPageSubject = allObjectsForPointLinkTestCreator.createObjects();
         pointLinksPage = allObjectsForPointLinkTestCreator.openPage();
@@ -91,7 +90,8 @@ public class PointLinksChangeOnWatchListPageTest {
 
     @After
     public void clean() {
-        allObjectsForPointLinkTestCreator.deleteObjects();
+        if(allObjectsForPointLinkTestCreator != null)
+            allObjectsForPointLinkTestCreator.deleteObjects();
     }
 
 

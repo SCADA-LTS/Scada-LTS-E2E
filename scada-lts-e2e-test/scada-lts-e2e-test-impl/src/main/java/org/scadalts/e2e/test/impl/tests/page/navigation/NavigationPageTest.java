@@ -3,9 +3,6 @@ package org.scadalts.e2e.test.impl.tests.page.navigation;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.scadalts.e2e.common.exceptions.ConfigureTestException;
-import org.scadalts.e2e.common.utils.ExecutorUtil;
 import org.scadalts.e2e.page.impl.pages.alarms.PendingAlarmsPage;
 import org.scadalts.e2e.page.impl.pages.compoundeventdetectors.CompoundEventDetectorsPage;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
@@ -27,19 +24,19 @@ import org.scadalts.e2e.page.impl.pages.systemsettings.SystemInformationPage;
 import org.scadalts.e2e.page.impl.pages.userprofiles.UserProfilesPage;
 import org.scadalts.e2e.page.impl.pages.users.UsersPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
-import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.StringContains.containsString;
 
-@RunWith(TestWithPageRunner.class)
 public class NavigationPageTest {
 
     private static NavigationPage pageSubject;
 
     @BeforeClass
-    public static void setup(){
-        pageSubject = ExecutorUtil.executeSupplier(NavigationPage::openPage, ConfigureTestException::new);
+    public static void setup() {
+        pageSubject = TestWithPageUtil.openNavigationPage();
     }
 
     @Test
@@ -97,6 +94,7 @@ public class NavigationPageTest {
         //when:
         String body = pageSubject.openPointHierarchy()
                 .printLoadingMeasure()
+                .acceptAlertOnPage()
                 .getBodyText();
 
         //then:
@@ -281,5 +279,17 @@ public class NavigationPageTest {
 
         //then:
         assertThat(body, containsString(CompoundEventDetectorsPage.TITLE));
+    }
+
+    @Test
+    public void test_openRoot() {
+
+        //when:
+        String body = NavigationPage.openRootPage()
+                .printLoadingMeasure()
+                .getBodyText();
+
+        //then:
+        assertThat(body, not(containsString("System exception!")));
     }
 }

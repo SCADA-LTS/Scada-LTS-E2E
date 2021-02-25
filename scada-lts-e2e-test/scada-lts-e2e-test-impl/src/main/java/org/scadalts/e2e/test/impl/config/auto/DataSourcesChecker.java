@@ -19,7 +19,7 @@ import java.util.List;
 import static org.junit.Assert.assertTrue;
 import static org.scadalts.e2e.test.core.asserts.E2eAssert.assertExists;
 
-@RunWith(TestParameterizedWithPageRunner.class)
+@RunWith(Parameterized.class)
 public class DataSourcesChecker {
 
     @Parameterized.Parameters(name = "number test: {index}, datasource: {0}")

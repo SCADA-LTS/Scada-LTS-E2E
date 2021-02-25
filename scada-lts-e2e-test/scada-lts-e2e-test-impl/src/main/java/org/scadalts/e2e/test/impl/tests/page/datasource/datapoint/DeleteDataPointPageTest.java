@@ -3,7 +3,6 @@ package org.scadalts.e2e.test.impl.tests.page.datasource.datapoint;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
@@ -16,14 +15,12 @@ import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
-import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
-@RunWith(TestWithPageRunner.class)
 public class DeleteDataPointPageTest {
 
     private final DataPointIdentifier dataPointToDeleteName = IdentifierObjectFactory
@@ -48,16 +45,17 @@ public class DeleteDataPointPageTest {
                 .startValue("true")
                 .build();
 
-        dataSourcesPageCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.getNavigationPage(), dataSourceCriteria, dataPointCriteria,
+        dataSourcesPageCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(), dataSourceCriteria, dataPointCriteria,
                 dataPointToDeleteCriteria, dataPointCriteria2);
         editDataSourceWithPointListPageSubject = dataSourcesPageCreator.createObjects()
                 .openDataSourceEditor(dataSourceCriteria.getIdentifier())
-                .acceptAlertOnPage2();
+                .acceptAlertOnPage();
     }
 
     @After
     public void clean() {
-        dataSourcesPageCreator.deleteObjects();
+        if(dataSourcesPageCreator != null)
+            dataSourcesPageCreator.deleteObjects();
     }
 
     @Test

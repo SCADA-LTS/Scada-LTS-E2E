@@ -5,8 +5,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        EventDetectorServiceTest.class,
-        EventDetectorServicePostTest.class
+        GetEventDetectorServiceTest.class,
+        CreateEventDetectorServiceTest.class
 })
 
 public class EventDetectorServiceTestsSuite {
