@@ -11,17 +11,17 @@ import static org.scadalts.e2e.page.core.xpaths.XpathOperation.contains;
 public class NodeCriteriaWithNode implements NodeCriteria {
 
     private final Tag parent;
-    private final Tag kid;
-    private final XpathAttribute kidAttribute;
+    private final Tag child;
+    private final XpathAttribute childAttribute;
 
-    NodeCriteriaWithNode(Tag parent, Tag kid, XpathAttribute kidAttribute) {
+    NodeCriteriaWithNode(Tag parent, Tag child, XpathAttribute childAttribute) {
         this.parent = parent;
-        this.kid = kid;
-        this.kidAttribute = kidAttribute;
+        this.child = child;
+        this.childAttribute = childAttribute;
     }
 
     @Override
     public String getXpath() {
-        return xpath(parent, xpath(kid, contains(kidAttribute))).expression();
+        return xpath(parent, xpath(child, contains(childAttribute))).expression();
     }
 }

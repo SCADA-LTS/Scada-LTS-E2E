@@ -66,7 +66,7 @@ public class EditDataSourcePageTest {
     public void test_edit_update_period_type_in_data_source() {
 
         //given:
-        UpdatePeriodType updatePeriodsTypeExp = UpdatePeriodType.MILLISECOUND;
+        UpdatePeriodType updatePeriodsTypeExp = UpdatePeriodType.MILLISECOND;
 
         //when
         UpdatePeriodType updatePeriodTypeBefore = editDataSourceWithPointListPageSubject

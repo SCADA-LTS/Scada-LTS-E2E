@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 @Getter
 public enum UpdatePeriodType implements DictionaryObject {
 
-    MILLISECOUND("millisecond(ms)", "8"),
+    MILLISECOND("millisecond(ms)", "8"),
     SECOND("second(s)", "1"),
     MINUTE("minute(s)", "2"),
     HOUR("hour(s)", "3"),

@@ -22,6 +22,9 @@ public interface GetUrl {
     }
 
     default void printCurrentUrl() {
-        LOGGER.info("current url: {}", getCurrentUrl());
+        String currentUrl = getCurrentUrl();
+        if(currentUrl.equalsIgnoreCase("warnning"))
+            currentUrl = getCurrentUrl();
+        LOGGER.info("current url: {}", currentUrl);
     }
 }

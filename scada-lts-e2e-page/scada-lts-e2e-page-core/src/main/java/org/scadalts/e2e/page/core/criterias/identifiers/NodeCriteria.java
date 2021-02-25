@@ -75,11 +75,11 @@ public interface NodeCriteria {
     }
 
 
-    static NodeCriteria withNode(Tag parent, Tag kid, XpathAttribute kidAttribute) {
+    static NodeCriteria withNode(Tag parent, Tag child, XpathAttribute childAttribute) {
         return NodeCriteriaWithNode.builder()
                 .parent(parent)
-                .kid(kid)
-                .kidAttribute(kidAttribute)
+                .child(child)
+                .childAttribute(childAttribute)
                 .build();
     }
 
