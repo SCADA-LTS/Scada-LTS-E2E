@@ -14,13 +14,12 @@ import org.scadalts.e2e.service.impl.services.login.LoginParams;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.*;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.util.Optional;
+import java.util.*;
 
 import static org.scadalts.e2e.service.core.utils.ServiceStabilityUtil.*;
 
@@ -89,16 +88,21 @@ public class LoginServiceObject implements WebServiceObject {
     private E2eResponse<String> _loginTry(LoginParams loginParams) {
         String endpoint = baseUrl + "/login.htm";
         logger.debug("endpoint: {}", endpoint);
+        MultivaluedMap<String, String> data = new MultivaluedHashMap<>();
+        data.put("username", Arrays.asList(loginParams.getUserName()));
+        data.put("password", Arrays.asList(loginParams.getPassword()));
         Response response = ClientBuilder.newClient()
                 .target(endpoint)
-                .queryParam("username", loginParams.getUserName())
-                .queryParam("password", loginParams.getPassword())
-                .queryParam("submit", loginParams.getSubmit())
-                .request(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
-                .post(null);
+                .request()
+                //.header("Authorization","Basic " + toBase64(loginParams))
+                .post(Entity.form(data));
         E2eResponse<String> res = E2eResponseFactory.newResponse(response, String.class);
         _setConfig(res);
         return res;
+    }
+
+    private String toBase64(LoginParams loginParams) {
+        return Base64.getEncoder().encodeToString((loginParams.getUserName() + ":" + loginParams.getPassword()).getBytes());
     }
 
     private E2eResponse<String> _logout() {

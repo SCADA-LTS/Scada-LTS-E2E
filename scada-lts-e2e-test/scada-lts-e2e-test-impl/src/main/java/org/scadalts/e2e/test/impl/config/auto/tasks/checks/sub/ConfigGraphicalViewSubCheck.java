@@ -21,7 +21,7 @@ public class ConfigGraphicalViewSubCheck implements SubCheck {
         logger.info("run... {}", this.getClass().getSimpleName());
         for(GraphicalViewCriteria graphicalViewCriteria: graphicalViewCriterias) {
             GraphicalViewsPage graphicalViewsPage = navigationPage.openGraphicalViews();
-            graphicalViewsPage.selectViewByName(graphicalViewCriteria.getIdentifier());
+            graphicalViewsPage.selectViewBy(graphicalViewCriteria.getIdentifier());
             graphicalViewsPage.waitOnLoadedBackground();
         }
     }

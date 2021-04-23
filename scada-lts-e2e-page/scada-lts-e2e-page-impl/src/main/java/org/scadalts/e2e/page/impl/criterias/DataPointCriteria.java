@@ -55,7 +55,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
     public static DataPointCriteria binaryAlternate() {
         DataPointType dataPointType = DataPointType.BINARY;
         ChangeType changeType = ChangeType.ALTERNATE;
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         return DataPointCriteria.builder()
                 .changeType(changeType)
                 .identifier(IdentifierObjectFactory.dataPointName(dataPointType))
@@ -70,7 +70,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
     public static DataPointCriteria binaryNoChange() {
         DataPointType dataPointType = DataPointType.BINARY;
         ChangeType changeType = ChangeType.NO_CHANGE;
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         return DataPointCriteria.builder()
                 .changeType(changeType)
                 .identifier(IdentifierObjectFactory.dataPointName(dataPointType))
@@ -84,7 +84,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
 
     public static DataPointCriteria alternate(DataPointIdentifier identifier) {
         ChangeType changeType = ChangeType.ALTERNATE;
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         return DataPointCriteria.builder()
                 .changeType(changeType)
                 .identifier(identifier)
@@ -99,7 +99,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
     public static DataPointCriteria numericNoChange() {
         DataPointType dataPointType = DataPointType.NUMERIC;
         ChangeType changeType = ChangeType.NO_CHANGE;
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         return DataPointCriteria.builder()
                 .changeType(changeType)
                 .identifier(IdentifierObjectFactory.dataPointName(dataPointType))
@@ -113,7 +113,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
 
     public static DataPointCriteria noChange(DataPointType dataPointType, String startValue) {
         ChangeType changeType = ChangeType.NO_CHANGE;
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         return DataPointCriteria.builder()
                 .changeType(changeType)
                 .identifier(IdentifierObjectFactory.dataPointName(dataPointType))
@@ -128,7 +128,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
     public static DataPointCriteria noChange(DataPointType dataPointType, String startValue,
                                              DataPointProperties dataPointProperties) {
         ChangeType changeType = ChangeType.NO_CHANGE;
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         return DataPointCriteria.builder()
                 .changeType(changeType)
                 .identifier(IdentifierObjectFactory.dataPointName(dataPointType))
@@ -143,7 +143,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
     public static DataPointCriteria numericNoChange(int startValue) {
         DataPointType dataPointType = DataPointType.NUMERIC;
         ChangeType changeType = ChangeType.NO_CHANGE;
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         return DataPointCriteria.builder()
                 .changeType(changeType)
                 .identifier(IdentifierObjectFactory.dataPointName(dataPointType))
@@ -209,10 +209,22 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
                 .build();
     }
 
+    public static DataPointCriteria noChange(String xid, DataPointIdentifier identifier) {
+        ChangeType changeType = ChangeType.NO_CHANGE;
+        return DataPointCriteria.builder()
+                .changeType(changeType)
+                .identifier(identifier)
+                .dataPointProperties(DataPointProperties.empty())
+                .startValue("123")
+                .settable(true)
+                .enabled(true)
+                .xid(new Xid(xid))
+                .build();
+    }
 
     public static DataPointCriteria noChange(DataPointIdentifier identifier) {
         ChangeType changeType = ChangeType.NO_CHANGE;
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         return DataPointCriteria.builder()
                 .changeType(changeType)
                 .identifier(identifier)
@@ -226,7 +238,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
 
     public static DataPointCriteria noChange(DataPointIdentifier identifier, boolean enabled) {
         ChangeType changeType = ChangeType.NO_CHANGE;
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         return DataPointCriteria.builder()
                 .changeType(changeType)
                 .identifier(identifier)
@@ -240,7 +252,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
 
     public static DataPointCriteria noChange(DataPointIdentifier identifier, String startValue) {
         ChangeType changeType = ChangeType.NO_CHANGE;
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         return DataPointCriteria.builder()
                 .changeType(changeType)
                 .identifier(identifier)
@@ -254,7 +266,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
 
     public static DataPointCriteria noChangeAllDataLogging(DataPointIdentifier identifier, String startValue) {
         ChangeType changeType = ChangeType.NO_CHANGE;
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         DataPointProperties dataPointProperties = DataPointProperties.builder()
                 .loggingProperties(DataPointLoggingProperties.builder()
                         .loggingType(LoggingType.ALL).build())
@@ -273,7 +285,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
     public static DataPointCriteria noChange(DataPointIdentifier identifier, String startValue,
                                              DataPointLoggingProperties dataPointLoggingProperties) {
         ChangeType changeType = ChangeType.NO_CHANGE;
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         DataPointProperties dataPointProperties = DataPointProperties.builder()
                 .loggingProperties(dataPointLoggingProperties)
                 .build();
@@ -290,7 +302,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
 
     public static DataPointCriteria noChange(DataPointIdentifier identifier, String startValue, boolean enabled) {
         ChangeType changeType = ChangeType.NO_CHANGE;
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         return DataPointCriteria.builder()
                 .changeType(changeType)
                 .identifier(identifier)
@@ -303,7 +315,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
     }
 
     public static DataPointCriteria criteria(DataPointType dataPointType, String startValue, ChangeType changeType) {
-        Xid xid = Xid.xidForDataPoint();
+        Xid xid = Xid.dataPoint();
         return DataPointCriteria.builder()
                 .changeType(changeType)
                 .identifier(IdentifierObjectFactory.dataPointName(dataPointType))

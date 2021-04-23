@@ -14,6 +14,12 @@ public enum JavascriptWindow implements JavascriptProvider {
         public String getScriptToExecute() {
             return "window.confirm = function(){return true;}";
         }
+    },
+    ACCEPT_ON_BEFORE_UNLOAD {
+        @Override
+        public String getScriptToExecute() {
+            return "window.onbeforeunload = function() {};";
+        }
     };
 
     @Override

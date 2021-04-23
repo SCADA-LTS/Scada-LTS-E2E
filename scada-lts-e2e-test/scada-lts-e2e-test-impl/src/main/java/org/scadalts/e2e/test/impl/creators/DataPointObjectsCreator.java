@@ -118,8 +118,7 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
             dataPointPropertiesPage.selectEngineeringUnit(dataPointProperties.getEngineeringUnits());
         }
         return dataPointPropertiesPage.saveDataPoint()
-                .editDataSource()
-                .acceptAlertOnPage();
+                .editDataSource();
 
     }
 
@@ -204,13 +203,13 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
         logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(), criteria.getIdentifier().getType(),
                 criteria.getXid().getValue(), criteria.getClass().getSimpleName());
         return page.addDataPoint()
-                .setDataPointName(criteria.getIdentifier())
-                .setDataPointXid(criteria.getXid())
+                .setName(criteria.getIdentifier())
+                .setXid(criteria.getXid())
                 .setSettable(criteria.isSettable())
-                .selectDataPointType(criteria.getIdentifier().getType())
-                .selectChangeType(criteria.getChangeType())
+                .setDataPointType(criteria.getIdentifier().getType())
+                .setChangeType(criteria.getChangeType())
                 .setStartValue(criteria)
-                .saveDataPoint();
+                .save();
     }
 
     private EditDataSourceWithPointListPage _deleteDataPoint(EditDataSourceWithPointListPage page, DataPointCriteria criteria) {

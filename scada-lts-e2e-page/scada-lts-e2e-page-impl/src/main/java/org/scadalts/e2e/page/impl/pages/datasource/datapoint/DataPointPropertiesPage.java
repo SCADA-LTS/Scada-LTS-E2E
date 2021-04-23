@@ -107,8 +107,8 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
     private static final String TEXT_RENDERER_SUFFIX_INPUT = "input[id*='Suffix']";
     private static final String TEXT_RENDERER_FORMAT_INPUT = "input[id*='Format']";
 
-    private static final By TEXT_RENDERER_FROM_INPUT_BY = By.cssSelector("input[id*='From']");
-    private static final By TEXT_RENDERER_TO_INPUT_BY = By.cssSelector("input[id*='To']");
+    private static final By TEXT_RENDERER_FROM_INPUT_BY = By.cssSelector("input[id='textRendererRangeFrom']");
+    private static final By TEXT_RENDERER_TO_INPUT_BY = By.cssSelector("input[id='textRendererRangeTo']");
     private static final String TEXT_RENDERER_TEXT_INPUT = "input[id*='Text']";
     private static final By ADD_RANGE_IMG_BY = By.cssSelector("img[onclick*='addRangeValue']");
     private static final By TIME_CONVERSION_EXPONENT_INPUT_BY = By.cssSelector("input[id*='ConversionExponent']");
@@ -235,6 +235,7 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
     public EditDataSourceWithPointListPage editDataSource() {
         delay();
         acceptAfterClick(editDataSource);
+        acceptAlertOnPage();
         printCurrentUrl();
         return editDataSourceWithPointListPage;
     }

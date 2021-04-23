@@ -41,7 +41,7 @@ public class EventHandlerCriteria implements CriteriaObject, GetXid {
                 .activeScript(scriptCriteria)
                 .inactiveScript(ScriptCriteria.empty())
                 .identifier(identifier)
-                .xid(Xid.xidForEventHandler())
+                .xid(Xid.eventHandler())
                 .build();
     }
 
@@ -51,7 +51,7 @@ public class EventHandlerCriteria implements CriteriaObject, GetXid {
                 .activeScript(activeScript)
                 .inactiveScript(ScriptCriteria.empty())
                 .identifier(IdentifierObjectFactory.eventHandlerName(EventHandlerType.SCRIPT))
-                .xid(Xid.xidForEventHandler())
+                .xid(Xid.eventHandler())
                 .build();
     }
 
@@ -62,7 +62,7 @@ public class EventHandlerCriteria implements CriteriaObject, GetXid {
                 .activeScript(activeScript)
                 .inactiveScript(inactiveScript)
                 .identifier(IdentifierObjectFactory.eventHandlerName(EventHandlerType.SCRIPT))
-                .xid(Xid.xidForEventHandler())
+                .xid(Xid.eventHandler())
                 .build();
     }
 
@@ -75,7 +75,7 @@ public class EventHandlerCriteria implements CriteriaObject, GetXid {
                 .activeScript(activeScript)
                 .inactiveScript(inactiveScript)
                 .identifier(eventHandlerIdentifier)
-                .xid(Xid.xidForEventHandler())
+                .xid(Xid.eventHandler())
                 .build();
     }
 

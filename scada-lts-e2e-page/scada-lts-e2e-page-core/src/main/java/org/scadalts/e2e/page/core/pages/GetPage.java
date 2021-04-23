@@ -4,7 +4,7 @@ interface GetPage<T extends PageObject<T>> {
 
     T getPage();
 
-    default String getName() {
+    default String getPageName() {
         return getPage().getClass().getSimpleName();
     }
 }

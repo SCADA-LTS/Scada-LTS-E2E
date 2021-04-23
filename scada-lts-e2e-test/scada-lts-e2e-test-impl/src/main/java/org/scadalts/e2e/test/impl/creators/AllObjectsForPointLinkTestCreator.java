@@ -13,7 +13,7 @@ import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 
 @Getter
-public class AllObjectsForPointLinkTestCreator implements CreatorObject<PointLinksPage, WatchListPage> {
+public class AllObjectsForPointLinkTestCreator implements CreatorObject<PointLinksPage, PointLinksPage> {
 
     private PointLinksPage pointLinksPage;
     private final NavigationPage navigationPage;
@@ -56,10 +56,11 @@ public class AllObjectsForPointLinkTestCreator implements CreatorObject<PointLin
     }
 
     @Override
-    public WatchListPage createObjects() {
+    public PointLinksPage createObjects() {
         dataSourcePointObjectsCreator.createObjects();
         pointLinksObjectsCreator.createObjects();
-        return watchListObjectsCreator.createObjects();
+        watchListObjectsCreator.createObjects();
+        return openPage();
     }
 
     @Override

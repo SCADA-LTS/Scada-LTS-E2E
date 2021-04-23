@@ -38,14 +38,14 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
     }
 
 
-    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceIdentifier) {
+    public EditDataSourcePage setName(DataSourceIdentifier dataSourceIdentifier) {
         delay();
         this.dataSourceName.clear();
         this.dataSourceName.setValue(dataSourceIdentifier.getValue());
         return this;
     }
 
-    public EditDataSourcePage setDataSourceXid(Xid dataSourceXid) {
+    public EditDataSourcePage setXid(Xid dataSourceXid) {
         delay();
         this.dataSourceXid.clear();
         this.dataSourceXid.setValue(dataSourceXid.getValue());
@@ -60,6 +60,14 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
         return this;
     }
 
+    public EditDataSourcePage setUpdatePeriodType(UpdatePeriodType updatePeriodType) {
+        return selectUpdatePeriodType(updatePeriodType);
+    }
+
+    public EditDataSourcePage setUpdatePeriodType(String updatePeriodType) {
+        return selectUpdatePeriodType(UpdatePeriodType.getType(updatePeriodType));
+    }
+
     public EditDataSourcePage selectUpdatePeriodType(UpdatePeriodType updatePeriodType) {
         delay();
         this.updatePeriodType.selectOption(updatePeriodType.getName());
@@ -72,18 +80,18 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
         return this.updatePeriodType.getValue();
     }
 
-    public EditDataSourceWithPointListPage saveDataSource() {
+    public EditDataSourceWithPointListPage save() {
         delay();
         acceptAfterClick(saveDataSource);
         return Selenide.page(EditDataSourceWithPointListPage.class);
     }
 
-    public String getDataSourceName() {
+    public String getName() {
         delay();
         return dataSourceName.getValue();
     }
 
-    public String getDataSourceXid() {
+    public String getXid() {
         delay();
         return dataSourceXid.getValue();
     }

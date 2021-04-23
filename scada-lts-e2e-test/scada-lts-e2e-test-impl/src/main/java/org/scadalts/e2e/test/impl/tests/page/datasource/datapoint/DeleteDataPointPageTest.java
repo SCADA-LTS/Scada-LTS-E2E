@@ -39,9 +39,9 @@ public class DeleteDataPointPageTest {
 
         dataPointToDeleteCriteria = DataPointCriteria.builder()
                 .dataPointProperties(DataPointProperties.empty())
-                .xid(Xid.xidForDataPoint())
+                .xid(Xid.dataPoint())
                 .identifier(dataPointToDeleteName)
-                .changeType(ChangeType.ALTERNATE)
+                .changeType(ChangeType.NO_CHANGE)
                 .startValue("true")
                 .build();
 
@@ -71,7 +71,7 @@ public class DeleteDataPointPageTest {
         String bodyAfterDelete = editDataSourceWithPointListPageSubject
                 .openDataPointEditor(dataPointToDeleteCriteria.getIdentifier())
                 .deleteDataPoint()
-                .waitOnPageWhileVisibleObject(dataPointToDeleteCriteria.getIdentifier())
+                .waitOnPageWhileVisibleDataPoint(dataPointToDeleteCriteria.getIdentifier())
                 .getBodyText();
 
         //then:

@@ -35,7 +35,7 @@ public class PointValueServiceTest {
         EditDataSourceWithPointListPage pointPage = dataSourcePointObjectsCreator.createObjects()
                 .openDataSourceEditor(dataSourceCriteria.getIdentifier());
         EditDataPointPage editDataPointPage = pointPage.openDataPointEditor(dataPointCriteria.getIdentifier());
-        dataPointXid = editDataPointPage.getDataPointXid();
+        dataPointXid = editDataPointPage.getXid();
     }
 
     @After

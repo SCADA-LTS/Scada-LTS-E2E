@@ -12,5 +12,7 @@ public class PageConfiguration {
     public static Keys ctrl = SystemConfig.getConfig().getCtrl();
     public static int clickDelayMs = 500;
     public static long timeout = 6001;
+    public static boolean headless = true;
+    public static String reportsUrl = "";
 
 }

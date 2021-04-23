@@ -7,8 +7,6 @@ import org.scadalts.e2e.common.core.config.E2eConfiguration;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
-import java.util.Objects;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -18,15 +16,12 @@ public class LoginCheckTest {
 
     @Before
     public void setup() {
-        if(TestWithPageUtil.isLogged()) {
-            TestWithPageUtil.logout();
-        }
+        TestWithPageUtil.logout();
     }
 
     @After
-    public void setNavigationPage() {
-        if(Objects.nonNull(navigationPage))
-            TestWithPageUtil.initNavigationPage(navigationPage);
+    public void clean() {
+        TestWithPageUtil.logout();
     }
 
     @Test

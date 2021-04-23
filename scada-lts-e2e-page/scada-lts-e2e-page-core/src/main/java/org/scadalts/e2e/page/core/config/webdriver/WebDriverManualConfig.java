@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.opera.OperaOptions;
+import org.openqa.selenium.remote.CapabilityType;
 import org.scadalts.e2e.common.core.config.E2eConfig;
 
 import java.text.MessageFormat;
@@ -22,6 +23,7 @@ public enum WebDriverManualConfig {
             ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
             ChromeDriverService.CHROME_DRIVER_LOG_PROPERTY,
             ChromeDriverService.CHROME_DRIVER_VERBOSE_LOG_PROPERTY,
+
             ChromeDriverPathsConfig.getConfig(),
             ChromeOptions.CAPABILITY) {
 
@@ -31,6 +33,7 @@ public enum WebDriverManualConfig {
                 System.setProperty("chromeoptions.args", joinWithSeparator(config.getBrowserOptionsArgs(), ","));
             if(config.getBrowserOptionsPrefs().length > 0 && StringUtils.isNotBlank(config.getBrowserOptionsPrefs()[0]))
                 System.setProperty("chromeoptions.prefs", joinWithSeparator(config.getBrowserOptionsPrefs(), ","));
+
         }
 
     },

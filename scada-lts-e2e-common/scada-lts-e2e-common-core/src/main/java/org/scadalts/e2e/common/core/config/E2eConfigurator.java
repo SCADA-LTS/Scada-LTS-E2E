@@ -1,7 +1,9 @@
 package org.scadalts.e2e.common.core.config;
 
 import lombok.extern.log4j.Log4j2;
+import org.scadalts.e2e.common.core.utils.FileUtil;
 
+import java.io.File;
 import java.util.Objects;
 
 @Log4j2
@@ -24,9 +26,13 @@ public class E2eConfigurator {
         E2eConfiguration.userName = config.getUserName();
         E2eConfiguration.logLevel = config.getLogLevel();
         E2eConfiguration.checkAuthentication = config.isCheckAuthentication();
-
         org.apache.logging.log4j.core.config.Configurator.setRootLevel(config.getLogLevel());
         org.apache.logging.log4j.core.config.Configurator.setAllLevels("org.apache.logging.log4j", config.getLogLevel());
+    }
+
+    public static void configGroovy() {
+
+        FileUtil.getFileFromJar("groovy/Test.groovy").orElse(new File("temp"));
     }
 
     public static void init() {

@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>20.0.2-SNAPSHOT</version>
+    <version>21.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -60,12 +60,14 @@
         <log4j-slf4j-impl.version>2.13.0</log4j-slf4j-impl.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <commons-logging.version>1.2</commons-logging.version>
+        <groovy.version>2.4.7</groovy.version>
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
         <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <gmavenplus-plugin.version>1.7.0</gmavenplus-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -588,6 +590,11 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>${groovy.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -700,6 +707,36 @@
                             </configuration>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.gmavenplus</groupId>
+                    <artifactId>gmavenplus-plugin</artifactId>
+                    <version>${gmavenplus-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>execute</goal>
+                                <goal>addSources</goal>
+                                <goal>addTestSources</goal>
+                                <goal>generateStubs</goal>
+                                <goal>compile</goal>
+                                <goal>generateTestStubs</goal>
+                                <goal>compileTests</goal>
+                                <goal>removeStubs</goal>
+                                <goal>removeTestStubs</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.codehaus.groovy</groupId>
+                            <artifactId>groovy-all</artifactId>
+                            <!-- any version of Groovy \>= 1.5.0 should work here -->
+                            <version>${groovy.version}</version>
+                            <scope>runtime</scope>
+                            <type>pom</type>
+                        </dependency>
+                    </dependencies>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -944,12 +981,12 @@
                 <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
-                <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
+                <test.e2e.run-app.notification-email-mode>false</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
-                <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage;--disable-gpu</test.e2e.browser-options-args>
+                <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage;--disable-gpu;--disable-popup-blocking</test.e2e.browser-options-args>
                 <test.e2e.browser-options-prefs></test.e2e.browser-options-prefs>
-                <test.e2e.run-app.mail-smtp-auth-mode>true</test.e2e.run-app.mail-smtp-auth-mode>
+                <test.e2e.run-app.mail-smtp-auth-mode>false</test.e2e.run-app.mail-smtp-auth-mode>
                 <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-85</test.e2e.custom-name>
                 <test.e2e.check-authentication>false</test.e2e.check-authentication>

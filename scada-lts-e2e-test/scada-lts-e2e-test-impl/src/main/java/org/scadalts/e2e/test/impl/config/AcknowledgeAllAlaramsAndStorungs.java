@@ -1,20 +1,24 @@
 package org.scadalts.e2e.test.impl.config;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.scadalts.e2e.service.impl.services.storungs.AcknowledgeResponse;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
-import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
-@RunWith(TestWithPageRunner.class)
 public class AcknowledgeAllAlaramsAndStorungs {
+
+    @Before
+    public void config() {
+        TestWithoutPageUtil.preparingTest();
+    }
 
     @Test
     public void acknowledge_all_alarms_and_storungs() {

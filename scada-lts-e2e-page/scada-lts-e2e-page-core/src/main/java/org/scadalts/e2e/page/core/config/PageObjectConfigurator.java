@@ -44,7 +44,8 @@ public class PageObjectConfigurator {
         Configuration.proxyHost = config.getHostProxy();
         Configuration.proxyPort = config.getPortProxy();
         PageConfiguration.timeout = config.getTimeoutMs();
-        Configuration.pageLoadTimeout = PageConfiguration.timeout + 1000;
+        PageConfiguration.headless = config.isHeadlessMode();
+        Configuration.pageLoadTimeout = 2 * PageConfiguration.timeout;
 
         Configurator.setRootLevel(config.getLogLevel());
         Configurator.setAllLevels("org.apache.logging.log4j", config.getLogLevel());

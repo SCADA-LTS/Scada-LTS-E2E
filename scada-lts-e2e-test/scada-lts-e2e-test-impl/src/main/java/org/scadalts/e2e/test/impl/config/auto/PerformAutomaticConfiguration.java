@@ -18,7 +18,7 @@ public class PerformAutomaticConfiguration {
 
     @Parameterized.Parameters(name = "{index}: {0}")
     public static Task[] data() {
-        NavigationPage navigationPage = TestWithPageUtil.preparingTest();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
         return new Task[] {
                 new ConfigureTestEventDetectorCommand(navigationPage),
                 new ConfigureTestDataPointDetailsCommand(navigationPage),

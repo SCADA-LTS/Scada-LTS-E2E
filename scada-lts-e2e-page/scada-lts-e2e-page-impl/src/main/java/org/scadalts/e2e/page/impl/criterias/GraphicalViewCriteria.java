@@ -20,7 +20,7 @@ public class GraphicalViewCriteria implements CriteriaObject, GetXid {
     }
 
     public static GraphicalViewCriteria criteria(GraphicalViewIdentifier identifier) {
-        Xid xid = Xid.xidForGraphicalView();
+        Xid xid = Xid.graphicalView();
         return new GraphicalViewCriteria(xid, identifier);
     }
 

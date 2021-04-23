@@ -36,6 +36,7 @@ public class TestWithPageUtil {
     }
 
     public static NavigationPage openNavigationPage() {
+        _setup();
         if (!E2eConfiguration.checkAuthentication)
             close();
         return preparingTest();
@@ -48,16 +49,6 @@ public class TestWithPageUtil {
         return navigationPage;
     }
 
-    public static NavigationPage preparingTest() {
-        try {
-            return _preparingTest();
-        } catch (Throwable ex) {
-            close();
-            logger.warn(ex.getMessage(), ex);
-            throw new InitializeTestException(ex);
-        }
-    }
-
     public static void close() {
         try {
             _close();
@@ -66,10 +57,21 @@ public class TestWithPageUtil {
         }
     }
 
-    public static void initNavigationPage(NavigationPage navigationPage) {
-        TestWithPageUtil.navigationPage = navigationPage;
-        E2eConfiguration.sessionId = navigationPage.getSessionId().orElse("");
-        ServiceObjectConfigurator.init(E2eConfiguration.sessionId);
+    public static void logout() {
+        if (navigationPage == null) {
+            return;
+        }
+        navigationPage.logout();
+    }
+
+    private static NavigationPage preparingTest() {
+        try {
+            return _preparingTest();
+        } catch (Throwable ex) {
+            close();
+            logger.warn(ex.getMessage(), ex);
+            throw new InitializeTestException(ex);
+        }
     }
 
     private static NavigationPage _preparingTest() {
@@ -80,13 +82,12 @@ public class TestWithPageUtil {
     }
 
     private static void _loginOrThrow() {
-        _setup();
         _login();
         if (E2eConfiguration.checkAuthentication && !isLogged())
             throw new E2eAuthenticationException(E2eConfiguration.userName);
     }
 
-    public static void _close() {
+    private static void _close() {
         logger.info("close...");
         try {
             if (navigationPage != null) {
@@ -98,13 +99,6 @@ public class TestWithPageUtil {
             navigationPage = null;
             NavigationPage.kill();
         }
-    }
-
-    public static void logout() {
-        if (navigationPage == null) {
-            return;
-        }
-        navigationPage.logout();
     }
 
     private static void _login() {

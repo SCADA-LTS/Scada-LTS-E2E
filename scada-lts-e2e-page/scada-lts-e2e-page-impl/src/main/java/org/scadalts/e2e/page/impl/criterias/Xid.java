@@ -23,35 +23,35 @@ public class Xid {
 
     private final String value;
 
-    public static Xid xidForDataPoint() {
+    public static Xid dataPoint() {
         return new Xid(DATA_POINT_PREFIX + _generate());
     }
 
-    public static Xid xidForDataSource() {
+    public static Xid dataSource() {
         return new Xid(DATA_SOURCE_PREFIX + _generate());
     }
 
-    public static Xid xidForGraphicalView() {
+    public static Xid graphicalView() {
         return new Xid(GRAPHICAL_VIEW_PREFIX + _generate());
     }
 
-    public static Xid xidForPointLink() {
+    public static Xid pointLink() {
         return new Xid(POINT_LINK_PREFIX + _generate());
     }
 
-    public static Xid xidForEventDetector() {
+    public static Xid eventDetector() {
         return new Xid(POINT_EVENT_DETECTOR_PREFIX + _generate());
     }
 
-    public static Xid xidEmpty() {
+    public static Xid empty() {
         return EMPTY;
     }
 
-    public static Xid xidForScript() {
+    public static Xid script() {
         return new Xid(SCRIPT_PREFIX + _generate());
     }
 
-    public static Xid xidForEventHandler() {
+    public static Xid eventHandler() {
         return new Xid(EVENT_HANDLER_PREFIX + _generate());
     }
 

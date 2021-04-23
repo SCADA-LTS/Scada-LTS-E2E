@@ -1,5 +1,6 @@
 package org.scadalts.e2e.service.impl.services.cmp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.scadalts.e2e.service.core.services.GetValueResponse;
@@ -17,6 +18,7 @@ import static org.scadalts.e2e.common.core.utils.FormatUtil.unformat;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CmpParams implements WebServiceObjectParams, GetValueResponse, ValueUnfromatted<CmpParams> {
 
     @JsonProperty("xid")

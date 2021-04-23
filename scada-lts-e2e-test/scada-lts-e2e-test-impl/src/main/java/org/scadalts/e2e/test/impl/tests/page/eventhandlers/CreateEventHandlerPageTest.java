@@ -56,8 +56,6 @@ public class CreateEventHandlerPageTest {
                 DataPointCriteria.binaryAlternate());
         DataSourcePointCriteria dataSourcePointCriteria3 = DataSourcePointCriteria.criteria(DataSourceCriteria.virtualDataSourceSecond(),
                 DataPointCriteria.binaryAlternate());
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria,dataSourcePointCriteria2,dataSourcePointCriteria3);
-        dataSourcePointObjectsCreator.createObjects();
 
         EventDetectorCriteria eventDetectorCriteria2 = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria2);
         eventDetectorCriteria = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria);
@@ -92,8 +90,6 @@ public class CreateEventHandlerPageTest {
         eventHandlerObjectsCreator.deleteObjects();
         if(scriptObjectsCreator != null)
             scriptObjectsCreator.deleteObjects();
-        if(eventDetectorObjectsCreator != null)
-            eventDetectorObjectsCreator.deleteObjects();
         if(eventDetectorObjectsCreator2 != null)
             eventDetectorObjectsCreator2.deleteObjects();
         if(eventDetectorObjectsCreator3 != null)
@@ -102,17 +98,25 @@ public class CreateEventHandlerPageTest {
             eventDetectorObjectsCreator4.deleteObjects();
         if(eventDetectorObjectsCreator5 != null)
             eventDetectorObjectsCreator5.deleteObjects();
-        if(dataSourcePointObjectsCreator != null)
-            dataSourcePointObjectsCreator.deleteObjects();
+
+
+        if(eventDetectorObjectsCreator2 != null)
+            eventDetectorObjectsCreator2.deleteDataSources();
+        if(eventDetectorObjectsCreator3 != null)
+            eventDetectorObjectsCreator3.deleteDataSources();
+        if(eventDetectorObjectsCreator4 != null)
+            eventDetectorObjectsCreator4.deleteDataSources();
+        if(eventDetectorObjectsCreator5 != null)
+            eventDetectorObjectsCreator5.deleteDataSources();
     }
 
     @Test
     public void test_create_event_handler() {
 
         //given:
-        Xid xidExpected = Xid.xidForEventHandler();
+        Xid xidExpected = Xid.eventHandler();
         EventHandlerType eventHandlerTypeExpected = EventHandlerType.SCRIPT;
-        EventHandlerIdentifier eventHandlerIdentifierExpected = new EventHandlerIdentifier("eventhandler_test_create",eventHandlerTypeExpected);
+        EventHandlerIdentifier eventHandlerIdentifierExpected = IdentifierObjectFactory.eventHandlerName(eventHandlerTypeExpected);
 
         eventHandlerCriteria = EventHandlerCriteria.builder()
                 .identifier(eventHandlerIdentifierExpected)

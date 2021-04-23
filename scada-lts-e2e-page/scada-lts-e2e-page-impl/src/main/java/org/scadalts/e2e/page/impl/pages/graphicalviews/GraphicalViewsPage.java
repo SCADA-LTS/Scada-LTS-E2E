@@ -62,13 +62,14 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
                 .collect(Collectors.toSet());
     }
 
-    public Set<String> getViewIdentifiers() {
+    public Set<GraphicalViewIdentifier> getIdentifiers() {
         delay();
         return new Select(select)
                 .getOptions()
                 .stream()
                 .map(Selenide::$)
-                .map(SelenideElement::getValue)
+                .map(SelenideElement::getText)
+                .map(GraphicalViewIdentifier::new)
                 .collect(Collectors.toSet());
     }
 
@@ -81,9 +82,14 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
                 .collect(Collectors.toMap(SelenideElement::getValue, SelenideElement::getText));
     }
 
-    public GraphicalViewsPage selectViewByName(GraphicalViewIdentifier viewName) {
+    public GraphicalViewsPage selectViewBy(GraphicalViewIdentifier viewName) {
+        return selectViewBy(viewName.getValue());
+    }
+
+    public GraphicalViewsPage selectViewBy(String viewName) {
         delay();
-        _selectViewAndGetIdByName(viewName);
+        _selectViewAndGetIdByName(new GraphicalViewIdentifier(viewName));
+        printCurrentUrl();
         return this;
     }
 
@@ -95,6 +101,7 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
     public EditGraphicalViewPage openViewCreator() {
         delay();
         waitWhile(creator, not(Condition.visible)).click();
+        printCurrentUrl();
         return page(new EditGraphicalViewPage(this));
     }
 
@@ -128,6 +135,7 @@ public class GraphicalViewsPage extends MainPageObjectAbstract<GraphicalViewsPag
         delay();
         String query = MessageFormat.format("a[href=''view_edit.shtm?viewId={0}'']", viewId);
         $(By.cssSelector(query)).click();
+        printCurrentUrl();
         return page(new EditGraphicalViewPage(this));
     }
 }

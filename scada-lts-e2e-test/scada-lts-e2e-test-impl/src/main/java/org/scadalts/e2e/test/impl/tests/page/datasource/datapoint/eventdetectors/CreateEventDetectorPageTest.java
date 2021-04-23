@@ -56,7 +56,7 @@ public class CreateEventDetectorPageTest {
         //given:
         EventDetectorType eventDetectorTypeExpected = EventDetectorType.CHANGE;
         EventDetectorIdentifier eventDetectorIdentifierExpected = IdentifierObjectFactory.eventDetectorName(eventDetectorTypeExpected);
-        Xid xidExpected = Xid.xidForEventDetector();
+        Xid xidExpected = Xid.eventDetector();
         AlarmLevel alarmLevelExpected = AlarmLevel.INFORMATION;
         eventDetectorCriteria = EventDetectorCriteria.criteria(eventDetectorIdentifierExpected,
                 alarmLevelExpected,dataSourcePointCriteria);

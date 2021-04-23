@@ -11,19 +11,37 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 
 @Log4j2
-public class EventDetectorObjectsCreator implements CreatorObject<DataPointPropertiesPage, DataPointPropertiesPage> {
+public class EventDetectorObjectsCreator implements CreatorObject<DataSourcesPage, DataPointPropertiesPage> {
 
     private final NavigationPage navigationPage;
     private DataSourcesPage dataSourcesPage;
     private final EventDetectorCriteria eventDetectorCriteria;
+    private final CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcePointObjectsCreator;
 
     public EventDetectorObjectsCreator(NavigationPage navigationPage, EventDetectorCriteria eventDetectorCriteria) {
         this.navigationPage = navigationPage;
         this.eventDetectorCriteria = eventDetectorCriteria;
+        this.dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, eventDetectorCriteria.getDataSourcePointCriteria());
     }
 
     @Override
-    public DataPointPropertiesPage deleteObjects() {
+    public DataSourcesPage deleteObjects() {
+        DataPointPropertiesPage dataPointPropertiesPage = openPage();
+        if(dataPointPropertiesPage.containsObject(eventDetectorCriteria.getIdentifier())) {
+            logger.info("delete object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
+                    eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
+                    eventDetectorCriteria.getClass().getSimpleName());
+            dataPointPropertiesPage.deleteEventDetector(eventDetectorCriteria)
+                    .saveDataPoint();
+        }
+        return navigationPage.openDataSources();
+    }
+
+    public DataSourcesPage deleteDataSources() {
+        return dataSourcePointObjectsCreator.deleteObjects();
+    }
+
+    public DataPointPropertiesPage deleteEventDetectors() {
         DataPointPropertiesPage dataPointPropertiesPage = openPage();
         if(dataPointPropertiesPage.containsObject(eventDetectorCriteria.getIdentifier())) {
             logger.info("delete object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
@@ -37,6 +55,7 @@ public class EventDetectorObjectsCreator implements CreatorObject<DataPointPrope
 
     @Override
     public DataPointPropertiesPage createObjects() {
+        dataSourcePointObjectsCreator.createObjects();
         DataPointPropertiesPage dataPointPropertiesPage = openPage();
         if(!dataPointPropertiesPage.containsObject(eventDetectorCriteria.getIdentifier())) {
             logger.info("create object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),

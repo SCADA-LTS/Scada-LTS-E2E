@@ -63,6 +63,7 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
 
     @Override
     public DataSourcesPage deleteObjects() {
+        //deleteDataPoints();
         return _deleteDataPointsAndDataSources(dataSources);
     }
 
@@ -117,8 +118,12 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
     private DataSourcesPage _deleteDataPoints(Map<DataSourceCriteria, DataPointObjectsCreator> criteriaMap) {
         DataSourcesPage page = openPage();
         for (DataSourceCriteria criteria : criteriaMap.keySet()) {
-            DataPointObjectsCreator creator = criteriaMap.get(criteria);
-            creator.deleteObjects();
+            if(page.containsObject(criteria)) {
+                DataPointObjectsCreator creator = criteriaMap.get(criteria);
+                creator.deleteObjects();
+            } else {
+                criteriaMap.remove(criteria);
+            }
         }
         return page;
     }
@@ -131,10 +136,10 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
         return page.openDataSourceCreator(criteria.getIdentifier().getType())
                 .selectUpdatePeriodType(criteria.getUpdatePeriodType())
                 .setUpdatePeriods(criteria.getUpdatePeriodValue())
-                .setDataSourceName(criteria.getIdentifier())
-                .setDataSourceXid(criteria.getXid())
-                .saveDataSource()
-                .enableDataSource(criteria.isEnabled());
+                .setName(criteria.getIdentifier())
+                .setXid(criteria.getXid())
+                .save()
+                .enable(criteria.isEnabled());
     }
 
     private DataSourcesPage _createDataSourcesAndPoints() {
