@@ -126,7 +126,7 @@ public interface NavigationPage extends PageObject<NavigationPage>, PageClosable
             LOGGER.warn(ex.getMessage());
         }
         try {
-            getDriver().quit();
+            Selenide.closeWebDriver();
         } catch (Throwable ex) {
             LOGGER.warn(ex.getMessage());
         }

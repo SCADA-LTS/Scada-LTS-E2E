@@ -43,7 +43,7 @@ public class AnnotationsChangePointValuePageTest {
 
     public AnnotationsChangePointValuePageTest(String value) {
         this.value = value;
-        this.userExpected = E2eConfiguration.userName;
+        this.userExpected = E2eConfiguration.username;
     }
 
     private static CreatorObject<WatchListPage, WatchListPage> watchListObjectsCreator;

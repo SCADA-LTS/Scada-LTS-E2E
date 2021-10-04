@@ -255,7 +255,7 @@ public class TestWithoutPageUtil {
         } else if(!isLogged()) {
             _login();
             if(!isLogged())
-                throw new E2eAuthenticationException(E2eConfiguration.userName);
+                throw new E2eAuthenticationException(E2eConfiguration.username);
         }
     }
 
@@ -338,7 +338,7 @@ public class TestWithoutPageUtil {
 
     private static void _login() {
         LoginParams loginParams = LoginParams.builder()
-                .userName(E2eConfiguration.userName)
+                .userName(E2eConfiguration.username)
                 .password(E2eConfiguration.password)
                 .build();
 
@@ -347,7 +347,7 @@ public class TestWithoutPageUtil {
         E2eConfiguration.sessionId = response.getSessionId();
         ServiceObjectConfigurator.init(E2eConfiguration.sessionId);
         if(!_isLogged(response)) {
-            throw new E2eAuthenticationException(E2eConfiguration.userName);
+            throw new E2eAuthenticationException(E2eConfiguration.username);
         }
     }
 

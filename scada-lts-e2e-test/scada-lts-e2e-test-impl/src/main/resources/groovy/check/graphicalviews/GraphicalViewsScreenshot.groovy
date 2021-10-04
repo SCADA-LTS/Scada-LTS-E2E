@@ -1,16 +1,14 @@
-package groovy
+package groovy.check.graphicalviews
 
 import org.junit.Before
 import org.junit.BeforeClass
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria
-import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage
+import org.junit.Test
 
+import static org.scadalts.e2e.page.impl.groovy.ConfigurationUtil.*
 import static org.scadalts.e2e.page.impl.groovy.NavigationUtil.*
-import static org.scadalts.e2e.page.impl.groovy.ConfigurationUtil.*
-import static org.scadalts.e2e.page.impl.groovy.ConfigurationUtil.*
-import static org.scadalts.e2e.common.core.utils.DateTimeFormatUtil.*
+import static org.scadalts.e2e.test.impl.groovy.CreatorUtil.*
 import static org.scadalts.e2e.page.impl.groovy.OperationUtil.*
+import static org.scadalts.e2e.page.impl.groovy.EditorUtil.*
 
 /*
 GraphicalViewsPage.viewNames
@@ -24,18 +22,24 @@ DateTimeFormatUtil.now()
 NavigationUtil.openGraphicalViews()
  */
 
-class Test {
+class GraphicalViewsScreenshot {
 
-    @BeforeClass
+	@BeforeClass
     static void preconfig() {
         headless(true)
     }
 
-    @Before
-    void config() {
-    }
+	@Before
+    void config() {}
 
-    @org.junit.Test
+	@Test
     void test() {
+		def page = openGraphicalViews()
+		
+		page.getViewNames().forEach{a ->
+			page.selectViewBy(a)
+					.waitOnLoadedBackground()
+					.screenshot(a)
+		}
     }
 }

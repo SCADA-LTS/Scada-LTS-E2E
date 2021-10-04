@@ -989,7 +989,7 @@
                 <test.e2e.run-app.mail-smtp-auth-mode>false</test.e2e.run-app.mail-smtp-auth-mode>
                 <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-85</test.e2e.custom-name>
-                <test.e2e.check-authentication>false</test.e2e.check-authentication>
+                <test.e2e.check-authentication>true</test.e2e.check-authentication>
             </properties>
         </profile>
     </profiles>

@@ -34,6 +34,6 @@ public class LoginCheckTest {
         String userName = navigationPage.getUserName();
 
         //then:
-        assertThat("Problem with logging into the system for user: " + E2eConfiguration.userName, E2eConfiguration.userName, equalTo(userName));
+        assertThat("Problem with logging into the system for user: " + E2eConfiguration.username, E2eConfiguration.username, equalTo(userName));
     }
 }

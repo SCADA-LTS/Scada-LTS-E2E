@@ -43,7 +43,7 @@ public class LogoutCheckTest {
         String body = navigationPage.getBodyText();
 
         //then:
-        assertThat(body, not(containsString(E2eConfiguration.userName)));
+        assertThat(body, not(containsString(E2eConfiguration.username)));
         assertThat(currentUrl, equalTo(E2eConfiguration.baseUrl + LoginPage.getUrlRef()));
     }
 }

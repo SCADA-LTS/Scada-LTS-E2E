@@ -84,7 +84,7 @@ public class TestWithPageUtil {
     private static void _loginOrThrow() {
         _login();
         if (E2eConfiguration.checkAuthentication && !isLogged())
-            throw new E2eAuthenticationException(E2eConfiguration.userName);
+            throw new E2eAuthenticationException(E2eConfiguration.username);
     }
 
     private static void _close() {
@@ -118,7 +118,7 @@ public class TestWithPageUtil {
         String sessionId = _getSessionId(navigationPage);
 
         if (sessionId.isEmpty())
-            throw new NoSuchSessionException("sessionId is empty, user: " + E2eConfiguration.userName);
+            throw new NoSuchSessionException("sessionId is empty, user: " + E2eConfiguration.username);
 
         E2eConfiguration.sessionId = sessionId;
         ServiceObjectConfigurator.init(sessionId);
@@ -143,7 +143,7 @@ public class TestWithPageUtil {
             if (body != null && body.contains("Connection refused")) {
                 throw new ApplicationIsNotAvailableException("");
             }
-            return loginPage.setUserName(E2eConfiguration.userName)
+            return loginPage.setUserName(E2eConfiguration.username)
                     .setPassword(E2eConfiguration.password)
                     .login();
         } catch (TimeoutException th) {

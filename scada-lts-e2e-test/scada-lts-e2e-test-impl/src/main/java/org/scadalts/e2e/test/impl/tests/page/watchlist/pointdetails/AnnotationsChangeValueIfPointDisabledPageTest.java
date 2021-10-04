@@ -67,7 +67,7 @@ public class AnnotationsChangeValueIfPointDisabledPageTest {
 
         //given:
         String value = "7777";
-        String expectAnnotation = MessageFormat.format("User: {0}", E2eConfiguration.userName);
+        String expectAnnotation = MessageFormat.format("User: {0}", E2eConfiguration.username);
 
         //when:
         watchListPage.reopen()
@@ -97,7 +97,7 @@ public class AnnotationsChangeValueIfPointDisabledPageTest {
 
         //given:
         String value = "5555";
-        String expectAnnotation = MessageFormat.format("User: {0}", E2eConfiguration.userName);
+        String expectAnnotation = MessageFormat.format("User: {0}", E2eConfiguration.username);
 
         //when:
         watchListPage.reopen()
@@ -130,7 +130,7 @@ public class AnnotationsChangeValueIfPointDisabledPageTest {
         //given:
         String value = "5555";
         String value2 = "6666";
-        String expectAnnotation = MessageFormat.format("User: {0}", E2eConfiguration.userName);
+        String expectAnnotation = MessageFormat.format("User: {0}", E2eConfiguration.username);
         List<String> expectAnnotations = new ArrayList<>();
         expectAnnotations.add(expectAnnotation);
         expectAnnotations.add(expectAnnotation);

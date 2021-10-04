@@ -40,7 +40,7 @@ public class LoginServiceTest {
 
         //given:
         LoginParams loginParams = LoginParams.builder()
-                .userName(E2eConfiguration.userName)
+                .userName(E2eConfiguration.username)
                 .password(E2eConfiguration.password)
                 .build();
 
