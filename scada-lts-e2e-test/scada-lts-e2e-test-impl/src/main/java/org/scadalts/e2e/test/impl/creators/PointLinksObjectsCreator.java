@@ -7,11 +7,12 @@ import org.scadalts.e2e.page.impl.dicts.EventType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 @Log4j2
 public class PointLinksObjectsCreator implements CreatorObject<PointLinksPage, PointLinksPage> {
 
-    private final NavigationPage navigationPage;
+    private NavigationPage navigationPage;
     private final PointLinkCriteria[] pointLinkCriterias;
 
     @Getter
@@ -69,5 +70,11 @@ public class PointLinksObjectsCreator implements CreatorObject<PointLinksPage, P
 
     public static boolean isUpdate(EventType eventType, String previousValue, String value) {
         return eventType == EventType.UPDATE || !previousValue.equals(value);
+    }
+
+    @Override
+    public void reload() {
+        if(!TestWithPageUtil.isLogged())
+            navigationPage = TestWithPageUtil.openNavigationPage();
     }
 }

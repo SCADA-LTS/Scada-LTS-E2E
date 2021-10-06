@@ -12,6 +12,7 @@ import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ import static org.scadalts.e2e.page.impl.criterias.CriteriaUtil.createCriteriaSt
 @Log4j2
 public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesPage, DataSourcesPage> {
 
-    private final NavigationPage navigationPage;
+    private NavigationPage navigationPage;
     private final Map<DataSourceCriteria, DataPointObjectsCreator> dataSources;
 
     private static final NodeCriteria ALL_DATA_SOURCES = NodeCriteria.every(tr(), clazz("row"));
@@ -99,6 +100,12 @@ public class DataSourcePointObjectsCreator implements CreatorObject<DataSourcesP
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
         dataSourcesPage.enableAllDataSourcesMatching(ALL_DATA_SOURCES);
         return dataSourcesPage;
+    }
+
+    @Override
+    public void reload() {
+        if(!TestWithPageUtil.isLogged())
+            navigationPage = TestWithPageUtil.openNavigationPage();
     }
 
     private DataSourcesPage _deleteDataPointsAndDataSources(Map<DataSourceCriteria, DataPointObjectsCreator> criteriaMap) {

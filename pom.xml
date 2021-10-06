@@ -813,6 +813,7 @@
                 <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-check</test.e2e.custom-name>
                 <test.e2e.check-authentication>true</test.e2e.check-authentication>
+                <test.e2e.run-app.refresh-session-cron>0/30 * * * * ?</test.e2e.run-app.refresh-session-cron>
             </properties>
         </profile>
         <profile>
@@ -871,6 +872,7 @@
                 <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-check</test.e2e.custom-name>
                 <test.e2e.check-authentication>true</test.e2e.check-authentication>
+                <test.e2e.run-app.refresh-session-cron>0/30 * * * * ?</test.e2e.run-app.refresh-session-cron>
             </properties>
         </profile>
         <profile>
@@ -929,6 +931,7 @@
                 <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-all-test</test.e2e.custom-name>
                 <test.e2e.check-authentication>true</test.e2e.check-authentication>
+                <test.e2e.run-app.refresh-session-cron>0/30 * * * * ?</test.e2e.run-app.refresh-session-cron>
             </properties>
         </profile>
         <profile>
@@ -990,6 +993,7 @@
                 <test.e2e.run-app.mail-smtp-starttls-mode>true</test.e2e.run-app.mail-smtp-starttls-mode>
                 <test.e2e.custom-name>-85</test.e2e.custom-name>
                 <test.e2e.check-authentication>true</test.e2e.check-authentication>
+                <test.e2e.run-app.refresh-session-cron>0/30 * * * * ?</test.e2e.run-app.refresh-session-cron>
             </properties>
         </profile>
     </profiles>

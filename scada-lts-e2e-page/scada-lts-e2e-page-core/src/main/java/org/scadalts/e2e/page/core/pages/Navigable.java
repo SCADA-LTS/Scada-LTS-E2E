@@ -1,8 +1,6 @@
 package org.scadalts.e2e.page.core.pages;
 
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.scadalts.e2e.page.core.components.E2eWebElement;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -21,7 +19,11 @@ interface Navigable<T extends MainPageObject<T>> extends GetPage<T> {
     }
 
     default T reopen() {
-        getSource().click();
+        try {
+            getSource().click();
+        } catch (Exception ex) {
+            return openPage();
+        }
         T page = getPage();
         page.printCurrentUrl();
         if(!page.containsText(page.getTitle()))
@@ -30,7 +32,11 @@ interface Navigable<T extends MainPageObject<T>> extends GetPage<T> {
     }
 
     default T reopenPage() {
-        getSource().click();
+        try {
+            getSource().click();
+        } catch (Exception ex) {
+            return openPage();
+        }
         T page = page(getPage());
         page.printCurrentUrl();
         if(!page.containsText(page.getTitle()))

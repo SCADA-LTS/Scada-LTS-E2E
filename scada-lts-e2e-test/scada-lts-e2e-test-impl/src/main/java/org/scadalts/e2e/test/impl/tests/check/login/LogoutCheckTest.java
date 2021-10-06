@@ -35,7 +35,6 @@ public class LogoutCheckTest {
         //when:
         navigationPage.logout();
 
-
         //and:
         String currentUrl = navigationPage.getCurrentUrl();
 

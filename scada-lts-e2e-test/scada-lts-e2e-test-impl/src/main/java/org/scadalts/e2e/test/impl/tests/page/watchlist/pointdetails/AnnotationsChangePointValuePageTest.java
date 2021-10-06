@@ -53,9 +53,7 @@ public class AnnotationsChangePointValuePageTest {
 
     @BeforeClass
     public static void createDataSourceAndPoint() {
-
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
-
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(DataPointType.NUMERIC, "123.0");
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria

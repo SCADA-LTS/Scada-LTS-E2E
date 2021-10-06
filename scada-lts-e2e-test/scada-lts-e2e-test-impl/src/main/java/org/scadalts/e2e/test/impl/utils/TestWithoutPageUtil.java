@@ -56,11 +56,15 @@ public class TestWithoutPageUtil {
         }
     }
 
-    public static boolean isLogged() {
+    public static boolean isApiLogged() {
+        return isLogged(a -> a.getStatus() != 401);
+    }
+
+    public static boolean isLogged(Predicate<E2eResponse<?>> isLogged) {
         try(PointValueServiceObject serviceObject = ServiceObjectFactory.newPointValueServiceObject()) {
             PointValueParams pointValueParams = new PointValueParams(TestImplConfiguration.dataPointToReadXid);
             Optional<E2eResponse<PointValueResponse>> response = serviceObject.getValueOrThrowException(pointValueParams, TestImplConfiguration.timeout);
-            boolean logged = response.isPresent() && response.get().getStatus() != 401;
+            boolean logged = response.isPresent() && isLogged.test(response.get());
             logger.info("is logged: {}", logged);
             logger.debug("response: {}", response);
             return logged;
@@ -252,9 +256,9 @@ public class TestWithoutPageUtil {
         _setup();
         if(!E2eConfiguration.checkAuthentication) {
             _login();
-        } else if(!isLogged()) {
+        } else if(!isApiLogged()) {
             _login();
-            if(!isLogged())
+            if(!isApiLogged())
                 throw new E2eAuthenticationException(E2eConfiguration.username);
         }
     }

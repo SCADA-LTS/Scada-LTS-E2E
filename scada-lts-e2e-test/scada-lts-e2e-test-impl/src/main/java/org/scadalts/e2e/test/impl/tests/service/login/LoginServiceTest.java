@@ -24,7 +24,7 @@ public class LoginServiceTest {
     @Before
     public void setup() {
         loginServiceObject = ServiceObjectFactory.newLoginServiceObject();
-        if(TestWithoutPageUtil.isLogged()) {
+        if(TestWithoutPageUtil.isApiLogged()) {
             loginServiceObject.logout(TestImplConfiguration.timeout);
         }
     }

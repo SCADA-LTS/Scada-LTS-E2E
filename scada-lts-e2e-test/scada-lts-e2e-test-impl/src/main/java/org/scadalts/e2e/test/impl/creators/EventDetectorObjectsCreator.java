@@ -9,11 +9,12 @@ import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointPropertiesPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 @Log4j2
 public class EventDetectorObjectsCreator implements CreatorObject<DataSourcesPage, DataPointPropertiesPage> {
 
-    private final NavigationPage navigationPage;
+    private NavigationPage navigationPage;
     private DataSourcesPage dataSourcesPage;
     private final EventDetectorCriteria eventDetectorCriteria;
     private final CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcePointObjectsCreator;
@@ -85,5 +86,11 @@ public class EventDetectorObjectsCreator implements CreatorObject<DataSourcesPag
         return dataSourcesPage.reopen()
                 .openDataSourceEditor(dataSourceCriteria.getIdentifier())
                 .openDataPointProperties(dataPointCriteria.getIdentifier());
+    }
+
+    @Override
+    public void reload() {
+        if(!TestWithPageUtil.isLogged())
+            navigationPage = TestWithPageUtil.openNavigationPage();
     }
 }

@@ -11,12 +11,13 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 @Getter
 public class AllObjectsForPointLinkTestCreator implements CreatorObject<PointLinksPage, PointLinksPage> {
 
     private PointLinksPage pointLinksPage;
-    private final NavigationPage navigationPage;
+    private NavigationPage navigationPage;
 
     private final CreatorObject<PointLinksPage, PointLinksPage> pointLinksObjectsCreator;
     private final CreatorObject<WatchListPage, WatchListPage> watchListObjectsCreator;
@@ -70,5 +71,11 @@ public class AllObjectsForPointLinkTestCreator implements CreatorObject<PointLin
             return pointLinksPage;
         }
         return pointLinksPage.reopen();
+    }
+
+    @Override
+    public void reload() {
+        if(!TestWithPageUtil.isLogged())
+            navigationPage = TestWithPageUtil.openNavigationPage();
     }
 }

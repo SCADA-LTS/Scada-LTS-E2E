@@ -12,6 +12,7 @@ import org.scadalts.e2e.page.impl.pages.LoginPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 import org.scadalts.e2e.test.core.config.TestCoreConfigurator;
+import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
 
@@ -32,8 +33,29 @@ public class TestWithPageUtil {
         Optional<String> sessionIdOpt = navigationPage.getSessionId();
         if (!sessionIdOpt.isPresent() || sessionIdOpt.get().isEmpty())
             return false;
-        return TestWithoutPageUtil.isLogged();
+        if(!TestWithoutPageUtil.isApiLogged()) {
+            return false;
+        }
+        if(navigationPage.getCurrentUrl() == null || navigationPage.getCurrentUrl().contains("login.htm")) {
+            TestWithoutPageUtil.logout();
+            return false;
+        }
+        return true;
     }
+
+    public static NavigationPage openNavigationPage(CreatorObject<?, ?> creatorObject, CreatorObject<?, ?>... creatorObjects) {
+        if(!TestWithPageUtil.isLogged()) {
+            creatorObject.reload();
+            for (CreatorObject<?, ?> creator: creatorObjects)
+                creator.reload();
+            if(TestWithPageUtil.isLogged())
+                navigationPage = TestWithPageUtil.getNavigationPage();
+            else
+                navigationPage = TestWithPageUtil.openNavigationPage();
+        }
+        return navigationPage;
+    }
+
 
     public static NavigationPage openNavigationPage() {
         _setup();

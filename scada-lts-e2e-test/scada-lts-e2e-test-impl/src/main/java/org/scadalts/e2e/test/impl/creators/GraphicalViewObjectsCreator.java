@@ -7,6 +7,7 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.GraphicalViewIdentifier;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.io.File;
 
@@ -15,7 +16,7 @@ import static org.scadalts.e2e.common.core.utils.FileUtil.getFileFromJar;
 @Log4j2
 public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViewsPage, GraphicalViewsPage> {
 
-    private final NavigationPage navigationPage;
+    private NavigationPage navigationPage;
     private final GraphicalViewCriteria[] graphicalViewCriterias;
     private final static File BACKGROUND_FILE = _getBackgroundFile("image/background-test.png");
     private final static File BACKGROUND_SMALL_FILE = _getBackgroundFile("image/background-small-test.png");
@@ -89,6 +90,12 @@ public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViews
             graphicalViewsPage.reopen();
         }
         return graphicalViewsPage;
+    }
+
+    @Override
+    public void reload() {
+        if(!TestWithPageUtil.isLogged())
+            navigationPage = TestWithPageUtil.openNavigationPage();
     }
 
     private static File _getBackgroundFile(String relativePath) {

@@ -21,6 +21,7 @@ import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointProperties
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
 @Log4j2
 public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWithPointListPage, EditDataSourceWithPointListPage> {
 
-    private final @NonNull NavigationPage navigationPage;
+    private @NonNull NavigationPage navigationPage;
     private final @NonNull DataSourceCriteria dataSourceCriteria;
     private final @NonNull DataPointCriteria[] dataPointCriterias;
     private DataSourcesPage dataSourcesPage;
@@ -120,6 +121,12 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
         return dataPointPropertiesPage.saveDataPoint()
                 .editDataSource();
 
+    }
+
+    @Override
+    public void reload() {
+        if(!TestWithPageUtil.isLogged())
+            navigationPage = TestWithPageUtil.openNavigationPage();
     }
 
     private void _setLogging(DataPointPropertiesPage dataPointPropertiesPage,

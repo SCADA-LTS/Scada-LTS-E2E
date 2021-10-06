@@ -6,9 +6,9 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         PointLinksChangeServiceTest.class,
-        PointLinksUpdateServiceTest.class,
-        PointLinksMultiParametersServiceTest.class,
-        PointLinksWithDataSourceServiceTest.class
+        PointLinksUpdateServiceTest.class
+        //PointLinksMultiParametersServiceTest.class,
+        //PointLinksWithDataSourceServiceTest.class
 })
 public class PointLinksServiceTestsSuite {
 }
