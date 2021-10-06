@@ -167,6 +167,7 @@ public class StabilityUtil {
             Thread.sleep(INTERVAL_MS);
         } catch (InterruptedException e) {
             logger.warn(e.getMessage(), e);
+            Thread.currentThread().interrupt();
         }
     }
 

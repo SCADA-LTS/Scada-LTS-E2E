@@ -112,11 +112,8 @@ public class TestWithPageUtil {
     private static void _close() {
         logger.info("close...");
         try {
-            if (navigationPage != null) {
-                if (E2eConfiguration.checkAuthentication && isLogged()) {
-                    logout();
-                }
-            }
+            if (navigationPage != null && E2eConfiguration.checkAuthentication && isLogged())
+                logout();
         } finally {
             navigationPage = null;
             NavigationPage.kill();

@@ -20,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 
 public class CreateEventDetectorServiceTest {
 
-    private Xid dataPointXid;
     private int dataPointId;
     private Xid eventDetectorXid;
     private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
@@ -42,7 +41,6 @@ public class CreateEventDetectorServiceTest {
                 DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
 
         dataPointId = pointPage.getDataPointDatabaseId(dataPointCriteria.getIdentifier());
-        dataPointXid = dataPointCriteria.getXid();
         eventDetectorXid = eventDetectorCriteria.getXid();
         int eventDetectorAlarmLevel = Integer.parseInt(eventDetectorCriteria.getAlarmLevel().getId());
         eventDetectorName = eventDetectorCriteria.getIdentifier().getValue();

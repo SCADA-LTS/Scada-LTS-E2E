@@ -19,7 +19,7 @@ public abstract class PageObjectAbstract<T extends PageObject<T>> implements Pag
     @FindBy(tagName = "body")
     private SelenideElement body;
 
-    public PageObjectAbstract() {}
+    protected PageObjectAbstract() {}
 
     @Override
     public String getHeadHtml() {

@@ -11,7 +11,7 @@ public abstract class TypeParser {
     public int parseInt(String value) {
         try {
             return Integer.parseInt(value);
-        } catch (Throwable throwable) {
+        } catch (Exception throwable) {
             logger.warn(throwable.getMessage(), throwable);
             return -1;
         }
@@ -20,7 +20,7 @@ public abstract class TypeParser {
     public long parseLong(String value) {
         try {
             return Long.parseLong(value);
-        } catch (Throwable throwable) {
+        } catch (Exception throwable) {
             logger.warn(throwable.getMessage(), throwable);
             return -1;
         }

@@ -28,8 +28,8 @@ public class CreateEventDetectorPageTest {
 
     private static DataSourceCriteria dataSourceCriteria;
     private static DataPointCriteria dataPointCriteria;
-    private static EventDetectorCriteria eventDetectorCriteria;
     private static DataSourcePointCriteria dataSourcePointCriteria;
+    private EventDetectorCriteria eventDetectorCriteria;
 
     @BeforeClass
     public static void createDataSourcePoint() {

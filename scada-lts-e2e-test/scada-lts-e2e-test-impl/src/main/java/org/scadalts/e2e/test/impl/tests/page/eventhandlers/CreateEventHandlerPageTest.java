@@ -5,7 +5,6 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scadalts.e2e.page.core.criterias.Script;
-import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventHandlerIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.ScriptIdentifier;
@@ -14,7 +13,6 @@ import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EditEventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.EventHandlerObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.ScriptObjectsCreator;
@@ -28,7 +26,6 @@ public class CreateEventHandlerPageTest {
 
     private static EventHandlersPage eventHandlersPage;
     private static NavigationPage navigationPage;
-    private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private static EventDetectorObjectsCreator eventDetectorObjectsCreator;
     private static ScriptObjectsCreator scriptObjectsCreator;
 
@@ -42,7 +39,7 @@ public class CreateEventHandlerPageTest {
     private static DataSourceCriteria dataSourceCriteria;
     private static DataPointCriteria dataPointCriteria;
     private static EventDetectorCriteria eventDetectorCriteria;
-    private static EventHandlerCriteria eventHandlerCriteria;
+    private EventHandlerCriteria eventHandlerCriteria;
 
 
     @BeforeClass

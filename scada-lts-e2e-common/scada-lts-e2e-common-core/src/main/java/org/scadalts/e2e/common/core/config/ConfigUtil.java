@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 public class ConfigUtil {
 
     public static E2eConfig parse(File file1, String... keyBases) {
-        try {
+        try(FileReader fileReader = new FileReader(file1)) {
             Properties properties = new Properties();
-            properties.load(new FileReader(file1));
+            properties.load(fileReader);
             return _mapObject(properties, new E2eConfigDefault(), keyBases);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);

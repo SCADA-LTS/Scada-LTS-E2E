@@ -416,7 +416,7 @@ public class TestWithoutPageUtil {
 
     private static EventDetectorParams prepareEventDetectorParams(int dataPointId, EventDetectorCriteria eventDetectorCriteria) {
         Xid eventDetectorXid = eventDetectorCriteria.getXid();
-        Xid dataPointXid = eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint().getXid();
+        //Xid dataPointXid = eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint().getXid();
         int eventDetectorAlarmLevel = Integer.parseInt(eventDetectorCriteria.getAlarmLevel().getId());
         String name = eventDetectorCriteria.getIdentifier().getValue();
         EventDetectorResponse body = EventDetectorResponse.builder()
