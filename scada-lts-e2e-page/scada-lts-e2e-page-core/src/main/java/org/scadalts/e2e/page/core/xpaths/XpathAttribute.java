@@ -26,6 +26,10 @@ public final class XpathAttribute {
         return new XpathAttribute("@class", value);
     }
 
+    public static XpathAttribute value(String value) {
+        return new XpathAttribute("@value", value);
+    }
+
     public static XpathAttribute text(String value) {
         return new XpathAttribute("text()", value);
     }

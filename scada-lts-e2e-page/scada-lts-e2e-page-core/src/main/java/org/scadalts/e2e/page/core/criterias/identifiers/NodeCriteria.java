@@ -26,6 +26,10 @@ public interface NodeCriteria {
         return new NodeCriteriaExactly(identifier, identifier, DictionaryObject.ANY, tag, attribute);
     }
 
+    static NodeCriteria exactly(Tag tag, XpathAttribute attribute) {
+        return new NodeCriteriaExactly(IdentifierObject.empty(), IdentifierObject.empty(), DictionaryObject.ANY, tag, attribute);
+    }
+
     static NodeCriteria exactly(IdentifierObject identifier1, IdentifierObject identifier2, Tag tag) {
         return new NodeCriteriaExactly(identifier1, identifier2, DictionaryObject.ANY, tag, XpathAttribute.empty());
     }
@@ -85,5 +89,25 @@ public interface NodeCriteria {
 
     static NodeCriteria empty() {
         return EMPTY;
+    }
+
+    static NodeCriteria textEqual(Tag tag, XpathAttribute attribute) {
+        return NodeCriteriaTextEqual.builder()
+                .identifier1(IdentifierObject.empty())
+                .identifier2(IdentifierObject.empty())
+                .tag(tag)
+                .xpathAttribute(attribute)
+                .type(DictionaryObject.ANY)
+                .build();
+    }
+
+    static NodeCriteria textEqual(IdentifierObject identifier, Tag tag, XpathAttribute attribute) {
+        return NodeCriteriaTextEqual.builder()
+                .identifier1(identifier)
+                .identifier2(identifier)
+                .tag(tag)
+                .xpathAttribute(attribute)
+                .type(DictionaryObject.ANY)
+                .build();
     }
 }

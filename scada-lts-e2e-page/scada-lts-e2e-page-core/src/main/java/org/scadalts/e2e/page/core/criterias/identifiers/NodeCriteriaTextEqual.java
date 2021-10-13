@@ -1,7 +1,6 @@
 package org.scadalts.e2e.page.core.criterias.identifiers;
 
-
-import lombok.Data;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.scadalts.e2e.common.core.dicts.DictionaryObject;
@@ -11,12 +10,12 @@ import org.scadalts.e2e.page.core.xpaths.XpathOperation;
 
 import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.text;
 import static org.scadalts.e2e.page.core.xpaths.XpathExpression.xpath;
-import static org.scadalts.e2e.page.core.xpaths.XpathOperation.contains;
+import static org.scadalts.e2e.page.core.xpaths.XpathOperation.equal;
 
-@Data
+@Builder
 @ToString
 @EqualsAndHashCode
-class NodeCriteriaExactly implements NodeCriteria {
+public class NodeCriteriaTextEqual implements NodeCriteria {
 
     private final IdentifierObject identifier1;
     private final IdentifierObject identifier2;
@@ -24,7 +23,7 @@ class NodeCriteriaExactly implements NodeCriteria {
     private final Tag tag;
     private final XpathAttribute xpathAttribute;
 
-    NodeCriteriaExactly(IdentifierObject identifier1, IdentifierObject identifier2, DictionaryObject type, Tag tag, XpathAttribute xpathAttribute) {
+    NodeCriteriaTextEqual(IdentifierObject identifier1, IdentifierObject identifier2, DictionaryObject type, Tag tag, XpathAttribute xpathAttribute) {
         this.identifier1 = identifier1;
         this.identifier2 = identifier2;
         this.type = type;
@@ -35,26 +34,26 @@ class NodeCriteriaExactly implements NodeCriteria {
     @Override
     public String getXpath() {
         if(identifier1 != IdentifierObject.empty()) {
-            XpathOperation xpathOperation = XpathOperation.contains(text(identifier1.getValue()));
+            XpathOperation xpathOperation = equal(text(identifier1.getValue()));
             if (identifier2 != IdentifierObject.empty() && !identifier1.equals(identifier2))
-                xpathOperation = xpathOperation.and(contains(text(identifier2.getValue())));
+                xpathOperation = xpathOperation.and(equal(text(identifier2.getValue())));
             if (type != DictionaryObject.any())
-                xpathOperation = xpathOperation.and(contains(text(type.getName())));
+                xpathOperation = xpathOperation.and(equal(text(type.getName())));
             if (!xpathAttribute.isEmpty())
-                xpathOperation = xpathOperation.and(contains(xpathAttribute));
+                xpathOperation = xpathOperation.and(equal(xpathAttribute));
             return xpath(tag, xpathOperation).expression();
         }
         if(identifier2 != IdentifierObject.empty()) {
-            XpathOperation xpathOperation = XpathOperation.contains(text(identifier2.getValue()));
+            XpathOperation xpathOperation = equal(text(identifier2.getValue()));
             if (type != DictionaryObject.any())
-                xpathOperation = xpathOperation.and(contains(text(type.getName())));
+                xpathOperation = xpathOperation.and(equal(text(type.getName())));
             if (!xpathAttribute.isEmpty())
-                xpathOperation = xpathOperation.and(contains(xpathAttribute));
+                xpathOperation = xpathOperation.and(equal(xpathAttribute));
             return xpath(tag, xpathOperation).expression();
         }
-        XpathOperation xpathOperation = XpathOperation.contains(xpathAttribute) ;
+        XpathOperation xpathOperation = XpathOperation.equal(xpathAttribute) ;
         if (type != DictionaryObject.any())
-            xpathOperation = xpathOperation.and(contains(text(type.getName())));
+            xpathOperation = xpathOperation.and(equal(text(type.getName())));
         return xpath(tag, xpathOperation).expression();
         //return xpath(tag, XpathOperation.contains(xpathAttribute)).expression();
     }
