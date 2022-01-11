@@ -130,5 +130,10 @@ public interface NavigationPage extends PageObject<NavigationPage>, PageClosable
         } catch (Throwable ex) {
             LOGGER.warn(ex.getMessage());
         }
+        try {
+            Selenide.close();
+        } catch (Throwable ex) {
+            LOGGER.warn(ex.getMessage());
+        }
     }
 }

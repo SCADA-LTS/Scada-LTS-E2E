@@ -1,18 +1,19 @@
 package org.scadalts.e2e.test.impl.groovy;
 
 import lombok.extern.log4j.Log4j2;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.common.core.config.E2eConfigurator;
 import org.scadalts.e2e.page.core.config.PageConfiguration;
 import org.scadalts.e2e.page.impl.groovy.*;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
-import java.util.*;
+import java.util.Collection;
 
-import static org.scadalts.e2e.common.core.utils.ResourcesUtil.getFilesFromJar;
 import static org.scadalts.e2e.test.impl.groovy.CreatorUtil.deleteObjects;
 import static org.scadalts.e2e.test.impl.groovy.GroovyUtil.getGroovyExecutes;
 
@@ -20,10 +21,8 @@ import static org.scadalts.e2e.test.impl.groovy.GroovyUtil.getGroovyExecutes;
 @RunWith(Parameterized.class)
 public class GroovyEngine {
 
-    @Parameterized.Parameters(name = "number test: {index}, groovy script: {0}")
+    @Parameterized.Parameters(name = "number test: {index}, script: {0}")
     public static Collection<GroovyExecute> data() {
-        E2eConfigurator.configGroovy();
-        getFilesFromJar("groovy", GroovyEngine.class);
         return getGroovyExecutes();
     }
 
@@ -44,6 +43,12 @@ public class GroovyEngine {
         _test(execute);
     }
 
+    @After
+    public void after() {
+        if (TestWithPageUtil.isLogged())
+            TestWithPageUtil.close();
+    }
+
     @AfterClass
     public static void clean() {
         _clean();
@@ -58,8 +63,6 @@ public class GroovyEngine {
     }
 
     private void _preconfig(GroovyExecute execute) {
-        if (TestWithPageUtil.isLogged())
-            TestWithPageUtil.close();
         execute.getGroovyObject().invokeMethod("preconfig", new Object[0]);
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
         NavigationUtil.init(navigationPage);

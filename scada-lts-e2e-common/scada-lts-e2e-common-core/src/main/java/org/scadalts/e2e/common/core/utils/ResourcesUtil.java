@@ -2,21 +2,21 @@ package org.scadalts.e2e.common.core.utils;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import static org.scadalts.e2e.common.core.utils.FileUtil.getFileFromJar;
 
 @Log4j2
 public class ResourcesUtil {
@@ -63,7 +63,7 @@ public class ResourcesUtil {
                     }
                 }
             }*/
-            URL resource = base.getClassLoader().getResource("");
+            URL resource = base.getClassLoader().getResource("groovy");
             List<File> collect = createSystemFiles("test-impl", resource);
 
             //collect.stream().flatMap(a -> createSystemFiles(base, "groovy", a.getAbsolutePath()).stream()).collect(Collectors.toList());
