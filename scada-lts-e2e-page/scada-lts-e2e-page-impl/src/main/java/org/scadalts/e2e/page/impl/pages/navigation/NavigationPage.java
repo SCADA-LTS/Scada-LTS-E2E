@@ -87,8 +87,8 @@ public interface NavigationPage extends PageObject<NavigationPage>, PageClosable
     Logger LOGGER = LogManager.getLogger(NavigationPage.class);
 
     static NavigationPage openPage() {
-        return open(URL_REF, NavigationPageImpl.class)
-                .acceptAlertOnPage();
+        return open(URL_REF, NavigationPageImpl.class);
+               // .acceptAlertOnPage();
     }
 
     static NavigationPage openRootPage() {
