@@ -44,9 +44,9 @@ public class CreateDataSourcePageTest {
         dataSourcesPageSubject.openDataSourceCreator(dataSourceType)
                 .selectUpdatePeriodType(updatePeriodType)
                 .setUpdatePeriods(13)
-                .setDataSourceName(dataSourceIdentifier)
-                .saveDataSource()
-                .enableDataSource(true);
+                .setName(dataSourceIdentifier)
+                .save()
+                .enable(true);
 
         //and:
         String body = dataSourcesPageSubject.reopen().getBodyText();

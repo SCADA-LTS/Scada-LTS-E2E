@@ -18,6 +18,7 @@ import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class StorungsAndAlarmsObjectsCreator implements CreatorObject<DataSource
 
     private final DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private final DataSourcePointCriteria[] dataSourcePointCriterias;
-    private final NavigationPage navigationPage;
+    private NavigationPage navigationPage;
 
     private DataSourcesPage dataSourcesPage;
 
@@ -133,6 +134,12 @@ public class StorungsAndAlarmsObjectsCreator implements CreatorObject<DataSource
     public <T> StorungsAndAlarmsObjectsCreator setDataPointValue(DataPointIdentifier identifier, T value) {
         DataPointCriteria dataPointCriteria = _get(identifier, dataSourcePointCriterias).orElseThrow(IllegalArgumentException::new);
         return setDataPointValue(dataPointCriteria, value);
+    }
+
+    @Override
+    public void reload() {
+        if(!TestWithPageUtil.isLogged())
+            navigationPage = TestWithPageUtil.openNavigationPage();
     }
 
     private static Optional<DataPointCriteria> _get(DataPointIdentifier identifier,

@@ -15,11 +15,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.scadalts.e2e.test.core.asserts.E2eAssert.assertExists;
-import static org.scadalts.e2e.test.impl.utils.MsgUtil.notExistsMsg;
-import static org.scadalts.e2e.test.impl.utils.MsgUtil.notExistsShouldBeInObjectMsg;
-import static org.scadalts.e2e.test.impl.matchers.ContainsObject.containsObject;
 
 @Data
 @Log4j2
@@ -54,7 +49,7 @@ public class ConfigDataSourcePointSubCheck implements SubCheck {
                     .waitOnImgEabledDataSource()
                     .waitForObject(dataPointCriteria.getIdentifier());
 
-            boolean dataSourceEnabled = editDataSourceWithPointListPage.isEnableDataSource();
+            boolean dataSourceEnabled = editDataSourceWithPointListPage.isEnable();
             boolean dataPointEnabled = editDataSourceWithPointListPage.isEnableDataPoint(dataPointCriteria.getIdentifier());
 
             assertEquals(dataSourceCriteria.isEnabled(), dataSourceEnabled);

@@ -5,7 +5,6 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scadalts.e2e.page.core.criterias.Script;
-import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventHandlerIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.ScriptIdentifier;
@@ -14,7 +13,6 @@ import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EditEventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.EventHandlerObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.ScriptObjectsCreator;
@@ -28,7 +26,6 @@ public class CreateEventHandlerPageTest {
 
     private static EventHandlersPage eventHandlersPage;
     private static NavigationPage navigationPage;
-    private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private static EventDetectorObjectsCreator eventDetectorObjectsCreator;
     private static ScriptObjectsCreator scriptObjectsCreator;
 
@@ -42,7 +39,7 @@ public class CreateEventHandlerPageTest {
     private static DataSourceCriteria dataSourceCriteria;
     private static DataPointCriteria dataPointCriteria;
     private static EventDetectorCriteria eventDetectorCriteria;
-    private static EventHandlerCriteria eventHandlerCriteria;
+    private EventHandlerCriteria eventHandlerCriteria;
 
 
     @BeforeClass
@@ -56,8 +53,6 @@ public class CreateEventHandlerPageTest {
                 DataPointCriteria.binaryAlternate());
         DataSourcePointCriteria dataSourcePointCriteria3 = DataSourcePointCriteria.criteria(DataSourceCriteria.virtualDataSourceSecond(),
                 DataPointCriteria.binaryAlternate());
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria,dataSourcePointCriteria2,dataSourcePointCriteria3);
-        dataSourcePointObjectsCreator.createObjects();
 
         EventDetectorCriteria eventDetectorCriteria2 = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria2);
         eventDetectorCriteria = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria);
@@ -92,8 +87,6 @@ public class CreateEventHandlerPageTest {
         eventHandlerObjectsCreator.deleteObjects();
         if(scriptObjectsCreator != null)
             scriptObjectsCreator.deleteObjects();
-        if(eventDetectorObjectsCreator != null)
-            eventDetectorObjectsCreator.deleteObjects();
         if(eventDetectorObjectsCreator2 != null)
             eventDetectorObjectsCreator2.deleteObjects();
         if(eventDetectorObjectsCreator3 != null)
@@ -102,17 +95,25 @@ public class CreateEventHandlerPageTest {
             eventDetectorObjectsCreator4.deleteObjects();
         if(eventDetectorObjectsCreator5 != null)
             eventDetectorObjectsCreator5.deleteObjects();
-        if(dataSourcePointObjectsCreator != null)
-            dataSourcePointObjectsCreator.deleteObjects();
+
+
+        if(eventDetectorObjectsCreator2 != null)
+            eventDetectorObjectsCreator2.deleteDataSources();
+        if(eventDetectorObjectsCreator3 != null)
+            eventDetectorObjectsCreator3.deleteDataSources();
+        if(eventDetectorObjectsCreator4 != null)
+            eventDetectorObjectsCreator4.deleteDataSources();
+        if(eventDetectorObjectsCreator5 != null)
+            eventDetectorObjectsCreator5.deleteDataSources();
     }
 
     @Test
     public void test_create_event_handler() {
 
         //given:
-        Xid xidExpected = Xid.xidForEventHandler();
+        Xid xidExpected = Xid.eventHandler();
         EventHandlerType eventHandlerTypeExpected = EventHandlerType.SCRIPT;
-        EventHandlerIdentifier eventHandlerIdentifierExpected = new EventHandlerIdentifier("eventhandler_test_create",eventHandlerTypeExpected);
+        EventHandlerIdentifier eventHandlerIdentifierExpected = IdentifierObjectFactory.eventHandlerName(eventHandlerTypeExpected);
 
         eventHandlerCriteria = EventHandlerCriteria.builder()
                 .identifier(eventHandlerIdentifierExpected)

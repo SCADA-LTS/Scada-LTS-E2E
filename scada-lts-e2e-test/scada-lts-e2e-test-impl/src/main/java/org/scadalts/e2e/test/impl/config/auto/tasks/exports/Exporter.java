@@ -12,7 +12,7 @@ public class Exporter {
 
     @Parameterized.Parameters(name = "{index}: {0}")
     public static Task[] data() {
-        NavigationPage navigationPage = TestWithPageUtil.preparingTest();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
         return new Task[] {
                 new ExportDataSourcesWithEnabledToJsonTask(navigationPage)
         };

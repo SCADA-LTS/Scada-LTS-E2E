@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.pages.MainPageObject;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.pages.alarms.PendingAlarmsPage;
+import org.scadalts.e2e.page.impl.pages.app.AppPage;
 import org.scadalts.e2e.page.impl.pages.compoundeventdetectors.CompoundEventDetectorsPage;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EventHandlersPage;
@@ -174,6 +175,12 @@ class NavigationPageImpl extends PageObjectAbstract<NavigationPage> implements N
     @Override
     public String getUserName() {
         return userName.getText();
+    }
+
+    @Override
+    public AppPage openApp() {
+        MainPageObject<AppPage> page = new AppPage();
+        return page.openPage();
     }
 
 }

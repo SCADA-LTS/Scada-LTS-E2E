@@ -15,7 +15,7 @@ import org.scadalts.e2e.test.impl.tests.service.storungs.live.*;
         //GetStartInactiveLivesAllDataLoggingServiceTest.class,
         //GetLivesGroupingSortAllDataLoggingServiceTest.class,
         GetAllLivesParametersServiceTest.class,
-        GetLivesNumberActivateInactivateFiveSizeSeqServiceTest.class,
+        //GetLivesNumberActivateInactivateFiveSizeSeqServiceTest.class,
         GetActiveLivesOnChangeServiceTest.class,
         GetInactiveLivesOnChangeServiceTest.class,
         GetLivesGroupingSortOnChangeServiceTest.class,

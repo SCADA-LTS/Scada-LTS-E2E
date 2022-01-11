@@ -25,7 +25,7 @@
             <DefaultRolloverStrategy>
                 <Delete basePath="${sys:LOG_PATH}" maxDepth="2">
                     <IfFileName glob="*/e2e-*.log.gz" />
-                    <IfLastModified age="60d" />
+                    <IfLastModified age="180d" />
                 </Delete>
             </DefaultRolloverStrategy>
         </RollingFile>

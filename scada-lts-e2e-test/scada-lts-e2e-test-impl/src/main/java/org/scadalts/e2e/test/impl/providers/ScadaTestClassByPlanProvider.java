@@ -12,9 +12,11 @@ import org.scadalts.e2e.test.impl.tests.ScadaProdTestsSuite;
 import org.scadalts.e2e.test.impl.tests.check.ScadaCheckTestsSuite;
 import org.scadalts.e2e.test.impl.tests.check.login.LoginCheckTest;
 import org.scadalts.e2e.test.impl.tests.check.login.LogoutCheckTest;
+import org.scadalts.e2e.test.impl.groovy.GroovyEngine;
 import org.scadalts.e2e.test.impl.tests.page.ScadaPageTestsSuite;
 import org.scadalts.e2e.test.impl.tests.performance.ScadaPerformanceTestsSuite;
 import org.scadalts.e2e.test.impl.tests.service.ScadaServiceTestsSuite;
+import org.scadalts.e2e.test.impl.tests.service.storungs.StorungsAndAlarmsServiceTestsSuite;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +44,8 @@ public class ScadaTestClassByPlanProvider implements TestClassByPlanProvider {
         tests.put(TestPlan.ALARM_NOTIFICATION_AUTO_CONFIG, AlarmNotificationAutomaticConfiguration.class);
         tests.put(TestPlan.PROD, ScadaProdTestsSuite.class);
         tests.put(TestPlan.CONFIG_PROD_CHECKER, ConfigForProdChecker.class);
+        tests.put(TestPlan.FROM_GROOVY_SCRIPT, GroovyEngine.class);
+        tests.put(TestPlan.ALARM_STORUNG, StorungsAndAlarmsServiceTestsSuite.class);
     }
 
     @Override
@@ -50,7 +54,7 @@ public class ScadaTestClassByPlanProvider implements TestClassByPlanProvider {
     }
 
     @Override
-    public Class<?> getPlan(TestPlan testPlan) {
+    public Class<?> getTestClass(TestPlan testPlan) {
         return tests.computeIfAbsent(testPlan, (plan) -> {throw new IllegalArgumentException(plan.name());});
     }
 }

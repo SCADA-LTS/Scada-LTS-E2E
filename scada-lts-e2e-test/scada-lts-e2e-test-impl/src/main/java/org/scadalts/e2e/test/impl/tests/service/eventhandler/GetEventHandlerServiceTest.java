@@ -53,8 +53,8 @@ public class GetEventHandlerServiceTest {
     @Test
     public void test_getEventHandlers_then_status_http_200() {
         //given:
-        createEventHandler(Xid.xidForEventHandler(), dataPointId, eventDetectorId, EventHandlerType.EMAIL);
-        createEventHandler(Xid.xidForEventHandler(), dataPointId, eventDetectorId, EventHandlerType.SMS);
+        createEventHandler(Xid.eventHandler(), dataPointId, eventDetectorId, EventHandlerType.EMAIL);
+        createEventHandler(Xid.eventHandler(), dataPointId, eventDetectorId, EventHandlerType.SMS);
 
         //when:
         E2eResponse<List<EventHandlerResponse>> getResponse = TestWithoutPageUtil.getEventHandlers();
@@ -67,7 +67,7 @@ public class GetEventHandlerServiceTest {
     public void test_getEmailEventHandlerByXid_then_status_http_200() {
 
         //given:
-        Xid xid = Xid.xidForEventHandler();
+        Xid xid = Xid.eventHandler();
         createEventHandler(xid, dataPointId, eventDetectorId, EventHandlerType.EMAIL);
         EventHandlerGetParams eventHandlerGetParams = new EventHandlerGetParams();
         eventHandlerGetParams.setXid(xid.getValue());
@@ -83,7 +83,7 @@ public class GetEventHandlerServiceTest {
     public void test_getSmsEventHandlerByXid_then_status_http_200() {
 
         //given:
-        Xid xid = Xid.xidForEventHandler();
+        Xid xid = Xid.eventHandler();
         createEventHandler(xid, dataPointId, eventDetectorId, EventHandlerType.SMS);
         EventHandlerGetParams eventHandlerGetParams = new EventHandlerGetParams();
         eventHandlerGetParams.setXid(xid.getValue());
@@ -99,7 +99,7 @@ public class GetEventHandlerServiceTest {
     public void test_getEmailEventHandlerByXid_then_check_xId() {
 
         //given:
-        Xid xid = Xid.xidForEventHandler();
+        Xid xid = Xid.eventHandler();
         createEventHandler(xid, dataPointId, eventDetectorId, EventHandlerType.EMAIL);
         EventHandlerGetParams eventHandlerGetParams = new EventHandlerGetParams();
         eventHandlerGetParams.setXid(xid.getValue());
@@ -115,7 +115,7 @@ public class GetEventHandlerServiceTest {
     public void test_getSmsEventHandlerByXid_then_check_xId() {
 
         //given:
-        Xid xid = Xid.xidForEventHandler();
+        Xid xid = Xid.eventHandler();
         createEventHandler(xid, dataPointId, eventDetectorId, EventHandlerType.SMS);
         EventHandlerGetParams eventHandlerGetParams = new EventHandlerGetParams();
         eventHandlerGetParams.setXid(xid.getValue());

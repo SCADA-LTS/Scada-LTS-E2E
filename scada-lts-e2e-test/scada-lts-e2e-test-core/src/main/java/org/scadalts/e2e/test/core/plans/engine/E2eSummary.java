@@ -27,7 +27,7 @@ public class E2eSummary implements E2eSummarable {
 
     @Override
     public int getFailureCount() {
-        return results.values().stream().flatMap(Collection::stream).distinct().mapToInt(E2eResult::getFailureCount).sum();
+        return results.values().stream().flatMap(Collection::stream).mapToInt(E2eResult::getFailureCount).sum();
     }
 
     @Override

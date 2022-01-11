@@ -42,7 +42,7 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
         return DataSourceCriteria.builder()
                 .identifier(IdentifierObjectFactory.dataSourceName(DATA_SOURCE_TYPE_DEFAULT))
                 .updatePeriodType(UPDATE_PERIOD_TYPE_DEFAULT)
-                .xid(Xid.xidForDataSource())
+                .xid(Xid.dataSource())
                 .enabled(true)
                 .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
                 .build();
@@ -52,7 +52,7 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
         return DataSourceCriteria.builder()
                 .identifier(identifier)
                 .updatePeriodType(UPDATE_PERIOD_TYPE_DEFAULT)
-                .xid(Xid.xidForDataSource())
+                .xid(Xid.dataSource())
                 .enabled(true)
                 .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
                 .build();
@@ -63,7 +63,7 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
         return DataSourceCriteria.builder()
                 .identifier(identifier)
                 .updatePeriodType(updatePeriodType)
-                .xid(Xid.xidForDataSource())
+                .xid(Xid.dataSource())
                 .enabled(true)
                 .updatePeriodValue(updatePeriodValue)
                 .build();
@@ -74,7 +74,7 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
         return DataSourceCriteria.builder()
                 .identifier(identifier)
                 .updatePeriodType(updatePeriodType)
-                .xid(Xid.xidForDataSource())
+                .xid(Xid.dataSource())
                 .enabled(enabled)
                 .updatePeriodValue(updatePeriodValue)
                 .build();
@@ -84,7 +84,7 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
         return DataSourceCriteria.builder()
                 .identifier(IdentifierObjectFactory.dataSourceName(DATA_SOURCE_TYPE_DEFAULT))
                 .updatePeriodType(updatePeriodType)
-                .xid(Xid.xidForDataSource())
+                .xid(Xid.dataSource())
                 .enabled(true)
                 .updatePeriodValue(updatePeriodValue)
                 .build();
@@ -94,7 +94,7 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
         return DataSourceCriteria.builder()
                 .identifier(identifier)
                 .updatePeriodType(updatePeriodType)
-                .xid(Xid.xidForDataSource())
+                .xid(Xid.dataSource())
                 .enabled(true)
                 .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
                 .build();
@@ -104,7 +104,7 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
         return DataSourceCriteria.builder()
                 .identifier(identifier)
                 .updatePeriodType(UPDATE_PERIOD_TYPE_DEFAULT)
-                .xid(Xid.xidForDataSource())
+                .xid(Xid.dataSource())
                 .enabled(enabled)
                 .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
                 .build();
@@ -114,7 +114,7 @@ public class DataSourceCriteria implements CriteriaObject, GetXid {
         return DataSourceCriteria.builder()
                 .identifier(identifier)
                 .updatePeriodType(UpdatePeriodType.ANY)
-                .xid(Xid.xidForDataSource())
+                .xid(Xid.dataSource())
                 .enabled(enabled)
                 .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
                 .build();

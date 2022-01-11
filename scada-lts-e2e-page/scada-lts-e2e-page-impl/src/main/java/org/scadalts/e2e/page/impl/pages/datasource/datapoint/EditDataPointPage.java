@@ -4,12 +4,11 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
+import org.scadalts.e2e.page.core.utils.AlertUtil;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
-import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.*;
-import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourcePage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 
 import java.text.MessageFormat;
@@ -46,6 +45,9 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
     @FindBy(css = "img[onclick='deletePoint()']")
     private SelenideElement deleteDataPoint;
 
+    @FindBy(id = "pointDetails")
+    private SelenideElement pointDetails;
+
     private EditDataSourceWithPointListPage editDataSourceWithPointListPage;
 
     public static final String TITLE = "Point details";
@@ -60,17 +62,25 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return this;
     }
 
-    public EditDataPointPage setDataPointName(DataPointIdentifier dataPointName) {
+    public EditDataPointPage setName(DataPointIdentifier identifier) {
+        return setName(identifier.getValue());
+    }
+
+    public EditDataPointPage setName(String dataPointName) {
         delay();
         this.dataPointName.clear();
-        this.dataPointName.setValue(dataPointName.getValue());
+        this.dataPointName.setValue(dataPointName);
         return this;
     }
 
-    public EditDataPointPage setDataPointXid(Xid dataPointXid) {
+    public EditDataPointPage setXid(Xid dataPointXid) {
+        return setXid(dataPointXid.getValue());
+    }
+
+    public EditDataPointPage setXid(String dataPointXid) {
         delay();
         this.dataPointXid.clear();
-        this.dataPointXid.setValue(dataPointXid.getValue());
+        this.dataPointXid.setValue(dataPointXid);
         return this;
     }
 
@@ -91,16 +101,24 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return this;
     }
 
-    public EditDataPointPage selectDataPointType(DataPointType dataPointType) {
+    public EditDataPointPage setDataPointType(String dataPointType) {
         delay();
-        acceptAlert(dataTypes::selectOption, dataPointType.getName());
+        AlertUtil.acceptAlert(dataTypes::selectOption, dataPointType);
         return this;
     }
 
-    public EditDataPointPage selectChangeType(ChangeType changeType) {
+    public EditDataPointPage setDataPointType(DataPointType dataPointType) {
+        return setDataPointType(dataPointType.getName());
+    }
+
+    public EditDataPointPage setChangeType(String changeType) {
         delay();
-        waitWhile(changeTypes, not(Condition.visible)).selectOption(changeType.getName());
+        waitWhile(changeTypes, not(Condition.visible)).selectOption(changeType);
         return this;
+    }
+
+    public EditDataPointPage setChangeType(ChangeType changeType) {
+        return setChangeType(changeType.getName());
     }
 
     public EditDataPointPage setStartValue(DataPointCriteria criteria) {
@@ -112,9 +130,13 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return this;
     }
 
-    public EditDataPointPage saveDataPoint() {
+    public EditDataPointPage save() {
         delay();
         acceptAfterClick(saveDataPoint);
+        /*String msg = waitWhile($(By.id("pointDetails")).$(By.id("pointMessage")), not(Condition.visible)).getText();
+        if(!msg.contains("saved")) {
+            throw new E2eTestException("Save is failed");
+        }*/
         return this;
     }
 
@@ -131,12 +153,12 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return this;
     }
 
-    public String getDataPointName() {
+    public String getName() {
         delay();
         return dataPointName.getValue();
     }
 
-    public String getDataPointXid() {
+    public String getXid() {
         delay();
         return dataPointXid.getValue();
     }
@@ -146,7 +168,7 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return parseBoolean(settableCheckbox.getAttribute("selected"));
     }
 
-    public DataPointType getDataTypes() {
+    public DataPointType getDataType() {
         delay();
         return DataPointType.getType(dataTypes.getSelectedText());
     }
@@ -154,18 +176,6 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
     public ChangeType getChangeTypes() {
         delay();
         return ChangeType.getType(changeTypes.getSelectedText());
-    }
-
-    public EditDataSourceWithPointListPage enableDataSource(boolean enable) {
-        return editDataSourceWithPointListPage.enableDataSource(enable);
-    }
-
-    public EditDataSourceWithPointListPage enableAllDataPoint() {
-        return editDataSourceWithPointListPage.enableAllDataPoint();
-    }
-
-    public EditDataPointPage addDataPoint() {
-        return editDataSourceWithPointListPage.addDataPoint();
     }
 
     public EditDataPointPage openDataPointEditor(DataPointIdentifier dataPointIdentifier) {
@@ -184,43 +194,19 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return editDataSourceWithPointListPage.disableDataPoint(dataPointIdentifier);
     }
 
-    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceIdentifier) {
-        return editDataSourceWithPointListPage.setDataSourceName(dataSourceIdentifier);
+    public EditDataPointPage openDataPointEditor(DataPointCriteria criteria) {
+        return editDataSourceWithPointListPage.openDataPointEditor(criteria.getIdentifier());
     }
 
-    public EditDataSourcePage setDataSourceXid(Xid dataSourceXid) {
-        return editDataSourceWithPointListPage.setDataSourceXid(dataSourceXid);
+    public DataPointPropertiesPage openDataPointProperties(DataPointCriteria criteria) {
+        return editDataSourceWithPointListPage.openDataPointProperties(criteria.getIdentifier());
     }
 
-    public EditDataSourcePage setUpdatePeriods(int updatePeriods) {
-        return editDataSourceWithPointListPage.setUpdatePeriods(updatePeriods);
+    public EditDataSourceWithPointListPage enableDataPoint(DataPointCriteria criteria) {
+        return editDataSourceWithPointListPage.enableDataPoint(criteria.getIdentifier());
     }
 
-    public EditDataSourcePage selectUpdatePeriodType(UpdatePeriodType updatePeriodType) {
-        return editDataSourceWithPointListPage.selectUpdatePeriodType(updatePeriodType);
-    }
-
-    public String selectUpdatePeriodTypeValue(UpdatePeriodType updatePeriodType) {
-        return editDataSourceWithPointListPage.selectUpdatePeriodTypeValue(updatePeriodType);
-    }
-
-    public EditDataSourceWithPointListPage saveDataSource() {
-        return editDataSourceWithPointListPage.saveDataSource();
-    }
-
-    public String getDataSourceName() {
-        return editDataSourceWithPointListPage.getDataSourceName();
-    }
-
-    public String getDataSourceXid() {
-        return editDataSourceWithPointListPage.getDataSourceXid();
-    }
-
-    public int getUpdatePeriods() {
-        return editDataSourceWithPointListPage.getUpdatePeriods();
-    }
-
-    public UpdatePeriodType getUpdatePeriodType() {
-        return editDataSourceWithPointListPage.getUpdatePeriodType();
+    public EditDataSourceWithPointListPage disableDataPoint(DataPointCriteria criteria) {
+        return editDataSourceWithPointListPage.disableDataPoint(criteria.getIdentifier());
     }
 }

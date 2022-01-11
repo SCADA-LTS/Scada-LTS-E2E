@@ -21,10 +21,9 @@ public class E2eConfigurator {
         E2eConfiguration.authType = config.getAuthType();
         E2eConfiguration.baseUrl = config.getUrlAppBeingTested();
         E2eConfiguration.password = config.getPassword();
-        E2eConfiguration.userName = config.getUserName();
+        E2eConfiguration.username = config.getUserName();
         E2eConfiguration.logLevel = config.getLogLevel();
         E2eConfiguration.checkAuthentication = config.isCheckAuthentication();
-
         org.apache.logging.log4j.core.config.Configurator.setRootLevel(config.getLogLevel());
         org.apache.logging.log4j.core.config.Configurator.setAllLevels("org.apache.logging.log4j", config.getLogLevel());
     }

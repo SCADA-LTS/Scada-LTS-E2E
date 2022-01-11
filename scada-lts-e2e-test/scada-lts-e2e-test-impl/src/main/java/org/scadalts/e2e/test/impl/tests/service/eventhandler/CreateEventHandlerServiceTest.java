@@ -48,7 +48,7 @@ public class CreateEventHandlerServiceTest {
     @Test
     public void test_post_EmailEventHandler_then_status_http_200() {
         //given
-        Xid xid = Xid.xidForEventHandler();
+        Xid xid = Xid.eventHandler();
 
         //when
         E2eResponse<EventHandlerResponse> setResponse = createEventHandler(xid, dataPointId, eventDetectorId, EventHandlerType.EMAIL);
@@ -60,7 +60,7 @@ public class CreateEventHandlerServiceTest {
     @Test
     public void test_post_SmsEventHandler_then_status_http_200() {
         //given
-        Xid xid = Xid.xidForEventHandler();
+        Xid xid = Xid.eventHandler();
 
         //when
         E2eResponse<EventHandlerResponse> setResponse = createEventHandler(xid, dataPointId, eventDetectorId, EventHandlerType.SMS);
@@ -72,7 +72,7 @@ public class CreateEventHandlerServiceTest {
     @Test
     public void test_post_EmailEventHandler_then_getXid() {
         //given
-        Xid xid = Xid.xidForEventHandler();
+        Xid xid = Xid.eventHandler();
 
         //when
         E2eResponse<EventHandlerResponse> setResponse = createEventHandler(xid, dataPointId, eventDetectorId, EventHandlerType.EMAIL);
@@ -84,7 +84,7 @@ public class CreateEventHandlerServiceTest {
     @Test
     public void test_post_SmsEventHandler_then_getXid() {
         //given
-        Xid xid = Xid.xidForEventHandler();
+        Xid xid = Xid.eventHandler();
 
         //when
         E2eResponse<EventHandlerResponse> setResponse = createEventHandler(xid, dataPointId, eventDetectorId, EventHandlerType.SMS);

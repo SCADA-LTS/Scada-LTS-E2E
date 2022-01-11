@@ -28,8 +28,8 @@ public class CreateEventDetectorPageTest {
 
     private static DataSourceCriteria dataSourceCriteria;
     private static DataPointCriteria dataPointCriteria;
-    private static EventDetectorCriteria eventDetectorCriteria;
     private static DataSourcePointCriteria dataSourcePointCriteria;
+    private EventDetectorCriteria eventDetectorCriteria;
 
     @BeforeClass
     public static void createDataSourcePoint() {
@@ -56,7 +56,7 @@ public class CreateEventDetectorPageTest {
         //given:
         EventDetectorType eventDetectorTypeExpected = EventDetectorType.CHANGE;
         EventDetectorIdentifier eventDetectorIdentifierExpected = IdentifierObjectFactory.eventDetectorName(eventDetectorTypeExpected);
-        Xid xidExpected = Xid.xidForEventDetector();
+        Xid xidExpected = Xid.eventDetector();
         AlarmLevel alarmLevelExpected = AlarmLevel.INFORMATION;
         eventDetectorCriteria = EventDetectorCriteria.criteria(eventDetectorIdentifierExpected,
                 alarmLevelExpected,dataSourcePointCriteria);

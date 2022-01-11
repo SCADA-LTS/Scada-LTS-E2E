@@ -7,11 +7,12 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.scripts.EditScriptsPage;
 import org.scadalts.e2e.page.impl.pages.scripts.ScriptsPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 @Log4j2
 public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsPage> {
 
-    private final NavigationPage navigationPage;
+    private NavigationPage navigationPage;
     private final ScriptCriteria[] scriptCriteria;
     private ScriptsPage scriptsPage;
 
@@ -66,5 +67,11 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsP
             return scriptsPage;
         }
         return scriptsPage.reopen();
+    }
+
+    @Override
+    public void reload() {
+        if(!TestWithPageUtil.isLogged())
+            navigationPage = TestWithPageUtil.openNavigationPage();
     }
 }

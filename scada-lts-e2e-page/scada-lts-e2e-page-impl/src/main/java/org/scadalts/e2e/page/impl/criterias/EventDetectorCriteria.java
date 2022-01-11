@@ -27,7 +27,7 @@ public class EventDetectorCriteria implements CriteriaObject, GetXid {
     private final @NonNull DataSourcePointCriteria dataSourcePointCriteria;
 
     public static EventDetectorCriteria changeAlarmLevelNone(DataSourcePointCriteria dataSourcePointCriteria) {
-        Xid xid = Xid.xidForEventDetector();
+        Xid xid = Xid.eventDetector();
         return EventDetectorCriteria.builder()
                 .xid(xid)
                 .identifier(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE))
@@ -39,7 +39,7 @@ public class EventDetectorCriteria implements CriteriaObject, GetXid {
 
     public static EventDetectorCriteria criteria(EventDetectorIdentifier identifier, AlarmLevel alarmLevel,
                                                  DataSourcePointCriteria dataSourcePointCriteria) {
-        Xid xid = Xid.xidForEventDetector();
+        Xid xid = Xid.eventDetector();
         return EventDetectorCriteria.builder()
                 .xid(xid)
                 .identifier(identifier)
@@ -50,7 +50,7 @@ public class EventDetectorCriteria implements CriteriaObject, GetXid {
     }
 
     public static EventDetectorCriteria change(DataSourcePointCriteria dataSourcePointCriteria, AlarmLevel alarmLevel) {
-        Xid xid = Xid.xidForEventDetector();
+        Xid xid = Xid.eventDetector();
         return EventDetectorCriteria.builder()
                 .xid(xid)
                 .identifier(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE))
@@ -63,7 +63,7 @@ public class EventDetectorCriteria implements CriteriaObject, GetXid {
     public static EventDetectorCriteria criteria(EventDetectorType eventDetectorType,
                                                DataSourcePointCriteria dataSourcePointCriteria,
                                                AlarmLevel alarmLevel) {
-        Xid xid = Xid.xidForEventDetector();
+        Xid xid = Xid.eventDetector();
         return EventDetectorCriteria.builder()
                 .xid(xid)
                 .identifier(IdentifierObjectFactory.eventDetectorName(eventDetectorType))

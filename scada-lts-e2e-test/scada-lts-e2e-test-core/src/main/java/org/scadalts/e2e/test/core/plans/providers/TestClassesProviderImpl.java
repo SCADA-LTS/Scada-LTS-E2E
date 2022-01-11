@@ -7,6 +7,7 @@ import org.scadalts.e2e.common.core.types.TestPlan;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,10 +34,19 @@ class TestClassesProviderImpl implements TestClassesProvider {
         if(config.getClassesTestRefs().length > 0)
             result.addAll(_getTestClassesByRef(config));
         result.addAll(_getTestClasses(config));
-        result.add(plans.getPlan(TestPlan.LOGOUT));
+        if(!isAny(config))
+            result.add(plans.getTestClass(TestPlan.LOGOUT));
         return result.stream()
                 .flatMap(this::getStream)
                 .collect(Collectors.toList());
+    }
+
+    private boolean isAny(E2eConfig config) {
+        for(TestPlan plan: config.getTestPlans()) {
+            if(plan == TestPlan.ANY)
+                return true;
+        }
+        return false;
     }
 
     private Stream<? extends Class<?>> getStream(Class<?> test) {
@@ -55,10 +65,13 @@ class TestClassesProviderImpl implements TestClassesProvider {
     }
 
     private List<Class<?>> _getTestClasses(E2eConfig config) {
+        if(isAny(config)) {
+            return Collections.emptyList();
+        }
         List<Class<?>> result = new ArrayList<>();
-        for(TestPlan testPlan: config.getTestPlans()) {
+        for (TestPlan testPlan : config.getTestPlans()) {
             if (plans.containsPlan(testPlan))
-                result.add(plans.getPlan(testPlan));
+                result.add(plans.getTestClass(testPlan));
         }
         return result;
     }

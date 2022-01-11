@@ -206,6 +206,11 @@ public class E2eConfigCli implements E2eConfig {
     }
 
     @Override
+    public String getRefreshSessionCron() {
+        return fromRunApp.getRefreshSessionCron();
+    }
+
+    @Override
     public String[] getPointValuesToTests() {
         return fromE2e.getPointValuesToTests();
     }

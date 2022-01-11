@@ -10,6 +10,8 @@ import java.util.Random;
 
 public class VariationsGenerator {
 
+    private static final Random random = new Random();
+
     public static List<VariationUnit<Integer>> generate(int toValue, int nWords, int startValue) {
         List<VariationUnit<Integer>> result = new ArrayList<>();
         _generate(toValue, nWords, new ArrayList<>(), result, startValue, null);
@@ -24,7 +26,6 @@ public class VariationsGenerator {
 
     public static List<VariationUnit<Integer>> generateRandom(int toValue, int nWords, int size) {
         List<VariationUnit<Integer>> result = new ArrayList<>();
-        Random random = new Random();
         int bound = toValue + 1;
 
         for (int i = 0 ; i < size ; i++) {

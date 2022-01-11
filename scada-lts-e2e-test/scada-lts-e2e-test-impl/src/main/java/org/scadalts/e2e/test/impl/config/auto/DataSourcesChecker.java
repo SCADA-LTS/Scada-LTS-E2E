@@ -9,7 +9,6 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.criterias.json.DataSourceCriteriaJson;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.JsonUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
@@ -37,7 +36,7 @@ public class DataSourcesChecker {
 
     @BeforeClass
     public static void before() {
-        NavigationPage navigationPage = TestWithPageUtil.preparingTest();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
         dataSourcesPage = navigationPage.openDataSources();
     }
 

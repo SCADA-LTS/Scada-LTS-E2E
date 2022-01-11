@@ -24,7 +24,7 @@ public class PointLinkCriteria implements CriteriaObject, GetXid {
                 .script(script)
                 .source(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
                 .target(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
-                .xid(Xid.xidForPointLink())
+                .xid(Xid.pointLink())
                 .build();
     }
 
@@ -34,7 +34,7 @@ public class PointLinkCriteria implements CriteriaObject, GetXid {
                 .script(script)
                 .source(source)
                 .target(target)
-                .xid(Xid.xidForPointLink())
+                .xid(Xid.pointLink())
                 .build();
     }
 
@@ -44,7 +44,7 @@ public class PointLinkCriteria implements CriteriaObject, GetXid {
                 .script(script)
                 .source(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
                 .target(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
-                .xid(Xid.xidForPointLink())
+                .xid(Xid.pointLink())
                 .build();
     }
 
@@ -55,7 +55,7 @@ public class PointLinkCriteria implements CriteriaObject, GetXid {
                 .script(script)
                 .source(source)
                 .target(target)
-                .xid(Xid.xidForPointLink())
+                .xid(Xid.pointLink())
                 .build();
     }
 
@@ -66,7 +66,7 @@ public class PointLinkCriteria implements CriteriaObject, GetXid {
                 .script(script)
                 .source(source)
                 .target(target)
-                .xid(Xid.xidForPointLink())
+                .xid(Xid.pointLink())
                 .build();
     }
 
@@ -76,7 +76,7 @@ public class PointLinkCriteria implements CriteriaObject, GetXid {
                 .script(script)
                 .source(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
                 .target(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
-                .xid(Xid.xidForPointLink())
+                .xid(Xid.pointLink())
                 .build();
     }
 

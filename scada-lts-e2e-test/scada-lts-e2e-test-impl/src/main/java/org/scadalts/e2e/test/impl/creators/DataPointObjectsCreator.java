@@ -21,6 +21,7 @@ import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointProperties
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
 @Log4j2
 public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWithPointListPage, EditDataSourceWithPointListPage> {
 
-    private final @NonNull NavigationPage navigationPage;
+    private @NonNull NavigationPage navigationPage;
     private final @NonNull DataSourceCriteria dataSourceCriteria;
     private final @NonNull DataPointCriteria[] dataPointCriterias;
     private DataSourcesPage dataSourcesPage;
@@ -118,9 +119,14 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
             dataPointPropertiesPage.selectEngineeringUnit(dataPointProperties.getEngineeringUnits());
         }
         return dataPointPropertiesPage.saveDataPoint()
-                .editDataSource()
-                .acceptAlertOnPage();
+                .editDataSource();
 
+    }
+
+    @Override
+    public void reload() {
+        if(!TestWithPageUtil.isLogged())
+            navigationPage = TestWithPageUtil.openNavigationPage();
     }
 
     private void _setLogging(DataPointPropertiesPage dataPointPropertiesPage,
@@ -204,13 +210,13 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
         logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(), criteria.getIdentifier().getType(),
                 criteria.getXid().getValue(), criteria.getClass().getSimpleName());
         return page.addDataPoint()
-                .setDataPointName(criteria.getIdentifier())
-                .setDataPointXid(criteria.getXid())
+                .setName(criteria.getIdentifier())
+                .setXid(criteria.getXid())
                 .setSettable(criteria.isSettable())
-                .selectDataPointType(criteria.getIdentifier().getType())
-                .selectChangeType(criteria.getChangeType())
+                .setDataPointType(criteria.getIdentifier().getType())
+                .setChangeType(criteria.getChangeType())
                 .setStartValue(criteria)
-                .saveDataPoint();
+                .save();
     }
 
     private EditDataSourceWithPointListPage _deleteDataPoint(EditDataSourceWithPointListPage page, DataPointCriteria criteria) {

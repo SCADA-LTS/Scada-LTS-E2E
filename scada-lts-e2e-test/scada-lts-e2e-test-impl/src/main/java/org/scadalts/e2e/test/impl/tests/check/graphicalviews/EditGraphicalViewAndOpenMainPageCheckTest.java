@@ -39,7 +39,7 @@ public class EditGraphicalViewAndOpenMainPageCheckTest {
                 .clickCheckboxDelete();
 
         //and:
-        NavigationPage navigationPage = NavigationPage.openPage().acceptAlertOnPage();
+        NavigationPage navigationPage = NavigationPage.openPage();
 
         //then:
         assertThat(navigationPage.getCurrentUrl(), containsString(NavigationPage.URL_REF));

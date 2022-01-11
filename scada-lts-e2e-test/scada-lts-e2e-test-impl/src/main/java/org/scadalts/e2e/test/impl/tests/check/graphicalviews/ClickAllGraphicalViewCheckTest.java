@@ -20,7 +20,7 @@ public class ClickAllGraphicalViewCheckTest {
 
     @Parameterized.Parameters(name = "{index}: id: {0}, viewName: {1}")
     public static List<String[]> data() {
-        graphicalViewsPage = TestWithPageUtil.preparingTest()
+        graphicalViewsPage = TestWithPageUtil.openNavigationPage()
                 .openGraphicalViews();
         return graphicalViewsPage.getDataAllViews()
                 .entrySet()
@@ -53,7 +53,7 @@ public class ClickAllGraphicalViewCheckTest {
     public void test_click_all_graphical_view() {
 
         boolean selected = graphicalViewsPage
-                .selectViewByName(viewName)
+                .selectViewBy(viewName)
                 .waitOnLoadedBackground()
                 .printLoadingMeasure(MessageFormat.format("view: id: {0}, name: {1}", id, viewName.getValue()))
                 .isSelectedView(viewName);

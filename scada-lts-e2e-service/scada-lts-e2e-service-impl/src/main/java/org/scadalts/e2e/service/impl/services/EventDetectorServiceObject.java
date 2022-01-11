@@ -53,7 +53,7 @@ public class EventDetectorServiceObject implements WebServiceObject {
     }
 
     public E2eResponse<EventDetectorPostResponse> _setBinaryStateEventDetector(EventDetectorParams eventDetectorParams) {
-        String endpoint = baseUrl + "/api/eventDetector/set/binary/state/";
+        String endpoint = baseUrl + "/api/eventDetector/set/";
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.info("params: {}", eventDetectorParams.getId());
         logger.info("endpoint: {}", endpoint);
@@ -70,7 +70,7 @@ public class EventDetectorServiceObject implements WebServiceObject {
     }
 
     public E2eResponse<EventDetectorPostResponse> _setChangeEventDetector(EventDetectorParams eventDetectorParams) {
-        String endpoint = baseUrl + "/api/eventDetector/set/change/";
+        String endpoint = baseUrl + "/api/eventDetector/set/";
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.info("params: {}", eventDetectorParams.getId());
         logger.info("endpoint: {}", endpoint);

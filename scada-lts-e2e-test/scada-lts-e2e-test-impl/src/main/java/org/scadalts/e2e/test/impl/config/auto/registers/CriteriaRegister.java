@@ -41,15 +41,13 @@ public class CriteriaRegister implements AutoCloseable {
 
     public void merge(CriteriaRegister criteriaRegister) {
         criteriaRegister.keySet()
-                .stream()
-                .peek(key -> {
+                .forEach(key -> {
                         if(criterias.containsKey(key)) {
                             this.get(key).addAll(criteriaRegister.get(key));
                         } else {
                             this.register(key, criteriaRegister.get(key));
                         }
-                    })
-                .close();
+                    });
     }
 
     @Override

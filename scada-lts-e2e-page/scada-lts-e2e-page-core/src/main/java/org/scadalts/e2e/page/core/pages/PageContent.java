@@ -1,9 +1,11 @@
 package org.scadalts.e2e.page.core.pages;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import org.openqa.selenium.By;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
+import org.scadalts.e2e.page.core.utils.E2eWebDriverProvider;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.switchTo;
@@ -40,6 +42,14 @@ interface PageContent<T extends PageObject<T>> extends GetPage<T> {
 
         }
         return getPage();
+    }
+
+    default T acceptAlert() {
+        return acceptAlertOnPage();
+    }
+
+    default T dismissAlert() {
+        return dismissAlertOnPage();
     }
 
     default T dismissAlertOnPage() {

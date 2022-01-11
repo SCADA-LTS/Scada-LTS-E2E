@@ -5,17 +5,26 @@ import org.scadalts.e2e.page.impl.criterias.EventHandlerCriteria;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
+import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Log4j2
 public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPage, EventHandlersPage> {
 
-    private final NavigationPage navigationPage;
+    private NavigationPage navigationPage;
     private final EventHandlerCriteria[] eventHandlerCriterias;
     private EventHandlersPage eventHandlersPage;
+    private final Set<EventDetectorObjectsCreator> eventDetectorObjectsCreators;
 
     public EventHandlerObjectsCreator(NavigationPage navigationPage, EventHandlerCriteria... eventHandlerCriterias) {
         this.navigationPage = navigationPage;
         this.eventHandlerCriterias = eventHandlerCriterias;
+        eventDetectorObjectsCreators = new HashSet<>();
+        for(EventHandlerCriteria criteria: eventHandlerCriterias) {
+            eventDetectorObjectsCreators.add(new EventDetectorObjectsCreator(navigationPage, criteria.getEventDetectorCriteria()));
+        }
     }
 
     @Override
@@ -32,11 +41,17 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
                         .reopen();
             }
         }
-        return eventHandlersPage;
+        for(EventDetectorObjectsCreator creator: eventDetectorObjectsCreators) {
+            creator.deleteObjects();
+        }
+        return openPage();
     }
 
     @Override
     public EventHandlersPage createObjects() {
+        for(EventDetectorObjectsCreator creator: eventDetectorObjectsCreators) {
+            creator.createObjects();
+        }
         EventHandlersPage eventHandlersPage = openPage();
         for (EventHandlerCriteria criteria: eventHandlerCriterias) {
             if(!eventHandlersPage.containsObject(criteria)) {
@@ -64,5 +79,11 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
             return eventHandlersPage;
         }
         return eventHandlersPage.reopen();
+    }
+
+    @Override
+    public void reload() {
+        if(!TestWithPageUtil.isLogged())
+            navigationPage = TestWithPageUtil.openNavigationPage();
     }
 }
