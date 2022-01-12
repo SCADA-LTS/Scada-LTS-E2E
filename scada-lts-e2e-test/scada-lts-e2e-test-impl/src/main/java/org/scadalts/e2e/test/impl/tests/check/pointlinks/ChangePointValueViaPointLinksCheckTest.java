@@ -1,6 +1,7 @@
 package org.scadalts.e2e.test.impl.tests.check.pointlinks;
 
 import lombok.extern.log4j.Log4j2;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -10,7 +11,6 @@ import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
-import org.scadalts.e2e.test.impl.runners.TestParameterizedWithoutPageRunner;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @Log4j2
-@RunWith(TestParameterizedWithoutPageRunner.class)
+@RunWith(Parameterized.class)
 public class ChangePointValueViaPointLinksCheckTest {
 
     @Parameterized.Parameters(name = "test number: {index}, set value datapoint-source: {0}")
@@ -34,6 +34,11 @@ public class ChangePointValueViaPointLinksCheckTest {
     public ChangePointValueViaPointLinksCheckTest(String value) {
         this.value = value;
         this.expectedValue = Script.sourceValueIncreasedOne().executeInJava(value);
+    }
+
+    @Before
+    public void config() {
+        TestWithoutPageUtil.preparingTest();
     }
 
     @Test

@@ -29,7 +29,7 @@ public class EventDetectorDiagnosticTest {
 
     @Parameterized.Parameters(name = "{index}: dataSource: {0}")
     public static List<DataSourceCriteria> data() {
-        dataSourcesPage = TestWithPageUtil.preparingTest()
+        dataSourcesPage = TestWithPageUtil.openNavigationPage()
                 .openDataSources();
 
         DataSourceCriteria dataSourceForTestEventDetector = DataSourceCriteria.criteriaSecond(

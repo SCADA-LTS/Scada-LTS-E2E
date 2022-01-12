@@ -77,4 +77,6 @@ class E2eConfigDefault implements E2eConfig {
     private boolean mailSmtpStarttlsMode;
 
     private boolean checkAuthentication;
+
+    private String refreshSessionCron;
 }

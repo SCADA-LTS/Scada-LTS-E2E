@@ -24,10 +24,11 @@ public class FileUtil {
         try {
             logger.info("getFileFromJar: {}", fileName);
             Path path = Paths.get(fileName.trim());
-            if(path.toFile().exists()) {
-                return Optional.ofNullable(path.toFile());
+            if(Files.exists(path)) {
+                logger.info("exists: {}", path);
+                return Optional.of(path.toFile());
             }
-            return _createNewFileInFileSystem(fileName);
+            return _createNewFileInFileSystem(fileName.replace("\\", "/").trim());
         } catch (Throwable e) {
             logger.warn(e.getMessage(), e);
             return Optional.empty();
@@ -38,8 +39,8 @@ public class FileUtil {
         try {
             logger.info("getFileFromFileSystem: {}", path);
             if(Files.exists(path)) {
-                logger.info("file exists: {}", path);
-                return Optional.ofNullable(path.toFile());
+                logger.info( "exists: {}", path);
+                return Optional.of(path.toFile());
             }
             if(!Files.notExists(path)) {
                 throw new IllegalArgumentException("File access denied: " + path);
@@ -94,7 +95,8 @@ public class FileUtil {
         Optional<InputStream> inputStream = getResourceAsStream(fileName.trim());
         if(inputStream.isPresent()) {
             Files.copy(inputStream.get(), path);
-            return Optional.ofNullable(path.toFile());
+            logger.info( "created: {}", path);
+            return Optional.of(path.toFile());
         }
         return Optional.empty();
     }

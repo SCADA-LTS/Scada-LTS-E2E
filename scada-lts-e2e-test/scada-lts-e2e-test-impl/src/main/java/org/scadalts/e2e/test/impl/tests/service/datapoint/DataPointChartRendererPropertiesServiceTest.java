@@ -146,6 +146,7 @@ public class DataPointChartRendererPropertiesServiceTest {
         DataPointPropertiesPage dataPointPropertiesPage = editDataSourceWithPointListPage
                 .openDataPointProperties(dataPointCriteria.getIdentifier());
 
+        dataPointObjectsCreator.reload();
         dataPointObjectsCreator.setProperties(dataPointProperties,
                 dataPointCriteria.getIdentifier().getType(), dataPointPropertiesPage);
 

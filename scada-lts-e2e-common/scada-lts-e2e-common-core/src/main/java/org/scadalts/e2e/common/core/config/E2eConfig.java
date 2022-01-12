@@ -56,6 +56,8 @@ public interface E2eConfig {
 
     String getDataPointTargetXid();
 
+    String getRefreshSessionCron();
+
     String[] getClassesTestRefs();
 
     Set<SendTo> getSendTo();

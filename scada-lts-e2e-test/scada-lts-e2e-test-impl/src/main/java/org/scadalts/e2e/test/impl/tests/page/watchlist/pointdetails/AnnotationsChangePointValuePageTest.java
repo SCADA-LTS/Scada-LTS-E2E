@@ -43,7 +43,7 @@ public class AnnotationsChangePointValuePageTest {
 
     public AnnotationsChangePointValuePageTest(String value) {
         this.value = value;
-        this.userExpected = E2eConfiguration.userName;
+        this.userExpected = E2eConfiguration.username;
     }
 
     private static CreatorObject<WatchListPage, WatchListPage> watchListObjectsCreator;
@@ -53,9 +53,7 @@ public class AnnotationsChangePointValuePageTest {
 
     @BeforeClass
     public static void createDataSourceAndPoint() {
-
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
-
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(DataPointType.NUMERIC, "123.0");
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria

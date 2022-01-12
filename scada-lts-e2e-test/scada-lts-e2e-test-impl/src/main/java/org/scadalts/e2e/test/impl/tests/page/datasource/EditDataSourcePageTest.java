@@ -51,7 +51,7 @@ public class EditDataSourcePageTest {
         //and when:
         editDataSourceWithPointListPageSubject
                 .setUpdatePeriods(updatePeriodsExp)
-                .saveDataSource();
+                .save();
 
         //then:
         int updatePeriods = dataSourcesPage.reopen()
@@ -78,7 +78,7 @@ public class EditDataSourcePageTest {
         //and when:
         editDataSourceWithPointListPageSubject
                 .selectUpdatePeriodType(updatePeriodsTypeExp)
-                .saveDataSource();
+                .save();
 
         //then:
         UpdatePeriodType updatePeriodType = dataSourcesPage.reopen()

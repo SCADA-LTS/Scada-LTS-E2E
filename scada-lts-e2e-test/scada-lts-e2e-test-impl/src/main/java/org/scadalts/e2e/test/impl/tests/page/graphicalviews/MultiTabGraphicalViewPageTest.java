@@ -45,19 +45,19 @@ public class MultiTabGraphicalViewPageTest {
 
         //when:
         graphicalViewsPageSubject.openInNewTab()
-                .selectViewByName(viewName)
+                .selectViewBy(viewName)
                 .printLoadingMeasure()
                 .openInNewTab()
-                .selectViewByName(viewName)
+                .selectViewBy(viewName)
                 .printLoadingMeasure()
                 .openInNewTab()
-                .selectViewByName(viewName)
+                .selectViewBy(viewName)
                 .printLoadingMeasure()
                 .openInNewTab()
-                .selectViewByName(viewName)
+                .selectViewBy(viewName)
                 .printLoadingMeasure()
                 .openInNewTab()
-                .selectViewByName(viewName)
+                .selectViewBy(viewName)
                 .printLoadingMeasure();
 
         //then:

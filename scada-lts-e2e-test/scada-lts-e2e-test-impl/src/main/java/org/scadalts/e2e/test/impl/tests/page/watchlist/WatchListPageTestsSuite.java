@@ -9,7 +9,7 @@ import org.scadalts.e2e.test.impl.tests.page.watchlist.pointdetails.DataPointDet
         DeleteWatchListPageTest.class,
         ChangePointValueOnWatchListPageTest.class,
         DataPointDetailsPageTestsSuite.class,
-        ChangeValuePointsForFirstEnabledInIntervalMsBetweenPoints.class
+        //ChangeValuePointsForFirstEnabledInIntervalMsBetweenPoints.class
 })
 public class WatchListPageTestsSuite {
 }

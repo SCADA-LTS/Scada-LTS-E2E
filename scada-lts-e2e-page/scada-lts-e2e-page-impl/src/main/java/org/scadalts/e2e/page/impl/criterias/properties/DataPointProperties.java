@@ -24,7 +24,7 @@ public class DataPointProperties {
     private final @Singular List<EventDetectorCriteria> eventDetectors;
 
     protected DataPointProperties(DictionaryObject engineeringUnits, String chartColour, DataPointLoggingProperties loggingProperties, DataPointChartRenderProperties chartRenderProperties, DataPointTextRendererProperties textRendererProperties, List<EventDetectorCriteria> eventDetectors) {
-        this.engineeringUnits = engineeringUnits == null ? EngineeringUnit.Acceleration.ANY : engineeringUnits;
+        this.engineeringUnits = engineeringUnits == null ? DictionaryObject.ANY : engineeringUnits;
         this.chartColour = chartColour;
         this.loggingProperties = loggingProperties == null ? DataPointLoggingProperties.empty() : loggingProperties;
         this.chartRenderProperties = chartRenderProperties == null ? DataPointChartRenderProperties.empty() : chartRenderProperties;

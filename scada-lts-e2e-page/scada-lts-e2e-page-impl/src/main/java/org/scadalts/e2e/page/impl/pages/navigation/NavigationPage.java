@@ -7,6 +7,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.scadalts.e2e.page.core.pages.PageClosable;
 import org.scadalts.e2e.page.core.pages.PageObject;
 import org.scadalts.e2e.page.impl.pages.alarms.PendingAlarmsPage;
+import org.scadalts.e2e.page.impl.pages.app.AppPage;
 import org.scadalts.e2e.page.impl.pages.compoundeventdetectors.CompoundEventDetectorsPage;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EventHandlersPage;
@@ -75,6 +76,8 @@ public interface NavigationPage extends PageObject<NavigationPage>, PageClosable
 
     HelpPage openHelp();
 
+    AppPage openApp();
+
     void logout();
 
     String getUserName();
@@ -85,6 +88,7 @@ public interface NavigationPage extends PageObject<NavigationPage>, PageClosable
 
     static NavigationPage openPage() {
         return open(URL_REF, NavigationPageImpl.class);
+               // .acceptAlertOnPage();
     }
 
     static NavigationPage openRootPage() {
@@ -118,12 +122,17 @@ public interface NavigationPage extends PageObject<NavigationPage>, PageClosable
     static void kill() {
         try {
             Selenide.closeWindow();
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             LOGGER.warn(ex.getMessage());
         }
         try {
             Selenide.closeWebDriver();
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
+            LOGGER.warn(ex.getMessage());
+        }
+        try {
+            Selenide.close();
+        } catch (Throwable ex) {
             LOGGER.warn(ex.getMessage());
         }
     }

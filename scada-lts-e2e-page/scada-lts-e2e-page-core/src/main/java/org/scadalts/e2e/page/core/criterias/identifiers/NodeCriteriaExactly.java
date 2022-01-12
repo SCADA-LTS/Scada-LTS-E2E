@@ -34,13 +34,28 @@ class NodeCriteriaExactly implements NodeCriteria {
 
     @Override
     public String getXpath() {
-        XpathOperation xpathOperation = XpathOperation.contains(text(identifier1.getValue()));
-        if(!identifier1.equals(identifier2))
-            xpathOperation = xpathOperation.and(contains(text(identifier2.getValue())));
-        if(type != DictionaryObject.any())
+        if(identifier1 != IdentifierObject.empty()) {
+            XpathOperation xpathOperation = XpathOperation.contains(text(identifier1.getValue()));
+            if (identifier2 != IdentifierObject.empty() && !identifier1.equals(identifier2))
+                xpathOperation = xpathOperation.and(contains(text(identifier2.getValue())));
+            if (type != DictionaryObject.any())
+                xpathOperation = xpathOperation.and(contains(text(type.getName())));
+            if (!xpathAttribute.isEmpty())
+                xpathOperation = xpathOperation.and(contains(xpathAttribute));
+            return xpath(tag, xpathOperation).expression();
+        }
+        if(identifier2 != IdentifierObject.empty()) {
+            XpathOperation xpathOperation = XpathOperation.contains(text(identifier2.getValue()));
+            if (type != DictionaryObject.any())
+                xpathOperation = xpathOperation.and(contains(text(type.getName())));
+            if (!xpathAttribute.isEmpty())
+                xpathOperation = xpathOperation.and(contains(xpathAttribute));
+            return xpath(tag, xpathOperation).expression();
+        }
+        XpathOperation xpathOperation = XpathOperation.contains(xpathAttribute) ;
+        if (type != DictionaryObject.any())
             xpathOperation = xpathOperation.and(contains(text(type.getName())));
-        if(!xpathAttribute.isEmpty())
-            xpathOperation = xpathOperation.and(contains(xpathAttribute));
         return xpath(tag, xpathOperation).expression();
+        //return xpath(tag, XpathOperation.contains(xpathAttribute)).expression();
     }
 }

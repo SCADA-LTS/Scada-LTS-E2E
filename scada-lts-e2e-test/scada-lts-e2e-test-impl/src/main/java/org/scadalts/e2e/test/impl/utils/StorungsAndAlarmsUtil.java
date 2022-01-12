@@ -319,6 +319,7 @@ public class StorungsAndAlarmsUtil {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             logger.warn(e.getMessage(), e);
+            Thread.currentThread().interrupt();
         }
 
     }

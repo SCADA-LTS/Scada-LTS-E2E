@@ -3,14 +3,13 @@ package org.scadalts.e2e.test.impl.tests.check.storungs;
 import lombok.extern.log4j.Log4j2;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
-import org.scadalts.e2e.test.impl.runners.TestWithPageRunner;
 import org.scadalts.e2e.test.impl.utils.RegexUtil;
 import org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.text.MessageFormat;
 import java.time.Instant;
@@ -28,13 +27,13 @@ import static org.junit.Assert.*;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.*;
 
 @Log4j2
-@RunWith(TestWithPageRunner.class)
 public class GetAllLivesParametersCheckTest {
 
     private static List<StorungAlarmResponse> storungAlarmResponse;
 
     @BeforeClass
     public static void setup() {
+        TestWithoutPageUtil.preparingTest();
         PaginationParams paginationParams = PaginationParams.all();
         storungAlarmResponse = getStorungsAndAlarms(paginationParams);
         logger.info("size lives: {}", storungAlarmResponse.size());

@@ -17,6 +17,7 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.WatchListIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.EventType;
+import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.pointlinks.PointLinksPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.impl.creators.AllObjectsForPointLinkTestCreator;
@@ -82,10 +83,11 @@ public class PointLinksChangeOnWatchListPageTest {
         targetIdentifier = target.getIdentifier();
         criteria = PointLinkCriteria.criteria(source, target, eventType, Script.empty());
         watchListIdentifier = IdentifierObjectFactory.watchListName();
-        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.openNavigationPage(),
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
+        allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(navigationPage,
                 criteria, watchListIdentifier);
-        watchListPageSubject = allObjectsForPointLinkTestCreator.createObjects();
-        pointLinksPage = allObjectsForPointLinkTestCreator.openPage();
+        watchListPageSubject = navigationPage.openWatchList();
+        pointLinksPage = allObjectsForPointLinkTestCreator.createObjects();
     }
 
     @After

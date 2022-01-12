@@ -58,4 +58,7 @@ public class AppOptions extends DefaultOptions {
 
     @CommandLine.Option(names = {"-T", "--mail-smtp-starttls-mode"}, negatable = true)
     private boolean mailSmtpStarttlsMode;
+
+    @CommandLine.Option(names = {"-r", "--refresh-session-cron"})
+    private String refreshSessionCron;
 }

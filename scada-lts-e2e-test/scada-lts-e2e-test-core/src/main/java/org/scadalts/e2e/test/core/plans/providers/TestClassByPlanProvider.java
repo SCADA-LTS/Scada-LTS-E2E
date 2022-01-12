@@ -4,5 +4,5 @@ import org.scadalts.e2e.common.core.types.TestPlan;
 
 public interface TestClassByPlanProvider {
     boolean containsPlan(TestPlan plan);
-    Class<?> getPlan(TestPlan plan);
+    Class<?> getTestClass(TestPlan plan);
 }

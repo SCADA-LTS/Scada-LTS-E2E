@@ -76,6 +76,7 @@ public class GetLivesNumberActivateInactivateServiceTest {
 
     @Before
     public void setup() {
+        navigationPage = TestWithPageUtil.openNavigationPage(dataSourcePointObjectsCreator);
 
         DataPointCriteria point = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
                 String.valueOf(testDataBatch.getStartValue()),

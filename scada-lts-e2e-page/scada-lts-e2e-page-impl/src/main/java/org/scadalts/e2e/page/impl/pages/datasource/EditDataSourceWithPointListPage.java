@@ -5,12 +5,15 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.utils.AlertUtil;
+import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
+import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointPropertiesPage;
@@ -59,7 +62,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         editDataSourcePage = page(EditDataSourcePage.class);
     }
 
-    public EditDataSourceWithPointListPage enableDataSource(boolean enable) {
+    public EditDataSourceWithPointListPage enable(boolean enable) {
         delay();
         if(enable) {
             if($(SELECTOR_DISABLE_DATA_SOURCE_BY).is(Condition.visible)) {
@@ -68,22 +71,75 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
             }
         } else {
             if($(SELECTOR_ENABLE_DATA_SOURCE_BY).is(Condition.visible)) {
-                acceptAlert(dataSourceOnOff::clear);
+                AlertUtil.acceptAlert(dataSourceOnOff::clear);
                 waitWhile($(SELECTOR_DISABLE_DATA_SOURCE_BY), not(Condition.visible));
             }
         }
         return this;
     }
 
+    public EditDataSourceWithPointListPage setEnable(boolean enable) {
+        return enable(enable);
+    }
+
+    public boolean isEnable() {
+        delay();
+        return $(SELECTOR_ENABLE_DATA_SOURCE_BY).is(Condition.visible);
+    }
+
+    public EditDataSourcePage setName(String name) {
+        return editDataSourcePage.setName(new DataSourceIdentifier(name, DataSourceType.VIRTUAL_DATA_SOURCE));
+    }
+
+    public EditDataSourcePage setName(DataSourceIdentifier dataSourceIdentifier) {
+        return editDataSourcePage.setName(dataSourceIdentifier);
+    }
+
+    public EditDataSourcePage setName(DataSourceCriteria criteria) {
+        return setName(criteria.getIdentifier());
+    }
+
+    public EditDataSourcePage setXid(Xid dataSourceXid) {
+        return editDataSourcePage.setXid(dataSourceXid);
+    }
+
+    public EditDataSourcePage setXid(String dataSourceXid) {
+        return editDataSourcePage.setXid(new Xid(dataSourceXid));
+    }
+
+    public EditDataSourcePage setUpdatePeriods(int updatePeriods) {
+        return editDataSourcePage.setUpdatePeriods(updatePeriods);
+    }
+
+    public EditDataSourcePage setUpdatePeriodType(UpdatePeriodType updatePeriodType) {
+        return selectUpdatePeriodType(updatePeriodType);
+    }
+
+    public EditDataSourcePage setUpdatePeriodType(String updatePeriodType) {
+        return selectUpdatePeriodType(UpdatePeriodType.getType(updatePeriodType));
+    }
+
+    public String getName() {
+        return editDataSourcePage.getName();
+    }
+
+    public String getXid() {
+        return editDataSourcePage.getXid();
+    }
+
+    public int getUpdatePeriods() {
+        return editDataSourcePage.getUpdatePeriods();
+    }
+
+    public UpdatePeriodType getUpdatePeriodType() {
+        return editDataSourcePage.getUpdatePeriodType();
+    }
+
+
     public EditDataSourceWithPointListPage waitOnImgEabledDataSource() {
         delay();
         waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
         return this;
-    }
-
-    public boolean isEnableDataSource() {
-        delay();
-        return $(SELECTOR_ENABLE_DATA_SOURCE_BY).is(Condition.visible);
     }
 
     public boolean isEnableDataPoint(DataPointIdentifier dataPointIdentifier) {
@@ -110,7 +166,8 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
 
     public EditDataPointPage openDataPointEditor(DataPointIdentifier dataPointIdentifier) {
         acceptAfterClick(_findAction(dataPointIdentifier, SELECTOR_ACTION_EDIT_DATA_POINT_BY));
-        return page(EditDataPointPage.class);
+        printCurrentUrl();
+        return page(EditDataPointPage.class).acceptAlertOnPage();
     }
 
     public DataPointPropertiesPage openDataPointProperties(DataPointIdentifier dataPointIdentifier) {
@@ -131,17 +188,22 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return this;
     }
 
-    public EditDataSourcePage setDataSourceName(DataSourceIdentifier dataSourceIdentifier) {
-        return editDataSourcePage.setDataSourceName(dataSourceIdentifier);
+    public EditDataPointPage openDataPointEditor(DataPointCriteria criteria) {
+        return openDataPointEditor(criteria.getIdentifier());
     }
 
-    public EditDataSourcePage setDataSourceXid(Xid dataSourceXid) {
-        return editDataSourcePage.setDataSourceXid(dataSourceXid);
+    public DataPointPropertiesPage openDataPointProperties(DataPointCriteria criteria) {
+        return openDataPointProperties(criteria.getIdentifier());
     }
 
-    public EditDataSourcePage setUpdatePeriods(int updatePeriods) {
-        return editDataSourcePage.setUpdatePeriods(updatePeriods);
+    public EditDataSourceWithPointListPage enableDataPoint(DataPointCriteria criteria) {
+       return enableDataPoint(criteria.getIdentifier());
     }
+
+    public EditDataSourceWithPointListPage disableDataPoint(DataPointCriteria criteria) {
+        return disableDataPoint(criteria.getIdentifier());
+    }
+
 
     public EditDataSourcePage selectUpdatePeriodType(UpdatePeriodType updatePeriodType) {
         return editDataSourcePage.selectUpdatePeriodType(updatePeriodType);
@@ -151,28 +213,25 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return editDataSourcePage.selectUpdatePeriodTypeValue(updatePeriodType);
     }
 
-    public EditDataSourceWithPointListPage saveDataSource() {
-        return editDataSourcePage.saveDataSource();
+    public EditDataSourceWithPointListPage save() {
+        return editDataSourcePage.save();
     }
 
-    public String getDataSourceName() {
-        return editDataSourcePage.getDataSourceName();
-    }
 
-    public String getDataSourceXid() {
-        return editDataSourcePage.getDataSourceXid();
-    }
-
-    public int getUpdatePeriods() {
-        return editDataSourcePage.getUpdatePeriods();
-    }
-
-    public UpdatePeriodType getUpdatePeriodType() {
-        return editDataSourcePage.getUpdatePeriodType();
-    }
-
-    public EditDataSourceWithPointListPage waitOnPageWhileVisibleObject(DataPointIdentifier identifier) {
+    public EditDataSourceWithPointListPage waitOnPageWhileVisibleDataPoint(DataPointIdentifier identifier) {
         waitWhile(_findObject(identifier), Condition.visible);
+        return this;
+    }
+
+    @Deprecated
+    public int getDataPointDatabaseId(DataPointIdentifier identifier) {
+        SelenideElement selenideElement = waitWhile($(_findAction(identifier, SELECTOR_ACTION_PROPERTIES_DATA_POINT_BY)), not(Condition.visible));
+        String onclick = selenideElement.getAttribute("onclick");
+        return convertToInt(onclick);
+    }
+
+    public EditDataSourceWithPointListPage waitOnPointsTable() {
+        waitWhile(dataPointsTable, not(Condition.visible));
         return this;
     }
 
@@ -184,13 +243,6 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     private SelenideElement _findObject(DataPointIdentifier identifier) {
         delay();
         return findObject(identifier.getNodeCriteria(), dataPointsTable);
-    }
-
-    @Deprecated
-    public int getDataPointDatabaseId(DataPointIdentifier identifier) {
-        SelenideElement selenideElement = waitWhile($(_findAction(identifier, SELECTOR_ACTION_PROPERTIES_DATA_POINT_BY)), not(Condition.visible));
-        String onclick = selenideElement.getAttribute("onclick");
-        return convertToInt(onclick);
     }
 
     private int convertToInt(String onclick) {

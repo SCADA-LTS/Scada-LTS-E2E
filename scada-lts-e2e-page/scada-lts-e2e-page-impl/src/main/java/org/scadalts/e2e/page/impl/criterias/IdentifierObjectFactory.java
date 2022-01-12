@@ -83,4 +83,8 @@ public class IdentifierObjectFactory {
     public static String unique() {
         return String.valueOf(new Random().nextInt(9999999));
     }
+
+    public static UserIdentifier userName() {
+        return new UserIdentifier("usr_test_" + unique());
+    }
 }

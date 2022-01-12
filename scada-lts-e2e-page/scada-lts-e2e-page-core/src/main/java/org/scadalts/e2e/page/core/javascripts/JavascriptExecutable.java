@@ -1,10 +1,12 @@
 package org.scadalts.e2e.page.core.javascripts;
 
+import org.apache.hc.core5.http.Message;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.scadalts.e2e.page.core.utils.E2eWebDriverProvider;
 
+import java.text.MessageFormat;
 import java.util.Optional;
 
 public interface JavascriptExecutable {
@@ -15,6 +17,17 @@ public interface JavascriptExecutable {
         try {
             RemoteWebDriver webDriver = E2eWebDriverProvider.getDriver();
             return Optional.ofNullable(webDriver.executeScript(script));
+        } catch (Throwable ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            return Optional.empty();
+        }
+    }
+
+    default Optional<Object> executeJs(String script, Object... args) {
+        try {
+            String scriptArgs = MessageFormat.format(script, args);
+            RemoteWebDriver webDriver = E2eWebDriverProvider.getDriver();
+            return Optional.ofNullable(webDriver.executeScript(scriptArgs));
         } catch (Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
             return Optional.empty();

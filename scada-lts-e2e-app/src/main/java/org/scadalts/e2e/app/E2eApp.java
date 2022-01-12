@@ -44,8 +44,9 @@ public class E2eApp {
 		String continuous = MessageFormat.format(ConfigAppKeys.CONTINUOUS_MODE_KEY_X.getKey(), config.isContinuousMode());
 		String mail = MessageFormat.format(ConfigAppKeys.NOTIFICATION_EMAIL_MODE_KEY_X.getKey(), config.isNotificationEmailMode());
 		String expires = MessageFormat.format(ConfigAppKeys.DELETE_EMAIL_FROM_SENT_EMAILS_AFTER_MS_KEY_X.getKey(), String.valueOf(config.getDeleteEmailFromSentEmailsAfterMs()));
+		String refreshSessionCron =  MessageFormat.format(ConfigAppKeys.REFRESH_SESSION_CRON_KEY_X.getKey(), config.getRefreshSessionCron());
 
-		String[] args = _mergeArgs(argsConsole, port, cron, continuous, mail, expires);
+		String[] args = _mergeArgs(argsConsole, port, cron, continuous, mail, expires, refreshSessionCron);
 		logger.debug("args: {} ", Arrays.asList(args));
 		application.run(args);
         logger.info("-----------------------------------------------------4");

@@ -9,7 +9,8 @@ public enum ConfigAppKeys {
     CRON_PATTERN_KEY_X("--test.e2e.run-app.cron-pattern={0}"),
     CONTINUOUS_MODE_KEY_X("--test.e2e.run-app.continuous-mode={0}"),
     NOTIFICATION_EMAIL_MODE_KEY_X("--test.e2e.run-app.notification-email-mode={0}"),
-    DELETE_EMAIL_FROM_SENT_EMAILS_AFTER_MS_KEY_X("--test.e2e.run-app.delete-email-from-sent-emails-after-ms={0}");
+    DELETE_EMAIL_FROM_SENT_EMAILS_AFTER_MS_KEY_X("--test.e2e.run-app.delete-email-from-sent-emails-after-ms={0}"),
+    REFRESH_SESSION_CRON_KEY_X("--test.e2e.run-app.refresh-session-cron={0}"),;
 
     private String key;
 

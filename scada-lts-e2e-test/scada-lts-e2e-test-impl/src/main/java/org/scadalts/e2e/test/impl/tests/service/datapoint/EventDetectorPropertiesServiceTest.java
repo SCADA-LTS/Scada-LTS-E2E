@@ -70,8 +70,6 @@ public class EventDetectorPropertiesServiceTest {
     }
 
     private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
-    private static DataPointCriteria dataPointCriteria;
-
     private List<EventDetectorObjectsCreator> eventDetectorObjectsCreators = new ArrayList<>();
 
     @BeforeClass
@@ -81,7 +79,6 @@ public class EventDetectorPropertiesServiceTest {
         navigationPage = TestWithPageUtil.openNavigationPage();
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcePointObjectsCreator.createObjects();
-        dataPointCriteria = dataSourcePointCriteria.getDataPoint();
     }
 
     @AfterClass
@@ -92,13 +89,9 @@ public class EventDetectorPropertiesServiceTest {
 
     @Before
     public void setup() {
-
-        DataPointObjectsCreator dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage,
-                DATA_SOURCE_CRITERIA, DATA_POINT_CRITERIA);
-        dataPointObjectsCreator.createObjects();
         for(EventDetectorCriteria eventDetectorCriteria: dataPointProperties.getEventDetectors()) {
-            EventDetectorObjectsCreator eventDetectorObjectsCreator = new EventDetectorObjectsCreator(navigationPage,
-                    eventDetectorCriteria);
+            EventDetectorObjectsCreator eventDetectorObjectsCreator =
+                    new EventDetectorObjectsCreator(navigationPage, eventDetectorCriteria);
             eventDetectorObjectsCreators.add(eventDetectorObjectsCreator);
             eventDetectorObjectsCreator.createObjects();
         }
@@ -107,7 +100,7 @@ public class EventDetectorPropertiesServiceTest {
     @After
     public void clean() {
         eventDetectorObjectsCreators
-                .forEach(EventDetectorObjectsCreator::deleteObjects);
+                .forEach(EventDetectorObjectsCreator::deleteEventDetectors);
         eventDetectorObjectsCreators.clear();
     }
 
@@ -115,7 +108,7 @@ public class EventDetectorPropertiesServiceTest {
     public void test_get_datapoint_properties() {
 
         //given:
-        PointValueParams pointTarget = new PointValueParams(dataPointCriteria.getXid().getValue());
+        PointValueParams pointTarget = new PointValueParams(DATA_POINT_CRITERIA.getXid().getValue());
 
         //when:
         E2eResponse<DataPointPropertiesResponse> getResponse = TestWithoutPageUtil.getDataPointProperties(pointTarget, a -> {

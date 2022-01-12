@@ -42,6 +42,14 @@ interface PageContent<T extends PageObject<T>> extends GetPage<T> {
         return getPage();
     }
 
+    default T acceptAlert() {
+        return acceptAlertOnPage();
+    }
+
+    default T dismissAlert() {
+        return dismissAlertOnPage();
+    }
+
     default T dismissAlertOnPage() {
         try {
             switchTo().alert().dismiss();

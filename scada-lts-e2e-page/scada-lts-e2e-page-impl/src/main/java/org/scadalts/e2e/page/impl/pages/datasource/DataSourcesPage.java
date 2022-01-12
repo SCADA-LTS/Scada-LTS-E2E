@@ -67,6 +67,14 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         return this;
     }
 
+    public EditDataSourceWithPointListPage openDataSourceEditor(DataSourceCriteria criteria) {
+        return openDataSourceEditor(criteria.getIdentifier());
+    }
+
+    public DataSourcesPage deleteDataSource(DataSourceCriteria criteria) {
+        return deleteDataSource(criteria.getIdentifier());
+    }
+
     public DataSourcesPage deleteAllDataSourcesMatching(NodeCriteria nodeCriteria) {
         waitWhile(dataSourcesTable, Condition.empty);
         List<SelenideElement> deleteActions = findActions(nodeCriteria,SELECTOR_ACTION_DELETE_DATA_SOURCE_BY,dataSourcesTable);
@@ -121,6 +129,18 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         SelenideElement selenideElement = _findAction(identifier,SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY);
         acceptAfterClick(selenideElement);
         return this;
+    }
+
+    public DataSourcesPage enableDataSource(DataSourceCriteria criteria) {
+        return enableDataSource(criteria.getIdentifier());
+    }
+
+    public boolean isEnabledDataSource(DataSourceCriteria criteria) {
+        return isEnabledDataSource(criteria.getIdentifier());
+    }
+
+    public DataSourcesPage disableDataSource(DataSourceCriteria criteria) {
+        return disableDataSource(criteria.getIdentifier());
     }
 
     public DataSourcesPage selectDataSourceTypeOnPage(DataSourceType dataSourceType) {

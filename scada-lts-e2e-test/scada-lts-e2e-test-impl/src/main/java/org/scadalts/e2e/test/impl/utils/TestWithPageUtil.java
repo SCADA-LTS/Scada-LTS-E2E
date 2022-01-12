@@ -12,6 +12,7 @@ import org.scadalts.e2e.page.impl.pages.LoginPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.core.config.ServiceObjectConfigurator;
 import org.scadalts.e2e.test.core.config.TestCoreConfigurator;
+import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.config.TestImplConfigurator;
 
@@ -32,10 +33,32 @@ public class TestWithPageUtil {
         Optional<String> sessionIdOpt = navigationPage.getSessionId();
         if (!sessionIdOpt.isPresent() || sessionIdOpt.get().isEmpty())
             return false;
-        return TestWithoutPageUtil.isLogged();
+        if(!TestWithoutPageUtil.isApiLogged()) {
+            return false;
+        }
+        if(navigationPage.getCurrentUrl() == null || navigationPage.getCurrentUrl().contains("login.htm")) {
+            TestWithoutPageUtil.logout();
+            return false;
+        }
+        return true;
     }
 
+    public static NavigationPage openNavigationPage(CreatorObject<?, ?> creatorObject, CreatorObject<?, ?>... creatorObjects) {
+        if(!TestWithPageUtil.isLogged()) {
+            creatorObject.reload();
+            for (CreatorObject<?, ?> creator: creatorObjects)
+                creator.reload();
+            if(TestWithPageUtil.isLogged())
+                navigationPage = TestWithPageUtil.getNavigationPage();
+            else
+                navigationPage = TestWithPageUtil.openNavigationPage();
+        }
+        return navigationPage;
+    }
+
+
     public static NavigationPage openNavigationPage() {
+        _setup();
         if (!E2eConfiguration.checkAuthentication)
             close();
         return preparingTest();
@@ -48,16 +71,6 @@ public class TestWithPageUtil {
         return navigationPage;
     }
 
-    public static NavigationPage preparingTest() {
-        try {
-            return _preparingTest();
-        } catch (Throwable ex) {
-            close();
-            logger.warn(ex.getMessage(), ex);
-            throw new InitializeTestException(ex);
-        }
-    }
-
     public static void close() {
         try {
             _close();
@@ -66,10 +79,21 @@ public class TestWithPageUtil {
         }
     }
 
-    public static void initNavigationPage(NavigationPage navigationPage) {
-        TestWithPageUtil.navigationPage = navigationPage;
-        E2eConfiguration.sessionId = navigationPage.getSessionId().orElse("");
-        ServiceObjectConfigurator.init(E2eConfiguration.sessionId);
+    public static void logout() {
+        if (navigationPage == null) {
+            return;
+        }
+        navigationPage.logout();
+    }
+
+    private static NavigationPage preparingTest() {
+        try {
+            return _preparingTest();
+        } catch (Throwable ex) {
+            close();
+            logger.warn(ex.getMessage(), ex);
+            throw new InitializeTestException(ex);
+        }
     }
 
     private static NavigationPage _preparingTest() {
@@ -80,31 +104,21 @@ public class TestWithPageUtil {
     }
 
     private static void _loginOrThrow() {
-        _setup();
         _login();
         if (E2eConfiguration.checkAuthentication && !isLogged())
-            throw new E2eAuthenticationException(E2eConfiguration.userName);
+            throw new E2eAuthenticationException(E2eConfiguration.username);
     }
 
-    public static void _close() {
+    private static void _close() {
         logger.info("close...");
         try {
-            if (navigationPage != null) {
-                if (E2eConfiguration.checkAuthentication && isLogged()) {
-                    logout();
-                }
-            }
+            if (navigationPage != null && E2eConfiguration.checkAuthentication && isLogged())
+                logout();
         } finally {
+            if(navigationPage != null)
+                NavigationPage.kill();
             navigationPage = null;
-            NavigationPage.kill();
         }
-    }
-
-    public static void logout() {
-        if (navigationPage == null) {
-            return;
-        }
-        navigationPage.logout();
     }
 
     private static void _login() {
@@ -124,7 +138,7 @@ public class TestWithPageUtil {
         String sessionId = _getSessionId(navigationPage);
 
         if (sessionId.isEmpty())
-            throw new NoSuchSessionException("sessionId is empty, user: " + E2eConfiguration.userName);
+            throw new NoSuchSessionException("sessionId is empty, user: " + E2eConfiguration.username);
 
         E2eConfiguration.sessionId = sessionId;
         ServiceObjectConfigurator.init(sessionId);
@@ -149,7 +163,7 @@ public class TestWithPageUtil {
             if (body != null && body.contains("Connection refused")) {
                 throw new ApplicationIsNotAvailableException("");
             }
-            return loginPage.setUserName(E2eConfiguration.userName)
+            return loginPage.setUserName(E2eConfiguration.username)
                     .setPassword(E2eConfiguration.password)
                     .login();
         } catch (TimeoutException th) {

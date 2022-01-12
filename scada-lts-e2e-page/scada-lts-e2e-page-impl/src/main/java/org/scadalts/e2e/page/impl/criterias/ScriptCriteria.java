@@ -26,7 +26,7 @@ public class ScriptCriteria implements CriteriaObject, GetXid {
                 .dataPointVarCriterias(Arrays.asList(dataPointVarCriterias))
                 .enableDataPointCommands(false)
                 .enableDataPointCommands(true)
-                .xid(Xid.xidForScript())
+                .xid(Xid.script())
                 .script(script)
                 .identifier(identifier)
                 .build();
@@ -37,7 +37,7 @@ public class ScriptCriteria implements CriteriaObject, GetXid {
                 .dataPointVarCriterias(Arrays.asList(dataPointVarCriterias))
                 .enableDataPointCommands(false)
                 .enableDataPointCommands(true)
-                .xid(Xid.xidForScript())
+                .xid(Xid.script())
                 .script(script)
                 .identifier(IdentifierObjectFactory.scriptName())
                 .build();
@@ -48,7 +48,7 @@ public class ScriptCriteria implements CriteriaObject, GetXid {
                 .dataPointVarCriterias(Collections.emptyList())
                 .enableDataPointCommands(false)
                 .enableDataPointCommands(false)
-                .xid(Xid.xidForScript())
+                .xid(Xid.script())
                 .script(Script.empty())
                 .identifier(new ScriptIdentifier(""))
                 .build();

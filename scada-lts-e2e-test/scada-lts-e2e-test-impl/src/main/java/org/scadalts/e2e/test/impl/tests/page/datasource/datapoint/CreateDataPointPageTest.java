@@ -11,8 +11,10 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
 import org.scadalts.e2e.page.impl.dicts.ChangeType;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
+import org.scadalts.e2e.page.impl.pages.app.AppPage;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
+import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
@@ -22,8 +24,8 @@ import static org.junit.Assert.assertThat;
 public class CreateDataPointPageTest {
 
     private static final DataPointType dataPointType = DataPointType.BINARY;
-    private static final ChangeType changeType = ChangeType.ALTERNATE;
-    private final DataPointIdentifier dataPointToCreateName = IdentifierObjectFactory.dataPointName(dataPointType);
+    private static final ChangeType changeType = ChangeType.NO_CHANGE;
+    private final DataPointIdentifier dataPointCreatedName = IdentifierObjectFactory.dataPointName(dataPointType);
 
     private DataPointCriteria dataPointCreatedCriteria;
     private DataSourceCriteria dataSourceCriteria;
@@ -33,18 +35,22 @@ public class CreateDataPointPageTest {
 
     private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
 
+    NavigationPage navigationPage;
+
     @Before
     public void createDataSource() {
         dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
         dataPointCreatedCriteria = DataPointCriteria.builder()
                 .dataPointProperties(DataPointProperties.empty())
-                .xid(Xid.xidForDataPoint())
-                .identifier(dataPointToCreateName)
+                .xid(Xid.dataPoint())
+                .identifier(dataPointCreatedName)
                 .changeType(changeType)
                 .startValue("true")
                 .build();
 
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(), dataSourceCriteria, dataPointCreatedCriteria);
+        navigationPage = TestWithPageUtil.openNavigationPage();
+
+        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourceCriteria, dataPointCreatedCriteria);
 
         dataSourcesPage = dataSourcePointObjectsCreator.openPage();
         editDataSourceWithPointListPageSubject = dataSourcePointObjectsCreator.createDataSources();
@@ -61,22 +67,21 @@ public class CreateDataPointPageTest {
 
         //when:
         editDataSourceWithPointListPageSubject.addDataPoint()
-                .setDataPointName(dataPointToCreateName)
+                .setName(dataPointCreatedName)
                 .enableSettable()
-                .selectDataPointType(dataPointType)
-                .selectChangeType(changeType)
+                .setDataPointType(dataPointType)
+                .setChangeType(changeType)
                 .setStartValue(dataPointCreatedCriteria)
-                .saveDataPoint()
+                .save()
                 .enableDataPoint(dataPointCreatedCriteria.getIdentifier());
 
         //and:
         String body = dataSourcesPage.reopen()
                 .openDataSourceEditor(dataSourceCriteria.getIdentifier())
+                .waitOnPointsTable()
                 .getBodyText();
 
         //then:
-        assertThat(body, containsString(dataPointToCreateName.getValue()));
+        assertThat(body, containsString(dataPointCreatedName.getValue()));
     }
-
-
 }
