@@ -2,6 +2,7 @@ package org.scadalts.e2e.test.impl.providers;
 
 import org.scadalts.e2e.common.core.types.TestPlan;
 import org.scadalts.e2e.test.core.plans.providers.TestClassByPlanProvider;
+import org.scadalts.e2e.test.impl.backstop.GenerateBackstopConfigJson;
 import org.scadalts.e2e.test.impl.config.auto.AlarmNotificationAutomaticConfiguration;
 import org.scadalts.e2e.test.impl.config.auto.ConfigForProdChecker;
 import org.scadalts.e2e.test.impl.config.auto.PerformAutomaticConfiguration;
@@ -46,6 +47,7 @@ public class ScadaTestClassByPlanProvider implements TestClassByPlanProvider {
         tests.put(TestPlan.CONFIG_PROD_CHECKER, ConfigForProdChecker.class);
         tests.put(TestPlan.FROM_GROOVY_SCRIPT, GroovyEngine.class);
         tests.put(TestPlan.ALARM_STORUNG, StorungsAndAlarmsServiceTestsSuite.class);
+        tests.put(TestPlan.GEN_BACKSTOP_CONFIG, GenerateBackstopConfigJson.class);
     }
 
     @Override
