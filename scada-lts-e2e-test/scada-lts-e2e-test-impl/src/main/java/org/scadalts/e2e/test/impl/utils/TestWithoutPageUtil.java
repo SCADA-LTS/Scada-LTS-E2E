@@ -249,6 +249,10 @@ public class TestWithoutPageUtil {
     public static int createEventDetectorAndGetId(int dataPointId, EventDetectorCriteria eventDetectorCriteria){
         EventDetectorParams eventDetectorParams = prepareEventDetectorParams(dataPointId, eventDetectorCriteria);
         E2eResponse<EventDetectorPostResponse> setResponse = TestWithoutPageUtil.setEventDetector(eventDetectorParams);
+        if(setResponse.isEmpty() || setResponse.getValue() == null) {
+            logger.warn(setResponse);
+            return -1;
+        }
         return setResponse.getValue().getId();
     }
 

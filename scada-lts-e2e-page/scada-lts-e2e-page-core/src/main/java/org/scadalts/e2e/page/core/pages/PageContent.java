@@ -1,11 +1,9 @@
 package org.scadalts.e2e.page.core.pages;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import org.openqa.selenium.By;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
-import org.scadalts.e2e.page.core.utils.E2eWebDriverProvider;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.switchTo;

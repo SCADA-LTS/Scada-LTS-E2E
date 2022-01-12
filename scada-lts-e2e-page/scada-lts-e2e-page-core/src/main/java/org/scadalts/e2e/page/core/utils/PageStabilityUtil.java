@@ -212,4 +212,22 @@ public abstract class PageStabilityUtil {
         return element;
     }
 
+    public static <T extends PageObject<T>, R> void scrollDownWhile(PageObject<T> page,
+                                                                    Predicate<R> predicate,
+                                                                    R criteria) {
+        long high = page.getScrollHight();
+        long sum = 0;
+        int limit = 100;
+        int step = page.getWindowHeight() - 150;
+        if(high < step)
+            return;
+        while((sum <= high && limit > 0)) {
+            if(!predicate.test(criteria))
+                return;
+            page.scrollDown(sum);
+            sum+=step;
+            limit--;
+        }
+    }
+
 }

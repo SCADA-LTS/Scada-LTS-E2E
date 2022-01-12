@@ -13,6 +13,11 @@ public interface ScrollPage<T extends PageObject<T>> extends JavascriptExecutabl
         return getPage();
     }
 
+    default T scrollUp() {
+        executeJs("window.scrollTo(0, 0);");
+        return getPage();
+    }
+
     default long getScrollHight() {
         return executeJsLong(() -> "return document.body.scrollHeight;");
     }

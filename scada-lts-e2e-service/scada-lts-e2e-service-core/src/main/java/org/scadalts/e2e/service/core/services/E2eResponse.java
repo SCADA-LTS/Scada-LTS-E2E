@@ -27,4 +27,7 @@ public class E2eResponse<T> {
         return E2eResponse.<T>builder().status(-1).build();
     }
 
+    public boolean isEmpty() {
+        return status == -1;
+    }
 }

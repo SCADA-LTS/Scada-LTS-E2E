@@ -19,8 +19,7 @@ import static com.codeborne.selenide.Selenide.page;
 import static org.scadalts.e2e.page.core.criterias.Tag.td;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObjects;
-import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
-import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.*;
 import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.clazz;
 
 @Log4j2
@@ -70,7 +69,9 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
     }
 
     public PointLinksDetailsPage openPointLinkEditor(PointLinkCriteria criteria) {
+        scrollDownWhile(this, a -> !containsObject(a.getIdentifier()), criteria);
         _findAction(criteria).click();
+        scrollUp();
         return page(new PointLinksDetailsPage(this));
     }
 
