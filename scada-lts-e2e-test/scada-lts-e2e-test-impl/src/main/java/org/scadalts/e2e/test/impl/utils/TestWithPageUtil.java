@@ -115,8 +115,9 @@ public class TestWithPageUtil {
             if (navigationPage != null && E2eConfiguration.checkAuthentication && isLogged())
                 logout();
         } finally {
+            if(navigationPage != null)
+                NavigationPage.kill();
             navigationPage = null;
-            NavigationPage.kill();
         }
     }
 

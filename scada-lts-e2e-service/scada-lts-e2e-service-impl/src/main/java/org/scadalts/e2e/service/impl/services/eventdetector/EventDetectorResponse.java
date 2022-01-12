@@ -16,14 +16,19 @@ public class EventDetectorResponse implements Serializable {
     private int id;
     private String xid;
     private String alias;
-    private int detectorType;
-    private int alarmLevel;
+    @Builder.Default
+    private int detectorType = 1;
+    @Builder.Default
+    private int alarmLevel = 1;
     private double limit;
-    private int duration;
-    private int durationType;
+    @Builder.Default
+    private int duration = 1;
+    @Builder.Default
+    private int durationType = 1;
     private boolean binaryState;
     private int multistateState;
-    private int changeCount;
+    @Builder.Default
+    private int changeCount = 2;
     private String alphanumericState;
     private double weight;
 }

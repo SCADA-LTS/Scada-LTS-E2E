@@ -7,16 +7,18 @@ import org.scadalts.e2e.test.impl.config.auto.AlarmNotificationAutomaticConfigur
 import org.scadalts.e2e.test.impl.config.auto.ConfigForProdChecker;
 import org.scadalts.e2e.test.impl.config.auto.PerformAutomaticConfiguration;
 import org.scadalts.e2e.test.impl.config.auto.tasks.exports.Exporter;
+import org.scadalts.e2e.test.impl.groovy.GroovyEngine;
 import org.scadalts.e2e.test.impl.tests.ScadaAllTestsSuite;
 import org.scadalts.e2e.test.impl.tests.ScadaPageAndServiceTestsSuite;
 import org.scadalts.e2e.test.impl.tests.ScadaProdTestsSuite;
 import org.scadalts.e2e.test.impl.tests.check.ScadaCheckTestsSuite;
 import org.scadalts.e2e.test.impl.tests.check.login.LoginCheckTest;
 import org.scadalts.e2e.test.impl.tests.check.login.LogoutCheckTest;
-import org.scadalts.e2e.test.impl.groovy.GroovyEngine;
 import org.scadalts.e2e.test.impl.tests.page.ScadaPageTestsSuite;
 import org.scadalts.e2e.test.impl.tests.performance.ScadaPerformanceTestsSuite;
 import org.scadalts.e2e.test.impl.tests.service.ScadaServiceTestsSuite;
+import org.scadalts.e2e.test.impl.tests.service.eventdetector.EventDetectorServiceTestsSuite;
+import org.scadalts.e2e.test.impl.tests.service.eventhandler.EventHandlerServiceTestsSuite;
 import org.scadalts.e2e.test.impl.tests.service.storungs.StorungsAndAlarmsServiceTestsSuite;
 
 import java.util.HashMap;
@@ -47,6 +49,8 @@ public class ScadaTestClassByPlanProvider implements TestClassByPlanProvider {
         tests.put(TestPlan.CONFIG_PROD_CHECKER, ConfigForProdChecker.class);
         tests.put(TestPlan.FROM_GROOVY_SCRIPT, GroovyEngine.class);
         tests.put(TestPlan.ALARM_STORUNG, StorungsAndAlarmsServiceTestsSuite.class);
+        tests.put(TestPlan.EVENT_DETECTOR_SERVICE, EventDetectorServiceTestsSuite.class);
+        tests.put(TestPlan.EVENT_HANDLER_SERVICE, EventHandlerServiceTestsSuite.class);
         tests.put(TestPlan.GEN_BACKSTOP_CONFIG, GenerateBackstopConfigJson.class);
     }
 

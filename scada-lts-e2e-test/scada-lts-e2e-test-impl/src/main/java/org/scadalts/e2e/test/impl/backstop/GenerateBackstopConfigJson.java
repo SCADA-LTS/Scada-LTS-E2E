@@ -30,7 +30,6 @@ public class GenerateBackstopConfigJson {
                 .entrySet()
                 .stream()
                 .map(a -> new String[] {a.getKey(), a.getValue()})
-                .limit(2)
                 .collect(Collectors.toList());
     }
 
