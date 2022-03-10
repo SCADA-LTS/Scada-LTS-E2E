@@ -34,7 +34,7 @@ class TestClassesProviderImpl implements TestClassesProvider {
         if(config.getClassesTestRefs().length > 0)
             result.addAll(_getTestClassesByRef(config));
         result.addAll(_getTestClasses(config));
-        if(!isAny(config))
+        if(!isAny(config) && !isGroovyOnly(config))
             result.add(plans.getTestClass(TestPlan.LOGOUT));
         return result.stream()
                 .flatMap(this::getStream)
@@ -45,6 +45,13 @@ class TestClassesProviderImpl implements TestClassesProvider {
         for(TestPlan plan: config.getTestPlans()) {
             if(plan == TestPlan.ANY)
                 return true;
+        }
+        return false;
+    }
+
+    private boolean isGroovyOnly(E2eConfig config) {
+        if(config.getTestPlans().length == 1) {
+            return config.getTestPlans()[0] == TestPlan.FROM_GROOVY_SCRIPT;
         }
         return false;
     }

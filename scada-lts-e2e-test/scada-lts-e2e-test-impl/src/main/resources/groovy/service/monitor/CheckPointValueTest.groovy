@@ -49,7 +49,9 @@ class CheckPointValueTest {
         //then:
         Assert.assertNotNull(MessageFormat.format("datapoint: {0} (xid: {1}) is not exists", point.getName(), point.getXid()), getResponse.getValue())
         Assert.assertNotNull(MessageFormat.format("datapoint: {0} (xid: {1}) is not exists", point.getName(), point.getXid()), getResponse.getValue().getFormattedValue())
-        Assert.assertTrue(MessageFormat.format("datapoint: {0} (xid: {1}) value exceeds the upper limit: {2}", point.getName(), point.getXid(), point.getMax()), Double.valueOf(getResponse.getValue().getFormattedValue()) < point.getMax())
-        Assert.assertTrue(MessageFormat.format("datapoint: {0} (xid: {1}) value exceeds the lower limit: {2}", point.getName(), point.getXid(), point.getMin()), Double.valueOf(getResponse.getValue().getFormattedValue()) > point.getMin())
+
+        double var1 = Double.parseDouble(getResponse.getValue().getFormattedValue());
+        Assert.assertTrue(MessageFormat.format("datapoint: {0} (xid: {1}) value exceeds the upper limit: {2} and was: {3}", point.getName(), point.getXid(), point.getMax(), var1), var1 < point.getMax())
+        Assert.assertTrue(MessageFormat.format("datapoint: {0} (xid: {1}) value exceeds the lower limit: {2} and was: {3}", point.getName(), point.getXid(), point.getMin(), var1), var1 > point.getMin())
     }
 }
