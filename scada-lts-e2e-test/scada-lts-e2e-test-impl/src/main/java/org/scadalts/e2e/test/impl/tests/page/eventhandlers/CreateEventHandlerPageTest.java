@@ -47,12 +47,12 @@ public class CreateEventHandlerPageTest {
         navigationPage = TestWithPageUtil.openNavigationPage();
 
         dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-        dataPointCriteria = DataPointCriteria.binaryAlternate();
+        dataPointCriteria = DataPointCriteria.binaryNoChange();
         DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
         DataSourcePointCriteria dataSourcePointCriteria2 = DataSourcePointCriteria.criteria(DataSourceCriteria.virtualDataSourceSecond(),
-                DataPointCriteria.binaryAlternate());
+                DataPointCriteria.binaryNoChange());
         DataSourcePointCriteria dataSourcePointCriteria3 = DataSourcePointCriteria.criteria(DataSourceCriteria.virtualDataSourceSecond(),
-                DataPointCriteria.binaryAlternate());
+                DataPointCriteria.binaryNoChange());
 
         EventDetectorCriteria eventDetectorCriteria2 = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria2);
         eventDetectorCriteria = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria);

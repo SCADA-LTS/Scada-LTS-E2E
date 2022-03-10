@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>22.1.2-SNAPSHOT</version>
+    <version>22.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -979,12 +979,12 @@
                 <test.e2e.run-app.continuous-mode>true</test.e2e.run-app.continuous-mode>
                 <test.e2e.run-app.user-smtp>{userSmtp}</test.e2e.run-app.user-smtp>
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
-                <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
-                <test.e2e.run-app.port-smtp>0</test.e2e.run-app.port-smtp>
+                <test.e2e.run-app.host-smtp>localhost</test.e2e.run-app.host-smtp>
+                <test.e2e.run-app.port-smtp>25</test.e2e.run-app.port-smtp>
                 <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
-                <test.e2e.run-app.notification-email-mode>false</test.e2e.run-app.notification-email-mode>
+                <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
                 <test.e2e.run-app.title-email>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of failed tests</test.e2e.run-app.title-email>
                 <test.e2e.browser-options-args>--no-proxy-server;--proxy-server='direct://';--proxy-bypass-list=*;--no-sandbox;--disable-setuid-sandbox;--verbose;--disable-dev-shm-usage;--disable-gpu;--disable-popup-blocking</test.e2e.browser-options-args>

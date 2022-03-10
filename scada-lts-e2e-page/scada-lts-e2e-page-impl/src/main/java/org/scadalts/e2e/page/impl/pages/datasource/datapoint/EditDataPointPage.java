@@ -8,7 +8,10 @@ import org.scadalts.e2e.page.core.utils.AlertUtil;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
-import org.scadalts.e2e.page.impl.dicts.*;
+import org.scadalts.e2e.page.impl.dicts.ChangeType;
+import org.scadalts.e2e.page.impl.dicts.ChangeTypeField;
+import org.scadalts.e2e.page.impl.dicts.DataPointChangeFieldType;
+import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 
 import java.text.MessageFormat;
@@ -17,7 +20,6 @@ import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 import static javax.xml.bind.DatatypeConverter.parseBoolean;
-import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlert;
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhileNotVisible;
@@ -128,6 +130,15 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         waitWhile($(css), not(Condition.visible))
                 .setValue(criteria.getStartValue());
         return this;
+    }
+
+    public String getMsgStartValue(DataPointCriteria criteria) {
+        delay();
+        String css = MessageFormat.format("td *[id=''{0}'']", DataPointChangeFieldType
+                .getType(criteria, ChangeTypeField.START_VALUE).getId());
+        waitWhile($(css), not(Condition.visible))
+                .setValue(criteria.getStartValue());
+        return "";
     }
 
     public EditDataPointPage save() {

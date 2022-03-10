@@ -32,24 +32,34 @@ public class LoginServiceObject implements WebServiceObject {
 
     public Optional<E2eResponse<String>> login(LoginParams loginParams, long timeout) {
         try {
-            E2eResponse<String> response = applyWhile(this::_login, loginParams, new StabilityUtil.Timeout(timeout));
+            E2eResponse<String> response = applyWhile(this::_loginTry, loginParams, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
-            logger.error(e.getMessage(), e);
-            return Optional.empty();
+            try {
+                E2eResponse<String> response = applyWhile(this::_loginTry2, loginParams, new StabilityUtil.Timeout(timeout));
+                return Optional.ofNullable(response);
+            } catch (Throwable ex) {
+                logger.error(ex.getMessage(), ex);
+                return Optional.empty();
+            }
         }
     }
 
     public Optional<E2eResponse<String>> loginOrThrowException(LoginParams loginParams, long timeout) {
         try {
-            E2eResponse<String> response = applyWhileOrThrowException(this::_login, loginParams, new StabilityUtil.Timeout(timeout));
+            E2eResponse<String> response = applyWhileOrThrowException(this::_loginTry, loginParams, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable th) {
-            if((th.getCause() instanceof ConnectException)
-                    || (th.getCause() instanceof SocketTimeoutException)) {
-                throw new ApplicationIsNotAvailableException("");
+            try {
+                E2eResponse<String> response = applyWhileOrThrowException(this::_loginTry2, loginParams, new StabilityUtil.Timeout(timeout));
+                return Optional.ofNullable(response);
+            } catch (Throwable th1) {
+                if((th1.getCause() instanceof ConnectException)
+                        || (th1.getCause() instanceof SocketTimeoutException)) {
+                    throw new ApplicationIsNotAvailableException("");
+                }
+                throw th1;
             }
-            throw th;
         }
     }
 
@@ -82,7 +92,7 @@ public class LoginServiceObject implements WebServiceObject {
     }
 
     private E2eResponse<String> _login(LoginParams loginParams) {
-        return _loginTry(loginParams);
+        return _loginTry2(loginParams);
     }
 
     private E2eResponse<String> _loginTry(LoginParams loginParams) {
@@ -96,6 +106,24 @@ public class LoginServiceObject implements WebServiceObject {
                 .request()
                 //.header("Authorization","Basic " + toBase64(loginParams))
                 .post(Entity.form(data));
+        E2eResponse<String> res = E2eResponseFactory.newResponse(response, String.class);
+        _setConfig(res);
+        return res;
+    }
+
+    private E2eResponse<String> _loginTry2(LoginParams loginParams) {
+        String endpoint = baseUrl + "/login";
+        logger.debug("endpoint: {}", endpoint);
+        MultivaluedMap<String, String> data = new MultivaluedHashMap<>();
+        data.put("username", Arrays.asList(loginParams.getUserName()));
+        data.put("password", Arrays.asList(loginParams.getPassword()));
+        Response response = ClientBuilder.newClient()
+                .target(endpoint)
+                .path(loginParams.getUserName())
+                .path(loginParams.getPassword())
+                .request()
+                //.header("Authorization","Basic " + toBase64(loginParams))
+                .get();
         E2eResponse<String> res = E2eResponseFactory.newResponse(response, String.class);
         _setConfig(res);
         return res;
