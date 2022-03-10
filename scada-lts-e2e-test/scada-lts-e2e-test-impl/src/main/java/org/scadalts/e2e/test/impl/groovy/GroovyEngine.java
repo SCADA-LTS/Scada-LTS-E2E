@@ -53,7 +53,6 @@ public class GroovyEngine {
             if(TestWithoutPageUtil.isApiLogged())
                 TestWithoutPageUtil.close();
         }
-        ConfigurationUtil.withPoints(false);
         ConfigurationUtil.pageMode(false);
     }
 
