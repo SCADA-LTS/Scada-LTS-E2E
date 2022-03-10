@@ -11,6 +11,7 @@ import org.scadalts.e2e.page.core.config.PageConfiguration;
 import org.scadalts.e2e.page.impl.groovy.*;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
+import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.Collection;
 
@@ -45,8 +46,14 @@ public class GroovyEngine {
 
     @After
     public void after() {
-        if (TestWithPageUtil.isLogged())
-            TestWithPageUtil.close();
+        if(ConfigurationUtil.isPageMode()) {
+            if (TestWithPageUtil.isLogged())
+                TestWithPageUtil.close();
+        } else {
+            if(TestWithoutPageUtil.isApiLogged())
+                TestWithoutPageUtil.close();
+        }
+        ConfigurationUtil.pageMode(false);
     }
 
     @AfterClass
@@ -58,18 +65,27 @@ public class GroovyEngine {
         deleteObjects();
         ConfigurationUtil.headless(PageConfiguration.headless);
         ConfigurationUtil.path(PageConfiguration.reportsUrl);
-        if (TestWithPageUtil.isLogged())
-            TestWithPageUtil.close();
+        if(ConfigurationUtil.isPageMode()) {
+            if (TestWithPageUtil.isLogged())
+                TestWithPageUtil.close();
+        } else {
+            if(TestWithoutPageUtil.isApiLogged())
+                TestWithoutPageUtil.close();
+        }
     }
 
     private void _preconfig(GroovyExecute execute) {
         execute.getGroovyObject().invokeMethod("preconfig", new Object[0]);
-        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
-        NavigationUtil.init(navigationPage);
-        OperationUtil.init(navigationPage);
-        OperationPageUtil.init(navigationPage);
-        CreatorUtil.init(navigationPage);
-        EditorUtil.init(navigationPage);
+        if(ConfigurationUtil.isPageMode()) {
+            NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
+            NavigationUtil.init(navigationPage);
+            OperationUtil.init(navigationPage);
+            OperationPageUtil.init(navigationPage);
+            CreatorUtil.init(navigationPage);
+            EditorUtil.init(navigationPage);
+        } else {
+            TestWithoutPageUtil.preparingTest();
+        }
     }
 
     private void _config(GroovyExecute execute) {
@@ -77,7 +93,11 @@ public class GroovyEngine {
     }
 
     private void _test(GroovyExecute execute) {
-        execute.getGroovyObject().invokeMethod("test", new Object[0]);
+        if(!execute.getData().isEmpty()) {
+            execute.getGroovyObject().invokeMethod("test", execute.getData());
+        } else {
+            execute.getGroovyObject().invokeMethod("test", new Object[0]);
+        }
     }
 
 }

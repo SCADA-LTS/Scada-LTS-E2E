@@ -2,15 +2,9 @@ package groovy
 
 import org.junit.Before
 import org.junit.BeforeClass
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria
-import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage
 
-import static org.scadalts.e2e.page.impl.groovy.NavigationUtil.*
-import static org.scadalts.e2e.page.impl.groovy.ConfigurationUtil.*
-import static org.scadalts.e2e.page.impl.groovy.ConfigurationUtil.*
-import static org.scadalts.e2e.common.core.utils.DateTimeFormatUtil.*
-import static org.scadalts.e2e.page.impl.groovy.OperationUtil.*
+import static org.scadalts.e2e.page.impl.groovy.ConfigurationUtil.headless
+import static org.scadalts.e2e.page.impl.groovy.ConfigurationUtil.pageMode
 
 /*
 GraphicalViewsPage.viewNames
@@ -29,6 +23,7 @@ class Test {
     @BeforeClass
     static void preconfig() {
         headless(true)
+        pageMode(false)
     }
 
     @Before

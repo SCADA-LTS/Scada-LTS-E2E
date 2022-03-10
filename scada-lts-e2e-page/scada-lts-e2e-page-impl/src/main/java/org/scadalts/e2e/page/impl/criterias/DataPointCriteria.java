@@ -93,6 +93,20 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
                 .build();
     }
 
+    public static DataPointCriteria internal(String name, Xid xid) {
+        ChangeType changeType = ChangeType.NONE;
+        DataPointType dataPointType = DataPointType.NONE;
+        return DataPointCriteria.builder()
+                .changeType(changeType)
+                .identifier(new DataPointIdentifier(name, dataPointType))
+                .dataPointProperties(DataPointProperties.empty())
+                .startValue(dataPointType.getDefaultValue())
+                .settable(false)
+                .enabled(true)
+                .xid(xid)
+                .build();
+    }
+
     public static DataPointCriteria numericNoChange() {
         DataPointType dataPointType = DataPointType.NUMERIC;
         ChangeType changeType = ChangeType.NO_CHANGE;
@@ -199,7 +213,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
                 .changeType(changeType)
                 .identifier(identifier)
                 .dataPointProperties(DataPointProperties.empty())
-                .startValue("123")
+                .startValue(identifier.getType().getDefaultValue())
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
@@ -212,7 +226,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
                 .changeType(changeType)
                 .identifier(identifier)
                 .dataPointProperties(DataPointProperties.empty())
-                .startValue("123")
+                .startValue(identifier.getType().getDefaultValue())
                 .settable(true)
                 .enabled(true)
                 .xid(new Xid(xid))
@@ -226,7 +240,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
                 .changeType(changeType)
                 .identifier(identifier)
                 .dataPointProperties(DataPointProperties.empty())
-                .startValue("123")
+                .startValue(identifier.getType().getDefaultValue())
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
@@ -240,7 +254,7 @@ public class DataPointCriteria implements CriteriaObject, GetXid {
                 .changeType(changeType)
                 .identifier(identifier)
                 .dataPointProperties(DataPointProperties.empty())
-                .startValue("123")
+                .startValue(identifier.getType().getDefaultValue())
                 .settable(true)
                 .enabled(enabled)
                 .xid(xid)

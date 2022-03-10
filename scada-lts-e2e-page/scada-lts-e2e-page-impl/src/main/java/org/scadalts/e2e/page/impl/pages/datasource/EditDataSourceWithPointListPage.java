@@ -5,23 +5,21 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.core.utils.AlertUtil;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.Xid;
-import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
-import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointPropertiesPage;
+import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
-import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAlert;
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
@@ -167,7 +165,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     public EditDataPointPage openDataPointEditor(DataPointIdentifier dataPointIdentifier) {
         acceptAfterClick(_findAction(dataPointIdentifier, SELECTOR_ACTION_EDIT_DATA_POINT_BY));
         printCurrentUrl();
-        return page(EditDataPointPage.class).acceptAlertOnPage();
+        return page(EditDataPointPage.class);
     }
 
     public DataPointPropertiesPage openDataPointProperties(DataPointIdentifier dataPointIdentifier) {

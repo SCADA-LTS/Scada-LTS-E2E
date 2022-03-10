@@ -17,9 +17,9 @@ import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
 
 public class DeleteDataPointPageTest {
 
@@ -34,8 +34,8 @@ public class DeleteDataPointPageTest {
     public void createDataSourceAndPoint() {
 
         DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-        DataPointCriteria dataPointCriteria = DataPointCriteria.binaryAlternate();
-        DataPointCriteria dataPointCriteria2 = DataPointCriteria.binaryAlternate();
+        DataPointCriteria dataPointCriteria = DataPointCriteria.binaryNoChange();
+        DataPointCriteria dataPointCriteria2 = DataPointCriteria.binaryNoChange();
 
         dataPointToDeleteCriteria = DataPointCriteria.builder()
                 .dataPointProperties(DataPointProperties.empty())
@@ -48,8 +48,7 @@ public class DeleteDataPointPageTest {
         dataSourcesPageCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(), dataSourceCriteria, dataPointCriteria,
                 dataPointToDeleteCriteria, dataPointCriteria2);
         editDataSourceWithPointListPageSubject = dataSourcesPageCreator.createObjects()
-                .openDataSourceEditor(dataSourceCriteria.getIdentifier())
-                .acceptAlertOnPage();
+                .openDataSourceEditor(dataSourceCriteria.getIdentifier());
     }
 
     @After

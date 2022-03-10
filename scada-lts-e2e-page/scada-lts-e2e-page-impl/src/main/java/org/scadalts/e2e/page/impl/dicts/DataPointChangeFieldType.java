@@ -50,7 +50,7 @@ public enum DataPointChangeFieldType implements DictionaryObject {
 
     @Override
     public String getName() {
-        return this.getName() + dataPointType.getName() + changeTypeField.getName();
+        return changeType.getName() + dataPointType.getName() + changeTypeField.getName();
     }
 
     @Override

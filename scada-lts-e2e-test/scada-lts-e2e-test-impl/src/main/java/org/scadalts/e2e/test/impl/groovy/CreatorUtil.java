@@ -3,7 +3,6 @@ package org.scadalts.e2e.test.impl.groovy;
 import org.scadalts.e2e.page.core.utils.AlertUtil;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
-import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointPropertiesPage;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.graphicalviews.GraphicalViewsPage;
@@ -94,6 +93,10 @@ public class CreatorUtil {
                 new WatchListObjectsCreator(navigationPage, criteria);
         creators.add(creator);
         return creator.createObjects();
+    }
+
+    public static DataSourcesPage deleteDsTest() {
+        return DataSourcePointObjectsCreator.deleteAllDataSourcesTest(navigationPage);
     }
 
     public static void deleteObjects() {
