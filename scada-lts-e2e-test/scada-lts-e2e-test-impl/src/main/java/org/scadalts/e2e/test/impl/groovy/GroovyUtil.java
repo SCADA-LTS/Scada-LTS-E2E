@@ -29,6 +29,20 @@ public final class GroovyUtil {
 
     private GroovyUtil() {}
 
+    public static DataPointTestData[] getGroovyPoints() {
+        String[] points = values("run.test.points");
+        return Stream.of(points).map(point -> {
+            String[] dates = point.split(":");
+            return dates.length != 4 ? DataPointTestData.empty() :
+                    DataPointTestData.builder()
+                    .xid(dates[0])
+                    .name(dates[1])
+                    .min(Double.parseDouble(dates[2]))
+                    .max(Double.parseDouble(dates[3]))
+                    .build();
+        }).toArray(DataPointTestData[]::new);
+    }
+
     public static Collection<GroovyExecute> getGroovyExecutes() {
         List<String> names = names("add.test.paths");
         for (String test : names) {
@@ -39,23 +53,37 @@ public final class GroovyUtil {
             path.toFile().mkdirs();
         boolean auto = Boolean.parseBoolean(toPropeties().getProperty("run.test.auto", "true"));
         logger.info("automatic script loading: {}", auto);
-        List<File> groovyFiles = new ArrayList<>();
+
+        Collection<GroovyExecute> result = new ArrayList<>();
         if(auto) {
-            collectGroovyFiles(path.toFile(), groovyFiles, a -> true);
+            List<File> autoGroovyFiles = new ArrayList<>();
+            collectGroovyFiles(path.toFile(), autoGroovyFiles, a -> true);
+            result.addAll(_convertToGroovyExecute(autoGroovyFiles));
         } else {
-            List<String> runs = names("run.test.files");
-            collectGroovyFiles(path.toFile(), groovyFiles, a -> runs.contains("groovy" + SEPARATOR + a.getName()));
+            result.addAll(_convertToGroovyExecute(getGroovyFiles("run.test", path)));
+            result.addAll(_convertToGroovyExecuteWithPoints(getGroovyFiles("run.test.with-points", path)));
         }
-        logger.info("test runs: {}", groovyFiles);
-        return _convertToGroovyExecute(groovyFiles);
+        logger.info("test runs: {}", result);
+        return result;
+    }
+
+    private static List<File> getGroovyFiles(String key, Path path) {
+        List<File> groovyFiles = new ArrayList<>();
+        List<String> runs = names(key);
+        collectGroovyFiles(path.toFile(), groovyFiles, a -> runs.contains("groovy" + SEPARATOR + a.getName()));
+        return groovyFiles;
     }
 
     private static List<String> names(String key) {
-        Properties properties = toPropeties();
-        String[] tests = properties.getProperty(key, "").split(";");
+        String[] tests = values(key);
         logger.info("{}: {}", key, Arrays.toString(tests));
         return Stream.of(tests).map(a -> "groovy" + SEPARATOR + a.replace("/", SEPARATOR)
                 .replace("\\", SEPARATOR)).collect(Collectors.toList());
+    }
+
+    private static String[] values(String key) {
+        Properties properties = toPropeties();
+        return properties.getProperty(key, "").split(";");
     }
 
     public static Properties toPropeties() {
@@ -93,7 +121,18 @@ public final class GroovyUtil {
     private static List<GroovyExecute> _convertToGroovyExecute(List<File> groovyFiles) {
         List<GroovyExecute> result = new ArrayList<>();
         for(File groovyFile: groovyFiles) {
-            _createGroovyObject(groovyFile).ifPresent(a -> result.add(new GroovyExecute(a, groovyFile)));
+            _createGroovyObject(groovyFile).ifPresent(a -> result.add(new GroovyExecute(a, groovyFile, DataPointTestData.empty())));
+        }
+        return result;
+    }
+
+    private static List<GroovyExecute> _convertToGroovyExecuteWithPoints(List<File> groovyFiles) {
+        List<GroovyExecute> result = new ArrayList<>();
+        DataPointTestData[] datas = getGroovyPoints();
+        for (File groovyFile : groovyFiles) {
+            for (DataPointTestData data : datas) {
+                _createGroovyObject(groovyFile).ifPresent(a -> result.add(new GroovyExecute(a, groovyFile, data)));
+            }
         }
         return result;
     }

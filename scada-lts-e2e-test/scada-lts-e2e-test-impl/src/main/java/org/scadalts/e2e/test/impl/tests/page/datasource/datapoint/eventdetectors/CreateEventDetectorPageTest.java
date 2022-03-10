@@ -35,7 +35,7 @@ public class CreateEventDetectorPageTest {
     public static void createDataSourcePoint() {
         navigationPage = TestWithPageUtil.openNavigationPage();
         dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-        dataPointCriteria = DataPointCriteria.binaryAlternate();
+        dataPointCriteria = DataPointCriteria.binaryNoChange();
         dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
 
         dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);

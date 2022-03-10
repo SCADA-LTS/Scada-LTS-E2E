@@ -37,7 +37,7 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
     public DataPointObjectsCreator(@NonNull NavigationPage navigationPage, @NonNull DataSourceCriteria dataSourceCriteria) {
         this.navigationPage = navigationPage;
         this.dataSourceCriteria = dataSourceCriteria;
-        this.dataPointCriterias = new DataPointCriteria[]{DataPointCriteria.binaryAlternate()};
+        this.dataPointCriterias = new DataPointCriteria[]{DataPointCriteria.binaryNoChange()};
     }
 
     public DataPointObjectsCreator(@NonNull NavigationPage navigationPage, @NonNull DataSourceCriteria dataSourceCriteria, @NonNull DataPointCriteria... dataPointCriterias) {

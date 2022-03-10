@@ -6,7 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.components.E2eWebElement;
-import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
@@ -16,12 +15,9 @@ import org.scadalts.e2e.page.impl.export.ExportDataSourcesUtil;
 
 import java.util.List;
 
-import static com.codeborne.selenide.Condition.not;
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.*;
-import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.refreshWaitWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 @Log4j2
@@ -82,6 +78,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
             delay();
             acceptAfterClick(deleteAction);
             waitWhile(deleteAction, Condition.visible);
+            logger.info("deleted: {}", deleteAction);
         }
         return this;
     }
