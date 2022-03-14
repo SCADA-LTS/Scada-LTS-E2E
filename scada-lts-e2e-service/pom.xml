@@ -5,7 +5,7 @@
     <parent>
         <artifactId>scada-lts-e2e</artifactId>
         <groupId>org.scadalts</groupId>
-        <version>22.2.0-SNAPSHOT</version>
+        <version>22.2.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

@@ -8,10 +8,11 @@ import lombok.Data;
 public class DataPointTestData {
     private final String xid;
     private final String name;
+    private final String msg;
     private final double max;
     private final double min;
 
-    private static final DataPointTestData EMPTY = new DataPointTestData("", "", -1, -1);
+    private static final DataPointTestData EMPTY = new DataPointTestData("", "", "", Integer.MAX_VALUE, -1);
 
     public static DataPointTestData empty() {
         return EMPTY;
@@ -25,7 +26,7 @@ public class DataPointTestData {
     public String toString() {
         return "xid='" + xid + '\'' +
                 ", name='" + name + '\'' +
-                ", max=" + max +
-                ", min=" + min;
+                (max != -1 ? ", max=" + max : "") +
+                (min != -1 ? ", min=" + min : "");
     }
 }
