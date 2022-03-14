@@ -48,6 +48,8 @@ public interface E2eConfig {
 
     String getTitleEmail();
 
+    String getTitleEmailSuccess();
+
     String getDataSourceName();
 
     String getDataPointName();

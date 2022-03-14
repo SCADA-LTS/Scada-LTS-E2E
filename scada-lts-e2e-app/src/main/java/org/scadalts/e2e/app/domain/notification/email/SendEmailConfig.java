@@ -89,4 +89,9 @@ class SendEmailConfig {
         return cookieLocaleResolver;
     }
 
+    @Bean
+    public EmailCacheCleaner emailCacheCleaner() {
+        return new EmailCacheCleaner() {};
+    }
+
 }
