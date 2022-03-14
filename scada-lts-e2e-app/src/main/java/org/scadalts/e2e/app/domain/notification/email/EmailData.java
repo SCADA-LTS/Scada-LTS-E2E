@@ -58,6 +58,26 @@ class EmailData {
                 .build();
     }
 
+    static EmailData createSuccess(E2eConfig config, SendTo sendTo, E2eSummarable summary) {
+
+        Map<String, TestStatus> testStatuses = summary.getTestStatuses();
+        logger.info("testStatuses: {}", testStatuses);
+
+        Set<File> attachments = _getAttachments(summary);
+        logger.info("attachments: {}", attachments);
+
+        return EmailData.builder()
+                .content("")
+                .title(config.getTitleEmailSuccess())
+                .header("Scada-LTS-E2E")
+                .from(config.getSendFrom())
+                .sendTo(sendTo)
+                .failTestNames(new ArrayList<>())
+                .attachments(attachments)
+                .summary(summary)
+                .build();
+    }
+
     static EmailData create(E2eConfig config, SendTo sendTo, String content, Throwable throwable) {
 
         return EmailData.builder()

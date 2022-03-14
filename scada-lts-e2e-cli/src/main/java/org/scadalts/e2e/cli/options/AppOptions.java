@@ -61,4 +61,7 @@ public class AppOptions extends DefaultOptions {
 
     @CommandLine.Option(names = {"-r", "--refresh-session-cron"})
     private String refreshSessionCron;
+
+    @CommandLine.Option(names = {"-tes", "--title-email-success"})
+    private String titleEmailSuccess;
 }

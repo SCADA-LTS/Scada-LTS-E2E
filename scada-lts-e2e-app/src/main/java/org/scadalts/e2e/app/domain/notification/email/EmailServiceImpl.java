@@ -25,7 +25,15 @@ class EmailServiceImpl implements EmailService {
     @Logging
     @Cacheable(cacheNames = SentEmailsCacheConfig.SENT_EMAILS,
             key=SentEmailsCacheConfig.EMAIL_CACHE_KEY, unless = "#result == false")
-    public boolean sendEmail(EmailData emailData) {
+    public boolean sendEmailFail(EmailData emailData) {
+        return _send(emailData);
+    }
+
+    @Override
+    @Logging
+    @Cacheable(cacheNames = SentEmailsCacheConfig.SENT_EMAILS_SUCCESS,
+            key=SentEmailsCacheConfig.EMAIL_SUCCESS_CACHE_KEY, unless = "#result == false")
+    public boolean sendEmailSuccess(EmailData emailData) {
         return _send(emailData);
     }
 

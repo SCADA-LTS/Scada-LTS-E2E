@@ -48,24 +48,27 @@
 <body>
     <div><img src="../../templates/logo.png"  th:src="|cid:logo.png|" /></div>
     <div th:text="${title}">Title email</div>
-    <table id="results" class="results table table-bordered" >
-        <thead>
-            <tr class="bg-success">
-                <th scope="col" th:text="${testNameTh}" >testName</th>
-                <th scope="col" th:text="${testMethodNameTh}" >methodName</th>
-                <th scope="col" th:text="${testMessageTh}" >testMessage</th>
-                <th scope="col" th:text="${hasOccurredTh}" >hasOccurred</th>
-            </tr>
-        </thead>
-        <th:block th:each="failure: ${summary.failures}">
-            <tr>
-                <td th:text="${failure.description.testClass == null ? 'runnerError' : failure.description.testClass.simpleName}">testName</td>
-                <td th:text="${failure.description.methodName == null ? 'staticInizalizationError' : T(org.apache.commons.lang3.StringUtils).abbreviate(failure.description.methodName, 500)}">method</td>
-                <td th:text="${failure.message == null ? 'No message' : T(org.apache.commons.lang3.StringUtils).abbreviate(failure.message, 500)}">message</td>
-                <td th:text="${failure.startDateTime == null ? 'unknown' : #temporals.format(failure.startDateTime, 'yyyy-MM-dd HH:mm:ss')}">startDateTime</td>
-            </tr>
-        </th:block>
-    </table>
+
+    <th:block th:if="not ${summary.failures.empty}">
+        <table id="results" class="results table table-bordered" >
+            <thead>
+                <tr class="bg-success">
+                    <th scope="col" th:text="${testNameTh}" >testName</th>
+                    <th scope="col" th:text="${testMethodNameTh}" >methodName</th>
+                    <th scope="col" th:text="${testMessageTh}" >testMessage</th>
+                    <th scope="col" th:text="${hasOccurredTh}" >hasOccurred</th>
+                </tr>
+            </thead>
+            <th:block th:each="failure: ${summary.failures}">
+                <tr>
+                    <td th:text="${failure.description.testClass == null ? 'runnerError' : failure.description.testClass.simpleName}">testName</td>
+                    <td th:text="${failure.description.methodName == null ? 'staticInizalizationError' : T(org.apache.commons.lang3.StringUtils).abbreviate(failure.description.methodName, 500)}">method</td>
+                    <td th:text="${failure.message == null ? 'No message' : T(org.apache.commons.lang3.StringUtils).abbreviate(failure.message, 500)}">message</td>
+                    <td th:text="${failure.startDateTime == null ? 'unknown' : #temporals.format(failure.startDateTime, 'yyyy-MM-dd HH:mm:ss')}">startDateTime</td>
+                </tr>
+            </th:block>
+        </table>
+    </th:block>
     <table id="results2" class="results table table-bordered" >
         <thead>
         <tr class="bg-success">
@@ -79,13 +82,15 @@
                 <td th:text="${status.value}">statusName</td>
             </tr>
         </th:block>
-        <tr>
-            <td colspan="2">
-                <th:block th:each="legend: ${legendTh}">
-                    <p th:text="|${legend.key} - ${legend.value}|">legend</p>
-                </th:block>
-            </td>
-        </tr>
+        <th:block th:if="not ${summary.failures.empty}">
+            <tr>
+                <td colspan="2">
+                    <th:block th:each="legend: ${legendTh}">
+                        <p th:text="|${legend.key} - ${legend.value}|">legend</p>
+                    </th:block>
+                </td>
+            </tr>
+        </th:block>
     </table>
     <table id="summary" class="table table-bordered">
         <thead>
