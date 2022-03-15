@@ -1,0 +1,1 @@
+[(${title})] - [(${summary.testStatuses})] - [(${testRunsTh})]:[(${summary.runCount})]; [(${testFailedTh})]:[(${summary.failureCount})]; [(${testRuntimeTh})]:[(${runtimeFormatted})]

@@ -77,7 +77,7 @@ class ThymeleafMessageTransformator implements MessageTransformator {
     private static Map<String, String> translate(Map<String, String> legends, ResourceBundle message) {
         Map<String, String> translated = new HashMap<>();
         for (String key: legends.keySet()) {
-            translated.put(key , message.getString(legends.get(key)));
+            translated.put(key, message.getString(legends.get(key)));
         }
         return translated;
     }
