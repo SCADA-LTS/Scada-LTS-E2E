@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>22.2.0-SNAPSHOT</version>
+    <version>22.3.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -800,7 +800,7 @@
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
                 <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
                 <test.e2e.run-app.port-smtp>0</test.e2e.run-app.port-smtp>
-                <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
+                <test.e2e.run-app.send-to>sendTo&#64;abc.com&amp;lang=en&amp;dest=EMAIL;048123456789&#64;abc.com&amp;lang=pl&amp;dest=SMS</test.e2e.run-app.send-to>
                 <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
@@ -814,6 +814,7 @@
                 <test.e2e.custom-name>-check</test.e2e.custom-name>
                 <test.e2e.check-authentication>true</test.e2e.check-authentication>
                 <test.e2e.run-app.refresh-session-cron>0/30 * * * * ?</test.e2e.run-app.refresh-session-cron>
+                <test.e2e.run-app.title-email-success>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of success tests</test.e2e.run-app.title-email-success>
             </properties>
         </profile>
         <profile>
@@ -860,8 +861,8 @@
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
                 <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
                 <test.e2e.run-app.port-smtp>0</test.e2e.run-app.port-smtp>
-                <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
-                <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
+                <test.e2e.run-app.send-to>sendTo&#64;abc.com&amp;lang=en&amp;dest=EMAIL;048123456789&#64;abc.com&amp;lang=pl&amp;dest=SMS</test.e2e.run-app.send-to>
+                <test.e2e.run-app.send-from>sendFrom@abc.com</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
@@ -873,6 +874,7 @@
                 <test.e2e.custom-name>-check</test.e2e.custom-name>
                 <test.e2e.check-authentication>true</test.e2e.check-authentication>
                 <test.e2e.run-app.refresh-session-cron>0/30 * * * * ?</test.e2e.run-app.refresh-session-cron>
+                <test.e2e.run-app.title-email-success>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of success tests</test.e2e.run-app.title-email-success>
             </properties>
         </profile>
         <profile>
@@ -919,8 +921,8 @@
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
                 <test.e2e.run-app.host-smtp>{hostSmtp}</test.e2e.run-app.host-smtp>
                 <test.e2e.run-app.port-smtp>0</test.e2e.run-app.port-smtp>
-                <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
-                <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
+                <test.e2e.run-app.send-to>sendTo&#64;abc.com&amp;lang=en&amp;dest=EMAIL;048123456789&#64;abc.com&amp;lang=pl&amp;dest=SMS</test.e2e.run-app.send-to>
+                <test.e2e.run-app.send-from>sendFrom@abc.com</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
@@ -932,6 +934,7 @@
                 <test.e2e.custom-name>-all-test</test.e2e.custom-name>
                 <test.e2e.check-authentication>true</test.e2e.check-authentication>
                 <test.e2e.run-app.refresh-session-cron>0/30 * * * * ?</test.e2e.run-app.refresh-session-cron>
+                <test.e2e.run-app.title-email-success>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of success tests</test.e2e.run-app.title-email-success>
             </properties>
         </profile>
         <profile>
@@ -981,8 +984,8 @@
                 <test.e2e.run-app.password-smtp>{passwordSmtp}</test.e2e.run-app.password-smtp>
                 <test.e2e.run-app.host-smtp>localhost</test.e2e.run-app.host-smtp>
                 <test.e2e.run-app.port-smtp>25</test.e2e.run-app.port-smtp>
-                <test.e2e.run-app.send-to>{sendTo}</test.e2e.run-app.send-to>
-                <test.e2e.run-app.send-from>{sendFrom}</test.e2e.run-app.send-from>
+                <test.e2e.run-app.send-to>sendTo&#64;abc.com&amp;lang=en&amp;dest=EMAIL;048123456789&#64;abc.com&amp;lang=pl&amp;dest=SMS</test.e2e.run-app.send-to>
+                <test.e2e.run-app.send-from>sendFrom@abc.com</test.e2e.run-app.send-from>
                 <test.e2e.run-app.debug-email-mode>false</test.e2e.run-app.debug-email-mode>
                 <test.e2e.run-app.notification-email-mode>true</test.e2e.run-app.notification-email-mode>
                 <test.e2e.run-app.delete-email-from-sent-emails-after-ms>7200000</test.e2e.run-app.delete-email-from-sent-emails-after-ms>
@@ -994,6 +997,7 @@
                 <test.e2e.custom-name>-85</test.e2e.custom-name>
                 <test.e2e.check-authentication>true</test.e2e.check-authentication>
                 <test.e2e.run-app.refresh-session-cron>0/30 * * * * ?</test.e2e.run-app.refresh-session-cron>
+                <test.e2e.run-app.title-email-success>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of success tests</test.e2e.run-app.title-email-success>
             </properties>
         </profile>
     </profiles>

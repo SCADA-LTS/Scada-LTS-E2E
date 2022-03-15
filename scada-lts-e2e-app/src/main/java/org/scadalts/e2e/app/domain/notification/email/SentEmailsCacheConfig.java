@@ -4,12 +4,10 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.caffeine.CaffeineCache;
-import org.springframework.cache.support.SimpleCacheManager;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
@@ -20,22 +18,21 @@ class SentEmailsCacheConfig {
 
     static final String SENT_EMAILS = "sentEmails";
     static final String EMAIL_CACHE_KEY = "T(java.util.Objects).hash(#emailData?.failTestNames + #emailData?.sendTo?.adress + #emailData?.sendTo?.locale)";
+    static final String SENT_EMAILS_SUCCESS = "sentEmailsSuccess";
+    static final String EMAIL_SUCCESS_CACHE_KEY = "T(java.util.Objects).hash(#emailData?.sendTo?.adress + #emailData?.sendTo?.locale)";
 
     @Bean
     public CacheManager cacheManager(Ticker ticker) {
-        CaffeineCache messageCache = new CaffeineCache(SENT_EMAILS, Caffeine.newBuilder()
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager(SENT_EMAILS, SENT_EMAILS_SUCCESS);
+        cacheManager.setCaffeine(Caffeine.newBuilder()
                 .expireAfterWrite(expireMs, TimeUnit.MILLISECONDS)
                 .maximumSize(100)
-                .ticker(ticker)
-                .build());
-        SimpleCacheManager manager = new SimpleCacheManager();
-        manager.setCaches(Arrays.asList(messageCache));
-        return manager;
+                .ticker(ticker));
+        return cacheManager;
     }
 
     @Bean
     public Ticker ticker() {
         return Ticker.systemTicker();
     }
-
 }

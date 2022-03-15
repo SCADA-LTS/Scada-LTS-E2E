@@ -56,7 +56,7 @@ public class LoginServiceObject implements WebServiceObject {
             } catch (Throwable th1) {
                 if((th1.getCause() instanceof ConnectException)
                         || (th1.getCause() instanceof SocketTimeoutException)) {
-                    throw new ApplicationIsNotAvailableException("");
+                    throw new ApplicationIsNotAvailableException(th1);
                 }
                 throw th1;
             }
@@ -80,7 +80,7 @@ public class LoginServiceObject implements WebServiceObject {
         } catch (Throwable th) {
             if((th.getCause() instanceof ConnectException)
                     || (th.getCause() instanceof SocketTimeoutException)) {
-                throw new ApplicationIsNotAvailableException("");
+                throw new ApplicationIsNotAvailableException(th);
             }
             throw th;
         }

@@ -19,7 +19,6 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
-import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.Collection;
 

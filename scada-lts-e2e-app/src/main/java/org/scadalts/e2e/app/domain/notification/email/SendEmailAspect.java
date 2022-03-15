@@ -22,10 +22,12 @@ import java.text.MessageFormat;
 @ConditionalOnProperty(prefix = "test.e2e.run-app", name = "notification-email-mode")
 class SendEmailAspect {
 
-    private final EmailService emailService;
+    private final EmailCacheCleaner emailCacheCleaner;
+    private final MsgService emailService;
     private final E2eConfig config;
 
-    public SendEmailAspect(EmailService emailService, E2eConfig config) {
+    public SendEmailAspect(EmailCacheCleaner emailCacheCleaner, MsgService emailService, E2eConfig config) {
+        this.emailCacheCleaner = emailCacheCleaner;
         this.emailService = emailService;
         this.config = config;
     }
@@ -41,9 +43,14 @@ class SendEmailAspect {
             E2eSummarable summary = (E2eSummarable) returned;
             if (!summary.wasSuccessful()) {
                 for (SendTo sendTo : config.getSendTo()) {
-                    EmailData emailData = EmailData.create(config, sendTo, summary);
-                    emailService.sendEmail(emailData);
+                    emailService.sendFail(EmailData.create(config, sendTo, summary));
                 }
+                emailCacheCleaner.removeEmailSuccessAll();
+            } else {
+                for (SendTo sendTo : config.getSendTo()) {
+                    emailService.sendSuccess(EmailData.createSuccess(config, sendTo, summary));
+                }
+                emailCacheCleaner.removeEmailFailAll();
             }
         }
     }
@@ -52,7 +59,8 @@ class SendEmailAspect {
     void reaction(JoinPoint joinPoint, Throwable throwable) {
         for (SendTo sendTo : config.getSendTo()) {
             EmailData emailData = EmailData.create(config, sendTo, _getMessageError(joinPoint, throwable), throwable);
-            emailService.sendEmail(emailData);
+            emailService.sendFail(emailData);
+            emailCacheCleaner.removeEmailSuccessAll();
         }
     }
 

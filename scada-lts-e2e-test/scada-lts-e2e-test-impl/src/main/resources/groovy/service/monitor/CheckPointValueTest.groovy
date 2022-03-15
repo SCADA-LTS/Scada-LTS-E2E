@@ -1,6 +1,5 @@
 package groovy.page.datasource.datapoint
 
-import org.junit.Assert
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
@@ -13,6 +12,7 @@ import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil
 import java.text.MessageFormat
 
 import static org.scadalts.e2e.page.impl.groovy.ConfigurationUtil.*
+import static org.junit.Assert.*;
 
 /*
 GraphicalViewsPage.viewNames
@@ -47,11 +47,11 @@ class CheckPointValueTest {
         E2eResponse<PointValueResponse> getResponse = TestWithoutPageUtil.getDataPointValue(pointValueParams);
 
         //then:
-        Assert.assertNotNull(MessageFormat.format("datapoint: {0} (xid: {1}) is not exists", point.getName(), point.getXid()), getResponse.getValue())
-        Assert.assertNotNull(MessageFormat.format("datapoint: {0} (xid: {1}) is not exists", point.getName(), point.getXid()), getResponse.getValue().getFormattedValue())
+        assertNotNull(MessageFormat.format("datapoint: {0} (xid: {1}) is not exists", point.getName(), point.getXid()), getResponse.getValue())
+        assertNotNull(MessageFormat.format("datapoint: {0} (xid: {1}) is not exists", point.getName(), point.getXid()), getResponse.getValue().getFormattedValue())
 
         double var1 = Double.parseDouble(getResponse.getValue().getFormattedValue());
-        Assert.assertTrue(MessageFormat.format("datapoint: {0} (xid: {1}) value exceeds the upper limit: {2} and was: {3}", point.getName(), point.getXid(), point.getMax(), var1), var1 < point.getMax())
-        Assert.assertTrue(MessageFormat.format("datapoint: {0} (xid: {1}) value exceeds the lower limit: {2} and was: {3}", point.getName(), point.getXid(), point.getMin(), var1), var1 > point.getMin())
+        assertTrue(MessageFormat.format("datapoint: {0} (xid: {1}) value exceeds the upper limit: {2} and was: {3}, msg: {4}", point.getName(), point.getXid(), point.getMax(), var1, point.getMsg()), var1 < point.getMax())
+        assertTrue(MessageFormat.format("datapoint: {0} (xid: {1}) value exceeds the lower limit: {2} and was: {3}, msg: {4}", point.getName(), point.getXid(), point.getMin(), var1, point.getMsg()), var1 > point.getMin())
     }
 }

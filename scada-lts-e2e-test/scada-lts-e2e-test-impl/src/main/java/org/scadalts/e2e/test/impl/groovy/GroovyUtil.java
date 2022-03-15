@@ -33,12 +33,13 @@ public final class GroovyUtil {
         String[] points = values("run.test.points");
         return Stream.of(points).map(point -> {
             String[] dates = point.split(":");
-            return dates.length != 4 ? DataPointTestData.empty() :
+            return dates.length != 5 ? DataPointTestData.empty() :
                     DataPointTestData.builder()
                     .xid(dates[0])
                     .name(dates[1])
                     .min(Double.parseDouble(dates[2]))
                     .max(Double.parseDouble(dates[3]))
+                    .msg(dates[4])
                     .build();
         }).toArray(DataPointTestData[]::new);
     }
@@ -70,7 +71,7 @@ public final class GroovyUtil {
     private static List<File> getGroovyFiles(String key, Path path) {
         List<File> groovyFiles = new ArrayList<>();
         List<String> runs = names(key);
-        collectGroovyFiles(path.toFile(), groovyFiles, a -> runs.contains("groovy" + SEPARATOR + a.getName()));
+        collectGroovyFiles(path.toFile(), groovyFiles, file -> runs.contains("groovy" + SEPARATOR + file.getName()));
         return groovyFiles;
     }
 
@@ -121,7 +122,8 @@ public final class GroovyUtil {
     private static List<GroovyExecute> _convertToGroovyExecute(List<File> groovyFiles) {
         List<GroovyExecute> result = new ArrayList<>();
         for(File groovyFile: groovyFiles) {
-            _createGroovyObject(groovyFile).ifPresent(a -> result.add(new GroovyExecute(a, groovyFile, DataPointTestData.empty())));
+            _createGroovyObject(groovyFile)
+                    .ifPresent(groovyObject -> result.add(new GroovyExecute(groovyObject, groovyFile, DataPointTestData.empty())));
         }
         return result;
     }
@@ -131,7 +133,8 @@ public final class GroovyUtil {
         DataPointTestData[] datas = getGroovyPoints();
         for (File groovyFile : groovyFiles) {
             for (DataPointTestData data : datas) {
-                _createGroovyObject(groovyFile).ifPresent(a -> result.add(new GroovyExecute(a, groovyFile, data)));
+                _createGroovyObject(groovyFile)
+                        .ifPresent(groovyObject -> result.add(new GroovyExecute(groovyObject, groovyFile, data)));
             }
         }
         return result;

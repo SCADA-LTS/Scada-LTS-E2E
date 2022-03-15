@@ -259,4 +259,9 @@ public class E2eConfigCli implements E2eConfig {
     public boolean isCheckAuthentication() {
         return fromE2e.isCheckAuthentication();
     }
+
+    @Override
+    public String getTitleEmailSuccess() {
+        return fromRunApp.getTitleEmailSuccess();
+    }
 }
