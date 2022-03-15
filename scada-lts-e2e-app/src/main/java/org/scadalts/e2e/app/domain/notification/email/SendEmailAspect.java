@@ -23,10 +23,10 @@ import java.text.MessageFormat;
 class SendEmailAspect {
 
     private final EmailCacheCleaner emailCacheCleaner;
-    private final EmailService emailService;
+    private final MsgService emailService;
     private final E2eConfig config;
 
-    public SendEmailAspect(EmailCacheCleaner emailCacheCleaner, EmailService emailService, E2eConfig config) {
+    public SendEmailAspect(EmailCacheCleaner emailCacheCleaner, MsgService emailService, E2eConfig config) {
         this.emailCacheCleaner = emailCacheCleaner;
         this.emailService = emailService;
         this.config = config;
@@ -43,12 +43,12 @@ class SendEmailAspect {
             E2eSummarable summary = (E2eSummarable) returned;
             if (!summary.wasSuccessful()) {
                 for (SendTo sendTo : config.getSendTo()) {
-                    emailService.sendEmailFail(EmailData.create(config, sendTo, summary));
+                    emailService.sendFail(EmailData.create(config, sendTo, summary));
                 }
                 emailCacheCleaner.removeEmailSuccessAll();
             } else {
                 for (SendTo sendTo : config.getSendTo()) {
-                    emailService.sendEmailSuccess(EmailData.createSuccess(config, sendTo, summary));
+                    emailService.sendSuccess(EmailData.createSuccess(config, sendTo, summary));
                 }
                 emailCacheCleaner.removeEmailFailAll();
             }
@@ -59,7 +59,7 @@ class SendEmailAspect {
     void reaction(JoinPoint joinPoint, Throwable throwable) {
         for (SendTo sendTo : config.getSendTo()) {
             EmailData emailData = EmailData.create(config, sendTo, _getMessageError(joinPoint, throwable), throwable);
-            emailService.sendEmailFail(emailData);
+            emailService.sendFail(emailData);
             emailCacheCleaner.removeEmailSuccessAll();
         }
     }
