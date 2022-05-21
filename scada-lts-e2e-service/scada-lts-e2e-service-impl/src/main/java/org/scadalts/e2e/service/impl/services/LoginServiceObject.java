@@ -19,7 +19,9 @@ import javax.ws.rs.core.*;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Optional;
 
 import static org.scadalts.e2e.service.core.utils.ServiceStabilityUtil.*;
 
@@ -32,11 +34,13 @@ public class LoginServiceObject implements WebServiceObject {
 
     public Optional<E2eResponse<String>> login(LoginParams loginParams, long timeout) {
         try {
-            E2eResponse<String> response = applyWhile(this::_loginTry, loginParams, new StabilityUtil.Timeout(timeout));
+            E2eResponse<String> response = applyWhile(this::_loginForm, loginParams,
+                    new StabilityUtil.Timeout(timeout), a -> a.getStatus() == 302);
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             try {
-                E2eResponse<String> response = applyWhile(this::_loginTry2, loginParams, new StabilityUtil.Timeout(timeout));
+                E2eResponse<String> response = applyWhile(this::_loginOld, loginParams,
+                        new StabilityUtil.Timeout(timeout), a -> a.getStatus() == 200);
                 return Optional.ofNullable(response);
             } catch (Throwable ex) {
                 logger.error(ex.getMessage(), ex);
@@ -47,11 +51,13 @@ public class LoginServiceObject implements WebServiceObject {
 
     public Optional<E2eResponse<String>> loginOrThrowException(LoginParams loginParams, long timeout) {
         try {
-            E2eResponse<String> response = applyWhileOrThrowException(this::_loginTry, loginParams, new StabilityUtil.Timeout(timeout));
+            E2eResponse<String> response = applyWhileOrThrowException(this::_loginForm, loginParams,
+                    new StabilityUtil.Timeout(timeout), a -> a.getStatus() == 302);
             return Optional.ofNullable(response);
         } catch (Throwable th) {
             try {
-                E2eResponse<String> response = applyWhileOrThrowException(this::_loginTry2, loginParams, new StabilityUtil.Timeout(timeout));
+                E2eResponse<String> response = applyWhileOrThrowException(this::_loginOld, loginParams,
+                        new StabilityUtil.Timeout(timeout), a -> a.getStatus() == 200);
                 return Optional.ofNullable(response);
             } catch (Throwable th1) {
                 if((th1.getCause() instanceof ConnectException)
@@ -65,7 +71,7 @@ public class LoginServiceObject implements WebServiceObject {
 
     public Optional<E2eResponse<String>> logout(long timeout) {
         try {
-            E2eResponse<String> response = executeWhile(this::_logout, new StabilityUtil.Timeout(timeout));
+            E2eResponse<String> response = executeWhile(this::_logoutForm, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -75,7 +81,7 @@ public class LoginServiceObject implements WebServiceObject {
 
     public Optional<E2eResponse<String>> logoutOrThrowException(long timeout) {
         try {
-            E2eResponse<String> response = executeWhileOrThrowException(this::_logout, new StabilityUtil.Timeout(timeout));
+            E2eResponse<String> response = executeWhileOrThrowException(this::_logoutForm, new StabilityUtil.Timeout(timeout));
             return Optional.ofNullable(response);
         } catch (Throwable th) {
             if((th.getCause() instanceof ConnectException)
@@ -92,10 +98,10 @@ public class LoginServiceObject implements WebServiceObject {
     }
 
     private E2eResponse<String> _login(LoginParams loginParams) {
-        return _loginTry2(loginParams);
+        return _loginForm(loginParams);
     }
 
-    private E2eResponse<String> _loginTry(LoginParams loginParams) {
+    private E2eResponse<String> _loginOld(LoginParams loginParams) {
         String endpoint = baseUrl + "/login.htm";
         logger.debug("endpoint: {}", endpoint);
         MultivaluedMap<String, String> data = new MultivaluedHashMap<>();
@@ -104,14 +110,13 @@ public class LoginServiceObject implements WebServiceObject {
         Response response = ClientBuilder.newClient()
                 .target(endpoint)
                 .request()
-                //.header("Authorization","Basic " + toBase64(loginParams))
                 .post(Entity.form(data));
         E2eResponse<String> res = E2eResponseFactory.newResponse(response, String.class);
         _setConfig(res);
         return res;
     }
 
-    private E2eResponse<String> _loginTry2(LoginParams loginParams) {
+    private E2eResponse<String> _loginForm(LoginParams loginParams) {
         String endpoint = baseUrl + "/login";
         logger.debug("endpoint: {}", endpoint);
         MultivaluedMap<String, String> data = new MultivaluedHashMap<>();
@@ -119,11 +124,22 @@ public class LoginServiceObject implements WebServiceObject {
         data.put("password", Arrays.asList(loginParams.getPassword()));
         Response response = ClientBuilder.newClient()
                 .target(endpoint)
-                .path(loginParams.getUserName())
-                .path(loginParams.getPassword())
+                .request(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
+                .post(Entity.form(data));
+        E2eResponse<String> res = E2eResponseFactory.newResponse(response, String.class);
+        _setConfig(res);
+        return res;
+    }
+
+    private E2eResponse<String> _loginBasic(LoginParams loginParams) {
+        String endpoint = baseUrl + "/login";
+        logger.debug("endpoint: {}", endpoint);
+        Response response = ClientBuilder.newClient()
+                .target(endpoint)
                 .request()
-                //.header("Authorization","Basic " + toBase64(loginParams))
-                .get();
+                .header("WWW-Authenticate","Basic " + toBase64(loginParams))
+                .header("Authorization","Basic " + toBase64(loginParams))
+                .post(null);
         E2eResponse<String> res = E2eResponseFactory.newResponse(response, String.class);
         _setConfig(res);
         return res;
@@ -133,8 +149,8 @@ public class LoginServiceObject implements WebServiceObject {
         return Base64.getEncoder().encodeToString((loginParams.getUserName() + ":" + loginParams.getPassword()).getBytes());
     }
 
-    private E2eResponse<String> _logout() {
-        String endpoint = baseUrl +"/logout.htm";
+    private E2eResponse<String> _logoutForm() {
+        String endpoint = baseUrl + "/logout.htm";
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.debug("endpoint: {}", endpoint);
         logger.debug("cookie: {}", cookie);
