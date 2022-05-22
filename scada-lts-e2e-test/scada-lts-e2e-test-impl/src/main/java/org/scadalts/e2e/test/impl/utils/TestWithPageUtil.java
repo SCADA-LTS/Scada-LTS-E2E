@@ -36,7 +36,7 @@ public class TestWithPageUtil {
         if(!TestWithoutPageUtil.isApiLogged()) {
             return false;
         }
-        if(navigationPage.getCurrentUrl() == null || navigationPage.getCurrentUrl().contains("login.htm")) {
+        if(navigationPage.getCurrentUrl() == null || navigationPage.getCurrentUrl().contains("/login.htm?logout") || navigationPage.getCurrentUrl().contains("/login")) {
             TestWithoutPageUtil.logout();
             return false;
         }
