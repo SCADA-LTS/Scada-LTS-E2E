@@ -360,7 +360,7 @@ public class TestWithoutPageUtil {
     }
 
     private static boolean _isLogged(E2eResponse<String> response) {
-        return response.getStatus() == 200 || response.getStatus() == 302;
+        return (response.getStatus() == 200 || response.getStatus() == 302) && (response.getSessionId() != null && !response.getSessionId().isEmpty());
     }
 
     private static void _setup() {

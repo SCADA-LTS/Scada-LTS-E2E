@@ -34,38 +34,23 @@ public class LoginServiceObject implements WebServiceObject {
 
     public Optional<E2eResponse<String>> login(LoginParams loginParams, long timeout) {
         try {
-            E2eResponse<String> response = applyWhile(this::_loginForm, loginParams,
+            E2eResponse<String> response = applyWhile(this::_login, loginParams,
                     new StabilityUtil.Timeout(timeout), a -> a.getStatus() == 302);
             return Optional.ofNullable(response);
         } catch (Throwable e) {
-            try {
-                E2eResponse<String> response = applyWhile(this::_loginOld, loginParams,
-                        new StabilityUtil.Timeout(timeout), a -> a.getStatus() == 200);
-                return Optional.ofNullable(response);
-            } catch (Throwable ex) {
-                logger.error(ex.getMessage(), ex);
-                return Optional.empty();
-            }
+            logger.error(e.getMessage(), e);
+            return Optional.empty();
         }
     }
 
     public Optional<E2eResponse<String>> loginOrThrowException(LoginParams loginParams, long timeout) {
         try {
-            E2eResponse<String> response = applyWhileOrThrowException(this::_loginForm, loginParams,
+            E2eResponse<String> response = applyWhileOrThrowException(this::_login, loginParams,
                     new StabilityUtil.Timeout(timeout), a -> a.getStatus() == 302);
             return Optional.ofNullable(response);
-        } catch (Throwable th) {
-            try {
-                E2eResponse<String> response = applyWhileOrThrowException(this::_loginOld, loginParams,
-                        new StabilityUtil.Timeout(timeout), a -> a.getStatus() == 200);
-                return Optional.ofNullable(response);
-            } catch (Throwable th1) {
-                if((th1.getCause() instanceof ConnectException)
-                        || (th1.getCause() instanceof SocketTimeoutException)) {
-                    throw new ApplicationIsNotAvailableException(th1);
-                }
-                throw th1;
-            }
+        } catch (Throwable e) {
+            logger.error(e.getMessage(), e);
+            return Optional.empty();
         }
     }
 
@@ -98,7 +83,15 @@ public class LoginServiceObject implements WebServiceObject {
     }
 
     private E2eResponse<String> _login(LoginParams loginParams) {
-        return _loginForm(loginParams);
+        try {
+            E2eResponse<String> res = this._loginForm(loginParams);
+            if(res.getStatus() == 302 && res.getSessionId() != null && !res.getSessionId().isEmpty())
+                return res;
+            return _loginOld(loginParams);
+        } catch (Throwable e) {
+            logger.error(e.getMessage(), e);
+            return E2eResponse.empty();
+        }
     }
 
     private E2eResponse<String> _loginOld(LoginParams loginParams) {
