@@ -16,6 +16,9 @@ class SentEmailsCacheConfig {
     @Value("${test.e2e.run-app.delete-email-from-sent-emails-after-ms:3600000}")
     private long expireMs;
 
+    @Value("${test.e2e.run-app.unblock-send-email-by-cron:true}")
+    private boolean unblockSendEmailByCron;
+
     static final String SENT_EMAILS = "sentEmails";
     static final String EMAIL_CACHE_KEY = "T(java.util.Objects).hash(#emailData?.failTestNames + #emailData?.sendTo?.adress + #emailData?.sendTo?.locale)";
     static final String SENT_EMAILS_SUCCESS = "sentEmailsSuccess";
@@ -24,10 +27,16 @@ class SentEmailsCacheConfig {
     @Bean
     public CacheManager cacheManager(Ticker ticker) {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager(SENT_EMAILS, SENT_EMAILS_SUCCESS);
-        cacheManager.setCaffeine(Caffeine.newBuilder()
-                .expireAfterWrite(expireMs, TimeUnit.MILLISECONDS)
-                .maximumSize(100)
-                .ticker(ticker));
+        if(unblockSendEmailByCron) {
+            cacheManager.setCaffeine(Caffeine.newBuilder()
+                    .maximumSize(100)
+                    .ticker(ticker));
+        } else {
+            cacheManager.setCaffeine(Caffeine.newBuilder()
+                    .expireAfterWrite(expireMs, TimeUnit.MILLISECONDS)
+                    .maximumSize(100)
+                    .ticker(ticker));
+        }
         return cacheManager;
     }
 

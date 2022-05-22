@@ -64,4 +64,13 @@ public class AppOptions extends DefaultOptions {
 
     @CommandLine.Option(names = {"-tes", "--title-email-success"})
     private String titleEmailSuccess;
+
+    @CommandLine.Option(names = {"-usec", "--unblock-send-email-by-cron"})
+    private boolean unblockSendEmailByCron;
+
+    @CommandLine.Option(names = {"-ussc", "--unblock-send-success-email-cron"})
+    private String unblockSendSuccessEmailCron;
+
+    @CommandLine.Option(names = {"-usfc", "--unblock-send-fail-email-cron"})
+    private String unblockSendFailEmailCron;
 }

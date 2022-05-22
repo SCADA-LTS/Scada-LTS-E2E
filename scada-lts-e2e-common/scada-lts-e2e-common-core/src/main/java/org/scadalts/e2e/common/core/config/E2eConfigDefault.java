@@ -80,4 +80,8 @@ class E2eConfigDefault implements E2eConfig {
     private boolean checkAuthentication;
 
     private String refreshSessionCron;
+
+    private boolean unblockSendEmailByCron;
+    private String unblockSendSuccessEmailCron;
+    private String unblockSendFailEmailCron;
 }

@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>22.3.0-SNAPSHOT</version>
+    <version>22.3.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -815,6 +815,9 @@
                 <test.e2e.check-authentication>true</test.e2e.check-authentication>
                 <test.e2e.run-app.refresh-session-cron>0/30 * * * * ?</test.e2e.run-app.refresh-session-cron>
                 <test.e2e.run-app.title-email-success>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of success tests</test.e2e.run-app.title-email-success>
+                <test.e2e.run-app.unblock-send-fail-email-cron>0 5 4/24 ? * * *</test.e2e.run-app.unblock-send-fail-email-cron>
+                <test.e2e.run-app.unblock-send-success-email-cron>0 5 4/24 ? * * *</test.e2e.run-app.unblock-send-success-email-cron>
+                <test.e2e.run-app.unblock-send-email-by-cron>true</test.e2e.run-app.unblock-send-email-by-cron>
             </properties>
         </profile>
         <profile>
@@ -875,6 +878,9 @@
                 <test.e2e.check-authentication>true</test.e2e.check-authentication>
                 <test.e2e.run-app.refresh-session-cron>0/30 * * * * ?</test.e2e.run-app.refresh-session-cron>
                 <test.e2e.run-app.title-email-success>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of success tests</test.e2e.run-app.title-email-success>
+                <test.e2e.run-app.unblock-send-fail-email-cron>0 5 4/24 ? * * *</test.e2e.run-app.unblock-send-fail-email-cron>
+                <test.e2e.run-app.unblock-send-success-email-cron>0 5 4/24 ? * * *</test.e2e.run-app.unblock-send-success-email-cron>
+                <test.e2e.run-app.unblock-send-email-by-cron>true</test.e2e.run-app.unblock-send-email-by-cron>
             </properties>
         </profile>
         <profile>
@@ -935,6 +941,9 @@
                 <test.e2e.check-authentication>true</test.e2e.check-authentication>
                 <test.e2e.run-app.refresh-session-cron>0/30 * * * * ?</test.e2e.run-app.refresh-session-cron>
                 <test.e2e.run-app.title-email-success>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of success tests</test.e2e.run-app.title-email-success>
+                <test.e2e.run-app.unblock-send-fail-email-cron>0 5 4/24 ? * * *</test.e2e.run-app.unblock-send-fail-email-cron>
+                <test.e2e.run-app.unblock-send-success-email-cron>0 5 4/24 ? * * *</test.e2e.run-app.unblock-send-success-email-cron>
+                <test.e2e.run-app.unblock-send-email-by-cron>true</test.e2e.run-app.unblock-send-email-by-cron>
             </properties>
         </profile>
         <profile>
@@ -998,6 +1007,9 @@
                 <test.e2e.check-authentication>true</test.e2e.check-authentication>
                 <test.e2e.run-app.refresh-session-cron>0/30 * * * * ?</test.e2e.run-app.refresh-session-cron>
                 <test.e2e.run-app.title-email-success>[SCADA-LTS/Scada-LTS-E2E][${test.e2e.env}] Notification of success tests</test.e2e.run-app.title-email-success>
+                <test.e2e.run-app.unblock-send-fail-email-cron>0 5 4/24 ? * * *</test.e2e.run-app.unblock-send-fail-email-cron>
+                <test.e2e.run-app.unblock-send-success-email-cron>0 5 4/24 ? * * *</test.e2e.run-app.unblock-send-success-email-cron>
+                <test.e2e.run-app.unblock-send-email-by-cron>true</test.e2e.run-app.unblock-send-email-by-cron>
             </properties>
         </profile>
     </profiles>

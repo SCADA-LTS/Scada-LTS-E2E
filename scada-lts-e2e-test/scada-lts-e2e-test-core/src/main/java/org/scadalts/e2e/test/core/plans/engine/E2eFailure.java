@@ -10,6 +10,7 @@ import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import static org.scadalts.e2e.test.core.plans.engine.MessageSecurityUtils.safe;
 import static org.scadalts.e2e.test.core.utils.RegexUtil.getFilesFromMessage;
 
 @Log4j2
@@ -54,7 +55,7 @@ public class E2eFailure {
 
     @Override
     public String toString() {
-        return MessageFormat.format("\n\n{0}\n\n{1}\n\n{2}\n\n", TestResultPrinter.DECORATION, failure.toString(), TestResultPrinter.DECORATION);
+        return MessageFormat.format("\n\n{0}\n\n{1}\n\n{2}\n\n", TestResultPrinter.DECORATION, safe(failure.toString()), TestResultPrinter.DECORATION);
     }
 
     public Optional<File> getSourcePageHtml() {

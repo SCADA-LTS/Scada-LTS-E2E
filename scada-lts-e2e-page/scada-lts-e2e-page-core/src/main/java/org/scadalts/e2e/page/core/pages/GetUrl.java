@@ -17,7 +17,11 @@ public interface GetUrl<T extends PageObject<T>> extends PageCompleteLoadable<T>
             Selenide.sleep(100);
             waitForCompleteLoad();
             RemoteWebDriver remoteWebDriver = E2eWebDriverProvider.getDriver();
-            return executeSupplier(remoteWebDriver::getCurrentUrl, IllegalStateException::new);
+            String url = executeSupplier(remoteWebDriver::getCurrentUrl, IllegalStateException::new);
+            if(url != null && url.contains("login")) {
+                return url.split("login")[0] + "login";
+            }
+            return url;
         } catch (Exception ex) {
             LOGGER.warn(ex);
             return "warnning";

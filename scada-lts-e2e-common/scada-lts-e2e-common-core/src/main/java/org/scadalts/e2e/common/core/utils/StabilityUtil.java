@@ -179,7 +179,7 @@ public class StabilityUtil {
 
     public static <T, R> R applyWhileOrThrowException(Predicate<R> whileDo, Function<T, R> function, T arg,
                                                       Timeout timeout) {
-        return applyWhileOrThrowException(whileDo, function, arg, timeout, true);
+        return applyWhileOrThrowException(whileDo, function, arg, timeout, false);
     }
 
     public static <T, R> R applyWhileOrThrowException(Predicate<R> whileDo, Function<T, R> function, T arg,

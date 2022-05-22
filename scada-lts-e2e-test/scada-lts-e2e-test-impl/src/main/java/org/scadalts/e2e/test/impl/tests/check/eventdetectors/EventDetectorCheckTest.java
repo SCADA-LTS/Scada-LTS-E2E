@@ -59,6 +59,7 @@ public class EventDetectorCheckTest {
         CmpParams setResult = setResponse.getValue();
 
         //then:
+        //assertThat("Configuration correction may be required, check if there is a datapoint [xid]: " + TestImplConfiguration.dataPointToChangeXid, setResponse.getStatus(), anyOf(equalTo(200), equalTo(302)));
         assertEquals("Configuration correction may be required, check if there is a datapoint [xid]: " + TestImplConfiguration.dataPointToChangeXid,200, setResponse.getStatus());
         assertNotNull(PROBLEM_WITH_REST_API, setResult);
         assertThat("Error: ", setResult.getError(), anyOf(equalTo(""), nullValue()));
