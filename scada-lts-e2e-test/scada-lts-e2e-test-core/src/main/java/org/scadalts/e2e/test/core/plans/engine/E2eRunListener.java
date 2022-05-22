@@ -56,7 +56,7 @@ class E2eRunListener extends RunListener {
     @Override
     public void testFailure(Failure failure) {
         logger.info("\n\n[{}] testFailure: {}", testUuid, failure.toString());
-        logger.warn("\n{}: {}\n{}", failure.getException().getClass().getName(), failure.getException().getMessage(),
+        logger.warn("\n{}: {}\n{}", failure.getException().getClass().getName(), MessageSecurityUtils.safe(failure.getException().getMessage()),
                 Stream.of(failure.getException().getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.joining("\n\t")));
@@ -66,7 +66,7 @@ class E2eRunListener extends RunListener {
     @Override
     public void testAssumptionFailure(Failure failure) {
         logger.info("\n\n[{}] testAssumptionFailure: {}", testUuid, failure.toString());
-        logger.warn("\n{}: {}\n{}", failure.getException().getClass().getName(), failure.getException().getMessage(),
+        logger.warn("\n{}: {}\n{}", failure.getException().getClass().getName(), MessageSecurityUtils.safe(failure.getException().getMessage()),
                 Stream.of(failure.getException().getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.joining("\n\t")));

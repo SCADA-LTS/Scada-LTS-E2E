@@ -31,6 +31,18 @@ public class ServiceStabilityUtil {
         return StabilityUtil.applyWhileOrThrowException(ServiceStabilityUtil::_is, function, arg, timeout);
     }
 
+    public static <T, R> E2eResponse<R> applyWhile(Function<T, E2eResponse<R>> function,
+                                                   T arg, Timeout timeout, Predicate<E2eResponse<R>> is) {
+
+        return StabilityUtil.applyWhile(is.negate(), function, arg, timeout);
+    }
+
+    public static <T, R> E2eResponse<R> applyWhileOrThrowException(Function<T, E2eResponse<R>> function,
+                                                                   T arg, Timeout timeout, Predicate<E2eResponse<R>> is) {
+
+        return StabilityUtil.applyWhileOrThrowException(is.negate(), function, arg, timeout);
+    }
+
     public static <T, R extends GetValueResponse
             & GetFormattedValueResponse> E2eResponse<R> applyWhile(Function<T, E2eResponse<R>> function,
                                                                    T arg, Timeout timeout, Object expectedValue) {

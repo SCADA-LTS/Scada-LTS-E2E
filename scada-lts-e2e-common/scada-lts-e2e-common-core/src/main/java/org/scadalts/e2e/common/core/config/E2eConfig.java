@@ -111,4 +111,8 @@ public interface E2eConfig {
     boolean isMailSmtpStarttlsMode();
 
     boolean isCheckAuthentication();
+
+    boolean isUnblockSendEmailByCron();
+    String getUnblockSendSuccessEmailCron();
+    String getUnblockSendFailEmailCron();
 }

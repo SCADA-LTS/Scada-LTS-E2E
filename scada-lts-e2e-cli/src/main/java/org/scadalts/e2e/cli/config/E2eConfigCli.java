@@ -264,4 +264,19 @@ public class E2eConfigCli implements E2eConfig {
     public String getTitleEmailSuccess() {
         return fromRunApp.getTitleEmailSuccess();
     }
+
+    @Override
+    public boolean isUnblockSendEmailByCron() {
+        return fromRunApp.isUnblockSendEmailByCron();
+    }
+
+    @Override
+    public String getUnblockSendSuccessEmailCron() {
+        return fromRunApp.getUnblockSendSuccessEmailCron();
+    }
+
+    @Override
+    public String getUnblockSendFailEmailCron() {
+        return fromRunApp.getUnblockSendFailEmailCron();
+    }
 }
