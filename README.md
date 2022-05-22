@@ -4,11 +4,16 @@
 
 Tests E2E for ScadaLTS
 
-# v15.0.0
-The project is under development.
+# v22.3.2
 
-# v11.0.0
-Documentation in preparation.
+* Help for E2E options
+`scada-lts-e2e-cli-X.jar e2e -h`
+
+* Help for advanced options, e.g. related to email/sms notification
+`scada-lts-e2e-cli-X.jar e2e run-app -h`
+
+* Run - default, it expects the Scada-LTS application to be available from the address: http://localhost:8080/ScadaBR. If this is the case, just run the tests:
+`scada-lts-e2e-cli-X.jar e2e run-app`
 
 # v10.0.0
 
