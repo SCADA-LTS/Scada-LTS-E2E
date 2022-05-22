@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 @ConditionalOnProperty(prefix = "test.e2e.run-app", name = "unblock-send-email-by-cron")
 public class SendEmailUnblockingByCron {
 
-    @Scheduled(cron = "${test.e2e.run-app.unblock-send-fail-email-cron:0 0 4/24 ? * * *}")
+    @Scheduled(cron = "${test.e2e.run-app.unblock-send-fail-email-cron:0 5 4 * * ?}")
     @CacheEvict(cacheNames = SentEmailsCacheConfig.SENT_EMAILS, allEntries = true)
     public void unblockSendFailEmail() {}
 
-    @Scheduled(cron = "${test.e2e.run-app.unblock-send-success-email-cron:0 0 4/24 ? * * *}")
+    @Scheduled(cron = "${test.e2e.run-app.unblock-send-success-email-cron:0 5 4 * * ?}")
     @CacheEvict(cacheNames = SentEmailsCacheConfig.SENT_EMAILS_SUCCESS, allEntries = true)
     public void unblockSendSuccessEmail() {}
 }
