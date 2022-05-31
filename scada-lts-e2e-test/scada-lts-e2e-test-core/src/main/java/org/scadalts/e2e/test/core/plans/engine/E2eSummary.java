@@ -126,6 +126,19 @@ public class E2eSummary implements E2eSummarable {
                 TestResultPrinter.DECORATION_MAIN);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof E2eSummary)) return false;
+        E2eSummary that = (E2eSummary) o;
+        return key(getFailures()).equals(key(that.getFailures()));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(key(getFailures()));
+    }
+
     private String _measure() {
         return MessageFormat.format("\n{0} - run: {1}, failed: {2}, ignored: {3}\n\nruntime: {4}\n",
                 "Summary", getRunCount(), getFailureCount(), getIgnoreCount(),
@@ -158,5 +171,9 @@ public class E2eSummary implements E2eSummarable {
 
     private static int _calcErrors(List<E2eResult> list) {
         return (int)list.stream().filter(a -> !a.wasSuccessful()).count();
+    }
+
+    private static String key(List<E2eFailure> failures) {
+        return failures.stream().map(E2eFailure::getMessage).sorted().collect(Collectors.joining(";"));
     }
 }

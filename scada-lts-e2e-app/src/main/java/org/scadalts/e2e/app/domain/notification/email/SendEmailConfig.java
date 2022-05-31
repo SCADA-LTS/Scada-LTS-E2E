@@ -119,10 +119,4 @@ class SendEmailConfig {
         cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
         return cookieLocaleResolver;
     }
-
-    @Bean
-    public EmailCacheCleaner emailCacheCleaner() {
-        return new EmailCacheCleaner() {};
-    }
-
 }

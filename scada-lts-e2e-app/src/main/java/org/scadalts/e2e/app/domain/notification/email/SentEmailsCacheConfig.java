@@ -2,6 +2,7 @@ package org.scadalts.e2e.app.domain.notification.email;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
+import org.scadalts.e2e.common.core.config.E2eConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
@@ -20,21 +21,22 @@ class SentEmailsCacheConfig {
     private boolean unblockSendEmailByCron;
 
     static final String SENT_EMAILS = "sentEmails";
+    static final String SENT_EMAILS_BLOCKED = "sentEmailsBlocked";
     static final String EMAIL_CACHE_KEY = "T(java.util.Objects).hash(#emailData?.failTestNames + #emailData?.sendTo?.adress + #emailData?.sendTo?.locale)";
     static final String SENT_EMAILS_SUCCESS = "sentEmailsSuccess";
     static final String EMAIL_SUCCESS_CACHE_KEY = "T(java.util.Objects).hash(#emailData?.sendTo?.adress + #emailData?.sendTo?.locale)";
 
     @Bean
-    public CacheManager cacheManager(Ticker ticker) {
-        CaffeineCacheManager cacheManager = new CaffeineCacheManager(SENT_EMAILS, SENT_EMAILS_SUCCESS);
+    public CacheManager cacheManager(Ticker ticker, E2eConfig e2eConfig) {
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager(SENT_EMAILS, SENT_EMAILS_SUCCESS, SENT_EMAILS_BLOCKED);
         if(unblockSendEmailByCron) {
             cacheManager.setCaffeine(Caffeine.newBuilder()
-                    .maximumSize(100)
+                    .maximumSize(e2eConfig.getSendTo().size())
                     .ticker(ticker));
         } else {
             cacheManager.setCaffeine(Caffeine.newBuilder()
                     .expireAfterWrite(expireMs, TimeUnit.MILLISECONDS)
-                    .maximumSize(100)
+                    .maximumSize(e2eConfig.getSendTo().size())
                     .ticker(ticker));
         }
         return cacheManager;
@@ -43,5 +45,10 @@ class SentEmailsCacheConfig {
     @Bean
     public Ticker ticker() {
         return Ticker.systemTicker();
+    }
+
+    @Bean
+    public EmailCacheCleaner emailCacheCleaner() {
+        return new EmailCacheCleaner() {};
     }
 }
