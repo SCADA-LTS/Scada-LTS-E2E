@@ -43,7 +43,12 @@ class SendEmailAspect {
             E2eSummarable summary = (E2eSummarable) returned;
             if (!summary.wasSuccessful()) {
                 for (SendTo sendTo : config.getSendTo()) {
-                    emailService.sendFail(EmailData.create(config, sendTo, summary));
+                    EmailData emailData = EmailData.create(config, sendTo, summary);
+                    EmailData fromCache = emailCacheCleaner.getEmailFail(emailData);
+                    if(!isEquals(emailData, fromCache)) {
+                        emailCacheCleaner.removeEmailFail(emailData);
+                    }
+                    emailService.sendFail(emailData);
                 }
                 emailCacheCleaner.removeEmailSuccessAll();
             } else {
@@ -68,5 +73,9 @@ class SendEmailAspect {
         String run = joinPoint.getSignature().getName();
         String error = MessageFormat.format("exception: {0}, message: {1}", throwable.getClass().getSimpleName(), throwable.getLocalizedMessage());
         return MessageFormat.format("\nrun: {0}\n\n error: {1}\n", run, error);
+    }
+
+    private static boolean isEquals(EmailData emailData, EmailData fromCache) {
+        return emailData.getSummary().equals(fromCache.getSummary());
     }
 }
