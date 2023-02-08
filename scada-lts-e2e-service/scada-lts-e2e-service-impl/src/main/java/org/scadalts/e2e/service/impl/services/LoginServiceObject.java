@@ -29,13 +29,14 @@ import static org.scadalts.e2e.service.core.utils.ServiceStabilityUtil.*;
 @Builder(access = AccessLevel.PACKAGE)
 public class LoginServiceObject implements WebServiceObject {
 
+    public static final String LOGIN_HTM_ERROR = "/login.htm?error";
     public final URL baseUrl;
     private final Client client;
 
     public Optional<E2eResponse<String>> login(LoginParams loginParams, long timeout) {
         try {
             E2eResponse<String> response = applyWhile(this::_login, loginParams,
-                    new StabilityUtil.Timeout(timeout), a -> a.getStatus() == 302);
+                    new StabilityUtil.Timeout(timeout), a -> !a.getLocation().contains(LOGIN_HTM_ERROR));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -46,7 +47,7 @@ public class LoginServiceObject implements WebServiceObject {
     public Optional<E2eResponse<String>> loginOrThrowException(LoginParams loginParams, long timeout) {
         try {
             E2eResponse<String> response = applyWhileOrThrowException(this::_login, loginParams,
-                    new StabilityUtil.Timeout(timeout), a -> a.getStatus() == 302);
+                    new StabilityUtil.Timeout(timeout), a -> !a.getLocation().contains(LOGIN_HTM_ERROR));
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -84,10 +85,14 @@ public class LoginServiceObject implements WebServiceObject {
 
     private E2eResponse<String> _login(LoginParams loginParams) {
         try {
-            E2eResponse<String> res = this._loginForm(loginParams);
-            if(res.getStatus() == 302 && res.getSessionId() != null && !res.getSessionId().isEmpty())
+            /*E2eResponse<String> res = this._loginOld(loginParams);
+            if(res.getStatus() == 302 && res.getSessionId() != null && !res.getSessionId().isEmpty()
+                    && !res.getLocation().isEmpty() && !res.getLocation().contains("/login")
+                    && !res.getLocation().contains("?error")
+                    && res.getHeaders().containsKey("Set-Cookie"))
                 return res;
-            return _loginOld(loginParams);
+            return _loginForm(loginParams);*/
+            return  this._loginOld(loginParams);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
             return E2eResponse.empty();

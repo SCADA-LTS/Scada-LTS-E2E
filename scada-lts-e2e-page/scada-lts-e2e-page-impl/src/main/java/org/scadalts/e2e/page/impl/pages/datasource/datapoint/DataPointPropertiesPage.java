@@ -235,7 +235,7 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
     public EditDataSourceWithPointListPage editDataSource() {
         delay();
         acceptAfterClick(editDataSource);
-        acceptAlertOnPage();
+        //acceptAlertOnPage();
         printCurrentUrl();
         return editDataSourceWithPointListPage;
     }

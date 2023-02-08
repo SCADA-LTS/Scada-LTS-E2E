@@ -153,6 +153,35 @@ public class StabilityUtil {
         return applyWhile(whileDo, function, arg, timeout, true);
     }
 
+    public static <T, S, R> R applyWhile(Predicate<R> whileDo, BiFunction<T, S, R> function, T arg1, S arg2,
+                                         Timeout timeout) {
+        return applyWhile(whileDo, function, arg1, arg2, timeout, true);
+    }
+
+    public static <T, S, R> R applyWhile(Predicate<R> whileDo, BiFunction<T, S, R> function, T arg1, S arg2,
+                                      Timeout timeout, boolean safe) {
+        long time = System.currentTimeMillis();
+        int i = 0;
+        R result = _execute(function, arg1, arg2);
+        while((result == null
+                || whileDo.test(result))
+                && !_isExceededTimeout(timeout, time)
+                && !_isExceededLimit(i)) {
+            i++;
+            logger.info("try: {}", i);
+            result = _execute(function, arg1, arg2);
+            _sleep();
+        }
+        if(result == null || whileDo.test(result)) {
+            if(safe) {
+                logger.warn("Result does not meet the condition! Result: {}", result);
+                return result;
+            }
+            throw new E2eTestException("Result does not meet the condition! Result: " + result);
+        }
+        return result;
+    }
+
     public static <T, R> R applyWhile(Predicate<R> whileDo, Function<T, R> function, T arg,
                                      Timeout timeout, boolean safe) {
         long time = System.currentTimeMillis();
@@ -278,6 +307,14 @@ public class StabilityUtil {
     private static <T, R> R _execute(Function<T, R> function, T arg) {
         try {
             return function.apply(arg);
+        } catch (Exception ex) {
+            logger.warn(ex.getMessage(), ex);
+            return null;
+        }
+    }
+    private static <T, S, R> R _execute(BiFunction<T, S, R> function, T arg1, S arg2) {
+        try {
+            return function.apply(arg1, arg2);
         } catch (Exception ex) {
             logger.warn(ex.getMessage(), ex);
             return null;

@@ -121,6 +121,11 @@ public interface NavigationPage extends PageObject<NavigationPage>, PageClosable
 
     static void kill() {
         try {
+            getDriver().quit();
+        } catch (Throwable ex) {
+            LOGGER.warn(ex.getMessage());
+        }
+        try {
             Selenide.closeWindow();
         } catch (Throwable ex) {
             LOGGER.warn(ex.getMessage());

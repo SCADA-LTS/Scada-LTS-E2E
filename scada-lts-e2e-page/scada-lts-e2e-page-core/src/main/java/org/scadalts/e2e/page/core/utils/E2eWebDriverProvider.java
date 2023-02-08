@@ -16,6 +16,9 @@ public class E2eWebDriverProvider {
             if(Objects.isNull(webDriver))
                 throw new IllegalStateException("RemoteWebDriver is null");
             return webDriver;
+        } catch (IllegalStateException throwable) {
+            logger.error(throwable.getMessage());
+            throw throwable;
         } catch (Throwable throwable) {
             logger.error(throwable.getMessage(), throwable);
             throw throwable;
@@ -25,6 +28,9 @@ public class E2eWebDriverProvider {
     public static WebDriver.Options manage() {
         try {
             return getDriver().manage();
+        }  catch (IllegalStateException throwable) {
+            logger.error(throwable.getMessage());
+            throw throwable;
         } catch (Throwable throwable) {
             logger.error(throwable.getMessage(), throwable);
             throw throwable;
@@ -34,6 +40,9 @@ public class E2eWebDriverProvider {
     public static WebDriver.Navigation navigate() {
         try {
             return getDriver().navigate();
+        }  catch (IllegalStateException throwable) {
+            logger.error(throwable.getMessage());
+            throw throwable;
         } catch (Throwable throwable) {
             logger.error(throwable.getMessage(), throwable);
             throw throwable;

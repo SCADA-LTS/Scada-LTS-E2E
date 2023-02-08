@@ -10,6 +10,7 @@ class TestsParser {
     static List<Class<?>> parse(String... tests) {
         return Stream.of(tests)
                 .map(String::trim)
+                .map(a -> a.replace("'", ""))
                 .map(TestsParser::_getClass)
                 .filter(Optional::isPresent)
                 .map(Optional::get)

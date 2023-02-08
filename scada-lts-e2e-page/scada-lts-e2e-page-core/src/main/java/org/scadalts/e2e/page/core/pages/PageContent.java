@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
+import org.scadalts.e2e.page.core.utils.AlertUtil;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.switchTo;
@@ -33,9 +34,18 @@ interface PageContent<T extends PageObject<T>> extends GetPage<T> {
         return getBodyText().contains(text);
     }
 
-    default T acceptAlertOnPage() {
+    default T acceptAlertOnPageSlow() {
         try {
             switchTo().alert().accept();
+        } catch (Throwable ex) {
+
+        }
+        return getPage();
+    }
+
+    default T acceptAlertOnPage() {
+        try {
+            AlertUtil.acceptAlert();
         } catch (Throwable ex) {
 
         }
