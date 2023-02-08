@@ -30,4 +30,13 @@ public class E2eResponse<T> {
     public boolean isEmpty() {
         return status == -1;
     }
+
+    public String getLocation() {
+        if(headers == null || headers.isEmpty())
+            return "";
+        Object location = headers.get("Location");
+        if(location == null)
+            return "";
+        return String.valueOf(location);
+    }
 }

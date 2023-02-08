@@ -33,7 +33,7 @@ import static org.scadalts.e2e.service.core.utils.ServiceStabilityUtil.executeWh
 @Builder(access = AccessLevel.PACKAGE)
 public class EventHandlerServiceObject implements WebServiceObject {
 
-    public final URL baseUrl;
+    private final URL baseUrl;
     private final Client client;
 
     public Optional<E2eResponse<List<EventHandlerResponse>>> getAllEventHandlers(long timeout) {

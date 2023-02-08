@@ -1,5 +1,6 @@
 package org.scadalts.e2e.test.impl.tests.check.login;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.scadalts.e2e.page.impl.pages.LoginPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -10,7 +11,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class IsLoggedThenOpenLoginPageAndBackCheckTest {
 
-    private static NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
+    private NavigationPage navigationPage;
+
+    @Before
+    public void config() {
+        navigationPage = TestWithPageUtil.openNavigationPage();
+    }
 
     @Test
     public void test_login() {

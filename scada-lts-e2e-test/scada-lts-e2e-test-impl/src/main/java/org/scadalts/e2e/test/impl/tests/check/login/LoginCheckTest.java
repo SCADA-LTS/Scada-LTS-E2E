@@ -12,28 +12,26 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LoginCheckTest {
 
-    private NavigationPage navigationPage;
-
     @Before
     public void setup() {
-        TestWithPageUtil.logout();
+        TestWithPageUtil.close();
     }
 
     @After
     public void clean() {
-        TestWithPageUtil.logout();
+        TestWithPageUtil.close();
     }
 
     @Test
     public void test_login() {
 
         //when:
-        navigationPage = TestWithPageUtil.openNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
 
         //and:
         String userName = navigationPage.getUserName();
 
         //then:
-        assertThat("Problem with logging into the system for user: " + E2eConfiguration.username, E2eConfiguration.username, equalTo(userName));
+        assertThat("Problem with logging into the system for user: " + E2eConfiguration.username, userName, equalTo(E2eConfiguration.username));
     }
 }

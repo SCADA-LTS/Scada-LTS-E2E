@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
 import org.scadalts.e2e.page.core.config.PageConfiguration;
 import org.scadalts.e2e.page.impl.groovy.*;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -50,7 +51,7 @@ public class GroovyEngine {
             if (TestWithPageUtil.isLogged())
                 TestWithPageUtil.close();
         } else {
-            if(TestWithoutPageUtil.isApiLogged())
+            if(!E2eConfiguration.checkAuthentication || TestWithoutPageUtil.isApiLogged())
                 TestWithoutPageUtil.close();
         }
         ConfigurationUtil.pageMode(false);
@@ -72,6 +73,7 @@ public class GroovyEngine {
             if(TestWithoutPageUtil.isApiLogged())
                 TestWithoutPageUtil.close();
         }
+        System.gc();
     }
 
     private void _preconfig(GroovyExecute execute) {

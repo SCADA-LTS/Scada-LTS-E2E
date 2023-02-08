@@ -28,7 +28,7 @@ public class EditGraphicalViewAndOpenMainPageCheckTest {
     @After
     public void close() {
         if(navigationPage != null)
-            navigationPage.acceptAlertOnPage();
+            navigationPage.acceptAlertOnPageSlow();
     }
 
     @Test
@@ -39,7 +39,7 @@ public class EditGraphicalViewAndOpenMainPageCheckTest {
                 .clickCheckboxDelete();
 
         //and:
-        NavigationPage navigationPage = NavigationPage.openPage().acceptAlertOnPage();
+        NavigationPage navigationPage = NavigationPage.openPage().acceptAlertOnPageSlow();
 
         //then:
         assertThat(navigationPage.getCurrentUrl(), containsString(NavigationPage.URL_REF));

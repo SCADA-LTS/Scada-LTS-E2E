@@ -32,7 +32,7 @@ public class ChangeAlarmListCheckTest {
     @After
     public void close() {
         if(editViewPageSubject != null)
-            editViewPageSubject.acceptAlertOnPage();
+            editViewPageSubject.acceptAlertOnPageSlow();
     }
 
     @Test

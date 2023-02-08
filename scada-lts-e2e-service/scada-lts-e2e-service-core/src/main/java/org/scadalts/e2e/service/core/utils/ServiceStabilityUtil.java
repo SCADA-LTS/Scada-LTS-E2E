@@ -7,6 +7,7 @@ import org.scadalts.e2e.service.core.services.GetFormattedValueResponse;
 import org.scadalts.e2e.service.core.services.GetValueResponse;
 
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -35,6 +36,12 @@ public class ServiceStabilityUtil {
                                                    T arg, Timeout timeout, Predicate<E2eResponse<R>> is) {
 
         return StabilityUtil.applyWhile(is.negate(), function, arg, timeout);
+    }
+
+    public static <T, S, R> E2eResponse<R> applyWhile(BiFunction<T, S, E2eResponse<R>> function,
+                                                   T arg1, S arg2, Timeout timeout, Predicate<E2eResponse<R>> is) {
+
+        return StabilityUtil.applyWhile(is.negate(), function, arg1, arg2, timeout);
     }
 
     public static <T, R> E2eResponse<R> applyWhileOrThrowException(Function<T, E2eResponse<R>> function,
