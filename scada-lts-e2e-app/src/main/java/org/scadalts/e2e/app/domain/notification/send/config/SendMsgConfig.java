@@ -1,4 +1,4 @@
-package org.scadalts.e2e.app.domain.notification.email;
+package org.scadalts.e2e.app.domain.notification.send.config;
 
 import org.scadalts.e2e.common.core.config.E2eConfig;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 @Configuration
-class SendEmailConfig {
+public class SendMsgConfig {
 
     private static final int TIMEOUT = 60000;
 
@@ -106,7 +106,7 @@ class SendEmailConfig {
         return templateResolver;
     }
 
-    @Bean
+    @Bean("messageSource")
     public ResourceBundleMessageSource messageSource() {
         final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("lang");
@@ -118,5 +118,15 @@ class SendEmailConfig {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
         return cookieLocaleResolver;
+    }
+
+    @Bean("smsMessageCreator")
+    public MimeMessageCreator smsMessageCreator(@Qualifier("smsMessageTransformator")MessageTransformator smsMessageTransformator) {
+        return new SmsMessageCreator(smsMessageTransformator);
+    }
+
+    @Bean("emailMessageCreator")
+    public MimeMessageCreator emailMessageCreator(@Qualifier("emailMessageTransformator")MessageTransformator emailMessageTransformator) {
+        return new EmailMessageCreator(emailMessageTransformator);
     }
 }

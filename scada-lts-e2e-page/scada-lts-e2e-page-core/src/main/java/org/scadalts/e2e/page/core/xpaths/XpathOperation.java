@@ -19,6 +19,10 @@ public final class XpathOperation {
         return new XpathOperation("{0} and {1}", this, xpathOperation);
     }
 
+    public XpathOperation and(XpathExpression xpathExpression) {
+        return new XpathOperation("{0} and {1}", this, xpathExpression.expression());
+    }
+
     public XpathOperation or(XpathOperation xpathOperation) {
         return new XpathOperation("{0} or {1}", this, xpathOperation);
     }

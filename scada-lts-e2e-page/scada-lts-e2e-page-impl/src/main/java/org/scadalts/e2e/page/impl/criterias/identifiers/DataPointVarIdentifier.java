@@ -3,12 +3,11 @@ package org.scadalts.e2e.page.impl.criterias.identifiers;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.ToString;
 import org.scadalts.e2e.page.core.criterias.identifiers.AbstractIdentifier;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 
-import static org.scadalts.e2e.page.core.criterias.Tag.tr;
-import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.clazz;
+import static org.scadalts.e2e.page.core.criterias.Tag.*;
+import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.*;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -25,7 +24,8 @@ public class DataPointVarIdentifier extends AbstractIdentifier {
 
     @Override
     public NodeCriteria getNodeCriteria() {
-        return NodeCriteria.exactly(dataPointIdentifier, varIdentifier, tr(), clazz("smRow"));
+        return NodeCriteria.withNode(tr(), input(), value(varIdentifier.getValue()), clazz("smRow"),
+                text(dataPointIdentifier.getValue()));
     }
 
     @Override

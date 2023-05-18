@@ -29,7 +29,7 @@ import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.Assert.*;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.EXPECTED_DATE_ISO;
 import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.getStorungsAndAlarms;
-import static org.scadalts.e2e.test.impl.utils.StorungsAndAlarmsUtil.sleep;
+
 
 @Log4j2
 public class GetAllLivesParametersServiceTest {

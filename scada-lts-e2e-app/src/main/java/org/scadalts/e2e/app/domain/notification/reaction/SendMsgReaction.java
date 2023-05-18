@@ -1,4 +1,4 @@
-package org.scadalts.e2e.app.domain.notification.email;
+package org.scadalts.e2e.app.domain.notification.reaction;
 
 
 import java.lang.annotation.*;
@@ -6,5 +6,5 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface SendEmailReaction {
+public @interface SendMsgReaction {
 }

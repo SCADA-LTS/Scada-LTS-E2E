@@ -1,6 +1,7 @@
-package org.scadalts.e2e.app.domain.notification.email;
+package org.scadalts.e2e.app.domain.notification.send.config;
 
 import lombok.extern.log4j.Log4j2;
+import org.scadalts.e2e.app.domain.notification.send.MsgData;
 import org.scadalts.e2e.common.core.config.SendTo;
 import org.scadalts.e2e.common.core.measure.ValueTimeUnitToPrint;
 import org.thymeleaf.TemplateEngine;
@@ -21,13 +22,13 @@ class ThymeleafMessageTransformator implements MessageTransformator {
     }
 
     @Override
-    public String transform(EmailData emailData, File inline) {
-        return templateEngine.process(templateName, _newContext(emailData, inline));
+    public String transform(MsgData msgData, File inline) {
+        return templateEngine.process(templateName, _newContext(msgData, inline));
     }
 
     @Override
-    public String transform(EmailData emailData) {
-        return templateEngine.process(templateName, _newContext(emailData, null));
+    public String transform(MsgData msgData) {
+        return templateEngine.process(templateName, _newContext(msgData, null));
     }
 
     @Override
@@ -35,20 +36,20 @@ class ThymeleafMessageTransformator implements MessageTransformator {
         return true;
     }
 
-    private static Context _newContext(EmailData emailData, File inline) {
+    private static Context _newContext(MsgData msgData, File inline) {
         Context context = new Context();
-        long runtime = emailData.getSummary().getRunTime();
+        long runtime = msgData.getSummary().getRunTime();
         String runtimeFormatted = ValueTimeUnitToPrint.preparingToPrintMs(runtime);
-        SendTo sendTo = emailData.getSendTo();
+        SendTo sendTo = msgData.getSendTo();
 
-        _i18n(sendTo.getLocale(), context, emailData.getSummary().getStatusesLegend());
+        _i18n(sendTo.getLocale(), context, msgData.getSummary().getStatusesLegend());
 
-        context.setVariable("content", emailData.getContent());
-        context.setVariable("header", emailData.getHeader());
-        context.setVariable("title", emailData.getTitle());
-        context.setVariable("summary", emailData.getSummary());
+        context.setVariable("content", msgData.getContent());
+        context.setVariable("header", msgData.getHeader());
+        context.setVariable("title", msgData.getTitle());
+        context.setVariable("summary", msgData.getSummary());
         context.setVariable("runtimeFormatted", runtimeFormatted);
-        context.setVariable("failTestNames", emailData.getFailTestNames());
+        context.setVariable("failTestNames", msgData.getFailTestNames());
         if(inline != null)
             context.setVariable(inline.getName(), inline.getName());
         return context;
@@ -64,12 +65,14 @@ class ThymeleafMessageTransformator implements MessageTransformator {
         context.setVariable("testSessionIdTh", message.getString("e2e.test.session-id"));
         context.setVariable("testSummaryTh", message.getString("e2e.test.summary"));
         context.setVariable("testRunsTh", message.getString("e2e.test.run"));
+        context.setVariable("testExecuteTimeTh", message.getString("e2e.test.test-execute-time"));
 
         context.setVariable("testIgnoredTh", message.getString("e2e.test.ignored"));
         context.setVariable("testFailedTh", message.getString("e2e.test.failed"));
         context.setVariable("testRuntimeTh", message.getString("e2e.test.runtime"));
         context.setVariable("testGoToPageTh", message.getString("e2e.test.go-to-page"));
-        context.setVariable("hasOccurredTh", message.getString("e2e.test.start-date-time"));
+        context.setVariable("startDateTimeTh", message.getString("e2e.test.start-date-time"));
+        context.setVariable("endDateTimeTh", message.getString("e2e.test.end-date-time"));
 
         context.setVariable("legendTh", translate(legends, message));
     }

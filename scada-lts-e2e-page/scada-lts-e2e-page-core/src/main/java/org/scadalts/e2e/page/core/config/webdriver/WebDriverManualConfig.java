@@ -7,8 +7,6 @@ import org.apache.logging.log4j.Level;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.opera.OperaOptions;
-import org.openqa.selenium.remote.CapabilityType;
 import org.scadalts.e2e.common.core.config.E2eConfig;
 
 import java.text.MessageFormat;
@@ -49,12 +47,13 @@ public enum WebDriverManualConfig {
         }
 
     },
+    @Deprecated
     OPERA("opera",
             "webdriver.opera.driver",
             "webdriver.opera.logfile?",
             "webdriver.opera.verboseLogging",
             OperaDriverPathsConfig.getConfig(),
-            OperaOptions.CAPABILITY) {
+            "operaOptions") {
 
         @Override
         public void setOptions(E2eConfig config) {

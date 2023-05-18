@@ -55,6 +55,20 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsP
                 }
                 editScriptsPage.saveScript()
                         .containsObject(criteria.getIdentifier());
+                editScriptsPage.refreshPage();
+                editScriptsPage = scriptsPage.openScriptEditor(criteria);
+                boolean saveRepeat = false;
+                for (DataPointVarCriteria var : criteria.getDataPointVarCriterias()) {
+                    if(!editScriptsPage.containsVarInContext(var)) {
+                        editScriptsPage.addPointToContext(var.getDataPointCriteria())
+                                .setVarName(var);
+                        saveRepeat = true;
+                    }
+                }
+                if (saveRepeat) {
+                    editScriptsPage.saveScript()
+                            .containsObject(criteria.getIdentifier());
+                }
             }
         }
         return scriptsPage.reopen();

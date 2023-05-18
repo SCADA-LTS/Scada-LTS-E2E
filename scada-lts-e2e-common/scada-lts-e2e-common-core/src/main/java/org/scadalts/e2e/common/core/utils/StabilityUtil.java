@@ -9,8 +9,8 @@ import java.util.function.*;
 @Log4j2
 public class StabilityUtil {
 
-    private final static long INTERVAL_MS = 5000;
-    private final static int LIMIT = 100;
+    private static final long INTERVAL_MS = 5000;
+    private static final int LIMIT = 100;
 
     public static <T> T waitWhile(Predicate<T> whileDo, T arg, Timeout timeout) {
         return waitWhile(whileDo, arg, timeout, true);

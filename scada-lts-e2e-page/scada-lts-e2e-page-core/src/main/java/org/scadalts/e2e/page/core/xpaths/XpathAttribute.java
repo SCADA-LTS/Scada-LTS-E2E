@@ -9,6 +9,8 @@ public final class XpathAttribute {
     private final String name;
     private final String value;
 
+    private static final XpathAttribute EMPTY = new XpathAttribute(".", "");
+
     private XpathAttribute(String name, String value) {
         this.name = name;
         this.value = value;
@@ -39,7 +41,7 @@ public final class XpathAttribute {
     }
 
     public static XpathAttribute empty() {
-        return new XpathAttribute(".", "");
+        return EMPTY;
     }
 
     public static XpathAttribute selected() {

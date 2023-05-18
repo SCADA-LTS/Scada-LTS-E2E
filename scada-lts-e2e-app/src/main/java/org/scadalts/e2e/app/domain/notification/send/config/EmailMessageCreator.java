@@ -1,12 +1,10 @@
-package org.scadalts.e2e.app.domain.notification.email;
+package org.scadalts.e2e.app.domain.notification.send.config;
 
 import lombok.extern.log4j.Log4j2;
+import org.scadalts.e2e.app.domain.notification.send.MsgData;
 import org.scadalts.e2e.common.core.config.E2eConstant;
 import org.scadalts.e2e.common.core.utils.FileUtil;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -16,36 +14,23 @@ import java.util.Optional;
 import static org.scadalts.e2e.common.core.utils.FileUtil.zip;
 
 @Log4j2
-@Component("emailMessageCreator")
-class EmailMessageCreator implements MimeMessageCreator {
+public class EmailMessageCreator extends SmsMessageCreator implements MimeMessageCreator {
 
-    private final MessageTransformator transformator;
     private static Optional<File> LOGO = FileUtil.getFileFromJar("templates/logo.png");
 
-    EmailMessageCreator(@Qualifier("emailMessageTransformator")MessageTransformator emailMessageTransformator) {
-        this.transformator = emailMessageTransformator;
+    public EmailMessageCreator(MessageTransformator emailMessageTransformator) {
+        super(emailMessageTransformator);
     }
 
     @Override
-    public MimeMessage create(EmailData emailData, JavaMailSender javaMailSender) throws MessagingException {
-        logger.info("creating email...");
-        MimeMessage mail = javaMailSender.createMimeMessage();
-        _createMime(emailData, mail);
-        return mail;
+    protected MimeMessageHelper createHelper(MimeMessage mail) throws MessagingException {
+        return new MimeMessageHelper(mail, true, "UTF-8");
     }
 
-    private void _createMime(EmailData emailData, MimeMessage mail) throws MessagingException {
-        MimeMessageHelper helper = new MimeMessageHelper(mail, true, "UTF-8");
-        helper.setBcc(emailData.getSendTo().getAdress());
-        helper.setFrom(emailData.getFrom());
-        helper.setSubject(emailData.getTitle());
+    @Override
+    protected void generateContent(MsgData msgData, MimeMessageHelper helper, MessageTransformator transformator) {
 
-        _generateContent(emailData, helper);
-    }
-
-    private void _generateContent(EmailData emailData, MimeMessageHelper helper) {
-
-        String content = transformator.transform(emailData);
+        String content = transformator.transform(msgData);
         try {
             helper.setText(content, transformator.isHtml());
         } catch (MessagingException e) {
@@ -78,12 +63,11 @@ class EmailMessageCreator implements MimeMessageCreator {
             }
         });
 
-        for (File attachment: emailData.getAttachments()) {
+        for (File attachment: msgData.getAttachments()) {
             if(attachment.exists()) {
                 try {
                     helper.addAttachment(attachment.getName(), attachment);
                 } catch (MessagingException e) {
-
                     logger.warn(e.getMessage(), e);
                 }
             }

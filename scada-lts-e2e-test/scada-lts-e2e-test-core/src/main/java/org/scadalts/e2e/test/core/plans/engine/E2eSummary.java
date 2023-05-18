@@ -1,11 +1,16 @@
 package org.scadalts.e2e.test.core.plans.engine;
 
 import lombok.extern.log4j.Log4j2;
+import org.scadalts.e2e.common.core.measure.ValueTimeUnitToPrint;
 import org.scadalts.e2e.test.core.utils.TestResultPrinter;
 
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static org.scadalts.e2e.common.core.measure.ValueTimeUnitToPrint.preparingToPrintMs;
@@ -15,6 +20,8 @@ import static org.scadalts.e2e.test.core.utils.TestResultPrinter.failures;
 public class E2eSummary implements E2eSummarable {
 
     private final Map<Class<?>, List<E2eResult>> results;
+    private final AtomicInteger startCounter = new AtomicInteger();
+    private final AtomicInteger endCounter = new AtomicInteger();
 
     public E2eSummary(Map<Class<?>, List<E2eResult>> results) {
         this.results = results;
@@ -55,6 +62,22 @@ public class E2eSummary implements E2eSummarable {
     }
 
     @Override
+    public List<E2eSummaryUnit> getResults() {
+        Map<String, TestStatus> statuses = getTestStatuses();
+        Map<String, String> executionTimes = getTestExecuteTimeFormatted();
+        Map<String, LocalDateTime> startTimes = getStartTimes();
+        Map<String, LocalDateTime> endTimes = getEndTimes();
+        List<String> testNames = results.entrySet().stream()
+                .sorted(Comparator.comparing(a -> _reduceStartTime(a.getValue())))
+                .map(a -> a.getKey().getSimpleName())
+                .collect(Collectors.toList());
+        AtomicInteger count = new AtomicInteger();
+        return testNames.stream()
+                .map(a -> new E2eSummaryUnit(count.incrementAndGet() + ". " + a,executionTimes.get(a),startTimes.get(a), endTimes.get(a), statuses.get(a)))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<String> getFailTestNames() {
         return results.values().stream()
                 .flatMap(Collection::stream)
@@ -82,7 +105,7 @@ public class E2eSummary implements E2eSummarable {
     public Map<String, LocalDateTime> getStartTimes() {
         return results.entrySet()
                 .stream()
-                .sorted(Comparator.comparing(a -> a.getValue().get(0).getStartDateTime()))
+                .sorted(Comparator.comparing(a -> a.getKey().getSimpleName()))
                 .collect(Collectors
                         .toMap(a -> a.getKey().getSimpleName(),
                                 a -> _reduceStartTime(a.getValue()), (b, c) -> b.compareTo(c) > 0 ? c : b,
@@ -96,13 +119,49 @@ public class E2eSummary implements E2eSummarable {
     public Map<String, LocalDateTime> getEndTimes() {
         return results.entrySet()
                 .stream()
-                .sorted(Comparator.comparing(a -> a.getValue().get(0).getStartDateTime()))
+                .sorted(Comparator.comparing(a -> a.getKey().getSimpleName()))
                 .collect(Collectors
                         .toMap(a -> a.getKey().getSimpleName(),
                                 a -> _reduceEndTime(a.getValue()), (b, c) -> b.compareTo(c) > 0 ? c : b,
                                 LinkedHashMap::new)
 
                 );
+    }
+
+    @Override
+    public Map<String, Long> getTestExecuteTime() {
+        return results.entrySet()
+                .stream()
+                .sorted(Comparator.comparing(a -> a.getKey().getSimpleName()))
+                .collect(Collectors
+                        .toMap(a -> a.getKey().getSimpleName(),
+                                this::diff, (b, c) -> (b + c)/2,
+                                LinkedHashMap::new)
+
+                );
+    }
+
+    @Override
+    public Map<String, String> getTestExecuteTimeFormatted() {
+        return getTestExecuteTime().entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors
+                        .toMap(Map.Entry::getKey,
+                                a -> ValueTimeUnitToPrint.preparingToPrintMs(a.getValue()),
+                                (b, c) -> b,
+                                LinkedHashMap::new)
+                );
+    }
+
+    private long diff(Map.Entry<Class<?>, List<E2eResult>> a) {
+        ZoneId zoneId = ZoneId.systemDefault().getRules().getOffset(Instant.now());
+        ZoneOffset zoneOffset = ZoneOffset.of(zoneId.getId());
+        LocalDateTime end = _reduceEndTime(a.getValue());
+        LocalDateTime start = _reduceStartTime(a.getValue());
+        Instant endInst = end.toInstant(zoneOffset);
+        Instant startInst = start.toInstant(zoneOffset);
+        return endInst.toEpochMilli() - startInst.toEpochMilli();
     }
 
     @Override
@@ -156,16 +215,26 @@ public class E2eSummary implements E2eSummarable {
         return TestStatus.ERROR;
     }
 
-    private static LocalDateTime _reduceStartTime(List<E2eResult> list) {
+    private LocalDateTime _reduceStartTime(List<E2eResult> list) {
         if(list.isEmpty())
             return LocalDateTime.MIN;
-        return list.get(0).getStartDateTime();
+        int index = startCounter.getAndIncrement();
+        if(index > list.size() - 1) {
+            index = 0;
+            startCounter.set(0);
+        }
+        return list.get(index).getStartDateTime();
     }
 
-    private static LocalDateTime _reduceEndTime(List<E2eResult> list) {
+    private LocalDateTime _reduceEndTime(List<E2eResult> list) {
         if(list.isEmpty())
             return LocalDateTime.MIN;
-        return list.get(0).getEndDateTime();
+        int index = endCounter.getAndIncrement();
+        if(index > list.size() - 1) {
+            index = 0;
+            endCounter.set(0);
+        }
+        return list.get(index).getEndDateTime();
     }
 
 

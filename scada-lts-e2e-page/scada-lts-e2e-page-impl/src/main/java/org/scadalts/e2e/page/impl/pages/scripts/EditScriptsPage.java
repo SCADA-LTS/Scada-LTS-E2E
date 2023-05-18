@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
@@ -101,6 +102,10 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
         return this;
     }
 
+    public boolean containsVarInContext(DataPointVarCriteria dataPointVarCriteria) {
+        return _containsVar(dataPointVarCriteria.getIdentifier());
+    }
+
     public EditScriptsPage setVarName(DataPointVarCriteria criteria) {
         delay();
         NodeCriteria nodeCriteria = NodeCriteria.exactlyTypeAny(criteria.getDataPointCriteria().getIdentifier(), Tag.tr());
@@ -131,5 +136,11 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
         NodeCriteria nodeCriteria = NodeCriteria.exactlyTypeAny(dataPointName.getIdentifier(), Tag.li());
         findObject(nodeCriteria, $(By.cssSelector(".chosen-results"))).click();
         return this;
+    }
+
+    private boolean _containsVar(IdentifierObject dataPointVarIdentifier) {
+        delay();
+        waitWhile(contextContainer, not(Condition.visible));
+        return findObject(dataPointVarIdentifier.getNodeCriteria(), contextContainer).is(Condition.visible);
     }
 }

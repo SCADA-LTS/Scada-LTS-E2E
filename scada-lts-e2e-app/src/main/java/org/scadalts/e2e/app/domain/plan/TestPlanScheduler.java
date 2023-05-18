@@ -1,7 +1,7 @@
 package org.scadalts.e2e.app.domain.plan;
 
 
-import org.scadalts.e2e.app.domain.notification.email.SendEmailReaction;
+import org.scadalts.e2e.app.domain.notification.reaction.SendMsgReaction;
 import org.scadalts.e2e.app.infrastructure.metrics.Logging;
 import org.scadalts.e2e.common.core.config.E2eConfig;
 import org.scadalts.e2e.test.api.E2eTestApi;
@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-@SendEmailReaction
+@SendMsgReaction
 @Component
 @ConditionalOnProperty(prefix = "test.e2e.run-app", name = "continuous-mode")
 public class TestPlanScheduler {
