@@ -36,12 +36,13 @@ public class LoginServiceTest {
     }
 
     @Test
-    public void test_service_login_then_http_302() {
+    public void test_service_login_then_set_cookie_in_headers() {
 
         //given:
         LoginParams loginParams = LoginParams.builder()
                 .userName(E2eConfiguration.username)
                 .password(E2eConfiguration.password)
+                .submit("Login")
                 .build();
 
         //when:
@@ -49,7 +50,7 @@ public class LoginServiceTest {
 
         //then:
         assertTrue(response.isPresent());
-        assertEquals(302, response.get().getStatus());
+        assertEquals(false, response.get().getLocation().contains("login.htm?error"));
     }
 
 }

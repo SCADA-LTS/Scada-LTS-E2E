@@ -6,7 +6,7 @@ import java.io.Closeable;
 
 public interface PageClosable extends Closeable {
     default void closeWindows() {
-        Selenide.closeWebDriver();
+        Selenide.closeWindow();
     }
 
     @Override

@@ -87,6 +87,26 @@ public interface NodeCriteria {
                 .build();
     }
 
+    static NodeCriteria withNode(Tag parent, Tag child, XpathAttribute childAttribute, XpathAttribute parentAttribute) {
+        return NodeCriteriaWithNode.builder()
+                .parent(parent)
+                .child(child)
+                .childAttribute(childAttribute)
+                .parentAttribute1(parentAttribute)
+                .build();
+    }
+
+    static NodeCriteria withNode(Tag parent, Tag child, XpathAttribute childAttribute, XpathAttribute parentAttribute1,
+                                 XpathAttribute parentAttribute2) {
+        return NodeCriteriaWithNode.builder()
+                .parent(parent)
+                .child(child)
+                .childAttribute(childAttribute)
+                .parentAttribute1(parentAttribute1)
+                .parentAttribute2(parentAttribute2)
+                .build();
+    }
+
     static NodeCriteria empty() {
         return EMPTY;
     }

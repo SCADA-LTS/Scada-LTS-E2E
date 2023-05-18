@@ -6,7 +6,7 @@
     <parent>
         <artifactId>scada-lts-e2e</artifactId>
         <groupId>org.scadalts</groupId>
-        <version>22.3.4-SNAPSHOT</version>
+        <version>23.0.1-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -22,12 +22,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.scadalts</groupId>
+            <artifactId>scada-lts-e2e-common-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.scadalts</groupId>
-            <artifactId>scada-lts-e2e-common-core</artifactId>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
         </dependency>
     </dependencies>
 

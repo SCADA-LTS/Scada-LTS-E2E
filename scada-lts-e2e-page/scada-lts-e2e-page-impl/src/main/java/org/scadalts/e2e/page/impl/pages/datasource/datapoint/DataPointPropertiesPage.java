@@ -235,7 +235,7 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
     public EditDataSourceWithPointListPage editDataSource() {
         delay();
         acceptAfterClick(editDataSource);
-        acceptAlertOnPage();
+        //acceptAlertOnPage();
         printCurrentUrl();
         return editDataSourceWithPointListPage;
     }
@@ -256,7 +256,7 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         delay();
         ElementsCollection elements = waitWhile(eventDetectorTable, not(Condition.visible)).$$(By.tagName("tbody"));
         for (SelenideElement element: elements) {
-            if(element.is(not(Condition.matchesText("Event detectors")))) {
+            if(element.is(not(Condition.matchText("Event detectors")))) {
                 ElementsCollection inputs = element.$$(By.tagName("input"));
                 for (SelenideElement input : inputs) {
                     String value = input.getValue();

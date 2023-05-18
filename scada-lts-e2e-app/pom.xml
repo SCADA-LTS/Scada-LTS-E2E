@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.scadalts</groupId>
         <artifactId>scada-lts-e2e</artifactId>
-        <version>22.3.4-SNAPSHOT</version>
+        <version>23.0.1-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -29,13 +29,6 @@
         <dependency>
             <groupId>org.scadalts</groupId>
             <artifactId>scada-lts-e2e-test-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-dependencies</artifactId>
-            <version>${spring-boot.version}</version>
-            <scope>provided</scope>
-            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -65,6 +58,14 @@
             <groupId>org.scadalts</groupId>
             <artifactId>scada-lts-e2e-common-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <!--dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-spring-webmvc</artifactId>
+        </dependency-->
     </dependencies>
 
     <build>

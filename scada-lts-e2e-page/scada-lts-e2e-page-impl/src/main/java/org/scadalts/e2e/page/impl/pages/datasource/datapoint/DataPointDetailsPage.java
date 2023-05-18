@@ -79,7 +79,7 @@ public class DataPointDetailsPage extends PageObjectAbstract<DataPointDetailsPag
     public String getDataPointValue(String expectedValue) {
         delay();
         String value = unformat(expectedValue);
-        SelenideElement field = refreshWhile(valueField, or("is not text: " + expectedValue, not(Condition.exactText(value))));
+        SelenideElement field = refreshWhile(valueField, or("is not text: " + expectedValue, not(Condition.exactText(value)), Condition.empty));
         String text = field.getText();
         return unformat(text);
     }

@@ -25,7 +25,7 @@ public class LoginPage extends PageObjectAbstract<LoginPage> {
     @FindBy(id = "password")
     private SelenideElement password;
 
-    @FindBy(css = "input[value='Login']")
+    @FindBy(css = ".login-button input[type='submit']")
     private SelenideElement loginButton;
 
     private static final String URL_REF = "/login.htm";

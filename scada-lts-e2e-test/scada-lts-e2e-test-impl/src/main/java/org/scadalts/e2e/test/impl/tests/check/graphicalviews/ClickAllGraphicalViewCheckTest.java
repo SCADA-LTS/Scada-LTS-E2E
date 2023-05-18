@@ -46,7 +46,7 @@ public class ClickAllGraphicalViewCheckTest {
     @AfterClass
     public static void close() {
         if(graphicalViewsPage != null)
-            graphicalViewsPage.acceptAlertOnPage();
+            graphicalViewsPage.acceptAlertOnPageSlow();
     }
 
     @Test

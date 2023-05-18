@@ -15,6 +15,7 @@ public interface E2eSummarable {
     boolean wasSuccessful();
 
     List<E2eFailure> getFailures();
+    List<E2eSummaryUnit> getResults();
 
     List<String> getFailTestNames();
 
@@ -29,6 +30,10 @@ public interface E2eSummarable {
     Map<String, LocalDateTime> getStartTimes();
 
     Map<String, LocalDateTime> getEndTimes();
+
+    Map<String, Long> getTestExecuteTime();
+
+    Map<String, String> getTestExecuteTimeFormatted();
 
     static E2eSummarable empty() {
         return new E2eSummary(Collections.emptyMap());

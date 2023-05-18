@@ -115,4 +115,19 @@ public interface E2eConfig {
     boolean isUnblockSendEmailByCron();
     String getUnblockSendSuccessEmailCron();
     String getUnblockSendFailEmailCron();
+
+    static E2eConfig defaultConfig() {
+        return new E2eConfigDefault();
+    }
+
+    static E2eConfig config(Set<SendTo> sendTo, String emailTitle, String titleEmailSuccess,
+                            String sendFrom, String hostSmtp) {
+        E2eConfigDefault config = new E2eConfigDefault();
+        config.setSendTo(sendTo);
+        config.setTitleEmail(emailTitle);
+        config.setTitleEmailSuccess(titleEmailSuccess);
+        config.setSendFrom(sendFrom);
+        config.setHostSmtp(hostSmtp);
+        return config;
+    }
 }

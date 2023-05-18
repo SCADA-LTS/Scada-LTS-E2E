@@ -147,6 +147,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     }
 
     public EditDataSourcePage openDataSourceCreator(DataSourceType dataSourceType) {
+        delay();
         dataSourceTypes.selectOption(dataSourceType.getName());
         return _openDataSourceCreator();
     }

@@ -19,6 +19,9 @@ public class Tag {
     public static Tag tbody() {
         return new Tag("tbody");
     }
+    public static Tag body() {
+        return new Tag("body");
+    }
 
     public static Tag input() {
         return new Tag("input");

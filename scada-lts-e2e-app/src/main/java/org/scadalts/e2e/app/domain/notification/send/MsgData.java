@@ -1,4 +1,4 @@
-package org.scadalts.e2e.app.domain.notification.email;
+package org.scadalts.e2e.app.domain.notification.send;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 @Getter
 @ToString
 @Log4j2
-class EmailData {
+public class MsgData {
 
     private final SendTo sendTo;
     private final String content;
@@ -36,7 +36,7 @@ class EmailData {
     @Singular
     private final List<String> failTestNames;
 
-    static EmailData create(E2eConfig config, SendTo sendTo, E2eSummarable summary) {
+    public static MsgData create(E2eConfig config, SendTo sendTo, E2eSummarable summary) {
         List<String> failTestNames = summary.getFailTestNames();
         logger.info("failTestNames: {}", failTestNames);
 
@@ -46,7 +46,7 @@ class EmailData {
         Set<File> attachments = _getAttachments(summary);
         logger.info("attachments: {}", attachments);
 
-        return EmailData.builder()
+        return MsgData.builder()
                 .content("")
                 .title(config.getTitleEmail())
                 .header("Scada-LTS-E2E")
@@ -58,7 +58,7 @@ class EmailData {
                 .build();
     }
 
-    static EmailData createSuccess(E2eConfig config, SendTo sendTo, E2eSummarable summary) {
+    public static MsgData createSuccess(E2eConfig config, SendTo sendTo, E2eSummarable summary) {
 
         Map<String, TestStatus> testStatuses = summary.getTestStatuses();
         logger.info("testStatuses: {}", testStatuses);
@@ -66,7 +66,7 @@ class EmailData {
         Set<File> attachments = _getAttachments(summary);
         logger.info("attachments: {}", attachments);
 
-        return EmailData.builder()
+        return MsgData.builder()
                 .content("")
                 .title(config.getTitleEmailSuccess())
                 .header("Scada-LTS-E2E")
@@ -78,9 +78,9 @@ class EmailData {
                 .build();
     }
 
-    static EmailData create(E2eConfig config, SendTo sendTo, String content, Throwable throwable) {
+    public static MsgData create(E2eConfig config, SendTo sendTo, String content, Throwable throwable) {
 
-        return EmailData.builder()
+        return MsgData.builder()
                 .content(content)
                 .title(config.getTitleEmail())
                 .header("Scada-LTS-E2E")

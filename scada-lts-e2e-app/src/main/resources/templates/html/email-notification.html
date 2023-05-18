@@ -56,7 +56,7 @@
                     <th scope="col" th:text="${testNameTh}" >testName</th>
                     <th scope="col" th:text="${testMethodNameTh}" >methodName</th>
                     <th scope="col" th:text="${testMessageTh}" >testMessage</th>
-                    <th scope="col" th:text="${hasOccurredTh}" >hasOccurred</th>
+                    <th scope="col" th:text="${startDateTimeTh}" >startDateTimeTh</th>
                 </tr>
             </thead>
             <th:block th:each="failure: ${summary.failures}">
@@ -73,18 +73,25 @@
         <thead>
         <tr class="bg-success">
             <th scope="col" th:text="${testNameTh}" >testName</th>
-            <th scope="col" th:text="${statusTh}" >status</th>
+            <th scope="col" th:text="${startDateTimeTh}" >startDateTimeTh</th>
+            <th scope="col" th:text="${endDateTimeTh}" >endDateTimeTh</th>
+            <th scope="col" th:text="${testExecuteTimeTh}" >executeTime</th>
+            <th scope="col" th:text="${statusTh}" >statusName</th>
         </tr>
         </thead>
-        <th:block th:each="status: ${summary.testStatuses}">
+        <th:block th:each="result: ${summary.results}">
             <tr>
-                <td th:text="${status.key}">testName</td>
-                <td th:text="${status.value}">statusName</td>
+                <td th:text="${result.testName}">testName</td>
+                <td th:text="${result.startDateTime == null ? 'unknown' : #temporals.format(result.startDateTime, 'yyyy-MM-dd HH:mm:ss')}">startDateTime</td>
+                <td th:text="${result.endDateTime == null ? 'unknown' : #temporals.format(result.endDateTime, 'yyyy-MM-dd HH:mm:ss')}">startDateTime</td>
+                <td th:text="${result.executeTime}">executeTime</td>
+                <td th:text="${result.status}">statusName</td>
             </tr>
         </th:block>
+        <thead>
         <th:block th:if="not ${summary.failures.empty}">
             <tr>
-                <td colspan="2">
+                <td colspan="5">
                     <th:block th:each="legend: ${legendTh}">
                         <p th:text="|${legend.key} - ${legend.value}|">legend</p>
                     </th:block>

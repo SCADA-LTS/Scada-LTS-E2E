@@ -66,4 +66,7 @@ public class E2eFailure {
         return getFilesFromMessage(getMessage(),PNG_REGEX);
     }
 
+    public String getTrimmedTrace() {
+        return failure.getTrimmedTrace();
+    }
 }

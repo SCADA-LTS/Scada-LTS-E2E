@@ -162,7 +162,7 @@ public class WatchListPage extends MainPageObjectAbstract<WatchListPage> {
         String textValue = value.getText();
         String unformattedValue = unformat(expectedValue);
         if(StringUtils.isBlank(textValue) || !textValue.equals(unformattedValue)) {
-            value = waitWhile(value, or("is not text: " + expectedValue, not(Condition.exactText(unformattedValue))));
+            value = waitWhile(value, or("is not text: " + expectedValue, not(Condition.exactText(unformattedValue)), Condition.empty));
         }
         String text = value.getText();
         return unformat(text);
