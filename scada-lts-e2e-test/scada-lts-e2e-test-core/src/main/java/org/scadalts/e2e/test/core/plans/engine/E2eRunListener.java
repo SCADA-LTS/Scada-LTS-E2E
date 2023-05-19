@@ -12,7 +12,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.scadalts.e2e.common.core.measure.ValueTimeUnitToPrint.preparingToPrintNano;
+import static org.scadalts.e2e.common.core.measure.ValueTimeUnitToPrint.preparingToPrintNanoToMs;
 
 @Log4j2
 class E2eRunListener extends RunListener {
@@ -20,7 +20,7 @@ class E2eRunListener extends RunListener {
     private final Class<?> test;
     private final String decorationMain = TestResultPrinter.DECORATION_MAIN;
     private final String decoration = TestResultPrinter.DECORATION;
-    private long snapshot = 0;
+    private double started = 0;
     private final int testUuid = new Random().nextInt(999999);
 
     E2eRunListener(Class<?> test) {
@@ -44,13 +44,13 @@ class E2eRunListener extends RunListener {
     @Override
     public void testStarted(Description description) {
         logger.info("\n{}\n\n[{}] testStarted: {}\n", decoration, testUuid, description.toString());
-        snapshot = System.nanoTime();
+        started = System.nanoTime();
     }
 
     @Override
     public void testFinished(Description description) {
         logger.info("\n\n[{}] testFinished: {} \n\ntime: {}\n{}\n", testUuid, description.toString(),
-                preparingToPrintNano(System.nanoTime() - snapshot), decoration);
+                preparingToPrintNanoToMs(System.nanoTime() - started), decoration);
     }
 
     @Override

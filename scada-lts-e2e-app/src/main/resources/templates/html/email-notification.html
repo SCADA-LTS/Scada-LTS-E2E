@@ -75,6 +75,7 @@
             <th scope="col" th:text="${testNameTh}" >testName</th>
             <th scope="col" th:text="${startDateTimeTh}" >startDateTimeTh</th>
             <th scope="col" th:text="${endDateTimeTh}" >endDateTimeTh</th>
+            <th scope="col" th:text="${testRunTimeTh}" >runtime</th>
             <th scope="col" th:text="${testExecuteTimeTh}" >executeTime</th>
             <th scope="col" th:text="${statusTh}" >statusName</th>
         </tr>
@@ -84,14 +85,15 @@
                 <td th:text="${result.testName}">testName</td>
                 <td th:text="${result.startDateTime == null ? 'unknown' : #temporals.format(result.startDateTime, 'yyyy-MM-dd HH:mm:ss')}">startDateTime</td>
                 <td th:text="${result.endDateTime == null ? 'unknown' : #temporals.format(result.endDateTime, 'yyyy-MM-dd HH:mm:ss')}">startDateTime</td>
-                <td th:text="${result.executeTime}">executeTime</td>
+                <td th:text="${result.runTimeFormatted}">runTime</td>
+                <td th:text="${result.executeTimeFormatted}">executeTime</td>
                 <td th:text="${result.status}">statusName</td>
             </tr>
         </th:block>
         <thead>
         <th:block th:if="not ${summary.failures.empty}">
             <tr>
-                <td colspan="5">
+                <td colspan="6">
                     <th:block th:each="legend: ${legendTh}">
                         <p th:text="|${legend.key} - ${legend.value}|">legend</p>
                     </th:block>
@@ -102,7 +104,7 @@
     <table id="summary" class="table table-bordered">
         <thead>
         <tr class="table-secondary">
-            <td scope="row" colspan="4" th:text="${testSummaryTh}" >summary</td>
+            <td scope="row" colspan="5" th:text="${testSummaryTh}" >summary</td>
         </tr>
         </thead>
         <tr class="bg-success">
@@ -110,18 +112,20 @@
             <th scope="col" th:text="${testIgnoredTh}" >ignored</th>
             <th scope="col" th:text="${testFailedTh}" >failed</th>
             <th scope="col" th:text="${testRuntimeTh}" >runtime</th>
+            <th scope="col" th:text="${testExecuteTimeTh}" >executeTime</th>
         </tr>
         <tr>
             <td th:text="${summary.runCount}">runCount</td>
             <td th:text="${summary.ignoreCount}">ignoreCount</td>
             <td th:text="${summary.failureCount}">failureCount</td>
             <td th:text="${runtimeFormatted}">runTime</td>
+            <td th:text="${executeTimeFormatted}">executeTime</td>
         </tr>
         <tr>
-            <td scope="row" colspan="4" th:text="${content}" >content</td>
+            <td scope="row" colspan="5" th:text="${content}" >content</td>
         </tr>
         <tr class="table-secondary">
-            <td scope="row" colspan="4" ><p><span th:text="${testGoToPageTh}">go-to-page</span> <a th:href="${summary.url}">Scada-LTS</a></p></td>
+            <td scope="row" colspan="5" ><p><span th:text="${testGoToPageTh}">go-to-page</span> <a th:href="${summary.url}">Scada-LTS</a></p></td>
         </tr>
     </table>
 </body>

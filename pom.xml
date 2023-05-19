@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>23.0.1-SNAPSHOT</version>
+    <version>23.0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -52,11 +52,11 @@
         <maven.version>3.6.1</maven.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <picocli.version>4.1.4</picocli.version>
-        <cxf.version>3.5.3</cxf.version>
+        <cxf.version>3.6.0</cxf.version>
         <spring-boot.version>2.7.11</spring-boot.version>
         <jackson-jaxrs-json-provider.version>2.13.3</jackson-jaxrs-json-provider.version>
         <cache-api.version>1.1.1</cache-api.version>
-        <caffeine.version>3.1.1</caffeine.version>
+        <caffeine.version>3.1.6</caffeine.version>
         <log4j-slf4j-impl.version>2.13.0</log4j-slf4j-impl.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <commons-logging.version>1.2</commons-logging.version>
