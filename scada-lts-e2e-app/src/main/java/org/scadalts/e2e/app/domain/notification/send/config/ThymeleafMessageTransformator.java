@@ -38,8 +38,10 @@ class ThymeleafMessageTransformator implements MessageTransformator {
 
     private static Context _newContext(MsgData msgData, File inline) {
         Context context = new Context();
-        long runtime = msgData.getSummary().getRunTime();
-        String runtimeFormatted = ValueTimeUnitToPrint.preparingToPrintMs(runtime);
+        long runTime = msgData.getSummary().getRunTime();
+        String runtimeFormatted = ValueTimeUnitToPrint.preparingToPrintMs(runTime);
+        long executeTime = msgData.getSummary().getExecuteTime();
+        String executeTimeFormatted = ValueTimeUnitToPrint.preparingToPrintMs(executeTime);
         SendTo sendTo = msgData.getSendTo();
 
         _i18n(sendTo.getLocale(), context, msgData.getSummary().getStatusesLegend());
@@ -49,6 +51,7 @@ class ThymeleafMessageTransformator implements MessageTransformator {
         context.setVariable("title", msgData.getTitle());
         context.setVariable("summary", msgData.getSummary());
         context.setVariable("runtimeFormatted", runtimeFormatted);
+        context.setVariable("executeTimeFormatted", executeTimeFormatted);
         context.setVariable("failTestNames", msgData.getFailTestNames());
         if(inline != null)
             context.setVariable(inline.getName(), inline.getName());
@@ -65,6 +68,8 @@ class ThymeleafMessageTransformator implements MessageTransformator {
         context.setVariable("testSessionIdTh", message.getString("e2e.test.session-id"));
         context.setVariable("testSummaryTh", message.getString("e2e.test.summary"));
         context.setVariable("testRunsTh", message.getString("e2e.test.run"));
+        context.setVariable("testExecuteTimeTh", message.getString("e2e.test.test-execute-time"));
+        context.setVariable("testRunTimeTh", message.getString("e2e.test.test-run-time"));
         context.setVariable("testExecuteTimeTh", message.getString("e2e.test.test-execute-time"));
 
         context.setVariable("testIgnoredTh", message.getString("e2e.test.ignored"));

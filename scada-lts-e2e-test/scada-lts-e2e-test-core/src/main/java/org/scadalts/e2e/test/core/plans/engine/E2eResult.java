@@ -7,7 +7,10 @@ import org.scadalts.e2e.test.core.utils.TestResultPrinter;
 
 import java.net.URL;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,6 +48,16 @@ public class E2eResult {
 
     public long getRunTime() {
         return result.getRunTime();
+    }
+
+    public long getExecuteTime() {
+        if(endDateTime == null || startDateTime == null)
+            return getRunTime();
+        ZoneId zoneId = ZoneId.systemDefault().getRules().getOffset(Instant.now());
+        ZoneOffset zoneOffset = ZoneOffset.of(zoneId.getId());
+        Instant endInst = endDateTime.toInstant(zoneOffset);
+        Instant startInst = startDateTime.toInstant(zoneOffset);
+        return endInst.toEpochMilli() - startInst.toEpochMilli();
     }
 
     public List<E2eFailure> getFailures() {
