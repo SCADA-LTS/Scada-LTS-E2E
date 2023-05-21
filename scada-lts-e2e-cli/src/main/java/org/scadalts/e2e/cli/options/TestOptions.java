@@ -2,7 +2,6 @@ package org.scadalts.e2e.cli.options;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 import org.scadalts.e2e.cli.parsers.BrowserRefParser;
 import org.scadalts.e2e.cli.parsers.PageLoadStrategyParser;
 import org.scadalts.e2e.cli.parsers.TestPlansParser;
@@ -16,7 +15,6 @@ import java.net.URL;
 import java.nio.file.Path;
 
 @Getter
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class TestOptions extends MainOptions {
 
@@ -76,4 +74,5 @@ public class TestOptions extends MainOptions {
 
     @CommandLine.Option(names = {"-ca", "--check-authentication"}, negatable = true)
     private boolean checkAuthentication;
+
 }

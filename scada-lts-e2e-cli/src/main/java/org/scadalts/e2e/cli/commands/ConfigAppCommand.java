@@ -10,7 +10,6 @@ import org.scadalts.e2e.common.core.utils.PropsPrintUtil;
 import picocli.CommandLine;
 
 @Getter
-@ToString
 @CommandLine.Command(name = "config-app",
         resourceBundle = "lang.e2e")
 public class ConfigAppCommand extends DefaultOptions implements Runnable {

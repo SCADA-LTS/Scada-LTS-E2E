@@ -13,11 +13,11 @@ import org.scadalts.e2e.common.core.types.TestPlan;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
 class E2eConfigDefault implements E2eConfig {
 
@@ -84,4 +84,63 @@ class E2eConfigDefault implements E2eConfig {
     private boolean unblockSendEmailByCron;
     private String unblockSendSuccessEmailCron;
     private String unblockSendFailEmailCron;
+
+    @Override
+    public String toString() {
+        return "\nportApp=" + portApp +
+                "\ncronPattern='" + cronPattern + '\'' +
+                "\ncontinuousMode=" + continuousMode +
+                "\nuserSmtp='" + userSmtp + '\'' +
+                "\npasswordSmtp='" + passwordSmtp + '\'' +
+                "\nhostSmtp='" + hostSmtp + '\'' +
+                "\nportSmtp=" + portSmtp +
+                "\nsendTo=" + sendTo +
+                "\nsendFrom='" + sendFrom + '\'' +
+                "\ndebugEmailMode=" + debugEmailMode +
+                "\nnotificationEmailMode=" + notificationEmailMode +
+                "\ndeleteEmailFromSentEmailsAfterMs=" + deleteEmailFromSentEmailsAfterMs +
+                "\nbrowserRef=" + browserRef +
+                "\ntimeoutMs=" + timeoutMs +
+                "\ndriverFile=" + driverFile +
+                "\nheadlessMode=" + headlessMode +
+                "\ndriverManagerMode=" + driverManagerMode +
+                "\nscreenshotMode=" + screenshotMode +
+                "\nfastSetValueMode=" + fastSetValueMode +
+                "\nproxyMode=" + proxyMode +
+                "\npageLoadStrategy=" + pageLoadStrategy +
+                "\nreportsUrl=" + reportsUrl +
+                "\nreportsFolder=" + reportsFolder +
+                "\npollingIntervalMs=" + pollingIntervalMs +
+                "\nportProxy=" + portProxy +
+                "\nhostProxy='" + hostProxy + '\'' +
+                "\nclassesTestRefs=" + Arrays.toString(classesTestRefs) +
+                "\npointValuesToTests=" + Arrays.toString(pointValuesToTests) +
+                "\nbrowserOptionsArgs=" + Arrays.toString(browserOptionsArgs) +
+                "\nbrowserOptionsPrefs=" + Arrays.toString(browserOptionsPrefs) +
+                "\nalarmListChangedAfterMs=" + alarmListChangedAfterMs +
+                "\nalarmListNoChangedAfterMs=" + alarmListNoChangedAfterMs +
+                "\nwaitingAfterSetPointValueMs=" + waitingAfterSetPointValueMs +
+                "\ngraphicalViewName='" + graphicalViewName + '\'' +
+                "\ntestPlans=" + Arrays.toString(testPlans) +
+                "\ndataPointToChangeXid='" + dataPointToChangeXid + '\'' +
+                "\ndataPointToReadXid='" + dataPointToReadXid + '\'' +
+                "\nlogLevel=" + logLevel +
+                "\nurlAppBeingTested=" + urlAppBeingTested +
+                "\nuserName='" + userName + '\'' +
+                "\npassword='" + password + '\'' +
+                "\nauthType=" + authType +
+                "\ntitleEmail='" + titleEmail + '\'' +
+                "\ntitleEmailSuccess='" + titleEmailSuccess + '\'' +
+                "\ndataSourceName='" + dataSourceName + '\'' +
+                "\ndataPointName='" + dataPointName + '\'' +
+                "\ndataPointTargetXid='" + dataPointTargetXid + '\'' +
+                "\ndataPointSourceXid='" + dataPointSourceXid + '\'' +
+                "\nmailSmtpAuthMode=" + mailSmtpAuthMode +
+                "\nmailSmtpStarttlsMode=" + mailSmtpStarttlsMode +
+                "\ncheckAuthentication=" + checkAuthentication +
+                "\nrefreshSessionCron='" + refreshSessionCron + '\'' +
+                "\nunblockSendEmailByCron=" + unblockSendEmailByCron +
+                "\nunblockSendSuccessEmailCron='" + unblockSendSuccessEmailCron + '\'' +
+                "\nunblockSendFailEmailCron='" + unblockSendFailEmailCron + '\'';
+    }
 }

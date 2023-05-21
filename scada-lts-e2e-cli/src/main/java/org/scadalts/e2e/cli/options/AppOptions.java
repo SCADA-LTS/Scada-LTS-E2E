@@ -10,7 +10,6 @@ import picocli.CommandLine;
 import java.util.Set;
 
 @Getter
-@ToString
 @EqualsAndHashCode(callSuper = true)
 public class AppOptions extends DefaultOptions {
 
@@ -73,4 +72,5 @@ public class AppOptions extends DefaultOptions {
 
     @CommandLine.Option(names = {"-usfc", "--unblock-send-fail-email-cron"})
     private String unblockSendFailEmailCron;
+
 }

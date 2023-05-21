@@ -15,7 +15,6 @@ import picocli.CommandLine.Command;
 
 @Log4j2
 @Getter
-@ToString
 @Command(name = "run-test",
         versionProvider = VersionProvider.class,
         resourceBundle = "lang.e2e")

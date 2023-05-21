@@ -17,9 +17,9 @@ import org.scadalts.e2e.common.core.types.TestPlan;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Set;
 
-@ToString
 @Builder
 @EqualsAndHashCode
 public class E2eConfigCli implements E2eConfig {
@@ -278,5 +278,64 @@ public class E2eConfigCli implements E2eConfig {
     @Override
     public String getUnblockSendFailEmailCron() {
         return fromRunApp.getUnblockSendFailEmailCron();
+    }
+
+    @Override
+    public String toString() {
+        return "\nportApp=" + getPortApp() +
+                "\ncronPattern='" + getCronPattern() + '\'' +
+                "\ncontinuousMode=" + isContinuousMode() +
+                "\nuserSmtp='" + getUserSmtp() + '\'' +
+                "\npasswordSmtp='" + "******" + '\'' +
+                "\nhostSmtp='" + getHostSmtp() + '\'' +
+                "\nportSmtp=" + getPortSmtp() +
+                "\nsendTo=" + getSendTo() +
+                "\nsendFrom='" + getSendFrom() + '\'' +
+                "\ndebugEmailMode=" + isDebugEmailMode() +
+                "\nnotificationEmailMode=" + isNotificationEmailMode() +
+                "\ndeleteEmailFromSentEmailsAfterMs=" + getDeleteEmailFromSentEmailsAfterMs() +
+                "\nbrowserRef=" + getBrowserRef() +
+                "\ntimeoutMs=" + getTimeoutMs() +
+                "\ndriverFile=" + getDriverFile() +
+                "\nheadlessMode=" + isHeadlessMode() +
+                "\ndriverManagerMode=" + isDriverManagerMode() +
+                "\nscreenshotMode=" + isScreenshotMode() +
+                "\nfastSetValueMode=" + isFastSetValueMode() +
+                "\nproxyMode=" + isProxyMode() +
+                "\npageLoadStrategy=" + getPageLoadStrategy() +
+                "\nreportsUrl=" + getReportsUrl() +
+                "\nreportsFolder=" + getReportsFolder() +
+                "\npollingIntervalMs=" + getPollingIntervalMs() +
+                "\nportProxy=" + getPortProxy() +
+                "\nhostProxy='" + getHostProxy() + '\'' +
+                "\nclassesTestRefs=" + Arrays.toString(getClassesTestRefs()) +
+                "\npointValuesToTests=" + Arrays.toString(getPointValuesToTests()) +
+                "\nbrowserOptionsArgs=" + Arrays.toString(getBrowserOptionsArgs()) +
+                "\nbrowserOptionsPrefs=" + Arrays.toString(getBrowserOptionsPrefs()) +
+                "\nalarmListChangedAfterMs=" + getAlarmListChangedAfterMs() +
+                "\nalarmListNoChangedAfterMs=" + getAlarmListNoChangedAfterMs() +
+                "\nwaitingAfterSetPointValueMs=" + getWaitingAfterSetPointValueMs() +
+                "\ngraphicalViewName='" + getGraphicalViewName() + '\'' +
+                "\ntestPlans=" + Arrays.toString(getTestPlans()) +
+                "\ndataPointToChangeXid='" + getDataPointToChangeXid() + '\'' +
+                "\ndataPointToReadXid='" + getDataPointToReadXid() + '\'' +
+                "\nlogLevel=" + getLogLevel() +
+                "\nurlAppBeingTested=" + getUrlAppBeingTested() +
+                "\nuserName='" + getUserName() + '\'' +
+                "\npassword='" + "******" + '\'' +
+                "\nauthType=" + getAuthType() +
+                "\ntitleEmail='" + getTitleEmail() + '\'' +
+                "\ntitleEmailSuccess='" + getTitleEmailSuccess() + '\'' +
+                "\ndataSourceName='" + getDataSourceName() + '\'' +
+                "\ndataPointName='" + getDataPointName() + '\'' +
+                "\ndataPointTargetXid='" + getDataPointTargetXid() + '\'' +
+                "\ndataPointSourceXid='" + getDataPointSourceXid() + '\'' +
+                "\nmailSmtpAuthMode=" + isMailSmtpAuthMode() +
+                "\nmailSmtpStarttlsMode=" + isMailSmtpStarttlsMode() +
+                "\ncheckAuthentication=" + isCheckAuthentication() +
+                "\nrefreshSessionCron='" + getRefreshSessionCron() + '\'' +
+                "\nunblockSendEmailByCron=" + isUnblockSendEmailByCron() +
+                "\nunblockSendSuccessEmailCron='" + getUnblockSendSuccessEmailCron() + '\'' +
+                "\nunblockSendFailEmailCron='" + getUnblockSendFailEmailCron() + '\'';
     }
 }
