@@ -2,11 +2,9 @@ package org.scadalts.e2e.cli.options;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 import picocli.CommandLine;
 
 @Getter
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class ScadaOptions extends TestOptions {
 

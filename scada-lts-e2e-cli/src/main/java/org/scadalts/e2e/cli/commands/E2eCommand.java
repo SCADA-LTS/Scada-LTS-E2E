@@ -5,14 +5,12 @@ import lombok.Getter;
 import lombok.ToString;
 import org.scadalts.e2e.cli.options.ScadaOptions;
 import org.scadalts.e2e.cli.providers.VersionProvider;
-import org.scadalts.e2e.common.api.E2eCommonApi;
 import org.scadalts.e2e.common.impl.logo.AsciiHeadersImpl;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Spec;
 
 @Getter
-@ToString(callSuper = true)
 @Command(name= "e2e",
         versionProvider = VersionProvider.class,
 		resourceBundle = "lang.e2e", header = AsciiHeadersImpl.MAIN_HEADER,

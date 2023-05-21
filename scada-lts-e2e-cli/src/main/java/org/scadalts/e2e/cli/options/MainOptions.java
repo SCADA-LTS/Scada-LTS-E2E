@@ -2,7 +2,6 @@ package org.scadalts.e2e.cli.options;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 import org.apache.logging.log4j.Level;
 import org.scadalts.e2e.cli.parsers.AuthTypeParser;
 import org.scadalts.e2e.cli.parsers.LogLevelParser;
@@ -12,7 +11,6 @@ import picocli.CommandLine;
 import java.net.URL;
 
 @Getter
-@ToString
 @EqualsAndHashCode(callSuper = true)
 public class MainOptions extends DefaultOptions {
 
@@ -30,4 +28,5 @@ public class MainOptions extends DefaultOptions {
 
     @CommandLine.Option(names = {"-a", "--auth-type"}, converter = AuthTypeParser.class)
     private AuthType authType;
+
 }
