@@ -59,7 +59,11 @@ public class GroovyEngine {
 
     @AfterClass
     public static void clean() {
-        _clean();
+        try {
+            _clean();
+        } finally {
+            System.gc();
+        }
     }
 
     private static void _clean() {
@@ -73,7 +77,6 @@ public class GroovyEngine {
             if(TestWithoutPageUtil.isApiLogged())
                 TestWithoutPageUtil.close();
         }
-        System.gc();
     }
 
     private void _preconfig(GroovyExecute execute) {
