@@ -98,6 +98,7 @@ public interface E2eConfig {
 
     boolean isScreenshotMode();
 
+    @Deprecated
     boolean isDriverManagerMode();
 
     boolean isContinuousMode();

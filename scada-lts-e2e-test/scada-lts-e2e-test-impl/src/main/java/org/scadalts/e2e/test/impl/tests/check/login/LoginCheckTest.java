@@ -26,7 +26,7 @@ public class LoginCheckTest {
     public void test_login() {
 
         //when:
-        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
+        NavigationPage navigationPage = TestWithPageUtil.openNavigationPage().acceptAlertOnPageSlow().waitOnPage(500);
 
         //and:
         String userName = navigationPage.getUserName();

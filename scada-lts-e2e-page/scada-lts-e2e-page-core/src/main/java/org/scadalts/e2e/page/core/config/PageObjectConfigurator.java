@@ -33,7 +33,7 @@ public class PageObjectConfigurator {
         Configuration.baseUrl = config.getUrlAppBeingTested().toString();
         Configuration.browser = config.getBrowserRef().name().toLowerCase();
         Configuration.pageLoadStrategy = config.getPageLoadStrategy().name().toLowerCase();
-        Configuration.driverManagerEnabled = config.isDriverManagerMode();
+        //Configuration.driverManagerEnabled = config.isDriverManagerMode();
         Configuration.screenshots = config.isScreenshotMode();
         Configuration.headless = config.isHeadlessMode();
         Configuration.reportsUrl = config.getReportsUrl() == null ? null : config.getReportsUrl().toString();
@@ -104,7 +104,7 @@ public class PageObjectConfigurator {
         Configuration.baseUrl = E2eConfiguration.baseUrl.toString();
         Configuration.browser = "chrome";
         Configuration.pageLoadStrategy = "normal";
-        Configuration.driverManagerEnabled = false;
+        //Configuration.driverManagerEnabled = false;
         Configuration.screenshots = true;
         Configuration.headless = false;
         Configuration.reportsUrl = "";

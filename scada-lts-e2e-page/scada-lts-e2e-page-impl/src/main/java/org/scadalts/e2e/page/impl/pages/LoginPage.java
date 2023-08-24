@@ -71,7 +71,8 @@ public class LoginPage extends PageObjectAbstract<LoginPage> {
 
     public NavigationPage login() {
         this.loginButton.click();
-        return page(NavigationPage.openPage());
+        printCurrentUrl();
+        return NavigationPage.openPage(getCurrentUrl());
     }
 
     public static String getUrlRef() {

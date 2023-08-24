@@ -88,7 +88,10 @@ public interface NavigationPage extends PageObject<NavigationPage>, PageClosable
 
     static NavigationPage openPage() {
         return open(URL_REF, NavigationPageImpl.class);
-               // .acceptAlertOnPage();
+    }
+
+    static NavigationPage openPage(String url) {
+        return open(url, NavigationPageImpl.class);
     }
 
     static NavigationPage openRootPage() {
