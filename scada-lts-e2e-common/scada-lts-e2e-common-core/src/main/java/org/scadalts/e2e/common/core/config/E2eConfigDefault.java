@@ -3,7 +3,6 @@ package org.scadalts.e2e.common.core.config;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.apache.logging.log4j.Level;
 import org.scadalts.e2e.common.core.types.AuthType;
 import org.scadalts.e2e.common.core.types.BrowserRef;
@@ -84,6 +83,7 @@ class E2eConfigDefault implements E2eConfig {
     private boolean unblockSendEmailByCron;
     private String unblockSendSuccessEmailCron;
     private String unblockSendFailEmailCron;
+    private boolean loginDisabled;
 
     @Override
     public String toString() {

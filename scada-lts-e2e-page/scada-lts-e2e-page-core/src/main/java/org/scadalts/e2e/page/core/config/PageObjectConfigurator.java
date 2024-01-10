@@ -45,6 +45,7 @@ public class PageObjectConfigurator {
         Configuration.proxyPort = config.getPortProxy();
         PageConfiguration.timeout = config.getTimeoutMs();
         PageConfiguration.headless = config.isHeadlessMode();
+        PageConfiguration.baseUrl = config.getUrlAppBeingTested().toString();
         Configuration.pageLoadTimeout = PageConfiguration.timeout;
 
         Configurator.setRootLevel(config.getLogLevel());

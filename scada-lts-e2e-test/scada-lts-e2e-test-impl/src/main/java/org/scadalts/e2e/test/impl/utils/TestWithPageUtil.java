@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import static org.scadalts.e2e.common.core.utils.ExecutorUtil.executeFunction;
 import static org.scadalts.e2e.page.core.utils.MeasurePrinter.print;
+import static org.scadalts.e2e.test.core.config.TestCoreConfigurator.isLoginEnabled;
 
 @Log4j2
 public class TestWithPageUtil {
@@ -59,7 +60,7 @@ public class TestWithPageUtil {
 
     public static NavigationPage openNavigationPage() {
         _setup();
-        if (!E2eConfiguration.checkAuthentication)
+        if (isLoginEnabled() && !E2eConfiguration.checkAuthentication)
             close();
         return preparingTest();
     }
@@ -97,7 +98,8 @@ public class TestWithPageUtil {
     }
 
     private static NavigationPage _preparingTest() {
-        if (!E2eConfiguration.checkAuthentication || !isLogged()) {
+        if (isLoginEnabled()
+                && (!E2eConfiguration.checkAuthentication || !isLogged())) {
             _loginOrThrow();
         }
         return navigationPage;
@@ -112,7 +114,7 @@ public class TestWithPageUtil {
     private static void _close() {
         logger.info("close...");
         try {
-            if (navigationPage != null && E2eConfiguration.checkAuthentication && isLogged())
+            if (isLoginEnabled() && (navigationPage != null && E2eConfiguration.checkAuthentication && isLogged()))
                 logout();
         } finally {
             if(navigationPage != null)

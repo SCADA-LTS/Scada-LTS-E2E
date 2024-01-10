@@ -3,6 +3,7 @@ package org.scadalts.e2e.test.core.config;
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.core.config.ConfigHandler;
 import org.scadalts.e2e.common.core.config.E2eConfig;
+import org.scadalts.e2e.common.core.config.E2eConfiguration;
 
 import java.util.Objects;
 
@@ -26,5 +27,9 @@ public class TestCoreConfigurator {
 
     public static void init() {
         init(ConfigHandler.getConfig());
+    }
+
+    public static boolean isLoginEnabled() {
+        return !E2eConfiguration.loginDisabled;
     }
 }

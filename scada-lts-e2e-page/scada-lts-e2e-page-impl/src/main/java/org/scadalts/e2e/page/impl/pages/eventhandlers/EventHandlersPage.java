@@ -11,11 +11,11 @@ import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventHandlerCriteria;
 
-import java.util.function.Predicate;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.page;
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
+import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClickSlow;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.*;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.reopenWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
@@ -40,7 +40,7 @@ public class EventHandlersPage extends MainPageObjectAbstract<EventHandlersPage>
     public EditEventHandlersPage openEventHandlerCreator(EventDetectorCriteria criteria) {
         delay();
         SelenideElement selenideElement = _findActionInTree(criteria);
-        acceptAfterClick(selenideElement);
+        acceptAfterClickSlow(selenideElement);
         printCurrentUrl();
         return page(new EditEventHandlersPage(this));
     }

@@ -59,7 +59,7 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
                         criteria.getIdentifier().getType(), criteria.getXid().getValue(),
                         criteria.getClass().getSimpleName());
                 eventHandlersPage.openEventHandlerCreator(criteria.getEventDetectorCriteria())
-                        .acceptAlert()
+                        .acceptAlertOnPageSlow()
                         .setEventHandlerType(criteria.getIdentifier().getType())
                         .setXid(criteria.getXid())
                         .setAlisas(criteria.getIdentifier())

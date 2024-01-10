@@ -7,7 +7,7 @@
     <groupId>org.scadalts</groupId>
     <artifactId>scada-lts-e2e</artifactId>
     <name>Scada-LTS-E2E</name>
-    <version>23.0.9-SNAPSHOT</version>
+    <version>23.0.11-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -813,6 +813,7 @@
                 <test.e2e.run-app.unblock-send-fail-email-cron>0 5 4 * * ?</test.e2e.run-app.unblock-send-fail-email-cron>
                 <test.e2e.run-app.unblock-send-success-email-cron>0 5 4 * * ?</test.e2e.run-app.unblock-send-success-email-cron>
                 <test.e2e.run-app.unblock-send-email-by-cron>false</test.e2e.run-app.unblock-send-email-by-cron>
+                <test.e2e.login-disabled>false</test.e2e.login-disabled>
             </properties>
         </profile>
         <profile>
@@ -876,6 +877,7 @@
                 <test.e2e.run-app.unblock-send-fail-email-cron>0 5 4 * * ?</test.e2e.run-app.unblock-send-fail-email-cron>
                 <test.e2e.run-app.unblock-send-success-email-cron>0 5 4 * * ?</test.e2e.run-app.unblock-send-success-email-cron>
                 <test.e2e.run-app.unblock-send-email-by-cron>false</test.e2e.run-app.unblock-send-email-by-cron>
+                <test.e2e.login-disabled>false</test.e2e.login-disabled>
             </properties>
         </profile>
         <profile>
@@ -939,6 +941,7 @@
                 <test.e2e.run-app.unblock-send-fail-email-cron>0 5 4 * * ?</test.e2e.run-app.unblock-send-fail-email-cron>
                 <test.e2e.run-app.unblock-send-success-email-cron>0 5 4 * * ?</test.e2e.run-app.unblock-send-success-email-cron>
                 <test.e2e.run-app.unblock-send-email-by-cron>false</test.e2e.run-app.unblock-send-email-by-cron>
+                <test.e2e.login-disabled>false</test.e2e.login-disabled>
             </properties>
         </profile>
         <profile>
@@ -1005,6 +1008,7 @@
                 <test.e2e.run-app.unblock-send-fail-email-cron>0 5 4 * * ?</test.e2e.run-app.unblock-send-fail-email-cron>
                 <test.e2e.run-app.unblock-send-success-email-cron>0 5 4 * * ?</test.e2e.run-app.unblock-send-success-email-cron>
                 <test.e2e.run-app.unblock-send-email-by-cron>false</test.e2e.run-app.unblock-send-email-by-cron>
+                <test.e2e.login-disabled>false</test.e2e.login-disabled>
             </properties>
         </profile>
     </profiles>

@@ -2,6 +2,7 @@ package groovy.service.monitor
 
 import org.junit.Before
 import org.junit.BeforeClass
+import org.junit.Test
 import org.scadalts.e2e.service.core.services.E2eResponse
 import org.scadalts.e2e.service.core.services.get.GetConfig
 
@@ -39,7 +40,7 @@ class MonitoringSizeWorkItemsLongerTest {
     void config() {
     }
 
-    @org.junit.Test
+    @Test
     void test() {
         //given:
         int longer = 1500
@@ -47,7 +48,7 @@ class MonitoringSizeWorkItemsLongerTest {
         GetConfig config = new GetConfig("/api/work-items/longer/{0}/", String.valueOf(longer))
 
         //when:
-        E2eResponse<Map<String, Object>> response = UniversalServiceUtil.getMap(config, 3000, Object.class)
+        E2eResponse<Map<String, Object>> response = UniversalServiceUtil.getAsMap(config, 3000, Object.class)
         Map<String, Object> type = response.getValue()
         Integer size = type.get("size")
 
