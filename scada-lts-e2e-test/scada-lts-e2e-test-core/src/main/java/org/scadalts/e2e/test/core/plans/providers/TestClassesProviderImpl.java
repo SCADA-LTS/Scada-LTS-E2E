@@ -51,7 +51,8 @@ class TestClassesProviderImpl implements TestClassesProvider {
 
     private boolean isGroovyOnly(E2eConfig config) {
         if(config.getTestPlans().length == 1) {
-            return config.getTestPlans()[0] == TestPlan.FROM_GROOVY_SCRIPT;
+            return config.getTestPlans()[0] == TestPlan.FROM_GROOVY_SCRIPT ||
+                    config.getTestPlans()[0] == TestPlan.GROOVY_SCRIPT;
         }
         return false;
     }

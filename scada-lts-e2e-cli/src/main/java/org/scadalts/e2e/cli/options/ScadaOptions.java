@@ -41,4 +41,7 @@ public class ScadaOptions extends TestOptions {
     @CommandLine.Option(names = {"-J", "--data-point-source-xid"})
     private String dataPointSourceXid;
 
+    @CommandLine.Option(names = {"-ld", "--login-disabled-"}, negatable = true)
+    private boolean loginDisabled;
+
 }

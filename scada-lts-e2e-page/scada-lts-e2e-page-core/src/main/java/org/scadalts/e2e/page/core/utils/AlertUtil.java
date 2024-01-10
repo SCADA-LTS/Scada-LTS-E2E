@@ -17,6 +17,14 @@ public abstract class AlertUtil {
         executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScriptToExecute());
     }
 
+    public static void acceptAlertSlow() {
+        try {
+            Selenide.switchTo().alert().accept();
+        } catch (Throwable th) {
+
+        }
+    }
+
     public static void dismissAlert() {
         executeJavaScript(JavascriptWindow.DISMISS_ALERT.getScriptToExecute());
     }
@@ -26,9 +34,21 @@ public abstract class AlertUtil {
         selenideElement.click();
     }
 
+    public static void acceptAfterClickSlow(SelenideElement selenideElement) {
+        //executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScriptToExecute());
+        selenideElement.click();
+        acceptAlertSlow();
+    }
+
     public static void acceptAfterClick(E2eWebElement selenideElement) {
         executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScriptToExecute());
         selenideElement.click();
+    }
+
+    public static void acceptAfterClickSlow(E2eWebElement selenideElement) {
+        //executeJavaScript(JavascriptWindow.ACCEPT_ALERT.getScriptToExecute());
+        selenideElement.click();
+        acceptAlertSlow();
     }
 
     public static void acceptAlert(Procedure procedure) {

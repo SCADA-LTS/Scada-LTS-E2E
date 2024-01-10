@@ -11,6 +11,6 @@ public class DefaultOptions {
     @Option(names = {"-v", "--version"}, versionHelp = true)
     private boolean version;
 
-    @Option(names = {"-h", "--help"}, usageHelp = true)
+    @Option(names = {"-h", "--help", "-?", "-help"}, usageHelp = true)
     private boolean help;
 }

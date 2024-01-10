@@ -16,6 +16,7 @@ import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.Collection;
 
+import static org.scadalts.e2e.test.core.config.TestCoreConfigurator.isLoginEnabled;
 import static org.scadalts.e2e.test.impl.groovy.CreatorUtil.deleteObjects;
 import static org.scadalts.e2e.test.impl.groovy.GroovyUtil.getGroovyExecutes;
 
@@ -51,7 +52,8 @@ public class GroovyEngine {
             if (TestWithPageUtil.isLogged())
                 TestWithPageUtil.close();
         } else {
-            if(!E2eConfiguration.checkAuthentication || TestWithoutPageUtil.isApiLogged())
+            if(isLoginEnabled()
+                    && (!E2eConfiguration.checkAuthentication || TestWithoutPageUtil.isApiLogged()))
                 TestWithoutPageUtil.close();
         }
         ConfigurationUtil.pageMode(false);
@@ -70,11 +72,13 @@ public class GroovyEngine {
         deleteObjects();
         ConfigurationUtil.headless(PageConfiguration.headless);
         ConfigurationUtil.path(PageConfiguration.reportsUrl);
+        ConfigurationUtil.baseUrl(PageConfiguration.baseUrl);
         if(ConfigurationUtil.isPageMode()) {
-            if (TestWithPageUtil.isLogged())
+            if (isLoginEnabled() && TestWithPageUtil.isLogged())
                 TestWithPageUtil.close();
         } else {
-            if(TestWithoutPageUtil.isApiLogged())
+            if(isLoginEnabled()
+                    && (!E2eConfiguration.checkAuthentication || TestWithoutPageUtil.isApiLogged()))
                 TestWithoutPageUtil.close();
         }
     }

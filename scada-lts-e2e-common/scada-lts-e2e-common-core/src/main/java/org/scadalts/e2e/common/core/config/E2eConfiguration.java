@@ -17,6 +17,7 @@ public class E2eConfiguration {
     public static URL baseUrl;
     public static String sessionId;
     public static boolean checkAuthentication = false;
+    public static boolean loginDisabled = true;
 
     static {
         try {

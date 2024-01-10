@@ -36,7 +36,7 @@ interface PageContent<T extends PageObject<T>> extends GetPage<T> {
 
     default T acceptAlertOnPageSlow() {
         try {
-            switchTo().alert().accept();
+            AlertUtil.acceptAlertSlow();
         } catch (Throwable ex) {
 
         }

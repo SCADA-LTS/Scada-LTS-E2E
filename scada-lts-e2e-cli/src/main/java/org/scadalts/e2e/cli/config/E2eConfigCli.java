@@ -2,7 +2,6 @@ package org.scadalts.e2e.cli.config;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.apache.logging.log4j.Level;
 import org.scadalts.e2e.cli.commands.E2eCommand;
 import org.scadalts.e2e.cli.commands.RunAppCommand;
@@ -278,6 +277,11 @@ public class E2eConfigCli implements E2eConfig {
     @Override
     public String getUnblockSendFailEmailCron() {
         return fromRunApp.getUnblockSendFailEmailCron();
+    }
+
+    @Override
+    public boolean isLoginDisabled() {
+        return fromE2e.isLoginDisabled();
     }
 
     @Override

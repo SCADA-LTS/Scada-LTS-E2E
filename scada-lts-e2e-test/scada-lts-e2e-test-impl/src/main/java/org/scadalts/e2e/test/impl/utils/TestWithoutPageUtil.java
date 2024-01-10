@@ -35,6 +35,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import static org.scadalts.e2e.common.core.utils.ExecutorUtil.executeFunction;
+import static org.scadalts.e2e.test.core.config.TestCoreConfigurator.isLoginEnabled;
 
 @Log4j2
 public class TestWithoutPageUtil {
@@ -50,6 +51,8 @@ public class TestWithoutPageUtil {
 
     public static void close() {
         try {
+            if(!isLoginEnabled())
+                return;
             logout();
         } catch (Throwable th) {
             logger.warn(th.getMessage(), th);
@@ -258,6 +261,8 @@ public class TestWithoutPageUtil {
 
     private static void _preparingTest() {
         _setup();
+        if(!isLoginEnabled())
+            return;
         if(!E2eConfiguration.checkAuthentication) {
             _login();
         } else if(!isApiLogged()) {

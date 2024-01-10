@@ -15,7 +15,16 @@ public final class UniversalServiceUtil {
 
     private UniversalServiceUtil() {}
 
-    public static <T> E2eResponse<Map<String, T>> getMap(GetConfig getConfig, long timeout, Class<T> token) {
+    public static E2eResponse<String> getAsString(GetConfig getConfig, long timeout) {
+        try {
+            return _getString(getConfig, timeout);
+        } catch (Throwable th) {
+            logger.warn(th.getMessage(), th);
+            return E2eResponse.empty();
+        }
+    }
+
+    public static <T> E2eResponse<Map<String, T>> getAsMap(GetConfig getConfig, long timeout, Class<T> token) {
         try {
             return _getMap(getConfig, timeout, token);
         } catch (Throwable th) {
@@ -24,7 +33,7 @@ public final class UniversalServiceUtil {
         }
     }
 
-    public static <T> E2eResponse<List<T>> getList(GetConfig getConfig, long timeout, Class<T> token) {
+    public static <T> E2eResponse<List<T>> getAsList(GetConfig getConfig, long timeout, Class<T> token) {
         try {
             return _getList(getConfig, timeout, token);
         } catch (Throwable th) {
@@ -45,7 +54,7 @@ public final class UniversalServiceUtil {
     private static <T> E2eResponse<Map<String, T>> _getMap(GetConfig getConfig, long timeout, Class<T> token) {
         try (GetServiceObject getServiceObject =
                      UniversalServiceObjectFactory.newGetServiceObject()) {
-            Optional<E2eResponse<Map<String, T>>> responseOpt = getServiceObject.getMap(getConfig, timeout, token);
+            Optional<E2eResponse<Map<String, T>>> responseOpt = getServiceObject.getAsMap(getConfig, timeout, token);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
@@ -53,7 +62,7 @@ public final class UniversalServiceUtil {
     private static <T> E2eResponse<List<T>> _getList(GetConfig getConfig, long timeout, Class<T> token) {
         try (GetServiceObject getServiceObject =
                      UniversalServiceObjectFactory.newGetServiceObject()) {
-            Optional<E2eResponse<List<T>>> responseOpt = getServiceObject.getList(getConfig, timeout, token);
+            Optional<E2eResponse<List<T>>> responseOpt = getServiceObject.getAsList(getConfig, timeout, token);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }
@@ -62,6 +71,14 @@ public final class UniversalServiceUtil {
         try (GetServiceObject getServiceObject =
                      UniversalServiceObjectFactory.newGetServiceObject()) {
             Optional<E2eResponse<T>> responseOpt = getServiceObject.get(getConfig, timeout, token);
+            return responseOpt.orElseGet(E2eResponse::empty);
+        }
+    }
+
+    private static E2eResponse<String> _getString(GetConfig getConfig, long timeout) {
+        try (GetServiceObject getServiceObject =
+                     UniversalServiceObjectFactory.newGetServiceObject()) {
+            Optional<E2eResponse<String>> responseOpt = getServiceObject.getAsString(getConfig, timeout);
             return responseOpt.orElseGet(E2eResponse::empty);
         }
     }

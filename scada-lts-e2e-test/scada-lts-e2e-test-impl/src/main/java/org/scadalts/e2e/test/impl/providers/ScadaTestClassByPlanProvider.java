@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class ScadaTestClassByPlanProvider implements TestClassByPlanProvider {
 
-    private static Map<TestPlan, Class<?>> tests = new HashMap<>();
+    private static final Map<TestPlan, Class<?>> tests = new HashMap<>();
 
     static {
         tests.put(TestPlan.CHECK, ScadaCheckTestsSuite.class);
@@ -48,6 +48,7 @@ public class ScadaTestClassByPlanProvider implements TestClassByPlanProvider {
         tests.put(TestPlan.PROD, ScadaProdTestsSuite.class);
         tests.put(TestPlan.CONFIG_PROD_CHECKER, ConfigForProdChecker.class);
         tests.put(TestPlan.FROM_GROOVY_SCRIPT, GroovyEngine.class);
+        tests.put(TestPlan.GROOVY_SCRIPT, GroovyEngine.class);
         tests.put(TestPlan.ALARM_STORUNG, StorungsAndAlarmsServiceTestsSuite.class);
         tests.put(TestPlan.EVENT_DETECTOR_SERVICE, EventDetectorServiceTestsSuite.class);
         tests.put(TestPlan.EVENT_HANDLER_SERVICE, EventHandlerServiceTestsSuite.class);

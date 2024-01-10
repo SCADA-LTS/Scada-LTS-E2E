@@ -116,6 +116,7 @@ public interface E2eConfig {
     boolean isUnblockSendEmailByCron();
     String getUnblockSendSuccessEmailCron();
     String getUnblockSendFailEmailCron();
+    boolean isLoginDisabled();
 
     static E2eConfig defaultConfig() {
         return new E2eConfigDefault();

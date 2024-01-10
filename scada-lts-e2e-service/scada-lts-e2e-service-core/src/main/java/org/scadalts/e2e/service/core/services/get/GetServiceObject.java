@@ -32,6 +32,9 @@ public class GetServiceObject implements WebServiceObject {
     private final URL baseUrl;
     private final Client client;
 
+    public Optional<E2eResponse<String>> getAsString(GetConfig getConfig, long timeout) {
+        return _get(getConfig, timeout, a -> a);
+    }
 
     public <T> Optional<E2eResponse<T>> get(GetConfig getConfig, long timeout, Class<T> clazz) {
         return _get(getConfig, timeout, a -> {
@@ -43,7 +46,7 @@ public class GetServiceObject implements WebServiceObject {
         });
     }
 
-    public <T> Optional<E2eResponse<Map<String, T>>> getMap(GetConfig getConfig, long timeout, Class<T> token) {
+    public <T> Optional<E2eResponse<Map<String, T>>> getAsMap(GetConfig getConfig, long timeout, Class<T> token) {
         return _get(getConfig, timeout, a -> {
             try {
                 return new ObjectMapper().readValue(a, new TypeReference<Map<String, T>>() {});
@@ -53,7 +56,7 @@ public class GetServiceObject implements WebServiceObject {
         });
     }
 
-    public <T> Optional<E2eResponse<List<T>>> getList(GetConfig getConfig, long timeout, Class<T> token) {
+    public <T> Optional<E2eResponse<List<T>>> getAsList(GetConfig getConfig, long timeout, Class<T> token) {
         return _get(getConfig, timeout, a -> {
             try {
                 return new ObjectMapper().readValue(a, new TypeReference<List<T>>() {});
@@ -66,7 +69,7 @@ public class GetServiceObject implements WebServiceObject {
     private <T> Optional<E2eResponse<T>> _get(GetConfig getConfig, long timeout, Function<String, T> mapper) {
         try {
             E2eResponse<T> response = applyWhile(this::_get, getConfig, mapper,
-                    new StabilityUtil.Timeout(timeout), a -> a.getStatus() == 200);
+                    new StabilityUtil.Timeout(timeout), a -> (a.getStatus() == 200 || a.getStatus() == 301) && a.getValue() != null);
             return Optional.ofNullable(response);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -75,17 +78,24 @@ public class GetServiceObject implements WebServiceObject {
     }
 
     private <T> E2eResponse<T> _get(GetConfig getConfig, Function<String, T> mapper) {
+        Response response = doGet(getConfig);
+        return mapToObject(mapper, response);
+    }
+
+    private Response doGet(GetConfig getConfig) {
         String endpoint = baseUrl + getConfig.getEndpoint();
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.info("endpoint: {}", endpoint);
         logger.info("cookie: {}", cookie);
         MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
-        Response response = client
-                .target(endpoint)
+        return client.target(endpoint)
                 .request(mediaType)
                 .cookie(cookie)
                 .get();
-        return E2eResponseFactory.newResponse(response,mapper.apply(response.readEntity(String.class)));
+    }
+
+    private static <T> E2eResponse<T> mapToObject(Function<String, T> mapper, Response response) {
+        return E2eResponseFactory.newResponse(response, mapper.apply(response.readEntity(String.class)));
     }
 
     @Override
