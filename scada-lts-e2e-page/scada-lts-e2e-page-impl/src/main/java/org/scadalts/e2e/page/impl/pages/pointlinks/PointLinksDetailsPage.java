@@ -12,6 +12,7 @@ import org.scadalts.e2e.page.impl.dicts.EventType;
 
 import static com.codeborne.selenide.Condition.not;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
+import static org.scadalts.e2e.page.impl.util.SelectUtil.selectPoint;
 
 public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsPage> {
 
@@ -23,6 +24,12 @@ public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsP
 
     @FindBy(id = "targetPointId")
     private SelenideElement targetPointId;
+
+    @FindBy(id = "sourcePointId_chosen")
+    private SelenideElement sourcePointIdChosen;
+
+    @FindBy(id = "targetPointId_chosen")
+    private SelenideElement targetPointIdChosen;
 
     @FindBy(id = "script")
     private SelenideElement script;
@@ -47,12 +54,17 @@ public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsP
 
     public PointLinksDetailsPage setPoints(PointLinkCriteria criteria) {
         delay();
-        IdentifierObject source = criteria.getSource().getIdentifier();
-        IdentifierObject target = criteria.getTarget().getIdentifier();
-
-        waitWhile(targetPointId, not(Condition.visible)).selectOption(target.getValue());
-        waitWhile(sourcePointId, not(Condition.visible)).selectOption(source.getValue());
-
+        try {
+            //Scada-LTS version >= 2.8.0;
+            selectPoint(sourcePointIdChosen, criteria.getSource(), this);
+            selectPoint(targetPointIdChosen, criteria.getTarget(), this);
+        } catch (Throwable ex) {
+            //Old Scada-LTS version;
+            IdentifierObject source = criteria.getSource().getIdentifier();
+            IdentifierObject target = criteria.getTarget().getIdentifier();
+            waitWhile(targetPointId, not(Condition.visible)).selectOption(target.getValue());
+            waitWhile(sourcePointId, not(Condition.visible)).selectOption(source.getValue());
+        }
         return this;
     }
 
