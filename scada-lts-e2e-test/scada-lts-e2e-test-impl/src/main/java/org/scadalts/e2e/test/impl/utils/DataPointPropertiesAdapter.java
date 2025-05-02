@@ -1,7 +1,7 @@
 package org.scadalts.e2e.test.impl.utils;
 
 import lombok.EqualsAndHashCode;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventDetectorIdentifier;
@@ -34,7 +34,7 @@ public class DataPointPropertiesAdapter extends DataPointProperties {
                         EventDetectorType.getType(a.getType())))
                 .alarmLevel(AlarmLevel.getTypeByName(a.getAlarmLevel()))
                 .xid(new Xid(a.getXid()))
-                .dataSourcePointCriteria(DataSourcePointCriteria.empty())
+                .dataSourcePointCriteria(VirtualDataSourcePointCriteria.empty())
                 .eventHandlerCriterias(Collections.emptyList())
                 .build())
                 .collect(Collectors.toList());

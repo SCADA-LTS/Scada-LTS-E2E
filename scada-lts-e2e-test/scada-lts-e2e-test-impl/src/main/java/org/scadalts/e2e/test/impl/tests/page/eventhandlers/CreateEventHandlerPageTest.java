@@ -10,12 +10,12 @@ import org.scadalts.e2e.page.impl.criterias.identifiers.EventHandlerIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.ScriptIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.VarIdentifier;
 import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
+import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
+import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EditEventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
-import org.scadalts.e2e.test.impl.creators.EventHandlerObjectsCreator;
-import org.scadalts.e2e.test.impl.creators.ScriptObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.*;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -36,8 +36,8 @@ public class CreateEventHandlerPageTest {
 
     private static ScriptCriteria scriptActive;
     private static ScriptCriteria scriptInactive;
-    private static DataSourceCriteria dataSourceCriteria;
-    private static DataPointCriteria dataPointCriteria;
+    private static UpdateDataSourceCriteria dataSourceCriteria;
+    private static VirtualDataPointCriteria dataPointCriteria;
     private static EventDetectorCriteria eventDetectorCriteria;
     private EventHandlerCriteria eventHandlerCriteria;
 
@@ -46,22 +46,20 @@ public class CreateEventHandlerPageTest {
     public static void createDataSourcePointEventDetectorScripts() {
         navigationPage = TestWithPageUtil.openNavigationPage();
 
-        dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-        dataPointCriteria = DataPointCriteria.binaryNoChange();
-        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
-        DataSourcePointCriteria dataSourcePointCriteria2 = DataSourcePointCriteria.criteria(DataSourceCriteria.virtualDataSourceSecond(),
-                DataPointCriteria.binaryNoChange());
-        DataSourcePointCriteria dataSourcePointCriteria3 = DataSourcePointCriteria.criteria(DataSourceCriteria.virtualDataSourceSecond(),
-                DataPointCriteria.binaryNoChange());
+        dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
+        dataPointCriteria = VirtualDataPointCriteria.binaryNoChange();
 
-        EventDetectorCriteria eventDetectorCriteria2 = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria2);
-        eventDetectorCriteria = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria);
-        EventDetectorCriteria eventDetectorCriteria3 = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria3);
-        EventDetectorCriteria eventDetectorCriteria4 = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria);
-        EventDetectorCriteria eventDetectorCriteria5 = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria);
+        EventDetectorCriteria eventDetectorCriteria2 = EventDetectorCriteria.changeAlarmLevelNone(new DataSourcePointCriteria<>(dataSourceCriteria, dataPointCriteria));
+        eventDetectorCriteria = EventDetectorCriteria.changeAlarmLevelNone(new DataSourcePointCriteria<>(UpdateDataSourceCriteria.virtualDataSourceSecond(),
+                VirtualDataPointCriteria.binaryNoChange()));
+        EventDetectorCriteria eventDetectorCriteria3 = EventDetectorCriteria.changeAlarmLevelNone(new DataSourcePointCriteria<>(UpdateDataSourceCriteria.virtualDataSourceSecond(),
+                VirtualDataPointCriteria.binaryNoChange()));
+        EventDetectorCriteria eventDetectorCriteria4 = EventDetectorCriteria.changeAlarmLevelNone(new DataSourcePointCriteria<>(dataSourceCriteria, dataPointCriteria));
+        EventDetectorCriteria eventDetectorCriteria5 = EventDetectorCriteria.changeAlarmLevelNone(new DataSourcePointCriteria<>(dataSourceCriteria, dataPointCriteria));
 
-        eventDetectorObjectsCreator = new EventDetectorObjectsCreator(navigationPage,eventDetectorCriteria);
-        eventDetectorObjectsCreator2 = new EventDetectorObjectsCreator(navigationPage,eventDetectorCriteria2);
+        VirtualDataSourcePointObjectsCreator creator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourceCriteria, dataPointCriteria);
+        eventDetectorObjectsCreator = new EventDetectorObjectsCreator(navigationPage, eventDetectorCriteria, creator);
+        eventDetectorObjectsCreator2 = new EventDetectorObjectsCreator(navigationPage, eventDetectorCriteria2, new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourceCriteria, dataPointCriteria));
         eventDetectorObjectsCreator3 = new EventDetectorObjectsCreator(navigationPage,eventDetectorCriteria3);
         eventDetectorObjectsCreator4 = new EventDetectorObjectsCreator(navigationPage,eventDetectorCriteria4);
         eventDetectorObjectsCreator5 = new EventDetectorObjectsCreator(navigationPage,eventDetectorCriteria5);

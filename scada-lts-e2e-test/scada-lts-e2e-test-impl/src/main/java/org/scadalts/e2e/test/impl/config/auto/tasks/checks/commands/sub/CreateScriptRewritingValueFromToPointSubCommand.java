@@ -13,8 +13,8 @@ import org.scadalts.e2e.test.impl.creators.ScriptObjectsCreator;
 public class CreateScriptRewritingValueFromToPointSubCommand implements SubCommand<ScriptCriteria> {
 
     private final @NonNull NavigationPage navigationPage;
-    private final @NonNull DataPointCriteria dataPointFromCriteria;
-    private final @NonNull DataPointCriteria dataPointToCriteria;
+    private final @NonNull VirtualDataPointCriteria dataPointFromCriteria;
+    private final @NonNull VirtualDataPointCriteria dataPointToCriteria;
 
     @Override
     public ScriptCriteria execute() {

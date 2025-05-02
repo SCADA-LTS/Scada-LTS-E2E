@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.core.criterias.Script;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
@@ -49,8 +49,8 @@ public class PointLinksChangeOnWatchListPageTest {
         };
     }
 
-    private final DataSourcePointCriteria source;
-    private final DataSourcePointCriteria target;
+    private final VirtualDataSourcePointCriteria source;
+    private final VirtualDataSourcePointCriteria target;
     private final EventType eventType;
 
 
@@ -65,8 +65,8 @@ public class PointLinksChangeOnWatchListPageTest {
         DataPointIdentifier dataPointSourceIdentifier = new DataPointIdentifier(dataPointSourceName, DataPointType.NUMERIC);
         DataPointIdentifier dataPointTargetIdentifier = new DataPointIdentifier(dataPointTargetName, DataPointType.NUMERIC);
 
-        source = DataSourcePointCriteria.criteria(dataSourceSourceIdentifier, dataPointSourceIdentifier);
-        target = DataSourcePointCriteria.criteria(dataSourceTargetIdentifier, dataPointTargetIdentifier);
+        source = VirtualDataSourcePointCriteria.virtualCriteria(dataSourceSourceIdentifier, dataPointSourceIdentifier);
+        target = VirtualDataSourcePointCriteria.virtualCriteria(dataSourceTargetIdentifier, dataPointTargetIdentifier);
     }
 
     private AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;

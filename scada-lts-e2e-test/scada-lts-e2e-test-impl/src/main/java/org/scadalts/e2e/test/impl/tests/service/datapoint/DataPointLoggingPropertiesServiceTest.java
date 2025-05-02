@@ -4,8 +4,10 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
 import org.scadalts.e2e.page.impl.dicts.*;
@@ -18,6 +20,8 @@ import org.scadalts.e2e.service.impl.services.datapoint.DataPointPropertiesRespo
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.test.impl.creators.DataPointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataPointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.DataPointPropertiesAdapter;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
@@ -107,19 +111,19 @@ public class DataPointLoggingPropertiesServiceTest {
         dataPointProperties = DataPointProperties.properties(loggingProperties);
     }
 
-    private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
+    private static DataSourcePointObjectsCreator<UpdateDataSourceCriteria, VirtualDataPointCriteria> dataSourcePointObjectsCreator;
     private static EditDataSourceWithPointListPage editDataSourceWithPointListPage;
-    private static DataSourcePointCriteria dataSourcePointCriteria;
-    private static DataPointCriteria dataPointCriteria;
-    private DataPointObjectsCreator dataPointObjectsCreator;
+    private static VirtualDataSourcePointCriteria dataSourcePointCriteria;
+    private static VirtualDataPointCriteria dataPointCriteria;
+    private DataPointObjectsCreator<UpdateDataSourceCriteria, VirtualDataPointCriteria> dataPointObjectsCreator;
 
     @BeforeClass
     public static void setupForAll() {
 
-        dataSourcePointCriteria = DataSourcePointCriteria.virtualDataSourceNumericNoChange();
+        dataSourcePointCriteria = VirtualDataSourcePointCriteria.virtualDataSourceNumericNoChange();
 
         navigationPage = TestWithPageUtil.openNavigationPage();
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcePointObjectsCreator.createObjects();
 
         DataSourcesPage dataSourcesPage = dataSourcePointObjectsCreator.openPage();
@@ -137,7 +141,7 @@ public class DataPointLoggingPropertiesServiceTest {
     @Before
     public void setup() {
 
-        dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage, dataSourcePointCriteria);
+        dataPointObjectsCreator = new VirtualDataPointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataPointObjectsCreator.createObjects();
         DataPointPropertiesPage dataPointPropertiesPage = editDataSourceWithPointListPage
                 .openDataPointProperties(dataPointCriteria.getIdentifier());

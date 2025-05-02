@@ -1,10 +1,7 @@
 package org.scadalts.e2e.test.impl.creators;
 
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
-import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
+import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointPropertiesPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -17,13 +14,34 @@ public class EventDetectorObjectsCreator implements CreatorObject<DataSourcesPag
     private NavigationPage navigationPage;
     private DataSourcesPage dataSourcesPage;
     private final EventDetectorCriteria eventDetectorCriteria;
-    private final CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcePointObjectsCreator;
+    private DataSourcePointObjectsCreator<?, ?> dataSourcePointObjectsCreator;
 
-    public EventDetectorObjectsCreator(NavigationPage navigationPage, EventDetectorCriteria eventDetectorCriteria) {
+    public EventDetectorObjectsCreator(NavigationPage navigationPage,
+                                       EventDetectorCriteria eventDetectorCriteria) {
         this.navigationPage = navigationPage;
         this.eventDetectorCriteria = eventDetectorCriteria;
-        this.dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, eventDetectorCriteria.getDataSourcePointCriteria());
+
+        if(eventDetectorCriteria.getDataSourcePointCriteria() instanceof VirtualDataSourcePointCriteria) {
+            this.dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage,
+                    (UpdateDataSourceCriteria) eventDetectorCriteria.getDataSourcePointCriteria().getDataSource(),
+                    (VirtualDataPointCriteria) eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint());
+        } else {
+            if (eventDetectorCriteria.getDataSourcePointCriteria() instanceof InternalDataSourcePointCriteria) {
+                this.dataSourcePointObjectsCreator = new InternalDataSourcePointObjectsCreator(navigationPage,
+                        (UpdateDataSourceCriteria) eventDetectorCriteria.getDataSourcePointCriteria().getDataSource(),
+                        (InternalDataPointCriteria) eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint());
+            }
+        }
     }
+
+    public EventDetectorObjectsCreator(NavigationPage navigationPage,
+                                       EventDetectorCriteria eventDetectorCriteria,
+                                       DataSourcePointObjectsCreator<?, ?> dataSourcePointObjectsCreator) {
+        this.navigationPage = navigationPage;
+        this.eventDetectorCriteria = eventDetectorCriteria;
+        this.dataSourcePointObjectsCreator = dataSourcePointObjectsCreator;
+    }
+
 
     @Override
     public DataSourcesPage deleteObjects() {
@@ -75,7 +93,7 @@ public class EventDetectorObjectsCreator implements CreatorObject<DataSourcesPag
 
     @Override
     public DataPointPropertiesPage openPage() {
-        DataSourcePointCriteria dataSourcePointCriteria = eventDetectorCriteria.getDataSourcePointCriteria();
+        DataSourcePointCriteria<?,?> dataSourcePointCriteria = eventDetectorCriteria.getDataSourcePointCriteria();
         DataSourceCriteria dataSourceCriteria = dataSourcePointCriteria.getDataSource();
         DataPointCriteria dataPointCriteria = dataSourcePointCriteria.getDataPoint();
         if(dataSourcesPage == null) {

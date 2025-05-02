@@ -95,7 +95,7 @@ public class EventHandlerCriteria implements CriteriaObject, GetXid {
 
     @Override
     public NodeCriteria[] getNodeCriteria() {
-        DataSourcePointCriteria dataSourcePointCriteria = eventDetectorCriteria.getDataSourcePointCriteria();
+        DataSourcePointCriteria<?, ?> dataSourcePointCriteria = eventDetectorCriteria.getDataSourcePointCriteria();
         NodeCriteria nodeCriteria = NodeCriteria.exactly(dataSourcePointCriteria.getIdentifier(), div(), clazz("dojoTreeNode"));
         NodeCriteria nodeCriteria2 = NodeCriteria.exactlyTypeAny(eventDetectorCriteria.getIdentifier(), div());
         NodeCriteria nodeCriteria3 = NodeCriteria.exactlyTypeAny(identifier, span());

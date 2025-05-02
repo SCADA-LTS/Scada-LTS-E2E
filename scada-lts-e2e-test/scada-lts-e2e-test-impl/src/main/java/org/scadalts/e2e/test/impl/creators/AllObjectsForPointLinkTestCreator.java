@@ -39,7 +39,7 @@ public class AllObjectsForPointLinkTestCreator implements CreatorObject<PointLin
                                              WatchListIdentifier watchListIdentifier) {
         this.criteria = criteria;
         this.navigationPage = navigationPage;
-        this.dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage,
+        this.dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage,
                 criteria.getSource(), criteria.getTarget());
         this.watchListObjectsCreator = new WatchListObjectsCreator(navigationPage,
                 new WatchListCriteria(watchListIdentifier,

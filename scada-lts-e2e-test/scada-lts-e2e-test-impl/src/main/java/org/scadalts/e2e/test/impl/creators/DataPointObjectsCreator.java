@@ -3,10 +3,7 @@ package org.scadalts.e2e.test.impl.creators;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
-import org.scadalts.e2e.page.impl.criterias.RangeValue;
+import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointChartRenderProperties;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
@@ -24,38 +21,52 @@ import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Log4j2
-public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWithPointListPage, EditDataSourceWithPointListPage> {
+public abstract class DataPointObjectsCreator<S extends DataSourceCriteria, P extends DataPointCriteria>
+        implements CreatorObject<EditDataSourceWithPointListPage, EditDataSourceWithPointListPage> {
 
     private @NonNull NavigationPage navigationPage;
-    private final @NonNull DataSourceCriteria dataSourceCriteria;
-    private final @NonNull DataPointCriteria[] dataPointCriterias;
+    private final @NonNull S dataSource;
+    private final @NonNull List<P> dataPoints;
     private DataSourcesPage dataSourcesPage;
 
-    public DataPointObjectsCreator(@NonNull NavigationPage navigationPage, @NonNull DataSourceCriteria dataSourceCriteria) {
+    @SafeVarargs
+    public DataPointObjectsCreator(@NonNull NavigationPage navigationPage,
+                                   @NonNull S dataSource,
+                                   P... dataPoints) {
         this.navigationPage = navigationPage;
-        this.dataSourceCriteria = dataSourceCriteria;
-        this.dataPointCriterias = new DataPointCriteria[]{DataPointCriteria.binaryNoChange()};
+        this.dataSource = dataSource;
+        this.dataPoints = dataPoints == null ? Collections.emptyList() : Stream.of(dataPoints).collect(Collectors.toList());
     }
 
-    public DataPointObjectsCreator(@NonNull NavigationPage navigationPage, @NonNull DataSourceCriteria dataSourceCriteria, @NonNull DataPointCriteria... dataPointCriterias) {
+    public DataPointObjectsCreator(@NonNull NavigationPage navigationPage,
+                                   @NonNull S dataSource,
+                                   List<P> dataPoints) {
         this.navigationPage = navigationPage;
-        this.dataSourceCriteria = dataSourceCriteria;
-        this.dataPointCriterias = dataPointCriterias;
+        this.dataSource = dataSource;
+        this.dataPoints = dataPoints;
     }
 
-    public DataPointObjectsCreator(@NonNull NavigationPage navigationPage, @NonNull DataSourcePointCriteria dataSourcePointCriteria) {
+    @SafeVarargs
+    public DataPointObjectsCreator(@NonNull NavigationPage navigationPage,
+                                   @NonNull DataSourcePointCriteria<S, P> dataSourcePoint,
+                                   DataSourcePointCriteria<S, P>... dataSourcePoints) {
         this.navigationPage = navigationPage;
-        this.dataSourceCriteria = dataSourcePointCriteria.getDataSource();
-        this.dataPointCriterias = new DataPointCriteria[]{dataSourcePointCriteria.getDataPoint()};
+        this.dataSource = dataSourcePoint.getDataSource();
+        this.dataPoints = Stream.concat(Stream.of(dataSourcePoint), Stream.of(dataSourcePoints))
+                .map(DataSourcePointCriteria::getDataPoint)
+                .collect(Collectors.toList());
     }
 
     @Override
     public EditDataSourceWithPointListPage deleteObjects() {
         EditDataSourceWithPointListPage editDataSourceWithPointListPage = openPage();
-        for (DataPointCriteria dataPointCriteria : dataPointCriterias) {
+        for (P dataPointCriteria : dataPoints) {
             if(editDataSourceWithPointListPage.containsObject(dataPointCriteria.getIdentifier())) {
                 _deleteDataPoint(editDataSourceWithPointListPage, dataPointCriteria);
             }
@@ -70,9 +81,9 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
     }
 
     public EditDataSourceWithPointListPage createObjects(EditDataSourceWithPointListPage editDataSourceWithPointListPage) {
-        for (DataPointCriteria dataPointCriteria : dataPointCriterias) {
+        for (P dataPointCriteria : dataPoints) {
             if(!editDataSourceWithPointListPage.containsObject(dataPointCriteria.getIdentifier())) {
-                EditDataPointPage editDataPointPage = _createDataPoint(editDataSourceWithPointListPage, dataPointCriteria);
+                EditDataPointPage editDataPointPage = createDataPoint(editDataSourceWithPointListPage, dataPointCriteria);
                 setProperties(dataPointCriteria, editDataPointPage);
                 if(dataPointCriteria.isEnabled())
                     editDataPointPage.enableDataPoint(dataPointCriteria.getIdentifier());
@@ -81,15 +92,15 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
         return editDataSourceWithPointListPage;
     }
 
-    public List<DataSourcePointCriteria> data() {
-        List<DataSourcePointCriteria> result = new ArrayList<>();
-        for(DataPointCriteria dataPointCriteria: dataPointCriterias) {
-            result.add(DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
+    public List<DataSourcePointCriteria<S, P>> data() {
+        List<DataSourcePointCriteria<S, P>> result = new ArrayList<>();
+        for(P dataPoint: dataPoints) {
+            result.add(DataSourcePointCriteria.criteria(dataSource, dataPoint));
         }
         return result;
     }
 
-    public void setProperties(DataPointCriteria dataPointCriteria, EditDataPointPage editDataPointPage) {
+    public void setProperties(P dataPointCriteria, EditDataPointPage editDataPointPage) {
         DataPointProperties dataPointProperties = dataPointCriteria.getDataPointProperties();
         if(!dataPointProperties.isEmpty()) {
             DataPointPropertiesPage dataPointPropertiesPage = editDataPointPage.openDataPointProperties(dataPointCriteria.getIdentifier());
@@ -98,7 +109,9 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
         }
     }
 
-    public EditDataSourceWithPointListPage setProperties(DataPointProperties dataPointProperties, DataPointType dataPointType, DataPointPropertiesPage dataPointPropertiesPage) {
+    public EditDataSourceWithPointListPage setProperties(DataPointProperties dataPointProperties,
+                                                         DataPointType dataPointType,
+                                                         DataPointPropertiesPage dataPointPropertiesPage) {
 
         DataPointTextRendererProperties textRenderer = dataPointProperties.getTextRendererProperties();
         if(!textRenderer.isEmpty()) {
@@ -125,9 +138,21 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
 
     @Override
     public void reload() {
-        if(!TestWithPageUtil.isLogged())
+        if (!TestWithPageUtil.isLogged())
             navigationPage = TestWithPageUtil.openNavigationPage();
     }
+
+    @Override
+    public EditDataSourceWithPointListPage openPage() {
+        if(dataSourcesPage == null) {
+            dataSourcesPage = navigationPage.openDataSources();
+            return dataSourcesPage.openDataSourceEditor(dataSource.getIdentifier());
+        }
+        return dataSourcesPage.reopen()
+                .openDataSourceEditor(dataSource.getIdentifier());
+    }
+
+    protected abstract EditDataPointPage createDataPoint(EditDataSourceWithPointListPage page, P dataPoint);
 
     private void _setLogging(DataPointPropertiesPage dataPointPropertiesPage,
                              DataPointLoggingProperties loggingProperties,
@@ -196,30 +221,7 @@ public class DataPointObjectsCreator implements CreatorObject<EditDataSourceWith
             dataPointPropertiesPage.setTextRendererTimeConversionExponent(textRenderer.getConversionExponent());
     }
 
-    @Override
-    public EditDataSourceWithPointListPage openPage() {
-        if(dataSourcesPage == null) {
-            dataSourcesPage = navigationPage.openDataSources();
-            return dataSourcesPage.openDataSourceEditor(dataSourceCriteria.getIdentifier());
-        }
-        return dataSourcesPage.reopen()
-                .openDataSourceEditor(dataSourceCriteria.getIdentifier());
-    }
-
-    private EditDataPointPage _createDataPoint(EditDataSourceWithPointListPage page, DataPointCriteria criteria) {
-        logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(), criteria.getIdentifier().getType(),
-                criteria.getXid().getValue(), criteria.getClass().getSimpleName());
-        return page.addDataPoint()
-                .setName(criteria.getIdentifier())
-                .setXid(criteria.getXid())
-                .setSettable(criteria.isSettable())
-                .setDataPointType(criteria.getIdentifier().getType())
-                .setChangeType(criteria.getChangeType())
-                .setStartValue(criteria)
-                .save();
-    }
-
-    private EditDataSourceWithPointListPage _deleteDataPoint(EditDataSourceWithPointListPage page, DataPointCriteria criteria) {
+    private EditDataSourceWithPointListPage _deleteDataPoint(EditDataSourceWithPointListPage page, P criteria) {
         logger.info("delete object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(), criteria.getIdentifier().getType(),
                 criteria.getXid().getValue(), criteria.getClass().getSimpleName());
         return page.openDataPointEditor(criteria.getIdentifier())

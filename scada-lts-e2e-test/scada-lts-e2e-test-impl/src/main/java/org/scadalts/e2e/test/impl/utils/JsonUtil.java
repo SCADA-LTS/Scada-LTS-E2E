@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.json.DataSourceCriteriaJson;
 import org.scadalts.e2e.page.impl.criterias.json.IdentifierJson;
 
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Log4j2
 public class JsonUtil {
 
-    public static File serialize(List<DataSourceCriteria> criterias, String fileName) {
+    public static File serialize(List<UpdateDataSourceCriteria> criterias, String fileName) {
 
         List<DataSourceCriteriaJson> jsonCriterias = criterias.stream()
                 .map(a -> DataSourceCriteriaJson.builder()

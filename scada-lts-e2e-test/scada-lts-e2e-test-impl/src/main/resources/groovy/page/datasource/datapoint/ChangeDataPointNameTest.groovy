@@ -4,9 +4,8 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria
-import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier
 import org.scadalts.e2e.page.impl.dicts.DataPointType
 
@@ -38,7 +37,7 @@ class ChangeDataPointNameTest {
 
     @Before
     void config() {
-        dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond()
+        dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond()
         create(dataSourceCriteria)
     }
 
@@ -46,7 +45,7 @@ class ChangeDataPointNameTest {
     void test() {
 
         //given:
-        DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(new DataPointIdentifier("test1", DataPointType.BINARY))
+        VirtualDataPointCriteria dataPointCriteria = VirtualDataPointCriteria.noChange(new DataPointIdentifier("test1", DataPointType.BINARY))
         create(dataSourceCriteria, dataPointCriteria)
         def nameExpected = 'test2';
         def editor = openDataPointEditor(dataSourceCriteria, dataPointCriteria)

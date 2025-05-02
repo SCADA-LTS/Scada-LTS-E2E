@@ -8,7 +8,7 @@ import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataPointVarCriteria;
 import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.Xid;
@@ -96,7 +96,7 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
         return this;
     }
 
-    public EditScriptsPage addPointToContext(DataPointCriteria dataPointName) {
+    public EditScriptsPage addPointToContext(VirtualDataPointCriteria dataPointName) {
         _selectPoint(dataPointName);
         waitWhile(addPointToContext, not(Condition.visible)).click();
         return this;
@@ -130,7 +130,7 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
         return this;
     }
 
-    private EditScriptsPage _selectPoint(DataPointCriteria dataPointName) {
+    private EditScriptsPage _selectPoint(VirtualDataPointCriteria dataPointName) {
         delay();
         waitWhile(allPointsListChosen, not(Condition.visible)).click();
         NodeCriteria nodeCriteria = NodeCriteria.exactlyTypeAny(dataPointName.getIdentifier(), Tag.li());

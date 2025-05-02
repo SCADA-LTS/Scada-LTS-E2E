@@ -34,10 +34,17 @@ public abstract class PageStabilityUtil {
     }
 
     public static SelenideElement waitWhile(SelenideElement element, Condition condition) {
+        return waitWhile(element, condition, false);
+    }
+
+    public static SelenideElement waitWhile(SelenideElement element, Condition condition, boolean safe) {
         try {
             return element.shouldNot(condition, Duration.ofMillis(PageConfiguration.timeout));
-        } catch (Exception ex) {
-            throw new NotFoundException(ex);
+        } catch (Throwable ex) {
+            if(!safe)
+                throw new NotFoundException(ex);
+            else
+                return null;
         }
     }
 

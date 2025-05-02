@@ -4,8 +4,8 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
@@ -38,13 +38,13 @@ public class GetStartActiveLivesAllDataLoggingServiceTest {
     @BeforeClass
     public static void setup() {
 
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
+        UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
 
         alarmIdentifier = IdentifierObjectFactory.dataPointAlarmBinaryTypeName();
         storungIdentifier = IdentifierObjectFactory.dataPointStorungBinaryTypeName();
 
-        DataPointCriteria pointAlarm = DataPointCriteria.noChangeAllDataLogging(alarmIdentifier, "1");
-        DataPointCriteria pointStorung = DataPointCriteria.noChangeAllDataLogging(storungIdentifier, "1");
+        VirtualDataPointCriteria pointAlarm = VirtualDataPointCriteria.noChangeAllDataLogging(alarmIdentifier, "1");
+        VirtualDataPointCriteria pointStorung = VirtualDataPointCriteria.noChangeAllDataLogging(storungIdentifier, "1");
 
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, dataSourceCriteria, pointAlarm, pointStorung);

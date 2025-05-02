@@ -2,7 +2,7 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.criterias.json.DataSourceCriteriaJson;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
@@ -28,7 +28,7 @@ public class DataSourceRemovedOrDisabledCheck implements Task {
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
 
         for (DataSourceCriteriaJson criteria : criterias) {
-            DataSourceCriteria dataSourceCriteria = criteria.toDataSourceSecondCriteria();
+            UpdateDataSourceCriteria dataSourceCriteria = criteria.toDataSourceSecondCriteria();
             assertExists(dataSourcesPage, dataSourceCriteria.getIdentifier());
             if(dataSourceCriteria.isEnabled()) {
                 DataSourceIdentifier dataSourceIdentifier = dataSourceCriteria.getIdentifier();

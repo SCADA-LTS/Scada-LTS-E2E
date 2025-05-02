@@ -1,14 +1,19 @@
 package org.scadalts.e2e.page.impl.pages.datasource;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.page.core.criterias.Tag;
+import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
+import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.core.utils.AlertUtil;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.core.xpaths.XpathAttribute;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
@@ -16,13 +21,13 @@ import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointPropertiesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
+import org.scadalts.e2e.page.impl.pages.userprofiles.UserProfilesPage;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
-import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
-import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
+import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.*;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 @Log4j2
@@ -39,6 +44,9 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
 
     @FindBy(css = "tbody #pointsList")
     private SelenideElement dataPointsTable;
+
+    @FindBy(css = "tbody #pointListHeaders")
+    private SelenideElement dataPointsTableHeader;
 
     @FindBy(id = "dataSourceProperties")
     private SelenideElement dataSourceProperties;
@@ -93,7 +101,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return editDataSourcePage.setName(dataSourceIdentifier);
     }
 
-    public EditDataSourcePage setName(DataSourceCriteria criteria) {
+    public EditDataSourcePage setName(UpdateDataSourceCriteria criteria) {
         return setName(criteria.getIdentifier());
     }
 
@@ -186,19 +194,19 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return this;
     }
 
-    public EditDataPointPage openDataPointEditor(DataPointCriteria criteria) {
+    public EditDataPointPage openDataPointEditor(VirtualDataPointCriteria criteria) {
         return openDataPointEditor(criteria.getIdentifier());
     }
 
-    public DataPointPropertiesPage openDataPointProperties(DataPointCriteria criteria) {
+    public DataPointPropertiesPage openDataPointProperties(VirtualDataPointCriteria criteria) {
         return openDataPointProperties(criteria.getIdentifier());
     }
 
-    public EditDataSourceWithPointListPage enableDataPoint(DataPointCriteria criteria) {
+    public EditDataSourceWithPointListPage enableDataPoint(VirtualDataPointCriteria criteria) {
        return enableDataPoint(criteria.getIdentifier());
     }
 
-    public EditDataSourceWithPointListPage disableDataPoint(DataPointCriteria criteria) {
+    public EditDataSourceWithPointListPage disableDataPoint(VirtualDataPointCriteria criteria) {
         return disableDataPoint(criteria.getIdentifier());
     }
 
@@ -233,6 +241,31 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return this;
     }
 
+    @Override
+    public boolean containsObject(IdentifierObject identifier) {
+        getBodyText();
+
+        if(dataPointsTable.is(Condition.not(Condition.visible))) {
+            return false;
+        }
+
+        waitOnPointsTable();
+
+        NodeCriteria trCriteria = NodeCriteria.exactly(Tag.tr(), XpathAttribute.empty());
+        NodeCriteria tdCriteria = NodeCriteria.every(Tag.td(), XpathAttribute.empty());
+        ElementsCollection trElements = findObjects(trCriteria, dataPointsTable);
+
+        for(int i = 0; i < trElements.size(); i++) {
+            SelenideElement tr = trElements.get(i);
+            ElementsCollection tdDataElements = findObjects(tdCriteria, tr);
+            SelenideElement td = tdDataElements.get(0);
+            if(td.text().contains(identifier.getValue())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private SelenideElement _findAction(DataPointIdentifier identifier, By selectAction) {
         delay();
         return findAction(identifier.getNodeCriteria(), selectAction, dataPointsTable);
@@ -253,5 +286,11 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
             }
         }
         return -1;
+    }
+
+    @Override
+    public EditDataSourceWithPointListPage waitForCompleteLoad() {
+        waitWhile(dataPointsTable, not(Condition.visible), true);
+        return super.waitForCompleteLoad();
     }
 }

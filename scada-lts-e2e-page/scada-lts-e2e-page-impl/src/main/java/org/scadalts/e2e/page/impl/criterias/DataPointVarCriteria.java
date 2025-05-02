@@ -13,10 +13,10 @@ import java.util.Objects;
 @ToString
 public class DataPointVarCriteria implements CriteriaObject {
 
-    private final @NonNull DataPointCriteria dataPointCriteria;
+    private final @NonNull VirtualDataPointCriteria dataPointCriteria;
     private final @NonNull VarCriteria varCriteria;
 
-    public static DataPointVarCriteria criteria(@NonNull DataPointCriteria criteria) {
+    public static DataPointVarCriteria criteria(@NonNull VirtualDataPointCriteria criteria) {
         return new DataPointVarCriteria(criteria, VarCriteria.empty());
     }
 

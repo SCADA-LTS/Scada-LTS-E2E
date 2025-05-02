@@ -2,7 +2,7 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.imports;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.json.DataSourceCriteriaJson;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -23,7 +23,7 @@ public class ImportDataSourcesWithEnabledTask implements Task {
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
 
         for (DataSourceCriteriaJson criteria : criterias) {
-            DataSourceCriteria dataSourceCriteria = criteria.toDataSourceSecondCriteria();
+            UpdateDataSourceCriteria dataSourceCriteria = criteria.toDataSourceSecondCriteria();
             if(criteria.isEnabled() && !dataSourcesPage.isEnabledDataSource(dataSourceCriteria.getIdentifier()))
                 dataSourcesPage.enableDataSource(dataSourceCriteria.getIdentifier());
         }

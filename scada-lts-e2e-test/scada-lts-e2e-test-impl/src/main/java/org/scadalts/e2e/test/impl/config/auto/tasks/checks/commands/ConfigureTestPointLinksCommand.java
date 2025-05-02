@@ -35,16 +35,16 @@ public class ConfigureTestPointLinksCommand implements Command<ChangePointValueV
         Xid dataPointSourceXid = new Xid(TestImplConfiguration.dataPointSourceXid);
         Xid dataPointTargetXid = new Xid(TestImplConfiguration.dataPointTargetXid);
 
-        DataPointCriteria dataPointSource = DataPointCriteria.noChange(dataPointSourceXid,
+        VirtualDataPointCriteria dataPointSource = VirtualDataPointCriteria.noChange(dataPointSourceXid,
                 new DataPointIdentifier("dp_source_test", DataPointType.NUMERIC), "1234");
-        DataPointCriteria dataPointTarget = DataPointCriteria.noChange(dataPointTargetXid,
+        VirtualDataPointCriteria dataPointTarget = VirtualDataPointCriteria.noChange(dataPointTargetXid,
                 new DataPointIdentifier("dp_target_test", DataPointType.NUMERIC), "12345");
 
         DataSourceIdentifier dataSourceIdentifier = new DataSourceIdentifier("ds_point_links_test",
                 DataSourceType.VIRTUAL_DATA_SOURCE);
-        DataSourceCriteria dataSource = DataSourceCriteria.criteriaSecond(dataSourceIdentifier);
-        DataSourcePointCriteria dataSourcePointSource = DataSourcePointCriteria.criteria(dataSource, dataPointSource);
-        DataSourcePointCriteria dataSourcePointTarget = DataSourcePointCriteria.criteria(dataSource, dataPointTarget);
+        UpdateDataSourceCriteria dataSource = UpdateDataSourceCriteria.criteriaSecond(dataSourceIdentifier);
+        VirtualDataSourcePointCriteria dataSourcePointSource = VirtualDataSourcePointCriteria.virtualCriteria(dataSource, dataPointSource);
+        VirtualDataSourcePointCriteria dataSourcePointTarget = VirtualDataSourcePointCriteria.virtualCriteria(dataSource, dataPointTarget);
 
 
         CreateOneDataSourceTwoPointsSubCommand createOneDataSourceTwoPointsSubCommand = CreateOneDataSourceTwoPointsSubCommand.builder()
@@ -63,9 +63,9 @@ public class ConfigureTestPointLinksCommand implements Command<ChangePointValueV
         pointLinksObjectsCreator.createObjects();
 
         try (CriteriaRegister criteriaRegister = new CriteriaRegister(getClassTest())) {
-            criteriaRegister.register(DataSourceCriteria.class, dataSource);
-            criteriaRegister.register(DataSourcePointCriteria.class, dataSourcePointSource);
-            criteriaRegister.register(DataSourcePointCriteria.class, dataSourcePointTarget);
+            criteriaRegister.register(UpdateDataSourceCriteria.class, dataSource);
+            criteriaRegister.register(VirtualDataSourcePointCriteria.class, dataSourcePointSource);
+            criteriaRegister.register(VirtualDataSourcePointCriteria.class, dataSourcePointTarget);
             criteriaRegister.register(PointLinkCriteria.class, pointLink);
         }
     }

@@ -1,7 +1,7 @@
 package org.scadalts.e2e.page.impl.groovy;
 
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourcePage;
@@ -17,7 +17,7 @@ public class EditorUtil {
         navigationPage = navigation;
     }
 
-    public static EditDataSourceWithPointListPage openDataSourceEditor(DataSourceCriteria criteria) {
+    public static EditDataSourceWithPointListPage openDataSourceEditor(UpdateDataSourceCriteria criteria) {
         return navigationPage.openDataSources().openDataSourceEditor(criteria.getIdentifier());
     }
 
@@ -25,19 +25,19 @@ public class EditorUtil {
         return navigationPage.openDataSources().openDataSourceCreator(DataSourceType.VIRTUAL_DATA_SOURCE);
     }
 
-    public static EditDataSourceWithPointListPage openDataSourceEditor(DataSourcesPage opened, DataSourceCriteria targetCriteria) {
+    public static EditDataSourceWithPointListPage openDataSourceEditor(DataSourcesPage opened, UpdateDataSourceCriteria targetCriteria) {
         return opened.openDataSourceEditor(targetCriteria.getIdentifier());
     }
 
-    public static EditDataPointPage openDataPointEditor(DataSourcesPage opened, DataSourceCriteria criteria, DataPointCriteria targetCriteria) {
+    public static EditDataPointPage openDataPointEditor(DataSourcesPage opened, UpdateDataSourceCriteria criteria, VirtualDataPointCriteria targetCriteria) {
         return opened.openDataSourceEditor(criteria).openDataPointEditor(targetCriteria);
     }
 
-    public static EditDataPointPage openDataPointEditor(EditDataSourceWithPointListPage opened, DataPointCriteria targetCriteria) {
+    public static EditDataPointPage openDataPointEditor(EditDataSourceWithPointListPage opened, VirtualDataPointCriteria targetCriteria) {
         return opened.openDataPointEditor(targetCriteria);
     }
 
-    public static EditDataPointPage openDataPointEditor(DataSourceCriteria criteria, DataPointCriteria targetCriteria) {
+    public static EditDataPointPage openDataPointEditor(UpdateDataSourceCriteria criteria, VirtualDataPointCriteria targetCriteria) {
         return navigationPage.openDataSources().openDataSourceEditor(criteria).openDataPointEditor(targetCriteria);
     }
 }

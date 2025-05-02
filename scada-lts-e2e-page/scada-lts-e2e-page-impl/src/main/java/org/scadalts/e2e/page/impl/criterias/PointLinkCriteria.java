@@ -13,8 +13,8 @@ import java.util.Objects;
 public class PointLinkCriteria implements CriteriaObject, GetXid {
 
     private final @NonNull @Getter Xid xid;
-    private final @NonNull @Getter DataSourcePointCriteria source;
-    private final @NonNull @Getter DataSourcePointCriteria target;
+    private final @NonNull @Getter VirtualDataSourcePointCriteria source;
+    private final @NonNull @Getter VirtualDataSourcePointCriteria target;
     private final @NonNull EventType type;
     private final @NonNull @Getter Script script;
 
@@ -22,13 +22,13 @@ public class PointLinkCriteria implements CriteriaObject, GetXid {
         return PointLinkCriteria.builder()
                 .type(EventType.CHANGE)
                 .script(script)
-                .source(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
-                .target(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
+                .source(VirtualDataSourcePointCriteria.virtualDataSourceBinaryAlternate())
+                .target(VirtualDataSourcePointCriteria.virtualDataSourceBinaryAlternate())
                 .xid(Xid.pointLink())
                 .build();
     }
 
-    public static PointLinkCriteria change(DataSourcePointCriteria source, DataSourcePointCriteria target, Script script) {
+    public static PointLinkCriteria change(VirtualDataSourcePointCriteria source, VirtualDataSourcePointCriteria target, Script script) {
         return PointLinkCriteria.builder()
                 .type(EventType.CHANGE)
                 .script(script)
@@ -42,13 +42,13 @@ public class PointLinkCriteria implements CriteriaObject, GetXid {
         return PointLinkCriteria.builder()
                 .type(EventType.UPDATE)
                 .script(script)
-                .source(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
-                .target(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
+                .source(VirtualDataSourcePointCriteria.virtualDataSourceBinaryAlternate())
+                .target(VirtualDataSourcePointCriteria.virtualDataSourceBinaryAlternate())
                 .xid(Xid.pointLink())
                 .build();
     }
 
-    public static PointLinkCriteria update(DataSourcePointCriteria source, DataSourcePointCriteria target,
+    public static PointLinkCriteria update(VirtualDataSourcePointCriteria source, VirtualDataSourcePointCriteria target,
                                            Script script) {
         return PointLinkCriteria.builder()
                 .type(EventType.UPDATE)
@@ -59,7 +59,7 @@ public class PointLinkCriteria implements CriteriaObject, GetXid {
                 .build();
     }
 
-    public static PointLinkCriteria criteria(DataSourcePointCriteria source, DataSourcePointCriteria target,
+    public static PointLinkCriteria criteria(VirtualDataSourcePointCriteria source, VirtualDataSourcePointCriteria target,
                                              EventType eventType, Script script) {
         return PointLinkCriteria.builder()
                 .type(eventType)
@@ -74,8 +74,8 @@ public class PointLinkCriteria implements CriteriaObject, GetXid {
         return PointLinkCriteria.builder()
                 .type(eventType)
                 .script(script)
-                .source(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
-                .target(DataSourcePointCriteria.virtualDataSourceBinaryAlternate())
+                .source(VirtualDataSourcePointCriteria.virtualDataSourceBinaryAlternate())
+                .target(VirtualDataSourcePointCriteria.virtualDataSourceBinaryAlternate())
                 .xid(Xid.pointLink())
                 .build();
     }
