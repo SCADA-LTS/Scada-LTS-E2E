@@ -13,16 +13,16 @@ import org.scadalts.e2e.test.impl.creators.ScriptObjectsCreator;
 public class CreateScriptRewritingValueFromToPointSubCommand implements SubCommand<ScriptCriteria> {
 
     private final @NonNull NavigationPage navigationPage;
-    private final @NonNull VirtualDataPointCriteria dataPointFromCriteria;
-    private final @NonNull VirtualDataPointCriteria dataPointToCriteria;
+    private final @NonNull VirtualDataSourcePointCriteria dataPointFromCriteria;
+    private final @NonNull VirtualDataSourcePointCriteria dataPointToCriteria;
 
     @Override
     public ScriptCriteria execute() {
 
         VarCriteria varCriteria = new VarCriteria(new VarIdentifier("p66"));
-        DataPointVarCriteria dataPointVarCriteria = new DataPointVarCriteria(dataPointFromCriteria, varCriteria);
+        DataPointVarCriteria dataPointVarCriteria = new DataPointVarCriteria(dataPointFromCriteria.getIdentifier(), varCriteria);
 
-        Script script = Script.script(_getScriptPattern(), dataPointToCriteria.getXid(), varCriteria);
+        Script script = Script.script(_getScriptPattern(), dataPointToCriteria.getDataPoint().getXid(), varCriteria);
 
         ScriptCriteria scriptCriteria = ScriptCriteria
                 .dataPointCommandsEnabled(new ScriptIdentifier("sc_event_detector_test"),

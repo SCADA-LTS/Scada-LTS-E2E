@@ -30,12 +30,19 @@ public class InternalDataPointObjectsCreator extends DataPointObjectsCreator<Upd
 
     @Override
     public EditDataPointPage createDataPoint(EditDataSourceWithPointListPage page, InternalDataPointCriteria dataPoint) {
-        logger.info("create object: {}, type: {}, xid: {}, class: {}", dataPoint.getIdentifier().getValue(), dataPoint.getIdentifier().getType(),
+
+        logger.info("creating object: {}, type: {}, xid: {}, class: {}", dataPoint.getIdentifier().getValue(), dataPoint.getIdentifier().getType(),
                 dataPoint.getXid().getValue(), dataPoint.getClass().getSimpleName());
-        return page.addDataPoint()
+
+        EditDataPointPage resultPage = page.addDataPoint()
                 .setName(dataPoint.getIdentifier())
                 .setXid(dataPoint.getXid())
                 .setInternalAttributeId(dataPoint.getAttributeType())
                 .save();
+
+        logger.info("created object: {}, type: {}, xid: {}, class: {}", dataPoint.getIdentifier().getValue(), dataPoint.getIdentifier().getType(),
+                dataPoint.getXid().getValue(), dataPoint.getClass().getSimpleName());
+
+        return resultPage;
     }
 }

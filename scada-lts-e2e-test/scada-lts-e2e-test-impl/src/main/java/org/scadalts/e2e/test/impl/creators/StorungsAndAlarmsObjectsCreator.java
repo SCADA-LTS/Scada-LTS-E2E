@@ -176,9 +176,9 @@ public class StorungsAndAlarmsObjectsCreator implements CreatorObject<DataSource
             List<StorungAlarmResponse> alarms = StorungsAndAlarmsUtil
                     .getAlarmsAndStorungsSortByActivationTime(criteria.getDataPoint().getIdentifier(), paginationParams);
             for (StorungAlarmResponse alarm : alarms) {
-                logger.info("delete: {}", alarm);
+                logger.info("deleting: {}", alarm);
                 AcknowledgeResponse response = StorungsAndAlarmsUtil.acknowledge(alarm.getId());
-                logger.debug("delete... ok {}", response);
+                logger.debug("deleted {}", response);
             }
         }
     }

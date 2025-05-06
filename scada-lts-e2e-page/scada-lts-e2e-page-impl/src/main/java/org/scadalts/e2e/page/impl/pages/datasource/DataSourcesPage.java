@@ -15,9 +15,11 @@ import org.scadalts.e2e.page.impl.export.ExportDataSourcesUtil;
 
 import java.util.List;
 
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.page;
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.*;
+import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.scrollDownWhile;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 @Log4j2
@@ -112,9 +114,12 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     }
 
     public DataSourcesPage enableDataSource(DataSourceIdentifier identifier) {
-        SelenideElement selenideElement = _findAction(identifier,SELECTOR_ACTION_ENABLE_DATA_SOURCE_BY);
-        acceptAfterClick(selenideElement);
-        return this;
+        _enableDataSource(identifier);
+        if(isEnabledDataSource(identifier)) {
+            return this;
+        } else {
+            return _enableDataSource(identifier);
+        }
     }
 
     public boolean isEnabledDataSource(DataSourceIdentifier identifier) {
@@ -123,9 +128,12 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
     }
 
     public DataSourcesPage disableDataSource(DataSourceIdentifier identifier) {
-        SelenideElement selenideElement = _findAction(identifier,SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY);
-        acceptAfterClick(selenideElement);
-        return this;
+        _disableDataSource(identifier);
+        if(isEnabledDataSource(identifier)) {
+            return _disableDataSource(identifier);
+        } else {
+            return this;
+        }
     }
 
     public DataSourcesPage enableDataSource(UpdateDataSourceCriteria criteria) {
@@ -166,6 +174,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
 
     private SelenideElement _findAction(DataSourceIdentifier identifier, By selectAction) {
         delay();
+        scrollDownWhile(this, id -> !containsObject(id), identifier);
         return findAction(identifier.getNodeCriteria(), selectAction, dataSourcesTable);
     }
 
@@ -188,5 +197,19 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         addDataSource.click();
         printCurrentUrl();
         return page(EditDataSourcePage.class);
+    }
+
+    private DataSourcesPage _enableDataSource(DataSourceIdentifier identifier) {
+        SelenideElement selenideElement = waitWhile(_findAction(identifier, SELECTOR_ACTION_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
+        acceptAfterClick(selenideElement);
+        waitWhile(_findAction(identifier, SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY), not(Condition.visible));
+        return this;
+    }
+
+    private DataSourcesPage _disableDataSource(DataSourceIdentifier identifier) {
+        SelenideElement selenideElement = waitWhile(_findAction(identifier, SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY), not(Condition.visible));
+        acceptAfterClick(selenideElement);
+        waitWhile(_findAction(identifier, SELECTOR_ACTION_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
+        return this;
     }
 }

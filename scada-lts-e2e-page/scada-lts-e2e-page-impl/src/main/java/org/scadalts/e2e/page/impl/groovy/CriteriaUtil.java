@@ -5,32 +5,32 @@ import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
 
 public class CriteriaUtil {
 
-    public static VirtualDataPointCriteria dataPoint() {
+    public static VirtualDataPointCriteria virtualDataPoint() {
         return VirtualDataPointCriteria.binaryNoChange();
     }
 
-    public static VirtualDataPointCriteria dataPointBinary() {
-        return dataPoint();
+    public static VirtualDataPointCriteria virtualDataPointBinary() {
+        return virtualDataPoint();
     }
 
-    public static VirtualDataPointCriteria dataPointNumeric() {
+    public static VirtualDataPointCriteria virtualDataPointNumeric() {
         return VirtualDataPointCriteria.numericNoChange();
     }
 
-    public static UpdateDataSourceCriteria dataSource() {
+    public static UpdateDataSourceCriteria virtualDataSource() {
         return UpdateDataSourceCriteria.virtualDataSourceSecond();
     }
 
-    public static DataSourcePointCriteria<UpdateDataSourceCriteria, VirtualDataPointCriteria> dataSourcePoint() {
+    public static DataSourcePointCriteria<UpdateDataSourceCriteria, VirtualDataPointCriteria> virtualDataSourcePoint() {
         return VirtualDataSourcePointCriteria.virtualDataSourceNumericNoChange();
     }
 
-    public static DataSourcePointCriteria<UpdateDataSourceCriteria, VirtualDataPointCriteria> dataSourcePoint(UpdateDataSourceCriteria dataSourceCriteria,
+    public static DataSourcePointCriteria<UpdateDataSourceCriteria, VirtualDataPointCriteria> virtualDataSourcePoint(UpdateDataSourceCriteria dataSourceCriteria,
                                                                                                                      VirtualDataPointCriteria dataPointCriteria) {
         return VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria);
     }
 
-    public static DataSourcePointCriteria<UpdateDataSourceCriteria, VirtualDataPointCriteria> dataSourcePoint(VirtualDataPointCriteria dataPointCriteria,
+    public static DataSourcePointCriteria<UpdateDataSourceCriteria, VirtualDataPointCriteria> virtualDataSourcePoint(VirtualDataPointCriteria dataPointCriteria,
                                                                                                                      UpdateDataSourceCriteria dataSourceCriteria) {
         return VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria);
     }

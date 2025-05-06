@@ -28,9 +28,11 @@ public class VirtualDataPointObjectsCreator extends DataPointObjectsCreator<Upda
 
     @Override
     public EditDataPointPage createDataPoint(EditDataSourceWithPointListPage page, VirtualDataPointCriteria dataPoint) {
-        logger.info("create object: {}, type: {}, xid: {}, class: {}", dataPoint.getIdentifier().getValue(), dataPoint.getIdentifier().getType(),
+
+        logger.info("creating object: {}, type: {}, xid: {}, class: {}", dataPoint.getIdentifier().getValue(), dataPoint.getIdentifier().getType(),
                 dataPoint.getXid().getValue(), dataPoint.getClass().getSimpleName());
-        return page.addDataPoint()
+
+        EditDataPointPage resultPage = page.addDataPoint()
                 .setName(dataPoint.getIdentifier())
                 .setXid(dataPoint.getXid())
                 .setSettable(dataPoint.isSettable())
@@ -38,5 +40,10 @@ public class VirtualDataPointObjectsCreator extends DataPointObjectsCreator<Upda
                 .setChangeType(dataPoint.getChangeType())
                 .setStartValue(dataPoint)
                 .save();
+
+        logger.info("created object: {}, type: {}, xid: {}, class: {}", dataPoint.getIdentifier().getValue(), dataPoint.getIdentifier().getType(),
+                dataPoint.getXid().getValue(), dataPoint.getClass().getSimpleName());
+
+        return resultPage;
     }
 }

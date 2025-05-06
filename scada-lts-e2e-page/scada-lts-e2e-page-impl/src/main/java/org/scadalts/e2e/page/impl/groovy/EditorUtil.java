@@ -1,5 +1,6 @@
 package org.scadalts.e2e.page.impl.groovy;
 
+import org.scadalts.e2e.page.impl.criterias.InternalDataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
@@ -38,6 +39,18 @@ public class EditorUtil {
     }
 
     public static EditDataPointPage openDataPointEditor(UpdateDataSourceCriteria criteria, VirtualDataPointCriteria targetCriteria) {
+        return navigationPage.openDataSources().openDataSourceEditor(criteria).openDataPointEditor(targetCriteria);
+    }
+
+    public static EditDataPointPage openDataPointEditor(DataSourcesPage opened, UpdateDataSourceCriteria criteria, InternalDataPointCriteria targetCriteria) {
+        return opened.openDataSourceEditor(criteria).openDataPointEditor(targetCriteria);
+    }
+
+    public static EditDataPointPage openDataPointEditor(EditDataSourceWithPointListPage opened, InternalDataPointCriteria targetCriteria) {
+        return opened.openDataPointEditor(targetCriteria);
+    }
+
+    public static EditDataPointPage openDataPointEditor(UpdateDataSourceCriteria criteria, InternalDataPointCriteria targetCriteria) {
         return navigationPage.openDataSources().openDataSourceEditor(criteria).openDataPointEditor(targetCriteria);
     }
 }

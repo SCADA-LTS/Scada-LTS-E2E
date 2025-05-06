@@ -21,37 +21,32 @@ public class EventDetectorObjectsCreator implements CreatorObject<DataSourcesPag
         this.navigationPage = navigationPage;
         this.eventDetectorCriteria = eventDetectorCriteria;
 
-        if(eventDetectorCriteria.getDataSourcePointCriteria() instanceof VirtualDataSourcePointCriteria) {
+        if (eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint() instanceof InternalDataPointCriteria) {
+            this.dataSourcePointObjectsCreator = new InternalDataSourcePointObjectsCreator(navigationPage,
+                    (UpdateDataSourceCriteria) eventDetectorCriteria.getDataSourcePointCriteria().getDataSource(),
+                    (InternalDataPointCriteria) eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint());
+        } else if (eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint() instanceof VirtualDataPointCriteria) {
             this.dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage,
                     (UpdateDataSourceCriteria) eventDetectorCriteria.getDataSourcePointCriteria().getDataSource(),
                     (VirtualDataPointCriteria) eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint());
-        } else {
-            if (eventDetectorCriteria.getDataSourcePointCriteria() instanceof InternalDataSourcePointCriteria) {
-                this.dataSourcePointObjectsCreator = new InternalDataSourcePointObjectsCreator(navigationPage,
-                        (UpdateDataSourceCriteria) eventDetectorCriteria.getDataSourcePointCriteria().getDataSource(),
-                        (InternalDataPointCriteria) eventDetectorCriteria.getDataSourcePointCriteria().getDataPoint());
-            }
         }
     }
-
-    public EventDetectorObjectsCreator(NavigationPage navigationPage,
-                                       EventDetectorCriteria eventDetectorCriteria,
-                                       DataSourcePointObjectsCreator<?, ?> dataSourcePointObjectsCreator) {
-        this.navigationPage = navigationPage;
-        this.eventDetectorCriteria = eventDetectorCriteria;
-        this.dataSourcePointObjectsCreator = dataSourcePointObjectsCreator;
-    }
-
 
     @Override
     public DataSourcesPage deleteObjects() {
         DataPointPropertiesPage dataPointPropertiesPage = openPage();
         if(dataPointPropertiesPage.containsObject(eventDetectorCriteria.getIdentifier())) {
-            logger.info("delete object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
+
+            logger.info("deleting object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
                     eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
                     eventDetectorCriteria.getClass().getSimpleName());
+
             dataPointPropertiesPage.deleteEventDetector(eventDetectorCriteria)
                     .saveDataPoint();
+
+            logger.info("deleted object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
+                    eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
+                    eventDetectorCriteria.getClass().getSimpleName());
         }
         return navigationPage.openDataSources();
     }
@@ -63,11 +58,17 @@ public class EventDetectorObjectsCreator implements CreatorObject<DataSourcesPag
     public DataPointPropertiesPage deleteEventDetectors() {
         DataPointPropertiesPage dataPointPropertiesPage = openPage();
         if(dataPointPropertiesPage.containsObject(eventDetectorCriteria.getIdentifier())) {
-            logger.info("delete object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
+
+            logger.info("deleting object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
                     eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
                     eventDetectorCriteria.getClass().getSimpleName());
+
             dataPointPropertiesPage.deleteEventDetector(eventDetectorCriteria)
                     .saveDataPoint();
+
+            logger.info("deleted object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
+                    eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
+                    eventDetectorCriteria.getClass().getSimpleName());
         }
         return dataPointPropertiesPage;
     }
@@ -77,15 +78,21 @@ public class EventDetectorObjectsCreator implements CreatorObject<DataSourcesPag
         dataSourcePointObjectsCreator.createObjects();
         DataPointPropertiesPage dataPointPropertiesPage = openPage();
         if(!dataPointPropertiesPage.containsObject(eventDetectorCriteria.getIdentifier())) {
-            logger.info("create object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
+
+            logger.info("creating object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
                     eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
                     eventDetectorCriteria.getClass().getSimpleName());
+
             dataPointPropertiesPage.selectEventDetectorType(eventDetectorCriteria.getIdentifier().getType())
                     .addEventDetector()
                     .setEventDetectorAlias(eventDetectorCriteria.getIdentifier())
                     .setEventDetectorXid(eventDetectorCriteria.getXid())
                     .selectEventDetectorAlarmLevel(eventDetectorCriteria.getAlarmLevel())
                     .saveDataPoint();
+
+            logger.info("created object: {}, type: {}, xid: {}, class: {}", eventDetectorCriteria.getIdentifier().getValue(),
+                    eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
+                    eventDetectorCriteria.getClass().getSimpleName());
 
         }
         return dataPointPropertiesPage;

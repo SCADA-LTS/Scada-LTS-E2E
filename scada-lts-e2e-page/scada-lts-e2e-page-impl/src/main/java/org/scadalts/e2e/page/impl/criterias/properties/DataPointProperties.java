@@ -3,7 +3,7 @@ package org.scadalts.e2e.page.impl.criterias.properties;
 import lombok.*;
 import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
-import org.scadalts.e2e.page.impl.dicts.EngineeringUnit;
+import org.scadalts.e2e.page.impl.dicts.EngineeringUnitsType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ public class DataPointProperties {
     private static final DataPointProperties EMPTY = DataPointProperties.builder()
             .textRendererProperties(DataPointTextRendererProperties.empty())
             .loggingProperties(DataPointLoggingProperties.empty())
-            .engineeringUnits(EngineeringUnit.Other.NO_UNITS)
+            .engineeringUnits(EngineeringUnitsType.Other.NO_UNITS)
             .chartRenderProperties(DataPointChartRenderProperties.empty())
             .chartColour("")
             .eventDetectors(new ArrayList<>())
@@ -49,7 +49,7 @@ public class DataPointProperties {
         return DataPointProperties.builder()
                 .chartColour(null)
                 .chartRenderProperties(dataPointChartRenderProperties)
-                .engineeringUnits(EngineeringUnit.VolumetricFlow.LITERS_PER_SECOND)
+                .engineeringUnits(EngineeringUnitsType.VolumetricFlow.LITERS_PER_SECOND)
                 .loggingProperties(DataPointLoggingProperties.noChange())
                 .textRendererProperties(DataPointTextRendererProperties.plain())
                 .build();
@@ -70,7 +70,7 @@ public class DataPointProperties {
         return DataPointProperties.builder()
                 .chartColour(null)
                 .chartRenderProperties(DataPointChartRenderProperties.none())
-                .engineeringUnits(EngineeringUnit.VolumetricFlow.LITERS_PER_SECOND)
+                .engineeringUnits(EngineeringUnitsType.VolumetricFlow.LITERS_PER_SECOND)
                 .loggingProperties(dataPointLoggingProperties)
                 .textRendererProperties(DataPointTextRendererProperties.plain())
                 .build();
@@ -80,7 +80,7 @@ public class DataPointProperties {
         return DataPointProperties.builder()
                 .chartColour(null)
                 .chartRenderProperties(DataPointChartRenderProperties.none())
-                .engineeringUnits(EngineeringUnit.VolumetricFlow.LITERS_PER_SECOND)
+                .engineeringUnits(EngineeringUnitsType.VolumetricFlow.LITERS_PER_SECOND)
                 .loggingProperties(DataPointLoggingProperties.noChange())
                 .textRendererProperties(dataPointTextRendererProperties)
                 .build();
@@ -90,7 +90,7 @@ public class DataPointProperties {
         return DataPointProperties.builder()
                 .chartColour(null)
                 .chartRenderProperties(DataPointChartRenderProperties.none())
-                .engineeringUnits(EngineeringUnit.VolumetricFlow.LITERS_PER_SECOND)
+                .engineeringUnits(EngineeringUnitsType.VolumetricFlow.LITERS_PER_SECOND)
                 .loggingProperties(DataPointLoggingProperties.noChange())
                 .textRendererProperties(DataPointTextRendererProperties.plain())
                 .eventDetectors(Arrays.asList(eventDetectorCriterias))
@@ -101,7 +101,7 @@ public class DataPointProperties {
         return DataPointProperties.builder()
                 .chartColour(null)
                 .chartRenderProperties(DataPointChartRenderProperties.none())
-                .engineeringUnits(EngineeringUnit.VolumetricFlow.LITERS_PER_SECOND)
+                .engineeringUnits(EngineeringUnitsType.VolumetricFlow.LITERS_PER_SECOND)
                 .loggingProperties(DataPointLoggingProperties.noChange())
                 .textRendererProperties(DataPointTextRendererProperties.plain())
                 .eventDetectors(eventDetectorCriterias)
@@ -112,4 +112,6 @@ public class DataPointProperties {
     public boolean isEmpty() {
         return this == EMPTY;
     }
+
+
 }

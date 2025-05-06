@@ -57,7 +57,7 @@ public class ConfigureTestPointLinksCommand implements Command<ChangePointValueV
         createOneDataSourceTwoPointsSubCommand.execute();
 
         Script script = Script.sourceValueIncreasedOne();
-        PointLinkCriteria pointLink = PointLinkCriteria.change(dataSourcePointSource, dataSourcePointTarget, script);
+        VirtualPointLinkCriteria pointLink = VirtualPointLinkCriteria.change(dataSourcePointSource, dataSourcePointTarget, script);
 
         PointLinksObjectsCreator pointLinksObjectsCreator = new PointLinksObjectsCreator(navigationPage, pointLink);
         pointLinksObjectsCreator.createObjects();

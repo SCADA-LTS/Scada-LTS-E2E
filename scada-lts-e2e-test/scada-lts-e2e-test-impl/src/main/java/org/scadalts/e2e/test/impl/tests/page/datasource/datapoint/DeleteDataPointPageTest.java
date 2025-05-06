@@ -44,6 +44,7 @@ public class DeleteDataPointPageTest {
                 .identifier(dataPointToDeleteName)
                 .changeType(ChangeType.NO_CHANGE)
                 .startValue("true")
+                .enabled(true)
                 .build();
 
         dataSourcesPageCreator = new VirtualDataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(), dataSourceCriteria, dataPointCriteria,

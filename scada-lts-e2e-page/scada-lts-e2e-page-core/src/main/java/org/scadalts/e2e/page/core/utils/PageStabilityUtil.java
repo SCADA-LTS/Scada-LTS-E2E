@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.NotFoundException;
 import org.scadalts.e2e.common.core.utils.StabilityUtil;
 import org.scadalts.e2e.page.core.config.PageConfiguration;
+import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.core.pages.MainPageObject;
 import org.scadalts.e2e.page.core.pages.PageObject;
 

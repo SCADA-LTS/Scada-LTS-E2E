@@ -11,6 +11,7 @@ import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
 import org.scadalts.e2e.page.impl.dicts.EngineeringUnit;
+import org.scadalts.e2e.page.impl.dicts.EngineeringUnitsType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointPropertiesPage;
@@ -27,7 +28,6 @@ import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -37,13 +37,8 @@ import static org.junit.Assert.assertNotNull;
 public class DataPointUnitsPropertiesServiceTest {
 
     @Parameterized.Parameters(name = "number of test: {index}, unit: {0}")
-    public static List<DictionaryObject> data() {
-        return EngineeringUnit.aggregate()
-                .entrySet()
-                .stream()
-                .flatMap(a -> a.getValue().stream())
-                .limit(20)
-                .collect(Collectors.toList());
+    public static List<EngineeringUnit> data() {
+        return EngineeringUnitsType.getUnits();
     }
 
     private final DataPointProperties dataPointProperties;

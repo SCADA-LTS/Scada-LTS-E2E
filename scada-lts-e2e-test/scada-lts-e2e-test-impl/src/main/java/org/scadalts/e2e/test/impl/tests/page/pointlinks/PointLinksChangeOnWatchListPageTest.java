@@ -10,6 +10,7 @@ import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualPointLinkCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
@@ -74,14 +75,14 @@ public class PointLinksChangeOnWatchListPageTest {
     private DataSourcePointIdentifier sourceIdentifier;
     private DataSourcePointIdentifier targetIdentifier;
     private PointLinksPage pointLinksPage;
-    private PointLinkCriteria criteria;
+    private VirtualPointLinkCriteria criteria;
     private WatchListIdentifier watchListIdentifier;
 
     @Before
     public void setup() {
         sourceIdentifier = source.getIdentifier();
         targetIdentifier = target.getIdentifier();
-        criteria = PointLinkCriteria.criteria(source, target, eventType, Script.empty());
+        criteria = VirtualPointLinkCriteria.criteria(source, target, eventType, Script.empty());
         watchListIdentifier = IdentifierObjectFactory.watchListName();
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(navigationPage,

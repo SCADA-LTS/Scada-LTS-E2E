@@ -38,9 +38,8 @@ public class CreatorObjectFactory {
     }
 
     public static <T extends PageObject<T>, R extends PageObject<R>> CreatorObject<T, R> creator(NavigationPage navigationPage,
-                                                                                                 EventDetectorCriteria eventDetectorCriteria,
-                                                                                                 DataSourcePointObjectsCreator<DataSourceCriteria, DataPointCriteria> dataSourcePointObjectsCreator)  {
-        return (CreatorObject<T, R>) new EventDetectorObjectsCreator(navigationPage, eventDetectorCriteria, dataSourcePointObjectsCreator);
+                                                                                                 EventDetectorCriteria eventDetectorCriteria)  {
+        return (CreatorObject<T, R>) new EventDetectorObjectsCreator(navigationPage, eventDetectorCriteria);
     }
 
     public static <T extends PageObject<T>, R extends PageObject<R>> CreatorObject<T, R> creator(NavigationPage navigationPage,

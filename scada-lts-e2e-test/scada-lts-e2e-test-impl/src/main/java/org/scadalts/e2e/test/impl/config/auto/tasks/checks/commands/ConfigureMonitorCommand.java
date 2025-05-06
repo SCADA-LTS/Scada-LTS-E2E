@@ -11,8 +11,8 @@ import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegister;
 import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegisterAggregator;
-import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.InternalDataPointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.InternalDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
 import org.scadalts.e2e.test.impl.tests.check.datapoint.DataPointDetailsCheckTestsSuite;
@@ -42,13 +42,28 @@ public class ConfigureMonitorCommand implements Command<DataPointDetailsCheckTes
         InternalDataSourcePointCriteria activeThreadCount = InternalDataSourcePointCriteria.activeThreadCount(dataSourceCriteria,"DP_809550");
 
         WatchListCriteria watchListCriteria = WatchListCriteria.criteria(new WatchListIdentifier("monitor-wl"),
-                pointValuesToBeWritten.getIdentifier(),
-                pointValueWriteThreads.getIdentifier(),
-                maximumThreadStackHeight.getIdentifier(),
-                highPriorityWorkItems.getIdentifier(),
-                mediumPriorityWorkItems.getIdentifier(),
-                scheduledWorkItems.getIdentifier(),
-                activeThreadCount.getIdentifier());
+                pointValuesToBeWritten,
+                pointValueWriteThreads,
+                maximumThreadStackHeight,
+                highPriorityWorkItems,
+                mediumPriorityWorkItems,
+                scheduledWorkItems,
+                activeThreadCount
+        );
+
+        InternalDataSourcePointObjectsCreator dataSourcePointObjectsCreator = new InternalDataSourcePointObjectsCreator(navigationPage,
+                pointValuesToBeWritten,
+                pointValueWriteThreads,
+                maximumThreadStackHeight,
+                highPriorityWorkItems,
+                mediumPriorityWorkItems,
+                scheduledWorkItems,
+                activeThreadCount
+        );
+        dataSourcePointObjectsCreator.createObjects();
+
+        WatchListObjectsCreator watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, watchListCriteria);
+        watchListObjectsCreator.createObjects();
 
         try (CriteriaRegister criteriaRegister = new CriteriaRegister(getClassTest())) {
 
@@ -73,23 +88,6 @@ public class ConfigureMonitorCommand implements Command<DataPointDetailsCheckTes
             criteriaRegister.register(WatchListCriteria.class, watchListCriteria);
 
         }
-
-        VirtualDataSourcePointObjectsCreator dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourceCriteria);
-        dataSourcePointObjectsCreator.createObjects();
-
-        InternalDataPointObjectsCreator dataPointObjectsCreator = new InternalDataPointObjectsCreator(navigationPage,
-                pointValuesToBeWritten,
-                pointValueWriteThreads,
-                maximumThreadStackHeight,
-                highPriorityWorkItems,
-                mediumPriorityWorkItems,
-                scheduledWorkItems,
-                activeThreadCount
-        );
-        dataPointObjectsCreator.createObjects();
-
-        WatchListObjectsCreator watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, watchListCriteria);
-        watchListObjectsCreator.createObjects();
     }
 
     @Override

@@ -37,13 +37,19 @@ public class PointLinksObjectsCreator implements CreatorObject<PointLinksPage, P
         PointLinksPage pointLinksPage = openPage();
         for (PointLinkCriteria criteria : pointLinkCriterias) {
             if(!pointLinksPage.containsObject(criteria.getIdentifier())) {
-                logger.info("create object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+
+                logger.info("creating object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+
                 pointLinksPage.openPointLinkCreator()
                         .setPoints(criteria)
                         .setScript(criteria.getScript())
                         .setEventType(criteria.getIdentifier().getType())
                         .savePointLink();
+
+                logger.info("created object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+
                 if(pointLinkCriterias.length != 1) {
                     pointLinksPage.reopen();
                 }

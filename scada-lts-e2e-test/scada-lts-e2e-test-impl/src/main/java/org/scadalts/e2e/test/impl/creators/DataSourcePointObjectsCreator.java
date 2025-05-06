@@ -100,10 +100,13 @@ public abstract class DataSourcePointObjectsCreator<S extends DataSourceCriteria
         for (S criteria : criteriaMap.keySet()) {
             if(page.containsObject(criteria.getIdentifier())) {
 
-                logger.info("delete object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                logger.info("deleting object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getIdentifier().getType(), criteria.getXid().getValue(), criteria.getClass().getSimpleName());
 
                 page.deleteDataSource(criteria.getIdentifier());
+
+                logger.info("deleted object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getIdentifier().getType(), criteria.getXid().getValue(), criteria.getClass().getSimpleName());
             }
         }
         return page;

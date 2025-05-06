@@ -39,10 +39,10 @@ public class InternalDataSourcePointObjectsCreator extends DataSourcePointObject
 
     public EditDataSourceWithPointListPage createDataSource(DataSourcesPage page, UpdateDataSourceCriteria criteria) {
 
-        logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+        logger.info("creating object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
                 criteria.getIdentifier().getType(), criteria.getXid().getValue(), criteria.getClass().getSimpleName());
 
-        return page.openDataSourceCreator(criteria.getIdentifier().getType())
+        EditDataSourceWithPointListPage resultPage = page.openDataSourceCreator(criteria.getIdentifier().getType())
                 .selectUpdatePeriodType(criteria.getUpdatePeriodType())
                 .setUpdatePeriods(criteria.getUpdatePeriodValue())
                 .setName(criteria.getIdentifier())
@@ -50,6 +50,11 @@ public class InternalDataSourcePointObjectsCreator extends DataSourcePointObject
                 .save()
                 .waitOnPage(500)
                 .enable(criteria.isEnabled());
+
+        logger.info("created object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                criteria.getIdentifier().getType(), criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+
+        return resultPage;
     }
 
 

@@ -56,8 +56,8 @@ public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsP
         delay();
         try {
             //Scada-LTS version >= 2.8.0;
-            selectPoint(sourcePointIdChosen, criteria.getSource(), this);
-            selectPoint(targetPointIdChosen, criteria.getTarget(), this);
+            selectPoint(sourcePointIdChosen, criteria.getSource().getIdentifier(), this);
+            selectPoint(targetPointIdChosen, criteria.getTarget().getIdentifier(), this);
         } catch (Throwable ex) {
             //Old Scada-LTS version;
             IdentifierObject source = criteria.getSource().getIdentifier();

@@ -12,6 +12,7 @@ import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
+import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 
 import static com.codeborne.selenide.Condition.not;
@@ -68,7 +69,7 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
         return pointLinksTable.innerHtml();
     }
 
-    public PointLinksDetailsPage openPointLinkEditor(PointLinkCriteria criteria) {
+    public PointLinksDetailsPage openPointLinkEditor(PointLinkCriteria<?, ?> criteria) {
         scrollDownWhile(this, a -> !containsObject(a.getIdentifier()), criteria);
         _findAction(criteria).click();
         scrollUp();
@@ -100,10 +101,10 @@ public class PointLinksPage extends MainPageObjectAbstract<PointLinksPage> {
         return E2eWebElement.newInstance(source);
     }
 
-    private SelenideElement _findAction(PointLinkCriteria criteria) {
+    private SelenideElement _findAction(PointLinkCriteria<?, ?> criteria) {
         delay();
         NodeCriteria nodeCriteria = NodeCriteria.exactly(criteria.getSource().getIdentifier(),
-                criteria.getTarget().getIdentifier(), Tag.tbody());
+                criteria.getTarget().getIdentifier(), Tag.td());
         return findObject(nodeCriteria, pointLinksTable);
     }
 }

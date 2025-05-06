@@ -56,7 +56,7 @@ public class PointLinksUpdateServiceTest {
         target = sourcePointTargetCriteria.getDataPoint();
 
         script = Script.sourceValueIncreasedOne();
-        PointLinkCriteria pointLinkUpdate = PointLinkCriteria.update(sourcePointSourceCriteria, sourcePointTargetCriteria, script);
+        VirtualPointLinkCriteria pointLinkUpdate = VirtualPointLinkCriteria.update(sourcePointSourceCriteria, sourcePointTargetCriteria, script);
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.openNavigationPage(),
                 pointLinkUpdate);
         allObjectsForPointLinkTestCreator.createObjects();

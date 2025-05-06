@@ -12,8 +12,8 @@ import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.core.utils.AlertUtil;
 import org.scadalts.e2e.page.core.xpaths.XpathAttribute;
-import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
@@ -21,7 +21,6 @@ import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointPropertiesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
-import org.scadalts.e2e.page.impl.pages.userprofiles.UserProfilesPage;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
@@ -101,7 +100,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return editDataSourcePage.setName(dataSourceIdentifier);
     }
 
-    public EditDataSourcePage setName(UpdateDataSourceCriteria criteria) {
+    public EditDataSourcePage setName(DataSourceCriteria criteria) {
         return setName(criteria.getIdentifier());
     }
 
@@ -183,30 +182,30 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
     public EditDataSourceWithPointListPage enableDataPoint(DataPointIdentifier dataPointIdentifier) {
-        _findAction(dataPointIdentifier, SELECTOR_ACTION_DISABLE_DATA_POINT_BY).click();
+        waitWhile(_findAction(dataPointIdentifier, SELECTOR_ACTION_DISABLE_DATA_POINT_BY), not(Condition.visible)).click();
         waitWhile(_findAction(dataPointIdentifier, SELECTOR_ACTION_ENABLE_DATA_POINT_BY), not(Condition.visible));
         return this;
     }
 
     public EditDataSourceWithPointListPage disableDataPoint(DataPointIdentifier dataPointIdentifier) {
-        acceptAfterClick(_findAction(dataPointIdentifier, SELECTOR_ACTION_ENABLE_DATA_POINT_BY));
-        waitWhile($(_findAction(dataPointIdentifier, SELECTOR_ACTION_DISABLE_DATA_POINT_BY)), not(Condition.visible));
+        acceptAfterClick(waitWhile(_findAction(dataPointIdentifier, SELECTOR_ACTION_ENABLE_DATA_POINT_BY), not(Condition.visible)));
+        waitWhile(_findAction(dataPointIdentifier, SELECTOR_ACTION_DISABLE_DATA_POINT_BY), not(Condition.visible));
         return this;
     }
 
-    public EditDataPointPage openDataPointEditor(VirtualDataPointCriteria criteria) {
+    public EditDataPointPage openDataPointEditor(DataPointCriteria criteria) {
         return openDataPointEditor(criteria.getIdentifier());
     }
 
-    public DataPointPropertiesPage openDataPointProperties(VirtualDataPointCriteria criteria) {
+    public DataPointPropertiesPage openDataPointProperties(DataPointCriteria criteria) {
         return openDataPointProperties(criteria.getIdentifier());
     }
 
-    public EditDataSourceWithPointListPage enableDataPoint(VirtualDataPointCriteria criteria) {
+    public EditDataSourceWithPointListPage enableDataPoint(DataPointCriteria criteria) {
        return enableDataPoint(criteria.getIdentifier());
     }
 
-    public EditDataSourceWithPointListPage disableDataPoint(VirtualDataPointCriteria criteria) {
+    public EditDataSourceWithPointListPage disableDataPoint(DataPointCriteria criteria) {
         return disableDataPoint(criteria.getIdentifier());
     }
 
@@ -259,7 +258,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
             SelenideElement tr = trElements.get(i);
             ElementsCollection tdDataElements = findObjects(tdCriteria, tr);
             SelenideElement td = tdDataElements.get(0);
-            if(td.text().contains(identifier.getValue())) {
+            if(td.text().equalsIgnoreCase(identifier.getValue())) {
                 return true;
             }
         }

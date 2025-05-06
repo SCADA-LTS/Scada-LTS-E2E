@@ -82,7 +82,7 @@ public class PointLinksWithDataSourceServiceTest {
     private VirtualDataPointCriteria source;
     private VirtualDataPointCriteria target;
     private PointLinksPage pointLinksPage;
-    private PointLinkCriteria criteria;
+    private VirtualPointLinkCriteria criteria;
 
     @Before
     public void setup() {
@@ -95,7 +95,7 @@ public class PointLinksWithDataSourceServiceTest {
         source = sourcePointSourceCriteria.getDataPoint();
         target = sourcePointTargetCriteria.getDataPoint();
 
-        criteria = PointLinkCriteria.criteria(sourcePointSourceCriteria, sourcePointTargetCriteria,
+        criteria = VirtualPointLinkCriteria.criteria(sourcePointSourceCriteria, sourcePointTargetCriteria,
                 eventType, Script.empty());
 
         WatchListCriteria watchListCriteria = WatchListCriteria.criteria(sourcePointSourceCriteria.getIdentifier(),

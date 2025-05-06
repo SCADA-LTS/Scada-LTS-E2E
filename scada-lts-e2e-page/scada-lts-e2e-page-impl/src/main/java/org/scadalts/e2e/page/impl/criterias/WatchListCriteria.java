@@ -28,10 +28,10 @@ public class WatchListCriteria implements CriteriaObject {
         this.dataSourcePointIdentifiers = Arrays.asList(dataSourcePointIdentifiers);
     }
 
-    public WatchListCriteria(WatchListIdentifier identifier, VirtualDataSourcePointCriteria... dataSourcePointCriterias) {
+    public WatchListCriteria(WatchListIdentifier identifier, DataSourcePointCriteria<?, ?>... dataSourcePointCriterias) {
         this.identifier = identifier;
         this.dataSourcePointIdentifiers = Stream.of(dataSourcePointCriterias)
-                .map(VirtualDataSourcePointCriteria::getIdentifier)
+                .map(DataSourcePointCriteria::getIdentifier)
                 .collect(Collectors.toList());
     }
 
@@ -46,5 +46,10 @@ public class WatchListCriteria implements CriteriaObject {
     public static WatchListCriteria criteria(WatchListIdentifier identifier,
                                              DataSourcePointIdentifier... dataSourcePointIdentifiers) {
         return new WatchListCriteria(identifier, dataSourcePointIdentifiers);
+    }
+
+    public static WatchListCriteria criteria(WatchListIdentifier identifier,
+                                             DataSourcePointCriteria<?, ?>... dataSourcePoints) {
+        return new WatchListCriteria(identifier, dataSourcePoints);
     }
 }

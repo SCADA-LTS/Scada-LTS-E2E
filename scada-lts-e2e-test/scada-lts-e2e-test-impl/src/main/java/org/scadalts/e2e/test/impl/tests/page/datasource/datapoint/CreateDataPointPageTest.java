@@ -14,7 +14,6 @@ import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
@@ -46,6 +45,7 @@ public class CreateDataPointPageTest {
                 .identifier(dataPointCreatedName)
                 .changeType(changeType)
                 .startValue("true")
+                .enabled(true)
                 .build();
 
         navigationPage = TestWithPageUtil.openNavigationPage();

@@ -23,13 +23,18 @@ public class VirtualDataSourcePointObjectsCreator extends DataSourcePointObjects
         super(navigationPage, CriteriaUtil.createCriteriaStructure(dataSourcePoints).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> new VirtualDataPointObjectsCreator(navigationPage, entry.getKey(), entry.getValue().toArray(VirtualDataPointCriteria[]::new)))));
     }
 
+    public VirtualDataSourcePointObjectsCreator(NavigationPage navigationPage,
+                                                VirtualDataSourcePointCriteria... dataSourcePoints) {
+        super(navigationPage, CriteriaUtil.createCriteriaStructure(dataSourcePoints).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> new VirtualDataPointObjectsCreator(navigationPage, entry.getKey(), entry.getValue().toArray(VirtualDataPointCriteria[]::new)))));
+    }
+
 
     public EditDataSourceWithPointListPage createDataSource(DataSourcesPage page, UpdateDataSourceCriteria criteria) {
 
-        logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+        logger.info("creating object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
                 criteria.getIdentifier().getType(), criteria.getXid().getValue(), criteria.getClass().getSimpleName());
 
-        return page.openDataSourceCreator(criteria.getIdentifier().getType())
+        EditDataSourceWithPointListPage resultPage = page.openDataSourceCreator(criteria.getIdentifier().getType())
                 .selectUpdatePeriodType(criteria.getUpdatePeriodType())
                 .setUpdatePeriods(criteria.getUpdatePeriodValue())
                 .setName(criteria.getIdentifier())
@@ -37,6 +42,11 @@ public class VirtualDataSourcePointObjectsCreator extends DataSourcePointObjects
                 .save()
                 .waitOnPage(500)
                 .enable(criteria.isEnabled());
+
+        logger.info("created object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                criteria.getIdentifier().getType(), criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+
+        return resultPage;
     }
 
 

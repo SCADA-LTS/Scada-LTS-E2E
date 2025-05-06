@@ -32,7 +32,7 @@ public class JavaBeanUtil {
     }
 
     public static void selectOption(SelenideElement element,
-                                      DictionaryObject dictionaryObject) {
+                                    DictionaryObject dictionaryObject) {
         human.delay();
         element.selectOption(dictionaryObject.getName());
     }

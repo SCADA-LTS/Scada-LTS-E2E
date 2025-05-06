@@ -2,9 +2,7 @@ package org.scadalts.e2e.test.impl.creators;
 
 import lombok.Getter;
 import org.scadalts.e2e.page.core.criterias.Script;
-import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
-import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
-import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
+import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.WatchListIdentifier;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -23,24 +21,23 @@ public class AllObjectsForPointLinkTestCreator implements CreatorObject<PointLin
     private final CreatorObject<WatchListPage, WatchListPage> watchListObjectsCreator;
     private final CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcePointObjectsCreator;
 
-    private final PointLinkCriteria criteria;
+    private final VirtualPointLinkCriteria criteria;
 
     public AllObjectsForPointLinkTestCreator(NavigationPage navigationPage) {
-        this(navigationPage, PointLinkCriteria.change(Script.sourceValue()),
+        this(navigationPage, VirtualPointLinkCriteria.change(Script.sourceValue()),
                 IdentifierObjectFactory.watchListName());
     }
 
-    public AllObjectsForPointLinkTestCreator(NavigationPage navigationPage, PointLinkCriteria pointLinkCriteria) {
+    public AllObjectsForPointLinkTestCreator(NavigationPage navigationPage, VirtualPointLinkCriteria pointLinkCriteria) {
         this(navigationPage, pointLinkCriteria,
                 IdentifierObjectFactory.watchListName());
     }
 
-    public AllObjectsForPointLinkTestCreator(NavigationPage navigationPage, PointLinkCriteria criteria,
+    public AllObjectsForPointLinkTestCreator(NavigationPage navigationPage, VirtualPointLinkCriteria criteria,
                                              WatchListIdentifier watchListIdentifier) {
         this.criteria = criteria;
         this.navigationPage = navigationPage;
-        this.dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage,
-                criteria.getSource(), criteria.getTarget());
+        this.dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, criteria.getSource(), criteria.getTarget());
         this.watchListObjectsCreator = new WatchListObjectsCreator(navigationPage,
                 new WatchListCriteria(watchListIdentifier,
                         criteria.getSource().getIdentifier(),

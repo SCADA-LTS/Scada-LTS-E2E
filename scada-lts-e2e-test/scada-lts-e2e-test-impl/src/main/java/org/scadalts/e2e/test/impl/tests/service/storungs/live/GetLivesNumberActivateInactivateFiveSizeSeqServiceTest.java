@@ -12,7 +12,6 @@ import org.scadalts.e2e.page.impl.dicts.LoggingType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
-import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.TestDataBatch;

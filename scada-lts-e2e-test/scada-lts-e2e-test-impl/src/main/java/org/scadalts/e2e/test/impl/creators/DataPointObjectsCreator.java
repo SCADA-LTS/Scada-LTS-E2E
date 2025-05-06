@@ -222,9 +222,16 @@ public abstract class DataPointObjectsCreator<S extends DataSourceCriteria, P ex
     }
 
     private EditDataSourceWithPointListPage _deleteDataPoint(EditDataSourceWithPointListPage page, P criteria) {
-        logger.info("delete object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(), criteria.getIdentifier().getType(),
+
+        logger.info("deleting object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(), criteria.getIdentifier().getType(),
                 criteria.getXid().getValue(), criteria.getClass().getSimpleName());
-        return page.openDataPointEditor(criteria.getIdentifier())
+
+        EditDataSourceWithPointListPage resultPage = page.openDataPointEditor(criteria.getIdentifier())
                 .deleteDataPoint();
+
+        logger.info("deleted object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(), criteria.getIdentifier().getType(),
+                criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+
+        return resultPage;
     }
 }

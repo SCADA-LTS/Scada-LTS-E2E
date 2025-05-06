@@ -39,15 +39,6 @@ public class ConfigureTestDataPointDetailsCommand implements Command<DataPointDe
         VirtualDataSourcePointCriteria dataSourcePointCriteria = VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria);
         WatchListCriteria watchListCriteria = WatchListCriteria.criteria(new WatchListIdentifier(TestImplConfiguration.watchListName), dataSourcePointCriteria.getIdentifier());
 
-        try (CriteriaRegister criteriaRegister = new CriteriaRegister(getClassTest())) {
-
-            criteriaRegister.register(UpdateDataSourceCriteria.class, dataSourceCriteria);
-            criteriaRegister.register(VirtualDataPointCriteria.class, dataPointCriteria);
-            criteriaRegister.register(VirtualDataSourcePointCriteria.class, dataSourcePointCriteria);
-            criteriaRegister.register(WatchListCriteria.class, watchListCriteria);
-
-        }
-
         DataSourcePointObjectsCreator dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcePointObjectsCreator.createObjects();
 
@@ -56,6 +47,14 @@ public class ConfigureTestDataPointDetailsCommand implements Command<DataPointDe
 
         WatchListObjectsCreator watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, watchListCriteria);
         watchListObjectsCreator.createObjects();
+
+        try (CriteriaRegister criteriaRegister = new CriteriaRegister(getClassTest())) {
+
+            criteriaRegister.register(UpdateDataSourceCriteria.class, dataSourceCriteria);
+            criteriaRegister.register(VirtualDataPointCriteria.class, dataPointCriteria);
+            criteriaRegister.register(VirtualDataSourcePointCriteria.class, dataSourcePointCriteria);
+            criteriaRegister.register(WatchListCriteria.class, watchListCriteria);
+        }
     }
 
     @Override

@@ -78,8 +78,8 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
         EventDetectorCriteria eventDetectorCriteria = createEventDetectorSubCommand.execute();
 
         CreateScriptRewritingValueFromToPointSubCommand createScriptRewritingValueFromToPointSubCommand = CreateScriptRewritingValueFromToPointSubCommand.builder()
-                .dataPointFromCriteria(dataPointToChangeCriteria)
-                .dataPointToCriteria(dataPointToReadCriteria)
+                .dataPointFromCriteria(VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointToChangeCriteria))
+                .dataPointToCriteria(VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointToReadCriteria))
                 .navigationPage(navigationPage)
                 .build();
 
