@@ -1,5 +1,6 @@
 package groovy.service.monitor
 
+import org.codehaus.groovy.tools.shell.util.MessageSource
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
@@ -30,10 +31,13 @@ NavigationUtil.openGraphicalViews()
 
 class MonitoringSizeWorkItemsLongerTest {
 
+    private static MessageSource messageSource;
+
     @BeforeClass
     static void preconfig() {
         headless(true)
         pageMode(false)
+        messageSource = new MessageSource()
     }
 
     @Before
@@ -54,6 +58,6 @@ class MonitoringSizeWorkItemsLongerTest {
 
         //then:
         assertNotNull("The response is missing the \"size\" property", size)
-        assertTrue(MessageFormat.format("Number of Work Items taking longer than {0} [ms] exceeded {1}", longer, limit), size <= limit)
+        assertTrue(messageSource.format("Number of Work Items taking longer than {0} [ms] exceeded {1}", longer, limit), size <= limit)
     }
 }

@@ -32,7 +32,7 @@ public class TestWithPageUtil {
         if (Objects.isNull(navigationPage))
             return false;
         Optional<String> sessionIdOpt = navigationPage.getSessionId();
-        if (!sessionIdOpt.isPresent() || sessionIdOpt.get().isEmpty())
+        if (sessionIdOpt.isEmpty() || sessionIdOpt.get().isEmpty())
             return false;
         if(!TestWithoutPageUtil.isApiLogged()) {
             return false;
