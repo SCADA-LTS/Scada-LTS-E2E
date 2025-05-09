@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.components.E2eWebElement;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.pages.MainPageObjectAbstract;
-import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.export.ExportDataSourcesUtil;
@@ -65,11 +65,11 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         return this;
     }
 
-    public EditDataSourceWithPointListPage openDataSourceEditor(UpdateDataSourceCriteria criteria) {
+    public EditDataSourceWithPointListPage openDataSourceEditor(DataSourceCriteria criteria) {
         return openDataSourceEditor(criteria.getIdentifier());
     }
 
-    public DataSourcesPage deleteDataSource(UpdateDataSourceCriteria criteria) {
+    public DataSourcesPage deleteDataSource(DataSourceCriteria criteria) {
         return deleteDataSource(criteria.getIdentifier());
     }
 
@@ -109,7 +109,7 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         return this;
     }
 
-    public List<UpdateDataSourceCriteria> getDataSources() {
+    public List<DataSourceCriteria> getDataSources() {
         return ExportDataSourcesUtil.dataSourcesToCriterias(SELECTOR_ACTION_DISABLE_DATA_SOURCE_BY,dataSourcesTable);
     }
 
@@ -136,15 +136,15 @@ public class DataSourcesPage extends MainPageObjectAbstract<DataSourcesPage> {
         }
     }
 
-    public DataSourcesPage enableDataSource(UpdateDataSourceCriteria criteria) {
+    public DataSourcesPage enableDataSource(DataSourceCriteria criteria) {
         return enableDataSource(criteria.getIdentifier());
     }
 
-    public boolean isEnabledDataSource(UpdateDataSourceCriteria criteria) {
+    public boolean isEnabledDataSource(DataSourceCriteria criteria) {
         return isEnabledDataSource(criteria.getIdentifier());
     }
 
-    public DataSourcesPage disableDataSource(UpdateDataSourceCriteria criteria) {
+    public DataSourcesPage disableDataSource(DataSourceCriteria criteria) {
         return disableDataSource(criteria.getIdentifier());
     }
 

@@ -121,11 +121,12 @@ public class DataPointChartRendererPropertiesServiceTest {
     private static DataPointObjectsCreator<UpdateDataSourceCriteria, VirtualDataPointCriteria> dataPointObjectsCreator;
     private static EditDataSourceWithPointListPage editDataSourceWithPointListPage;
     private static VirtualDataPointCriteria dataPointCriteria;
+    private static VirtualDataSourcePointCriteria dataSourcePointCriteria;
 
     @BeforeClass
     public static void setupForAll() {
 
-        VirtualDataSourcePointCriteria dataSourcePointCriteria = VirtualDataSourcePointCriteria.virtualDataSourceNumericNoChange();
+        dataSourcePointCriteria = VirtualDataSourcePointCriteria.virtualDataSourceNumericNoChange();
 
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
         dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
@@ -147,12 +148,21 @@ public class DataPointChartRendererPropertiesServiceTest {
 
     @Before
     public void setup() {
-        DataPointPropertiesPage dataPointPropertiesPage = editDataSourceWithPointListPage
-                .openDataPointProperties(dataPointCriteria.getIdentifier());
+        DataPointPropertiesPage dataPointPropertiesPage;
+        try {
+            dataPointPropertiesPage = editDataSourceWithPointListPage
+                    .openDataPointProperties(dataPointCriteria.getIdentifier());
+        } catch (Throwable ex) {
+            dataPointPropertiesPage = dataSourcePointObjectsCreator.openPage()
+                    .openDataSourceEditor(dataSourcePointCriteria.getDataSource().getIdentifier())
+                    .openDataPointProperties(dataPointCriteria.getIdentifier());
+        }
 
         dataPointObjectsCreator.reload();
         dataPointObjectsCreator.setProperties(dataPointProperties,
                 dataPointCriteria.getIdentifier().getType(), dataPointPropertiesPage);
+
+        dataPointPropertiesPage.editDataSource();
 
     }
 

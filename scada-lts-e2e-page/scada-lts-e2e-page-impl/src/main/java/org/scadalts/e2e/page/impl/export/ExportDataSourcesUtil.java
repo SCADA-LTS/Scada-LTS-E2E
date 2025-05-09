@@ -5,6 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
@@ -21,7 +22,7 @@ import static org.scadalts.e2e.page.core.xpaths.XpathAttribute.clazz;
 @Log4j2
 public class ExportDataSourcesUtil {
 
-    public static List<UpdateDataSourceCriteria> dataSourcesToCriterias(By selectEnableAction, SelenideElement source) {
+    public static List<DataSourceCriteria> dataSourcesToCriterias(By selectEnableAction, SelenideElement source) {
 
         NodeCriteria rowCriteria = NodeCriteria.every(tr(), clazz("row"));
 
@@ -31,7 +32,7 @@ public class ExportDataSourcesUtil {
         NodeCriteria typeCriteria = NodeCriteria.every(6, 2, td());
         NodeCriteria enableCriteria = NodeCriteria.every(6, 4, td());
 
-        List<UpdateDataSourceCriteria> criterias = new ArrayList<>();
+        List<DataSourceCriteria> criterias = new ArrayList<>();
 
         for (SelenideElement row: rows) {
             logger.info("element: {}", row);

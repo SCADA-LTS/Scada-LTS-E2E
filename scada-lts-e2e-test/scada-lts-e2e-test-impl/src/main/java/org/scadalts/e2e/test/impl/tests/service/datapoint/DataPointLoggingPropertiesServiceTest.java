@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
@@ -143,11 +142,20 @@ public class DataPointLoggingPropertiesServiceTest {
 
         dataPointObjectsCreator = new VirtualDataPointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataPointObjectsCreator.createObjects();
-        DataPointPropertiesPage dataPointPropertiesPage = editDataSourceWithPointListPage
-                .openDataPointProperties(dataPointCriteria.getIdentifier());
+        DataPointPropertiesPage dataPointPropertiesPage;
+        try {
+            dataPointPropertiesPage = editDataSourceWithPointListPage
+                    .openDataPointProperties(dataPointCriteria.getIdentifier());
+        } catch (Throwable ex) {
+            dataPointPropertiesPage = dataSourcePointObjectsCreator.openPage()
+                    .openDataSourceEditor(dataSourcePointCriteria.getDataSource().getIdentifier())
+                    .openDataPointProperties(dataPointCriteria.getIdentifier());
+        }
 
         dataPointObjectsCreator.setProperties(dataPointProperties,
                 dataPointCriteria.getIdentifier().getType(), dataPointPropertiesPage);
+
+        dataPointPropertiesPage.editDataSource();
 
     }
 

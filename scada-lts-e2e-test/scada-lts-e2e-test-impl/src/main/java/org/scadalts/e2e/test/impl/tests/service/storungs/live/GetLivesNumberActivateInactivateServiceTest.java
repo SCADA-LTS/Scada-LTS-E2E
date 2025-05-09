@@ -34,12 +34,9 @@ public class GetLivesNumberActivateInactivateServiceTest {
     @Parameterized.Parameters(name = "{index}: sequence: {0}")
     public static List<TestDataBatch> data() {
         List<TestDataBatch> result = new ArrayList<>();
-        List<TestDataBatch> re = generateDataTest(3, DataPointNotifierType.ALARM, LoggingType.ALL, 1);
-        result.add(re.get(0));
-        //result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, LoggingType.ALL, 0));
-        //result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, LoggingType.ALL, 1));
-
-        /*result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, LoggingType.ALL, 0));
+        result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, LoggingType.ALL, 0));
+        result.addAll(generateDataTest(3, DataPointNotifierType.ALARM, LoggingType.ALL, 1));
+        result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, LoggingType.ALL, 0));
         result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, LoggingType.ALL, 1));
         //result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ALL, 0));
         result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ALL, 1));
@@ -50,7 +47,7 @@ public class GetLivesNumberActivateInactivateServiceTest {
         result.addAll(generateDataTest(3, DataPointNotifierType.STORUNG, LoggingType.ON_CHANGE, 1));
         //result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ON_CHANGE, 0));
         result.addAll(generateDataTest(3, DataPointNotifierType.NONE, LoggingType.ON_CHANGE, 1));
-        */
+
         return result;
     }
 
@@ -102,14 +99,14 @@ public class GetLivesNumberActivateInactivateServiceTest {
 
     @After
     public void clean() {
-        //if(storungsAndAlarmsObjectsCreator != null)
-        //    storungsAndAlarmsObjectsCreator.deleteAlaramsAndDataPoints();
+        if(storungsAndAlarmsObjectsCreator != null)
+            storungsAndAlarmsObjectsCreator.deleteAlaramsAndDataPoints();
     }
 
     @AfterClass
     public static void cleanAll() {
-       // if(dataSourcePointObjectsCreator != null)
-       //     dataSourcePointObjectsCreator.deleteObjects();
+        if(dataSourcePointObjectsCreator != null)
+            dataSourcePointObjectsCreator.deleteObjects();
     }
 
     @Test

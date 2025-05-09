@@ -2,7 +2,7 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.exports;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.auto.tasks.Task;
 import org.scadalts.e2e.test.impl.utils.JsonUtil;
@@ -17,7 +17,7 @@ public class ExportDataSourcesWithEnabledToJsonTask implements Task {
     @Override
     public void execute() {
 
-        List<UpdateDataSourceCriteria> criterias =  navigationPage.openDataSources().getDataSources();
+        List<DataSourceCriteria> criterias =  navigationPage.openDataSources().getDataSources();
         JsonUtil.serialize(criterias, "export/datasource/criterias.json");
     }
 

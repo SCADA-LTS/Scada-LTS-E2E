@@ -4,7 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.criterias.json.DataSourceCriteriaJson;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
@@ -26,7 +26,7 @@ public class DataSourcesChecker {
         return JsonUtil.deserialize("export/datasource/criterias.json");
     }
 
-    private final UpdateDataSourceCriteria criteria;
+    private final DataSourceCriteria criteria;
 
     public DataSourcesChecker(DataSourceCriteriaJson dataSourceCriteriaJson) {
         this.criteria = dataSourceCriteriaJson.toDataSourceSecondCriteria();

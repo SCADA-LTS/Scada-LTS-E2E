@@ -42,7 +42,7 @@ public class DataPointTextRendererPropertiesServiceTest {
                         .build(),
                 DataPointTextRendererProperties.builder()
                         .textRendererType(TextRendererType.ANALOG)
-                        .format("yyyy-MM-dd")
+                        .format("#.#")
                         .suffix("suffix2")
                         .build(),
                 DataPointTextRendererProperties.builder()
@@ -170,11 +170,20 @@ public class DataPointTextRendererPropertiesServiceTest {
 
         dataPointObjectsCreator = new VirtualDataPointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataPointObjectsCreator.createObjects();
-        DataPointPropertiesPage dataPointPropertiesPage = editDataSourceWithPointListPage
-                .openDataPointProperties(dataPointCriteria.getIdentifier());
+        DataPointPropertiesPage dataPointPropertiesPage;
+        try {
+            dataPointPropertiesPage = editDataSourceWithPointListPage
+                    .openDataPointProperties(dataPointCriteria.getIdentifier());
+        } catch (Throwable ex) {
+            dataPointPropertiesPage = dataSourcePointObjectsCreator.openPage()
+                    .openDataSourceEditor(dataSourcePointCriteria.getDataSource().getIdentifier())
+                    .openDataPointProperties(dataPointCriteria.getIdentifier());
+        }
 
         dataPointObjectsCreator.setProperties(dataPointProperties,
                 dataPointCriteria.getIdentifier().getType(), dataPointPropertiesPage);
+
+        dataPointPropertiesPage.editDataSource();
 
     }
 

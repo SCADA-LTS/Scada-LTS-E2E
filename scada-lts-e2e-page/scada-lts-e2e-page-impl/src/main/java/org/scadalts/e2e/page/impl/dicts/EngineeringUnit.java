@@ -8,6 +8,30 @@ public interface EngineeringUnit extends DictionaryObject {
     String getUnitSuffix();
     String getUnitKey();
 
+    static EngineeringUnit any() {
+        return new EngineeringUnit() {
+            @Override
+            public int getUnitValue() {
+                return -1;
+            }
+
+            @Override
+            public String getUnitName() {
+                return "";
+            }
+
+            @Override
+            public String getUnitSuffix() {
+                return "";
+            }
+
+            @Override
+            public String getUnitKey() {
+                return "";
+            }
+        };
+    }
+
     @Override
     default String getId() {
         return String.valueOf(getUnitValue());

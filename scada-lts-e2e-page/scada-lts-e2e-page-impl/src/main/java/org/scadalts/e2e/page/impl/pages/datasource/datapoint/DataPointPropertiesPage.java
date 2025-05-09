@@ -398,7 +398,7 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         return EngineeringUnitsType.getType(label, option.getText());
     }
 
-    public DataPointPropertiesPage selectEngineeringUnit(DictionaryObject engineeringUnit) {
+    public DataPointPropertiesPage selectEngineeringUnit(EngineeringUnit engineeringUnit) {
         selectOption(engineeringUnitsSelect, engineeringUnit);
         return this;
     }

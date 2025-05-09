@@ -8,7 +8,7 @@ import static org.scadalts.e2e.test.impl.utils.Converter.convert;
 
 public class DataPointTextRendererPropertiesAdapter extends DataPointTextRendererProperties {
     DataPointTextRendererPropertiesAdapter(TextRenderer textRenderer) {
-        super(TextRendererType.getType(textRenderer.getType()),
+        super(TextRendererType.getType((String)textRenderer.getDef().get("exportName")),
                 textRenderer.getSuffix(),
                 textRenderer.getFormat(),
                 textRenderer.getConversionExponent(),

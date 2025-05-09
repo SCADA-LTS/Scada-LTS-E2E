@@ -13,12 +13,12 @@ import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 public class PointLinksObjectsCreator implements CreatorObject<PointLinksPage, PointLinksPage> {
 
     private NavigationPage navigationPage;
-    private final PointLinkCriteria[] pointLinkCriterias;
+    private final PointLinkCriteria<?,?>[] pointLinkCriterias;
 
     @Getter
     private PointLinksPage pointLinksPage;
 
-    public PointLinksObjectsCreator(NavigationPage navigationPage, PointLinkCriteria... pointLinkCriterias) {
+    public PointLinksObjectsCreator(NavigationPage navigationPage, PointLinkCriteria<?,?>... pointLinkCriterias) {
         this.pointLinkCriterias = pointLinkCriterias;
         this.navigationPage = navigationPage;
     }
@@ -35,7 +35,7 @@ public class PointLinksObjectsCreator implements CreatorObject<PointLinksPage, P
     @Override
     public PointLinksPage createObjects() {
         PointLinksPage pointLinksPage = openPage();
-        for (PointLinkCriteria criteria : pointLinkCriterias) {
+        for (PointLinkCriteria<?,?> criteria : pointLinkCriterias) {
             if(!pointLinksPage.containsObject(criteria.getIdentifier())) {
 
                 logger.info("creating object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),

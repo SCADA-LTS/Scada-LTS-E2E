@@ -104,12 +104,13 @@ public abstract class DataPointObjectsCreator<S extends DataSourceCriteria, P ex
         DataPointProperties dataPointProperties = dataPointCriteria.getDataPointProperties();
         if(!dataPointProperties.isEmpty()) {
             DataPointPropertiesPage dataPointPropertiesPage = editDataPointPage.openDataPointProperties(dataPointCriteria.getIdentifier());
-            setProperties(dataPointProperties, dataPointCriteria.getIdentifier().getType(),
-                    dataPointPropertiesPage);
+            setProperties(dataPointProperties, dataPointCriteria.getIdentifier().getType(), dataPointPropertiesPage);
+
+            dataPointPropertiesPage.editDataSource();
         }
     }
 
-    public EditDataSourceWithPointListPage setProperties(DataPointProperties dataPointProperties,
+    public DataPointPropertiesPage setProperties(DataPointProperties dataPointProperties,
                                                          DataPointType dataPointType,
                                                          DataPointPropertiesPage dataPointPropertiesPage) {
 
@@ -131,9 +132,7 @@ public abstract class DataPointObjectsCreator<S extends DataSourceCriteria, P ex
         if(dataPointType == DataPointType.NUMERIC) {
             dataPointPropertiesPage.selectEngineeringUnit(dataPointProperties.getEngineeringUnits());
         }
-        return dataPointPropertiesPage.saveDataPoint()
-                .editDataSource();
-
+        return dataPointPropertiesPage.saveDataPoint();
     }
 
     @Override
@@ -204,8 +203,9 @@ public abstract class DataPointObjectsCreator<S extends DataSourceCriteria, P ex
             dataPointPropertiesPage.setTextRendererFormat(textRenderer.getFormat());
 
         if (textRendererType == TextRendererType.PLAIN
-                || textRendererType == TextRendererType.ANALOG)
+                || textRendererType == TextRendererType.ANALOG) {
             dataPointPropertiesPage.setTextRendererSuffix(textRenderer.getSuffix());
+        }
 
         if (textRendererType == TextRendererType.RANGE) {
             for (RangeValue rangeValue : textRenderer.getRangeValues()) {

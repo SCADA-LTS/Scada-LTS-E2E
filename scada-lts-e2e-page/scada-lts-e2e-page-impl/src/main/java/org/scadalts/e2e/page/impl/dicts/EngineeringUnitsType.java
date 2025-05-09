@@ -27,7 +27,7 @@ public class EngineeringUnitsType {
         KILOWATT_HOURS_PER_SQUARE_FOOT(138, "kilowatt hours per square foot", "kWh/ft\u00B2"),
         MEGAJOULES_PER_SQUARE_METER(139, "megajoules per square meter", "MJ/m\u00B2"),
         MEGAJOULES_PER_SQUARE_FOOT(140, "megajoules per square foot", "MJ/ft\u00B2"),
-        NO_UNITS(95, "", "") {
+        NO_UNITS(95, "no units", "") {
             @Override
             public String getUnitSuffix() {
                 return "";
@@ -1174,7 +1174,7 @@ public class EngineeringUnitsType {
     }
 
     public static EngineeringUnit getType(String groupName, String unitName) {
-        logger.info("Searching for unit: groupName: {}, unitName: {}", groupName, unitName);
+        logger.info("Searching for unit: unitName: {}", unitName);
         String className = _getClassName(groupName);
         Class<?> key = _getClass(className);
         EngineeringUnit engineeringUnit = _getUnits(key, getUnitsGroupByKey()).stream()
@@ -1182,20 +1182,20 @@ public class EngineeringUnitsType {
                         .equalsIgnoreCase(_preparingUnitName(unitName.trim())))
                 .findFirst()
                 .orElse(Other.NO_UNITS);
-        logger.info("Found unit: groupName: {}, unitName: {}, unitSuffix: {}", className,
-                engineeringUnit.getUnitName(), engineeringUnit.getUnitSuffix());
+        logger.info("Found unit: unitName: {}, unitId: {}, unitSuffix: {}",
+                engineeringUnit.getUnitName(), engineeringUnit.getId(), engineeringUnit.getUnitSuffix());
         return engineeringUnit;
     }
 
     public static EngineeringUnit getType(String groupName, int unitId) {
-        logger.info("Searching for unit: groupName: {}, unitId: {}", groupName, unitId);
+        logger.info("Searching for unit: unitId: {}", unitId);
         String className = _getClassName(groupName);
         Class<?> key = _getClass(className);
         EngineeringUnit engineeringUnit = _getUnits(key, getUnitsGroupByKey()).stream()
                 .filter(unit -> unit.getId().equalsIgnoreCase(String.valueOf(unitId)))
                 .findFirst()
                 .orElse(Other.NO_UNITS);
-        logger.info("Found unit: groupName: {}, unitName: {}, unitSuffix: {}", className,
+        logger.info("Found unit: unitId: {}, unitName: {}, unitSuffix: {}", engineeringUnit.getId(),
                 engineeringUnit.getUnitName(), engineeringUnit.getUnitSuffix());
         return engineeringUnit;
     }
