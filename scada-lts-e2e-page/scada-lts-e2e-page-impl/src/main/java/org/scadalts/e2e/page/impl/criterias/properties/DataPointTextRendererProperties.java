@@ -30,7 +30,7 @@ public class DataPointTextRendererProperties {
                 .rangeValues(rangeValues)
                 .conversionExponent(conversionExponent)
                 .format(format)
-                .suffix(textRendererType == TextRendererType.ANALOG ? " " + engineeringUnit.getUnitSuffix() : "")
+                .suffix(textRendererType == TextRendererType.ANALOG || textRendererType == TextRendererType.PLAIN ? " " + engineeringUnit.getUnitSuffix() : "")
                 .textRendererType(textRendererType)
                 .build();
     }

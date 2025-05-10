@@ -39,6 +39,6 @@ public interface EngineeringUnit extends DictionaryObject {
 
     @Override
     default String getName() {
-        return getUnitName() + " " + getUnitSuffix();
+        return getUnitSuffix().isEmpty() ? getUnitName() : getUnitName() + " " + getUnitSuffix();
     }
 }

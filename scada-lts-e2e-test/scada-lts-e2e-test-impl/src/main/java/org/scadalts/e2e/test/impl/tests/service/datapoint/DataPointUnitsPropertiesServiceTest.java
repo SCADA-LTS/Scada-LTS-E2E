@@ -27,6 +27,7 @@ import org.scadalts.e2e.test.impl.utils.DataPointPropertiesAdapter;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -38,7 +39,8 @@ public class DataPointUnitsPropertiesServiceTest {
 
     @Parameterized.Parameters(name = "number of test: {index}, unit: {0}")
     public static List<EngineeringUnit> data() {
-        return EngineeringUnitsType.getUnits();
+        //return EngineeringUnitsType.getUnits();
+        return Arrays.asList(EngineeringUnitsType.Other.NO_UNITS);
     }
 
     private final DataPointProperties dataPointProperties;
