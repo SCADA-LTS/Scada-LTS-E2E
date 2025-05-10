@@ -4,8 +4,8 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
 import org.scadalts.e2e.page.impl.dicts.LoggingType;
@@ -36,9 +36,9 @@ public class GetLivesNumberOnChangePerformanceTest {
     @BeforeClass
     public static void setup() {
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
-        DataSourceCriteria dataSource = DataSourceCriteria.virtualDataSourceSecond();
+        UpdateDataSourceCriteria dataSource = UpdateDataSourceCriteria.virtualDataSourceSecond();
 
-        DataPointCriteria dataPoint = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
+        VirtualDataPointCriteria dataPoint = VirtualDataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
                 String.valueOf(testDataBatch.getStartValue()),
                 DataPointLoggingProperties.logging(testDataBatch.getLoggingType()));
 

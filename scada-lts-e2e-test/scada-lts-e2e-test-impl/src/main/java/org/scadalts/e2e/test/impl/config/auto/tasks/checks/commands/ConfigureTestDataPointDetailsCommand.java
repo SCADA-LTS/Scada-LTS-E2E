@@ -4,9 +4,9 @@ import lombok.Data;
 import lombok.NonNull;
 import org.scadalts.e2e.common.core.exceptions.ConfigureTestException;
 import org.scadalts.e2e.common.core.utils.ExecutorUtil;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
@@ -17,9 +17,7 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegister;
 import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegisterAggregator;
-import org.scadalts.e2e.test.impl.creators.DataPointObjectsCreator;
-import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
-import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.*;
 import org.scadalts.e2e.test.impl.tests.check.datapoint.DataPointDetailsCheckTestsSuite;
 
 @Data
@@ -36,28 +34,27 @@ public class ConfigureTestDataPointDetailsCommand implements Command<DataPointDe
     }
 
     private void _execute() {
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.criteriaSecond(new DataSourceIdentifier(TestImplConfiguration.dataSourceName, DataSourceType.VIRTUAL_DATA_SOURCE));
-        DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(new DataPointIdentifier(TestImplConfiguration.dataPointName, DataPointType.NUMERIC));
-        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
+        UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.criteriaSecond(new DataSourceIdentifier(TestImplConfiguration.dataSourceName, DataSourceType.VIRTUAL_DATA_SOURCE));
+        VirtualDataPointCriteria dataPointCriteria = VirtualDataPointCriteria.noChange(new DataPointIdentifier(TestImplConfiguration.dataPointName, DataPointType.NUMERIC));
+        VirtualDataSourcePointCriteria dataSourcePointCriteria = VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria);
         WatchListCriteria watchListCriteria = WatchListCriteria.criteria(new WatchListIdentifier(TestImplConfiguration.watchListName), dataSourcePointCriteria.getIdentifier());
 
-        try (CriteriaRegister criteriaRegister = new CriteriaRegister(getClassTest())) {
-
-            criteriaRegister.register(DataSourceCriteria.class, dataSourceCriteria);
-            criteriaRegister.register(DataPointCriteria.class, dataPointCriteria);
-            criteriaRegister.register(DataSourcePointCriteria.class, dataSourcePointCriteria);
-            criteriaRegister.register(WatchListCriteria.class, watchListCriteria);
-
-        }
-
-        DataSourcePointObjectsCreator dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
+        DataSourcePointObjectsCreator dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcePointObjectsCreator.createObjects();
 
-        DataPointObjectsCreator dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage, dataSourcePointCriteria);
+        DataPointObjectsCreator dataPointObjectsCreator = new VirtualDataPointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataPointObjectsCreator.createObjects();
 
         WatchListObjectsCreator watchListObjectsCreator = new WatchListObjectsCreator(navigationPage, watchListCriteria);
         watchListObjectsCreator.createObjects();
+
+        try (CriteriaRegister criteriaRegister = new CriteriaRegister(getClassTest())) {
+
+            criteriaRegister.register(UpdateDataSourceCriteria.class, dataSourceCriteria);
+            criteriaRegister.register(VirtualDataPointCriteria.class, dataPointCriteria);
+            criteriaRegister.register(VirtualDataSourcePointCriteria.class, dataSourcePointCriteria);
+            criteriaRegister.register(WatchListCriteria.class, watchListCriteria);
+        }
     }
 
     @Override

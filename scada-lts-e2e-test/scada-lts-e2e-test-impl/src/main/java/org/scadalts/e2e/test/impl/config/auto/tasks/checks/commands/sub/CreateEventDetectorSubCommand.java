@@ -3,9 +3,9 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.sub;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventDetectorIdentifier;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
@@ -17,8 +17,8 @@ import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
 public class CreateEventDetectorSubCommand implements SubCommand<EventDetectorCriteria> {
 
     private final @NonNull NavigationPage navigationPage;
-    private final @NonNull DataSourceCriteria dataSourceCriteria;
-    private final @NonNull DataPointCriteria dataPointCriteria;
+    private final @NonNull UpdateDataSourceCriteria dataSourceCriteria;
+    private final @NonNull VirtualDataPointCriteria dataPointCriteria;
     private final @NonNull EventDetectorIdentifier eventDetectorIdentifier;
     private final @NonNull AlarmLevel alarmLevel;
 
@@ -26,7 +26,7 @@ public class CreateEventDetectorSubCommand implements SubCommand<EventDetectorCr
     public EventDetectorCriteria execute() {
 
         EventDetectorCriteria eventDetectorCriteria = EventDetectorCriteria.criteria(eventDetectorIdentifier, alarmLevel,
-                DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
+                VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria));
         EventDetectorObjectsCreator eventDetectorObjectsCreator =
                 new EventDetectorObjectsCreator(navigationPage, eventDetectorCriteria);
         eventDetectorObjectsCreator.createObjects();

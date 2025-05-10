@@ -395,10 +395,10 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         SelenideElement optgroup = findObject(NodeCriteria.withNode(optgroup(), option(), selected()), engineeringUnitsSelect);
         String label = optgroup.getAttribute("label");
         SelenideElement option = findObject(NodeCriteria.every(option(), selected()), optgroup);
-        return EngineeringUnit.getType(label, option.getText());
+        return EngineeringUnitsType.getType(label, option.getText());
     }
 
-    public DataPointPropertiesPage selectEngineeringUnit(DictionaryObject engineeringUnit) {
+    public DataPointPropertiesPage selectEngineeringUnit(EngineeringUnit engineeringUnit) {
         selectOption(engineeringUnitsSelect, engineeringUnit);
         return this;
     }

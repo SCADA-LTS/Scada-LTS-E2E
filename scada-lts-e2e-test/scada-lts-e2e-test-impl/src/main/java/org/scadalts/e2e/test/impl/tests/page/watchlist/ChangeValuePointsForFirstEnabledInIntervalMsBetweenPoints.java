@@ -3,8 +3,8 @@ package org.scadalts.e2e.test.impl.tests.page.watchlist;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
@@ -12,9 +12,7 @@ import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
-import org.scadalts.e2e.test.impl.creators.DataPointObjectsCreator;
-import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
-import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.*;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.junit.Assert.assertEquals;
@@ -35,30 +33,30 @@ public class ChangeValuePointsForFirstEnabledInIntervalMsBetweenPoints {
         this.interval = interval;
     }
 
-    private static DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-    private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
+    private static UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
+    private static VirtualDataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private WatchListObjectsCreator watchListObjectsCreator;
     private WatchListPage watchListPage;
 
     private DataSourcePointIdentifier dataSourcePointIdentifier1;
     private DataSourcePointIdentifier dataSourcePointIdentifier2;
-    private DataPointObjectsCreator dataPointObjectsCreator;
+    private VirtualDataPointObjectsCreator dataPointObjectsCreator;
     private static NavigationPage navigationPage;
 
     @BeforeClass
     public static void createDataSource() {
         navigationPage = TestWithPageUtil.openNavigationPage();
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourceCriteria);
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourceCriteria);
         dataSourcePointObjectsCreator.createObjects();
     }
 
     @Before
     public void setUp() {
 
-        DataPointCriteria point1 = DataPointCriteria.noChange(IdentifierObjectFactory.dataPointName(DataPointType.BINARY),"0", false);
-        DataPointCriteria point2 = DataPointCriteria.noChange(IdentifierObjectFactory.dataPointName(DataPointType.BINARY), "0", false);
+        VirtualDataPointCriteria point1 = VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointName(DataPointType.BINARY),"0", false);
+        VirtualDataPointCriteria point2 = VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointName(DataPointType.BINARY), "0", false);
 
-        dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage, dataSourceCriteria, point1, point2);
+        dataPointObjectsCreator = new VirtualDataPointObjectsCreator(navigationPage, dataSourceCriteria, point1, point2);
         EditDataSourceWithPointListPage page = dataPointObjectsCreator.createObjects();
 
         if(interval != 0) {

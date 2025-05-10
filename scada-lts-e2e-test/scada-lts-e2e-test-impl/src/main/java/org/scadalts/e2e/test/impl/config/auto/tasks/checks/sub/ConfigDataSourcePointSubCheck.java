@@ -3,9 +3,9 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.sub;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
@@ -21,15 +21,15 @@ import static org.junit.Assert.assertEquals;
 public class ConfigDataSourcePointSubCheck implements SubCheck {
 
     private final @NonNull NavigationPage navigationPage;
-    private final @NonNull Set<DataSourcePointCriteria> dataSourcePointCriterias;
+    private final @NonNull Set<VirtualDataSourcePointCriteria> dataSourcePointCriterias;
 
-    public ConfigDataSourcePointSubCheck(@NonNull NavigationPage navigationPage, @NonNull Set<DataSourcePointCriteria> dataSourcePointCriterias) {
+    public ConfigDataSourcePointSubCheck(@NonNull NavigationPage navigationPage, @NonNull Set<VirtualDataSourcePointCriteria> dataSourcePointCriterias) {
         this.navigationPage = navigationPage;
         this.dataSourcePointCriterias = dataSourcePointCriterias;
     }
 
-    public ConfigDataSourcePointSubCheck(NavigationPage navigationPage, DataSourceCriteria dataSourceCriteria,
-                                         DataPointCriteria dataPointCriteria1, DataPointCriteria dataPointCriteria2) {
+    public ConfigDataSourcePointSubCheck(NavigationPage navigationPage, UpdateDataSourceCriteria dataSourceCriteria,
+                                         VirtualDataPointCriteria dataPointCriteria1, VirtualDataPointCriteria dataPointCriteria2) {
         this.navigationPage = navigationPage;
         this.dataSourcePointCriterias = _convert(dataSourceCriteria, dataPointCriteria1, dataPointCriteria2);
     }
@@ -39,9 +39,9 @@ public class ConfigDataSourcePointSubCheck implements SubCheck {
         logger.info("run... {}", this.getClass().getSimpleName());
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
 
-        for (DataSourcePointCriteria dataSourcePointCriteria : dataSourcePointCriterias) {
-            DataSourceCriteria dataSourceCriteria = dataSourcePointCriteria.getDataSource();
-            DataPointCriteria dataPointCriteria = dataSourcePointCriteria.getDataPoint();
+        for (VirtualDataSourcePointCriteria dataSourcePointCriteria : dataSourcePointCriterias) {
+            UpdateDataSourceCriteria dataSourceCriteria = dataSourcePointCriteria.getDataSource();
+            VirtualDataPointCriteria dataPointCriteria = dataSourcePointCriteria.getDataPoint();
 
             EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.reopen()
                     .waitForObject(dataSourceCriteria.getIdentifier())
@@ -64,11 +64,11 @@ public class ConfigDataSourcePointSubCheck implements SubCheck {
         }
     }
 
-    private Set<DataSourcePointCriteria> _convert(DataSourceCriteria dataSourceCriteria, DataPointCriteria dataPointCriteria1,
-                                                  DataPointCriteria dataPointCriteria2) {
-        Set<DataSourcePointCriteria> result = new HashSet<>();
-        result.add(DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria1));
-        result.add(DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria2));
+    private Set<VirtualDataSourcePointCriteria> _convert(UpdateDataSourceCriteria dataSourceCriteria, VirtualDataPointCriteria dataPointCriteria1,
+                                                         VirtualDataPointCriteria dataPointCriteria2) {
+        Set<VirtualDataSourcePointCriteria> result = new HashSet<>();
+        result.add(VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria1));
+        result.add(VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria2));
         return result;
     }
 }

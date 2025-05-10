@@ -16,6 +16,10 @@ public class Tag {
         return new Tag("td");
     }
 
+    public static Tag b() {
+        return new Tag("b");
+    }
+
     public static Tag tbody() {
         return new Tag("tbody");
     }

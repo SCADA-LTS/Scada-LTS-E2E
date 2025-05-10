@@ -2,7 +2,7 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegister;
@@ -23,7 +23,7 @@ public class ConfigForTestPointLinksCheck implements Check<ChangePointValueViaPo
 
         CriteriaRegister register = CriteriaRegister.getRegister(getClassTest(), new ConfigureTestPointLinksCommand(navigationPage));
 
-        Set<DataSourcePointCriteria> dataSourcePointCriterias = register.get(DataSourcePointCriteria.class);
+        Set<VirtualDataSourcePointCriteria> dataSourcePointCriterias = register.get(VirtualDataSourcePointCriteria.class);
         ConfigDataSourcePointSubCheck checkConfigDataSourcePointSubTask = new ConfigDataSourcePointSubCheck(navigationPage, dataSourcePointCriterias);
         checkConfigDataSourcePointSubTask.check();
 

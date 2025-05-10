@@ -6,8 +6,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
@@ -53,7 +53,7 @@ public class GetLivesPaginationOnChangeServiceTest {
     @BeforeClass
     public static void setup() {
 
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
+        UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
 
         DataPointIdentifier[] idnetifiers = new DataPointIdentifier[] {
 
@@ -70,10 +70,10 @@ public class GetLivesPaginationOnChangeServiceTest {
                 IdentifierObjectFactory.dataPointStorungBinaryTypeName(),
         };
 
-        DataPointCriteria[] points = Stream.of(idnetifiers)
-                .map(a -> DataPointCriteria.noChange(a, "0",
+        VirtualDataPointCriteria[] points = Stream.of(idnetifiers)
+                .map(a -> VirtualDataPointCriteria.noChange(a, "0",
                         DataPointLoggingProperties.logging(LoggingType.ON_CHANGE)))
-                .toArray(a -> new DataPointCriteria[10]);
+                .toArray(a -> new VirtualDataPointCriteria[10]);
 
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
 

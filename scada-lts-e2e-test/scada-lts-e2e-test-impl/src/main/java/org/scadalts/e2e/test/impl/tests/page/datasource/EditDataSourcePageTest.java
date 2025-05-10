@@ -3,11 +3,12 @@ package org.scadalts.e2e.test.impl.tests.page.datasource;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.dicts.UpdatePeriodType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.junit.Assert.assertEquals;
@@ -15,16 +16,16 @@ import static org.junit.Assert.assertNotEquals;
 
 public class EditDataSourcePageTest {
 
-    private DataSourceCriteria criteria;
-    private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
+    private UpdateDataSourceCriteria criteria;
+    private VirtualDataSourcePointObjectsCreator dataSourcePointObjectsCreator;
 
     private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
     private DataSourcesPage dataSourcesPage;
 
     @Before
     public void createDataSource() {
-        criteria = DataSourceCriteria.virtualDataSource(UpdatePeriodType.SECOND, 13);
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(), criteria);
+        criteria = UpdateDataSourceCriteria.virtualDataSource(UpdatePeriodType.SECOND, 13);
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(), criteria);
         dataSourcesPage = dataSourcePointObjectsCreator.openPage();
         editDataSourceWithPointListPageSubject = dataSourcePointObjectsCreator.createDataSources();
     }

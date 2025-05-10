@@ -26,23 +26,23 @@ public class CreatorUtil {
         navigationPage = navigation;
     }
 
-    public static DataSourcesPage create(DataSourceCriteria dataSourceCriteria,
-                                         DataPointCriteria dataPointCriteria) {
-        DataSourcePointObjectsCreator creator =
-                new DataSourcePointObjectsCreator(navigationPage, dataSourceCriteria, dataPointCriteria);
+    public static DataSourcesPage create(UpdateDataSourceCriteria dataSourceCriteria,
+                                         VirtualDataPointCriteria dataPointCriteria) {
+        VirtualDataSourcePointObjectsCreator creator =
+                new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourceCriteria, dataPointCriteria);
         creators.add(creator);
         return creator.createObjects();
     }
 
-    public static DataSourcesPage create(DataSourceCriteria criteria) {
-        DataSourcePointObjectsCreator creator =
-                new DataSourcePointObjectsCreator(navigationPage, criteria);
+    public static DataSourcesPage create(UpdateDataSourceCriteria criteria) {
+        VirtualDataSourcePointObjectsCreator creator =
+                new VirtualDataSourcePointObjectsCreator(navigationPage, criteria);
         creators.add(creator);
         return creator.createObjects();
     }
 
-    public static DataSourcesPage create(DataPointCriteria dataPointCriteria,
-                                         DataSourceCriteria dataSourceCriteria) {
+    public static DataSourcesPage create(VirtualDataPointCriteria dataPointCriteria,
+                                         UpdateDataSourceCriteria dataSourceCriteria) {
         return create(dataSourceCriteria, dataPointCriteria);
     }
 
@@ -81,9 +81,9 @@ public class CreatorUtil {
         return creator.createObjects();
     }
 
-    public static DataSourcesPage create(DataSourcePointCriteria criteria) {
-        DataSourcePointObjectsCreator creator =
-                new DataSourcePointObjectsCreator(navigationPage, criteria);
+    public static DataSourcesPage create(VirtualDataSourcePointCriteria criteria) {
+        VirtualDataSourcePointObjectsCreator creator =
+                new VirtualDataSourcePointObjectsCreator(navigationPage, criteria);
         creators.add(creator);
         return creator.createObjects();
     }

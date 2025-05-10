@@ -3,8 +3,8 @@ package org.scadalts.e2e.test.impl.tests.service.pointvalue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.EditDataPointPage;
@@ -13,6 +13,7 @@ import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 import org.scadalts.e2e.test.impl.config.TestImplConfiguration;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
@@ -23,14 +24,14 @@ public class PointValueServiceTest {
 
     private String dataPointXid;
     private String dataPointStartValue;
-    private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
+    private VirtualDataSourcePointObjectsCreator dataSourcePointObjectsCreator;
 
     @Before
     public void createDataSourceAndPoint() {
         dataPointStartValue = "1223.0";
-        DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(DataPointType.NUMERIC, dataPointStartValue);
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(),
+        VirtualDataPointCriteria dataPointCriteria = VirtualDataPointCriteria.noChange(DataPointType.NUMERIC, dataPointStartValue);
+        UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(),
                 dataSourceCriteria, dataPointCriteria);
         EditDataSourceWithPointListPage pointPage = dataSourcePointObjectsCreator.createObjects()
                 .openDataSourceEditor(dataSourceCriteria.getIdentifier());

@@ -14,6 +14,7 @@ import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointProperties
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -26,19 +27,19 @@ public class CreateEventDetectorPageTest {
     private static NavigationPage navigationPage;
     private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
 
-    private static DataSourceCriteria dataSourceCriteria;
-    private static DataPointCriteria dataPointCriteria;
-    private static DataSourcePointCriteria dataSourcePointCriteria;
+    private static UpdateDataSourceCriteria dataSourceCriteria;
+    private static VirtualDataPointCriteria dataPointCriteria;
+    private static VirtualDataSourcePointCriteria dataSourcePointCriteria;
     private EventDetectorCriteria eventDetectorCriteria;
 
     @BeforeClass
     public static void createDataSourcePoint() {
         navigationPage = TestWithPageUtil.openNavigationPage();
-        dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-        dataPointCriteria = DataPointCriteria.binaryNoChange();
-        dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
+        dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
+        dataPointCriteria = VirtualDataPointCriteria.binaryNoChange();
+        dataSourcePointCriteria = VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria);
 
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcesPage = dataSourcePointObjectsCreator.createObjects();
     }
 

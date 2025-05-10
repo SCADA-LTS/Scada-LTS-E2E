@@ -52,9 +52,9 @@ public class CriteriaRegister implements AutoCloseable {
 
     @Override
     public void close() {
-        criterias = Collections.unmodifiableMap(criterias);
         CriteriaRegisterAggregator criteriaRegisterAggregator = CriteriaRegisterAggregator.INSTANCE;
         criteriaRegisterAggregator.putRegister(tagetClass, this);
+        criterias = Collections.unmodifiableMap(criterias);
     }
 
     public void clear() {

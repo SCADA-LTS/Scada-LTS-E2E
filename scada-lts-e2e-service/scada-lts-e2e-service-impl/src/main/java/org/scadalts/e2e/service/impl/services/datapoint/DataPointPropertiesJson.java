@@ -24,7 +24,7 @@ public class DataPointPropertiesJson {
     private String purgeType = "";
     private PointLocator pointLocator = new PointLocator();
     private List<EventDetectorJson> eventDetectors = new ArrayList<>();
-    private String engineeringUnits = "";
+    private int engineeringUnits = -1;
     private String chartColour = "";
     private ChartRenderer chartRenderer = new ChartRenderer();
     private String dataSourceXid = "";

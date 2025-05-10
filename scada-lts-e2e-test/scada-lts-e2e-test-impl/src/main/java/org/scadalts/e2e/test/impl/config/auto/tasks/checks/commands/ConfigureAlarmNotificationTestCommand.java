@@ -35,25 +35,19 @@ public class ConfigureAlarmNotificationTestCommand implements Command<ConfigureA
 
         DataSourceIdentifier dataSourceIdentifier = IdentifierObjectFactory
                 .dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE);
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.criteria(dataSourceIdentifier,
+        UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.criteria(dataSourceIdentifier,
                 UpdatePeriodType.SECOND, 60, false);
 
-        Set<DataPointCriteria> dataPointCriterias = new HashSet<>();
+        Set<VirtualDataPointCriteria> dataPointCriterias = new HashSet<>();
         for(int i = 0; i < 30; i++) {
-            dataPointCriterias.add(DataPointCriteria.alternate(i % 2 == 0 ?
+            dataPointCriterias.add(VirtualDataPointCriteria.alternate(i % 2 == 0 ?
                     IdentifierObjectFactory.dataPointAlarmBinaryTypeName():
                     IdentifierObjectFactory.dataPointStorungBinaryTypeName()));
         }
 
         WatchListCriteria watchListCriteria = WatchListCriteria
                 .criteria(data(dataSourceCriteria, dataPointCriterias).toArray(
-                        new DataSourcePointCriteria[]{}));
-
-        try(CriteriaRegister criteriaRegister = new CriteriaRegister(getClassTest())) {
-            criteriaRegister.register(DataSourceCriteria.class, dataSourceCriteria);
-            criteriaRegister.register(DataPointCriteria.class, dataPointCriterias);
-            criteriaRegister.register(WatchListCriteria.class, watchListCriteria);
-        }
+                        new VirtualDataSourcePointCriteria[]{}));
 
         CreateOneDataSourceMultiPointsSubCommand createOneDataSourceMultiPointsSubCommand = CreateOneDataSourceMultiPointsSubCommand.builder()
                 .dataSource(dataSourceCriteria)
@@ -69,6 +63,12 @@ public class ConfigureAlarmNotificationTestCommand implements Command<ConfigureA
                 .build();
 
         createWatchListSubCommand.execute();
+
+        try(CriteriaRegister criteriaRegister = new CriteriaRegister(getClassTest())) {
+            criteriaRegister.register(UpdateDataSourceCriteria.class, dataSourceCriteria);
+            criteriaRegister.register(VirtualDataPointCriteria.class, dataPointCriterias);
+            criteriaRegister.register(WatchListCriteria.class, watchListCriteria);
+        }
     }
 
     @Override
@@ -81,10 +81,10 @@ public class ConfigureAlarmNotificationTestCommand implements Command<ConfigureA
         return this.getClass().getSimpleName();
     }
 
-    private List<DataSourcePointCriteria> data(DataSourceCriteria dataSourceCriteria, Set<DataPointCriteria> dataPointCriterias) {
-        List<DataSourcePointCriteria> result = new ArrayList<>();
-        for(DataPointCriteria dataPointCriteria: dataPointCriterias) {
-            result.add(DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
+    private List<VirtualDataSourcePointCriteria> data(UpdateDataSourceCriteria dataSourceCriteria, Set<VirtualDataPointCriteria> dataPointCriterias) {
+        List<VirtualDataSourcePointCriteria> result = new ArrayList<>();
+        for(VirtualDataPointCriteria dataPointCriteria: dataPointCriterias) {
+            result.add(VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria));
         }
         return result;
     }

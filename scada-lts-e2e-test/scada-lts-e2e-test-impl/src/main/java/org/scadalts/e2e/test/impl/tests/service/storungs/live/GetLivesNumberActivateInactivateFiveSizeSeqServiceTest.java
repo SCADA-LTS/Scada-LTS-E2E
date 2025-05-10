@@ -4,16 +4,16 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
 import org.scadalts.e2e.page.impl.dicts.LoggingType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.impl.services.storungs.PaginationParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
-import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.StorungsAndAlarmsObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.TestDataBatch;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
@@ -48,8 +48,8 @@ public class GetLivesNumberActivateInactivateFiveSizeSeqServiceTest {
     private PaginationParams paginationParams = PaginationParams.all();
 
 
-    private static DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-    private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
+    private static UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
+    private static VirtualDataSourcePointObjectsCreator dataSourcePointObjectsCreator;
 
     private StorungsAndAlarmsObjectsCreator storungsAndAlarmsObjectsCreator;
 
@@ -58,7 +58,7 @@ public class GetLivesNumberActivateInactivateFiveSizeSeqServiceTest {
     @BeforeClass
     public static void createDataSource() {
         navigationPage = TestWithPageUtil.openNavigationPage();
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourceCriteria);
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourceCriteria);
         dataSourcePointObjectsCreator.createObjects();
     }
 
@@ -66,7 +66,7 @@ public class GetLivesNumberActivateInactivateFiveSizeSeqServiceTest {
     public void setup() {
         navigationPage = TestWithPageUtil.openNavigationPage(dataSourcePointObjectsCreator);
 
-        DataPointCriteria point = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
+        VirtualDataPointCriteria point = VirtualDataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
                 String.valueOf(testDataBatch.getStartValue()),
                 DataPointLoggingProperties.logging(testDataBatch.getLoggingType()));
 

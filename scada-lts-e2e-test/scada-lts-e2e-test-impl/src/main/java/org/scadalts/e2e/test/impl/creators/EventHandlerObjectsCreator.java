@@ -32,13 +32,19 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
         EventHandlersPage eventHandlersPage = openPage();
         for (EventHandlerCriteria criteria: eventHandlerCriterias) {
             if(eventHandlersPage.containsObject(criteria)) {
-                logger.info("delete object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+
+                logger.info("deleting object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getIdentifier().getType(), criteria.getXid().getValue(),
                         criteria.getClass().getSimpleName());
+
                 eventHandlersPage
                         .openEventHandlerEditor(criteria)
                         .deleteEventHandler()
                         .reopen();
+
+                logger.info("deleted object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getIdentifier().getType(), criteria.getXid().getValue(),
+                        criteria.getClass().getSimpleName());
             }
         }
         for(EventDetectorObjectsCreator creator: eventDetectorObjectsCreators) {
@@ -55,9 +61,11 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
         EventHandlersPage eventHandlersPage = openPage();
         for (EventHandlerCriteria criteria: eventHandlerCriterias) {
             if(!eventHandlersPage.containsObject(criteria)) {
-                logger.info("create object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+
+                logger.info("creating object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getIdentifier().getType(), criteria.getXid().getValue(),
                         criteria.getClass().getSimpleName());
+
                 eventHandlersPage.openEventHandlerCreator(criteria.getEventDetectorCriteria())
                         .acceptAlertOnPageSlow()
                         .setEventHandlerType(criteria.getIdentifier().getType())
@@ -67,6 +75,10 @@ public class EventHandlerObjectsCreator implements CreatorObject<EventHandlersPa
                         .setActiveScriptCommand(criteria.getActiveScript())
                         .saveEventHandler()
                         .waitForObject(criteria.getIdentifier());
+
+                logger.info("created object: {}, type: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getIdentifier().getType(), criteria.getXid().getValue(),
+                        criteria.getClass().getSimpleName());
             }
             eventHandlersPage.reopen();
         }

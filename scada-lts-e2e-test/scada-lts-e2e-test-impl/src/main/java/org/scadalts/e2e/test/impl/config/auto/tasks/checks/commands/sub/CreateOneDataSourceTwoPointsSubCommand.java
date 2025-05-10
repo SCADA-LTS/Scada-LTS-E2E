@@ -2,25 +2,25 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.sub;
 
 import lombok.Builder;
 import lombok.NonNull;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.impl.creators.DataPointObjectsCreator;
-import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataPointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 
 @Builder
-public class CreateOneDataSourceTwoPointsSubCommand implements SubCommand<DataSourceCriteria> {
+public class CreateOneDataSourceTwoPointsSubCommand implements SubCommand<UpdateDataSourceCriteria> {
 
     private final @NonNull NavigationPage navigationPage;
-    private final @NonNull DataSourceCriteria dataSource;
-    private final @NonNull DataPointCriteria dataPoint1;
-    private final @NonNull DataPointCriteria dataPoint2;
+    private final @NonNull UpdateDataSourceCriteria dataSource;
+    private final @NonNull VirtualDataPointCriteria dataPoint1;
+    private final @NonNull VirtualDataPointCriteria dataPoint2;
 
     private CreateOneDataSourceTwoPointsSubCommand(@NonNull NavigationPage navigationPage,
-                                                   @NonNull DataSourceCriteria dataSource,
-                                                   @NonNull DataPointCriteria dataPoint1,
-                                                   @NonNull DataPointCriteria dataPoint2) {
+                                                   @NonNull UpdateDataSourceCriteria dataSource,
+                                                   @NonNull VirtualDataPointCriteria dataPoint1,
+                                                   @NonNull VirtualDataPointCriteria dataPoint2) {
         this.navigationPage = navigationPage;
         this.dataSource = dataSource;
         this.dataPoint1 = dataPoint1;
@@ -28,20 +28,20 @@ public class CreateOneDataSourceTwoPointsSubCommand implements SubCommand<DataSo
     }
 
     @Override
-    public DataSourceCriteria execute() {
+    public UpdateDataSourceCriteria execute() {
 
-        DataSourcePointCriteria dataSourcePoint1 = DataSourcePointCriteria
-                .criteria(dataSource, dataPoint1);
-        DataSourcePointCriteria dataSourcePoint2 = DataSourcePointCriteria
-                .criteria(dataSource, dataPoint2);
+        VirtualDataSourcePointCriteria dataSourcePoint1 = VirtualDataSourcePointCriteria
+                .virtualCriteria(dataSource, dataPoint1);
+        VirtualDataSourcePointCriteria dataSourcePoint2 = VirtualDataSourcePointCriteria
+                .virtualCriteria(dataSource, dataPoint2);
 
-        DataSourcePointObjectsCreator dataSourcePointObjectsCreator =
-                new DataSourcePointObjectsCreator(navigationPage, dataSourcePoint1,
+        VirtualDataSourcePointObjectsCreator dataSourcePointObjectsCreator =
+                new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourcePoint1,
                         dataSourcePoint2);
 
         dataSourcePointObjectsCreator.createObjects();
 
-        DataPointObjectsCreator dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage,
+        VirtualDataPointObjectsCreator dataPointObjectsCreator = new VirtualDataPointObjectsCreator(navigationPage,
                 dataSource, dataPoint1, dataPoint2);
         dataPointObjectsCreator.createObjects();
 

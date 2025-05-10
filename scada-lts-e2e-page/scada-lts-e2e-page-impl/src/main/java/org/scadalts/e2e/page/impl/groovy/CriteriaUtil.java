@@ -5,37 +5,37 @@ import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
 
 public class CriteriaUtil {
 
-    public static DataPointCriteria dataPoint() {
-        return DataPointCriteria.binaryNoChange();
+    public static VirtualDataPointCriteria virtualDataPoint() {
+        return VirtualDataPointCriteria.binaryNoChange();
     }
 
-    public static DataPointCriteria dataPointBinary() {
-        return dataPoint();
+    public static VirtualDataPointCriteria virtualDataPointBinary() {
+        return virtualDataPoint();
     }
 
-    public static DataPointCriteria dataPointNumeric() {
-        return DataPointCriteria.numericNoChange();
+    public static VirtualDataPointCriteria virtualDataPointNumeric() {
+        return VirtualDataPointCriteria.numericNoChange();
     }
 
-    public static DataSourceCriteria dataSource() {
-        return DataSourceCriteria.virtualDataSourceSecond();
+    public static UpdateDataSourceCriteria virtualDataSource() {
+        return UpdateDataSourceCriteria.virtualDataSourceSecond();
     }
 
-    public static DataSourcePointCriteria dataSourcePoint() {
-        return DataSourcePointCriteria.virtualDataSourceNumericNoChange();
+    public static DataSourcePointCriteria<UpdateDataSourceCriteria, VirtualDataPointCriteria> virtualDataSourcePoint() {
+        return VirtualDataSourcePointCriteria.virtualDataSourceNumericNoChange();
     }
 
-    public static DataSourcePointCriteria dataSourcePoint(DataSourceCriteria dataSourceCriteria,
-                                                          DataPointCriteria dataPointCriteria) {
-        return DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
+    public static DataSourcePointCriteria<UpdateDataSourceCriteria, VirtualDataPointCriteria> virtualDataSourcePoint(UpdateDataSourceCriteria dataSourceCriteria,
+                                                                                                                     VirtualDataPointCriteria dataPointCriteria) {
+        return VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria);
     }
 
-    public static DataSourcePointCriteria dataSourcePoint(DataPointCriteria dataPointCriteria,
-                                                          DataSourceCriteria dataSourceCriteria) {
-        return DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
+    public static DataSourcePointCriteria<UpdateDataSourceCriteria, VirtualDataPointCriteria> virtualDataSourcePoint(VirtualDataPointCriteria dataPointCriteria,
+                                                                                                                     UpdateDataSourceCriteria dataSourceCriteria) {
+        return VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria);
     }
 
-    public static EventDetectorCriteria eventDetector(DataSourcePointCriteria dataSourcePointCriteria) {
+    public static EventDetectorCriteria eventDetector(VirtualDataSourcePointCriteria dataSourcePointCriteria) {
         return EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria);
     }
 
