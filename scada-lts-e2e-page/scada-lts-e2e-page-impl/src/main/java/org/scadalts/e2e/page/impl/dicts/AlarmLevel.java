@@ -29,9 +29,9 @@ public enum AlarmLevel implements DictionaryObject {
                 .orElse(NONE);
     }
 
-    public static AlarmLevel getType(String id) {
+    public static AlarmLevel getType(int id) {
         return Stream.of(AlarmLevel.values())
-                .filter(a -> a.id.equalsIgnoreCase(id))
+                .filter(a -> a.id.equalsIgnoreCase(String.valueOf(id)))
                 .findFirst()
                 .orElse(NONE);
     }

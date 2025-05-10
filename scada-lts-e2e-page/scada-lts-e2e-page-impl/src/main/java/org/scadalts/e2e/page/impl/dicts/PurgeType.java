@@ -8,20 +8,29 @@ import java.util.stream.Stream;
 @Getter
 public enum PurgeType implements DictionaryObject {
 
-    DAYS("day(s)"),
-    WEEKS("week(s)"),
-    MONTHS("month(s)"),
-    YEARS("year(s)");
+    DAYS(PeriodType.DAYS),
+    WEEKS(PeriodType.WEEKS),
+    MONTHS(PeriodType.MONTHS),
+    YEARS(PeriodType.YEARS);
 
     private final String name;
+    private final String id;
 
-    PurgeType(String name) {
-        this.name = name;
+    PurgeType(PeriodType name) {
+        this.name = name.getName();
+        this.id = name.getId();
     }
 
     public static PurgeType getType(String typeName) {
         return Stream.of(PurgeType.values())
                 .filter(a -> a.name().equalsIgnoreCase(typeName))
+                .findFirst()
+                .orElse(YEARS);
+    }
+
+    public static PurgeType getType(int id) {
+        return Stream.of(PurgeType.values())
+                .filter(a -> a.id.equalsIgnoreCase(String.valueOf(id)))
                 .findFirst()
                 .orElse(YEARS);
     }

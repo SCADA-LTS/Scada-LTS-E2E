@@ -12,7 +12,8 @@ public enum PeriodType implements DictionaryObject {
     HOURS("hour(s)", "3"),
     DAYS("day(s)", "4"),
     WEEKS("week(s)", "5"),
-    MONTHS("month(s)", "6");
+    MONTHS("month(s)", "6"),
+    YEARS("year(s)", "7");
 
     private final String name;
     private final String id;
