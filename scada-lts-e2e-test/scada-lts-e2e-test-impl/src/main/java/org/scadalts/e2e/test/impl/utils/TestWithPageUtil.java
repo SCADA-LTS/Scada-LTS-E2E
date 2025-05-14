@@ -163,7 +163,7 @@ public class TestWithPageUtil {
             String body = loginPage.getBodyText();
 
             if (body != null && body.contains("Connection refused")) {
-                throw new ApplicationIsNotAvailableException("");
+                throw new ApplicationIsNotAvailableException(E2eConfiguration.baseUrl + LoginPage.getUrlRef(), "");
             }
             return loginPage.setUserName(E2eConfiguration.username)
                     .setPassword(E2eConfiguration.password)
@@ -172,7 +172,7 @@ public class TestWithPageUtil {
             throw new ApplicationTooHighLoadException(E2eConfiguration.baseUrl + LoginPage.getUrlRef(), Configuration.pageLoadTimeout);
         } catch (Throwable th) {
             logger.warn(th.getMessage(), th);
-            throw new ApplicationIsNotAvailableException("");
+            throw new ApplicationIsNotAvailableException(E2eConfiguration.baseUrl + LoginPage.getUrlRef(), "");
         }
     }
 

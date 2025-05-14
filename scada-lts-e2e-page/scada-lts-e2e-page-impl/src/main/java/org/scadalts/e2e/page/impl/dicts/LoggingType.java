@@ -12,7 +12,8 @@ public enum LoggingType implements DictionaryObject {
     ALL("All data", "2"),
     NONE("Do not log", "3"),
     INTERVAL("Interval", "4"),
-    ON_TS_CHANGE("When point timestamp changes", "5");
+    ON_TS_CHANGE("When point timestamp changes", "5"),
+    EMPTY("","");
 
     private final String name;
     private final String id;
@@ -22,17 +23,26 @@ public enum LoggingType implements DictionaryObject {
         this.id = id;
     }
 
-    public static LoggingType getType(String typeName) {
+    private static LoggingType getTypeByName(String typeName) {
         return Stream.of(LoggingType.values())
                 .filter(a -> a.name().equalsIgnoreCase(typeName))
                 .findFirst()
-                .orElse(NONE);
+                .orElse(EMPTY);
     }
 
     public static LoggingType getType(int id) {
         return Stream.of(LoggingType.values())
-                .filter(a -> a.id.equalsIgnoreCase(String.valueOf(id)))
+                .filter(a -> Integer.parseInt(a.id) == id)
                 .findFirst()
-                .orElse(NONE);
+                .orElse(EMPTY);
+    }
+
+    public static LoggingType getType(String id) {
+        LoggingType type = getTypeByName(id);
+        try {
+            return type == EMPTY ? getType(Integer.parseInt(id)) : type;
+        } catch (Exception ex) {
+            return EMPTY;
+        }
     }
 }

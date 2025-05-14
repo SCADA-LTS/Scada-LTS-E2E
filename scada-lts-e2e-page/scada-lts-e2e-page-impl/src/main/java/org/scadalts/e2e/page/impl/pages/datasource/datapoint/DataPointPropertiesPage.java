@@ -183,7 +183,7 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         waitOnEventDetectorTable();
         SelenideElement eventDetectorData = _getEventDetectorData(detectorPosition);
         String value = waitWhile(eventDetectorData.$(By.cssSelector(GET_FIRST_SELECT_ALARM_LIST)), not(Condition.visible)).getSelectedText();
-        return AlarmLevel.getTypeByName(value);
+        return AlarmLevel.getType(value);
     }
 
     public Xid getEventDetectorXid(int detectorPosition) {
@@ -413,7 +413,7 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
     }
 
     public TextRendererType getTextRendererType() {
-        return TextRendererType.getType(getSelected(textRendererSelect));
+        return TextRendererType.getTypeByName(getSelected(textRendererSelect));
     }
 
     public DataPointPropertiesPage selectTextRendererType(TextRendererType textRendererType) {

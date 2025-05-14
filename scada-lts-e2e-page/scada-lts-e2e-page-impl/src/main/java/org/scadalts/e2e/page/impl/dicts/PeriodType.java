@@ -13,7 +13,8 @@ public enum PeriodType implements DictionaryObject {
     DAYS("day(s)", "4"),
     WEEKS("week(s)", "5"),
     MONTHS("month(s)", "6"),
-    YEARS("year(s)", "7");
+    YEARS("year(s)", "7"),
+    NONE("none", "8");
 
     private final String name;
     private final String id;
@@ -23,17 +24,26 @@ public enum PeriodType implements DictionaryObject {
         this.id = id;
     }
 
-    public static PeriodType getType(String typeName) {
+    private static PeriodType getTypeByName(String typeName) {
         return Stream.of(PeriodType.values())
                 .filter(a -> a.name().equalsIgnoreCase(typeName))
                 .findFirst()
-                .orElse(MINUTES);
+                .orElse(NONE);
     }
 
     public static PeriodType getType(int id) {
         return Stream.of(PeriodType.values())
-                .filter(a -> a.id.equalsIgnoreCase(String.valueOf(id)))
+                .filter(a -> Integer.parseInt(a.id) == id)
                 .findFirst()
-                .orElse(MINUTES);
+                .orElse(NONE);
+    }
+
+    public static PeriodType getType(String id) {
+        PeriodType type = getTypeByName(id);
+        try {
+            return type == NONE ? getType(Integer.parseInt(id)) : type;
+        } catch (Exception ex) {
+            return NONE;
+        }
     }
 }

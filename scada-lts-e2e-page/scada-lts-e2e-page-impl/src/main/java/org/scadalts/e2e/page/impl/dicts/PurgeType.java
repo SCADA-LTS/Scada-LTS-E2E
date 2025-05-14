@@ -11,27 +11,42 @@ public enum PurgeType implements DictionaryObject {
     DAYS(PeriodType.DAYS),
     WEEKS(PeriodType.WEEKS),
     MONTHS(PeriodType.MONTHS),
-    YEARS(PeriodType.YEARS);
+    YEARS(PeriodType.YEARS),
+    NONE("none", "-1");
 
     private final String name;
     private final String id;
+
+    PurgeType(String name, String id) {
+        this.name = name;
+        this.id = id;
+    }
 
     PurgeType(PeriodType name) {
         this.name = name.getName();
         this.id = name.getId();
     }
 
-    public static PurgeType getType(String typeName) {
+    private static PurgeType getTypeByName(String typeName) {
         return Stream.of(PurgeType.values())
                 .filter(a -> a.name().equalsIgnoreCase(typeName))
                 .findFirst()
-                .orElse(YEARS);
+                .orElse(NONE);
     }
 
     public static PurgeType getType(int id) {
         return Stream.of(PurgeType.values())
-                .filter(a -> a.id.equalsIgnoreCase(String.valueOf(id)))
+                .filter(a -> Integer.parseInt(a.id) == id)
                 .findFirst()
-                .orElse(YEARS);
+                .orElse(NONE);
+    }
+
+    public static PurgeType getType(String id) {
+        PurgeType type = getTypeByName(id);
+        try {
+            return type == NONE ? getType(Integer.parseInt(id)) : type;
+        } catch (Exception ex) {
+            return NONE;
+        }
     }
 }

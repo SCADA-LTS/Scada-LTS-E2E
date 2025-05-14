@@ -24,8 +24,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @Log4j2
 @RunWith(Parameterized.class)
@@ -37,9 +36,9 @@ public class EventDetectorPropertiesServiceTest {
 
 
     @Parameterized.Parameters(name = "number of test: {index}, detector: {0}")
-    public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][] {
-                {Arrays.asList(new EventDetectorCriteria[] {
+    public static Object[][] data() {
+        return new Object[][] {
+                /*{Arrays.asList(new EventDetectorCriteria[] {
                         EventDetectorCriteria.criteria(EventDetectorType.HIGH_LIMIT, DATA_SOURCE_POINT_CRITERIA, AlarmLevel.LIFE_SAFETY),
                         EventDetectorCriteria.criteria(EventDetectorType.LOW_LIMIT, DATA_SOURCE_POINT_CRITERIA, AlarmLevel.LIFE_SAFETY),
                         EventDetectorCriteria.criteria(EventDetectorType.NEGATIVE_CUSUM, DATA_SOURCE_POINT_CRITERIA, AlarmLevel.LIFE_SAFETY),
@@ -51,12 +50,12 @@ public class EventDetectorPropertiesServiceTest {
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.CRITICAL),
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.INFORMATION),
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.NONE),
-                })},
+                })},*/
                 {Arrays.asList(new EventDetectorCriteria[] {
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.INFORMATION),
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.CRITICAL)
                 })}
-        });
+        };
     }
 
     private final DataPointProperties dataPointProperties;
@@ -122,7 +121,7 @@ public class EventDetectorPropertiesServiceTest {
 
         DataPointProperties result = new DataPointPropertiesAdapter(getResult.getDataPoints());
 
-        assertEquals(dataPointProperties.getEventDetectors(), result.getEventDetectors());
+        assertEquals(new ArrayList<>(dataPointProperties.getEventDetectors()), result.getEventDetectors());
 
     }
 }

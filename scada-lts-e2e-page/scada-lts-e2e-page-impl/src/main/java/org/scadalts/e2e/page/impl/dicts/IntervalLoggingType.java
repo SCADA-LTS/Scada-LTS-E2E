@@ -11,7 +11,8 @@ public enum IntervalLoggingType implements DictionaryObject {
     INSTANT("Instant", "1"),
     MAXIMUM("Maximum", "2"),
     MINIMUM("Minimum", "3"),
-    AVERAGE("Average", "4");
+    AVERAGE("Average", "4"),
+    NONE("none", "-1");
 
     private final String name;
     private final String id;
@@ -21,7 +22,7 @@ public enum IntervalLoggingType implements DictionaryObject {
         this.id = id;
     }
 
-    public static IntervalLoggingType getType(String typeName) {
+    private static IntervalLoggingType getTypeByName(String typeName) {
         return Stream.of(IntervalLoggingType.values())
                 .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
@@ -30,8 +31,17 @@ public enum IntervalLoggingType implements DictionaryObject {
 
     public static IntervalLoggingType getType(int id) {
         return Stream.of(IntervalLoggingType.values())
-                .filter(a -> a.id.equalsIgnoreCase(String.valueOf(id)))
+                .filter(a -> Integer.parseInt(a.id) == id)
                 .findFirst()
                 .orElse(INSTANT);
+    }
+
+    public static IntervalLoggingType getType(String id) {
+        IntervalLoggingType type = getTypeByName(id);
+        try {
+            return type == NONE ? getType(Integer.parseInt(id)) : type;
+        } catch (Exception ex) {
+            return NONE;
+        }
     }
 }

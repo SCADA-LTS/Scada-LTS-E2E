@@ -72,7 +72,7 @@ public class LoginServiceObject implements WebServiceObject {
         } catch (Throwable th) {
             if((th.getCause() instanceof ConnectException)
                     || (th.getCause() instanceof SocketTimeoutException)) {
-                throw new ApplicationIsNotAvailableException(th);
+                throw new ApplicationIsNotAvailableException(E2eConfiguration.baseUrl + "", th);
             }
             throw th;
         }
