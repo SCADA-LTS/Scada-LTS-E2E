@@ -1,7 +1,6 @@
 package org.scadalts.e2e.page.impl.pages.datasource;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
@@ -69,6 +68,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
 
     public EditDataSourceWithPointListPage enable(boolean enable) {
         delay();
+        waitWhile(dataSourceOnOff, not(Condition.visible));
         if(enable) {
             if($(SELECTOR_DISABLE_DATA_SOURCE_BY).is(Condition.visible)) {
                 acceptAfterClick(dataSourceOnOff);
@@ -141,7 +141,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
 
-    public EditDataSourceWithPointListPage waitOnImgEabledDataSource() {
+    public EditDataSourceWithPointListPage waitOnImgEnabledDataSource() {
         delay();
         waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
         return this;
@@ -153,6 +153,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
 
     public EditDataSourceWithPointListPage enableAllDataPoint() {
         delay();
+        waitWhile(enableAllDataPoint, not(Condition.visible));
         acceptAfterClick(enableAllDataPoint);
         waitWhile($(SELECTOR_ACTION_ENABLE_DATA_POINT_BY), not(Condition.visible));
         return this;
@@ -242,27 +243,15 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
 
     @Override
     public boolean containsObject(IdentifierObject identifier) {
-        getBodyText();
-
-        if(dataPointsTable.is(Condition.not(Condition.visible))) {
+        waitWhile(dataPointsTable, not(Condition.exist), true);
+        waitWhile(dataPointsTableHeader, not(Condition.visible), true);
+        String text = dataPointsTable.innerText();
+        if(text.isEmpty()) {
             return false;
         }
-
-        waitOnPointsTable();
-
-        NodeCriteria trCriteria = NodeCriteria.exactly(Tag.tr(), XpathAttribute.empty());
-        NodeCriteria tdCriteria = NodeCriteria.every(Tag.td(), XpathAttribute.empty());
-        ElementsCollection trElements = findObjects(trCriteria, dataPointsTable);
-
-        for(int i = 0; i < trElements.size(); i++) {
-            SelenideElement tr = trElements.get(i);
-            ElementsCollection tdDataElements = findObjects(tdCriteria, tr);
-            SelenideElement td = tdDataElements.get(0);
-            if(td.text().equalsIgnoreCase(identifier.getValue())) {
-                return true;
-            }
-        }
-        return false;
+        NodeCriteria bCriteria = NodeCriteria.exactly(Tag.b(), XpathAttribute.text(identifier.getValue()));
+        SelenideElement bElement = findObject(bCriteria, dataPointsTable);
+        return bElement.is(Condition.visible);
     }
 
     private SelenideElement _findAction(DataPointIdentifier identifier, By selectAction) {

@@ -9,7 +9,7 @@ import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 @Log4j2
-public class EventDetectorObjectsCreator implements CreatorObject<DataSourcesPage, DataPointPropertiesPage> {
+public class EventDetectorObjectsCreator implements CreatorObject<DataPointPropertiesPage, DataPointPropertiesPage> {
 
     private NavigationPage navigationPage;
     private DataSourcesPage dataSourcesPage;
@@ -33,7 +33,7 @@ public class EventDetectorObjectsCreator implements CreatorObject<DataSourcesPag
     }
 
     @Override
-    public DataSourcesPage deleteObjects() {
+    public DataPointPropertiesPage deleteObjects() {
         DataPointPropertiesPage dataPointPropertiesPage = openPage();
         if(dataPointPropertiesPage.containsObject(eventDetectorCriteria.getIdentifier())) {
 
@@ -48,7 +48,7 @@ public class EventDetectorObjectsCreator implements CreatorObject<DataSourcesPag
                     eventDetectorCriteria.getIdentifier().getType(), eventDetectorCriteria.getXid().getValue(),
                     eventDetectorCriteria.getClass().getSimpleName());
         }
-        return navigationPage.openDataSources();
+        return dataPointPropertiesPage;
     }
 
     public DataSourcesPage deleteDataSources() {

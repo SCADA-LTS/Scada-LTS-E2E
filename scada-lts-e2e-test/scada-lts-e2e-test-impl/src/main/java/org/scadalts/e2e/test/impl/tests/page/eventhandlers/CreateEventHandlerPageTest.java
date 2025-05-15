@@ -2,16 +2,14 @@ package org.scadalts.e2e.test.impl.tests.page.eventhandlers;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventHandlerIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.ScriptIdentifier;
-import org.scadalts.e2e.page.impl.criterias.identifiers.VarIdentifier;
 import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
-import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
-import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EditEventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
@@ -31,8 +29,6 @@ public class CreateEventHandlerPageTest {
 
     private static EventDetectorObjectsCreator eventDetectorObjectsCreator2;
     private static EventDetectorObjectsCreator eventDetectorObjectsCreator3;
-    //private static EventDetectorObjectsCreator eventDetectorObjectsCreator4;
-    //private static EventDetectorObjectsCreator eventDetectorObjectsCreator5;
 
     private static ScriptCriteria scriptActive;
     private static ScriptCriteria scriptInactive;
@@ -77,22 +73,29 @@ public class CreateEventHandlerPageTest {
         eventHandlersPage = navigationPage.openEventHandlers();
     }
 
-    @After
-    public void clean() {
-        EventHandlerObjectsCreator eventHandlerObjectsCreator = new EventHandlerObjectsCreator(navigationPage, eventHandlerCriteria);
-        eventHandlerObjectsCreator.deleteObjects();
+    @AfterClass
+    public static void cleanAfterClass() {
         if(scriptObjectsCreator != null)
             scriptObjectsCreator.deleteObjects();
+        if(eventDetectorObjectsCreator != null)
+            eventDetectorObjectsCreator.deleteObjects();
         if(eventDetectorObjectsCreator2 != null)
             eventDetectorObjectsCreator2.deleteObjects();
         if(eventDetectorObjectsCreator3 != null)
             eventDetectorObjectsCreator3.deleteObjects();
 
-
+        if(eventDetectorObjectsCreator != null)
+            eventDetectorObjectsCreator.deleteDataSources();
         if(eventDetectorObjectsCreator2 != null)
             eventDetectorObjectsCreator2.deleteDataSources();
         if(eventDetectorObjectsCreator3 != null)
             eventDetectorObjectsCreator3.deleteDataSources();
+    }
+
+    @After
+    public void cleanAfter() {
+        EventHandlerObjectsCreator eventHandlerObjectsCreator = new EventHandlerObjectsCreator(navigationPage, eventHandlerCriteria);
+        eventHandlerObjectsCreator.deleteObjects();
     }
 
     @Test

@@ -46,7 +46,7 @@ public class ConfigDataSourcePointSubCheck implements SubCheck {
             EditDataSourceWithPointListPage editDataSourceWithPointListPage = dataSourcesPage.reopen()
                     .waitForObject(dataSourceCriteria.getIdentifier())
                     .openDataSourceEditor(dataSourceCriteria.getIdentifier())
-                    .waitOnImgEabledDataSource()
+                    .waitOnImgEnabledDataSource()
                     .waitForObject(dataPointCriteria.getIdentifier());
 
             boolean dataSourceEnabled = editDataSourceWithPointListPage.isEnable();
