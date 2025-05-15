@@ -39,8 +39,7 @@ public class DataPointUnitsPropertiesServiceTest {
 
     @Parameterized.Parameters(name = "number of test: {index}, unit: {0}")
     public static List<EngineeringUnit> data() {
-        //return EngineeringUnitsType.getUnits();
-        return Arrays.asList(EngineeringUnitsType.Other.NO_UNITS);
+        return EngineeringUnitsType.getUnits();
     }
 
     private final DataPointProperties dataPointProperties;
