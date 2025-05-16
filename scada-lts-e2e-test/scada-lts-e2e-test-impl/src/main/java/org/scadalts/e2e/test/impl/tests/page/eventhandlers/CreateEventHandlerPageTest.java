@@ -2,20 +2,18 @@ package org.scadalts.e2e.test.impl.tests.page.eventhandlers;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scadalts.e2e.page.core.criterias.Script;
 import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.EventHandlerIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.ScriptIdentifier;
-import org.scadalts.e2e.page.impl.criterias.identifiers.VarIdentifier;
 import org.scadalts.e2e.page.impl.dicts.EventHandlerType;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EditEventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EventHandlersPage;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
-import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
-import org.scadalts.e2e.test.impl.creators.EventHandlerObjectsCreator;
-import org.scadalts.e2e.test.impl.creators.ScriptObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.*;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -31,13 +29,11 @@ public class CreateEventHandlerPageTest {
 
     private static EventDetectorObjectsCreator eventDetectorObjectsCreator2;
     private static EventDetectorObjectsCreator eventDetectorObjectsCreator3;
-    private static EventDetectorObjectsCreator eventDetectorObjectsCreator4;
-    private static EventDetectorObjectsCreator eventDetectorObjectsCreator5;
 
     private static ScriptCriteria scriptActive;
     private static ScriptCriteria scriptInactive;
-    private static DataSourceCriteria dataSourceCriteria;
-    private static DataPointCriteria dataPointCriteria;
+    private static UpdateDataSourceCriteria dataSourceCriteria;
+    private static VirtualDataPointCriteria dataPointCriteria;
     private static EventDetectorCriteria eventDetectorCriteria;
     private EventHandlerCriteria eventHandlerCriteria;
 
@@ -46,34 +42,30 @@ public class CreateEventHandlerPageTest {
     public static void createDataSourcePointEventDetectorScripts() {
         navigationPage = TestWithPageUtil.openNavigationPage();
 
-        dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-        dataPointCriteria = DataPointCriteria.binaryNoChange();
-        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
-        DataSourcePointCriteria dataSourcePointCriteria2 = DataSourcePointCriteria.criteria(DataSourceCriteria.virtualDataSourceSecond(),
-                DataPointCriteria.binaryNoChange());
-        DataSourcePointCriteria dataSourcePointCriteria3 = DataSourcePointCriteria.criteria(DataSourceCriteria.virtualDataSourceSecond(),
-                DataPointCriteria.binaryNoChange());
+        dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
+        dataPointCriteria = VirtualDataPointCriteria.binaryNoChange();
+        DataSourcePointCriteria<UpdateDataSourceCriteria,VirtualDataPointCriteria> dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
 
-        EventDetectorCriteria eventDetectorCriteria2 = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria2);
-        eventDetectorCriteria = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria);
+        DataSourcePointCriteria<UpdateDataSourceCriteria, VirtualDataPointCriteria> dataSourcePointCriteria1 = new DataSourcePointCriteria<>(UpdateDataSourceCriteria.virtualDataSourceSecond(),
+                VirtualDataPointCriteria.binaryNoChange());
+
+        DataSourcePointCriteria<UpdateDataSourceCriteria, VirtualDataPointCriteria> dataSourcePointCriteria3 = new DataSourcePointCriteria<>(UpdateDataSourceCriteria.virtualDataSourceSecond(),
+                VirtualDataPointCriteria.binaryNoChange());
+
+        EventDetectorCriteria eventDetectorCriteria2 = EventDetectorCriteria.changeAlarmLevelNone(new DataSourcePointCriteria<>(dataSourceCriteria, dataPointCriteria));
+        eventDetectorCriteria = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria1);
         EventDetectorCriteria eventDetectorCriteria3 = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria3);
-        EventDetectorCriteria eventDetectorCriteria4 = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria);
-        EventDetectorCriteria eventDetectorCriteria5 = EventDetectorCriteria.changeAlarmLevelNone(dataSourcePointCriteria);
 
-        eventDetectorObjectsCreator = new EventDetectorObjectsCreator(navigationPage,eventDetectorCriteria);
-        eventDetectorObjectsCreator2 = new EventDetectorObjectsCreator(navigationPage,eventDetectorCriteria2);
-        eventDetectorObjectsCreator3 = new EventDetectorObjectsCreator(navigationPage,eventDetectorCriteria3);
-        eventDetectorObjectsCreator4 = new EventDetectorObjectsCreator(navigationPage,eventDetectorCriteria4);
-        eventDetectorObjectsCreator5 = new EventDetectorObjectsCreator(navigationPage,eventDetectorCriteria5);
+        eventDetectorObjectsCreator = new EventDetectorObjectsCreator(navigationPage, eventDetectorCriteria);
+        eventDetectorObjectsCreator2 = new EventDetectorObjectsCreator(navigationPage, eventDetectorCriteria2);
+        eventDetectorObjectsCreator3 = new EventDetectorObjectsCreator(navigationPage, eventDetectorCriteria3);
 
         eventDetectorObjectsCreator.createObjects();
         eventDetectorObjectsCreator2.createObjects();
         eventDetectorObjectsCreator3.createObjects();
-        eventDetectorObjectsCreator4.createObjects();
-        eventDetectorObjectsCreator5.createObjects();
 
-        scriptActive = ScriptCriteria.dataPointCommandsEnabled(Script.empty(), new DataPointVarCriteria(dataPointCriteria, new VarCriteria(new VarIdentifier("abc"))));
-        scriptInactive = ScriptCriteria.dataPointCommandsEnabled(Script.empty(), DataPointVarCriteria.criteria(dataPointCriteria));
+        scriptActive = ScriptCriteria.dataPointCommandsEnabled(Script.empty(), DataPointVarCriteria.criteria(dataSourcePointCriteria.getIdentifier()));
+        scriptInactive = ScriptCriteria.dataPointCommandsEnabled(Script.empty(), DataPointVarCriteria.criteria(dataSourcePointCriteria.getIdentifier()));
 
         scriptObjectsCreator = new ScriptObjectsCreator(navigationPage,scriptActive, scriptInactive);
         scriptObjectsCreator.createObjects();
@@ -81,30 +73,29 @@ public class CreateEventHandlerPageTest {
         eventHandlersPage = navigationPage.openEventHandlers();
     }
 
-    @After
-    public void clean() {
-        EventHandlerObjectsCreator eventHandlerObjectsCreator = new EventHandlerObjectsCreator(navigationPage, eventHandlerCriteria);
-        eventHandlerObjectsCreator.deleteObjects();
+    @AfterClass
+    public static void cleanAfterClass() {
         if(scriptObjectsCreator != null)
             scriptObjectsCreator.deleteObjects();
+        if(eventDetectorObjectsCreator != null)
+            eventDetectorObjectsCreator.deleteObjects();
         if(eventDetectorObjectsCreator2 != null)
             eventDetectorObjectsCreator2.deleteObjects();
         if(eventDetectorObjectsCreator3 != null)
             eventDetectorObjectsCreator3.deleteObjects();
-        if(eventDetectorObjectsCreator4 != null)
-            eventDetectorObjectsCreator4.deleteObjects();
-        if(eventDetectorObjectsCreator5 != null)
-            eventDetectorObjectsCreator5.deleteObjects();
 
-
+        if(eventDetectorObjectsCreator != null)
+            eventDetectorObjectsCreator.deleteDataSources();
         if(eventDetectorObjectsCreator2 != null)
             eventDetectorObjectsCreator2.deleteDataSources();
         if(eventDetectorObjectsCreator3 != null)
             eventDetectorObjectsCreator3.deleteDataSources();
-        if(eventDetectorObjectsCreator4 != null)
-            eventDetectorObjectsCreator4.deleteDataSources();
-        if(eventDetectorObjectsCreator5 != null)
-            eventDetectorObjectsCreator5.deleteDataSources();
+    }
+
+    @After
+    public void cleanAfter() {
+        EventHandlerObjectsCreator eventHandlerObjectsCreator = new EventHandlerObjectsCreator(navigationPage, eventHandlerCriteria);
+        eventHandlerObjectsCreator.deleteObjects();
     }
 
     @Test

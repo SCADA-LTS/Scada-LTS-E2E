@@ -8,21 +8,40 @@ import java.util.stream.Stream;
 @Getter
 public enum IntervalLoggingType implements DictionaryObject {
 
-    INSTANT("Instant"),
-    MAXIMUM("Maximum"),
-    MINIMUM("Minimum"),
-    AVERAGE("Average");
+    INSTANT("Instant", "1"),
+    MAXIMUM("Maximum", "2"),
+    MINIMUM("Minimum", "3"),
+    AVERAGE("Average", "4"),
+    NONE("none", "-1");
 
     private final String name;
+    private final String id;
 
-    IntervalLoggingType(String name) {
+    IntervalLoggingType(String name, String id) {
         this.name = name;
+        this.id = id;
     }
 
-    public static IntervalLoggingType getType(String typeName) {
+    private static IntervalLoggingType getTypeByName(String typeName) {
         return Stream.of(IntervalLoggingType.values())
                 .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(INSTANT);
+    }
+
+    public static IntervalLoggingType getType(int id) {
+        return Stream.of(IntervalLoggingType.values())
+                .filter(a -> Integer.parseInt(a.id) == id)
+                .findFirst()
+                .orElse(INSTANT);
+    }
+
+    public static IntervalLoggingType getType(String id) {
+        IntervalLoggingType type = getTypeByName(id);
+        try {
+            return type == NONE ? getType(Integer.parseInt(id)) : type;
+        } catch (Exception ex) {
+            return NONE;
+        }
     }
 }

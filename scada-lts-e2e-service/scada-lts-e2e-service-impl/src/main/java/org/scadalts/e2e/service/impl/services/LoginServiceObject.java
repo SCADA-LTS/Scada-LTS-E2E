@@ -72,7 +72,7 @@ public class LoginServiceObject implements WebServiceObject {
         } catch (Throwable th) {
             if((th.getCause() instanceof ConnectException)
                     || (th.getCause() instanceof SocketTimeoutException)) {
-                throw new ApplicationIsNotAvailableException(th);
+                throw new ApplicationIsNotAvailableException(E2eConfiguration.baseUrl + "", th);
             }
             throw th;
         }
@@ -101,7 +101,7 @@ public class LoginServiceObject implements WebServiceObject {
 
     private E2eResponse<String> _loginOld(LoginParams loginParams) {
         String endpoint = baseUrl + "/login.htm";
-        logger.debug("endpoint: {}", endpoint);
+        logger.info("endpoint: {}", endpoint);
         MultivaluedMap<String, String> data = new MultivaluedHashMap<>();
         data.put("username", Arrays.asList(loginParams.getUserName()));
         data.put("password", Arrays.asList(loginParams.getPassword()));
@@ -116,7 +116,7 @@ public class LoginServiceObject implements WebServiceObject {
 
     private E2eResponse<String> _loginForm(LoginParams loginParams) {
         String endpoint = baseUrl + "/login";
-        logger.debug("endpoint: {}", endpoint);
+        logger.info("endpoint: {}", endpoint);
         MultivaluedMap<String, String> data = new MultivaluedHashMap<>();
         data.put("username", Arrays.asList(loginParams.getUserName()));
         data.put("password", Arrays.asList(loginParams.getPassword()));
@@ -131,7 +131,7 @@ public class LoginServiceObject implements WebServiceObject {
 
     private E2eResponse<String> _loginBasic(LoginParams loginParams) {
         String endpoint = baseUrl + "/login";
-        logger.debug("endpoint: {}", endpoint);
+        logger.info("endpoint: {}", endpoint);
         Response response = ClientBuilder.newClient()
                 .target(endpoint)
                 .request()
@@ -150,8 +150,8 @@ public class LoginServiceObject implements WebServiceObject {
     private E2eResponse<String> _logoutForm() {
         String endpoint = baseUrl + "/logout.htm";
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
-        logger.debug("endpoint: {}", endpoint);
-        logger.debug("cookie: {}", cookie);
+        logger.info("endpoint: {}", endpoint);
+        logger.info("cookie: {}", cookie);
         Response response = client.target(endpoint)
                 .request(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
                 .cookie(cookie)

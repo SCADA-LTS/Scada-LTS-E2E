@@ -8,10 +8,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.common.core.dicts.DictionaryObject;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
 import org.scadalts.e2e.page.impl.dicts.EngineeringUnit;
+import org.scadalts.e2e.page.impl.dicts.EngineeringUnitsType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointPropertiesPage;
@@ -21,12 +21,14 @@ import org.scadalts.e2e.service.impl.services.datapoint.DataPointPropertiesRespo
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.test.impl.creators.DataPointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataPointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.DataPointPropertiesAdapter;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -36,36 +38,32 @@ import static org.junit.Assert.assertNotNull;
 public class DataPointUnitsPropertiesServiceTest {
 
     @Parameterized.Parameters(name = "number of test: {index}, unit: {0}")
-    public static List<DictionaryObject> data() {
-        return EngineeringUnit.aggregate()
-                .entrySet()
-                .stream()
-                .flatMap(a -> a.getValue().stream())
-                .limit(20)
-                .collect(Collectors.toList());
+    public static List<EngineeringUnit> data() {
+        return EngineeringUnitsType.getUnits();
     }
 
     private final DataPointProperties dataPointProperties;
 
-    public DataPointUnitsPropertiesServiceTest(DictionaryObject unit) {
-        dataPointProperties = DataPointProperties.properties(unit);
+    public DataPointUnitsPropertiesServiceTest(EngineeringUnit engineeringUnit) {
+        dataPointProperties = DataPointProperties.properties(engineeringUnit);
     }
 
-    private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
-    private static DataPointObjectsCreator dataPointObjectsCreator;
+    private static DataSourcePointObjectsCreator<UpdateDataSourceCriteria, VirtualDataPointCriteria> dataSourcePointObjectsCreator;
+    private static DataPointObjectsCreator<UpdateDataSourceCriteria, VirtualDataPointCriteria> dataPointObjectsCreator;
     private static EditDataSourceWithPointListPage editDataSourceWithPointListPage;
-    private static DataPointCriteria dataPointCriteria;
+    private static VirtualDataPointCriteria dataPointCriteria;
+    private static VirtualDataSourcePointCriteria dataSourcePointCriteria;
 
     @BeforeClass
     public static void setupForAll() {
 
-        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.virtualDataSourceNumericNoChange();
+        dataSourcePointCriteria = VirtualDataSourcePointCriteria.virtualDataSourceNumericNoChange();
 
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcePointObjectsCreator.createObjects();
 
-        dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage,dataSourcePointCriteria);
+        dataPointObjectsCreator = new VirtualDataPointObjectsCreator(navigationPage, dataSourcePointCriteria);
 
         DataSourcesPage dataSourcesPage = dataSourcePointObjectsCreator.openPage();
         editDataSourceWithPointListPage = dataSourcesPage.openDataSourceEditor(dataSourcePointCriteria.getDataSource().getIdentifier());
@@ -75,11 +73,20 @@ public class DataPointUnitsPropertiesServiceTest {
 
     @Before
     public void setup() {
-        DataPointPropertiesPage dataPointPropertiesPage = editDataSourceWithPointListPage
-                .openDataPointProperties(dataPointCriteria.getIdentifier());
+        DataPointPropertiesPage dataPointPropertiesPage;
+        try {
+            dataPointPropertiesPage = editDataSourceWithPointListPage
+                    .openDataPointProperties(dataPointCriteria.getIdentifier());
+        } catch (Throwable ex) {
+            dataPointPropertiesPage = dataSourcePointObjectsCreator.openPage()
+                    .openDataSourceEditor(dataSourcePointCriteria.getDataSource().getIdentifier())
+                    .openDataPointProperties(dataPointCriteria.getIdentifier());
+        }
 
         dataPointObjectsCreator.setProperties(dataPointProperties,
                 dataPointCriteria.getIdentifier().getType(), dataPointPropertiesPage);
+
+        dataPointPropertiesPage.editDataSource();
 
     }
 

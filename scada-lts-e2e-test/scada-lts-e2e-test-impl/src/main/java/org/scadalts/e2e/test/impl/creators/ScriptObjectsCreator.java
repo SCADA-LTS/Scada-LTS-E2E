@@ -26,10 +26,15 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsP
         ScriptsPage scriptsPage = openPage();
         for (ScriptCriteria criteria: scriptCriteria) {
             if(scriptsPage.containsObject(criteria.getIdentifier())) {
-                logger.info("delete object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+
+                logger.info("deleting object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+
                 scriptsPage.openScriptEditor(criteria)
                         .deleteScript();
+
+                logger.info("deleted object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
             }
         }
         return scriptsPage;
@@ -40,8 +45,10 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsP
         ScriptsPage scriptsPage = openPage();
         for (ScriptCriteria criteria: scriptCriteria) {
             if(!scriptsPage.containsObject(criteria.getIdentifier())) {
-                logger.info("create object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+
+                logger.info("creating object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+
                 EditScriptsPage editScriptsPage = scriptsPage.openScriptCreator()
                         .setName(criteria.getIdentifier())
                         .waitOnPage(500)
@@ -50,7 +57,7 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsP
                         .setDataSourceCommands(criteria.isEnableDataSourceCommands())
                         .setScript(criteria.getScript());
                 for (DataPointVarCriteria var : criteria.getDataPointVarCriterias()) {
-                    editScriptsPage.addPointToContext(var.getDataPointCriteria())
+                    editScriptsPage.addPointToContext(var.getDataSourcePointIdentifier())
                             .setVarName(var);
                 }
                 editScriptsPage.saveScript()
@@ -60,7 +67,7 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsP
                 boolean saveRepeat = false;
                 for (DataPointVarCriteria var : criteria.getDataPointVarCriterias()) {
                     if(!editScriptsPage.containsVarInContext(var)) {
-                        editScriptsPage.addPointToContext(var.getDataPointCriteria())
+                        editScriptsPage.addPointToContext(var.getDataSourcePointIdentifier())
                                 .setVarName(var);
                         saveRepeat = true;
                     }
@@ -69,6 +76,9 @@ public class ScriptObjectsCreator implements CreatorObject<ScriptsPage, ScriptsP
                     editScriptsPage.saveScript()
                             .containsObject(criteria.getIdentifier());
                 }
+
+                logger.info("created object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
             }
         }
         return scriptsPage.reopen();

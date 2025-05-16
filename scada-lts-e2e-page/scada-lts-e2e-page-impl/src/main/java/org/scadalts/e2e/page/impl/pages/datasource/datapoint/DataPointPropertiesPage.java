@@ -183,7 +183,7 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         waitOnEventDetectorTable();
         SelenideElement eventDetectorData = _getEventDetectorData(detectorPosition);
         String value = waitWhile(eventDetectorData.$(By.cssSelector(GET_FIRST_SELECT_ALARM_LIST)), not(Condition.visible)).getSelectedText();
-        return AlarmLevel.getTypeByName(value);
+        return AlarmLevel.getType(value);
     }
 
     public Xid getEventDetectorXid(int detectorPosition) {
@@ -395,10 +395,10 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
         SelenideElement optgroup = findObject(NodeCriteria.withNode(optgroup(), option(), selected()), engineeringUnitsSelect);
         String label = optgroup.getAttribute("label");
         SelenideElement option = findObject(NodeCriteria.every(option(), selected()), optgroup);
-        return EngineeringUnit.getType(label, option.getText());
+        return EngineeringUnitsType.getType(label, option.getText());
     }
 
-    public DataPointPropertiesPage selectEngineeringUnit(DictionaryObject engineeringUnit) {
+    public DataPointPropertiesPage selectEngineeringUnit(EngineeringUnit engineeringUnit) {
         selectOption(engineeringUnitsSelect, engineeringUnit);
         return this;
     }
@@ -413,7 +413,7 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
     }
 
     public TextRendererType getTextRendererType() {
-        return TextRendererType.getType(getSelected(textRendererSelect));
+        return TextRendererType.getTypeByName(getSelected(textRendererSelect));
     }
 
     public DataPointPropertiesPage selectTextRendererType(TextRendererType textRendererType) {

@@ -47,7 +47,7 @@ public class PointValueServiceObject implements WebServiceObject {
             return Optional.ofNullable(response);
         } catch (Throwable th) {
             if((th instanceof ConnectException) || (th.getCause() instanceof ConnectException)) {
-                throw new ApplicationIsNotAvailableException("");
+                throw new ApplicationIsNotAvailableException(E2eConfiguration.baseUrl + "", "");
             }
             throw th;
         }

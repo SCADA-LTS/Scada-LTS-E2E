@@ -1,7 +1,7 @@
 package org.scadalts.e2e.page.impl.dicts;
 
 import org.scadalts.e2e.common.core.dicts.DictionaryObject;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
 
 import java.util.stream.Stream;
 
@@ -58,7 +58,7 @@ public enum DataPointChangeFieldType implements DictionaryObject {
         return _getPrefix() + _getSuffix();
     }
 
-    public static DataPointChangeFieldType getType(DataPointCriteria criteria, ChangeTypeField changeTypeField) {
+    public static DataPointChangeFieldType getType(VirtualDataPointCriteria criteria, ChangeTypeField changeTypeField) {
         return Stream.of(DataPointChangeFieldType.values())
                 .filter(a -> a.dataPointType == criteria.getIdentifier().getType())
                 .filter(a -> a.changeType == criteria.getChangeType())

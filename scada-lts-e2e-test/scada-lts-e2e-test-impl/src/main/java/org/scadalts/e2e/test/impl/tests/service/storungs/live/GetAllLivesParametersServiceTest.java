@@ -4,7 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
@@ -42,21 +42,21 @@ public class GetAllLivesParametersServiceTest {
     @BeforeClass
     public static void setup() {
 
-        DataPointCriteria[] points = {
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "0", DataPointLoggingProperties.change()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "0", DataPointLoggingProperties.change()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "1", DataPointLoggingProperties.change()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "1", DataPointLoggingProperties.change()),
+        VirtualDataPointCriteria[] points = {
+                VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "0", DataPointLoggingProperties.change()),
+                VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "0", DataPointLoggingProperties.change()),
+                VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "1", DataPointLoggingProperties.change()),
+                VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "1", DataPointLoggingProperties.change()),
 
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "0", DataPointLoggingProperties.allData()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "0", DataPointLoggingProperties.allData()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "1", DataPointLoggingProperties.allData()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "1", DataPointLoggingProperties.allData()),
+                VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "0", DataPointLoggingProperties.allData()),
+                VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "0", DataPointLoggingProperties.allData()),
+                VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "1", DataPointLoggingProperties.allData()),
+                VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "1", DataPointLoggingProperties.allData()),
 
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "0", DataPointLoggingProperties.tsChange()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "0", DataPointLoggingProperties.tsChange()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "1", DataPointLoggingProperties.tsChange()),
-                DataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "1", DataPointLoggingProperties.tsChange()),
+                VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "0", DataPointLoggingProperties.tsChange()),
+                VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "0", DataPointLoggingProperties.tsChange()),
+                VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.ALARM), "1", DataPointLoggingProperties.tsChange()),
+                VirtualDataPointCriteria.noChange(IdentifierObjectFactory.dataPointNotifierBinaryTypeName(DataPointNotifierType.STORUNG), "1", DataPointLoggingProperties.tsChange()),
         };
 
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();

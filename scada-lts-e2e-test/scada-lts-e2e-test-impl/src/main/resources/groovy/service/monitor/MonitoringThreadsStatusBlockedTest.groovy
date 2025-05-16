@@ -1,5 +1,6 @@
 package groovy.service.monitor
 
+import org.codehaus.groovy.tools.shell.util.MessageSource
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
@@ -29,10 +30,13 @@ NavigationUtil.openGraphicalViews()
 
 class MonitoringThreadsStatusBlockedTest {
 
+    private static MessageSource messageSource;
+
     @BeforeClass
     static void preconfig() {
         headless(true)
         pageMode(false)
+        messageSource = new MessageSource()
     }
 
     @Before
@@ -44,13 +48,13 @@ class MonitoringThreadsStatusBlockedTest {
         //given:
         String blockedStatus = "BLOCKED"
         int limit = 0
-        GetConfig config = new GetConfig("/api/threads/states/state/{0}/", blockedStatus)
+        GetConfig config = new GetConfig("/api/threads/states/{0}/", blockedStatus)
 
         //when:
         E2eResponse<List<Object>> response = UniversalServiceUtil.getAsList(config, 3000, Object.class)
         List<Object> threads = response.getValue()
 
         //then:
-        assertTrue(MessageFormat.format("Number of Threads with Status {0} exceeded {1}", blockedStatus, limit), threads.size() <= limit)
+        assertTrue(messageSource.format("Number of Threads with Status {0} exceeded {1}", blockedStatus, limit), threads.size() <= limit)
     }
 }

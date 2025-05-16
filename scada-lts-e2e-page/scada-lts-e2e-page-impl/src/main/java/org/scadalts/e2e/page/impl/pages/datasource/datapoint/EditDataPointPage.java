@@ -5,13 +5,10 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.core.utils.AlertUtil;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
-import org.scadalts.e2e.page.impl.dicts.ChangeType;
-import org.scadalts.e2e.page.impl.dicts.ChangeTypeField;
-import org.scadalts.e2e.page.impl.dicts.DataPointChangeFieldType;
-import org.scadalts.e2e.page.impl.dicts.DataPointType;
+import org.scadalts.e2e.page.impl.dicts.*;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 
 import java.text.MessageFormat;
@@ -49,6 +46,9 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
 
     @FindBy(id = "pointDetails")
     private SelenideElement pointDetails;
+
+    @FindBy(id = "attributeId")
+    private SelenideElement attributeIdSelect;
 
     private EditDataSourceWithPointListPage editDataSourceWithPointListPage;
 
@@ -123,7 +123,7 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return setChangeType(changeType.getName());
     }
 
-    public EditDataPointPage setStartValue(DataPointCriteria criteria) {
+    public EditDataPointPage setStartValue(VirtualDataPointCriteria criteria) {
         delay();
         String css = MessageFormat.format("td *[id=''{0}'']", DataPointChangeFieldType
                 .getType(criteria, ChangeTypeField.START_VALUE).getId());
@@ -132,7 +132,7 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return this;
     }
 
-    public String getMsgStartValue(DataPointCriteria criteria) {
+    public String getMsgStartValue(VirtualDataPointCriteria criteria) {
         delay();
         String css = MessageFormat.format("td *[id=''{0}'']", DataPointChangeFieldType
                 .getType(criteria, ChangeTypeField.START_VALUE).getId());
@@ -205,19 +205,25 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
         return editDataSourceWithPointListPage.disableDataPoint(dataPointIdentifier);
     }
 
-    public EditDataPointPage openDataPointEditor(DataPointCriteria criteria) {
+    public EditDataPointPage openDataPointEditor(VirtualDataPointCriteria criteria) {
         return editDataSourceWithPointListPage.openDataPointEditor(criteria.getIdentifier());
     }
 
-    public DataPointPropertiesPage openDataPointProperties(DataPointCriteria criteria) {
+    public DataPointPropertiesPage openDataPointProperties(VirtualDataPointCriteria criteria) {
         return editDataSourceWithPointListPage.openDataPointProperties(criteria.getIdentifier());
     }
 
-    public EditDataSourceWithPointListPage enableDataPoint(DataPointCriteria criteria) {
+    public EditDataSourceWithPointListPage enableDataPoint(VirtualDataPointCriteria criteria) {
         return editDataSourceWithPointListPage.enableDataPoint(criteria.getIdentifier());
     }
 
-    public EditDataSourceWithPointListPage disableDataPoint(DataPointCriteria criteria) {
+    public EditDataSourceWithPointListPage disableDataPoint(VirtualDataPointCriteria criteria) {
         return editDataSourceWithPointListPage.disableDataPoint(criteria.getIdentifier());
+    }
+
+    public EditDataPointPage setInternalAttributeId(InternalDataPointAttributeType internalAttributeId) {
+        delay();
+        waitWhile(attributeIdSelect, not(Condition.visible)).selectOption(internalAttributeId.getName());
+        return this;
     }
 }

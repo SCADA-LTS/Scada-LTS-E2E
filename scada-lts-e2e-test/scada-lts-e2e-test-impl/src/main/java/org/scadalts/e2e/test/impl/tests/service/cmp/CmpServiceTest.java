@@ -5,11 +5,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.cmp.CmpParams;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
@@ -34,14 +37,13 @@ public class CmpServiceTest {
     }
 
     private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
-    private static DataPointCriteria source;
+    private static VirtualDataPointCriteria source;
 
     @BeforeClass
     public static void setup() {
-        source = DataPointCriteria.numericNoChange(1234);
-
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(),
-                source);
+        source = VirtualDataPointCriteria.numericNoChange(1234);
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(),
+                VirtualDataSourcePointCriteria.virtualCriteria(UpdateDataSourceCriteria.virtualDataSourceSecond(), source));
         dataSourcePointObjectsCreator.createObjects();
     }
 

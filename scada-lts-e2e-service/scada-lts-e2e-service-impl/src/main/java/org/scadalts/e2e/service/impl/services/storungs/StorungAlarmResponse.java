@@ -19,6 +19,6 @@ public class StorungAlarmResponse {
     @JsonProperty("inactivation-time")
     private String inactivationTime;
     private String name;
-    private String level;
+    private int level;
 
 }

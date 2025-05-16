@@ -4,8 +4,8 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
@@ -38,11 +38,11 @@ public class GetActiveLivesOnChangeServiceTest {
 
     @BeforeClass
     public static void setup() {
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
+        UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
 
-        DataPointCriteria pointAlarm = DataPointCriteria.noChange(alarmIdentifier, "0",
+        VirtualDataPointCriteria pointAlarm = VirtualDataPointCriteria.noChange(alarmIdentifier, "0",
                 DataPointLoggingProperties.logging(LoggingType.ON_CHANGE));
-        DataPointCriteria pointStorung = DataPointCriteria.noChange(storungIdentifier, "0",
+        VirtualDataPointCriteria pointStorung = VirtualDataPointCriteria.noChange(storungIdentifier, "0",
                 DataPointLoggingProperties.logging(LoggingType.ON_CHANGE));
 
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
@@ -119,7 +119,7 @@ public class GetActiveLivesOnChangeServiceTest {
         List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(alarmIdentifier, paginationParams);
 
         //then:
-        assertEquals(AlarmLevel.URGENT.getId(), storungAlarmResponse.get(0).getLevel());
+        assertEquals(AlarmLevel.URGENT.getIdAsInt(), storungAlarmResponse.get(0).getLevel());
     }
 
     @Test
@@ -159,6 +159,6 @@ public class GetActiveLivesOnChangeServiceTest {
         List<StorungAlarmResponse> storungAlarmResponse = getAlarmsAndStorungsSortByActivationTime(storungIdentifier, paginationParams);
 
         //then:
-        assertEquals(AlarmLevel.INFORMATION.getId(), storungAlarmResponse.get(0).getLevel());
+        assertEquals(AlarmLevel.INFORMATION.getIdAsInt(), storungAlarmResponse.get(0).getLevel());
     }
 }

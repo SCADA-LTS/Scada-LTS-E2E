@@ -6,7 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
@@ -75,15 +75,15 @@ public class GetLivesGroupingSortOnChangeServiceTest {
                 IdentifierObjectFactory.dataPointStorungBinaryTypeName(),
         };
 
-        DataPointCriteria[] activeNotifierAlarams = Stream.of(activeIdnetifiers)
-                .map(a -> DataPointCriteria.noChange(a, "1",
+        VirtualDataPointCriteria[] activeNotifierAlarams = Stream.of(activeIdnetifiers)
+                .map(a -> VirtualDataPointCriteria.noChange(a, "1",
                         DataPointLoggingProperties.logging(LoggingType.ON_CHANGE)))
-                .toArray(a -> new DataPointCriteria[activeIdnetifiers.length]);
+                .toArray(a -> new VirtualDataPointCriteria[activeIdnetifiers.length]);
 
-        DataPointCriteria[] inactiveNotifierAlarams = Stream.of(inactiveIdnetifiers)
-                .map(a -> DataPointCriteria.noChange(a, "1",
+        VirtualDataPointCriteria[] inactiveNotifierAlarams = Stream.of(inactiveIdnetifiers)
+                .map(a -> VirtualDataPointCriteria.noChange(a, "1",
                         DataPointLoggingProperties.logging(LoggingType.ON_CHANGE)))
-                .toArray(a -> new DataPointCriteria[inactiveIdnetifiers.length]);
+                .toArray(a -> new VirtualDataPointCriteria[inactiveIdnetifiers.length]);
 
 
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();

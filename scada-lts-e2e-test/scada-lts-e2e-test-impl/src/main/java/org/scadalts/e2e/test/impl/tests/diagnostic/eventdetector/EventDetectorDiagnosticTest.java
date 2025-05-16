@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
@@ -32,18 +33,18 @@ public class EventDetectorDiagnosticTest {
         dataSourcesPage = TestWithPageUtil.openNavigationPage()
                 .openDataSources();
 
-        DataSourceCriteria dataSourceForTestEventDetector = DataSourceCriteria.criteriaSecond(
+        DataSourceCriteria dataSourceForTestEventDetector = UpdateDataSourceCriteria.criteriaSecond(
                 new DataSourceIdentifier(TestImplConfiguration.dataSourceNameEventDetectorTest,
                         DataSourceType.VIRTUAL_DATA_SOURCE));
 
-        List<DataSourceCriteria> dataSourceCriterias = dataSourcesPage.getDataSources();
-        dataSourceCriterias.remove(dataSourceForTestEventDetector);
-        return dataSourceCriterias;
+        List<DataSourceCriteria> dataSources = dataSourcesPage.getDataSources();
+        dataSources.remove(dataSourceForTestEventDetector);
+        return dataSources;
     }
 
-    private final DataSourceCriteria dataSourceCriteria;
+    private final UpdateDataSourceCriteria dataSourceCriteria;
 
-    public EventDetectorDiagnosticTest(DataSourceCriteria dataSourceCriteria) {
+    public EventDetectorDiagnosticTest(UpdateDataSourceCriteria dataSourceCriteria) {
         this.dataSourceCriteria = dataSourceCriteria;
     }
 

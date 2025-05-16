@@ -29,11 +29,12 @@ public class ConfigureTestGraphicalViewsCommand implements Command<GraphicalView
 
         GraphicalViewCriteria criteria = GraphicalViewCriteria.criteria(new GraphicalViewIdentifier(TestImplConfiguration.graphicalViewName));
 
+        GraphicalViewObjectsCreator graphicalViewObjectsCreator = new GraphicalViewObjectsCreator(navigationPage, criteria);
+        graphicalViewObjectsCreator.createObjects();
+
         try (CriteriaRegister criteriaRegister = new CriteriaRegister(getClassTest())) {
             criteriaRegister.register(GraphicalViewCriteria.class, criteria);
         }
-        GraphicalViewObjectsCreator graphicalViewObjectsCreator = new GraphicalViewObjectsCreator(navigationPage, criteria);
-        graphicalViewObjectsCreator.createObjects();
     }
 
     @Override

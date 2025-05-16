@@ -7,8 +7,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointChartRenderProperties;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
 import org.scadalts.e2e.page.impl.dicts.ChartRendererType;
@@ -22,6 +24,8 @@ import org.scadalts.e2e.service.impl.services.datapoint.DataPointPropertiesRespo
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.test.impl.creators.DataPointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataPointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.DataPointPropertiesAdapter;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
@@ -38,6 +42,7 @@ public class DataPointChartRendererPropertiesServiceTest {
         return new DataPointChartRenderProperties[] {
                 DataPointChartRenderProperties.builder()
                         .chartRendererType(ChartRendererType.TABLE)
+                        .periodType(PeriodType.NONE)
                         .limit(4)
                         .build(),
                 DataPointChartRenderProperties.builder()
@@ -113,21 +118,22 @@ public class DataPointChartRendererPropertiesServiceTest {
         dataPointProperties = DataPointProperties.properties(dataPointChartRenderProperties);
     }
 
-    private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
-    private static DataPointObjectsCreator dataPointObjectsCreator;
+    private static DataSourcePointObjectsCreator<UpdateDataSourceCriteria, VirtualDataPointCriteria> dataSourcePointObjectsCreator;
+    private static DataPointObjectsCreator<UpdateDataSourceCriteria, VirtualDataPointCriteria> dataPointObjectsCreator;
     private static EditDataSourceWithPointListPage editDataSourceWithPointListPage;
-    private static DataPointCriteria dataPointCriteria;
+    private static VirtualDataPointCriteria dataPointCriteria;
+    private static VirtualDataSourcePointCriteria dataSourcePointCriteria;
 
     @BeforeClass
     public static void setupForAll() {
 
-        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.virtualDataSourceNumericNoChange();
+        dataSourcePointCriteria = VirtualDataSourcePointCriteria.virtualDataSourceNumericNoChange();
 
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcePointObjectsCreator.createObjects();
 
-        dataPointObjectsCreator = new DataPointObjectsCreator(navigationPage,dataSourcePointCriteria);
+        dataPointObjectsCreator = new VirtualDataPointObjectsCreator(navigationPage,dataSourcePointCriteria);
 
         DataSourcesPage dataSourcesPage = dataSourcePointObjectsCreator.openPage();
         editDataSourceWithPointListPage = dataSourcesPage.openDataSourceEditor(dataSourcePointCriteria.getDataSource().getIdentifier());
@@ -143,12 +149,21 @@ public class DataPointChartRendererPropertiesServiceTest {
 
     @Before
     public void setup() {
-        DataPointPropertiesPage dataPointPropertiesPage = editDataSourceWithPointListPage
-                .openDataPointProperties(dataPointCriteria.getIdentifier());
+        DataPointPropertiesPage dataPointPropertiesPage;
+        try {
+            dataPointPropertiesPage = editDataSourceWithPointListPage
+                    .openDataPointProperties(dataPointCriteria.getIdentifier());
+        } catch (Throwable ex) {
+            dataPointPropertiesPage = dataSourcePointObjectsCreator.openPage()
+                    .openDataSourceEditor(dataSourcePointCriteria.getDataSource().getIdentifier())
+                    .openDataPointProperties(dataPointCriteria.getIdentifier());
+        }
 
         dataPointObjectsCreator.reload();
         dataPointObjectsCreator.setProperties(dataPointProperties,
                 dataPointCriteria.getIdentifier().getType(), dataPointPropertiesPage);
+
+        dataPointPropertiesPage.editDataSource();
 
     }
 

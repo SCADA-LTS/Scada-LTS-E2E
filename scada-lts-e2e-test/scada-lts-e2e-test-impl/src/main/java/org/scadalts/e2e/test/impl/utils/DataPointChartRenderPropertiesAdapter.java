@@ -9,7 +9,7 @@ import org.scadalts.e2e.service.impl.services.datapoint.ChartRenderer;
 @EqualsAndHashCode(callSuper = true)
 public class DataPointChartRenderPropertiesAdapter extends DataPointChartRenderProperties {
     public DataPointChartRenderPropertiesAdapter(ChartRenderer chartRenderer) {
-        super(ChartRendererType.getType(chartRenderer.getType()), PeriodType.getType(chartRenderer.getTimePeriodType()),
+        super(ChartRendererType.getType((String)chartRenderer.getDef().get("exportName")), PeriodType.getType(chartRenderer.getTimePeriod()),
                 chartRenderer.isIncludeSum(), chartRenderer.getNumberOfPeriods(), chartRenderer.getLimit());
     }
 }

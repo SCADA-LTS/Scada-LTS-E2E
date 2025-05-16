@@ -29,7 +29,7 @@ public enum DataPointNotifierType implements DictionaryObject {
                 .orElse(DataPointNotifierType.NONE);
     }
 
-    public static DataPointNotifierType getTypeByLevel(String alarmLevel) {
+    public static DataPointNotifierType getTypeByLevel(int alarmLevel) {
         return getTypeByLevel(AlarmLevel.getType(alarmLevel));
     }
 }

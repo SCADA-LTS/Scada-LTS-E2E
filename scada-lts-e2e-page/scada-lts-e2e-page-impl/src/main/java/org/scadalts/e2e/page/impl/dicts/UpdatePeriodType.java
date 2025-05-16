@@ -23,10 +23,26 @@ public enum UpdatePeriodType implements DictionaryObject {
         this.id = id;
     }
 
-    public static UpdatePeriodType getType(String typeName) {
+    private static UpdatePeriodType getTypeByName(String typeName) {
         return Stream.of(UpdatePeriodType.values())
                 .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
+    }
+
+    public static UpdatePeriodType getType(int id) {
+        return Stream.of(UpdatePeriodType.values())
+                .filter(a -> Integer.parseInt(a.id) == id)
+                .findFirst()
+                .orElse(NONE);
+    }
+
+    public static UpdatePeriodType getType(String id) {
+        UpdatePeriodType type = getTypeByName(id);
+        try {
+            return type == NONE ? getType(Integer.parseInt(id)) : type;
+        } catch (Exception ex) {
+            return NONE;
+        }
     }
 }

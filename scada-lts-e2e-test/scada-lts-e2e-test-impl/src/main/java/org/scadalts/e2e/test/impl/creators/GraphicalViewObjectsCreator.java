@@ -34,11 +34,16 @@ public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViews
         GraphicalViewsPage page = openPage();
         for (GraphicalViewCriteria criteria : graphicalViewCriterias) {
             if(page.containsObject(criteria.getIdentifier())) {
-                logger.info("delete object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+
+                logger.info("deleting object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+
                 page.openViewEditor(criteria.getIdentifier())
                         .delete()
                         .reopen();
+
+                logger.info("deleted object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
             }
         }
         return page;
@@ -49,8 +54,10 @@ public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViews
         GraphicalViewsPage page = openPage();
         for (GraphicalViewCriteria criteria : graphicalViewCriterias) {
             if (!page.containsObject(criteria.getIdentifier())) {
-                logger.info("create object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+
+                logger.info("creating object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getXid().getValue(), criteria.getClass().getSimpleName());
+
                 page.openViewCreator()
                         .chooseFile(BACKGROUND_FILE)
                         .uploadFile()
@@ -59,6 +66,9 @@ public class GraphicalViewObjectsCreator implements CreatorObject<GraphicalViews
                         .addViewComponent()
                         .dragAndDropViewComponent()
                         .save();
+
+                logger.info("created object: {}, xid: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getXid().getValue(), criteria.getClass().getSimpleName());
             }
         }
         return page;

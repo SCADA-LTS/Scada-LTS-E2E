@@ -5,7 +5,9 @@ import lombok.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Builder
@@ -18,13 +20,13 @@ import java.util.List;
 public class DataPointPropertiesJson {
 
     private String xid = "";
-    private String loggingType = "";
-    private String intervalLoggingPeriodType = "";
-    private String intervalLoggingType = "";
-    private String purgeType = "";
+    private int loggingType = -1;
+    private int intervalLoggingPeriodType = -1;
+    private int intervalLoggingType = -1;
+    private int purgeType = -1;
     private PointLocator pointLocator = new PointLocator();
     private List<EventDetectorJson> eventDetectors = new ArrayList<>();
-    private String engineeringUnits = "";
+    private int engineeringUnits = -1;
     private String chartColour = "";
     private ChartRenderer chartRenderer = new ChartRenderer();
     private String dataSourceXid = "";
@@ -39,6 +41,8 @@ public class DataPointPropertiesJson {
     private int purgePeriod = 0;
     private TextRenderer textRenderer = new TextRenderer();
     private String tolerance = "";
+
+    private Map<String, Object> def = new HashMap<>();
 
 
 }
