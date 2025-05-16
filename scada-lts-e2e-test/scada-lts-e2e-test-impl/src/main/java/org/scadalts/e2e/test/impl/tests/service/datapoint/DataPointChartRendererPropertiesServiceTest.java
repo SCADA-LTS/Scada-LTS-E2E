@@ -42,6 +42,7 @@ public class DataPointChartRendererPropertiesServiceTest {
         return new DataPointChartRenderProperties[] {
                 DataPointChartRenderProperties.builder()
                         .chartRendererType(ChartRendererType.TABLE)
+                        .periodType(PeriodType.NONE)
                         .limit(4)
                         .build(),
                 DataPointChartRenderProperties.builder()

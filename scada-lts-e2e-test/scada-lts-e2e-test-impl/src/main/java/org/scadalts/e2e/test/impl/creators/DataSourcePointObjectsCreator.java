@@ -37,7 +37,11 @@ public abstract class DataSourcePointObjectsCreator<S extends DataSourceCriteria
 
     @Override
     public DataSourcesPage createObjects() {
-        return _createDataSourcesAndPoints();
+        try {
+            return _createDataSourcesAndPoints();
+        } catch (Throwable throwable) {
+            return deleteObjects();
+        }
     }
 
     @Override

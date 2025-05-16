@@ -32,7 +32,7 @@ public class DeleteDataSourcePageTest {
         dataSourceToDeleteCriteria = UpdateDataSourceCriteria.criteria(dataSourceToDeleteName,
                 UpdatePeriodType.SECOND);
         dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(), dataSourceToDeleteCriteria);
-        dataSourcePointObjectsCreator.createDataSources();
+        dataSourcePointObjectsCreator.createObjects();
         dataSourcesPageSubject = dataSourcePointObjectsCreator.openPage();
     }
 

@@ -27,7 +27,8 @@ public class EditDataSourcePageTest {
         criteria = UpdateDataSourceCriteria.virtualDataSource(UpdatePeriodType.SECOND, 13);
         dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(), criteria);
         dataSourcesPage = dataSourcePointObjectsCreator.openPage();
-        editDataSourceWithPointListPageSubject = dataSourcePointObjectsCreator.createDataSources();
+        editDataSourceWithPointListPageSubject = dataSourcePointObjectsCreator.createObjects()
+                .openDataSourceEditor(criteria);
     }
 
     @After

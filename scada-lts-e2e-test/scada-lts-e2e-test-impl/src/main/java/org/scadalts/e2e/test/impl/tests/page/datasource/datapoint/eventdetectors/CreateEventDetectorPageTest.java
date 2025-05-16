@@ -1,6 +1,6 @@
 package org.scadalts.e2e.test.impl.tests.page.datasource.datapoint.eventdetectors;
 
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scadalts.e2e.page.impl.criterias.Xid;
@@ -30,7 +30,7 @@ public class CreateEventDetectorPageTest {
     private static UpdateDataSourceCriteria dataSourceCriteria;
     private static VirtualDataPointCriteria dataPointCriteria;
     private static VirtualDataSourcePointCriteria dataSourcePointCriteria;
-    private EventDetectorCriteria eventDetectorCriteria;
+    private static EventDetectorCriteria eventDetectorCriteria;
 
     @BeforeClass
     public static void createDataSourcePoint() {
@@ -43,8 +43,8 @@ public class CreateEventDetectorPageTest {
         dataSourcesPage = dataSourcePointObjectsCreator.createObjects();
     }
 
-    @After
-    public void clean() {
+    @AfterClass
+    public static void clean() {
         EventDetectorObjectsCreator eventDetectorObjectsCreator = new EventDetectorObjectsCreator(navigationPage,eventDetectorCriteria);
         eventDetectorObjectsCreator.deleteObjects();
         if(dataSourcePointObjectsCreator != null)
