@@ -50,7 +50,7 @@ public class CreateDataPointPageTest {
 
         navigationPage = TestWithPageUtil.openNavigationPage();
 
-        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourceCriteria, dataPointCreatedCriteria);
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourceCriteria);
 
         dataSourcesPage = dataSourcePointObjectsCreator.openPage();
         editDataSourceWithPointListPageSubject = dataSourcePointObjectsCreator.createObjects()
