@@ -10,6 +10,7 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
 import org.scadalts.e2e.service.core.sessions.CookieFactory;
+import org.scadalts.e2e.service.core.utils.RestUtil;
 import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerGetParams;
 import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerPostParams;
 import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerResponse;
@@ -92,7 +93,7 @@ public class EventHandlerServiceObject implements WebServiceObject {
         logger.info("params: {}", eventHandlerGetParams.getXid());
         logger.info("endpoint: {}", endpoint);
         logger.info("cookie: {}", cookie);
-        MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
+        MediaType mediaType = RestUtil.getJsonUtf8MediaType();
         Response response = client
                 .target(endpoint)
                 .path(eventHandlerGetParams.getXid())

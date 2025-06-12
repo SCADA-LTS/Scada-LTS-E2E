@@ -37,7 +37,7 @@ class MonitoringSizeWorkItemsLongerTest {
     static void preconfig() {
         headless(true)
         pageMode(false)
-        messageSource = new MessageSource()
+        messageSource = new MessageSource("[Scada-LTS-E2E]")
     }
 
     @Before

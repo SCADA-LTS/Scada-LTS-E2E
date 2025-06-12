@@ -32,4 +32,8 @@ public enum DataPointNotifierType implements DictionaryObject {
     public static DataPointNotifierType getTypeByLevel(int alarmLevel) {
         return getTypeByLevel(AlarmLevel.getType(alarmLevel));
     }
+
+    public static DataPointNotifierType getTypeByLevel(String alarmLevel) {
+        return getTypeByLevel(AlarmLevel.getType(alarmLevel));
+    }
 }

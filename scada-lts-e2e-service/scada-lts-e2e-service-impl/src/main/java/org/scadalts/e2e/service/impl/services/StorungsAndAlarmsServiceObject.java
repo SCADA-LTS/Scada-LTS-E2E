@@ -9,6 +9,7 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
 import org.scadalts.e2e.service.core.sessions.CookieFactory;
+import org.scadalts.e2e.service.core.utils.RestUtil;
 import org.scadalts.e2e.service.impl.services.storungs.AcknowledgeResponse;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmParams;
 import org.scadalts.e2e.service.impl.services.storungs.StorungAlarmResponse;
@@ -91,8 +92,9 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.info("endpoint: {}", endpoint);
         logger.debug("cookie: {}", cookie);
+        MediaType mediaType = RestUtil.getJsonUtf8MediaType();
         Response response = client.target(endpoint)
-                .request(MediaType.APPLICATION_JSON_TYPE)
+                .request(mediaType)
                 .cookie(cookie)
                 .get();
         return E2eResponseFactory.newResponseForJsonArray(response, new GenericType<List<StorungAlarmResponse>>() {});
@@ -106,8 +108,9 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.info("endpoint: {}", endpoint);
         logger.debug("cookie: {}", cookie);
+        MediaType mediaType = RestUtil.getJsonUtf8MediaType();
         Response response = client.target(endpoint)
-                .request(MediaType.APPLICATION_JSON_TYPE)
+                .request(mediaType)
                 .cookie(cookie)
                 .get();
         return E2eResponseFactory.newResponseForJsonArray(response, new GenericType<List<StorungAlarmResponse>>() {});
@@ -119,8 +122,9 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.info("endpoint: {}", endpoint);
         logger.debug("cookie: {}", cookie);
+        MediaType mediaType = RestUtil.getJsonUtf8MediaType();
         Response response = client.target(endpoint)
-                .request(MediaType.APPLICATION_JSON_TYPE)
+                .request(mediaType)
                 .cookie(cookie)
                 .post(null);
         return E2eResponseFactory.newResponse(response, AcknowledgeResponse.class);

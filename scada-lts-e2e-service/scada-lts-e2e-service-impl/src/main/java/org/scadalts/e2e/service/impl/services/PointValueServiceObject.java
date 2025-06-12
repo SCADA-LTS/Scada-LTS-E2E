@@ -10,6 +10,7 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
 import org.scadalts.e2e.service.core.sessions.CookieFactory;
+import org.scadalts.e2e.service.core.utils.RestUtil;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueResponse;
 
@@ -70,13 +71,16 @@ public class PointValueServiceObject implements WebServiceObject {
         logger.info("dataPointXid: {}", xid);
         logger.info("endpoint: {}", endpoint);
         logger.info("cookie: {}", cookie);
+        MediaType mediaType = RestUtil.getJsonUtf8MediaType();
         Response response = client.target(endpoint)
                 .path(xid)
-                .request(MediaType.APPLICATION_JSON_TYPE)
+                .request(mediaType)
                 .cookie(cookie)
                 .get();
         return E2eResponseFactory.newResponse(response, PointValueResponse.class);
     }
+
+
 
     @Override
     public void close() {

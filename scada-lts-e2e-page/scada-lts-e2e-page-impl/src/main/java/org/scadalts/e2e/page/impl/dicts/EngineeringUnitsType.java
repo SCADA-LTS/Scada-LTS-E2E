@@ -1177,7 +1177,7 @@ public class EngineeringUnitsType {
         String className = _getClassName(groupName);
         Class<?> key = _getClass(className);
         EngineeringUnit engineeringUnit = _getUnits(key, getUnitsGroupByKey()).stream()
-                .filter(unit -> _preparingUnitName(unit.getName())
+                .filter(unit -> _preparingUnitName(unit.getUnitName())
                         .equalsIgnoreCase(_preparingUnitName(unitName.trim())))
                 .findFirst()
                 .orElse(Other.NO_UNITS);

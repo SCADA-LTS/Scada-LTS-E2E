@@ -21,7 +21,7 @@ class CheckPointValueTest {
     static void preconfig() {
         headless(false)
         pageMode(false)
-        messageSource = new MessageSource()
+        messageSource = new MessageSource("[Scada-LTS-E2E]")
     }
 
     @Before

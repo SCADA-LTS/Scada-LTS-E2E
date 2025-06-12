@@ -18,8 +18,9 @@ import static org.scadalts.e2e.common.core.utils.FormatUtil.unformat;
 import static org.scadalts.e2e.common.core.utils.StabilityUtil.Timeout;
 
 @Log4j2
-public class ServiceStabilityUtil {
+public final class ServiceStabilityUtil {
 
+    private ServiceStabilityUtil() {}
     public static <T, R> E2eResponse<R> applyWhile(Function<T, E2eResponse<R>> function,
                                                    T arg, Timeout timeout) {
 

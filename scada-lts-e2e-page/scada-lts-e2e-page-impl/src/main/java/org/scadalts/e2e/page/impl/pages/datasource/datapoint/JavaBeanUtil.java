@@ -34,7 +34,11 @@ public class JavaBeanUtil {
     public static void selectOption(SelenideElement element,
                                     DictionaryObject dictionaryObject) {
         human.delay();
-        element.selectOption(dictionaryObject.getName());
+        try {
+            element.selectOption(dictionaryObject.getLongName());
+        } catch (Throwable throwable) {
+            element.selectOption(dictionaryObject.getName());
+        }
     }
 
     public static void setValue(By by, String value) {

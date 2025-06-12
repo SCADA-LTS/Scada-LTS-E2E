@@ -31,7 +31,7 @@ public class DataPointPropertiesAdapter extends DataPointProperties {
     private static List<EventDetectorCriteria> _eventDetectors(List<EventDetectorJson> eventDetectors) {
         return eventDetectors.stream().map(a -> EventDetectorCriteria.builder()
                 .identifier(new EventDetectorIdentifier(a.getAlias(),
-                        EventDetectorType.getType(a.getDetectorType())))
+                        EventDetectorType.getType(a.getType())))
                 .alarmLevel(AlarmLevel.getType(a.getAlarmLevel()))
                 .xid(new Xid(a.getXid()))
                 .dataSourcePointCriteria(VirtualDataSourcePointCriteria.empty())
