@@ -17,14 +17,22 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
     private final @NonNull ChangeType changeType;
     private final @NonNull String startValue;
 
+    private final @NonNull String minValue;
+    private final @NonNull String maxValue;
+    private final @NonNull String changeValue;
+
     @Builder
-    protected VirtualDataPointCriteria(@NonNull Xid xid, @NonNull DataPointIdentifier identifier,
-                                       @NonNull ChangeType changeType, @NonNull String startValue,
-                                       boolean settable, boolean enabled,
-                                       @NonNull DataPointProperties dataPointProperties) {
+    public VirtualDataPointCriteria(@NonNull Xid xid, @NonNull DataPointIdentifier identifier,
+                                    @NonNull ChangeType changeType, @NonNull String startValue,
+                                    boolean settable, boolean enabled,
+                                    @NonNull DataPointProperties dataPointProperties, @NonNull String minValue,
+                                    @NonNull String maxValue, @NonNull String changeValue) {
         super(xid, identifier, settable, enabled, dataPointProperties);
         this.changeType = changeType;
         this.startValue = startValue;
+        this.minValue = minValue;
+        this.maxValue = maxValue;
+        this.changeValue = changeValue;
     }
 
     public static VirtualDataPointCriteria empty() {
@@ -36,6 +44,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(false)
                 .enabled(false)
                 .xid(new Xid(""))
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -51,6 +62,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -66,6 +80,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -80,6 +97,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -94,6 +114,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(false)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -109,6 +132,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -123,6 +149,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -138,6 +167,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -153,6 +185,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -167,6 +202,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -181,6 +219,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -194,6 +235,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -207,6 +251,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -220,6 +267,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(new Xid(xid))
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -234,6 +284,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -248,6 +301,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(enabled)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -262,6 +318,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -280,6 +339,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -298,6 +360,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -312,6 +377,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(enabled)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -325,6 +393,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .settable(true)
                 .enabled(true)
                 .xid(xid)
+                .maxValue("")
+                .minValue("")
+                .changeValue("")
                 .build();
     }
 
@@ -337,6 +408,9 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
                 .changeType(changeType)
                 .identifier(super.getIdentifier())
                 .startValue(startValue)
+                .maxValue(maxValue)
+                .minValue(minValue)
+                .changeValue(changeValue)
                 .build();
     }
 

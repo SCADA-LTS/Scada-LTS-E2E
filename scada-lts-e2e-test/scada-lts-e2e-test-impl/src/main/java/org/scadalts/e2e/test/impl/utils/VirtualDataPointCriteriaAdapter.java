@@ -16,7 +16,10 @@ public class VirtualDataPointCriteriaAdapter extends VirtualDataPointCriteria {
                 new ChangeTypeAdapter(dataPointPropertiesJson.getPointLocator()).changeType(),
                 dataPointPropertiesJson.getPointLocator().getChangeType().getStartValue(),
                 dataPointPropertiesJson.getPointLocator().isSettable(), dataPointPropertiesJson.isEnabled(),
-                new DataPointPropertiesAdapter(dataPointPropertiesJson));
+                new DataPointPropertiesAdapter(dataPointPropertiesJson),
+                dataPointPropertiesJson.getPointLocator().getChangeType().getMinValue(),
+                dataPointPropertiesJson.getPointLocator().getChangeType().getMaxValue(),
+                dataPointPropertiesJson.getPointLocator().getChangeType().getChangeValue());
     }
 
 }

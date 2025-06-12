@@ -111,8 +111,8 @@ public abstract class DataPointObjectsCreator<S extends DataSourceCriteria, P ex
     }
 
     public DataPointPropertiesPage setProperties(DataPointProperties dataPointProperties,
-                                                         DataPointType dataPointType,
-                                                         DataPointPropertiesPage dataPointPropertiesPage) {
+                                                 DataPointType dataPointType,
+                                                 DataPointPropertiesPage dataPointPropertiesPage) {
 
         DataPointTextRendererProperties textRenderer = dataPointProperties.getTextRendererProperties();
         if(!textRenderer.isEmpty()) {

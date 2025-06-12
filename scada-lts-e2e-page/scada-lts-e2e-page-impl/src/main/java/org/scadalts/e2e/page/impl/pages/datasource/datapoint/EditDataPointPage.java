@@ -124,11 +124,46 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
     }
 
     public EditDataPointPage setStartValue(VirtualDataPointCriteria criteria) {
-        delay();
-        String css = MessageFormat.format("td *[id=''{0}'']", DataPointChangeFieldType
-                .getType(criteria, ChangeTypeField.START_VALUE).getId());
-        waitWhile($(css), not(Condition.visible))
-                .setValue(criteria.getStartValue());
+        if(!criteria.getStartValue().isEmpty()) {
+            delay();
+            String css = MessageFormat.format("td *[id=''{0}'']", DataPointChangeFieldType
+                    .getType(criteria, ChangeTypeField.START_VALUE).getId());
+            waitWhile($(css), not(Condition.visible))
+                    .setValue(criteria.getStartValue());
+        }
+        return this;
+    }
+
+    public EditDataPointPage setMinValue(VirtualDataPointCriteria criteria) {
+        if(!criteria.getMinValue().isEmpty()) {
+            delay();
+            String css = MessageFormat.format("td *[id=''{0}'']", DataPointChangeFieldType
+                    .getType(criteria, ChangeTypeField.MIN).getId());
+            waitWhile($(css), not(Condition.visible))
+                    .setValue(criteria.getMinValue());
+        }
+        return this;
+    }
+
+    public EditDataPointPage setMaxValue(VirtualDataPointCriteria criteria) {
+        if(!criteria.getMaxValue().isEmpty()) {
+            delay();
+            String css = MessageFormat.format("td *[id=''{0}'']", DataPointChangeFieldType
+                    .getType(criteria, ChangeTypeField.MAX).getId());
+            waitWhile($(css), not(Condition.visible))
+                    .setValue(criteria.getMaxValue());
+        }
+        return this;
+    }
+
+    public EditDataPointPage setChangeValue(VirtualDataPointCriteria criteria) {
+        if(!criteria.getChangeValue().isEmpty()) {
+            delay();
+            String css = MessageFormat.format("td *[id=''{0}'']", DataPointChangeFieldType
+                    .getType(criteria, ChangeTypeField.CHANGE).getId());
+            waitWhile($(css), not(Condition.visible))
+                    .setValue(criteria.getChangeValue());
+        }
         return this;
     }
 
@@ -214,7 +249,11 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
     }
 
     public EditDataSourceWithPointListPage enableDataPoint(VirtualDataPointCriteria criteria) {
-        return editDataSourceWithPointListPage.enableDataPoint(criteria.getIdentifier());
+        if(criteria.isEnabled()) {
+            return editDataSourceWithPointListPage.enableDataPoint(criteria.getIdentifier());
+        } else {
+            return editDataSourceWithPointListPage;
+        }
     }
 
     public EditDataSourceWithPointListPage disableDataPoint(VirtualDataPointCriteria criteria) {
