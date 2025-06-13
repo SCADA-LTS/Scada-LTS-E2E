@@ -25,14 +25,14 @@ public class VirtualDataPointCriteria extends DataPointCriteria {
     public VirtualDataPointCriteria(@NonNull Xid xid, @NonNull DataPointIdentifier identifier,
                                     @NonNull ChangeType changeType, @NonNull String startValue,
                                     boolean settable, boolean enabled,
-                                    @NonNull DataPointProperties dataPointProperties, @NonNull String minValue,
-                                    @NonNull String maxValue, @NonNull String changeValue) {
+                                    @NonNull DataPointProperties dataPointProperties, String minValue,
+                                    String maxValue, String changeValue) {
         super(xid, identifier, settable, enabled, dataPointProperties);
         this.changeType = changeType;
         this.startValue = startValue;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-        this.changeValue = changeValue;
+        this.minValue = minValue == null ? "" : minValue;
+        this.maxValue = maxValue == null ? "" : maxValue;
+        this.changeValue = changeValue == null ? "" : changeValue;
     }
 
     public static VirtualDataPointCriteria empty() {

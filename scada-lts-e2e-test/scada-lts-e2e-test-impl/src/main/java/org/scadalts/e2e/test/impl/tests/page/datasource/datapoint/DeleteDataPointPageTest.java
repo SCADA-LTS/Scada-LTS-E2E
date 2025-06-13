@@ -14,13 +14,11 @@ import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
-import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DeleteDataPointPageTest {
 
@@ -62,20 +60,16 @@ public class DeleteDataPointPageTest {
     @Test
     public void test_delete_data_point() {
 
-        //when:
-        String bodyBeforeDelete = editDataSourceWithPointListPageSubject.getBodyText();
-
         //then:
-        assertThat(bodyBeforeDelete, containsString(dataPointToDeleteName.getValue()));
+        assertTrue(editDataSourceWithPointListPageSubject.containsObject(dataPointToDeleteCriteria.getIdentifier()));
 
         //and when:
-        String bodyAfterDelete = editDataSourceWithPointListPageSubject
+        editDataSourceWithPointListPageSubject
                 .openDataPointEditor(dataPointToDeleteCriteria.getIdentifier())
                 .deleteDataPoint()
-                .waitOnPageWhileVisibleDataPoint(dataPointToDeleteCriteria.getIdentifier())
-                .getBodyText();
+                .waitOnPageWhileVisibleDataPoint(dataPointToDeleteCriteria.getIdentifier());
 
         //then:
-        assertThat(bodyAfterDelete, not(containsString(dataPointToDeleteName.getValue())));
+        assertFalse(editDataSourceWithPointListPageSubject.containsObject(dataPointToDeleteCriteria.getIdentifier()));
     }
 }
