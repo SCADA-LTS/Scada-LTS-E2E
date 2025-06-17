@@ -273,6 +273,17 @@ public class InternalDataPointCriteria extends DataPointCriteria {
                 .build();
     }
 
+    public static InternalDataPointCriteria point(String xid, InternalDataPointAttributeType attributeType) {
+        return InternalDataPointCriteria.builder()
+                .attributeType(attributeType)
+                .identifier(IdentifierObjectFactory.dataPointName(attributeType))
+                .dataPointProperties(DataPointProperties.empty())
+                .enabled(true)
+                .xid(new Xid(xid))
+                .build();
+    }
+
+
     public InternalDataPointCriteria with(DataPointProperties dataPointProperties) {
         return InternalDataPointCriteria.builder()
                 .dataPointProperties(dataPointProperties)

@@ -3,6 +3,8 @@ package org.scadalts.e2e.page.impl.dicts;
 import lombok.Getter;
 import org.scadalts.e2e.common.core.dicts.DictionaryObject;
 
+import java.util.stream.Stream;
+
 @Getter
 public enum InternalDataPointAttributeType implements DictionaryObject {
 
@@ -21,5 +23,9 @@ public enum InternalDataPointAttributeType implements DictionaryObject {
     InternalDataPointAttributeType(String name, String id) {
         this.name = name;
         this.id = id;
+    }
+
+    public static InternalDataPointAttributeType getType(String value) {
+        return Stream.of(InternalDataPointAttributeType.values()).filter( a -> a.getName().equals(value) || a.getId().equals(value)).findAny().orElse(InternalDataPointAttributeType.NONE);
     }
 }

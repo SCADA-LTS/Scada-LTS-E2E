@@ -54,11 +54,12 @@ public class CriteriaRegister implements AutoCloseable {
     public void close() {
         CriteriaRegisterAggregator criteriaRegisterAggregator = CriteriaRegisterAggregator.INSTANCE;
         criteriaRegisterAggregator.putRegister(tagetClass, this);
-        criterias = Collections.unmodifiableMap(criterias);
+        //criterias = Collections.unmodifiableMap(criterias);
     }
 
     public void clear() {
         criterias.clear();
+        criterias = null;
     }
 
     public static CriteriaRegister getRegister(Class<?> classTarget, Command<?> executedIfNotExists) {

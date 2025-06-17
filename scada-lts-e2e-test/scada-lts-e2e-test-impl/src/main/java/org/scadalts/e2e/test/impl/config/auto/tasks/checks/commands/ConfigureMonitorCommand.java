@@ -8,14 +8,19 @@ import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.WatchListIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
+import org.scadalts.e2e.page.impl.dicts.InternalDataPointAttributeType;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegister;
 import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegisterAggregator;
-import org.scadalts.e2e.test.impl.creators.InternalDataPointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.InternalDataSourcePointObjectsCreator;
-import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
 import org.scadalts.e2e.test.impl.tests.check.datapoint.DataPointDetailsCheckTestsSuite;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 @Data
 public class ConfigureMonitorCommand implements Command<DataPointDetailsCheckTestsSuite> {
@@ -33,32 +38,30 @@ public class ConfigureMonitorCommand implements Command<DataPointDetailsCheckTes
     private void _execute() {
         UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.criteriaSecond(new DataSourceIdentifier("monitor", DataSourceType.INTERNAL_DATA_SOURCE));
 
-        InternalDataSourcePointCriteria pointValuesToBeWritten = InternalDataSourcePointCriteria.pointValuesToBeWritten(dataSourceCriteria,"DP_986471");
-        InternalDataSourcePointCriteria pointValueWriteThreads = InternalDataSourcePointCriteria.pointValueWriteThreads(dataSourceCriteria,"DP_628851");
-        InternalDataSourcePointCriteria maximumThreadStackHeight = InternalDataSourcePointCriteria.maximumThreadStackHeight(dataSourceCriteria,"DP_945136");
-        InternalDataSourcePointCriteria highPriorityWorkItems = InternalDataSourcePointCriteria.highPriorityWorkItems(dataSourceCriteria,"DP_800114");
-        InternalDataSourcePointCriteria mediumPriorityWorkItems = InternalDataSourcePointCriteria.mediumPriorityWorkItems(dataSourceCriteria,"DP_182130");
-        InternalDataSourcePointCriteria scheduledWorkItems = InternalDataSourcePointCriteria.scheduledWorkItems(dataSourceCriteria,"DP_490877");
-        InternalDataSourcePointCriteria activeThreadCount = InternalDataSourcePointCriteria.activeThreadCount(dataSourceCriteria,"DP_809550");
+        Properties properties = new Properties();
+        try(FileReader fileReader = new FileReader("groovy/groovy-config.properties")) {
+            properties.load(fileReader);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        String value = properties.getProperty("run.test.points");
+        String[] lines = value.split(";");
+        List<InternalDataSourcePointCriteria> points = new ArrayList<>();
+        for(String line: lines) {
+            String[] columns = line.split(":");
+            String first = columns[0];
+            String typeName = columns[1];
+
+            points.add(InternalDataSourcePointCriteria.criteria(dataSourceCriteria, InternalDataPointCriteria.point(first, InternalDataPointAttributeType.getType(typeName))));
+        }
 
         WatchListCriteria watchListCriteria = WatchListCriteria.criteria(new WatchListIdentifier("monitor-wl"),
-                pointValuesToBeWritten,
-                pointValueWriteThreads,
-                maximumThreadStackHeight,
-                highPriorityWorkItems,
-                mediumPriorityWorkItems,
-                scheduledWorkItems,
-                activeThreadCount
+                points.toArray(InternalDataSourcePointCriteria[]::new)
         );
 
         InternalDataSourcePointObjectsCreator dataSourcePointObjectsCreator = new InternalDataSourcePointObjectsCreator(navigationPage,
-                pointValuesToBeWritten,
-                pointValueWriteThreads,
-                maximumThreadStackHeight,
-                highPriorityWorkItems,
-                mediumPriorityWorkItems,
-                scheduledWorkItems,
-                activeThreadCount
+                points.toArray(InternalDataSourcePointCriteria[]::new)
         );
         dataSourcePointObjectsCreator.createObjects();
 
@@ -69,21 +72,13 @@ public class ConfigureMonitorCommand implements Command<DataPointDetailsCheckTes
 
             criteriaRegister.register(UpdateDataSourceCriteria.class, dataSourceCriteria);
 
-            criteriaRegister.register(InternalDataPointCriteria.class, pointValuesToBeWritten.getDataPoint());
-            criteriaRegister.register(InternalDataPointCriteria.class, pointValueWriteThreads.getDataPoint());
-            criteriaRegister.register(InternalDataPointCriteria.class, maximumThreadStackHeight.getDataPoint());
-            criteriaRegister.register(InternalDataPointCriteria.class, highPriorityWorkItems.getDataPoint());
-            criteriaRegister.register(InternalDataPointCriteria.class, mediumPriorityWorkItems.getDataPoint());
-            criteriaRegister.register(InternalDataPointCriteria.class, scheduledWorkItems.getDataPoint());
-            criteriaRegister.register(InternalDataPointCriteria.class, activeThreadCount.getDataPoint());
+            for(InternalDataSourcePointCriteria sourcePointCriteria: points) {
+                criteriaRegister.register(InternalDataPointCriteria.class, sourcePointCriteria.getDataPoint());
+            }
 
-            criteriaRegister.register(InternalDataSourcePointCriteria.class, pointValuesToBeWritten);
-            criteriaRegister.register(InternalDataSourcePointCriteria.class, pointValueWriteThreads);
-            criteriaRegister.register(InternalDataSourcePointCriteria.class, maximumThreadStackHeight);
-            criteriaRegister.register(InternalDataSourcePointCriteria.class, highPriorityWorkItems);
-            criteriaRegister.register(InternalDataSourcePointCriteria.class, mediumPriorityWorkItems);
-            criteriaRegister.register(InternalDataSourcePointCriteria.class, scheduledWorkItems);
-            criteriaRegister.register(InternalDataSourcePointCriteria.class, activeThreadCount);
+            for(InternalDataSourcePointCriteria sourcePointCriteria: points) {
+                criteriaRegister.register(InternalDataSourcePointCriteria.class, sourcePointCriteria);
+            }
 
             criteriaRegister.register(WatchListCriteria.class, watchListCriteria);
 

@@ -84,6 +84,7 @@ public interface NodeCriteria {
                 .parent(parent)
                 .child(child)
                 .childAttribute(childAttribute)
+                .equal(false)
                 .build();
     }
 
@@ -93,6 +94,7 @@ public interface NodeCriteria {
                 .child(child)
                 .childAttribute(childAttribute)
                 .parentAttribute1(parentAttribute)
+                .equal(false)
                 .build();
     }
 
@@ -104,6 +106,38 @@ public interface NodeCriteria {
                 .childAttribute(childAttribute)
                 .parentAttribute1(parentAttribute1)
                 .parentAttribute2(parentAttribute2)
+                .equal(false)
+                .build();
+    }
+
+    static NodeCriteria withNodeEqual(Tag parent, Tag child, XpathAttribute childAttribute) {
+        return NodeCriteriaWithNode.builder()
+                .parent(parent)
+                .child(child)
+                .childAttribute(childAttribute)
+                .equal(true)
+                .build();
+    }
+
+    static NodeCriteria withNodeEqual(Tag parent, Tag child, XpathAttribute childAttribute, XpathAttribute parentAttribute) {
+        return NodeCriteriaWithNode.builder()
+                .parent(parent)
+                .child(child)
+                .childAttribute(childAttribute)
+                .parentAttribute1(parentAttribute)
+                .equal(true)
+                .build();
+    }
+
+    static NodeCriteria withNodeEqual(Tag parent, Tag child, XpathAttribute childAttribute, XpathAttribute parentAttribute1,
+                                 XpathAttribute parentAttribute2) {
+        return NodeCriteriaWithNode.builder()
+                .parent(parent)
+                .child(child)
+                .childAttribute(childAttribute)
+                .parentAttribute1(parentAttribute1)
+                .parentAttribute2(parentAttribute2)
+                .equal(true)
                 .build();
     }
 
