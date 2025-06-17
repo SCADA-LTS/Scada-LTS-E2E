@@ -41,6 +41,12 @@ public class JavaBeanUtil {
         }
     }
 
+    public static void selectOptionOld(SelenideElement element,
+                                    DictionaryObject dictionaryObject) {
+        human.delay();
+        element.selectOption(dictionaryObject.getName());
+    }
+
     public static void setValue(By by, String value) {
         setValue($(by), value);
     }

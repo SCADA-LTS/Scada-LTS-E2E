@@ -399,7 +399,16 @@ public class DataPointPropertiesPage extends PageObjectAbstract<DataPointPropert
     }
 
     public DataPointPropertiesPage selectEngineeringUnit(EngineeringUnit engineeringUnit) {
-        selectOption(engineeringUnitsSelect, engineeringUnit);
+        try {
+            SelenideElement versionElement = $(By.cssSelector("#scada-details--version"));
+            if(versionElement.is(Condition.exist)) {
+                selectOption(engineeringUnitsSelect, engineeringUnit);
+            } else {
+                selectOptionOld(engineeringUnitsSelect, engineeringUnit);
+            }
+        } catch (Throwable throwable) {
+            selectOptionOld(engineeringUnitsSelect, engineeringUnit);
+        }
         return this;
     }
 

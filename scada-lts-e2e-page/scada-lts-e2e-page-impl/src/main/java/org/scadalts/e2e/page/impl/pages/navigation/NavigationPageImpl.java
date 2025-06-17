@@ -38,6 +38,9 @@ class NavigationPageImpl extends PageObjectAbstract<NavigationPage> implements N
     @FindBy(css = ".userName")
     private SelenideElement userName;
 
+    @FindBy(id = "scada-details--version")
+    private SelenideElement scadaLtsVersion;
+
     public NavigationPageImpl() {
         super();
     }
@@ -175,6 +178,11 @@ class NavigationPageImpl extends PageObjectAbstract<NavigationPage> implements N
     @Override
     public String getUserName() {
         return userName.getText();
+    }
+
+    @Override
+    public String getScadaLtsVersion() {
+        return scadaLtsVersion.getText();
     }
 
     @Override
