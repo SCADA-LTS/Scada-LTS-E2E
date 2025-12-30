@@ -13,8 +13,7 @@ import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 public class LoginServiceTest {
@@ -50,7 +49,7 @@ public class LoginServiceTest {
 
         //then:
         assertTrue(response.isPresent());
-        assertEquals(false, response.get().getLocation().contains("login.htm?error"));
+        assertEquals("url: " + response.get().getLocation(),true, TestWithoutPageUtil.isApiLogged());
     }
 
 }

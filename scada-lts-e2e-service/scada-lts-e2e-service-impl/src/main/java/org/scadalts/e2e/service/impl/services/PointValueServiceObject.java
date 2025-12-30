@@ -77,7 +77,7 @@ public class PointValueServiceObject implements WebServiceObject {
                 .request(mediaType)
                 .cookie(cookie)
                 .get();
-        return E2eResponseFactory.newResponse(response, PointValueResponse.class);
+        return E2eResponseFactory.newResponse(response, PointValueResponse.class, endpoint);
     }
 
 

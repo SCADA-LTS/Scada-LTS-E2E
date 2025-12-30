@@ -55,7 +55,7 @@ public class CmpServiceObject implements WebServiceObject {
                 .request(mediaType)
                 .cookie(cookie)
                 .post(Entity.entity(new CmpParams[]{cmpParams}, mediaType));
-        return E2eResponseFactory.newResponseForJsonArrayFirst(response, new GenericType<List<CmpParams>>() {});
+        return E2eResponseFactory.newResponseForJsonArrayFirst(response, new GenericType<List<CmpParams>>() {}, endpoint);
     }
 
     @Override

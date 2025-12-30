@@ -950,7 +950,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <test.e2e.url-app-being-tested>http://localhost:8080/ScadaBR</test.e2e.url-app-being-tested>
+                <test.e2e.url-app-being-tested>http://localhost:8080/Scada-LTS</test.e2e.url-app-being-tested>
                 <test.e2e.log-level>INFO</test.e2e.log-level>
                 <test.e2e.user-name>admin</test.e2e.user-name>
                 <test.e2e.password>admin</test.e2e.password>

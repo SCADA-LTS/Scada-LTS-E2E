@@ -79,7 +79,7 @@ public class EventHandlerServiceObject implements WebServiceObject {
                 .cookie(cookie)
                 .get();
         List<EventHandlerResponse> list = _getList(response);
-        return E2eResponseFactory.newResponse(response, list);
+        return E2eResponseFactory.newResponse(response, list, endpoint);
     }
 
     private List<EventHandlerResponse> _getList(Response response) {
@@ -100,7 +100,7 @@ public class EventHandlerServiceObject implements WebServiceObject {
                 .request(mediaType)
                 .cookie(cookie)
                 .get();
-        return E2eResponseFactory.newResponse(response, EventHandlerResponse.class);
+        return E2eResponseFactory.newResponse(response, EventHandlerResponse.class, endpoint);
     }
 
     private E2eResponse<EventHandlerResponse> _createEventHandler(EventHandlerPostParams eventHandlerPostParams) {
@@ -120,7 +120,7 @@ public class EventHandlerServiceObject implements WebServiceObject {
                 .request(mediaType)
                 .cookie(cookie)
                 .post(Entity.entity(eventHandlerPostParams.getBody(), MediaType.APPLICATION_JSON));
-        return E2eResponseFactory.newResponse(response, EventHandlerResponse.class);
+        return E2eResponseFactory.newResponse(response, EventHandlerResponse.class, endpoint);
     }
 
     @Override

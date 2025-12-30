@@ -64,7 +64,7 @@ public class DataPointServiceObject implements WebServiceObject {
                 .request(mediaType)
                 .cookie(cookie)
                 .get();
-        return E2eResponseFactory.newResponse(response, DataPointPropertiesResponse.class);
+        return E2eResponseFactory.newResponse(response, DataPointPropertiesResponse.class, endpoint);
     }
 
     @Override

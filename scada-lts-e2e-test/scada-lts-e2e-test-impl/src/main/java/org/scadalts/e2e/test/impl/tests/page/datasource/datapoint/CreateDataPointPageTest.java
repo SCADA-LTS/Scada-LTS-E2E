@@ -25,7 +25,7 @@ public class CreateDataPointPageTest {
     private static EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
     private static UpdateDataSourceCriteria dataSourceCriteria;
 
-    @Parameterized.Parameters(name = "{index}: xid: {0}, dataType: {1}, changeType: {2}, startValue: {3}, settable: {4}, enabled: {5}, enabled: {6}, minValue: {6}, maxValue: {6}, changeValue: {6}")
+    @Parameterized.Parameters(name = "{index}: xid: {0}, dataType: {1}, changeType: {2}, startValue: {3}, settable: {4}, enabled: {5}, minValue: {6}, maxValue: {7}, changeValue: {8}")
     public static Object[][] data() {
         return new Object[][] {
 

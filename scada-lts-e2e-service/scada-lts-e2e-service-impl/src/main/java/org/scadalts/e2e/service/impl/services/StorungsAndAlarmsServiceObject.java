@@ -97,7 +97,7 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
                 .request(mediaType)
                 .cookie(cookie)
                 .get();
-        return E2eResponseFactory.newResponseForJsonArray(response, new GenericType<List<StorungAlarmResponse>>() {});
+        return E2eResponseFactory.newResponseForJsonArray(response, new GenericType<List<StorungAlarmResponse>>() {}, endpoint);
     }
 
     private E2eResponse<List<StorungAlarmResponse>> _getHistoryAlarms(StorungAlarmParams storungAlarmParams) {
@@ -113,7 +113,7 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
                 .request(mediaType)
                 .cookie(cookie)
                 .get();
-        return E2eResponseFactory.newResponseForJsonArray(response, new GenericType<List<StorungAlarmResponse>>() {});
+        return E2eResponseFactory.newResponseForJsonArray(response, new GenericType<List<StorungAlarmResponse>>() {}, endpoint);
     }
 
 
@@ -127,6 +127,6 @@ public class StorungsAndAlarmsServiceObject implements WebServiceObject {
                 .request(mediaType)
                 .cookie(cookie)
                 .post(null);
-        return E2eResponseFactory.newResponse(response, AcknowledgeResponse.class);
+        return E2eResponseFactory.newResponse(response, AcknowledgeResponse.class, endpoint);
     }
 }

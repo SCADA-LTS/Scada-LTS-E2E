@@ -109,7 +109,7 @@ public class LoginServiceObject implements WebServiceObject {
                 .target(endpoint)
                 .request()
                 .post(Entity.form(data));
-        E2eResponse<String> res = E2eResponseFactory.newResponse(response, String.class);
+        E2eResponse<String> res = E2eResponseFactory.newResponse(response, String.class, endpoint);
         _setConfig(res);
         return res;
     }
@@ -124,7 +124,7 @@ public class LoginServiceObject implements WebServiceObject {
                 .target(endpoint)
                 .request(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
                 .post(Entity.form(data));
-        E2eResponse<String> res = E2eResponseFactory.newResponse(response, String.class);
+        E2eResponse<String> res = E2eResponseFactory.newResponse(response, String.class, endpoint);
         _setConfig(res);
         return res;
     }
@@ -138,7 +138,7 @@ public class LoginServiceObject implements WebServiceObject {
                 .header("WWW-Authenticate","Basic " + toBase64(loginParams))
                 .header("Authorization","Basic " + toBase64(loginParams))
                 .post(null);
-        E2eResponse<String> res = E2eResponseFactory.newResponse(response, String.class);
+        E2eResponse<String> res = E2eResponseFactory.newResponse(response, String.class, endpoint);
         _setConfig(res);
         return res;
     }
@@ -156,7 +156,7 @@ public class LoginServiceObject implements WebServiceObject {
                 .request(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
                 .cookie(cookie)
                 .get();
-        return E2eResponseFactory.newResponse(response, String.class);
+        return E2eResponseFactory.newResponse(response, String.class, endpoint);
     }
 
     private void _setConfig(E2eResponse<String> response) {

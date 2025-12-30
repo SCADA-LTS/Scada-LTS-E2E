@@ -67,7 +67,7 @@ public class EventDetectorServiceObject implements WebServiceObject {
                 .request(mediaType)
                 .cookie(cookie)
                 .post(Entity.entity(eventDetectorParams.getBody(), MediaType.APPLICATION_JSON));
-        return E2eResponseFactory.newResponse(response, EventDetectorPostResponse.class);
+        return E2eResponseFactory.newResponse(response, EventDetectorPostResponse.class, endpoint);
     }
 
     public E2eResponse<EventDetectorPostResponse> _setChangeEventDetector(EventDetectorParams eventDetectorParams) {
@@ -84,7 +84,7 @@ public class EventDetectorServiceObject implements WebServiceObject {
                 .request(mediaType)
                 .cookie(cookie)
                 .post(Entity.entity(eventDetectorParams.getBody(), mediaType));
-        return E2eResponseFactory.newResponse(response, EventDetectorPostResponse.class);
+        return E2eResponseFactory.newResponse(response, EventDetectorPostResponse.class, endpoint);
     }
 
     private E2eResponse<List<EventDetectorResponse>> _getEventDetectorsByXid(EventDetectorParams eventDetectorParams) {
@@ -100,7 +100,7 @@ public class EventDetectorServiceObject implements WebServiceObject {
                 .request(mediaType)
                 .cookie(cookie)
                 .get();
-        return E2eResponseFactory.newResponseForJsonArray(response, new GenericType<List<EventDetectorResponse>>() {});
+        return E2eResponseFactory.newResponseForJsonArray(response, new GenericType<List<EventDetectorResponse>>() {}, endpoint);
     }
 
     @Override
