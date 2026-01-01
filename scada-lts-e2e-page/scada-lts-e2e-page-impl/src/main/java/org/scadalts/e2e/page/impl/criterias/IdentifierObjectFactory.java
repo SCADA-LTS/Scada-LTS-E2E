@@ -12,6 +12,10 @@ public class IdentifierObjectFactory {
         return new DataPointIdentifier("dp_test_" + unique(),dataPointType);
     }
 
+    public static DataPointIdentifier dataPointName(InternalDataPointAttributeType attributeType) {
+        return new DataPointIdentifier(attributeType.getName(), DataPointType.NUMERIC);
+    }
+
     public static DataPointIdentifier dataPointAlarmBinaryTypeName() {
         return dataPointNotifierName(DataPointNotifierType.ALARM, DataPointType.BINARY);
     }

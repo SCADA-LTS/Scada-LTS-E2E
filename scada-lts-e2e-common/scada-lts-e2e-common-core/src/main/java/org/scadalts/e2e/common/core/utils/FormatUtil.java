@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class FormatUtil {
     public static String unformat(Object input) {
-        String value = String.valueOf(input);
+        String value = String.valueOf(input).trim();
         if(StringUtils.isNumeric(value))
             return String.valueOf(new BigDecimal(value).doubleValue());
         return value;

@@ -27,10 +27,26 @@ public enum EventType implements DictionaryObject {
         return id;
     }
 
-    public static EventType getType(String typeName) {
+    private static EventType getTypeByName(String typeName) {
         return Stream.of(EventType.values())
                 .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
+    }
+
+    public static EventType getType(int id) {
+        return Stream.of(EventType.values())
+                .filter(a -> Integer.parseInt(a.id) == id)
+                .findFirst()
+                .orElse(NONE);
+    }
+
+    public static EventType getType(String id) {
+        EventType type = getTypeByName(id);
+        try {
+            return type == NONE ? getType(Integer.parseInt(id)) : type;
+        } catch (Exception ex) {
+            return NONE;
+        }
     }
 }

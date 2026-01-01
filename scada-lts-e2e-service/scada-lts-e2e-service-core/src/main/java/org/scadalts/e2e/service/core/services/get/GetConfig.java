@@ -1,5 +1,6 @@
 package org.scadalts.e2e.service.core.services.get;
 
+import java.net.URL;
 import java.text.MessageFormat;
 
 public class GetConfig {
@@ -10,7 +11,7 @@ public class GetConfig {
         this.endpoint = MessageFormat.format(uri, params);
     }
 
-    public String getEndpoint() {
-        return endpoint;
+    public String getEndpoint(URL baseUrl) {
+        return baseUrl + endpoint;
     }
 }

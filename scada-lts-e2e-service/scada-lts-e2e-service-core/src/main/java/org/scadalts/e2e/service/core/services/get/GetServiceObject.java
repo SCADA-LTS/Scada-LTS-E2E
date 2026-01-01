@@ -79,11 +79,11 @@ public class GetServiceObject implements WebServiceObject {
 
     private <T> E2eResponse<T> _get(GetConfig getConfig, Function<String, T> mapper) {
         Response response = doGet(getConfig);
-        return mapToObject(mapper, response);
+        return mapToObject(mapper, response, getConfig.getEndpoint(baseUrl));
     }
 
     private Response doGet(GetConfig getConfig) {
-        String endpoint = baseUrl + getConfig.getEndpoint();
+        String endpoint = getConfig.getEndpoint(baseUrl);
         Cookie cookie = CookieFactory.newSessionCookie(E2eConfiguration.sessionId);
         logger.info("endpoint: {}", endpoint);
         logger.info("cookie: {}", cookie);
@@ -94,8 +94,8 @@ public class GetServiceObject implements WebServiceObject {
                 .get();
     }
 
-    private static <T> E2eResponse<T> mapToObject(Function<String, T> mapper, Response response) {
-        return E2eResponseFactory.newResponse(response, mapper.apply(response.readEntity(String.class)));
+    private static <T> E2eResponse<T> mapToObject(Function<String, T> mapper, Response response, String endpoint) {
+        return E2eResponseFactory.newResponse(response, mapper.apply(response.readEntity(String.class)), endpoint);
     }
 
     @Override

@@ -3,10 +3,7 @@ package org.scadalts.e2e.test.impl.config.auto.tasks.checks;
 import lombok.Data;
 import lombok.NonNull;
 import org.junit.Before;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
-import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
-import org.scadalts.e2e.page.impl.criterias.EventHandlerCriteria;
-import org.scadalts.e2e.page.impl.criterias.ScriptCriteria;
+import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.datapoint.DataPointPropertiesPage;
 import org.scadalts.e2e.page.impl.pages.eventhandlers.EventHandlersPage;
@@ -31,10 +28,10 @@ public class ConfigForTestEventDetectorCheck implements Check<EventDetectorCheck
     public void execute() {
 
         CriteriaRegister register = _getCriteriaRegister();
-        Set<DataSourcePointCriteria> dataSourcePointCriterias = register.get(DataSourcePointCriteria.class);
+        Set<VirtualDataSourcePointCriteria> dataSourcePointCriterias = register.get(VirtualDataSourcePointCriteria.class);
 
         DataSourcesPage dataSourcesPage = navigationPage.openDataSources();
-        for(DataSourcePointCriteria dataSourcePointCriteria: dataSourcePointCriterias) {
+        for(VirtualDataSourcePointCriteria dataSourcePointCriteria: dataSourcePointCriterias) {
             if (!dataSourcesPage.containsObject(dataSourcePointCriteria.getDataSource().getIdentifier())) {
                 CriteriaRegister.removeRegister(getClassTest());
                 _getCriteriaRegister();
@@ -44,7 +41,7 @@ public class ConfigForTestEventDetectorCheck implements Check<EventDetectorCheck
         Set<EventDetectorCriteria> eventDetectorCriterias = register.get(EventDetectorCriteria.class);
 
         for(EventDetectorCriteria eventDetectorCriteria: eventDetectorCriterias) {
-            DataSourcePointCriteria dataSourcePointCriteria = eventDetectorCriteria.getDataSourcePointCriteria();
+            DataSourcePointCriteria<?,?> dataSourcePointCriteria = eventDetectorCriteria.getDataSourcePointCriteria();
 
             DataPointPropertiesPage dataPointPropertiesPage = dataSourcesPage.reopen()
                     .openDataSourceEditor(dataSourcePointCriteria.getDataSource().getIdentifier())

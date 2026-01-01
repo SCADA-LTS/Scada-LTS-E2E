@@ -51,4 +51,8 @@ public final class XpathAttribute {
     public boolean isEmpty() {
         return StringUtils.isBlank(value);
     }
+
+    public boolean isText() {
+        return "text()".equals(name);
+    }
 }

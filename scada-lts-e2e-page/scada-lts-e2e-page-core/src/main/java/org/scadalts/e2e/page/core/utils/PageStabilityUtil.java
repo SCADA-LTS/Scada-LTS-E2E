@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.NotFoundException;
 import org.scadalts.e2e.common.core.utils.StabilityUtil;
 import org.scadalts.e2e.page.core.config.PageConfiguration;
+import org.scadalts.e2e.page.core.criterias.CriteriaObject;
 import org.scadalts.e2e.page.core.pages.MainPageObject;
 import org.scadalts.e2e.page.core.pages.PageObject;
 
@@ -34,10 +35,17 @@ public abstract class PageStabilityUtil {
     }
 
     public static SelenideElement waitWhile(SelenideElement element, Condition condition) {
+        return waitWhile(element, condition, false);
+    }
+
+    public static SelenideElement waitWhile(SelenideElement element, Condition condition, boolean safe) {
         try {
             return element.shouldNot(condition, Duration.ofMillis(PageConfiguration.timeout));
-        } catch (Exception ex) {
-            throw new NotFoundException(ex);
+        } catch (Throwable ex) {
+            if(!safe)
+                throw new NotFoundException(ex);
+            else
+                return null;
         }
     }
 

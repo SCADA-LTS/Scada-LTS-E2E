@@ -17,6 +17,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 
 @Builder
@@ -140,76 +141,6 @@ public class E2eConfigCli implements E2eConfig {
     }
 
     @Override
-    public int getPortApp() {
-        return fromRunApp.getPortApp();
-    }
-
-    @Override
-    public boolean isContinuousMode() {
-        return fromRunApp.isContinuousMode();
-    }
-
-    @Override
-    public String getCronPattern() {
-        return fromRunApp.getCronPattern();
-    }
-
-    @Override
-    public String getUserSmtp() {
-        return fromRunApp.getUserSmtp();
-    }
-
-    @Override
-    public String getPasswordSmtp() {
-        return fromRunApp.getPasswordSmtp();
-    }
-
-    @Override
-    public String getHostSmtp() {
-        return fromRunApp.getHostSmtp();
-    }
-
-    @Override
-    public int getPortSmtp() {
-        return fromRunApp.getPortSmtp();
-    }
-
-    @Override
-    public Set<SendTo> getSendTo() {
-        return fromRunApp.getSendTo();
-    }
-
-    @Override
-    public String getSendFrom() {
-        return fromRunApp.getSendFrom();
-    }
-
-    @Override
-    public boolean isDebugEmailMode() {
-        return fromRunApp.isDebugEmailMode();
-    }
-
-    @Override
-    public boolean isNotificationEmailMode() {
-        return fromRunApp.isNotificationEmailMode();
-    }
-
-    @Override
-    public long getDeleteEmailFromSentEmailsAfterMs() {
-        return fromRunApp.getDeleteEmailFromSentEmailsAfterMs();
-    }
-
-    @Override
-    public String getTitleEmail() {
-        return fromRunApp.getTitleEmail();
-    }
-
-    @Override
-    public String getRefreshSessionCron() {
-        return fromRunApp.getRefreshSessionCron();
-    }
-
-    @Override
     public String[] getPointValuesToTests() {
         return fromE2e.getPointValuesToTests();
     }
@@ -245,43 +176,113 @@ public class E2eConfigCli implements E2eConfig {
     }
 
     @Override
-    public boolean isMailSmtpStarttlsMode() {
-        return fromRunApp.isMailSmtpStarttlsMode();
-    }
-
-    @Override
-    public boolean isMailSmtpAuthMode() {
-        return fromRunApp.isMailSmtpAuthMode();
-    }
-
-    @Override
     public boolean isCheckAuthentication() {
         return fromE2e.isCheckAuthentication();
     }
 
     @Override
+    public boolean isLoginDisabled() {
+        return fromE2e.isLoginDisabled();
+    }
+
+    @Override
+    public int getPortApp() {
+        return fromRunApp == null ? -1 : fromRunApp.getPortApp();
+    }
+
+    @Override
+    public boolean isContinuousMode() {
+        return fromRunApp != null && fromRunApp.isContinuousMode();
+    }
+
+    @Override
+    public String getCronPattern() {
+        return fromRunApp == null ? "no data" : fromRunApp.getCronPattern();
+    }
+
+    @Override
+    public String getUserSmtp() {
+        return fromRunApp == null ? "no data" : fromRunApp.getUserSmtp();
+    }
+
+    @Override
+    public String getPasswordSmtp() {
+        return fromRunApp == null ? "no data" : fromRunApp.getPasswordSmtp();
+    }
+
+    @Override
+    public String getHostSmtp() {
+        return fromRunApp == null ? "no data" : fromRunApp.getHostSmtp();
+    }
+
+    @Override
+    public int getPortSmtp() {
+        return fromRunApp == null ? -1: fromRunApp.getPortSmtp();
+    }
+
+    @Override
+    public Set<SendTo> getSendTo() {
+        return fromRunApp == null ? Collections.emptySet() : fromRunApp.getSendTo();
+    }
+
+    @Override
+    public String getSendFrom() {
+        return fromRunApp == null ? "no data" : fromRunApp.getSendFrom();
+    }
+
+    @Override
+    public boolean isDebugEmailMode() {
+        return fromRunApp != null && fromRunApp.isDebugEmailMode();
+    }
+
+    @Override
+    public boolean isNotificationEmailMode() {
+        return fromRunApp != null && fromRunApp.isNotificationEmailMode();
+    }
+
+    @Override
+    public long getDeleteEmailFromSentEmailsAfterMs() {
+        return fromRunApp == null ? -1 : fromRunApp.getDeleteEmailFromSentEmailsAfterMs();
+    }
+
+    @Override
+    public String getTitleEmail() {
+        return fromRunApp == null ? "no data" : fromRunApp.getTitleEmail();
+    }
+
+    @Override
+    public String getRefreshSessionCron() {
+        return fromRunApp == null ? "no data" : fromRunApp.getRefreshSessionCron();
+    }
+
+    @Override
+    public boolean isMailSmtpStarttlsMode() {
+        return fromRunApp != null && fromRunApp.isMailSmtpStarttlsMode();
+    }
+
+    @Override
+    public boolean isMailSmtpAuthMode() {
+        return fromRunApp != null && fromRunApp.isMailSmtpAuthMode();
+    }
+
+    @Override
     public String getTitleEmailSuccess() {
-        return fromRunApp.getTitleEmailSuccess();
+        return fromRunApp == null ? "no data" : fromRunApp.getTitleEmailSuccess();
     }
 
     @Override
     public boolean isUnblockSendEmailByCron() {
-        return fromRunApp.isUnblockSendEmailByCron();
+        return fromRunApp != null && fromRunApp.isUnblockSendEmailByCron();
     }
 
     @Override
     public String getUnblockSendSuccessEmailCron() {
-        return fromRunApp.getUnblockSendSuccessEmailCron();
+        return fromRunApp == null ? "no data" : fromRunApp.getUnblockSendSuccessEmailCron();
     }
 
     @Override
     public String getUnblockSendFailEmailCron() {
-        return fromRunApp.getUnblockSendFailEmailCron();
-    }
-
-    @Override
-    public boolean isLoginDisabled() {
-        return fromE2e.isLoginDisabled();
+        return fromRunApp == null ? "no data" : fromRunApp.getUnblockSendFailEmailCron();
     }
 
     @Override

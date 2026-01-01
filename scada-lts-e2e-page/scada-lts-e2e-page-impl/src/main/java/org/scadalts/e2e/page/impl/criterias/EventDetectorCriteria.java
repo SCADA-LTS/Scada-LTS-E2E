@@ -24,21 +24,22 @@ public class EventDetectorCriteria implements CriteriaObject, GetXid {
     private final @NonNull EventDetectorIdentifier identifier;
     private final @NonNull AlarmLevel alarmLevel;
     private final @NonNull @Singular List<EventHandlerCriteria> eventHandlerCriterias;
-    private final @NonNull DataSourcePointCriteria dataSourcePointCriteria;
+    private final @NonNull DataSourcePointCriteria<?, ?> dataSourcePointCriteria;
 
-    public static EventDetectorCriteria changeAlarmLevelNone(DataSourcePointCriteria dataSourcePointCriteria) {
+    public static EventDetectorCriteria changeAlarmLevelNone(DataSourcePointCriteria<?, ?> dataSourcePoints) {
         Xid xid = Xid.eventDetector();
         return EventDetectorCriteria.builder()
                 .xid(xid)
                 .identifier(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE))
                 .alarmLevel(AlarmLevel.NONE)
                 .eventHandlerCriterias(Collections.emptyList())
-                .dataSourcePointCriteria(dataSourcePointCriteria)
+                .dataSourcePointCriteria(dataSourcePoints)
                 .build();
     }
 
-    public static EventDetectorCriteria criteria(EventDetectorIdentifier identifier, AlarmLevel alarmLevel,
-                                                 DataSourcePointCriteria dataSourcePointCriteria) {
+    public static EventDetectorCriteria criteria(EventDetectorIdentifier identifier,
+                                                 AlarmLevel alarmLevel,
+                                                 DataSourcePointCriteria<?, ?> dataSourcePointCriteria) {
         Xid xid = Xid.eventDetector();
         return EventDetectorCriteria.builder()
                 .xid(xid)
@@ -49,7 +50,8 @@ public class EventDetectorCriteria implements CriteriaObject, GetXid {
                 .build();
     }
 
-    public static EventDetectorCriteria change(DataSourcePointCriteria dataSourcePointCriteria, AlarmLevel alarmLevel) {
+    public static EventDetectorCriteria change(DataSourcePointCriteria<?, ?> dataSourcePointCriteria,
+                                               AlarmLevel alarmLevel) {
         Xid xid = Xid.eventDetector();
         return EventDetectorCriteria.builder()
                 .xid(xid)
@@ -61,8 +63,8 @@ public class EventDetectorCriteria implements CriteriaObject, GetXid {
     }
 
     public static EventDetectorCriteria criteria(EventDetectorType eventDetectorType,
-                                               DataSourcePointCriteria dataSourcePointCriteria,
-                                               AlarmLevel alarmLevel) {
+                                                 DataSourcePointCriteria<?, ?> dataSourcePointCriteria,
+                                                 AlarmLevel alarmLevel) {
         Xid xid = Xid.eventDetector();
         return EventDetectorCriteria.builder()
                 .xid(xid)

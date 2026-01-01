@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 
@@ -39,7 +40,7 @@ public class ExportDataSourcesUtil {
             String typeText = findObject(typeCriteria,row).getText();
             boolean enabledValue = findObject(enableCriteria, row).$(selectEnableAction).is(Condition.visible);
             logger.info("nameText: {}, typeText: {}, enabledValue: {}\n", nameText, typeText, enabledValue);
-            DataSourceCriteria criteria = DataSourceCriteria.criteriaPeriodTypeAny(new DataSourceIdentifier(nameText,
+            UpdateDataSourceCriteria criteria = UpdateDataSourceCriteria.criteriaPeriodTypeAny(new DataSourceIdentifier(nameText,
                     DataSourceType.getType(typeText)),enabledValue);
             criterias.add(criteria);
         }

@@ -46,9 +46,9 @@ public class LoginPage extends PageObjectAbstract<LoginPage> {
         } catch (Throwable th) {
             if((th.getCause() instanceof ConnectException) ||
                     (th.getCause() instanceof SocketTimeoutException)) {
-                throw new ApplicationIsNotAvailableException("");
+                throw new ApplicationIsNotAvailableException(E2eConfiguration.baseUrl + URL_REF,"");
             }
-            throw new ApplicationIsNotAvailableException(th);
+            throw new ApplicationIsNotAvailableException(E2eConfiguration.baseUrl + URL_REF, th);
         }
     }
 

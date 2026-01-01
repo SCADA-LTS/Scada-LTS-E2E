@@ -2,6 +2,7 @@ package groovy
 
 import org.junit.Before
 import org.junit.BeforeClass
+import org.junit.Test
 
 import static org.scadalts.e2e.page.impl.groovy.ConfigurationUtil.headless
 import static org.scadalts.e2e.page.impl.groovy.ConfigurationUtil.pageMode
@@ -18,7 +19,7 @@ DateTimeFormatUtil.now()
 NavigationUtil.openGraphicalViews()
  */
 
-class Test {
+class ExampleTest {
 
     @BeforeClass
     static void preconfig() {
@@ -30,7 +31,7 @@ class Test {
     void config() {
     }
 
-    @org.junit.Test
+    @Test
     void test() {
     }
 }

@@ -33,10 +33,26 @@ public enum EventSourcesType implements DictionaryObject {
         return id;
     }
 
-    public static EventSourcesType getType(String typeName) {
+    private static EventSourcesType getTypeByName(String typeName) {
         return Stream.of(EventSourcesType.values())
                 .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
+    }
+
+    public static EventSourcesType getType(int id) {
+        return Stream.of(EventSourcesType.values())
+                .filter(a -> Integer.parseInt(a.id) == id)
+                .findFirst()
+                .orElse(NONE);
+    }
+
+    public static EventSourcesType getType(String id) {
+        EventSourcesType type = getTypeByName(id);
+        try {
+            return type == NONE ? getType(Integer.parseInt(id)) : type;
+        } catch (Exception ex) {
+            return NONE;
+        }
     }
 }

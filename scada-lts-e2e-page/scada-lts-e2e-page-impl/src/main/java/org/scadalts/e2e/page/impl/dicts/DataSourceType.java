@@ -48,10 +48,26 @@ public enum DataSourceType implements DictionaryObject {
         this.id = id;
     }
 
-    public static DataSourceType getType(String typeName) {
+    private static DataSourceType getTypeByName(String typeName) {
         return Stream.of(DataSourceType.values())
                 .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
+    }
+
+    public static DataSourceType getType(int id) {
+        return Stream.of(DataSourceType.values())
+                .filter(a -> Integer.parseInt(a.id) == id)
+                .findFirst()
+                .orElse(NONE);
+    }
+
+    public static DataSourceType getType(String id) {
+        DataSourceType type = getTypeByName(id);
+        try {
+            return type == NONE ? getType(Integer.parseInt(id)) : type;
+        } catch (Exception ex) {
+            return NONE;
+        }
     }
 }

@@ -17,6 +17,7 @@ public class EventDetectorJson {
 
     private String xid;
     private String type;
+    private String detectorType;
     private String alarmLevel;
     private String alias;
 }

@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.common.core.utils.VariationUnit;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
@@ -74,7 +74,7 @@ public class AcknowledgeLivesServiceTest {
     @Before
     public void setup() {
         uniqueIdentifier = IdentifierObjectFactory.dataPointNotifierBinaryTypeName(dataPointNotifierType);
-        DataPointCriteria point = DataPointCriteria.noChange(uniqueIdentifier, startValue, pointLoggingProperties);
+        VirtualDataPointCriteria point = VirtualDataPointCriteria.noChange(uniqueIdentifier, startValue, pointLoggingProperties);
 
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
         storungsAndAlarmsObjectsCreator = new StorungsAndAlarmsObjectsCreator(navigationPage, point);

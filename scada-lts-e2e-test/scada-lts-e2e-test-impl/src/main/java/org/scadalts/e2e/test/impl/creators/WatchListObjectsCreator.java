@@ -37,16 +37,26 @@ public class WatchListObjectsCreator implements CreatorObject<WatchListPage, Wat
         WatchListPage page = openPage();
         for (WatchListCriteria criteria : criterias) {
             if(!page.containsObject(criteria.getIdentifier())) {
-                logger.info("create object: {}, class: {}", criteria.getIdentifier().getValue(),
+
+                logger.info("creating object: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getClass().getSimpleName());
+
                 page.addWatchList(criteria);
+
+                logger.info("created object: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getClass().getSimpleName());
             }
             page.selectWatchList(criteria.getIdentifier());
             for (DataSourcePointIdentifier identifier : criteria.getDataSourcePointIdentifiers()) {
                 if(!page.isVisibleWatchListUnit(identifier)) {
-                    logger.info("create object: {}, class: {}", identifier.getValue(),
+
+                    logger.info("creating object: {}, class: {}", identifier.getValue(),
                             identifier.getClass().getSimpleName());
+
                     page.addDataToWatchList(identifier);
+
+                    logger.info("created object: {}, class: {}", identifier.getValue(),
+                            identifier.getClass().getSimpleName());
                 }
             }
         }
@@ -58,9 +68,14 @@ public class WatchListObjectsCreator implements CreatorObject<WatchListPage, Wat
         WatchListPage page = openPage();
         for (WatchListCriteria criteria : criterias) {
             if(page.containsObject(criteria.getIdentifier())) {
-                logger.info("delete object: {}, class: {}", criteria.getIdentifier().getValue(),
+
+                logger.info("deleting object: {}, class: {}", criteria.getIdentifier().getValue(),
                         criteria.getClass().getSimpleName());
+
                 page.deleteWatchList(criteria.getIdentifier());
+
+                logger.info("deleted object: {}, class: {}", criteria.getIdentifier().getValue(),
+                        criteria.getClass().getSimpleName());
             }
         }
         return page;

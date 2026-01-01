@@ -13,6 +13,7 @@ import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorParams;
 import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorResponse;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
@@ -23,19 +24,19 @@ import static org.junit.Assert.assertEquals;
 public class GetEventDetectorServiceTest {
 
     private Xid dataPointXid;
-    private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
+    private VirtualDataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private EventDetectorObjectsCreator eventDetectorObjectsCreator;
     private EventDetectorCriteria eventDetectorCriteria;
 
     @Before
     public void createDataSourceAndPoint() {
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
-        DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(DataPointType.BINARY, "0");
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage,
+        VirtualDataPointCriteria dataPointCriteria = VirtualDataPointCriteria.noChange(DataPointType.BINARY, "0");
+        UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage,
                 dataSourceCriteria, dataPointCriteria);
         eventDetectorCriteria =
-                EventDetectorCriteria.criteria(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE), AlarmLevel.INFORMATION, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
+                EventDetectorCriteria.criteria(IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE), AlarmLevel.INFORMATION, VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria));
         eventDetectorObjectsCreator = new EventDetectorObjectsCreator(navigationPage, eventDetectorCriteria);
         dataSourcePointObjectsCreator.createObjects();
         eventDetectorObjectsCreator.createObjects();

@@ -82,6 +82,8 @@ public interface NavigationPage extends PageObject<NavigationPage>, PageClosable
 
     String getUserName();
 
+    String getScadaLtsVersion();
+
     String URL_REF = "/watch_list.shtm";
 
     Logger LOGGER = LogManager.getLogger(NavigationPage.class);

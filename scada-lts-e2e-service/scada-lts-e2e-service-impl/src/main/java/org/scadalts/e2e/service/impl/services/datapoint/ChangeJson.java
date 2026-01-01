@@ -16,5 +16,8 @@ public class ChangeJson {
 
     private String type = "";
     private String startValue = "";
+    private String minValue = "";
+    private String maxValue = "";
+    private String changeValue = "";
 
 }

@@ -2,8 +2,8 @@ package org.scadalts.e2e.test.impl.utils;
 
 import lombok.extern.log4j.Log4j2;
 import org.scadalts.e2e.common.core.utils.VariationUnit;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointLoggingProperties;
 import org.scadalts.e2e.page.impl.dicts.DataPointNotifierType;
@@ -294,8 +294,8 @@ public class StorungsAndAlarmsUtil {
 
     public static StorungsAndAlarmsObjectsCreator createDataSourcePointAndGetCreator(TestDataBatch testDataBatch, NavigationPage navigationPage) {
 
-        DataSourceCriteria dataSource = DataSourceCriteria.virtualDataSourceSecond();
-        DataPointCriteria dataPoint = DataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
+        UpdateDataSourceCriteria dataSource = UpdateDataSourceCriteria.virtualDataSourceSecond();
+        VirtualDataPointCriteria dataPoint = VirtualDataPointCriteria.noChange(testDataBatch.getDataPointIdentifier(),
                 String.valueOf(testDataBatch.getStartValue()),
                 DataPointLoggingProperties.logging(testDataBatch.getLoggingType()));
         PaginationParams paginationParams = PaginationParams.all();

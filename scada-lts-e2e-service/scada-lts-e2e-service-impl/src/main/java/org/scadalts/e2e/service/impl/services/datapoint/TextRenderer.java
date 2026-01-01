@@ -5,7 +5,9 @@ import lombok.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Builder
@@ -18,9 +20,11 @@ import java.util.List;
 public class TextRenderer {
 
     private @NonNull String type = "";
+    private @NonNull String typeName = "";
     private @NonNull String format = "";
     private @NonNull String suffix = "";
     private @NonNull int conversionExponent = 0;
     private @Singular @NonNull List<RangeValueJson> rangeValues = new ArrayList<>();
+    private Map<String, Object> def = new HashMap<>();
 
 }

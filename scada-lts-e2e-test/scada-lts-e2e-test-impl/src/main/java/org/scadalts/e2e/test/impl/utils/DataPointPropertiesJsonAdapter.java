@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 public class DataPointPropertiesJsonAdapter extends DataPointPropertiesJson {
 
-    private final DataSourcePointCriteria dataSourcePointCriteria;
+    private final DataSourcePointCriteria<?,?> dataSourcePointCriteria;
 
-    public DataPointPropertiesJsonAdapter(DataSourcePointCriteria dataPointCriteria) {
+    public DataPointPropertiesJsonAdapter(DataSourcePointCriteria<?,?> dataPointCriteria) {
         this.dataSourcePointCriteria = dataPointCriteria;
     }
 

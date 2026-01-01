@@ -7,6 +7,10 @@ public interface DictionaryObject {
         return "";
     }
 
+    default String getLongName() {
+        return getName();
+    }
+
     DictionaryObject ANY = new DictionaryObject() {
         @Override
         public String getName() {

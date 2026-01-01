@@ -7,10 +7,7 @@ import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.impl.config.auto.registers.CriteriaRegisterAggregator;
 import org.scadalts.e2e.test.impl.config.auto.tasks.Task;
-import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.ConfigureTestDataPointDetailsCommand;
-import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.ConfigureTestEventDetectorCommand;
-import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.ConfigureTestGraphicalViewsCommand;
-import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.ConfigureTestPointLinksCommand;
+import org.scadalts.e2e.test.impl.config.auto.tasks.checks.commands.*;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
 @RunWith(Parameterized.class)
@@ -23,7 +20,9 @@ public class PerformAutomaticConfiguration {
                 new ConfigureTestEventDetectorCommand(navigationPage),
                 new ConfigureTestDataPointDetailsCommand(navigationPage),
                 new ConfigureTestGraphicalViewsCommand(navigationPage),
-                new ConfigureTestPointLinksCommand(navigationPage)
+                new ConfigureTestPointLinksCommand(navigationPage),
+                new ConfigureMonitorCommand(navigationPage)
+
         };
     }
 

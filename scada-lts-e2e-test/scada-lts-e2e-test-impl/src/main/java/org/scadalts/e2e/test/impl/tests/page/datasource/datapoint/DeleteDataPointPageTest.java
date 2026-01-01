@@ -3,8 +3,8 @@ package org.scadalts.e2e.test.impl.tests.page.datasource.datapoint;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
 import org.scadalts.e2e.page.impl.criterias.Xid;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
@@ -14,38 +14,38 @@ import org.scadalts.e2e.page.impl.dicts.DataPointType;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
 import org.scadalts.e2e.page.impl.pages.datasource.EditDataSourceWithPointListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
-import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DeleteDataPointPageTest {
 
     private final DataPointIdentifier dataPointToDeleteName = IdentifierObjectFactory
             .dataPointDeleteName(DataPointType.BINARY);
 
-    private DataPointCriteria dataPointToDeleteCriteria;
+    private VirtualDataPointCriteria dataPointToDeleteCriteria;
     private EditDataSourceWithPointListPage editDataSourceWithPointListPageSubject;
     private CreatorObject<DataSourcesPage, DataSourcesPage> dataSourcesPageCreator;
 
     @Before
     public void createDataSourceAndPoint() {
 
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-        DataPointCriteria dataPointCriteria = DataPointCriteria.binaryNoChange();
-        DataPointCriteria dataPointCriteria2 = DataPointCriteria.binaryNoChange();
+        UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
+        VirtualDataPointCriteria dataPointCriteria = VirtualDataPointCriteria.binaryNoChange();
+        VirtualDataPointCriteria dataPointCriteria2 = VirtualDataPointCriteria.binaryNoChange();
 
-        dataPointToDeleteCriteria = DataPointCriteria.builder()
+        dataPointToDeleteCriteria = VirtualDataPointCriteria.builder()
                 .dataPointProperties(DataPointProperties.empty())
                 .xid(Xid.dataPoint())
                 .identifier(dataPointToDeleteName)
                 .changeType(ChangeType.NO_CHANGE)
                 .startValue("true")
+                .enabled(true)
                 .build();
 
-        dataSourcesPageCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(), dataSourceCriteria, dataPointCriteria,
+        dataSourcesPageCreator = new VirtualDataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(), dataSourceCriteria, dataPointCriteria,
                 dataPointToDeleteCriteria, dataPointCriteria2);
         editDataSourceWithPointListPageSubject = dataSourcesPageCreator.createObjects()
                 .openDataSourceEditor(dataSourceCriteria.getIdentifier());
@@ -60,20 +60,16 @@ public class DeleteDataPointPageTest {
     @Test
     public void test_delete_data_point() {
 
-        //when:
-        String bodyBeforeDelete = editDataSourceWithPointListPageSubject.getBodyText();
-
         //then:
-        assertThat(bodyBeforeDelete, containsString(dataPointToDeleteName.getValue()));
+        assertTrue(editDataSourceWithPointListPageSubject.containsObject(dataPointToDeleteCriteria.getIdentifier()));
 
         //and when:
-        String bodyAfterDelete = editDataSourceWithPointListPageSubject
+        editDataSourceWithPointListPageSubject
                 .openDataPointEditor(dataPointToDeleteCriteria.getIdentifier())
                 .deleteDataPoint()
-                .waitOnPageWhileVisibleDataPoint(dataPointToDeleteCriteria.getIdentifier())
-                .getBodyText();
+                .waitOnPageWhileVisibleDataPoint(dataPointToDeleteCriteria.getIdentifier());
 
         //then:
-        assertThat(bodyAfterDelete, not(containsString(dataPointToDeleteName.getValue())));
+        assertFalse(editDataSourceWithPointListPageSubject.containsObject(dataPointToDeleteCriteria.getIdentifier()));
     }
 }

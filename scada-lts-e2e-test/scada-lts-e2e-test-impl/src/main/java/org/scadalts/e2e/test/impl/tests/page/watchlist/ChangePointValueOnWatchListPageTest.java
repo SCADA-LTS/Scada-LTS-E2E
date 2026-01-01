@@ -5,9 +5,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.WatchListCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
 import org.scadalts.e2e.page.impl.pages.datasource.DataSourcesPage;
@@ -15,6 +15,7 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.page.impl.pages.watchlist.WatchListPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.WatchListObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.ChangePointValuesProvider;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
@@ -46,14 +47,14 @@ public class ChangePointValueOnWatchListPageTest {
     @BeforeClass
     public static void createDataSourceAndPoint() {
 
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-        DataPointCriteria dataPointCriteria = DataPointCriteria.numericNoChange(123);
+        UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
+        VirtualDataPointCriteria dataPointCriteria = VirtualDataPointCriteria.numericNoChange(123);
 
-        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
+        VirtualDataSourcePointCriteria dataSourcePointCriteria = VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria);
         dataSourcePointIdentifier = dataSourcePointCriteria.getIdentifier();
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
 
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcePointObjectsCreator.createObjects();
 
         criteria = WatchListCriteria.criteria(dataSourcePointCriteria.getIdentifier());

@@ -11,8 +11,8 @@ import java.net.URL;
 public class E2eConfiguration {
 
     public static AuthType authType = AuthType.FORM;
-    public static String username = "admin1";
-    public static String password = "admin1";
+    public static String username = "admin";
+    public static String password = "admin";
     public static Level logLevel = Level.DEBUG;
     public static URL baseUrl;
     public static String sessionId;
@@ -21,7 +21,7 @@ public class E2eConfiguration {
 
     static {
         try {
-            baseUrl = new URL("http://localhost:8080/ScadaBR");
+            baseUrl = new URL("http://localhost:8080/Scada-LTS");
         } catch (MalformedURLException e) {
             logger.warn(e.getMessage(), e);
         }

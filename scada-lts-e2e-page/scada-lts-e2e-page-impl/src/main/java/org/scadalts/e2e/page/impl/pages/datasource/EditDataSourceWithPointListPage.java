@@ -5,8 +5,12 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import org.scadalts.e2e.page.core.criterias.Tag;
+import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
+import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
 import org.scadalts.e2e.page.core.utils.AlertUtil;
+import org.scadalts.e2e.page.core.xpaths.XpathAttribute;
 import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.Xid;
@@ -21,8 +25,7 @@ import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 import static org.scadalts.e2e.page.core.utils.AlertUtil.acceptAfterClick;
-import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
-import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
+import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.*;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
 
 @Log4j2
@@ -39,6 +42,9 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
 
     @FindBy(css = "tbody #pointsList")
     private SelenideElement dataPointsTable;
+
+    @FindBy(css = "tbody #pointListHeaders")
+    private SelenideElement dataPointsTableHeader;
 
     @FindBy(id = "dataSourceProperties")
     private SelenideElement dataSourceProperties;
@@ -62,6 +68,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
 
     public EditDataSourceWithPointListPage enable(boolean enable) {
         delay();
+        waitWhile(dataSourceOnOff, not(Condition.visible));
         if(enable) {
             if($(SELECTOR_DISABLE_DATA_SOURCE_BY).is(Condition.visible)) {
                 acceptAfterClick(dataSourceOnOff);
@@ -134,7 +141,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
 
-    public EditDataSourceWithPointListPage waitOnImgEabledDataSource() {
+    public EditDataSourceWithPointListPage waitOnImgEnabledDataSource() {
         delay();
         waitWhile($(SELECTOR_ENABLE_DATA_SOURCE_BY), not(Condition.visible));
         return this;
@@ -146,6 +153,7 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
 
     public EditDataSourceWithPointListPage enableAllDataPoint() {
         delay();
+        waitWhile(enableAllDataPoint, not(Condition.visible));
         acceptAfterClick(enableAllDataPoint);
         waitWhile($(SELECTOR_ACTION_ENABLE_DATA_POINT_BY), not(Condition.visible));
         return this;
@@ -175,14 +183,14 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
     }
 
     public EditDataSourceWithPointListPage enableDataPoint(DataPointIdentifier dataPointIdentifier) {
-        _findAction(dataPointIdentifier, SELECTOR_ACTION_DISABLE_DATA_POINT_BY).click();
+        waitWhile(_findAction(dataPointIdentifier, SELECTOR_ACTION_DISABLE_DATA_POINT_BY), not(Condition.visible)).click();
         waitWhile(_findAction(dataPointIdentifier, SELECTOR_ACTION_ENABLE_DATA_POINT_BY), not(Condition.visible));
         return this;
     }
 
     public EditDataSourceWithPointListPage disableDataPoint(DataPointIdentifier dataPointIdentifier) {
-        acceptAfterClick(_findAction(dataPointIdentifier, SELECTOR_ACTION_ENABLE_DATA_POINT_BY));
-        waitWhile($(_findAction(dataPointIdentifier, SELECTOR_ACTION_DISABLE_DATA_POINT_BY)), not(Condition.visible));
+        acceptAfterClick(waitWhile(_findAction(dataPointIdentifier, SELECTOR_ACTION_ENABLE_DATA_POINT_BY), not(Condition.visible)));
+        waitWhile(_findAction(dataPointIdentifier, SELECTOR_ACTION_DISABLE_DATA_POINT_BY), not(Condition.visible));
         return this;
     }
 
@@ -233,6 +241,19 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
         return this;
     }
 
+    @Override
+    public boolean containsObject(IdentifierObject identifier) {
+        waitWhile(dataPointsTable, not(Condition.exist), true);
+        waitWhile(dataPointsTableHeader, not(Condition.visible), true);
+        String text = dataPointsTable.innerText();
+        if(text.isEmpty()) {
+            return false;
+        }
+        NodeCriteria bCriteria = NodeCriteria.exactly(Tag.b(), XpathAttribute.text(identifier.getValue()));
+        SelenideElement bElement = findObject(bCriteria, dataPointsTable);
+        return bElement.is(Condition.visible);
+    }
+
     private SelenideElement _findAction(DataPointIdentifier identifier, By selectAction) {
         delay();
         return findAction(identifier.getNodeCriteria(), selectAction, dataPointsTable);
@@ -253,5 +274,11 @@ public class EditDataSourceWithPointListPage extends PageObjectAbstract<EditData
             }
         }
         return -1;
+    }
+
+    @Override
+    public EditDataSourceWithPointListPage waitForCompleteLoad() {
+        waitWhile(dataPointsTable, not(Condition.visible), true);
+        return super.waitForCompleteLoad();
     }
 }

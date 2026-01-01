@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataSourceType;
 
@@ -28,7 +29,7 @@ public class DataSourceCriteriaJson {
     }
 
     public DataSourceCriteria toDataSourceSecondCriteria() {
-        return DataSourceCriteria.criteriaSecond(new DataSourceIdentifier(identifier.getValue(),identifier.getType()),
+        return UpdateDataSourceCriteria.criteriaSecond(new DataSourceIdentifier(identifier.getValue(),identifier.getType()),
                 enabled);
     }
 

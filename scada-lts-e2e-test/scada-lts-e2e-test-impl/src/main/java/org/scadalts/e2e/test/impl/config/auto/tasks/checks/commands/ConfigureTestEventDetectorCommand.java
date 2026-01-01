@@ -45,15 +45,15 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
         Xid dataPointToChangeXid = new Xid(TestImplConfiguration.dataPointToChangeXid);
         Xid dataPointToReadXid = new Xid(TestImplConfiguration.dataPointToReadXid);
 
-        DataPointCriteria dataPointToChangeCriteria = DataPointCriteria.noChange(dataPointToChangeXid,
+        VirtualDataPointCriteria dataPointToChangeCriteria = VirtualDataPointCriteria.noChange(dataPointToChangeXid,
                 new DataPointIdentifier("dp_to_change", DataPointType.NUMERIC), "123");
 
-        DataPointCriteria dataPointToReadCriteria = DataPointCriteria.noChange(dataPointToReadXid,
+        VirtualDataPointCriteria dataPointToReadCriteria = VirtualDataPointCriteria.noChange(dataPointToReadXid,
                 new DataPointIdentifier("dp_to_read", DataPointType.NUMERIC), "12345");
 
         DataSourceIdentifier dataSourceIdentifier = new DataSourceIdentifier(TestImplConfiguration.dataSourceNameEventDetectorTest,
                 DataSourceType.VIRTUAL_DATA_SOURCE);
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.criteriaSecond(dataSourceIdentifier);
+        UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.criteriaSecond(dataSourceIdentifier);
 
         CreateOneDataSourceTwoPointsSubCommand createOneDataSourceTwoPointsSubCommand = CreateOneDataSourceTwoPointsSubCommand.builder()
                 .dataPoint1(dataPointToChangeCriteria)
@@ -78,8 +78,8 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
         EventDetectorCriteria eventDetectorCriteria = createEventDetectorSubCommand.execute();
 
         CreateScriptRewritingValueFromToPointSubCommand createScriptRewritingValueFromToPointSubCommand = CreateScriptRewritingValueFromToPointSubCommand.builder()
-                .dataPointFromCriteria(dataPointToChangeCriteria)
-                .dataPointToCriteria(dataPointToReadCriteria)
+                .dataPointFromCriteria(VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointToChangeCriteria))
+                .dataPointToCriteria(VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointToReadCriteria))
                 .navigationPage(navigationPage)
                 .build();
 
@@ -94,11 +94,11 @@ public class ConfigureTestEventDetectorCommand implements Command<EventDetectorC
         EventHandlerCriteria eventHandlerCriteria = createEventHandlerSubCommand.execute();
 
         try(CriteriaRegister criteriaRegister = new CriteriaRegister(getClassTest())) {
-            criteriaRegister.register(DataSourceCriteria.class, dataSourceCriteria);
-            criteriaRegister.register(DataSourcePointCriteria.class, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointToChangeCriteria));
-            criteriaRegister.register(DataSourcePointCriteria.class, DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointToReadCriteria));
-            criteriaRegister.register(DataPointCriteria.class, dataPointToChangeCriteria);
-            criteriaRegister.register(DataPointCriteria.class, dataPointToReadCriteria);
+            criteriaRegister.register(UpdateDataSourceCriteria.class, dataSourceCriteria);
+            criteriaRegister.register(VirtualDataSourcePointCriteria.class, VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointToChangeCriteria));
+            criteriaRegister.register(VirtualDataSourcePointCriteria.class, VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointToReadCriteria));
+            criteriaRegister.register(VirtualDataPointCriteria.class, dataPointToChangeCriteria);
+            criteriaRegister.register(VirtualDataPointCriteria.class, dataPointToReadCriteria);
 
             criteriaRegister.register(EventHandlerCriteria.class, eventHandlerCriteria);
             criteriaRegister.register(EventDetectorCriteria.class, eventDetectorCriteria);

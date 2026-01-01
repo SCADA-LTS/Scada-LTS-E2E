@@ -7,10 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scadalts.e2e.page.core.criterias.Script;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
-import org.scadalts.e2e.page.impl.criterias.IdentifierObjectFactory;
-import org.scadalts.e2e.page.impl.criterias.PointLinkCriteria;
-import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.dicts.DataPointType;
@@ -54,8 +51,8 @@ public class PointLinksMultiParametersServiceTest {
         };
     }
 
-    private final DataSourcePointCriteria source;
-    private final DataSourcePointCriteria target;
+    private final VirtualDataSourcePointCriteria source;
+    private final VirtualDataSourcePointCriteria target;
     private final EventType eventType;
 
 
@@ -70,17 +67,17 @@ public class PointLinksMultiParametersServiceTest {
         DataPointIdentifier dataPointSourceIdentifier = new DataPointIdentifier(dataPointSourceName, DataPointType.NUMERIC);
         DataPointIdentifier dataPointTargetIdentifier = new DataPointIdentifier(dataPointTargetName, DataPointType.NUMERIC);
 
-        source = DataSourcePointCriteria.criteria(dataSourceSourceIdentifier, dataPointSourceIdentifier);
-        target = DataSourcePointCriteria.criteria(dataSourceTargetIdentifier, dataPointTargetIdentifier);
+        source = VirtualDataSourcePointCriteria.virtualCriteria(dataSourceSourceIdentifier, dataPointSourceIdentifier);
+        target = VirtualDataSourcePointCriteria.virtualCriteria(dataSourceTargetIdentifier, dataPointTargetIdentifier);
     }
 
     private AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
     private PointLinksPage pointLinksPage;
-    private PointLinkCriteria criteria;
+    private VirtualPointLinkCriteria criteria;
 
     @Before
     public void setup() {
-        criteria = PointLinkCriteria.criteria(source, target, eventType, Script.empty());
+        criteria = VirtualPointLinkCriteria.criteria(source, target, eventType, Script.empty());
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.openNavigationPage(),
                 criteria);
         allObjectsForPointLinkTestCreator.createObjects();

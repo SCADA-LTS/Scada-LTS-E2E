@@ -22,6 +22,7 @@ public class E2eResponse<T> {
     private Map<String, Object> headers;
     private String sessionId;
     private String mediaType;
+    private String location;
 
     public static <T> E2eResponse<T> empty() {
         return E2eResponse.<T>builder().status(-1).build();
@@ -32,6 +33,8 @@ public class E2eResponse<T> {
     }
 
     public String getLocation() {
+        if(location != null)
+            return location;
         if(headers == null || headers.isEmpty())
             return "";
         Object location = headers.get("Location");

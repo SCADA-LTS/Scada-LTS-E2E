@@ -40,23 +40,23 @@ public class PointLinksUpdateServiceTest {
     }
 
     private static AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
-    private static DataPointCriteria source;
-    private static DataPointCriteria target;
+    private static VirtualDataPointCriteria source;
+    private static VirtualDataPointCriteria target;
     private static Script script;
 
     @BeforeClass
     public static void before() {
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-        DataSourcePointCriteria sourcePointSourceCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria,
+        UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
+        VirtualDataSourcePointCriteria sourcePointSourceCriteria = VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria,
                 IdentifierObjectFactory.dataPointSourceName(DataPointType.NUMERIC));
-        DataSourcePointCriteria sourcePointTargetCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria,
+        VirtualDataSourcePointCriteria sourcePointTargetCriteria = VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria,
                 IdentifierObjectFactory.dataPointTargetName(DataPointType.NUMERIC));
 
         source = sourcePointSourceCriteria.getDataPoint();
         target = sourcePointTargetCriteria.getDataPoint();
 
         script = Script.sourceValueIncreasedOne();
-        PointLinkCriteria pointLinkUpdate = PointLinkCriteria.update(sourcePointSourceCriteria, sourcePointTargetCriteria, script);
+        VirtualPointLinkCriteria pointLinkUpdate = VirtualPointLinkCriteria.update(sourcePointSourceCriteria, sourcePointTargetCriteria, script);
         allObjectsForPointLinkTestCreator = new AllObjectsForPointLinkTestCreator(TestWithPageUtil.openNavigationPage(),
                 pointLinkUpdate);
         allObjectsForPointLinkTestCreator.createObjects();

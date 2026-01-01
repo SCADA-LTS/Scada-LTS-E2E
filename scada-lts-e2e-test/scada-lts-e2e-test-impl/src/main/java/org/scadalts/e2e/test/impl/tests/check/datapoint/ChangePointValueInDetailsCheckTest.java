@@ -6,9 +6,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataPointCriteria;
+import org.scadalts.e2e.page.impl.criterias.UpdateDataSourceCriteria;
+import org.scadalts.e2e.page.impl.criterias.VirtualDataSourcePointCriteria;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataPointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourceIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.WatchListIdentifier;
@@ -45,9 +45,9 @@ public class ChangePointValueInDetailsCheckTest {
     public static void createDataSourceAndPoint() {
 
         NavigationPage navigationPage = TestWithPageUtil.openNavigationPage();
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.criteriaSecond(new DataSourceIdentifier(TestImplConfiguration.dataSourceName, DataSourceType.VIRTUAL_DATA_SOURCE));
-        DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(new DataPointIdentifier(TestImplConfiguration.dataPointName, DataPointType.NUMERIC));
-        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria);
+        UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.criteriaSecond(new DataSourceIdentifier(TestImplConfiguration.dataSourceName, DataSourceType.VIRTUAL_DATA_SOURCE));
+        VirtualDataPointCriteria dataPointCriteria = VirtualDataPointCriteria.noChange(new DataPointIdentifier(TestImplConfiguration.dataPointName, DataPointType.NUMERIC));
+        VirtualDataSourcePointCriteria dataSourcePointCriteria = VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria);
 
         WatchListIdentifier identifier = new WatchListIdentifier(TestImplConfiguration.watchListName);
         dataPointDetailsPageSubject = navigationPage.openWatchList()

@@ -10,6 +10,7 @@ import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.core.services.E2eResponseFactory;
 import org.scadalts.e2e.service.core.services.WebServiceObject;
 import org.scadalts.e2e.service.core.sessions.CookieFactory;
+import org.scadalts.e2e.service.core.utils.RestUtil;
 import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerGetParams;
 import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerPostParams;
 import org.scadalts.e2e.service.impl.services.eventhandler.EventHandlerResponse;
@@ -78,7 +79,7 @@ public class EventHandlerServiceObject implements WebServiceObject {
                 .cookie(cookie)
                 .get();
         List<EventHandlerResponse> list = _getList(response);
-        return E2eResponseFactory.newResponse(response, list);
+        return E2eResponseFactory.newResponse(response, list, endpoint);
     }
 
     private List<EventHandlerResponse> _getList(Response response) {
@@ -92,14 +93,14 @@ public class EventHandlerServiceObject implements WebServiceObject {
         logger.info("params: {}", eventHandlerGetParams.getXid());
         logger.info("endpoint: {}", endpoint);
         logger.info("cookie: {}", cookie);
-        MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
+        MediaType mediaType = RestUtil.getJsonUtf8MediaType();
         Response response = client
                 .target(endpoint)
                 .path(eventHandlerGetParams.getXid())
                 .request(mediaType)
                 .cookie(cookie)
                 .get();
-        return E2eResponseFactory.newResponse(response, EventHandlerResponse.class);
+        return E2eResponseFactory.newResponse(response, EventHandlerResponse.class, endpoint);
     }
 
     private E2eResponse<EventHandlerResponse> _createEventHandler(EventHandlerPostParams eventHandlerPostParams) {
@@ -119,7 +120,7 @@ public class EventHandlerServiceObject implements WebServiceObject {
                 .request(mediaType)
                 .cookie(cookie)
                 .post(Entity.entity(eventHandlerPostParams.getBody(), MediaType.APPLICATION_JSON));
-        return E2eResponseFactory.newResponse(response, EventHandlerResponse.class);
+        return E2eResponseFactory.newResponse(response, EventHandlerResponse.class, endpoint);
     }
 
     @Override

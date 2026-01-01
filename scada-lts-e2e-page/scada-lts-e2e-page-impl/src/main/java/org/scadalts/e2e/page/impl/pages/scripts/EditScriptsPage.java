@@ -8,10 +8,9 @@ import org.scadalts.e2e.page.core.criterias.identifiers.IdentifierObject;
 import org.scadalts.e2e.page.core.criterias.identifiers.NodeCriteria;
 import org.scadalts.e2e.page.core.criterias.Tag;
 import org.scadalts.e2e.page.core.pages.PageObjectAbstract;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataPointVarCriteria;
+import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.core.criterias.Script;
-import org.scadalts.e2e.page.impl.criterias.Xid;
+import org.scadalts.e2e.page.impl.criterias.identifiers.DataSourcePointIdentifier;
 import org.scadalts.e2e.page.impl.criterias.identifiers.ScriptIdentifier;
 
 import static com.codeborne.selenide.Condition.not;
@@ -19,6 +18,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
+import static org.scadalts.e2e.page.impl.util.SelectUtil.selectPoint;
 
 public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
 
@@ -96,7 +96,7 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
         return this;
     }
 
-    public EditScriptsPage addPointToContext(DataPointCriteria dataPointName) {
+    public EditScriptsPage addPointToContext(DataSourcePointIdentifier dataPointName) {
         _selectPoint(dataPointName);
         waitWhile(addPointToContext, not(Condition.visible)).click();
         return this;
@@ -108,7 +108,7 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
 
     public EditScriptsPage setVarName(DataPointVarCriteria criteria) {
         delay();
-        NodeCriteria nodeCriteria = NodeCriteria.exactlyTypeAny(criteria.getDataPointCriteria().getIdentifier(), Tag.tr());
+        NodeCriteria nodeCriteria = NodeCriteria.exactlyTypeAny(criteria.getDataSourcePointIdentifier(), Tag.tr());
         findAction(nodeCriteria, INPUT_VAL_NAME, contextContainer).setValue(criteria.getVarCriteria().getIdentifier().getValue());
         return this;
     }
@@ -130,11 +130,18 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
         return this;
     }
 
-    private EditScriptsPage _selectPoint(DataPointCriteria dataPointName) {
+    private EditScriptsPage _selectPoint(DataSourcePointIdentifier dataSourcePointIdentifier) {
         delay();
-        waitWhile(allPointsListChosen, not(Condition.visible)).click();
-        NodeCriteria nodeCriteria = NodeCriteria.exactlyTypeAny(dataPointName.getIdentifier(), Tag.li());
-        findObject(nodeCriteria, $(By.cssSelector(".chosen-results"))).click();
+        try {
+            //Scada-LTS version >= 2.8.0;
+            selectPoint(allPointsListChosen, dataSourcePointIdentifier, this);
+        } catch (Throwable ex) {
+            //Old Scada-LTS version;
+            IdentifierObject target = dataSourcePointIdentifier;
+            waitWhile(allPointsListChosen, not(Condition.visible)).selectOption(target.getValue());
+            NodeCriteria nodeCriteria = NodeCriteria.exactlyTypeAny(dataSourcePointIdentifier, Tag.li());
+            findObject(nodeCriteria, $(By.cssSelector(".chosen-results"))).click();
+        }
         return this;
     }
 

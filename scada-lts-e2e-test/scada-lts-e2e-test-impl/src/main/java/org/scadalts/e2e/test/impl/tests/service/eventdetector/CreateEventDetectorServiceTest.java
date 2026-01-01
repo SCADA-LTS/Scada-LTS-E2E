@@ -13,6 +13,7 @@ import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorParams;
 import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorPostResponse;
 import org.scadalts.e2e.service.impl.services.eventdetector.EventDetectorResponse;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
 
@@ -22,15 +23,15 @@ public class CreateEventDetectorServiceTest {
 
     private int dataPointId;
     private Xid eventDetectorXid;
-    private DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
+    private VirtualDataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private EventDetectorResponse eventDetectorResponse;
     private String eventDetectorName;
 
     @Before
     public void createDataSourceAndPoint() {
-        DataPointCriteria dataPointCriteria = DataPointCriteria.noChange(DataPointType.BINARY, "0");
-        DataSourceCriteria dataSourceCriteria = DataSourceCriteria.virtualDataSourceSecond();
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(),
+        VirtualDataPointCriteria dataPointCriteria = VirtualDataPointCriteria.noChange(DataPointType.BINARY, "0");
+        UpdateDataSourceCriteria dataSourceCriteria = UpdateDataSourceCriteria.virtualDataSourceSecond();
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(TestWithPageUtil.openNavigationPage(),
                 dataSourceCriteria, dataPointCriteria);
         EditDataSourceWithPointListPage pointPage = dataSourcePointObjectsCreator.createObjects()
                 .openDataSourceEditor(dataSourceCriteria.getIdentifier());
@@ -38,7 +39,7 @@ public class CreateEventDetectorServiceTest {
         EventDetectorCriteria eventDetectorCriteria = EventDetectorCriteria.criteria(
                 IdentifierObjectFactory.eventDetectorName(EventDetectorType.CHANGE),
                 AlarmLevel.INFORMATION,
-                DataSourcePointCriteria.criteria(dataSourceCriteria, dataPointCriteria));
+                VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria, dataPointCriteria));
 
         dataPointId = pointPage.getDataPointDatabaseId(dataPointCriteria.getIdentifier());
         eventDetectorXid = eventDetectorCriteria.getXid();

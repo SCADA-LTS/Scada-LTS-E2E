@@ -18,7 +18,7 @@ public enum  TextRendererType implements DictionaryObject {
         this.name = name;
     }
 
-    public static TextRendererType getType(String typeName) {
+    public static TextRendererType getTypeByName(String typeName) {
         return Stream.of(TextRendererType.values())
                 .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()

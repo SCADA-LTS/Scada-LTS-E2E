@@ -4,10 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.scadalts.e2e.page.impl.criterias.DataPointCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourceCriteria;
-import org.scadalts.e2e.page.impl.criterias.DataSourcePointCriteria;
-import org.scadalts.e2e.page.impl.criterias.EventDetectorCriteria;
+import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.criterias.properties.DataPointProperties;
 import org.scadalts.e2e.page.impl.dicts.AlarmLevel;
 import org.scadalts.e2e.page.impl.dicts.EventDetectorType;
@@ -15,9 +12,9 @@ import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.service.core.services.E2eResponse;
 import org.scadalts.e2e.service.impl.services.datapoint.DataPointPropertiesResponse;
 import org.scadalts.e2e.service.impl.services.pointvalue.PointValueParams;
-import org.scadalts.e2e.test.impl.creators.DataPointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.DataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.creators.EventDetectorObjectsCreator;
+import org.scadalts.e2e.test.impl.creators.VirtualDataSourcePointObjectsCreator;
 import org.scadalts.e2e.test.impl.utils.DataPointPropertiesAdapter;
 import org.scadalts.e2e.test.impl.utils.TestWithPageUtil;
 import org.scadalts.e2e.test.impl.utils.TestWithoutPageUtil;
@@ -27,21 +24,20 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @Log4j2
 @RunWith(Parameterized.class)
 public class EventDetectorPropertiesServiceTest {
 
-    private static DataSourceCriteria DATA_SOURCE_CRITERIA = DataSourceCriteria.virtualDataSourceSecond();
-    private static DataPointCriteria DATA_POINT_CRITERIA = DataPointCriteria.numericNoChange();
-    private static DataSourcePointCriteria DATA_SOURCE_POINT_CRITERIA = DataSourcePointCriteria.criteria(DATA_SOURCE_CRITERIA, DATA_POINT_CRITERIA);
+    private static UpdateDataSourceCriteria DATA_SOURCE_CRITERIA = UpdateDataSourceCriteria.virtualDataSourceSecond();
+    private static VirtualDataPointCriteria DATA_POINT_CRITERIA = VirtualDataPointCriteria.numericNoChange();
+    private static DataSourcePointCriteria<DataSourceCriteria, DataPointCriteria> DATA_SOURCE_POINT_CRITERIA = VirtualDataSourcePointCriteria.virtualCriteria(DATA_SOURCE_CRITERIA, DATA_POINT_CRITERIA).to();
 
 
     @Parameterized.Parameters(name = "number of test: {index}, detector: {0}")
-    public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][] {
+    public static Object[][] data() {
+        return new Object[][] {
                 {Arrays.asList(new EventDetectorCriteria[] {
                         EventDetectorCriteria.criteria(EventDetectorType.HIGH_LIMIT, DATA_SOURCE_POINT_CRITERIA, AlarmLevel.LIFE_SAFETY),
                         EventDetectorCriteria.criteria(EventDetectorType.LOW_LIMIT, DATA_SOURCE_POINT_CRITERIA, AlarmLevel.LIFE_SAFETY),
@@ -59,7 +55,7 @@ public class EventDetectorPropertiesServiceTest {
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.INFORMATION),
                         EventDetectorCriteria.change(DATA_SOURCE_POINT_CRITERIA, AlarmLevel.CRITICAL)
                 })}
-        });
+        };
     }
 
     private final DataPointProperties dataPointProperties;
@@ -69,15 +65,15 @@ public class EventDetectorPropertiesServiceTest {
         dataPointProperties = DataPointProperties.properties(eventDetectorCriterias);
     }
 
-    private static DataSourcePointObjectsCreator dataSourcePointObjectsCreator;
+    private static VirtualDataSourcePointObjectsCreator dataSourcePointObjectsCreator;
     private List<EventDetectorObjectsCreator> eventDetectorObjectsCreators = new ArrayList<>();
 
     @BeforeClass
     public static void setupForAll() {
-        DataSourcePointCriteria dataSourcePointCriteria = DataSourcePointCriteria.criteria(DATA_SOURCE_CRITERIA,
+        VirtualDataSourcePointCriteria dataSourcePointCriteria = VirtualDataSourcePointCriteria.virtualCriteria(DATA_SOURCE_CRITERIA,
                 DATA_POINT_CRITERIA);
         navigationPage = TestWithPageUtil.openNavigationPage();
-        dataSourcePointObjectsCreator = new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
+        dataSourcePointObjectsCreator = new VirtualDataSourcePointObjectsCreator(navigationPage, dataSourcePointCriteria);
         dataSourcePointObjectsCreator.createObjects();
     }
 
@@ -125,7 +121,7 @@ public class EventDetectorPropertiesServiceTest {
 
         DataPointProperties result = new DataPointPropertiesAdapter(getResult.getDataPoints());
 
-        assertEquals(dataPointProperties.getEventDetectors(), result.getEventDetectors());
+        assertEquals(new ArrayList<>(dataPointProperties.getEventDetectors()), result.getEventDetectors());
 
     }
 }

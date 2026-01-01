@@ -17,7 +17,7 @@ import static org.scadalts.e2e.service.core.sessions.SessionUtil.getSessionIdFro
 @Log4j2
 public abstract class E2eResponseFactory {
 
-    public static <T> E2eResponse<T> newResponse(Response response, Class<T> resClass) {
+    public static <T> E2eResponse<T> newResponse(Response response, Class<T> resClass, String location) {
         MediaType mediaType = _getMediaType(response);
         return E2eResponse.<T>builder()
                 .headers(new LinkedHashMap<>(response.getHeaders()))
@@ -25,10 +25,11 @@ public abstract class E2eResponseFactory {
                 .sessionId(getSessionIdFrom(response).orElse(""))
                 .status(response.getStatus())
                 .mediaType(mediaType.toString())
+                .location(location)
                 .build();
     }
 
-    public static <T> E2eResponse<T> newResponse(Response response, T value) {
+    public static <T> E2eResponse<T> newResponse(Response response, T value, String location) {
         MediaType mediaType = _getMediaType(response);
         return E2eResponse.<T>builder()
                 .headers(new LinkedHashMap<>(response.getHeaders()))
@@ -36,10 +37,11 @@ public abstract class E2eResponseFactory {
                 .sessionId(getSessionIdFrom(response).orElse(""))
                 .status(response.getStatus())
                 .mediaType(mediaType.toString())
+                .location(location)
                 .build();
     }
 
-    public static <T> E2eResponse<T> newResponseForJsonArrayFirst(Response response, GenericType<List<T>> genericType) {
+    public static <T> E2eResponse<T> newResponseForJsonArrayFirst(Response response, GenericType<List<T>> genericType, String location) {
         MediaType mediaType = _getMediaType(response);
         List<T> values = _getParams(response, genericType);
         return E2eResponse.<T>builder()
@@ -48,10 +50,11 @@ public abstract class E2eResponseFactory {
                 .sessionId(getSessionIdFrom(response).orElse(""))
                 .status(response.getStatus())
                 .mediaType(mediaType.toString())
+                .location(location)
                 .build();
     }
 
-    public static <T> E2eResponse<List<T>> newResponseForJsonArray(Response response, GenericType<List<T>> genericType) {
+    public static <T> E2eResponse<List<T>> newResponseForJsonArray(Response response, GenericType<List<T>> genericType, String location) {
         MediaType mediaType = _getMediaType(response);
         List<T> values = _getParams(response, genericType);
         return E2eResponse.<List<T>>builder()
@@ -60,6 +63,7 @@ public abstract class E2eResponseFactory {
                 .sessionId(getSessionIdFrom(response).orElse(""))
                 .status(response.getStatus())
                 .mediaType(mediaType.toString())
+                .location(location)
                 .build();
     }
 

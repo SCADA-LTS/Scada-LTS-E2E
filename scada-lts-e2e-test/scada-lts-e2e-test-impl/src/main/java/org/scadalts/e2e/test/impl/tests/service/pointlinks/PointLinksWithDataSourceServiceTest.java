@@ -38,64 +38,64 @@ public class PointLinksWithDataSourceServiceTest {
     @Parameterized.Parameters(name = "{index}: datasource: {0}, point link type: {1}")
     public static Object[][] data() { return new Object[][] {
 
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.SECOND, 1), EventType.CHANGE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.SECOND, 5), EventType.CHANGE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.SECOND, 10), EventType.CHANGE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.MILLISECOND, 100), EventType.CHANGE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.MILLISECOND, 1000), EventType.CHANGE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.MILLISECOND, 3000), EventType.CHANGE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.MILLISECOND, 10000), EventType.CHANGE},
 
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.SECOND, 1), EventType.UPDATE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.SECOND, 5), EventType.UPDATE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.SECOND, 10), EventType.UPDATE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.MILLISECOND, 100), EventType.UPDATE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.MILLISECOND, 1000), EventType.UPDATE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.MILLISECOND, 3000), EventType.UPDATE},
-                {DataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
+                {UpdateDataSourceCriteria.criteria(IdentifierObjectFactory.dataSourceName(DataSourceType.VIRTUAL_DATA_SOURCE),
                         UpdatePeriodType.MILLISECOND, 10000), EventType.UPDATE},
         };
     }
 
-    private final DataSourceCriteria dataSourceCriteria;
+    private final UpdateDataSourceCriteria dataSourceCriteria;
     private final EventType eventType;
 
-    public PointLinksWithDataSourceServiceTest(DataSourceCriteria dataSourceCriteria, EventType eventType) {
+    public PointLinksWithDataSourceServiceTest(UpdateDataSourceCriteria dataSourceCriteria, EventType eventType) {
         this.dataSourceCriteria = dataSourceCriteria;
         this.eventType = eventType;
     }
 
     private AllObjectsForPointLinkTestCreator allObjectsForPointLinkTestCreator;
-    private DataPointCriteria source;
-    private DataPointCriteria target;
+    private VirtualDataPointCriteria source;
+    private VirtualDataPointCriteria target;
     private PointLinksPage pointLinksPage;
-    private PointLinkCriteria criteria;
+    private VirtualPointLinkCriteria criteria;
 
     @Before
     public void setup() {
 
-        DataSourcePointCriteria sourcePointSourceCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria,
+        VirtualDataSourcePointCriteria sourcePointSourceCriteria = VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria,
                 IdentifierObjectFactory.dataPointSourceName(DataPointType.NUMERIC));
-        DataSourcePointCriteria sourcePointTargetCriteria = DataSourcePointCriteria.criteria(dataSourceCriteria,
+        VirtualDataSourcePointCriteria sourcePointTargetCriteria = VirtualDataSourcePointCriteria.virtualCriteria(dataSourceCriteria,
                 IdentifierObjectFactory.dataPointTargetName(DataPointType.NUMERIC));
 
         source = sourcePointSourceCriteria.getDataPoint();
         target = sourcePointTargetCriteria.getDataPoint();
 
-        criteria = PointLinkCriteria.criteria(sourcePointSourceCriteria, sourcePointTargetCriteria,
+        criteria = VirtualPointLinkCriteria.criteria(sourcePointSourceCriteria, sourcePointTargetCriteria,
                 eventType, Script.empty());
 
         WatchListCriteria watchListCriteria = WatchListCriteria.criteria(sourcePointSourceCriteria.getIdentifier(),

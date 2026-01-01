@@ -31,11 +31,27 @@ public enum EventHandlerType implements DictionaryObject {
         return id;
     }
 
-    public static EventHandlerType getType(String typeName) {
+    private static EventHandlerType getTypeByName(String typeName) {
         return Stream.of(EventHandlerType.values())
                 .filter(a -> a.name.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
+    }
+
+    public static EventHandlerType getType(int id) {
+        return Stream.of(EventHandlerType.values())
+                .filter(a -> Integer.parseInt(a.id) == id)
+                .findFirst()
+                .orElse(NONE);
+    }
+
+    public static EventHandlerType getType(String id) {
+        EventHandlerType type = getTypeByName(id);
+        try {
+            return type == NONE ? getType(Integer.parseInt(id)) : type;
+        } catch (Exception ex) {
+            return NONE;
+        }
     }
 }
 

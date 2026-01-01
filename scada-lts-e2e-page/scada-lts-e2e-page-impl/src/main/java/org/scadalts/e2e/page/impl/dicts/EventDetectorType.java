@@ -28,7 +28,7 @@ public enum EventDetectorType implements DictionaryObject {
         this.id = id;
     }
 
-    public static EventDetectorType getType(String typeName) {
+    public static EventDetectorType getTypeByName(String typeName) {
         return Stream.of(EventDetectorType.values())
                 .filter(a -> a.name.equalsIgnoreCase(typeName)
                         || a.alternateName.equalsIgnoreCase(typeName))
@@ -42,5 +42,21 @@ public enum EventDetectorType implements DictionaryObject {
                         || a.alternateName.equalsIgnoreCase(typeName))
                 .findFirst()
                 .orElse(NONE);
+    }
+
+    public static EventDetectorType getType(int id) {
+        return Stream.of(EventDetectorType.values())
+                .filter(a -> Integer.parseInt(a.id) == id)
+                .findFirst()
+                .orElse(NONE);
+    }
+
+    public static EventDetectorType getType(String id) {
+        EventDetectorType type = getTypeByName(id);
+        try {
+            return type == NONE ? getType(Integer.parseInt(id)) : type;
+        } catch (Exception ex) {
+            return NONE;
+        }
     }
 }

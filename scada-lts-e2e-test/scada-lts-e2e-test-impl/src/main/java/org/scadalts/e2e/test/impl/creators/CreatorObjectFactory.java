@@ -5,16 +5,31 @@ import org.scadalts.e2e.page.impl.criterias.*;
 import org.scadalts.e2e.page.impl.pages.navigation.NavigationPage;
 import org.scadalts.e2e.test.core.creators.CreatorObject;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class CreatorObjectFactory {
 
-    public static <T extends PageObject<T>, R extends PageObject<R>> CreatorObject<T, R> creator(NavigationPage navigationPage,
-                                                                                                 DataSourceCriteria dataSourceCriteria) {
-        return (CreatorObject<T, R>) new DataSourcePointObjectsCreator(navigationPage, dataSourceCriteria);
-    }
+    public static <T extends PageObject<T>, R extends PageObject<R>> CreatorObject<T, R> creator(NavigationPage navigationPage, DataSourcePointCriteria<?, ?>... dataSourcePoints) {
+        if(navigationPage == null || dataSourcePoints == null || dataSourcePoints.length == 0) {
+            throw new IllegalArgumentException();
+        }
+        if(dataSourcePoints[0].getDataPoint() instanceof VirtualDataPointCriteria && dataSourcePoints[0].getDataSource() instanceof UpdateDataSourceCriteria) {
+            return (CreatorObject<T, R>) Stream.of(dataSourcePoints).collect(Collectors
+                            .groupingBy(a -> (UpdateDataSourceCriteria) a.getDataSource(), Collectors.mapping(a -> (VirtualDataPointCriteria) a.getDataPoint(), Collectors.toList())))
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(a -> a.getKey(), b -> new VirtualDataPointObjectsCreator(navigationPage, b.getKey(), b.getValue())));
+        }
 
-    public static <T extends PageObject<T>, R extends PageObject<R>> CreatorObject<T, R> creator(NavigationPage navigationPage,
-                                                                                                 DataSourcePointCriteria... dataSourcePointCriterias) {
-        return (CreatorObject<T, R>) new DataSourcePointObjectsCreator(navigationPage, dataSourcePointCriterias);
+        if(dataSourcePoints[0].getDataPoint() instanceof InternalDataPointCriteria && dataSourcePoints[0].getDataSource() instanceof UpdateDataSourceCriteria) {
+            return (CreatorObject<T, R>) Stream.of(dataSourcePoints).collect(Collectors
+                            .groupingBy(a -> (UpdateDataSourceCriteria) a.getDataSource(), Collectors.mapping(a -> (InternalDataPointCriteria) a.getDataPoint(), Collectors.toList())))
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(a -> a.getKey(), b -> new InternalDataPointObjectsCreator(navigationPage, b.getKey(), b.getValue())));
+        }
+        throw new UnsupportedOperationException("");
     }
 
     public static <T extends PageObject<T>, R extends PageObject<R>> CreatorObject<T, R> creator(NavigationPage navigationPage,
