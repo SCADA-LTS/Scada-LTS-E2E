@@ -18,7 +18,8 @@ import static com.codeborne.selenide.Selenide.$;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findAction;
 import static org.scadalts.e2e.page.core.utils.DynamicElementUtil.findObject;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
-import static org.scadalts.e2e.page.impl.util.SelectUtil.selectPoint;
+import static org.scadalts.e2e.page.impl.pages.datasource.datapoint.SelectDataPointUtil.searchPoint;
+import static org.scadalts.e2e.page.impl.pages.datasource.datapoint.SelectDataPointUtil.selectPoint;
 
 public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
 
@@ -133,8 +134,13 @@ public class EditScriptsPage extends PageObjectAbstract<EditScriptsPage> {
     private EditScriptsPage _selectPoint(DataSourcePointIdentifier dataSourcePointIdentifier) {
         delay();
         try {
-            //Scada-LTS version >= 2.8.0;
-            selectPoint(allPointsListChosen, dataSourcePointIdentifier, this);
+            try {
+                //Scada-LTS version >= 2.8.1;
+                searchPoint(allPointsListChosen, dataSourcePointIdentifier, this);
+            } catch (Throwable ex) {
+                //Scada-LTS version >= 2.8.0;
+                selectPoint(allPointsListChosen, dataSourcePointIdentifier, this);
+            }
         } catch (Throwable ex) {
             //Old Scada-LTS version;
             IdentifierObject target = dataSourcePointIdentifier;

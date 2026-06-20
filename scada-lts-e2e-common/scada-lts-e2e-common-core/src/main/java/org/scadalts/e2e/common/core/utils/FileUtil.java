@@ -42,17 +42,27 @@ public class FileUtil {
                 logger.info( "exists: {}", path);
                 return Optional.of(path.toFile());
             }
-            if(!Files.notExists(path)) {
+            if(isDeniedAccess(path)) {
                 throw new IllegalArgumentException("File access denied: " + path);
             }
             File file = path.toFile();
-            boolean created = file.createNewFile();
-            logger.info("file: {}, created: {}", file, created);
+            File parent = file.getParentFile();
+            boolean dirsToCreate = parent != null && !Files.exists(parent.toPath()) && !isDeniedAccess(parent.toPath());
+            boolean dirsCreated = false;
+            if(dirsToCreate) {
+                dirsCreated = parent.mkdirs();
+            }
+            boolean fileCreated = file.createNewFile();
+            logger.info("file: {}, dirs created: {}, file created: {}", file, dirsCreated, fileCreated);
             return Optional.of(file);
         } catch (Throwable e) {
             logger.warn(e.getMessage(), e);
             return Optional.empty();
         }
+    }
+
+    private static boolean isDeniedAccess(Path path) {
+        return Files.exists(path) == Files.notExists(path);
     }
 
     public static Optional<File> getFileFromFileSystem(String fileName) {

@@ -28,6 +28,15 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
     @FindBy(css = "img[onclick='saveDataSource()']")
     private SelenideElement saveDataSource;
 
+    @FindBy(id = "useLocalServer")
+    private SelenideElement useLocalServer;
+
+    @FindBy(id = "remoteServerAddr")
+    private SelenideElement remoteServerAddr;
+
+    @FindBy(id = "quantize")
+    private SelenideElement quantize;
+
     EditDataSourcePage() {
         super();
     }
@@ -106,4 +115,24 @@ public class EditDataSourcePage extends PageObjectAbstract<EditDataSourcePage> {
         return UpdatePeriodType.getType(updatePeriodType.getSelectedText());
     }
 
+    public EditDataSourcePage setUseLocalServer(boolean useLocalServer) {
+        delay();
+        this.useLocalServer.clear();
+        this.useLocalServer.setValue(String.valueOf(useLocalServer));
+        return this;
+    }
+
+    public EditDataSourcePage setRemoteServerAddr(String remoteServerAddr) {
+        delay();
+        this.remoteServerAddr.clear();
+        this.remoteServerAddr.setValue(remoteServerAddr);
+        return this;
+    }
+
+    public EditDataSourcePage setQuantize(boolean quantize) {
+        delay();
+        this.quantize.clear();
+        this.quantize.setValue(String.valueOf(quantize));
+        return this;
+    }
 }

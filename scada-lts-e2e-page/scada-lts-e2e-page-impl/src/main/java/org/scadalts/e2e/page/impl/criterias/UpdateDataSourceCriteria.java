@@ -18,7 +18,7 @@ public class UpdateDataSourceCriteria extends DataSourceCriteria {
     private final @NonNull UpdatePeriodType updatePeriodType;
     private final @Min(1) int updatePeriodValue;
 
-    private static final UpdatePeriodType UPDATE_PERIOD_TYPE_DEFAULT = UpdatePeriodType.SECOND;
+    private static final UpdatePeriodType UPDATE_PERIOD_TYPE_DEFAULT = UpdatePeriodType.MINUTE;
     private static final int UPDATE_PERIOD_VALUE_DEFAULT = 1;
     private static final DataSourceType DATA_SOURCE_TYPE_DEFAULT = DataSourceType.VIRTUAL_DATA_SOURCE;
 
@@ -63,20 +63,20 @@ public class UpdateDataSourceCriteria extends DataSourceCriteria {
     public static UpdateDataSourceCriteria virtualDataSourceSecond() {
         return UpdateDataSourceCriteria.builder()
                 .identifier(IdentifierObjectFactory.dataSourceName(DATA_SOURCE_TYPE_DEFAULT))
-                .updatePeriodType(UPDATE_PERIOD_TYPE_DEFAULT)
+                .updatePeriodType(UpdatePeriodType.SECOND)
                 .xid(Xid.dataSource())
                 .enabled(true)
-                .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
+                .updatePeriodValue(1)
                 .build();
     }
 
     public static UpdateDataSourceCriteria criteriaSecond(DataSourceIdentifier identifier) {
         return UpdateDataSourceCriteria.builder()
                 .identifier(identifier)
-                .updatePeriodType(UPDATE_PERIOD_TYPE_DEFAULT)
+                .updatePeriodType(UpdatePeriodType.SECOND)
                 .xid(Xid.dataSource())
                 .enabled(true)
-                .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
+                .updatePeriodValue(1)
                 .build();
     }
 
@@ -125,10 +125,10 @@ public class UpdateDataSourceCriteria extends DataSourceCriteria {
     public static UpdateDataSourceCriteria criteriaSecond(DataSourceIdentifier identifier, boolean enabled) {
         return UpdateDataSourceCriteria.builder()
                 .identifier(identifier)
-                .updatePeriodType(UPDATE_PERIOD_TYPE_DEFAULT)
+                .updatePeriodType(UpdatePeriodType.SECOND)
                 .xid(Xid.dataSource())
                 .enabled(enabled)
-                .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
+                .updatePeriodValue(1)
                 .build();
     }
 
@@ -145,10 +145,10 @@ public class UpdateDataSourceCriteria extends DataSourceCriteria {
     public static UpdateDataSourceCriteria virtualDataSourceSecond(Xid xid) {
         return UpdateDataSourceCriteria.builder()
                 .identifier(IdentifierObjectFactory.dataSourceName(DATA_SOURCE_TYPE_DEFAULT))
-                .updatePeriodType(UPDATE_PERIOD_TYPE_DEFAULT)
+                .updatePeriodType(UpdatePeriodType.SECOND)
                 .xid(xid)
                 .enabled(true)
-                .updatePeriodValue(UPDATE_PERIOD_VALUE_DEFAULT)
+                .updatePeriodValue(1)
                 .build();
     }
 

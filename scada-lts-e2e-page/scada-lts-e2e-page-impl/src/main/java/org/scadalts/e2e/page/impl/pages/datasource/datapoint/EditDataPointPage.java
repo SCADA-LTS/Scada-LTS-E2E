@@ -50,6 +50,15 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
     @FindBy(id = "attributeId")
     private SelenideElement attributeIdSelect;
 
+    @FindBy(id = "objectName")
+    private SelenideElement objectName;
+
+    @FindBy(id = "attributeName")
+    private SelenideElement attributeName;
+
+    @FindBy(id = "compositeItemName")
+    private SelenideElement compositeItemName;
+
     private EditDataSourceWithPointListPage editDataSourceWithPointListPage;
 
     public static final String TITLE = "Point details";
@@ -263,6 +272,27 @@ public class EditDataPointPage extends PageObjectAbstract<EditDataPointPage> {
     public EditDataPointPage setInternalAttributeId(InternalDataPointAttributeType internalAttributeId) {
         delay();
         waitWhile(attributeIdSelect, not(Condition.visible)).selectOption(internalAttributeId.getName());
+        return this;
+    }
+
+    public EditDataPointPage setObjectName(String objectName) {
+        delay();
+        this.objectName.clear();
+        this.objectName.setValue(objectName);
+        return this;
+    }
+
+    public EditDataPointPage setAttributeName(String attributeName) {
+        delay();
+        this.attributeName.clear();
+        this.attributeName.setValue(attributeName);
+        return this;
+    }
+
+    public EditDataPointPage setCompositeItemName(String compositeItemName) {
+        delay();
+        this.compositeItemName.clear();
+        this.compositeItemName.setValue(compositeItemName);
         return this;
     }
 }

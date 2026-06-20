@@ -12,7 +12,8 @@ import org.scadalts.e2e.page.impl.dicts.EventType;
 
 import static com.codeborne.selenide.Condition.not;
 import static org.scadalts.e2e.page.core.utils.PageStabilityUtil.waitWhile;
-import static org.scadalts.e2e.page.impl.util.SelectUtil.selectPoint;
+import static org.scadalts.e2e.page.impl.pages.datasource.datapoint.SelectDataPointUtil.searchPoint;
+import static org.scadalts.e2e.page.impl.pages.datasource.datapoint.SelectDataPointUtil.selectPoint;
 
 public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsPage> {
 
@@ -55,9 +56,15 @@ public class PointLinksDetailsPage extends PageObjectAbstract<PointLinksDetailsP
     public PointLinksDetailsPage setPoints(PointLinkCriteria criteria) {
         delay();
         try {
-            //Scada-LTS version >= 2.8.0;
-            selectPoint(sourcePointIdChosen, criteria.getSource().getIdentifier(), this);
-            selectPoint(targetPointIdChosen, criteria.getTarget().getIdentifier(), this);
+            try {
+                //Scada-LTS version >= 2.8.1;
+                searchPoint(sourcePointIdChosen, criteria.getSource().getIdentifier(), this);
+                searchPoint(targetPointIdChosen, criteria.getTarget().getIdentifier(), this);
+            } catch (Throwable ex) {
+                //Scada-LTS version >= 2.8.0;
+                selectPoint(sourcePointIdChosen, criteria.getSource().getIdentifier(), this);
+                selectPoint(targetPointIdChosen, criteria.getTarget().getIdentifier(), this);
+            }
         } catch (Throwable ex) {
             //Old Scada-LTS version;
             IdentifierObject source = criteria.getSource().getIdentifier();
